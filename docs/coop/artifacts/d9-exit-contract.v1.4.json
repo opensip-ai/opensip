@@ -1,0 +1,1368 @@
+{
+  "artifact": "opensip.d9-exit-contract",
+  "version": "1.4",
+  "status": "candidate-agent-3",
+  "supersedes": "1.3",
+  "purpose": "Total host-owned process-exit contract: HostTermination union, derivation rules, schema-complete golden fixtures with prohibited-effect assertions.",
+  "resolves": {
+    "A2-D9-V13-01": "Axes are now enumerated, not boolean. required coverage unsatisfied now pairs with verdict=indeterminate; a boolean could not express unknown/not-applicable, which is what forced the semantically false inputs.",
+    "A2-D9-V13-02": "Baseline recipe incompatibility no longer encoded as coverage failure: requiredCoverage=satisfied, verdict=indeterminate, reason BASELINE.RECIPE_UNSUPPORTED with its own remedy.",
+    "A2-D9-V13-03": "All 39 goldens carry a falsifiable scenario sentence. 37 restored from v1.1 (dropped in v1.2 and not noticed when v1.3 was built); 2 newly authored.",
+    "A2-D9-V13-04": "exitCode removed from all 39 payloads; explicit nulls removed; every axis field declared in the schema; all reason codes mapped into the closed vocabulary. Error-code spellings from v1.2 migrated into the closed vocabulary; the mapping is recorded.",
+    "A2-D9-V13-05": "Executable checker retained at artifacts/check-d9.py. It validates schema conformance, payload conformance, forbidden fields, vocabulary closure, derivation agreement, class coverage and finalization transitions \u2014 not merely class equality.",
+    "A2-D9-V13-06": "Reason and error vocabularies carry explicit remedy text per code, including COVERAGE.LANGUAGE_TIER_UNSUPPORTED which connects the P-4 loud-tier decision to termination.",
+    "A2-D9-V13-07": "Nullability resolved by absence. finalizationTransitions is a full table asserting a settled termination is unchanged by any later event, for every class.",
+    "A2-D9-V13-08": "expectedEffects added for optional/required delivery and all three repair-verification cases."
+  },
+  "decisionDependencies": [
+    {
+      "id": "AGREEMENT.37",
+      "source": "agents-log2.md#areas-of-agreement",
+      "claim": "one host-owned total mapper, one process-boundary write site"
+    },
+    {
+      "id": "ARCH.OUTCOME",
+      "source": "architecture/07-outcomes-and-failure.md",
+      "claim": "termination is one total union; verdict and termination are distinct"
+    },
+    {
+      "id": "ARCH.COVERAGE-PASS",
+      "source": "architecture/02-domain-model.md#the-run-is-multi-axis",
+      "claim": "required partial coverage can never yield pass"
+    },
+    {
+      "id": "P-4",
+      "source": "artifacts/claim-register.v1.json",
+      "claim": "syntax-tier languages surface unrun predicates loudly"
+    },
+    {
+      "id": "METHOD.RULE-3",
+      "source": "architecture/10-method.md",
+      "claim": "the binding object must be checkable"
+    }
+  ],
+  "exitClasses": [
+    {
+      "class": "success",
+      "code": 0,
+      "meaning": "The requested operation completed; an analysis passed or was advisory; or a serve process completed cooperative shutdown."
+    },
+    {
+      "class": "policy-failed",
+      "code": 1,
+      "meaning": "A valid, sufficiently covered analysis completed and project-owned policy failed."
+    },
+    {
+      "class": "request-rejected",
+      "code": 2,
+      "meaning": "Usage, configuration, admission, compatibility, lookup-address, resolver failure, or mutation-precondition rejection."
+    },
+    {
+      "class": "indeterminate",
+      "code": 3,
+      "meaning": "The host produced an honest terminal result but required evidence, convergence, or negotiable recipe support was unavailable."
+    },
+    {
+      "class": "operational-failed",
+      "code": 4,
+      "meaning": "Host, provider, protocol, integrity, durability, required-delivery, contention, or output-materialization failure prevented reliable completion."
+    },
+    {
+      "class": "interrupted",
+      "code": 130,
+      "meaning": "The user interrupted a finite (non-serve-stop) operation and cooperative cleanup ran where possible."
+    }
+  ],
+  "classToExitCode": {
+    "success": 0,
+    "policy-failed": 1,
+    "request-rejected": 2,
+    "indeterminate": 3,
+    "operational-failed": 4,
+    "interrupted": 130
+  },
+  "hostTerminationUnion": {
+    "discriminator": "class",
+    "unknownFieldPolicy": "reject",
+    "nullabilityPolicy": "Optional fields are ABSENT or present-and-valid. No field is ever explicitly null; absence is the only way to express 'not applicable'. This resolves A2-D9-V12-07: a pre-admission failure omits runId entirely rather than carrying null.",
+    "exitCodeInPayload": "NOT a union field. exitCode is derived from class via classToExitCode and must not be stored on HostTermination, so the two can never disagree (A2-D9-V12-01).",
+    "fieldTypes": {
+      "runId": {
+        "type": "string",
+        "format": "RunId",
+        "nullable": false
+      },
+      "executionId": {
+        "type": "string",
+        "format": "ExecutionId",
+        "nullable": false
+      },
+      "errorCode": {
+        "type": "string",
+        "format": "namespaced-error-code",
+        "nullable": false
+      },
+      "reasonCodes": {
+        "type": "array",
+        "items": "string",
+        "minItems": 1,
+        "nullable": false
+      },
+      "coverageId": {
+        "type": "string",
+        "format": "ContentDigest",
+        "nullable": false
+      },
+      "signal": {
+        "type": "string",
+        "enum": [
+          "SIGINT",
+          "SIGTERM",
+          "SIGHUP"
+        ],
+        "nullable": false
+      },
+      "details": {
+        "type": "object",
+        "nullable": false
+      }
+    },
+    "variants": [
+      {
+        "class": "success",
+        "required": [],
+        "optional": [
+          "runId",
+          "executionId"
+        ]
+      },
+      {
+        "class": "policy-failed",
+        "required": [
+          "runId"
+        ],
+        "optional": [
+          "executionId"
+        ]
+      },
+      {
+        "class": "request-rejected",
+        "required": [
+          "errorCode"
+        ],
+        "optional": [
+          "details",
+          "executionId"
+        ]
+      },
+      {
+        "class": "indeterminate",
+        "required": [
+          "reasonCodes"
+        ],
+        "optional": [
+          "runId",
+          "coverageId",
+          "executionId"
+        ]
+      },
+      {
+        "class": "operational-failed",
+        "required": [
+          "errorCode"
+        ],
+        "optional": [
+          "executionId",
+          "runId"
+        ]
+      },
+      {
+        "class": "interrupted",
+        "required": [
+          "signal"
+        ],
+        "optional": [
+          "executionId",
+          "runId"
+        ]
+      }
+    ],
+    "forbiddenFields": [
+      "exitCode"
+    ],
+    "forbiddenFieldsRationale": "exitCode is derived from class by classToExitCode. Storing it permits the two to disagree \u2014 v1.3 declared this and then shipped it in all 38 goldens."
+  },
+  "codeVocabulary": {
+    "closed": true,
+    "reasonCodes": [
+      "COVERAGE.PROVIDER_UNAVAILABLE",
+      "COVERAGE.LANGUAGE_TIER_UNSUPPORTED",
+      "COVERAGE.REQUIRED_RELATION_MISSING",
+      "COVERAGE.BUDGET_EXHAUSTED",
+      "SNAPSHOT.CONVERGENCE_EXHAUSTED",
+      "BASELINE.RECIPE_UNSUPPORTED",
+      "VERDICT.INDETERMINATE",
+      "QUERY.COMPLETENESS_UNMET"
+    ],
+    "errorCodes": [
+      "IDENTITY.UNKNOWN",
+      "IDENTITY.EXPIRED",
+      "REQUEST.UNKNOWN_OPTION",
+      "REQUEST.SCHEMA_MAJOR_UNSUPPORTED",
+      "REQUEST.UNSATISFIABLE",
+      "REQUEST.PRECONDITION_FAILED",
+      "CONFIG.INVALID",
+      "EXTENSION.ADMISSION_REJECTED",
+      "EXTENSION.INSTALL_IO_FAILED",
+      "HOST.IO_FAILURE",
+      "LEDGER.BUSY_TIMEOUT",
+      "LEDGER.CORRUPT",
+      "PROVIDER.PROTOCOL_VIOLATION",
+      "DURABILITY.COMMIT_FAILED",
+      "DELIVERY.REQUIRED_FAILED",
+      "OUTPUT.SERIALIZATION_FAILED",
+      "SERVE.PROTOCOL_FAULT",
+      "SYSTEM.OUTCOME.ILLEGAL_STATE"
+    ],
+    "remedies": {
+      "COVERAGE.PROVIDER_UNAVAILABLE": "install or enable the provider",
+      "COVERAGE.LANGUAGE_TIER_UNSUPPORTED": "language ships at the syntax tier; this predicate cannot run (P-4)",
+      "COVERAGE.REQUIRED_RELATION_MISSING": "widen scope so the relation can be derived",
+      "COVERAGE.BUDGET_EXHAUSTED": "raise the budget or narrow scope",
+      "SNAPSHOT.CONVERGENCE_EXHAUSTED": "quiesce the worktree and retry",
+      "BASELINE.RECIPE_UNSUPPORTED": "run baseline upgrade",
+      "VERDICT.INDETERMINATE": "resolve the upstream indeterminacy",
+      "QUERY.COMPLETENESS_UNMET": "relax the completeness requirement or widen scope"
+    },
+    "rule": "A code outside this vocabulary is a contract violation. Codes are grouped by remedy: two codes with the same remedy are a smell, two remedies behind one code is a defect.",
+    "spellingMigration": {
+      "from": "v1.2 ad-hoc spellings",
+      "map": {
+        "PROVIDER.PROTOCOL": "PROVIDER.PROTOCOL_VIOLATION",
+        "LEDGER.DURABILITY": "DURABILITY.COMMIT_FAILED",
+        "PLAN.AUTHORITY_CONFLICT": "REQUEST.UNSATISFIABLE",
+        "USAGE.UNKNOWN_OPTION": "REQUEST.UNKNOWN_OPTION",
+        "SCHEMA.UNSUPPORTED_MAJOR": "REQUEST.SCHEMA_MAJOR_UNSUPPORTED",
+        "HOST.IO": "HOST.IO_FAILURE",
+        "IDENTITY.NEVER_EXISTED": "IDENTITY.UNKNOWN",
+        "RESOLVER.EMPTY_DOMAIN": "IDENTITY.UNKNOWN",
+        "MUTATION.PRECONDITION": "REQUEST.PRECONDITION_FAILED",
+        "EXTENSION.ADMISSION": "EXTENSION.ADMISSION_REJECTED",
+        "EXTENSION.INSTALL_IO": "EXTENSION.INSTALL_IO_FAILED",
+        "SERVE.PROTOCOL": "SERVE.PROTOCOL_FAULT",
+        "OUTPUT.SERIALIZE": "OUTPUT.SERIALIZATION_FAILED"
+      },
+      "note": "The canonical spelling choice is arbitrary; the CLOSURE requirement is not. v1.3 declared a closed vocabulary and shipped 12 error codes plus 5 reason codes outside it \u2014 the retained checker (D5) is what makes that impossible to repeat."
+    }
+  },
+  "scenarioAxesSchema": {
+    "properties": {
+      "commandKind": {
+        "enum": [
+          "run",
+          "query",
+          "mutation",
+          "serve",
+          "any"
+        ],
+        "required": true
+      },
+      "admission": {
+        "enum": [
+          "admitted",
+          "rejected"
+        ],
+        "required": true
+      },
+      "lifecycle": {
+        "enum": [
+          "pre-run",
+          "coherent-terminal-run",
+          "cannot-seal-coherent-run",
+          "not-applicable"
+        ],
+        "required": true
+      },
+      "requiredCoverage": {
+        "enum": [
+          "satisfied",
+          "unsatisfied",
+          "unknown",
+          "not-applicable"
+        ],
+        "required": true
+      },
+      "verdict": {
+        "enum": [
+          "pass",
+          "advisory",
+          "fail",
+          "indeterminate",
+          "unavailable",
+          "not-applicable"
+        ],
+        "required": true
+      },
+      "durability": {
+        "enum": [
+          "committed",
+          "failed",
+          "not-required",
+          "not-applicable"
+        ],
+        "required": true
+      },
+      "interruption": {
+        "enum": [
+          "none",
+          "signal-before-finalization",
+          "signal-after-finalization"
+        ],
+        "required": true
+      },
+      "requiredPostconditions": {
+        "enum": [
+          "met",
+          "failed",
+          "not-applicable"
+        ],
+        "required": true
+      },
+      "domainCondition": {
+        "enum": [
+          "none",
+          "host-fault",
+          "precondition-failed",
+          "verification-propagated",
+          "addressed-identity-unresolved",
+          "clean-shutdown",
+          "graceful-signal-stop",
+          "serve-fault",
+          "optional-delivery-failed"
+        ],
+        "required": true
+      }
+    },
+    "additionalProperties": false,
+    "nullPolicy": "No axis is ever explicitly null. not-applicable is a value; absence is invalid.",
+    "whyEnums": "v1.3 used booleans. A boolean cannot express unknown or not-applicable, which forced inputs asserting states the architecture forbids (verdict=pass with required coverage unsatisfied). The type was wrong and the wrong type produced the wrong values."
+  },
+  "referenceDerivation": {
+    "implementation": "artifacts/check-d9.py::derive",
+    "pure": true,
+    "nonCircular": "every predicate reads a declared input axis"
+  },
+  "finalizationTransitions": [
+    {
+      "settledTermination": "success",
+      "event": "user-signal",
+      "expectedTermination": "success",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "success",
+      "event": "transport-close",
+      "expectedTermination": "success",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "success",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "success",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "policy-failed",
+      "event": "user-signal",
+      "expectedTermination": "policy-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "policy-failed",
+      "event": "transport-close",
+      "expectedTermination": "policy-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "policy-failed",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "policy-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "request-rejected",
+      "event": "user-signal",
+      "expectedTermination": "request-rejected",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "request-rejected",
+      "event": "transport-close",
+      "expectedTermination": "request-rejected",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "request-rejected",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "request-rejected",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "indeterminate",
+      "event": "user-signal",
+      "expectedTermination": "indeterminate",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "indeterminate",
+      "event": "transport-close",
+      "expectedTermination": "indeterminate",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "indeterminate",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "indeterminate",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "operational-failed",
+      "event": "user-signal",
+      "expectedTermination": "operational-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "operational-failed",
+      "event": "transport-close",
+      "expectedTermination": "operational-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "operational-failed",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "operational-failed",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "interrupted",
+      "event": "user-signal",
+      "expectedTermination": "interrupted",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "interrupted",
+      "event": "transport-close",
+      "expectedTermination": "interrupted",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    },
+    {
+      "settledTermination": "interrupted",
+      "event": "optional-delivery-failure",
+      "expectedTermination": "interrupted",
+      "assert": "byte-identical termination; the event is recorded as execution metadata only"
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "check": "artifacts/check-d9.py D1..D9",
+      "status": "EXECUTED",
+      "reproduce": "python3 artifacts/check-d9.py artifacts/d9-exit-contract.v1.4.json"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "invariant-one-mapper",
+      "text": "Only the host finalizer constructs HostTermination; one map class\u2192exitCode; one controllable process-exit write site."
+    },
+    {
+      "id": "invariant-envelope-parity",
+      "text": "For finite CLI commands, CommandEnvelope.termination equals process termination when serialization succeeds."
+    },
+    {
+      "id": "invariant-failure-preadmit",
+      "text": "FailureResult is constructible without project or Run identity."
+    },
+    {
+      "id": "invariant-no-policy-as-error",
+      "text": "Policy verdict never becomes Error; operational failure never becomes Finding."
+    },
+    {
+      "id": "invariant-optional-egress",
+      "text": "Optional Cloud/export failure cannot alter local Run verdict."
+    },
+    {
+      "id": "invariant-durability",
+      "text": "Durability failure cannot report success for an authoritative Run."
+    },
+    {
+      "id": "invariant-finalization-commit",
+      "text": "There is a finalization commit point after HostTermination is settled and required postconditions evaluated. Signals before it may yield interrupted; signals after it cannot reclassify termination."
+    },
+    {
+      "id": "invariant-orphan-recovery",
+      "text": "Interruption/crash during authoritative publication leaves ledger recoverable; orphans are abandoned, never sealed success."
+    },
+    {
+      "id": "invariant-verdict-vs-termination",
+      "text": "Envelope projects verdict and HostTermination as distinct fields."
+    },
+    {
+      "id": "invariant-exit0-not-attestation",
+      "text": "Exit 0 alone is never a durable attestation; authority is a required postcondition."
+    },
+    {
+      "id": "invariant-identity-expiry",
+      "text": "IDENTITY.EXPIRED requires a retained RunId tombstone; otherwise IDENTITY.UNKNOWN."
+    },
+    {
+      "id": "invariant-baseline-no-mass-netnew",
+      "text": "Unsupported/unnegotiable fingerprint recipe: comparisonPerformed=false and comparisonDerivedFindingCount=0."
+    }
+  ],
+  "goldenCases": [
+    {
+      "id": "analysis-pass",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, pass",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "analysis-advisory",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, advisory",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "advisory",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "analysis-policy-fail",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, fail",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "fail",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "policy-failed",
+        "runId": "$RUN_ID"
+      }
+    },
+    {
+      "id": "analysis-required-coverage-missing",
+      "commandKind": "run",
+      "scenario": "sealed evidence is honest but required Coverage is missing",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "COVERAGE.REQUIRED_RELATION_MISSING"
+        ],
+        "runId": "$RUN_ID",
+        "coverageId": "$COVERAGE_ID"
+      }
+    },
+    {
+      "id": "analysis-verdict-indeterminate",
+      "commandKind": "run",
+      "scenario": "sealed with an indeterminate verdict",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "VERDICT.INDETERMINATE"
+        ],
+        "runId": "$RUN_ID"
+      }
+    },
+    {
+      "id": "analysis-snapshot-invalidated",
+      "commandKind": "run",
+      "scenario": "read-set changed and bounded re-snapshot convergence was exhausted",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unknown",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "SNAPSHOT.CONVERGENCE_EXHAUSTED"
+        ],
+        "runId": "$RUN_ID"
+      }
+    },
+    {
+      "id": "analysis-optional-provider-unavailable",
+      "commandKind": "run",
+      "scenario": "optional provider is unavailable, all required Coverage remains satisfied, verdict passes",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "analysis-required-provider-unavailable",
+      "commandKind": "run",
+      "scenario": "required provider is unavailable but the host seals Coverage and diagnostics",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "COVERAGE.PROVIDER_UNAVAILABLE"
+        ],
+        "runId": "$RUN_ID",
+        "coverageId": "$COVERAGE_ID"
+      }
+    },
+    {
+      "id": "analysis-provider-protocol-prevents-seal",
+      "commandKind": "run",
+      "scenario": "a truncated or invalid provider stream prevents a coherent terminal Run",
+      "scenarioAxes": {
+        "lifecycle": "cannot-seal-coherent-run",
+        "requiredCoverage": "unknown",
+        "verdict": "unavailable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "PROVIDER.PROTOCOL_VIOLATION",
+        "executionId": "$EXEC_ID"
+      }
+    },
+    {
+      "id": "analysis-durability-failed",
+      "commandKind": "run",
+      "scenario": "analysis passes but authoritative ledger/CAS publication fails",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "failed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "DURABILITY.COMMIT_FAILED",
+        "runId": "$RUN_ID",
+        "executionId": "$EXEC_ID"
+      }
+    },
+    {
+      "id": "analysis-authorized-ephemeral",
+      "commandKind": "run",
+      "scenario": "analysis passes under an explicitly non-authoritative ephemeral Plan",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "not-required",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "analysis-ephemeral-when-authoritative-required",
+      "commandKind": "run",
+      "scenario": "caller declares authoritative durability as a required postcondition but the resolved Plan is ephemeral",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "rejected",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "REQUEST.UNSATISFIABLE"
+      }
+    },
+    {
+      "id": "baseline-compare-unsupported-recipe",
+      "commandKind": "run",
+      "scenario": "baseline compare against a committed baseline whose fingerprint recipe version is outside the supported/negotiable window",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "BASELINE.RECIPE_UNSUPPORTED"
+        ],
+        "runId": "$RUN_ID"
+      }
+    },
+    {
+      "id": "pre-admission-unknown-option",
+      "commandKind": "any",
+      "scenario": "unknown CLI option before project resolution",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "rejected",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "REQUEST.UNKNOWN_OPTION"
+      }
+    },
+    {
+      "id": "pre-admission-unsupported-schema-major",
+      "commandKind": "any",
+      "scenario": "consumer requests an unsupported CommandEnvelope schema major",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "rejected",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "REQUEST.SCHEMA_MAJOR_UNSUPPORTED"
+      }
+    },
+    {
+      "id": "pre-admission-invalid-config",
+      "commandKind": "any",
+      "scenario": "authored project configuration is invalid",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "rejected",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "CONFIG.INVALID"
+      }
+    },
+    {
+      "id": "pre-admission-host-io-failure",
+      "commandKind": "any",
+      "scenario": "host cannot read required installation metadata because of an operational I/O failure",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "host-fault",
+        "admission": "rejected",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "HOST.IO_FAILURE"
+      }
+    },
+    {
+      "id": "query-empty-search",
+      "commandKind": "query",
+      "scenario": "bounded symbol search completes with zero matches",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "query-addressed-run-not-found",
+      "commandKind": "query",
+      "scenario": "runs show addresses a RunId that never existed",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "addressed-identity-unresolved",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "IDENTITY.UNKNOWN"
+      }
+    },
+    {
+      "id": "query-addressed-run-expired",
+      "commandKind": "query",
+      "scenario": "runs show addresses a RunId that was retention-collected",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "addressed-identity-unresolved",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "IDENTITY.EXPIRED"
+      }
+    },
+    {
+      "id": "query-latest-resolver-empty-domain",
+      "commandKind": "query",
+      "scenario": "a latest-style resolver is used on a project with zero recorded runs",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "addressed-identity-unresolved",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "IDENTITY.UNKNOWN"
+      }
+    },
+    {
+      "id": "query-required-completeness-missing",
+      "commandKind": "query",
+      "scenario": "caller explicitly requires complete graph evidence and Coverage cannot satisfy it",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "COVERAGE.REQUIRED_RELATION_MISSING"
+        ],
+        "coverageId": "$COVERAGE_ID"
+      }
+    },
+    {
+      "id": "query-ledger-corrupt",
+      "commandKind": "query",
+      "scenario": "ledger or referenced CAS integrity check fails",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "host-fault",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "LEDGER.CORRUPT"
+      }
+    },
+    {
+      "id": "ledger-busy-timeout-exceeded",
+      "commandKind": "any",
+      "scenario": "concurrent CLI processes contend and SQLite remains busy past the retry budget",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "host-fault",
+        "admission": "admitted",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "LEDGER.BUSY_TIMEOUT"
+      }
+    },
+    {
+      "id": "repair-snapshot-conflict",
+      "commandKind": "mutation",
+      "scenario": "RepairPlan precondition rejects a worktree that moved beyond its SnapshotId",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "precondition-failed",
+        "admission": "admitted",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "REQUEST.PRECONDITION_FAILED"
+      }
+    },
+    {
+      "id": "repair-verification-pass",
+      "commandKind": "mutation",
+      "scenario": "repair applies and linked verification Run passes",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "verification-propagated",
+        "admission": "admitted",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "success"
+      },
+      "expectedEffects": {
+        "mutationReceiptRetained": true,
+        "verificationRunLinked": true
+      }
+    },
+    {
+      "id": "repair-verification-policy-fail",
+      "commandKind": "mutation",
+      "scenario": "repair applies but linked verification Run fails project policy",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "fail",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "verification-propagated",
+        "admission": "admitted",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "policy-failed",
+        "runId": "$VERIFY_RUN_ID"
+      },
+      "expectedEffects": {
+        "mutationReceiptRetained": true,
+        "verificationRunLinked": true
+      }
+    },
+    {
+      "id": "repair-verification-indeterminate",
+      "commandKind": "mutation",
+      "scenario": "repair applies but linked verification Run lacks required Coverage",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "verification-propagated",
+        "admission": "admitted",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "indeterminate",
+        "reasonCodes": [
+          "COVERAGE.REQUIRED_RELATION_MISSING"
+        ],
+        "runId": "$VERIFY_RUN_ID"
+      },
+      "expectedEffects": {
+        "mutationReceiptRetained": true,
+        "verificationRunLinked": true
+      }
+    },
+    {
+      "id": "extension-admission-rejected",
+      "commandKind": "mutation",
+      "scenario": "extension signature, compatibility, or requested capability is rejected",
+      "scenarioAxes": {
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "rejected",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "EXTENSION.ADMISSION_REJECTED"
+      }
+    },
+    {
+      "id": "extension-install-io-failed",
+      "commandKind": "mutation",
+      "scenario": "admitted extension installation fails during atomic filesystem publication",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "host-fault",
+        "admission": "admitted",
+        "commandKind": "mutation"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "EXTENSION.INSTALL_IO_FAILED"
+      }
+    },
+    {
+      "id": "server-clean-shutdown",
+      "commandKind": "serve",
+      "scenario": "stdio protocol server receives a normal transport close and completes cleanup",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "clean-shutdown",
+        "admission": "admitted",
+        "commandKind": "serve"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "serve-graceful-signal-stop",
+      "commandKind": "serve",
+      "scenario": "long-lived protocol server receives SIGINT/SIGTERM and completes cooperative shutdown",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "signal-before-finalization",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "graceful-signal-stop",
+        "admission": "admitted",
+        "commandKind": "serve"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "server-protocol-host-failure",
+      "commandKind": "serve",
+      "scenario": "host protocol loop fails unexpectedly",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "serve-fault",
+        "admission": "admitted",
+        "commandKind": "serve"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "SERVE.PROTOCOL_FAULT"
+      }
+    },
+    {
+      "id": "user-interrupt-finite",
+      "commandKind": "run",
+      "scenario": "SIGINT requests cancellation of a finite analysis and the host reaches its finalizer",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unknown",
+        "verdict": "unavailable",
+        "durability": "not-applicable",
+        "interruption": "signal-before-finalization",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "interrupted",
+        "signal": "SIGINT",
+        "executionId": "$EXEC_ID"
+      }
+    },
+    {
+      "id": "user-interrupt-post-finalization-commit",
+      "commandKind": "run",
+      "scenario": "a user signal arrives after the finalization commit; the settled termination is not reclassified",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "signal-after-finalization",
+        "requiredPostconditions": "met",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      }
+    },
+    {
+      "id": "optional-cloud-egress-failed",
+      "commandKind": "run",
+      "scenario": "local authoritative Run passes and optional Cloud export fails",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "met",
+        "domainCondition": "optional-delivery-failed",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "success"
+      },
+      "expectedEffects": {
+        "sealedRunVerdict": "pass",
+        "durability": "committed",
+        "deliveryEffect": "optional export failed; recorded as a diagnostic only",
+        "runUnchanged": true
+      }
+    },
+    {
+      "id": "required-delivery-failed",
+      "commandKind": "run",
+      "scenario": "local authoritative Run passes but an explicitly required delivery postcondition fails",
+      "scenarioAxes": {
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "failed",
+        "domainCondition": "none",
+        "admission": "admitted",
+        "commandKind": "run"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "DELIVERY.REQUIRED_FAILED",
+        "runId": "$RUN_ID"
+      },
+      "expectedEffects": {
+        "sealedRunVerdict": "pass",
+        "durability": "committed",
+        "deliveryEffect": "required delivery postcondition failed",
+        "runUnchanged": true,
+        "note": "verdict and termination are distinct fields and must render distinctly"
+      }
+    },
+    {
+      "id": "machine-output-serialization-failed",
+      "commandKind": "any",
+      "scenario": "the requested CommandEnvelope cannot be serialized or atomically written",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "host-fault",
+        "admission": "admitted",
+        "commandKind": "any"
+      },
+      "expectedTermination": {
+        "class": "operational-failed",
+        "errorCode": "OUTPUT.SERIALIZATION_FAILED"
+      }
+    },
+    {
+      "id": "query-addressed-run-no-record-no-tombstone",
+      "commandKind": "query",
+      "scenario": "an addressed RunId has no live record and no tombstone, so expiry cannot be claimed",
+      "scenarioAxes": {
+        "lifecycle": "not-applicable",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "domainCondition": "addressed-identity-unresolved",
+        "admission": "admitted",
+        "commandKind": "query"
+      },
+      "expectedTermination": {
+        "class": "request-rejected",
+        "errorCode": "IDENTITY.UNKNOWN"
+      }
+    }
+  ],
+  "nonAnalysisDerivation": {
+    "rules": [
+      "A valid empty query result is success; absence is data unless the command addresses one required identity or uses a single-identity resolver.",
+      "Bad arguments, authored-config errors, unsupported schema majors, incompatible contributions, missing addressed identities, failed resolvers (including latest on empty domain), authority conflicts (ephemeral Plan when authoritative required), and failed mutation preconditions are request-rejected.",
+      "A query with an explicit completeness requirement that cannot be met is indeterminate.",
+      "Baseline compare against an unsupported/unnegotiable fingerprint recipe is indeterminate (never policy-failed via mass false net-new).",
+      "Host, datastore, provider-protocol, installation-I/O, ledger busy-timeout, required-delivery, and output-serialization failures are operational-failed; errorCodes distinguish retryable contention from corruption.",
+      "A mutation with a linked verification Run propagates that Run's success, policy-failed, indeterminate, or operational-failed termination while retaining the mutation receipt.",
+      "A protocol server that shuts down normally OR completes cooperative SIGINT/SIGTERM cleanup is success; a host/protocol fault is operational-failed; user-interrupt class is not used for clean serve stop."
+    ]
+  },
+  "peerReviewRequired": [
+    "Re-run the blind-axes protocol against v1.4 \u2014 the enum vocabulary changed, so prior blind axes are not directly comparable.",
+    "Confirm the remedy grouping in codeVocabulary is complete: is any remedy still unreachable?",
+    "Confirm requiredCoverage=unknown is the right value for an exhausted-convergence run rather than not-applicable."
+  ],
+  "knownLimitations": [
+    "Axes remain author-supplied. The blind protocol caught three semantic errors in v1.3; only a re-run against v1.4 establishes the new set is faithful.",
+    "check-d9.py is a validator, not a JSON Schema document. A2 asked for real JSON Schema; this discharges the executable-and-checkable intent but not the schema-language form.",
+    "finalizationTransitions is generated combinatorially, so it proves the invariant uniformly but encodes no event-specific nuance."
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "artifact": "opensip.c3-architecture-purity-audit",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "architecture-not-clean-required-corrections",
+  "decisionDependencies": [
+    {
+      "id": "METHOD.ERROR-4",
+      "source": "architecture/10-method.md#Error-4",
+      "role": "Migration cost and incumbent shape may not determine the greenfield target."
+    },
+    {
+      "id": "ARCH.ONE_WAY_RULE",
+      "source": "architecture/00-overview.md#Companion",
+      "role": "Architecture decisions constrain steering; migration decisions do not constrain architecture."
+    },
+    {
+      "id": "AGREEMENT.26",
+      "source": "architecture/11-traceability.md#26",
+      "role": "Fingerprint recipe versioning is independent from fact schema."
+    },
+    {
+      "id": "AGREEMENT.27",
+      "source": "architecture/11-traceability.md#27",
+      "role": "The prior embedded-primary topology seal is explicitly reopened."
+    },
+    {
+      "id": "AGREEMENT.40",
+      "source": "architecture/11-traceability.md#40",
+      "role": "Decisions close by checkable artifact and sealed decisions graduate."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "METHOD.ERROR-4",
+      "claim": "Every architecture and steering document was searched for incumbent cost, compatibility, corpus-frequency, reachability, and existing command/package reasoning.",
+      "evidenceIds": [
+        "C3-A2-01",
+        "C3-A2-08",
+        "C3-A2-10"
+      ]
+    },
+    {
+      "decisionId": "AGREEMENT.27",
+      "claim": "The audit identifies every body statement that still treats embedded-primary as sealed.",
+      "evidenceIds": [
+        "C3-A2-01",
+        "C3-A2-02"
+      ]
+    },
+    {
+      "decisionId": "AGREEMENT.40",
+      "claim": "Traceability distinguishes indexing, semantic conformance, candidate state, and unfulfilled graduation.",
+      "evidenceIds": [
+        "C3-A2-09",
+        "C3-A2-11"
+      ]
+    }
+  ],
+  "scope": {
+    "architectureDocumentsRead": 12,
+    "steeringDocumentsRead": 4,
+    "artifactJsonRead": 8,
+    "mcpGraphEvidence": "unavailable: client bound to wrong project root; reported, not refreshed"
+  },
+  "findings": [
+    {
+      "id": "C3-A2-01",
+      "severity": "critical-consistency",
+      "location": [
+        "architecture/03-execution-model.md#Concurrency",
+        "architecture/08-surfaces-and-topology.md#Topology-reopened",
+        "architecture/11-traceability.md#27"
+      ],
+      "finding": "03 still marks embedded-as-correctness-reference and residency-as-pure-optimisation SEALED while 08 and traceability explicitly REOPEN that decision.",
+      "requiredCorrection": "Demote 03 Concurrency topology preference to REOPENED. Retain only topology-neutral storage integrity and multi-client safety requirements."
+    },
+    {
+      "id": "C3-A2-02",
+      "severity": "high",
+      "location": [
+        "architecture/00-overview.md#The-thesis",
+        "architecture/04-fact-plane.md#Correction-semantics-is-the-primary-tier",
+        "architecture/08-surfaces-and-topology.md#Topology-reopened",
+        "architecture/09-open-decisions.md#Do-not-re-deliberate"
+      ],
+      "finding": "A unilaterally re-derived semantics-primary position is embedded in the SEALED thesis and do-not-re-deliberate list, then used to call warm residency load-bearing even though C-1 and R-1 are explicitly under adversarial review. This is status laundering and circular support between two open decisions.",
+      "requiredCorrection": "Mark global primary/degraded wording CANDIDATE and replace it with the reviewed predicate-required quality decision if accepted. Remove topology conclusions from 04 until R-1 closes."
+    },
+    {
+      "id": "C3-A2-03",
+      "severity": "critical-domain",
+      "location": [
+        "architecture/02-domain-model.md#Fingerprints",
+        "architecture/06-evidence-and-persistence.md#Baselines-and-the-fingerprint-recipe"
+      ],
+      "finding": "02 says rules/producers supply typed anchors and only the host computes fingerprints. 06 says each producer stamps its envelope and the host merely reads signal.fingerprint. Both are SEALED and cannot simultaneously hold.",
+      "requiredCorrection": "Keep host-owned fingerprint construction. Producers return RuleId, typed subject, proof anchors, and recipe compatibility metadata; the host fingerprint service canonicalizes and stamps the Finding. Projections never re-fingerprint."
+    },
+    {
+      "id": "C3-A2-04",
+      "severity": "medium-high",
+      "location": [
+        "architecture/06-evidence-and-persistence.md#Why-it-dominates",
+        "architecture/06-evidence-and-persistence.md#One-backend-authority"
+      ],
+      "finding": "Baselines are called the only contract artifact in customer repositories, but the same document lists tracked config, custom rules, waivers, and lockfile. The exclusivity claim is false and resembles migration rhetoric.",
+      "requiredCorrection": "Keep independent recipe versioning on its real merit: baselines persist derived identities across host/toolchain upgrades and gate future Runs. Call them the highest-risk derived-identity contract, not the only repository-resident contract."
+    },
+    {
+      "id": "C3-A2-05",
+      "severity": "high",
+      "location": "architecture/06-evidence-and-persistence.md#One-backend-authority",
+      "finding": "Exactly one backend per project/profile allows two profiles for one project to resolve different evidence authorities, fragmenting Run history and violating the document's stated single authority.",
+      "requiredCorrection": "Resolve one evidence authority per canonical ProjectId and storage domain. Profile and retention choices are Plan/policy inputs or namespaces inside that authority, not backend selectors."
+    },
+    {
+      "id": "C3-A2-06",
+      "severity": "medium-high",
+      "location": [
+        "architecture/01-product-boundary.md#Hard-constraints",
+        "architecture/06-evidence-and-persistence.md#Evidence-first",
+        "architecture/06-evidence-and-persistence.md#One-backend-authority"
+      ],
+      "finding": "Pre-init state is described as rebuildable user-cache state while every analysis is recorded by default and durable Runs pin non-rebuildable evidence. The authority and durability of a no-init Run are ambiguous.",
+      "requiredCorrection": "A user-cache backend may contain both authoritative ledger/evidence roots and rebuildable cache partitions. Label partitions, not the whole backend, rebuildable; moving authority remains explicit."
+    },
+    {
+      "id": "C3-A2-07",
+      "severity": "medium",
+      "location": "architecture/06-evidence-and-persistence.md#Evidence-first",
+      "finding": "One stored record cannot make projection drift impossible; independent renderers can misproject or omit fields. The same section also says latest ambiguity never arises although the domain deliberately defines latest as a resolver.",
+      "requiredCorrection": "Say one source reduces semantic drift and require projection parity tests. Say latest never becomes authority and always returns its resolved ID, not that ambiguity cannot arise."
+    },
+    {
+      "id": "C3-A2-08",
+      "severity": "high-method",
+      "location": [
+        "architecture/00-overview.md#Companion",
+        "architecture/07-outcomes-and-failure.md#Why-this-needs-its-own-contract",
+        "steering/00-overview.md#The-one-way-rule"
+      ],
+      "finding": "The literal rule that steering may never constrain architecture overcorrects Error 4. Architecture 07 already cites current-state outcome evidence, and R-1 cannot rationally ignore representative workload or dependency-cost measurements. Migration decisions must not constrain the target; empirically relevant observations may inform it after explicit relevance and external-validity review.",
+      "requiredCorrection": "Separate decision flow from evidence flow. Incumbent compatibility/porting cost stays steering-only. A measurement may be promoted to an architecture evidence artifact only with a named target claim, construct-validity argument, representative workload, and no incumbent-shape inference."
+    },
+    {
+      "id": "C3-A2-09",
+      "severity": "high-process",
+      "location": [
+        "architecture/00-overview.md#Status-legend",
+        "architecture/09-open-decisions.md#Process-rules",
+        "architecture/11-traceability.md#Graduation-path"
+      ],
+      "finding": "Decisions close by artifact is marked SEALED, but most decisions are labelled SEALED solely from volume-1 prose and remain in a gitignored tree. Traceability is an index, not a conformance artifact. The status system does not explain grandfathering or evidence level.",
+      "requiredCorrection": "Either mark inherited prose-only seals RATIFIED-PROVISIONAL until an ADR/conformance artifact exists, or explicitly define a grandfathered class and graduation deadline. Do not claim the artifact rule is already satisfied."
+    },
+    {
+      "id": "C3-A2-10",
+      "severity": "high-quarantine",
+      "location": "steering/02-reachability-and-slices.md#Reachability-is-an-architectural-property",
+      "finding": "Steering calls reachability from the incumbent an architectural property and an architecture requiring discontinuity a fantasy, directly contradicting the one-way quarantine and reintroducing the frame that caused Error 4.",
+      "requiredCorrection": "Rename to migration reachability and state it evaluates adoption strategy only. A greenfield target may be discontinuous and still correct; steering may recommend not pursuing it."
+    },
+    {
+      "id": "C3-A2-11",
+      "severity": "high-traceability",
+      "location": "architecture/11-traceability.md#Agreement-item-document",
+      "finding": "40/40 proves that forty numbers have destinations, not that the carried decisions are internally consistent or still at the claimed status. Item 27 is contradictory, item 23 was substantively extended without consensus, item 37 remains candidate, and item 40 is unfulfilled.",
+      "requiredCorrection": "Rename the metric indexed 40/40 and publish per-item conformance/status. Do not use coverage as a synonym for correctness."
+    },
+    {
+      "id": "C3-A2-12",
+      "severity": "medium-method",
+      "location": [
+        "architecture/00-overview.md#Re-derivation",
+        "architecture/11-traceability.md#What-the-greenfield-re-derivation-changed"
+      ],
+      "finding": "Everything else survived unchanged is presented as evidence that it was problem-derived. Survival under a shared frame is not an independent test; C3-A2-01 and C3-A2-03 are counterexamples.",
+      "requiredCorrection": "Remove the purity inference. State only that no other decisions were intentionally changed and remain subject to audit."
+    }
+  ],
+  "fingerprintVersioningAdjudication": {
+    "verdict": "keep-with-corrected-rationale-and-ownership",
+    "greenfieldMerit": "A baseline stores derived identities and remains policy input across future producer, schema, and host upgrades. Recipe version negotiation prevents invalid comparisons even in a product created from scratch.",
+    "notMerit": "The current config key failOnErrors:0, current package migration cost, or an assertion that baselines are the only repository-resident contract.",
+    "ownership": "Host computes fingerprints from producer-supplied typed anchors."
+  },
+  "traceabilityAudit": {
+    "claim": "architecture/11-traceability.md says Coverage 40/40",
+    "verdict": "indexed-40-of-40; semantic-conformance-not-established",
+    "counts": {
+      "mapped-consistent": 30,
+      "mapped-qualified": 4,
+      "moved-to-steering": 2,
+      "superseded": 1,
+      "contradictory": 1,
+      "candidate-not-sealed": 1,
+      "mapped-but-unfulfilled": 1
+    },
+    "items": [
+      { "id": 1, "status": "mapped-consistent" },
+      { "id": 2, "status": "mapped-consistent" },
+      { "id": 3, "status": "mapped-consistent" },
+      { "id": 4, "status": "mapped-consistent" },
+      { "id": 5, "status": "mapped-consistent" },
+      { "id": 6, "status": "mapped-consistent" },
+      { "id": 7, "status": "mapped-consistent" },
+      { "id": 8, "status": "mapped-consistent" },
+      { "id": 9, "status": "superseded" },
+      { "id": 10, "status": "mapped-consistent" },
+      { "id": 11, "status": "mapped-qualified", "note": "direction mapped; real-schema sizing remains R-2" },
+      { "id": 12, "status": "mapped-consistent" },
+      { "id": 13, "status": "moved-to-steering" },
+      { "id": 14, "status": "mapped-consistent" },
+      { "id": 15, "status": "mapped-qualified", "note": "no-init authoritative versus rebuildable state is ambiguous" },
+      { "id": 16, "status": "mapped-consistent" },
+      { "id": 17, "status": "mapped-consistent" },
+      { "id": 18, "status": "mapped-consistent" },
+      { "id": 19, "status": "mapped-consistent" },
+      { "id": 20, "status": "mapped-consistent" },
+      { "id": 21, "status": "mapped-consistent" },
+      { "id": 22, "status": "mapped-consistent" },
+      { "id": 23, "status": "mapped-qualified", "note": "provider-owned state mapped; semantics-primary extension is unreviewed C-1" },
+      { "id": 24, "status": "mapped-consistent" },
+      { "id": 25, "status": "mapped-consistent" },
+      { "id": 26, "status": "mapped-qualified", "note": "recipe versioning mapped; 02/06 fingerprint ownership contradicts" },
+      { "id": 27, "status": "contradictory", "note": "03 SEALED versus 08/11 REOPENED" },
+      { "id": 28, "status": "mapped-consistent" },
+      { "id": 29, "status": "mapped-consistent" },
+      { "id": 30, "status": "mapped-consistent" },
+      { "id": 31, "status": "moved-to-steering" },
+      { "id": 32, "status": "mapped-consistent" },
+      { "id": 33, "status": "mapped-consistent" },
+      { "id": 34, "status": "mapped-consistent" },
+      { "id": 35, "status": "mapped-consistent" },
+      { "id": 36, "status": "mapped-consistent" },
+      { "id": 37, "status": "candidate-not-sealed", "note": "D9 requires v1.2" },
+      { "id": 38, "status": "mapped-consistent" },
+      { "id": 39, "status": "mapped-consistent" },
+      { "id": 40, "status": "mapped-but-unfulfilled", "note": "most seals lack artifacts/ADRs and remain gitignored" }
+    ]
+  },
+  "requiredDocumentChangesBeforeRatification": [
+    "Fix C3-A2-01 and C3-A2-03 immediately; they are contradictory SEALED statements.",
+    "Demote C-1/C-2 re-derived absolute wording to CANDIDATE pending three-agent artifact review.",
+    "Correct 06 baseline rationale, backend authority key, no-init partition wording, projection claims, and latest wording.",
+    "Refine the one-way rule to prohibit migration decisions while allowing explicitly promoted, construct-valid empirical evidence.",
+    "Rename traceability Coverage 40/40 to indexed 40/40 and expose conformance/status counts.",
+    "Remove reachability-as-architecture wording from steering."
+  ],
+  "agent2Conclusion": {
+    "architectureClean": false,
+    "fingerprintVersioningIsMigrationSmuggling": false,
+    "confidence": "high",
+    "note": "Fingerprint compatibility is legitimate lifecycle architecture, but its current prose contains a false exclusivity claim and a critical ownership contradiction."
+  }
+}

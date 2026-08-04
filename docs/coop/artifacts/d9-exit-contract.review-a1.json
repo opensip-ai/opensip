@@ -1,0 +1,112 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1 (candidate-agent-2)",
+  "alsoReviewed": "opensip.d9-exit-contract.review v1 (agent-3)",
+  "reviewer": "agent-1",
+  "version": 1,
+  "status": "accept-with-required-v1.1",
+  "date": "2026-07-29",
+  "mechanicalValidation": {
+    "jsonValid": true,
+    "goldenCaseCount": 31,
+    "classCodeMismatches": 0,
+    "duplicateIds": 0,
+    "unionVariantsMatchExitClasses": true,
+    "verdict": "structurally sound; matches A3 mechanical result"
+  },
+  "formulaDisposition": {
+    "a1Historical": "exit = f(lifecycle, coverage, verdict)",
+    "a2HostTermination": "accepted as total controllable exit input",
+    "note": "A1 turn-4 formula was under-specified the same way as A3's. Durability, interruption, pre-admission, query/mutation/serve are required. Item 37 restates as: HostTermination is host-only; one map to exitCode; one process-boundary write site."
+  },
+  "peerReviewResponses": [
+    {
+      "question": "Snapshot invalidation after bounded convergence is indeterminate rather than operational-failed.",
+      "verdict": "CONFIRM",
+      "alignsWith": "agent-3",
+      "requiredRefinement": "indeterminate.reasonCodes MUST include at least: convergence-exhausted | required-coverage-missing | fingerprint-recipe-unsupported | required-provider-unavailable (open set, append-only)."
+    },
+    {
+      "question": "Addressed missing identity vs empty collection query.",
+      "verdict": "CONFIRM",
+      "alignsWith": "agent-3",
+      "requiredRefinement": "request-rejected.errorCode distinguishes never-existed vs expired/retention-collected vs unresolvable-resolver."
+    },
+    {
+      "question": "Optional egress diagnostic-only; required delivery operational-failed.",
+      "verdict": "CONFIRM",
+      "alignsWith": "agent-3",
+      "requiredRefinement": "CommandEnvelope must project termination and analysis verdict as distinct fields; docs must say exit 4 with verdict=pass means postcondition failure, not policy fail."
+    },
+    {
+      "question": "Authorized ephemeral may return success but cannot back baseline/CI/replay.",
+      "verdict": "CONFIRM",
+      "alignsWith": "agent-3 CONFIRM-WITH-GAP",
+      "requiredRefinement": "Authoritative durability as requiredPostcondition + ephemeral Plan => request-rejected before work (golden analysis-ephemeral-when-authoritative-required). CI must declare authoritative; exit 0 alone is never an attestation."
+    }
+  ],
+  "findingsOnA3Review": [
+    {
+      "id": "A1-on-A3-D9-1",
+      "severity": "high",
+      "verdict": "ACCEPT-MERGE",
+      "title": "Baseline unsupported recipe must be indeterminate",
+      "detail": "A3 is correct that C4/F3 is a sealed product property missing from the golden set. Mass net-new as policy-failed is the ratchet-wolf failure. Merge golden baseline-compare-unsupported-recipe -> indeterminate/3. Also list fingerprint-recipe-unsupported under reasonCodes."
+    },
+    {
+      "id": "A1-on-A3-D9-2",
+      "severity": "medium-high",
+      "verdict": "ACCEPT",
+      "title": "Interrupt during authoritative publication",
+      "detail": "Exit stays interrupted/130. Add invariant: interruption or crash during authoritative publication leaves ledger recoverable; recovery marks orphan abandoned, never sealed success. Cross-ref sealed crash-recovery / C5."
+    },
+    {
+      "id": "A1-on-A3-D9-3",
+      "severity": "medium",
+      "verdict": "DECIDE",
+      "title": "Serve graceful stop maps to success",
+      "decision": "For commandKind=serve, cooperative SIGINT/SIGTERM that completes cleanup maps to success/0. Mid-request cancel of an in-flight tool call may still surface interrupted to the protocol client, but the process exit after clean transport teardown is success. Generic user-interrupt golden remains for analysis/query/mutation only (commandKind != serve).",
+      "rationale": "MCP/server lifecycle is stop-by-signal; 130 as default makes supervisors false-alarm. Document SuccessExitStatus only as optional ops note, not the primary contract."
+    },
+    {
+      "id": "A1-on-A3-D9-4",
+      "severity": "medium",
+      "verdict": "DECIDE",
+      "title": "latest resolver on empty domain is request-rejected",
+      "decision": "expectedClass request-rejected / 2 with errorCode RESOLVER.EMPTY_DOMAIN (or never-existed subclass). Not success-with-null for CLI exit purposes.",
+      "rationale": "Caller asked to address one run identity via resolver; resolution failed. Agents should fix the request (run analysis first or pass explicit id), not treat as successful empty search. Envelope may still include a structured empty domain diagnostic."
+    },
+    {
+      "id": "A1-on-A3-D9-5",
+      "severity": "medium",
+      "verdict": "ACCEPT-MERGE",
+      "title": "Ledger busy timeout is operational-failed",
+      "detail": "errorCode must distinguish LEDGER.BUSY_TIMEOUT (retryable) from LEDGER.CORRUPT (repair)."
+    },
+    {
+      "id": "A1-on-A3-D9-6",
+      "severity": "affirmation",
+      "verdict": "AFFIRM",
+      "title": "Seal-vs-coverage discriminator is correct"
+    }
+  ],
+  "adjacentGates": {
+    "d1Item38": {
+      "verdict": "ACCEPT-A2-AND-A3",
+      "rule": "Contributions emit observed scores / non-authoritative recommendations only. Effective severity, gates, waivers, baseline scope, required Coverage are project intent. Severity mapping pinned in opensip.lock with contribution identity so upgrades cannot silently re-escalate."
+    },
+    "d5SchemaIdentity": {
+      "verdict": "ACCEPT",
+      "rule": "Do not call the target envelope CommandEnvelope/v1 if shipping CommandOutcome v1 collides. Use distinct schema family URI + major (e.g. opensip.command-envelope family major 1) with dual-projection during D19. Header carries family+major; consumers pin or get request-rejected."
+    },
+    "d19Slice1": {
+      "verdict": "ACCEPT-A2-QUALIFICATION",
+      "rule": "Slice 1 may land as internal parity adapters now. Do not freeze public ProjectDescriptor/ResolvedConfig/Envelope ABI until D5/D13/D14 artifacts exist. Exit contract v1.1 can freeze earlier as host-internal finalizer input."
+    }
+  },
+  "process": {
+    "sealedPropertiesCovered": "ACCEPT A3 proposal — every future artifact must list sealedPropertiesCovered[] referencing prior consensus items (e.g. C4, C5, item 38) so reviews catch silent drops.",
+    "nextArtifact": "opensip.d9-exit-contract v1.1 merges accepted goldens + invariants; supersedes candidate-agent-2 for implementation binding once peers ack."
+  },
+  "overall": "v1 candidate is the right shape (HostTermination total union). Not implementation-bound until v1.1 incorporates C4 baseline, serve stop, empty latest, busy ledger, ephemeral authority, and reasonCode/errorCode refinements."
+}

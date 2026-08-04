@@ -1,0 +1,128 @@
+{
+  "artifact": "opensip.operability.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/operability.v2.json",
+  "date": "2026-07-31",
+  "method": [
+    "Projection-loss and qualification-fixture outcomes were frozen in artifacts/operability.v2.blind-reviewer2.precompare.json before authored permittedLoss values, fixture validity, or checker logic were read.",
+    "The gate inventory was traced to its alleged subjects and targets, rather than accepting gate names as coverage.",
+    "Identity, budget, audit, and projection statements were compared across sections for contradictory global claims.",
+    "Temporary invalid mutations were used to audit what check-operability.py actually protects."
+  ],
+  "blindComparison": {
+    "qualificationFixtures": "All seven fixture outcomes matched the independent derivation.",
+    "projectionParity": [
+      {"surface": "machine envelope (JSON)", "result": "AGREE", "reviewerPermittedLoss": "none"},
+      {"surface": "exit code", "result": "AGREE", "reviewerPermittedLoss": "everything except the total termination class encoded by the process status"},
+      {"surface": "human terminal", "result": "AGREE_WITH_REQUIRED_DETAIL", "reviewerPermittedLoss": "inline detail only when omitted count, visible truncation, and exact retrieval route are present"},
+      {"surface": "SARIF-style export", "result": "DISAGREE", "reviewerPermittedLoss": "none; namespaced property bags can preserve Coverage and other OpenSIP fields"},
+      {"surface": "agent/MCP surface", "result": "AGREE_WITH_REQUIRED_DETAIL", "reviewerPermittedLoss": "presentation only; pagination must preserve reachability and continuation truth"}
+    ],
+    "sarifEvidence": "SARIF 2.1.0 property bags support additional named properties, so absence of a native display field does not make Coverage semantically unrepresentable: https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html",
+    "whatWouldChangeMyMind": "A target interoperability requirement that forbids SARIF property bags and explicitly chooses a lossy export, in which case the surface must not be advertised as parity-preserving."
+  },
+  "checkerMutationAudit": [
+    {"mutation": "Delete G1 through G11, leaving only G12", "result": "ESCAPED"},
+    {"mutation": "Set human-terminal permittedLoss to 'everything, silently'", "result": "ESCAPED"},
+    {"mutation": "Replace projection requiredFields with five unrelated strings", "result": "ESCAPED"},
+    {"mutation": "Set RunId timing to always", "result": "ESCAPED"},
+    {"mutation": "Set G12 target to an imaginary checker", "result": "ESCAPED"},
+    {"mutation": "Set G7 blocking to false", "result": "ESCAPED"},
+    {"mutation": "Delete OP-05, the projection conformance declaration", "result": "ESCAPED"}
+  ],
+  "findings": [
+    {
+      "id": "R2-OP-01",
+      "severity": "HIGH",
+      "evidence": "gateQualification.releaseRule blocks release while any required property lacks a qualified gate, but this artifact defines neither the complete required-property set nor a property-to-gate relation. check-operability.py permits deletion of G1 through G11 and still passes. Only G7 carries blocking:true, and that field is itself unchecked.",
+      "impact": "The release decision is not computable. Implementations may silently omit a required property or gate and obtain a greener release posture merely by deleting the record.",
+      "requiredChange": "Define a closed RequiredProperty schema and an exhaustive property-to-one-or-more-gates map, including source claim and subject. Derive a typed release decision from that map. The checker must reject an omitted required property, missing gate, wrong subject, or removed blocking obligation.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A referenced binding artifact that supplies an exhaustive required-property set and a checker that joins it to every gate and computes the release decision."
+    },
+    {
+      "id": "R2-OP-02",
+      "severity": "HIGH",
+      "evidence": "observability.correlation requires ExecutionId on every event in every plane, while identityDomain says pre-admission events carry only RequestId and ExecutionId appears after attempt admission. observability.volumeBudgets requires per-Run budgets on every non-evidence plane, while identityDomain says budgeting is by request/execution and 'Never universally by Run — a Run may not exist.'",
+      "impact": "No implementation can satisfy both halves. Pre-admission validation diagnostics either invent nonexistent identities and budgets or violate the observability rules.",
+      "requiredChange": "Make correlation and budgets phase-aware: RequestId always; ExecutionId only after attempt admission; RunId only after seal. Budget by RequestId before admission, ExecutionId after admission, and optionally RunId after seal. Add pre-admission rejection and post-seal event fixtures.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding definition that restricts 'every event' and 'per-Run' to post-admission/post-seal events, though the current prose contains no such restriction."
+    },
+    {
+      "id": "R2-OP-03",
+      "severity": "HIGH",
+      "evidence": "G12 is marked QUALIFIED with target 'the eight checkers', although the final prompt names twelve retained checkers plus completeness. observedFailure is a bare true value with no retained execution/evidence identity, and check-operability.py neither invokes those checkers nor validates the target. An imaginary target passes. The broad discharged property 'the architecture is internally coherent' exceeds what local schema checkers can establish.",
+      "impact": "A stale, self-attested gate discharges a global architecture claim. Green local consistency checks can coexist with wrong framing and semantic contradictions, as the recorded error history demonstrates.",
+      "requiredChange": "Change G12's property to the narrow checker claim, enumerate exact checker identities/versions and mutation results, retain an execution record, and make a meta-runner invoke them. Do not use G12 to discharge semantic or framing coherence. Update the register's stale title 'thirteen release gates' to twelve or restore the missing gate intentionally.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A retained meta-run binding the exact final checker set and negative controls, plus an independently justified definition under which 'internally coherent' means only schema consistency."
+    },
+    {
+      "id": "R2-OP-04",
+      "severity": "HIGH",
+      "evidence": "projectionParity is free-form prose. The checker accepts arbitrary required-field names and a human surface that loses everything silently. OP-05 merely declares that a future canonical Run is projected; no canonical Run or per-field expected projection is present. The authored SARIF loss is also unnecessary because SARIF property bags can carry custom Coverage fields.",
+      "impact": "Five outputs can disagree on verdict, identity, Coverage, or truncation while the architecture checker stays green. Agents and CI could see materially different truth from humans.",
+      "requiredChange": "Define typed per-surface projection schemas and one canonical Run corpus spanning pass/fail/indeterminate, truncation, artifacts, and IDs. Derive each projection and compare fields mechanically. Preserve Coverage in SARIF namespaced properties; test both serialized retention and consumer-visible fallback behavior.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Executable projection goldens that reject each recorded loss mutation and a documented target restriction proving SARIF extensions cannot be used."
+    },
+    {
+      "id": "R2-OP-05",
+      "severity": "MEDIUM",
+      "evidence": "G9 is correctly UNQUALIFIED-NO-TARGET because capability denial needs ARCH.PROBE-CONTRACT. G10, however, describes closure analysis over the built core and can target a build artifact now; its runtime-denial half should be a separate gate. G11 can target an orchestration host plus deliberately faulting provider without waiting for a capability-restricted runtime. The artifact labels all three targetless.",
+      "impact": "Real, buildable checks are deferred behind an unrelated reopened mechanism. 'No target' becomes defeatism rather than an honest account of what can be tested.",
+      "requiredChange": "Keep runtime capability denial targetless; split static core-closure and runtime denial; give static closure a built-package target; give process fault containment a host/provider fault-injection target. Reserve UNQUALIFIED-NO-TARGET only for mechanisms that genuinely do not exist in the selected architecture.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A dependency showing that the selected host cannot execute or isolate a faulting provider at all without the same restricted runtime, or that no core build artifact exists to inspect."
+    },
+    {
+      "id": "R2-OP-06",
+      "severity": "MEDIUM",
+      "evidence": "auditPlane is a paragraph and field list, not a typed record or write protocol. It does not define canonical before/after commitments, actor identity, atomicity relative to the mutation, audit-write failure behavior, ordering, concurrency, or redaction. OP-06 only states a future assertion.",
+      "impact": "A mutation can succeed without a durable audit record, or an audit record can claim a mutation that rolled back. Different hosts can emit incompatible records while all architecture checks pass.",
+      "requiredChange": "Specify a HostAuditRecord union and transaction protocol with required IDs, canonical commitments, privacy classes, ordering, failure semantics, and mutation/audit atomicity. Add crash-before, crash-after, concurrent mutation, rollback, purge, and redaction goldens.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A referenced binding host-audit schema and atomic protocol elsewhere in the artifact set."
+    },
+    {
+      "id": "R2-OP-07",
+      "severity": "MEDIUM",
+      "evidence": "G7's target depends on a 'declared reference capacity class', but knownLimitations admits that class is unspecified. The gate combines memory, disk, runtime, and cancellation without thresholds or platform/workload dimensions.",
+      "impact": "A catastrophic resource regression has no falsifiable boundary even though G7 is the only explicitly blocking gate.",
+      "requiredChange": "Define versioned capacity classes with repository shape, language mix, hardware floor, maximum memory/disk/runtime, cancellation deadline, and measurement protocol. Split independently actionable resource dimensions if one aggregate result would hide failures.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding capacity-class artifact already referenced by G7."
+    }
+  ],
+  "adjudication": {
+    "elevenUnqualified": "Correct for product release: an implementation guarantee should not be published until its positive and negative controls have actually run. This is not a reason to reject a greenfield architecture by itself. It becomes an architecture blocker only where the gate domain or target is undefined, as in R2-OP-01, R2-OP-05, and R2-OP-07.",
+    "observedFailure": "The right qualification bar, provided the observed failure is a retained, reproducible evidence record rather than a boolean assertion."
+  },
+  "resolves": {
+    "R2-OP-01": "OPEN",
+    "R2-OP-02": "OPEN",
+    "R2-OP-03": "OPEN",
+    "R2-OP-04": "OPEN",
+    "R2-OP-05": "OPEN",
+    "R2-OP-06": "OPEN",
+    "R2-OP-07": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "projection parity across machine, exit, human, SARIF, and agent surfaces",
+    "phase-correct event identity and budgets",
+    "host mutations are durably audited",
+    "release properties have qualified implementation gates",
+    "resource-safety regression blocks release"
+  ],
+  "knownLimitations": [
+    "No implementation exists, so this review distinguishes an architecture-complete gate definition from a product-qualified gate result.",
+    "SARIF display behavior varies by consumer; the claim here is that the serialized interchange need not lose the data.",
+    "No claim-register status was changed: OPERABILITY is already CANDIDATE."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "The release rule has no exhaustive required-property mapping, the event identity/budget rules contradict each other, and projection parity is not executable."
+  }
+}

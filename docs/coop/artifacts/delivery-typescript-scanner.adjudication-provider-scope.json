@@ -1,0 +1,69 @@
+{
+  "artifact": "opensip.delivery-typescript-scanner.adjudication",
+  "version": 1,
+  "adjudicator": "provider-scope closure lane",
+  "date": "2026-07-31",
+  "status": "ADJUDICATED-SEAL-WITH-CHANGES",
+  "adjudicates": [
+    "artifacts/implementer-package.review-reviewer4.json"
+  ],
+  "scope": [
+    "IP-R4-03 TypeScript provider topology",
+    "IP-R4-05 v1 external-scanner scope/termination join"
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "IP-R4-03",
+      "decision": "ACCEPT",
+      "reasoning": "Process placement is an architectural decision because it fixes crash fate, TCB and dependency edges, offline asset closure, wire ownership, scratch/durable authority and the semantic-universe identity boundary. Leaving TypeScript embedded-versus-worker to implementation would create the week-one fork identified by reviewer4.",
+      "bindingDecision": {
+        "topology": "The Rust one-shot host directly launches the absolute bundled Node.js executable and bundled provider entry point. Within an ExecutionId there is exactly one child for each (SnapshotId, TypeScriptSemanticUniverseKey); no child or compiler state crosses universes or attempts.",
+        "packagingAndIdentity": "Signed typescript-runtime and typescript-provider artifacts contain closed JCS identity descriptors. The descriptors pin Node/V8/modules ABI, provider build/protocol, TypeScript compiler and stdlib identities and exact payload digests. System runtimes, version ranges and install-time package resolution are forbidden.",
+        "transport": "Protocol-major 1 is length/digest-framed deterministic CBOR over inherited pipes. Every envelope and all sixteen frame payloads have closed schemas, bounded arrays/bytes, exact unknown/duplicate rejection, an exact state machine, and one multi-stage Analyze transaction with per-stage attribution and terminal commitments. The host streams a sealed manifest-and-chunk VFS and never passes a live worktree root. stdout is protocol-only and stderr is bounded non-authoritative diagnostics.",
+        "authority": "The worker is TCB and a crash-containment boundary, not a sandbox. Scratch is per-child and ephemeral. Only the host allocates identities, validates/adopts facts, writes durable state, seals the Run, derives policy and selects termination.",
+        "fate": "Complete plus zero exit is the only success; clean Unavailable and deterministic BudgetExhausted map to their D9 Coverage deficiencies; missing signed assets map delivery-required; crash/hang/incomplete or invalid protocol maps provider-protocol; user cancellation retains D9 interrupted precedence."
+      },
+      "verification": "delivery.v2.json DL-TS/DL-D9 structure plus DL-13; check-delivery.py mutations reject embedding, cross-universe reuse, ambient Node, lost compiler/runtime identity, live-worktree transport, wire-schema/frame/state-machine/multi-stage drift, unavailable/budget/ownership/environment/network/offline-asset loss, authoritative stderr, worker durable authority and a false sandbox claim.",
+      "confidence": "HIGH",
+      "resolves": "RESOLVED"
+    },
+    {
+      "findingId": "IP-R4-05",
+      "decision": "ACCEPT-WITH-PRODUCT-OVERLAY",
+      "reasoning": "C-2's general ontology correctly recognizes external-scanner as a supervised implementation effect, but the accepted v1 slice excludes scanner integrations. The exclusion therefore needs an explicit product overlay rather than a false restricted-runtime diagnosis or an implementer-local D9 code.",
+      "bindingDecision": {
+        "recognition": "During request-validation, inspect the frozen pre-admission PlanIntent committed as SHA-256(canonical JSON v1) under opensip.plan-intent.v1. Reject when PlanIntent.analysis.admissionDescriptor.workflow.stages[*].kind is fact-derivation and .operator is external-scanner, or when the referenced PlanIntent.analysis.admissionDescriptor.contributions[*].authority is external-scanner; providerId is required and the two surfaces must agree.",
+        "identityFate": "REQUEST-ID-V1 allocates and atomically reserves one canonical host-owned RequestId at first trusted ingress before parsing, so RequestId is PRESENT for this later request-validation rejection. ExecutionId, AttemptRecord, SnapshotId, PlanId, RunId and Run are ABSENT.",
+        "domainAndD9": "Return typed domain detail FEATURE.EXTERNAL_SCANNER_NOT_IN_V1 and reuse D9 rejectionCause extension-admission-rejected / errorCode EXTENSION.ADMISSION_REJECTED. No D9 vocabulary is added.",
+        "ontology": "C-2 remains broader than v1. The scope overlay does not reclassify an external scanner as a Probe or claim that ARCH.PROBE-CONTRACT is its blocker."
+      },
+      "verification": "delivery.v2.json DL-SCOPE/DL-D9 structure plus DL-14; check-delivery.py cross-checks live OPERABILITY REQUEST-ID-V1 and mutations reject missing/optional/late RequestId, scanner admission, contradictory aggregate admission rules, post-attempt inspection, attempt identity allocation and a scanner-private D9 code.",
+      "confidence": "HIGH",
+      "resolves": "RESOLVED"
+    }
+  ],
+  "changedBindingArtifacts": [
+    "artifacts/delivery.v2.json",
+    "artifacts/check-delivery.py"
+  ],
+  "changedNarratives": [
+    "architecture/01-product-boundary.md",
+    "architecture/05-rules-and-extensions.md",
+    "architecture/08-surfaces-and-topology.md"
+  ],
+  "assurance": {
+    "architectureState": "IMPLEMENTABLE",
+    "releaseState": "NOT-DEMONSTRATED",
+    "note": "The contract and mutation suite close the architecture forks. No provider binary, release descriptor pair, supported-platform execution or external-scanner implementation was demonstrated."
+  },
+  "nonChanges": [
+    "The bundled pinned rustc_driver sidecar decision was not reopened.",
+    "No claim-register, plan, freeze/blueprint, v1-slice, retention/V10/TM, C-2, resolved-inputs, operability or storage artifact was edited.",
+    "No sandbox claim was introduced and no network-granted analysis was admitted."
+  ],
+  "integrationNote": "The coordinator may append this adjudication to DELIVERY review/adjudication provenance after concurrent claim-register integration is serialized; this lane intentionally did not edit the shared register.",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "IP-R4-03 and IP-R4-05 are contractually resolved and mutation-protected. Product release qualification remains NOT-DEMONSTRATED."
+  }
+}

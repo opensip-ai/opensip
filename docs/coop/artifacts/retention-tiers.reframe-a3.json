@@ -1,0 +1,81 @@
+{
+  "artifact": "opensip.retention-tiers.reframe",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "role": "contribution toward v3, not a review of v2",
+  "reviewStatus": "AUTHORED SOLO. Not reviewed. Reviewer B authored retention-tiers.v2 and also reviewed it; that is the same author/reviewer conflict Agent 3 is disqualified for elsewhere. Noted neutrally — B's findings are strong — but v3 should be reviewed by someone who did not write v2 or this.",
+
+  "confirms": {
+    "B-RTV2-01": "VERIFIED against the artifact. retention-tiers.v2's entire proof schema is `FindingProof`, whose rule reads 'Every finding at T1+ carries exactly one sealed proof.' There is no obligation attached to an evaluation, no no-match proof, and no verdict proof. A Run with zero findings therefore carries zero proof. This is the most consequential finding raised in this exercise so far."
+  },
+
+  "theCoreProblem": {
+    "statement": "The retention model proves FINDINGS. The claim the product actually gates on is the VERDICT — and in CI the verdict that matters most is PASS.",
+    "why": "A passing Run asserts a universal negative: 'nothing in this scope violates these rules.' That is the strongest claim the system makes and the one with the most consequence — it merges code. Under v2 it is the only claim with no evidence behind it at all.",
+    "errorClass": "Third instance in this exercise of designing around the VISIBLE ARTIFACT rather than the LOAD-BEARING CLAIM. The threat model defended the platform rather than the user; the migration framing optimised porting rather than merit; this proves findings rather than the verdict. In each case the thing that was easy to see displaced the thing that mattered.",
+    "consequenceForTiers": "T1 was defined as 'the spans each finding cited'. For a passing Run that set is empty, so T1 collapses into T0 exactly when the strongest claim is being made. The ladder is not merely too thin for relationship findings (A1-RT-01 / B-RT-01) — it is absent for clean runs."
+  },
+
+  "reframe1_unitOfProof": {
+    "was": "A proof attaches to a finding.",
+    "shouldBe": "A proof attaches to an EVALUATION. Every rule evaluation yields a proof of its outcome, whether that outcome is a match or a no-match.",
+    "consequences": [
+      "A passing Run carries one proof per evaluation, not zero.",
+      "Baseline comparison, waiver application, and policy evaluation are themselves evaluations and acquire proof obligations — closing the rest of B-RTV2-01.",
+      "'No findings' becomes checkable rather than asserted."
+    ]
+  },
+
+  "reframe2_theNegativeIsTheHardOne": {
+    "insight": "Proving a match needs a witness. Proving a NO-MATCH needs a completeness claim: that the subject set examined was the right one and was examined entirely.",
+    "requires": [
+      {"element": "subject-set commitment", "why": "so both membership and NON-membership are checkable — otherwise 'we found nothing' cannot be distinguished from 'we looked at nothing'"},
+      {"element": "predicate identity", "why": "rule version plus resolved parameters; a no-match is only meaningful relative to what was asked"},
+      {"element": "coverage sufficiency", "why": "a no-match over insufficient facts is not a no-match; it is an unavailable result wearing one"}
+    ],
+    "invertsTheEconomics": "A passing Run's proof is LARGER and more important than a failing Run's. The v1/v2 ladder assumed the opposite — that you retain what a finding cited, so more findings means more retention. The real relationship is the reverse, and every size estimate in v1 and v2 inherits the wrong assumption."
+  },
+
+  "reframe3_tierByRecomputability": {
+    "problemWithBothPriorLadders": "v1 and v2 both tier by CONTENT TYPE — how much source do we keep. That framing forces a direct trade between explainability and privacy, which is why V10 appeared as a contradiction at all.",
+    "betterAxis": "Tier by RECOMPUTABILITY: what can be regenerated from what is retained, versus what is irreducible.",
+    "structure": [
+      {"retain": "fact partition + coverage manifests + subject-set commitments + plan and rule identities", "property": "RECOMPUTABLE — proofs regenerate deterministically from these", "size": "structural, no source bytes", "privacy": "facts are already a lossy structural projection; identifiers may still be personal data (threat-model U3) but bytes are not present"},
+      {"retain": "nothing further", "property": "proofs are generated ON DEMAND, not stored", "note": "storage cost of proofs drops to zero; the cost moves to recomputation, which is bounded because the facts are already there"},
+      {"retain": "source bytes for selected spans", "property": "IRREDUCIBLE — needed only to show a human the actual line, because fact extraction is lossy", "size": "small and demand-driven", "privacy": "the only tier that stores user content, so it is the only one that needs a retention clock"}
+    ],
+    "whyThisIsBetter": [
+      "It dissolves V10 rather than trading it off: explainability comes from recomputation over retained facts, and privacy comes from not retaining bytes. Both hold simultaneously.",
+      "It makes the passing-Run proof affordable — commitments are small even when the subject set is large.",
+      "It puts the retention clock on exactly one thing (source bytes) instead of on the whole evidence model.",
+      "It matches a property the architecture already sealed: facts are content-addressed and derivation is deterministic. If both hold, proofs ARE recomputable and storing them is redundant."
+    ],
+    "whatItCosts": [
+      "Recomputation requires the fact partition to survive, so fact retention becomes the load-bearing durability decision rather than source retention.",
+      "It only works while the producing toolchain and rule versions remain available — proof regeneration inherits the reproducibility problem B-RTV2-08 already raises against T2.",
+      "A user who purges facts loses explainability even though no source was ever stored. That trade must be stated, not discovered."
+    ]
+  },
+
+  "openQuestionsThisRaises": [
+    {"id": "RQ-1", "q": "Is a subject-set commitment over a large repository actually small? A set commitment is small; producing it requires enumerating the set, which is the cost the architecture already pays during planning. Needs measurement, not assertion."},
+    {"id": "RQ-2", "q": "If proofs are recomputed rather than stored, what does a Run's EvidenceDigest cover — the proofs, or the inputs sufficient to regenerate them? The latter seems right and changes the digest definition."},
+    {"id": "RQ-3", "q": "Does recomputation-based explainability satisfy an auditor who wants evidence frozen at the time of the decision? Possibly not, which may be the honest case for an explicit attestation mode rather than a general tier."},
+    {"id": "RQ-4", "q": "B-RTV2-07's missing proof shapes — aggregate/set, metric/derivation, policy/baseline, external-observation — need shapes under this reframe too. Recomputability may simplify them: a metric proof becomes 'the inputs and the function', not a stored number."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "required partial coverage cannot yield pass", "relevance": "a no-match proof must carry coverage sufficiency, or an unavailable result can masquerade as a clean pass"},
+    {"property": "determinism is conditional on exact Coverage", "relevance": "recomputability depends on it; if determinism fails, proofs cannot be regenerated and this reframe fails with it"},
+    {"property": "facts are content-addressed", "relevance": "this is the precondition that makes recomputation sound"},
+    {"property": "minimise retention of user content (threat-model V1)", "relevance": "satisfied by retaining structure rather than bytes"}
+  ],
+
+  "knownLimitations": [
+    "This is a reframe, not a specification. It proposes the axis for v3; it does not define proof schemas, commitment structures, or the recomputation contract.",
+    "The claim that proofs are recomputable rests on determinism and fact retention. Both are sealed properties, but neither is implemented or measured, so the reframe inherits their risk.",
+    "RQ-3 may be fatal for an attestation use case, in which case a stored-proof mode is still required and this becomes the default rather than the whole model.",
+    "Authored solo and unreviewed. The author has been wrong about this decision's center once already — recommending the T1 default that both reviewers then contradicted."
+  ]
+}

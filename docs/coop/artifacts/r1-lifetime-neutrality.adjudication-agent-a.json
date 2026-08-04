@@ -1,0 +1,120 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.adjudication",
+  "adjudicator": "agent-a",
+  "adjudicates": [
+    "artifacts/r1-lifetime-neutrality.conformance.v1.4.review-reviewer2.json"
+  ],
+  "method": [
+    "Read executionCoreBoundary.definition vs factoring vs coreCompletionSchema \u2014 confirmed mutual contradiction (SealedRun + fact derivation vs pure CoreCompletion).",
+    "Confirmed capabilityBoundary permitted SnapshotPort/StorePort/ProviderPort while factoring said never calls back out.",
+    "Confirmed completed variant lacked policyOutcome.",
+    "Confirmed priorFindingDispositions closed A2-R1-01/06 via LN-12 implementable:false.",
+    "Repaired v1.4 binding; extended check-r1 with R1-BOUND/DEPS/POL/TOPO; 20 mutations."
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "R2-R1-01",
+      "decision": "ACCEPT",
+      "evidence": "definition produced SealedRun and listed fact derivation inside; factoring and coreCompletionSchema forbade sealing and assigned fact derivation to host.",
+      "reasoning": "Consumer B cannot implement two return types and two ownership models. Chose orchestration host + pure evaluation core consistently.",
+      "requiredChange": "Single definition: SealedStageInput -> CoreCompletion; remove fact derivation from core inside; forbid SealedRun wording.",
+      "verification": "Restore SealedRun / fact-derivation mutations rejected by R1-BOUND.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A deliberate alternative (effectful core) written consistently everywhere \u2014 would be a different architecture, not a patch."
+    },
+    {
+      "findingId": "R2-R1-02",
+      "decision": "ACCEPT",
+      "evidence": "part1.permitted effectful ports; CoreDeps undefined; factoring claimed no callbacks.",
+      "reasoning": "Pure core requires data-only deps. Effectful ports move lifetime neutrality to the supervisor.",
+      "requiredChange": "coreDepsSchema closed data-only; forbid StorePort/ProviderPort/SnapshotPort in permitted; host owns adapters.",
+      "verification": "permit StorePort / drop coreDepsSchema mutations rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Closed port interfaces proven pure with no I/O \u2014 would allow ports as pure accessors; not present."
+    },
+    {
+      "findingId": "R2-R1-03",
+      "decision": "ACCEPT",
+      "evidence": "Core owns policy evaluation but completed carried only findings/exactCoverage/diagnosticsRef.",
+      "reasoning": "Without policyOutcome the host invents or re-runs policy; two implementations diverge.",
+      "requiredChange": "policyOutcome {policyId, verdict, derivationDigest} on completed (and incomplete).",
+      "verification": "drop policyOutcome mutation rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A."
+    },
+    {
+      "findingId": "R2-R1-04",
+      "decision": "ACCEPT",
+      "evidence": "A2-R1-01/06 CLOSED by LN-12; LN-12 implementable:false; runtime property NOT DISCHARGED; DISCHARGED used for unexecuted tests.",
+      "reasoning": "Paper closure. Static analysis \u2260 runtime denial.",
+      "requiredChange": "Rewrite dispositions; SPECIFIED not DISCHARGED without demonstration; forbid CLOSED by LN-12.",
+      "verification": "close-via-LN-12 mutation rejected; properties SPECIFIED.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A."
+    },
+    {
+      "findingId": "R2-R1-05",
+      "decision": "ACCEPT",
+      "evidence": "LN-10 assigned host but compares resident vs cold with byte-identical Runs \u2014 composition subject.",
+      "reasoning": "Mis-attribution risk. Suite assignment must match controlled subject.",
+      "requiredChange": "composition-acceptance suite; LN-10 moved; structural suite sync check.",
+      "verification": "move LN-10 to host mutation rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Harness proving LN-10 isolates host with core/storage fixed by construction as host-only \u2014 not shown."
+    },
+    {
+      "findingId": "R2-R1-06",
+      "decision": "ACCEPT",
+      "evidence": "injectedNotAmbient listed ID and entropy source; pure core has no entropy consumer; identityOwnership said host allocates ExecutionId.",
+      "reasoning": "Entropy is an accidental nondeterminism path.",
+      "requiredChange": "Remove entropy; noEntropyInCore=true.",
+      "verification": "reintroduce entropy mutation rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A named deterministic pseudo-random consumer seeded in PlanId \u2014 would require explicit design."
+    },
+    {
+      "findingId": "R2-R1-07",
+      "decision": "ACCEPT",
+      "evidence": "R-1 REOPENED for measurement-gated residency; pure-core shrink does not choose process topology.",
+      "reasoning": "Week-one needs a buildable floor. Chose one-shot host + pure core; resident optional under evidence-identity constraint; measurement remains product.",
+      "requiredChange": "initialTopology.normativeFloor + sharedBoundaries + weekOneDecision.",
+      "verification": "drop topology mutation rejected. Claim status stays REOPENED for residency product/measurement, not for pure-core factoring.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Product decision that resident-only is the floor \u2014 would rewrite topology, not reopen pure-core purity."
+    }
+  ],
+  "resolves": {
+    "R2-R1-01": "RESOLVED",
+    "R2-R1-02": "RESOLVED",
+    "R2-R1-03": "RESOLVED",
+    "R2-R1-04": "RESOLVED",
+    "R2-R1-05": "RESOLVED",
+    "R2-R1-06": "RESOLVED",
+    "R2-R1-07": "RESOLVED-WITH-RESIDUAL-PRODUCT-MEASUREMENT"
+  },
+  "sealedPropertiesCovered": [
+    "pure evaluation core boundary (single definition)",
+    "ExecutionId host-injected and digest-invariant",
+    "core does not seal or terminate",
+    "data-only CoreDeps",
+    "policyOutcome returned from core",
+    "runtime ambient authority NOT DISCHARGED",
+    "one-shot topology floor"
+  ],
+  "knownLimitations": [
+    "R-1 claim remains REOPENED for residency measurement items (2)-(4).",
+    "LN-12 runtime denial unimplementable until ARCH.PROBE-CONTRACT.",
+    "Suite assignment was not re-blinded post-repair."
+  ],
+  "undischargedPropertyClassification": {
+    "the core holds no ambient authority AT RUNTIME": "feature/mechanism gap \u2014 pure core has no ambient deps by construction; runtime denial of host/adapters waits on ARCH.PROBE-CONTRACT; classify as legitimate pre-implementation + substrate decision",
+    "the execution core is lifetime-neutral": "PARTIAL/SPECIFIED \u2014 pure core property is architecturally decided; residency value is acceptable measurement question with normative fallback (one-shot floor)",
+    "warm state / multi-process / ExecutionId / no seal": "legitimate pre-implementation evidence gap (SPECIFIED implementable tests)"
+  },
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Architecture contradictions repaired. Keep claim REOPENED only for residency product measurement, not because the core boundary is undecided. Do not seal runtime authority as discharged.",
+    "consumerB": "Yes for one-shot host + pure core + CoreCompletion/policyOutcome. Do not invent SealedRun-from-core or effectful core ports. Resident host optional under evidence identity constraint."
+  }
+}

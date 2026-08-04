@@ -1,0 +1,2289 @@
+{
+  "artifact": "opensip.duplicate-key-adoption",
+  "version": "v1",
+  "role": "RECORD OF A REPAIR PASS. This file seals nothing, advances no status and changes no verdict. It records which checkers were given a duplicate-key guard, which could not be given one and what pins them, and the measured result of each attack. CD-RT-5 remains BLOCKED_ON_PHASE_1A.",
+  "basis": "artifacts/corpus-duplicate-key-sweep.v1.json (92 checkers, 40 exploitable, 59 admitted positions)",
+  "theConstraintThatShapedThisPass": {
+    "rule": "A checker whose SHA-256 is pinned anywhere in docs/coop cannot be edited: freeze 7.2 binds a verdict to bytes, so editing reviewed bytes invalidates the review and breaks every pin.",
+    "method": "sha256 of all 93 artifacts/check-*.py computed, then every file under docs/coop scanned for each digest (64-, 32-, 16-, 12- and 8-character prefixes, upper and lower case), and each target additionally scanned for its own name occurring within 260 characters of a sha/digest token, to catch a STALE pin that a current-digest scan would miss.",
+    "result": "89 of 93 checkers carry a digest that appears elsewhere in the tree. Only 4 are unpinned: check-adjudication.py, check-method-dispositions.py, check-package-coherence.py and check-retention-v3.py.",
+    "measurementRecordsAreNotPins": "artifacts/corpus-duplicate-key-sweep.v1.json and artifacts/corpus-float-admission-sweep.v1.json both declare themselves measurement-only. Digests appearing ONLY in those files were not treated as pins. No checker's status changed because of that distinction — every blocked checker is pinned by at least one non-measurement file."
+  },
+  "headlineCounts": {
+    "sweepExploitableCheckers": 40,
+    "closedByThisPass": 2,
+    "closedByAnotherLaneBeforeThisPass": 1,
+    "outOfScopeByInstruction": 1,
+    "residualExploitable": 36,
+    "residualHardPinnedByAnotherChecker": 26,
+    "residualPinnedByReviewArtifactsOnly": 10,
+    "newExploitableCheckerFoundAndClosedThatTheSweepDidNotHave": 1,
+    "unhookedStaticParseSitesRemoved": 3,
+    "cleanTreeVerdictsChanged": 0
+  },
+  "whatThisPassClosed": {
+    "note": "Each row was attacked with the sweep's order-preserving shape C — the duplicate inserted immediately before the real member so the mutant's last-wins parse is identical in value AND in dict key order — because the sweep found check-d9-v1.7.py reading as defended until key order was controlled for. Every rejection below was confirmed by READING the finding text, not by observing a non-zero exit.",
+    "checkers": [
+      "check-adjudication.py",
+      "check-method-dispositions.py",
+      "check-retention-v3.py"
+    ]
+  },
+  "tier1TargetsFromTheBrief": {
+    "check-evaluation-proof.py": {
+      "role": "the normative preimage grammar at L269 in _grammar(); the widest single unhooked site in the corpus, reached in-process by 28 checkers per the sweep",
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 54,
+      "pinnedByCheckers": [
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v6.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-evidence-v4.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py",
+        "artifacts/check-versioning-v5.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v6.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/evidence.v4.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/versioning-policy.v10.json",
+        "artifacts/versioning-policy.v11.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v5.json",
+        "artifacts/versioning-policy.v6.json",
+        "artifacts/versioning-policy.v7.json",
+        "artifacts/versioning-policy.v8.json",
+        "artifacts/versioning-policy.v9.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "consequence": "inherited exposure stays open for every checker that reaches it in-process, including the already-hooked evaluation-proof, evidence and retention-custody lines"
+    },
+    "check-d9-v1.12.py": {
+      "role": "executes 170 unhooked decodes inside every run of the already-hooked check-d9-v1.14.py; also the only checker in the corpus decoding through JSONDecoder().raw_decode",
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 26,
+      "pinnedByCheckers": [
+        "artifacts/check-d9-v1.13.py",
+        "artifacts/check-d9-v1.14.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py",
+        "artifacts/check-retention-custody-v23.py",
+        "artifacts/check-retention-custody-v24.py"
+      ],
+      "pinnedByOther": [
+        "IMPLEMENTER-BLUEPRINT.md",
+        "artifacts/consumer-b-implementer-litmus.v2.json",
+        "artifacts/d9-exit-contract.v1.12.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.13.json",
+        "artifacts/d9-exit-contract.v1.13.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.14.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/retention-tiers.v23.json",
+        "artifacts/retention-tiers.v24.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "consequence": "check-d9-v1.14.py keeps the fix and keeps the 170 unhooked decodes; check-versioning-v12.py subprocesses it on every run"
+    }
+  },
+  "residualExploitableCheckers": [
+    "check-assurance.py",
+    "check-c2-v4.py",
+    "check-c2-v5.py",
+    "check-c2-v6.py",
+    "check-c2.py",
+    "check-claims.py",
+    "check-d9-v1.7.py",
+    "check-d9.py",
+    "check-delivery.py",
+    "check-evidence-v4.py",
+    "check-evidence-v5.py",
+    "check-evidence-v6.py",
+    "check-evidence.py",
+    "check-fact-identity.py",
+    "check-fact-plane.py",
+    "check-operability-v3.py",
+    "check-operability-v4.py",
+    "check-operability-v5.py",
+    "check-operability.py",
+    "check-phase1a-a-prime-successor-v2.py",
+    "check-phase1a-a-prime-successor-v3.py",
+    "check-phase1a-a-prime-successor.py",
+    "check-product-dispositions.py",
+    "check-r1.py",
+    "check-resolved-inputs.py",
+    "check-scope-correction-a3-v5.py",
+    "check-threat-claims.py",
+    "check-versioning-v10.py",
+    "check-versioning-v11.py",
+    "check-versioning-v12.py",
+    "check-versioning-v5.py",
+    "check-versioning-v6.py",
+    "check-versioning-v7.py",
+    "check-versioning-v8.py",
+    "check-versioning-v9.py",
+    "check-versioning.py"
+  ],
+  "perChecker": {
+    "check-adjudication.py": {
+      "exploitablePositionsInSweep": 0,
+      "pinClass": "UNPINNED",
+      "pinnerCount": 0,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "REPAIRED",
+      "inputsRead": [
+        "<argv> comparison.json"
+      ],
+      "notInTheSweepsExploitableSet": true,
+      "whyTheSweepMissedIt": "The sweep ran it with no argv, where it exits 2 on usage before reaching any JSON, and recorded it under budget.skipped as 'no JSON input could be identified'. Three real inputs exist in the corpus (cleansheet-comparison.a1.json, cleansheet-comparison.b.json, cleansheet-gaps.a3.json); it runs green on all three and admitted a planted duplicate at both a top-level and a nested position.",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1,
+        "site": "L132 json.loads(p.read_text()) in main()"
+      },
+      "parseSitesAfter": {
+        "jsonDecodeCalls": 1,
+        "hooked": 1,
+        "unhooked": 0,
+        "site": "L92 json.loads(text, object_pairs_hook=pairs) in jloads(); main() now enters through load()"
+      },
+      "findingId": "A0-DUPKEY",
+      "selftest": null,
+      "attacks": [
+        {
+          "input": "cleansheet-comparison.a1.json",
+          "key": "status",
+          "shape": "C-order-preserving",
+          "insertedBytes": 32,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "status",
+          "finding": "A0-DUPKEY cleansheet-comparison.a1.json: key 'status' is published more than once at status; the host parser keeps the LAST occurrence, so the parsed comparison cannot say what the bytes say"
+        },
+        {
+          "input": "cleansheet-comparison.a1.json",
+          "key": "disposition",
+          "shape": "C-order-preserving nested",
+          "insertedBytes": 45,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "decisions[0].disposition",
+          "note": "a decision could read RETAINED-BY-ATTACKER on the page while A1..A9 scored the DOWNGRADED the parser kept",
+          "finding": "A0-DUPKEY cleansheet-comparison.a1.json: key 'disposition' is published more than once at decisions[0].disposition; the host parser keeps the LAST occurrence, so the parsed comparison cannot say what the bytes say"
+        }
+      ],
+      "cleanTree": {
+        "beforeExit": 0,
+        "afterExit": 0,
+        "stdoutIdentical": true,
+        "casesCompared": [
+          "no argv (exit 2 usage)",
+          "artifacts/cleansheet-comparison.a1.json",
+          "artifacts/cleansheet-comparison.b.json",
+          "artifacts/cleansheet-gaps.a3.json",
+          "artifacts/cleansheet-comparison.a3-incumbent-VOID.json (red baseline, 25 findings — still 25, unchanged)"
+        ],
+        "output": "comparison conforms to the rule — 20 decisions, A1..A9 clean"
+      }
+    },
+    "check-assurance.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 7,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 13,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "assurance-state.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-c2-v4.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 33,
+      "pinnedByCheckers": [
+        "artifacts/check-c2-v5.py",
+        "artifacts/check-c2-v6.py",
+        "artifacts/check-c2-v7.py",
+        "artifacts/check-c2-v8.py",
+        "artifacts/check-c2-v9.py",
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v9.py"
+      ],
+      "pinnedByOther": [
+        "IMPLEMENTER-BLUEPRINT.md",
+        "artifacts/c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json",
+        "artifacts/c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+        "artifacts/c2-plan-stage-schema.v5.json",
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v6.json",
+        "artifacts/c2-plan-stage-schema.v6.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v7.json",
+        "artifacts/c2-plan-stage-schema.v7.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v8.json",
+        "artifacts/c2-plan-stage-schema.v8.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v9.json",
+        "artifacts/c2-plan-stage-schema.v9.review-independent.json",
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v9.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [
+        "artifacts/corpus-float-admission-sweep.v1.json"
+      ],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 9,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v4.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-c2-v5.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 15,
+      "pinnedByCheckers": [
+        "artifacts/check-c2-v6.py",
+        "artifacts/check-c2-v7.py",
+        "artifacts/check-c2-v8.py",
+        "artifacts/check-c2-v9.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v6.json",
+        "artifacts/c2-plan-stage-schema.v6.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v7.json",
+        "artifacts/c2-plan-stage-schema.v7.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v8.json",
+        "artifacts/c2-plan-stage-schema.v8.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v9.json",
+        "artifacts/c2-plan-stage-schema.v9.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [
+        "artifacts/corpus-float-admission-sweep.v1.json"
+      ],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 12,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v5.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-c2-v6.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 11,
+      "pinnedByCheckers": [
+        "artifacts/check-c2-v7.py",
+        "artifacts/check-c2-v8.py",
+        "artifacts/check-c2-v9.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/c2-plan-stage-schema.v6.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v7.json",
+        "artifacts/c2-plan-stage-schema.v7.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v8.json",
+        "artifacts/c2-plan-stage-schema.v8.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v9.json",
+        "artifacts/c2-plan-stage-schema.v9.review-independent.json",
+        "artifacts/ep13.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 14,
+        "inheritedUnhooked": 11
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v6.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-c2.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 65,
+      "pinnedByCheckers": [
+        "artifacts/check-c2-v4.py",
+        "artifacts/check-c2-v5.py",
+        "artifacts/check-c2-v6.py",
+        "artifacts/check-c2-v7.py",
+        "artifacts/check-c2-v8.py",
+        "artifacts/check-c2-v9.py",
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v6.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py"
+      ],
+      "pinnedByOther": [
+        "IMPLEMENTER-BLUEPRINT.md",
+        "artifacts/c2-plan-stage-schema.v3.review-independent-livebytes.json",
+        "artifacts/c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json",
+        "artifacts/c2-plan-stage-schema.v4.json",
+        "artifacts/c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+        "artifacts/c2-plan-stage-schema.v5.json",
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v6.json",
+        "artifacts/c2-plan-stage-schema.v7.json",
+        "artifacts/c2-plan-stage-schema.v8.json",
+        "artifacts/c2-plan-stage-schema.v8.review-independent.json",
+        "artifacts/c2-plan-stage-schema.v9.json",
+        "artifacts/c2-plan-stage-schema.v9.review-independent.json",
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v6.json",
+        "artifacts/evaluation-proof.v7.json",
+        "artifacts/evaluation-proof.v8.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/retention-tiers.v7.rereview-independent-reviewer8.json",
+        "artifacts/retention-tiers.v8.rereview3-independent-reviewer15.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 6,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "d9-exit-contract.v1.6.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-claims.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 6,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/retention-tiers.v23.review-independent.json",
+        "artifacts/v10-disposition.v1.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 1,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "claim-register.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-completeness.py": {
+      "exploitablePositionsInSweep": 3,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 6,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json",
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/retention-tiers.v23.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "OUT-OF-SCOPE-BY-INSTRUCTION",
+      "reason": "another lane owns this file for the duration of this task; not touched",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": {
+        "jsonDecodeCalls": 4,
+        "hooked": 0,
+        "unhooked": 4,
+        "sites": [
+          "L117",
+          "L311",
+          "L518",
+          "L749"
+        ],
+        "measuredBy": "this pass, by AST scan, at the end of it — NOT edited here",
+        "note": "the owning lane had modified this file by the time this pass finished but had not yet landed a hook; all four decode sites were still unhooked when measured. This row is observation, not a claim about that lane's final state.",
+        "pinClassNote": "pinned by 6 review artifacts and by no checker, so it is soft-blocked rather than hard-blocked in any case"
+      }
+    },
+    "check-d9-v1.7.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 62,
+      "pinnedByCheckers": [
+        "artifacts/check-d9-v1.10.py",
+        "artifacts/check-d9-v1.11.py",
+        "artifacts/check-d9-v1.12.py",
+        "artifacts/check-d9-v1.13.py",
+        "artifacts/check-d9-v1.14.py",
+        "artifacts/check-d9-v1.8.py",
+        "artifacts/check-d9-v1.9.py",
+        "artifacts/check-evidence-v7.py",
+        "artifacts/check-operability-v3.py",
+        "artifacts/check-operability-v4.py",
+        "artifacts/check-operability-v5.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor-v3.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-retention-custody-v14.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py",
+        "artifacts/check-retention-custody-v23.py",
+        "artifacts/check-retention-custody-v24.py"
+      ],
+      "pinnedByOther": [
+        "IMPLEMENTER-BLUEPRINT.md",
+        "artifacts/d9-exit-contract.v1.10.json",
+        "artifacts/d9-exit-contract.v1.10.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.11.json",
+        "artifacts/d9-exit-contract.v1.11.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.12.json",
+        "artifacts/d9-exit-contract.v1.12.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.13.json",
+        "artifacts/d9-exit-contract.v1.13.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.14.json",
+        "artifacts/d9-exit-contract.v1.8.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.9.json",
+        "artifacts/d9-exit-contract.v1.9.review-independent-prefreeze.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/operability.v10.json",
+        "artifacts/operability.v3.json",
+        "artifacts/operability.v4.json",
+        "artifacts/operability.v5.json",
+        "artifacts/operability.v6.json",
+        "artifacts/operability.v7.json",
+        "artifacts/operability.v8.json",
+        "artifacts/operability.v9.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/retention-tiers.v14.review-independent-prefreeze.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/retention-tiers.v23.json",
+        "artifacts/retention-tiers.v24.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 2,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "d9-exit-contract.v1.6.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "d9-exit-contract.v1.7.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-d9.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 71,
+      "pinnedByCheckers": [
+        "artifacts/check-d9-v1.10.py",
+        "artifacts/check-d9-v1.11.py",
+        "artifacts/check-d9-v1.12.py",
+        "artifacts/check-d9-v1.13.py",
+        "artifacts/check-d9-v1.14.py",
+        "artifacts/check-d9-v1.8.py",
+        "artifacts/check-d9-v1.9.py",
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-retention-custody-v14.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py",
+        "artifacts/check-retention-custody-v23.py",
+        "artifacts/check-retention-custody-v24.py"
+      ],
+      "pinnedByOther": [
+        "IMPLEMENTER-BLUEPRINT.md",
+        "artifacts/d9-exit-contract.v1.10.json",
+        "artifacts/d9-exit-contract.v1.10.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.11.json",
+        "artifacts/d9-exit-contract.v1.11.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.12.json",
+        "artifacts/d9-exit-contract.v1.12.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.13.json",
+        "artifacts/d9-exit-contract.v1.13.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.14.json",
+        "artifacts/d9-exit-contract.v1.8.review-independent-prefreeze.json",
+        "artifacts/d9-exit-contract.v1.9.json",
+        "artifacts/d9-exit-contract.v1.9.review-independent-prefreeze.json",
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep8-rt13.review-independent-cold-reconstruction.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v14.review-independent-prefreeze.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/retention-tiers.v23.json",
+        "artifacts/retention-tiers.v24.json",
+        "artifacts/retention-tiers.v7.rereview-independent-reviewer8.json",
+        "artifacts/retention-tiers.v8.rereview3-independent-reviewer15.json",
+        "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 1,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "d9-exit-contract.v1.6.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-delivery.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 13,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-independent-reviewer9.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/versioning-policy.v4.historical-verifier-custody-repair.v1.json",
+        "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 8,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "delivery.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "threat-model.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-evidence-v4.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 17,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v10.py",
+        "artifacts/check-evidence-v5.py",
+        "artifacts/check-evidence-v7.py",
+        "artifacts/check-evidence-v9.py",
+        "artifacts/check-operability-v3.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v10.json",
+        "artifacts/evidence.v5.json",
+        "artifacts/evidence.v9.json",
+        "artifacts/operability.v3.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "evidence.v4.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-evidence-v5.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 13,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v6.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/authority-provenance.v2.review-independent.json",
+        "artifacts/evidence.v10.json",
+        "artifacts/evidence.v6.json",
+        "artifacts/evidence.v7.json",
+        "artifacts/evidence.v8.json",
+        "artifacts/evidence.v8.review-independent-prefreeze.json",
+        "artifacts/evidence.v9.json",
+        "artifacts/operability.v4.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 6,
+        "inheritedUnhooked": 9
+      },
+      "admittedPositions": [
+        {
+          "input": "evidence.v5.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-evidence-v6.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 18,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v7.py",
+        "artifacts/check-operability-v5.py",
+        "artifacts/check-phase1a-a-prime-successor-v3.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/authority-provenance.v2.review-independent.json",
+        "artifacts/evidence.v10.json",
+        "artifacts/evidence.v7.json",
+        "artifacts/evidence.v8.json",
+        "artifacts/evidence.v8.review-independent-prefreeze.json",
+        "artifacts/evidence.v9.json",
+        "artifacts/operability.v10.json",
+        "artifacts/operability.v5.json",
+        "artifacts/operability.v6.json",
+        "artifacts/operability.v7.json",
+        "artifacts/operability.v8.json",
+        "artifacts/operability.v9.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v12.rereview-independent-final.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 5,
+        "inheritedUnhooked": 29
+      },
+      "admittedPositions": [
+        {
+          "input": "evidence.v6.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-evidence.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 26,
+      "pinnedByCheckers": [
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-evidence-v4.py",
+        "artifacts/check-phase1a-a-prime-successor.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/evidence.v3.adjudication-reviewer10-response.json",
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/evidence.v4.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/versioning-policy.v4.historical-verifier-custody-repair.v1.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 13,
+        "hooked": 0,
+        "unhooked": 13
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 243,
+        "inheritedUnhooked": 165
+      },
+      "admittedPositions": [
+        {
+          "input": "evidence.v1.json",
+          "key": "role",
+          "insertedBytes": 131
+        },
+        {
+          "input": "evidence.v3.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-fact-identity.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 2,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 5,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "fact-identity-policy.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "fact-plane.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-fact-plane.py": {
+      "exploitablePositionsInSweep": 3,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 4,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 3,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "d9-exit-contract.v1.6.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "fact-plane.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "resolved-inputs.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-method-dispositions.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "UNPINNED",
+      "pinnerCount": 0,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "REPAIRED",
+      "inputsRead": [
+        "method-claim-dispositions.v1.json",
+        "claim-register.v1.json"
+      ],
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1,
+        "site": "L35 json.loads(path.read_text()) in load()"
+      },
+      "parseSitesAfter": {
+        "jsonDecodeCalls": 1,
+        "hooked": 1,
+        "unhooked": 0,
+        "site": "L87 json.loads(text, object_pairs_hook=pairs) in jloads(); load() is the only door and both inputs pass through it"
+      },
+      "findingId": "MD-DUPKEY",
+      "selftest": {
+        "rowsBefore": 8,
+        "rowsAfter": 12,
+        "exit": 0,
+        "addedRows": [
+          "duplicate key at the document root",
+          "duplicate key nested inside an array element",
+          "duplicate key that repeats three times",
+          "CONTROL: honest document, no duplicate"
+        ]
+      },
+      "attacks": [
+        {
+          "input": "method-claim-dispositions.v1.json",
+          "key": "status",
+          "shape": "C-order-preserving",
+          "insertedBytes": 34,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "status",
+          "finding": "MD-DUPKEY method-claim-dispositions.v1.json: key 'status' is published more than once at status; the host parser keeps the LAST occurrence, so the parsed document cannot say what the bytes say"
+        },
+        {
+          "input": "claim-register.v1.json",
+          "key": "purpose",
+          "shape": "C-order-preserving",
+          "insertedBytes": 38,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "purpose",
+          "note": "the SIBLING input, not the candidate — a checker that hooks its candidate and not its siblings is only half closed",
+          "finding": "MD-DUPKEY claim-register.v1.json: key 'purpose' is published more than once at purpose; the host parser keeps the LAST occurrence, so the parsed document cannot say what the bytes say"
+        }
+      ],
+      "cleanTree": {
+        "beforeExit": 0,
+        "afterExit": 0,
+        "stdoutIdentical": true,
+        "output": "method dispositions OK — 3/3 terminal, evidence-backed, non-gating"
+      }
+    },
+    "check-operability-v3.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 10,
+      "pinnedByCheckers": [
+        "artifacts/check-operability-v4.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/operability.v4.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 6,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "operability.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-operability-v4.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 11,
+      "pinnedByCheckers": [
+        "artifacts/check-operability-v5.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/operability.v10.json",
+        "artifacts/operability.v5.json",
+        "artifacts/operability.v6.json",
+        "artifacts/operability.v7.json",
+        "artifacts/operability.v8.json",
+        "artifacts/operability.v9.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 6,
+        "inheritedUnhooked": 20
+      },
+      "admittedPositions": [
+        {
+          "input": "operability.v4.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-operability-v5.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 19,
+      "pinnedByCheckers": [
+        "artifacts/check-operability-v10.py",
+        "artifacts/check-operability-v6.py",
+        "artifacts/check-operability-v7.py",
+        "artifacts/check-operability-v8.py",
+        "artifacts/check-operability-v9.py",
+        "artifacts/check-phase1a-a-prime-successor-v3.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/operability.v10.json",
+        "artifacts/operability.v10.review-independent-prefreeze.json",
+        "artifacts/operability.v6.json",
+        "artifacts/operability.v6.review-independent-prefreeze.json",
+        "artifacts/operability.v7.json",
+        "artifacts/operability.v7.review-independent-prefreeze.json",
+        "artifacts/operability.v8.json",
+        "artifacts/operability.v8.review-independent-prefreeze.json",
+        "artifacts/operability.v9.json",
+        "artifacts/operability.v9.review-independent-prefreeze.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v12.rereview-independent-final.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 7,
+        "inheritedUnhooked": 61
+      },
+      "admittedPositions": [
+        {
+          "input": "operability.v5.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-operability.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 44,
+      "pinnedByCheckers": [
+        "artifacts/check-operability-v10.py",
+        "artifacts/check-operability-v3.py",
+        "artifacts/check-operability-v4.py",
+        "artifacts/check-operability-v5.py",
+        "artifacts/check-operability-v6.py",
+        "artifacts/check-operability-v7.py",
+        "artifacts/check-operability-v8.py",
+        "artifacts/check-operability-v9.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-trusted-request-context-v2.py",
+        "artifacts/check-trusted-request-context-v3.py",
+        "artifacts/check-trusted-request-context.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/operability.v10.json",
+        "artifacts/operability.v10.review-independent-prefreeze.json",
+        "artifacts/operability.v3.json",
+        "artifacts/operability.v4.json",
+        "artifacts/operability.v5.json",
+        "artifacts/operability.v6.json",
+        "artifacts/operability.v6.review-independent-prefreeze.json",
+        "artifacts/operability.v7.json",
+        "artifacts/operability.v7.review-independent-prefreeze.json",
+        "artifacts/operability.v8.json",
+        "artifacts/operability.v8.review-independent-prefreeze.json",
+        "artifacts/operability.v9.json",
+        "artifacts/operability.v9.review-independent-prefreeze.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/trusted-request-context.v1.json",
+        "artifacts/trusted-request-context.v1.review-independent-prefreeze.json",
+        "artifacts/trusted-request-context.v2.adjudication-v1-rejection-response.json",
+        "artifacts/trusted-request-context.v2.json",
+        "artifacts/trusted-request-context.v2.review-independent-prefreeze.json",
+        "artifacts/trusted-request-context.v3.adjudication-v2-rejection-response.json",
+        "artifacts/trusted-request-context.v3.json",
+        "artifacts/trusted-request-context.v3.review-independent-prefreeze.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 10,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "operability.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-package-coherence.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "UNPINNED",
+      "pinnerCount": 0,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "ALREADY-CLOSED-BY-ANOTHER-LANE",
+      "reason": "already repaired by another lane before this task began; verified to carry a duplicate-rejecting object_pairs_hook at L88 that NAMES the key (L63)",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": {
+        "jsonDecodeCalls": 1,
+        "hooked": 1,
+        "unhooked": 0,
+        "site": "L88 json.loads(text, object_pairs_hook=_no_duplicates)"
+      }
+    },
+    "check-phase1a-a-prime-successor-v2.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 5,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v11.rereview-independent-final.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 10,
+        "inheritedUnhooked": 45
+      },
+      "admittedPositions": [
+        {
+          "input": "phase1a-a-prime-successor.response.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-phase1a-a-prime-successor-v3.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 3,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v12.rereview-independent-final.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 1,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "phase1a-a-prime-successor.response.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-phase1a-a-prime-successor.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 4,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 10,
+        "inheritedUnhooked": 11
+      },
+      "admittedPositions": [
+        {
+          "input": "phase1a-a-prime-successor.response.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-product-dispositions.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 6,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/c2-plan-stage-schema.v5.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/retention-tiers.v23.review-independent.json",
+        "artifacts/v10-disposition.v1.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 374,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "arch.retention-tiers.review-a1.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "product-dispositions.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-r1.py": {
+      "exploitablePositionsInSweep": 3,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 5,
+      "pinnedByCheckers": [
+        "artifacts/check-r1-v1.5.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/identity-contracts.rereview-reviewer6.json",
+        "artifacts/r1-lifetime-neutrality.conformance.v1.5.adjudication-rust-realization.json",
+        "artifacts/r1-lifetime-neutrality.conformance.v1.5.json",
+        "artifacts/r1-lifetime-neutrality.conformance.v1.5.review-independent-prefreeze.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "r1-lifetime-neutrality.conformance.v1.4.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "r1-lifetime-neutrality.conformance.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-resolved-inputs.py": {
+      "exploitablePositionsInSweep": 3,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 46,
+      "pinnedByCheckers": [
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v6.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-retention-custody-v16.py",
+        "artifacts/check-retention-custody-v17.py",
+        "artifacts/check-retention-custody-v18.py",
+        "artifacts/check-retention-custody-v19.py",
+        "artifacts/check-retention-custody-v20.py",
+        "artifacts/check-retention-custody-v21.py",
+        "artifacts/check-retention-custody-v22.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v6.json",
+        "artifacts/evaluation-proof.v7.json",
+        "artifacts/evaluation-proof.v8.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/evidence.v3.rereview-independent-reviewer12.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v16.json",
+        "artifacts/retention-tiers.v17.json",
+        "artifacts/retention-tiers.v18.json",
+        "artifacts/retention-tiers.v19.json",
+        "artifacts/retention-tiers.v20.json",
+        "artifacts/retention-tiers.v21.json",
+        "artifacts/retention-tiers.v22.json",
+        "artifacts/retention-tiers.v7.rereview-independent-reviewer8.json",
+        "artifacts/retention-tiers.v8.rereview3-independent-reviewer15.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 6,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "resolved-inputs.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "threat-model.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-retention-v3.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "UNPINNED",
+      "pinnerCount": 0,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "REPAIRED",
+      "inputsRead": [
+        "retention-tiers.v3.json"
+      ],
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1,
+        "site": "L242 json.loads(path.read_text()) in main()"
+      },
+      "parseSitesAfter": {
+        "jsonDecodeCalls": 1,
+        "hooked": 1,
+        "unhooked": 0,
+        "site": "L86 json.loads(text, object_pairs_hook=pairs) in jloads(); main() now enters through load()"
+      },
+      "findingId": "RV-DUPKEY",
+      "selftest": null,
+      "attacks": [
+        {
+          "input": "retention-tiers.v3.json",
+          "key": "status",
+          "shape": "C-order-preserving",
+          "insertedBytes": 34,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "status",
+          "finding": "RV-DUPKEY retention-tiers.v3.json: key 'status' is published more than once at status; the host parser keeps the LAST occurrence, so the parsed document cannot say what the bytes say"
+        },
+        {
+          "input": "retention-tiers.v3.json",
+          "key": "requestedCapability",
+          "shape": "C-order-preserving nested",
+          "insertedBytes": 42,
+          "parseInvisible": true,
+          "orderPreserved": true,
+          "result": "REJECTED-BY-DUPLICATE-KEY-GUARD",
+          "exit": 1,
+          "position": "goldenAxesSchema.properties.requestedCapability",
+          "note": "nested position, to confirm the guard resolves a path rather than only noticing a root-level repeat",
+          "finding": "RV-DUPKEY retention-tiers.v3.json: key 'requestedCapability' is published more than once at goldenAxesSchema.properties.requestedCapability; the host parser keeps the LAST occurrence, so the parsed document cannot say what the bytes say"
+        }
+      ],
+      "cleanTree": {
+        "beforeExit": 0,
+        "afterExit": 0,
+        "stdoutIdentical": true,
+        "output": "retention v3 exploration internally consistent — 19 goldens, RV1..RV6 clean; known A1-RTV3-01/02 semantic defects remain"
+      }
+    },
+    "check-scope-correction-a3-v5.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 10,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v7.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor-v3.py",
+        "artifacts/check-phase1a-a-prime-successor.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 2,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "scope-correction-a3.v5.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-threat-claims.py": {
+      "exploitablePositionsInSweep": 4,
+      "pinClass": "PINNED-BY-ARTIFACT-ONLY",
+      "pinnerCount": 12,
+      "pinnedByCheckers": [],
+      "pinnedByOther": [
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/provider-fact-identity.rereview-reviewer9-response.v1.json",
+        "artifacts/provider-fact-identity.rereview2-independent-reviewer9.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v23.review-independent.json",
+        "artifacts/retention-tiers.v7.rereview-independent-reviewer8.json",
+        "artifacts/retention-tiers.v8.rereview3-independent-reviewer15.json",
+        "artifacts/v10-disposition.v1.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 5,
+        "hooked": 0,
+        "unhooked": 5
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "c2-plan-stage-schema.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "operability.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "resolved-inputs.v2.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "threat-model.v3.json",
+          "key": "status",
+          "insertedBytes": 133
+        }
+      ]
+    },
+    "check-versioning-v10.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 10,
+      "pinnedByCheckers": [
+        "artifacts/check-versioning-v11.py",
+        "artifacts/check-versioning-v12.py",
+        "artifacts/check-versioning-v13.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/versioning-policy.v10.review-independent.json",
+        "artifacts/versioning-policy.v11.json",
+        "artifacts/versioning-policy.v11.review-independent.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v12.review-independent.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v13.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 8,
+        "inheritedUnhooked": 24
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v10.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v11.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 7,
+      "pinnedByCheckers": [
+        "artifacts/check-versioning-v12.py",
+        "artifacts/check-versioning-v13.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/versioning-policy.v11.review-independent.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v12.review-independent.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v13.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 2,
+        "hooked": 0,
+        "unhooked": 2
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 68,
+        "inheritedUnhooked": 87
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v11.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v12.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 4,
+      "pinnedByCheckers": [
+        "artifacts/check-versioning-v13.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/versioning-policy.v12.review-independent.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v13.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 3,
+        "hooked": 0,
+        "unhooked": 3
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 974,
+        "inheritedUnhooked": 453
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v12.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v5.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 13,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v4.py",
+        "artifacts/check-phase1a-a-prime-successor-v2.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-versioning-v6.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v4.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/versioning-policy.v6.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v5.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v6.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 8,
+      "pinnedByCheckers": [
+        "artifacts/check-versioning-v7.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v5.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v2.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v11.rereview-independent-final.json",
+        "artifacts/versioning-policy.v7.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 2,
+        "inheritedUnhooked": 3
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v6.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v7.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 10,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v6.py",
+        "artifacts/check-phase1a-a-prime-successor-v3.py",
+        "artifacts/check-versioning-v8.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v6.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/retention-tiers.v12.rereview-independent-final.json",
+        "artifacts/versioning-policy.v8.json",
+        "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json",
+        "artifacts/versioning-policy.v9.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 8
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v7.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v8.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 21,
+      "pinnedByCheckers": [
+        "artifacts/check-evidence-v10.py",
+        "artifacts/check-evidence-v7.py",
+        "artifacts/check-evidence-v8.py",
+        "artifacts/check-evidence-v9.py",
+        "artifacts/check-versioning-v10.py",
+        "artifacts/check-versioning-v11.py",
+        "artifacts/check-versioning-v9.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/evidence.v10.json",
+        "artifacts/evidence.v7.json",
+        "artifacts/evidence.v8.json",
+        "artifacts/evidence.v8.review-independent-prefreeze.json",
+        "artifacts/evidence.v9.json",
+        "artifacts/versioning-policy.v10.json",
+        "artifacts/versioning-policy.v10.review-independent.json",
+        "artifacts/versioning-policy.v11.json",
+        "artifacts/versioning-policy.v11.review-independent.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json",
+        "artifacts/versioning-policy.v9.json",
+        "artifacts/versioning-policy.v9.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 4,
+        "inheritedUnhooked": 17
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v8.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning-v9.py": {
+      "exploitablePositionsInSweep": 1,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 13,
+      "pinnedByCheckers": [
+        "artifacts/check-versioning-v10.py",
+        "artifacts/check-versioning-v11.py",
+        "artifacts/check-versioning-v12.py",
+        "artifacts/check-versioning-v13.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/versioning-policy.v10.json",
+        "artifacts/versioning-policy.v10.review-independent.json",
+        "artifacts/versioning-policy.v11.json",
+        "artifacts/versioning-policy.v11.review-independent.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v12.review-independent.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v13.review-independent.json",
+        "artifacts/versioning-policy.v9.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 1,
+        "hooked": 0,
+        "unhooked": 1
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 5,
+        "inheritedUnhooked": 20
+      },
+      "admittedPositions": [
+        {
+          "input": "versioning-policy.v9.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    },
+    "check-versioning.py": {
+      "exploitablePositionsInSweep": 2,
+      "pinClass": "PINNED-BY-CHECKER",
+      "pinnerCount": 44,
+      "pinnedByCheckers": [
+        "artifacts/check-evaluation-proof-v10.py",
+        "artifacts/check-evaluation-proof-v11.py",
+        "artifacts/check-evaluation-proof-v12.py",
+        "artifacts/check-evaluation-proof-v13.py",
+        "artifacts/check-evaluation-proof-v9.py",
+        "artifacts/check-phase1a-a-prime-successor.py",
+        "artifacts/check-versioning-v10.py",
+        "artifacts/check-versioning-v11.py",
+        "artifacts/check-versioning-v12.py",
+        "artifacts/check-versioning-v13.py",
+        "artifacts/check-versioning-v5.py",
+        "artifacts/check-versioning-v9.py"
+      ],
+      "pinnedByOther": [
+        "artifacts/ep10.review-independent.json",
+        "artifacts/ep11.review-independent.json",
+        "artifacts/ep12.review-independent.json",
+        "artifacts/ep13.review-independent.json",
+        "artifacts/ep9.review-independent.json",
+        "artifacts/evaluation-proof.v10.json",
+        "artifacts/evaluation-proof.v11.json",
+        "artifacts/evaluation-proof.v12.json",
+        "artifacts/evaluation-proof.v13.json",
+        "artifacts/evaluation-proof.v9.json",
+        "artifacts/lifecycle-versioning.v1.review-independent-convergence.json",
+        "artifacts/phase1a-a-prime-successor-v2.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor-v3.review-independent-evidence-op.json",
+        "artifacts/phase1a-a-prime-successor.response.v1.json",
+        "artifacts/phase1a-a-prime-successor.response.v3.json",
+        "artifacts/phase1a-a-prime-successor.review-independent-evidence-op.json",
+        "artifacts/retention-tiers.v10.adjudication-reviewer15-response.json",
+        "artifacts/retention-tiers.v10.rereview-independent-final.json",
+        "artifacts/retention-tiers.v8.rereview3-independent-reviewer15.json",
+        "artifacts/versioning-policy.v10.json",
+        "artifacts/versioning-policy.v10.review-independent.json",
+        "artifacts/versioning-policy.v11.json",
+        "artifacts/versioning-policy.v11.review-independent.json",
+        "artifacts/versioning-policy.v12.json",
+        "artifacts/versioning-policy.v12.review-independent.json",
+        "artifacts/versioning-policy.v13.json",
+        "artifacts/versioning-policy.v13.review-independent.json",
+        "artifacts/versioning-policy.v4.historical-verifier-custody-repair.v1.json",
+        "artifacts/versioning-policy.v4.review-independent-reviewer14.json",
+        "artifacts/versioning-policy.v5.json",
+        "artifacts/versioning-policy.v9.json",
+        "artifacts/versioning-policy.v9.review-independent.json"
+      ],
+      "measurementRecordsThatAlsoCarryTheDigest": [],
+      "disposition": "BLOCKED-UNREPAIRABLE-IN-PLACE",
+      "reason": "its SHA-256 is pinned elsewhere in docs/coop; freeze 7.2 binds a verdict to bytes, so editing reviewed bytes would invalidate the review and break every pin",
+      "parseSitesBefore": {
+        "jsonDecodeCalls": 8,
+        "hooked": 0,
+        "unhooked": 8
+      },
+      "parseSitesAfter": "UNCHANGED — not edited",
+      "executedDecodesOnARealRun": {
+        "ownHooked": 0,
+        "ownUnhooked": 86,
+        "inheritedUnhooked": 0
+      },
+      "admittedPositions": [
+        {
+          "input": "claim-register.v1.json",
+          "key": "status",
+          "insertedBytes": 133
+        },
+        {
+          "input": "versioning-policy.v4.json",
+          "key": "role",
+          "insertedBytes": 131
+        }
+      ]
+    }
+  },
+  "repairShape": {
+    "followed": "the C-2 v7/v8/v9 and check-versioning-v13.py form",
+    "properties": [
+      "one hooked entry point per checker — load() is the only door, so there is one place to keep correct",
+      "applied to EVERY JSON input the checker reads, not only its candidate; check-method-dispositions.py was attacked on its sibling claim-register.v1.json to prove it",
+      "the duplicated key is NAMED and its resolved path is given, because the sweep found 6 of 47 rejecting checkers never say WHICH key was duplicated",
+      "records into a side table and emits a named finding at the position rather than raising, so the report reaches the operator through the checker's own findings channel",
+      "no raising variant was kept: an unused hook is dead code"
+    ],
+    "evasionsChecked": "an AST scan of each repaired file confirms zero unhooked json.load/json.loads/JSONDecoder/raw_decode/scanstring/getattr(json,'loads') sites remain, and treats object_pairs_hook=None and a **kwargs splat as NOT hooked."
+  },
+  "whatWasNotDone": {
+    "tier1": "Both Tier 1 multipliers are pinned and were not edited. check-evaluation-proof.py is pinned by 54 files including 17 checkers; check-d9-v1.12.py by 26 including 11 checkers and IMPLEMENTER-BLUEPRINT.md. The transitive exposure they carry for 21 already-hooked checkers is therefore still open.",
+    "tier2": "Every Tier 2 target named in the brief is pinned. check-versioning-v12.py is pinned by check-versioning-v13.py, which is itself already fully hooked and is the corpus's most evolved implementation of this guard.",
+    "notResealed": "No status, seal, freeze or verdict was changed. No JSON artifact was edited. ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md, IMPLEMENTATION-FREEZE.md, IMPLEMENTER-BLUEPRINT.md and claim-register.v1.json were not touched."
+  },
+  "provenance": {
+    "python": "python3 -I -B, stdlib only",
+    "isolation": "docs/coop was copied twice into a scratchpad. Every mutation ran against a copy; no live artifact was ever mutated. The repaired checker bytes were copied FROM the live tree INTO the attack copy so the attacks ran the delivered bytes.",
+    "editedFiles": [
+      "check-adjudication.py",
+      "check-method-dispositions.py",
+      "check-retention-v3.py"
+    ],
+    "editedFileDigestsAfterRepair": {
+      "check-adjudication.py": "bcded77f306b29c675e84d68060943de470ba8c6e2ac5002e0a2d29cdda1c5e8",
+      "check-method-dispositions.py": "736ae8ef30cb9f4a5a49af2b7b4fc23f911b29953cc330d12841f2991a0e7b04",
+      "check-retention-v3.py": "f4f4b903f045779acff7e41ee156fa0cc9caebea58226a37fca5aecfd012415e"
+    }
+  }
+}

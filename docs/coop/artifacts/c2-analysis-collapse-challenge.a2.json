@@ -1,0 +1,145 @@
+{
+  "artifact": "opensip.c2-analysis-collapse-challenge",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "accept-with-stage-abstraction-correction",
+  "reviews": "artifacts/c2-analysis-collapse-challenge.a1.json",
+  "decisionDependencies": [
+    {
+      "id": "AGREEMENT.3",
+      "source": "architecture/11-traceability.md#3",
+      "role": "Graph is shared substrate, not a peer tool."
+    },
+    {
+      "id": "AGREEMENT.19",
+      "source": "architecture/11-traceability.md#19",
+      "role": "One multi-axis Run model."
+    },
+    {
+      "id": "AGREEMENT.20",
+      "source": "architecture/11-traceability.md#20",
+      "role": "Effectful scenarios use Probe."
+    },
+    {
+      "id": "ARCH.QUERY_NO_RUN",
+      "source": "architecture/02-domain-model.md#The-Run-is-multi-axis",
+      "role": "Read-only queries and projections do not create recursive Runs."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "AGREEMENT.3",
+      "claim": "No peer graph engine or graph-owned inventory is introduced.",
+      "evidenceIds": [
+        "A2-C2-INV-1"
+      ]
+    },
+    {
+      "decisionId": "ARCH.QUERY_NO_RUN",
+      "claim": "Stored-view queries never secretly admit analysis or create a Run.",
+      "evidenceIds": [
+        "A2-C2-INV-3"
+      ]
+    }
+  ],
+  "question": "C-2 — Is collapsing fitness, graph, and reduction into one analysis product correct?",
+  "verdict": "The mechanism collapse is correct; the phrase one analysis stage is not. Agent 1's typed-stage correction is directionally right, but physical index materialization must remain an internal operator rather than a public stage kind.",
+  "acceptedFromAgent1": [
+    "Fitness rules, graph rules/queries, and reduction logic share snapshot, facts, FactQuery, Coverage, evidence identity, and policy machinery.",
+    "Different budgets, cardinalities, and failure reasons need explicit planner isolation.",
+    "Profiles and projections express user intent; Probe remains a distinct effectful contract."
+  ],
+  "abstractionCorrection": {
+    "problem": "The proposed example stage kind 'index materialize (graph adjacency)' exposes a physical execution strategy. A future store may answer the same logical relation through an index, columnar operator, or cached closure. Profiles and public Plan IR must not freeze that choice.",
+    "replacement": "The public/logical DAG names required fact capabilities and computations; the private physical plan chooses extraction partitions, indexes, joins, caches, and scheduling."
+  },
+  "logicalPlanKinds": [
+    {
+      "kind": "snapshot",
+      "output": "ProjectSnapshot"
+    },
+    {
+      "kind": "fact-derive",
+      "output": "versioned fact partitions and Coverage",
+      "examples": [
+        "inventory",
+        "syntax",
+        "resolved-reference",
+        "type-flow",
+        "external observations",
+        "derived relations"
+      ]
+    },
+    {
+      "kind": "rule-evaluate",
+      "output": "Findings with proof anchors"
+    },
+    {
+      "kind": "policy-evaluate",
+      "output": "Verdict"
+    },
+    {
+      "kind": "probe",
+      "output": "effectful observations",
+      "authorityBoundary": true
+    }
+  ],
+  "privatePhysicalOperators": [
+    "parser invocation",
+    "semantic-universe build/update",
+    "adjacency-index materialization",
+    "join/closure algorithm",
+    "cache read/write",
+    "partition scheduling"
+  ],
+  "domainServiceDistinctions": [
+    {
+      "service": "rule analysis",
+      "result": "Findings and policy inputs",
+      "createsRunWhenExecuted": true
+    },
+    {
+      "service": "graph/fact query",
+      "result": "bounded graph or fact projection, possibly empty",
+      "createsRunWhenReadingStoredView": false
+    },
+    {
+      "service": "reduction analysis",
+      "result": "ranked evidence-backed candidates, optionally policy findings",
+      "createsRunWhenExecuted": true
+    },
+    {
+      "service": "probe",
+      "result": "effectful observations",
+      "createsRunWhenExecuted": true
+    }
+  ],
+  "invariants": [
+    {
+      "id": "A2-C2-INV-1",
+      "rule": "All pure analysis shares one fact/evidence mechanism; no capability owns a private inventory, parser universe, persistence model, or exit policy."
+    },
+    {
+      "id": "A2-C2-INV-2",
+      "rule": "Logical DAG nodes receive independent budgets, Coverage, retry/cancellation, and diagnostics; one flat budget pool is forbidden."
+    },
+    {
+      "id": "A2-C2-INV-3",
+      "rule": "A read/query over a stored FactView never secretly executes analysis. Missing or insufficient views return typed unavailability/action; an explicit analysis admission creates the Run."
+    },
+    {
+      "id": "A2-C2-INV-4",
+      "rule": "Physical index choice is private and cannot appear in WorkflowProfile or public Rule IR."
+    },
+    {
+      "id": "A2-C2-INV-5",
+      "rule": "Profiles select outcomes and requirements; projections choose presentation; neither defines a new engine."
+    }
+  ],
+  "replacementWording": "There is one pure-analysis plane over shared snapshots, facts, queries, Coverage, findings, and Runs—not one undifferentiated stage. The planner composes typed logical derivations for required facts, rule evaluation, and policy, with independent budgets and failure/Coverage boundaries. Graph inspection and reduction remain bounded domain services and projections over that plane, not peer engines. Physical indexes and scheduling are private operators. Effectful simulation remains a separate Probe authority boundary.",
+  "agent2Recommendation": {
+    "decision": "Accept mechanism collapse; replace one analysis stage with one analysis plane plus typed logical DAG nodes; keep physical materialization private.",
+    "confidence": "high"
+  }
+}

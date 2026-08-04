@@ -1,0 +1,106 @@
+{
+  "artifact": "opensip.fact-record.adjudication-reviewers5-6-response",
+  "version": 1,
+  "date": "2026-07-31",
+  "responder": "identity-contract repair lane",
+  "sourceReviews": [
+    "artifacts/delivery-typescript-scanner.rereview-reviewer5.json#R5R-DLTS-02",
+    "artifacts/identity-contracts.rereview-reviewer6.json#R6R-IP02-01"
+  ],
+  "status": "REPAIRED-PENDING-INDEPENDENT-REREVIEW",
+  "decision": {
+    "owner": "FACT-PLANE owns generic admitted fact-record schema and FACT-ID-V1; FACT-IDENTITY owns normalized body identity and the explicit separation join; DELIVERY owns provider-wire projection into the shared candidate contract.",
+    "bindingSource": "artifacts/fact-plane.v1.json#factRecordContractV1",
+    "contractIds": {
+      "factRecord": "opensip.fact-record.v1",
+      "factCandidate": "opensip.fact-candidate.v1",
+      "relationPayloadRegistry": "opensip.relation-payload-registry.v1",
+      "candidateAdmission": "opensip.fact-candidate-admission.v1",
+      "factId": "opensip.fact-id.v1",
+      "sourceSpan": "opensip.source-span.v1",
+      "anchorRef": "opensip.anchor-ref.v1",
+      "normalizedBodyIdentity": "opensip.normalized-body-identity.v1"
+    },
+    "canonicalProviderProfiles": [
+      {"providerId": "rust-semantic", "language": "rust"},
+      {"providerId": "typescript-semantic", "language": "typescript"}
+    ]
+  },
+  "findingDispositions": [
+    {
+      "findingId": "R5R-DLTS-02",
+      "disposition": "REPAIRED-PENDING-INDEPENDENT-REREVIEW",
+      "bindingChanges": [
+        "opensip.relation-payload-registry.v1 is a closed host-owned v1 registry covering exactly all twelve live fact-plane relations with exact schema IDs, field sets/types, per-resolution requirements and source/target universe rules",
+        "opensip.fact-candidate.v1 and opensip.fact-candidate-admission.v1 bind every TypeScript/Rust candidate field to one admitted FactRecordV1 destination or an explicit transport-only exclusion",
+        "source/target universes come from the admitted host Coverage domain; source-span and prior-fact anchors are exact closed variants resolved by the host before admission",
+        "FACT-ID-V1 is host-only SHA-256 over an exact fourteen-field, domain-separated, versioned, length-framed CVE1 preimage with TypeScript and Rust vectors",
+        "unknown/malformed schema, payload, relation, universe and anchor cases are executable exact negative fixtures and retained mutations"
+      ],
+      "completedJoin": "DELIVERY FactCandidateV1, factRecordJoin and hostJoin cite the exact FACT-PLANE record, candidate, registry, admission, anchor and FACT-ID identifiers; check-delivery.py mechanically compares the shared required fields, schema records, registry relation set, admission destinations, provider profiles and retained FactId vectors."
+    },
+    {
+      "findingId": "R6R-IP02-01",
+      "disposition": "REPAIRED-PENDING-INDEPENDENT-REREVIEW",
+      "bindingChanges": [
+        "FACT-ID-V1 explicitly excludes RequestId and every operational/transport field from its exact preimage",
+        "fact-id-v1-request-id-invariance admits the same candidate twice under two distinct canonical RequestIds and recomputes the exact retained FACT-ID-V1; equal RequestIds, malformed RequestIds, noncanonical fact IDs and equal junk strings reject",
+        "OPERABILITY now joins its factId pair and vector ID to the computed FACT-PLANE oracle and retains the reviewer's exact equal-junk counterexample as a mutation",
+        "FACT-IDENTITY binds opensip.normalized-body-identity.v1 and opensip.fact-id.v1 as distinct domains and types; normalized body identity is only typed payload data for the clones relation"
+      ],
+      "remainingConditionOutsideThisRepair": "EvidenceBundle unknown-field/RequestId closure remains external under artifacts/identity-contracts.evidence-requestid-closure.deferred-patch.v1.json."
+    }
+  ],
+  "identityVectors": [
+    {
+      "id": "fact-id-v1-typescript-declares",
+      "preimageByteLength": 940,
+      "factId": "fact:sha256:3e03d85a3782f4938182eaa5e850a9a84311107b6ed9d9855eccaa52803ba59e"
+    },
+    {
+      "id": "fact-id-v1-rust-cross-universe-call",
+      "preimageByteLength": 924,
+      "factId": "fact:sha256:792bb5ba256aa994ecdcb9fd5a53834a362fdc6bf92af27085d53ac7bb56c49b"
+    }
+  ],
+  "coordinatedProviderIdentityRepair": {
+    "c2PlanIntentCommitment": "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1",
+    "riFullProviderPreimageByteLength": 8208,
+    "riFullProviderPlanId": "plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401",
+    "rule": "No provider.* aliases remain in the C-2/RI exact join; both semantic universes and stages use the unprefixed canonical IDs."
+  },
+  "verification": [
+    {"command": "python3 artifacts/check-fact-plane.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-fact-plane.py --selftest", "result": "PASS — 30/30 mutations rejected"},
+    {"command": "python3 artifacts/check-fact-identity.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-fact-identity.py --selftest", "result": "PASS — 32/32 mutations rejected"},
+    {"command": "python3 artifacts/check-resolved-inputs.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-resolved-inputs.py --selftest", "result": "PASS — 42/42 mutations rejected"},
+    {"command": "python3 artifacts/check-operability.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-operability.py --selftest", "result": "PASS — 27/27 mutations rejected"},
+    {"command": "python3 artifacts/check-c2.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-c2.py --selftest", "result": "PASS — 29/29 mutations rejected"},
+    {"command": "python3 artifacts/check-delivery.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-delivery.py --selftest", "result": "PASS — 93/93 mutations rejected"},
+    {"command": "python3 artifacts/check-d9.py && python3 artifacts/check-d9.py --selftest", "result": "PASS — 13/13 mutations rejected"},
+    {"command": "python3 artifacts/check-assurance.py && python3 artifacts/check-assurance.py --selftest", "result": "PASS — 12/12 mutations rejected"},
+    {"command": "python3 artifacts/check-product-dispositions.py", "result": "PASS — seven non-retention choices bound; CD-RT-5 remains BLOCKED_ON_PHASE_1A"},
+    {"command": "python3 artifacts/check-product-dispositions.py --selftest", "result": "PASS — seven product-choice mutations plus the retention self-sign regression rejected"}
+  ],
+  "changedBindingSurfaces": [
+    "artifacts/fact-plane.v1.json",
+    "artifacts/check-fact-plane.py",
+    "artifacts/fact-identity-policy.v2.json",
+    "artifacts/check-fact-identity.py",
+    "artifacts/operability.v2.json",
+    "artifacts/check-operability.py",
+    "artifacts/resolved-inputs.v2.json",
+    "artifacts/check-resolved-inputs.py",
+    "artifacts/delivery.v2.json",
+    "artifacts/check-delivery.py",
+    "architecture/02-domain-model.md",
+    "architecture/04-fact-plane.md",
+    "architecture/05-rules-and-extensions.md"
+  ],
+  "noOverclaim": "These are architecture contracts and retained design-integrity oracles. They are IMPLEMENTABLE_UNEXECUTED, not product qualification, release demonstration, provider corpus evidence or independent rereview closure. R5R-DLTS-02 and R6R-IP02-01 are repaired candidates pending independent rereview. After this generic FactId and DELIVERY join repair, IP-R4-02's remaining cross-surface condition is the separately owned external EvidenceBundle patch."
+}

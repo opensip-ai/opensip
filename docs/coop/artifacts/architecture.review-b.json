@@ -1,0 +1,261 @@
+{
+  "artifact": "opensip.architecture.consistency-framing.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "architecture/00-overview.md through architecture/11-traceability.md",
+  "verdict": "reject-require-vN",
+  "method": [
+    "Read the twelve architecture documents in order and independently recorded every status marker, artifact/version reference, topology assertion, confinement claim, and mutable/immutable state claim.",
+    "Compared only after that read against the authoritative claim register and current artifact filenames.",
+    "Traced cost/shape assertions into steering to test whether incumbent measurements had been promoted through all three evidence-promotion tests.",
+    "Inspected checker source where a clean checker result conflicted with a visible status or confinement statement."
+  ],
+  "scopeAxes": [
+    "claim stronger than register status",
+    "greenfield decision justified by incumbent cost/shape/compatibility",
+    "cross-document contradiction",
+    "checker false assurance",
+    "traceability/provenance drift"
+  ],
+  "resolves": {
+    "B-ARCH-01": "OPEN-BLOCKER: architecture/10 presents complete mechanical claim-status enforcement under SEALED while METHOD.CLAIM-STATUS-INTEGRITY is CANDIDATE and known incomplete.",
+    "B-ARCH-02": "OPEN-BLOCKER: architecture/07 and /11 cite superseded D9/R1 artifacts and /11 still says P-4 is open; the traceability summary is not current.",
+    "B-ARCH-03": "OPEN-BLOCKER: the SEALED cold-path rationale promotes the incumbent Node/module-resolution measurement without demonstrating transport to a target host or representative target workload.",
+    "B-ARCH-04": "OPEN-BLOCKER: R-1 says only core lifetime-neutrality is closable, but /08 simultaneously makes a full one-shot host mandatory and labels that deployment choice not in doubt.",
+    "B-ARCH-05": "OPEN-BLOCKER: /05 calls Probe an ephemeral sandbox in a skipped table and seals effectful-work unrepresentability despite admitting no signature/label is a capability boundary and no enforcement mechanism exists.",
+    "B-ARCH-06": "OPEN-BLOCKER: /02's immutable Run conflicts with /06 RT-2's mutable currentTier inside a Run.",
+    "B-ARCH-07": "OPEN-BLOCKER: zero-egress threat/offline claims conflict with explicitly network-granted Probe execution inside the analysis DAG.",
+    "B-ARCH-08": "OPEN-BLOCKER: the evidence model universalizes single source spans even though relational, aggregate, and negative facts require witness/provenance sets and universe commitments.",
+    "B-ARCH-09": "OPEN-BLOCKER: /00 says the evidence engine is settled and lists /06 as SEALED while C-2, retention tiers, termination, fact identity, and resolved inputs remain candidate.",
+    "B-ARCH-10": "OPEN-BLOCKER: the C-2 Plan boundary has three live forms: /03 Snapshotter-before-Planner, /05 a public Snapshot stage, and v2 an outer InvocationPlan with no inner Snapshot stage.",
+    "B-ARCH-11": "OPEN-BLOCKER: /11 claims the original agents log is intact and is the source for 40 agreement items, but the available log is a fresh current-review log and contains no recoverable prior deliberation."
+  },
+  "findings": [
+    {
+      "id": "B-ARCH-01",
+      "severity": "critical",
+      "axis": "status-inflation-and-checker-false-negative",
+      "evidence": [
+        "architecture/10-method.md marks all method rules SEALED",
+        "rule 8 says the register/checker mechanically enforce status and the Error 5 section says status now lives in one place and the checker asserts no restatement exceeds it",
+        "claim-register.v1.json marks METHOD.CLAIM-STATUS-INTEGRITY CANDIDATE and lists incomplete inventory, hand-enumerated restatements, weak probes, and missing mutation tests",
+        "check-claims.py passes despite the stale statements found in B-ARCH-02 and this stronger-status restatement"
+      ],
+      "impact": "The document set repeats Error 5 in the section claiming Error 5 has been structurally prevented.",
+      "requiredChange": "Separate the sealed method invariant from the candidate enforcement-completeness claim. Mark the latter inline CANDIDATE everywhere, add resolvable claim IDs/probes for all restatements, and mutation-test each historical/current false-negative form before making a completeness claim.",
+      "claimStatusRecommendation": "METHOD.CLAIM-STATUS-INTEGRITY remains CANDIDATE",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-02",
+      "severity": "high",
+      "axis": "cross-document-version-and-status-contradiction",
+      "evidence": [
+        "architecture/07 says d9-exit-contract.v1.1 with 37 cases is binding and v1.2 is future work",
+        "the claim register and architecture/09 identify d9-exit-contract.v1.4 with 39 cases as binding",
+        "architecture/11 lists D9 v1.2 and R1 v1 and says P-4 is open",
+        "the register binds D9 v1.4, R1 v1.1, and records P-4 SEALED with product disposition"
+      ],
+      "impact": "A reader following prose reaches superseded contracts and wrong decision states even though the register checker reports clean.",
+      "requiredChange": "Regenerate or mechanically validate every architecture artifact reference and status summary against the register. Replace narrative round snapshots with clearly historical blocks or remove them from current-state sections.",
+      "claimStatusRecommendation": "No promotion; METHOD.CLAIM-STATUS-INTEGRITY gains this blocker",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-03",
+      "severity": "high",
+      "axis": "greenfield-purity",
+      "evidence": [
+        "architecture/08 seals 'Startup cost is dominated by module and dependency resolution topology' as the premise for three cold-path tiers",
+        "steering/01-current-state-evidence.md M10 records the same claim from the shipping Node bootstrap and eager compiler/grammar loading",
+        "architecture/00 itself says the measurement still needs external validity and a representative target workload",
+        "the target is described as a systems-language host, so the causal mechanism is not invariant"
+      ],
+      "impact": "An incumbent composition-root defect is promoted into a universal greenfield premise in direct violation of METHOD.EVIDENCE-PROMOTION.",
+      "requiredChange": "Remove the dominance claim or mark it target-specific candidate. Re-derive static/manifest/full separation from target-independent merits such as minimal authority, failure isolation, and bounded startup, then benchmark it on named target builds/workloads before using cost as evidence.",
+      "claimStatusRecommendation": "Do not seal the empirical dominance premise; ARCH.COLDPATH-TIERS may retain its status only after a merit-only rationale is independently accepted",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-04",
+      "severity": "high",
+      "axis": "status-and-topology-contradiction",
+      "evidence": [
+        "architecture/08 and /09 say only R-1(1), lifetime-neutral core, is closable without measurement",
+        "architecture/08 'What is not in doubt' says a full-capability one-shot host is mandatory",
+        "offline operation, CI, and recovery do not logically require process-per-command execution; each can be satisfied by other local ephemeral or managed host shapes"
+      ],
+      "impact": "A deployment decision is smuggled into the invariant list while topology is formally REOPENED, preserving the incumbent one-shot shape by assertion.",
+      "requiredChange": "Treat one-shot availability as a separate product/topology candidate with alternatives and falsifiable requirements. Keep only the invariant that no chosen local lifetime may depend on an unavailable network service and recovery has a bounded local path.",
+      "claimStatusRecommendation": "R-1 remains REOPENED; PO-01 must not be treated as sealed",
+      "confidence": "high that status is inconsistent; medium on the eventual topology choice"
+    },
+    {
+      "id": "B-ARCH-05",
+      "severity": "critical",
+      "axis": "capability-globalized-from-local-form",
+      "evidence": [
+        "architecture/05 Execution tiers labels Probe 'Ephemeral sandbox' without specifying OS confinement",
+        "the same document says process isolation is only fault containment and in-language signatures/labels are not boundaries",
+        "C-2 v2 knownLimitations says PS-09 assumes a runtime denial mechanism no artifact designs",
+        "first-party imperative rules are linked TCB and therefore retain ambient authority in ordinary native/module runtimes",
+        "check-threat-claims.py skips Markdown tables"
+      ],
+      "impact": "The architecture seals the exact ambient-authority escape hatch that Error 2 says a signature or enum cannot close, while the ship checker cannot see the claim.",
+      "requiredChange": "Reopen ARCH.PROBE-CONTRACT's unrepresentability claim. Define the actual enforcement substrate for each code form, or weaken first-party TCB language to 'not supplied through the Rule API' and stop claiming effectful work is unrepresentable. Qualify the Probe row as OS-confined only when a named profile is active.",
+      "claimStatusRecommendation": "REOPEN ARCH.PROBE-CONTRACT pending an enforceable capability artifact",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-06",
+      "severity": "high",
+      "axis": "cross-document-state-model-contradiction",
+      "evidence": [
+        "architecture/02 defines Run as immutable and sealed",
+        "architecture/06 RT-1 puts tier in the sealed Run manifest",
+        "architecture/06 RT-2 says the Run records currentTier and that it degrades after retention expiry"
+      ],
+      "impact": "Retention GC either mutates an immutable evidence object or leaves its declared availability false.",
+      "requiredChange": "Keep sealedTier and proof commitments immutable in the Run; move current availability to an append-only retention ledger/tombstone projection.",
+      "claimStatusRecommendation": "ARCH.RETENTION-TIERS remains CANDIDATE",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-07",
+      "severity": "high",
+      "axis": "cross-document-network-contract",
+      "evidence": [
+        "threat-model R1 says zero egress on the analysis path",
+        "architecture/03 allows workflow-granted network",
+        "architecture/05 gives Probe explicit per-Plan network grants and places Probe in the typed analysis DAG"
+      ],
+      "impact": "Offline and privacy gates have no stable subject and can make incompatible claims about the same Run.",
+      "requiredChange": "Define a zero-egress deterministic analysis profile and separately type effectful Probe plans. Never attach the zero-egress claim to a Plan carrying network grants.",
+      "claimStatusRecommendation": "TM remains CANDIDATE",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-08",
+      "severity": "high",
+      "axis": "local-form-global-claim",
+      "evidence": [
+        "architecture/04 says every fact carries a source span",
+        "the same document includes derived reachability, cycles, blast radius, and negative-reference facts",
+        "architecture/06 T1 assumes the spans each finding cited explain why"
+      ],
+      "impact": "Global/derived/negative claims are forced into a lint-finding evidence shape, causing the T1 proof failure and leaving provenance incomplete.",
+      "requiredChange": "Replace mandatory single sourceSpan with a typed provenance/proof union: source span, relation-edge witness, derivation inputs, aggregate/set commitment, or negative-universe/Coverage certificate. Require source spans only where semantically applicable.",
+      "claimStatusRecommendation": "No sealed fact/proof schema should be inferred until a checkable schema exists",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-09",
+      "severity": "medium-high",
+      "axis": "summary-status-inflation",
+      "evidence": [
+        "architecture/00 says 'The evidence engine is settled'",
+        "its document map labels architecture/06 SEALED without noting ARCH.RETENTION-TIERS",
+        "the claim register marks C-2, D9, ARCH.RETENTION-TIERS, RESOLVED-INPUTS, FACT-IDENTITY, TM, OPERABILITY, and DELIVERY non-sealed"
+      ],
+      "impact": "The opening summary gives candidate contract details the authority of a completed engine design.",
+      "requiredChange": "Replace 'settled' with a precise list of sealed invariants and candidate contract surfaces. Mark /06 mixed in the document map as is already done for /03, /05, and /08.",
+      "claimStatusRecommendation": "No individual status change; fix the container/summary",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-10",
+      "severity": "high",
+      "axis": "binding-candidate-contradiction",
+      "evidence": [
+        "architecture/03 canonical flow is Snapshotter then Planner",
+        "architecture/05 candidate stage table includes Snapshot as a Plan stage",
+        "c2-plan-stage-schema.v2 says InvocationPlan captures snapshot and ExecutionPlan rejects snapshot stages",
+        "claim-register.v1.json still names c2-plan-stage-schema.v1.json as binding"
+      ],
+      "impact": "There is no single candidate Plan boundary for implementers or reviewers to test.",
+      "requiredChange": "Adjudicate v2, update the binding artifact only after review, and then update all prose/restatements together. Do not leave v1 prose and v2 artifacts simultaneously normative.",
+      "claimStatusRecommendation": "C-2 remains CANDIDATE",
+      "confidence": "high"
+    },
+    {
+      "id": "B-ARCH-11",
+      "severity": "high",
+      "axis": "provenance-framing",
+      "evidence": [
+        "architecture/11 calls agents-log.md intact and the source for the three-agent deliberation and 40 agreement items",
+        "the available agents-log.md begins with the current Reviewer A entry and current-understanding stub; it does not contain the prior deliberation or 40 agreement items",
+        "the assignment states the prior deliberation logs were lost"
+      ],
+      "impact": "Traceability claims an origin chain that cannot be audited, weakening every 'agreement item' provenance assertion.",
+      "requiredChange": "Mark the agreement-item origin as lost/reconstructed, identify which surviving artifacts independently support each claim, and stop citing the fresh log as original evidence.",
+      "claimStatusRecommendation": "Treat unbacked agreement-origin claims as CANDIDATE/RECONSTRUCTED",
+      "confidence": "high"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "id": "METHOD.EVIDENCE-PROMOTION",
+      "source": "architecture/00-overview.md#companion",
+      "assessment": "Violated by B-ARCH-03."
+    },
+    {
+      "id": "METHOD.CLAIM-STATUS-INTEGRITY",
+      "source": "architecture/10-method.md#8-status-attaches-to-claims-not-containers",
+      "assessment": "Correct invariant; completeness of its current checker is overstated and remains candidate."
+    },
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "assessment": "Contradicted by the Probe sandbox table and unimplemented Rule denial claim."
+    },
+    {
+      "id": "ARCH.RUN-IMMUTABLE",
+      "source": "architecture/02-domain-model.md#core-types",
+      "assessment": "Contradicted by mutable currentTier placement."
+    },
+    {
+      "id": "R-1",
+      "source": "architecture/08-surfaces-and-topology.md#topology-reopened",
+      "assessment": "Correctly reopened in principle; one-shot mandatory language partially reseals it."
+    },
+    {
+      "id": "C-2",
+      "source": "architecture/05-rules-and-extensions.md#there-are-not-four-analysis-products",
+      "assessment": "Correctly candidate; current prose and v2 disagree on its boundary."
+    }
+  ],
+  "noFindingPasses": [
+    {
+      "area": "fingerprint ownership",
+      "checked": "Compared architecture/02 and /06 for producer-vs-host computation.",
+      "result": "No contradiction found: both make computation host-owned.",
+      "whatWouldChangeMyMind": "A producer contract or projection that accepts a producer-minted durable fingerprint."
+    },
+    {
+      "area": "latest resolver",
+      "checked": "Compared architecture/02 and /06 resolver language.",
+      "result": "No contradiction found: latest remains a resolver that returns the exact selected identity.",
+      "whatWouldChangeMyMind": "A surface that records latest without the resolved Run ID."
+    },
+    {
+      "area": "multi-process storage",
+      "checked": "Compared architecture/03, /06, and /08.",
+      "result": "The storage-protocol obligation is consistently deployment-independent.",
+      "whatWouldChangeMyMind": "A host-specific write path or mirror authority."
+    }
+  ],
+  "knownLimitations": [
+    "This audit did not re-derive every sealed architecture decision from first principles; it targeted the three assigned axes plus contradictions exposed while tracing them.",
+    "No OpenSIP graph answer was used, so the known wrong-project MCP binding could not contaminate the findings.",
+    "I inspected the current agents log after completing the document read in order to append in its current format; this exposed Reviewer A's summary. I did not inspect Reviewer A's review JSON. Findings here are tied to direct document/checker evidence."
+  ],
+  "confidence": {
+    "overall": "high",
+    "statusAndVersionDrift": "high",
+    "greenfieldLeak": "high",
+    "topologyAlternative": "medium",
+    "capabilityContradiction": "high"
+  },
+  "whatWouldChangeOverallVerdict": "A synchronized document revision that marks enforcement completeness honestly, updates all binding artifact/status references, removes or re-derives the incumbent cold-start premise, restores R-1 openness, defines a real capability boundary, separates mutable retention availability from immutable Runs, and reconstructs traceability without claiming the lost log is intact."
+}

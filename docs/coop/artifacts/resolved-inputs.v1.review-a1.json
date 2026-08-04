@@ -1,0 +1,100 @@
+{
+  "artifact": "opensip.resolved-inputs.review",
+  "reviewOf": "opensip.resolved-inputs v1 (CANDIDATE-UNREVIEWED)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "medium-high",
+  "method": [
+    "Config precedence: re-derived layer order and PlanId inclusion from determinism + auditability requirements, then compared.",
+    "Rust semantic-universe completeness: listed real rustc/cargo identity inputs from toolchain knowledge (not from this artifact), then diffed keyComponents. Did not claim codebase verification — packages/languages/lang-rust has no feature/edition universe implementation to check (grep empty).",
+    "Stale dependency audit: decisionDependencies still point at threat-model.v1 TM.F* after v2 supersession.",
+    "Change-detection and path-policy rules checked against under-approximation and traversal failure modes (product-critical).",
+    "Framing: any layer justified by current CLI flags shape rather than merit?"
+  ],
+  "whatCouldHaveFailed": [
+    "User-global in PlanId wrong direction",
+    "Rust universe key incomplete in a load-bearing way",
+    "Silent full-scope fallback on missing VCS",
+    "v1 threat deps paper over dropped findings",
+    "Unknown keys fail-open in tracked intent"
+  ],
+  "findings": [
+    {
+      "id": "A1-RI-01",
+      "severity": "high",
+      "title": "Rust semantic-universe keyComponents are necessary but not sufficient",
+      "detail": "Listed: provider/version, toolchain identity, config roots, edition/target, feature/conditional-compilation selection, execution-capable flag. Missing for real Cargo/rustc soundness: (1) full cfg set beyond features (target_os/arch/env, debug_assertions, test, custom --cfg); (2) package set / Cargo.lock / dependency feature unification; (3) RUSTFLAGS / rustc codegen flags that change layout or cfg; (4) sysroot and host vs target triple; (5) build-script and proc-macro generated cfg (execution-capable interacts here); (6) workspace membership and package id; (7) cargo config (net, target overrides). Same source under two dependency feature resolutions is a different universe — omitting lock/package-set identity recreates the unsoundness the section exists to prevent. Author knownLimitations admit unverified general knowledge; this finding states the gap concretely.",
+      "requiredFix": "Expand keyComponents with package-set/lock identity, explicit cfg corpus, sysroot/triple, and rustc flags hash; or state a deliberately incomplete universe with Coverage reason COVERAGE.LANGUAGE_TIER_UNSUPPORTED / PROVIDER_LIMITATION when any omitted dimension is non-default. Do not seal RESOLVED-INPUTS until P-4a substrate choice makes the key checkable against a real toolchain.",
+      "confidence": "high",
+      "evidenceGrade": "toolchain-domain knowledge; not measured on a corpus"
+    },
+    {
+      "id": "A1-RI-02",
+      "severity": "high",
+      "title": "decisionDependencies cite superseded threat-model.v1 finding IDs",
+      "detail": "TM.F2 path-traversal and TM.F8 credential handles point at artifacts/threat-model.v1.json. v2 renumbered and re-centered; F8 has no v2 home (see A1-TM2-01). An artifact that claims to discharge TM.F8 while the live model dropped it is paper compliance.",
+      "requiredFix": "Retarget to v2 findings (V3 path allowlist/symlink; new or restored credential finding). Until F8-class obligation exists in v2, CFG-6 is unrooted in the binding threat model.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RI-03",
+      "severity": "medium",
+      "title": "Layer 2 user-global must split analysis-affecting from non-analysis prefs",
+      "detail": "Including all user-global settings in PlanId makes results machine-dependent by identity (author correctly prefers visible over portable). But bundling UI/theme/tty prefs with analysis floors creates needless PlanId churn and false cache misses. The peerReview question is right; the fix is not binary include/exclude — it is a declared allowlist of analysis-affecting global keys (mirroring CFG-1 for env).",
+      "requiredFix": "CFG-style allowlist for user-global keys that affect PlanId; all other global keys forbidden from analysis resolution.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RI-04",
+      "severity": "medium",
+      "title": "Untracked local override that can change verdict is a governance footgun",
+      "detail": "Layer 4 in PlanId + projection visibility is better than silent. For a guardrail product, an unreviewed file that flips CI when present is still a trust problem (laptop passes, CI fails or vice versa). Alternatives: forbid analysis-affecting untracked overrides; or allow only additive diagnostics, never severity/gate floors.",
+      "requiredFix": "Product disposition: either ban analysis-affecting untracked overrides, or require a loud Run projection field and CI mode that ignores layer 4.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-RI-05",
+      "severity": "low-medium",
+      "title": "TypeScript semantic universe under-specified relative to Rust attention",
+      "detail": "P-4 commits two deep providers. Artifact stresses Rust features (correct) but TS universe (tsconfig project references, path maps, module resolution, jsx, lib, paths, solution-style roots, skipLibCheck effects on types) is only 'configuration root set' + generic components. Incomplete TS identity is the same unsoundness class.",
+      "requiredFix": "Parallel TS keyComponents note: tsconfig graph hash, compilerOptions subset affecting resolution/types, and program root list.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-RI-06",
+      "severity": "low",
+      "title": "No field-level schema — acknowledged; blocks implementability of RI-01/03",
+      "detail": "knownLimitations already say this. Conformance tests name behaviours that need a schema to fail closed on unknown keys. Acceptable for v1 if seal blocked.",
+      "requiredFix": "Seal blocker remains until a minimal authored-intent schema exists.",
+      "confidence": "high"
+    }
+  ],
+  "positiveObservations": [
+    "Precedence order is merited (defaults < global < tracked < untracked < env < flags).",
+    "CFG-2 fail-closed unknown keys in tracked intent is correct for a guardrail tool.",
+    "CFG-5 per-field provenance into PlanId is the right audit product.",
+    "Changed-mode UNAVAILABLE rather than silent full-scope is excellent (avoids false pass).",
+    "Impact expansion never under-approximates (RI-11) matches product thesis.",
+    "Path canonicalisation + no out-of-root symlink follow aligns with V3.",
+    "Author correctly flags Rust unverified and user-global PlanId as arguable — not oversold."
+  ],
+  "rustVerification": {
+    "codebaseCheck": "No feature-selection/edition/semantic-universe implementation found under packages/languages/lang-rust for this claim to bind to — expected for greenfield design, so claims are unanchored.",
+    "externalValidity": "Components listed match general Cargo knowledge but omit lock/package-set and full cfg corpus (A1-RI-01)."
+  },
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal. Config precedence core is solid; Rust/TS universe completeness and v2 threat retargeting are blockers.",
+  "whatWouldChangeMyMind": "A universe key checked against rustc+cargo on a multi-feature workspace fixture, plus decisionDependencies retargeted to threat-model.v2 with credential finding restored.",
+  "knownLimitations": [
+    "Did not run rustc/cargo experiments in this session.",
+    "Did not invent the field-level config schema."
+  ],
+  "sealedPropertiesCovered": [
+    "PlanId includes resolved config with provenance (intent)",
+    "unknown keys fail closed (intent)",
+    "no silent under-approximation (intent)"
+  ]
+}

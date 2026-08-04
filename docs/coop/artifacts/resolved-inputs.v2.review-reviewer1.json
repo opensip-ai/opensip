@@ -1,0 +1,155 @@
+{
+  "artifact": "opensip.resolved-inputs.v2.review-reviewer1",
+  "reviews": "resolved-inputs.v2.json",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "method": "Phase 2: blind re-author 6 closure fixtures class/inPlanId; adversarial locale-neutralise rule, ambient inventory completeness, A1-RI-04, CFG-6/TM rooting; suite check-resolved-inputs.py OK + 10/10 selftest",
+  "suiteState": {
+    "check": "OK \u2014 22 ambient inputs classified, 6 closure fixtures, RI-CL/TM/PR/SU/CT clean",
+    "selftest": "all 10 mutations rejected",
+    "crossCheck": "threat-model.v3.json citations"
+  },
+  "blindReauthor": {
+    "closureFixtures": [
+      {
+        "id": "locale-neutralised-not-keyed",
+        "independent": {
+          "class": "neutralised",
+          "inPlanId": false
+        },
+        "artifact": {
+          "class": "neutralised",
+          "inPlanId": false
+        },
+        "match": true
+      },
+      {
+        "id": "toolchain-keyed",
+        "independent": {
+          "class": "keyed",
+          "inPlanId": true
+        },
+        "artifact": {
+          "class": "keyed",
+          "inPlanId": true
+        },
+        "match": true
+      },
+      {
+        "id": "clock-forbidden",
+        "independent": {
+          "class": "forbidden",
+          "inPlanId": false
+        },
+        "artifact": {
+          "class": "forbidden",
+          "inPlanId": false
+        },
+        "match": true
+      },
+      {
+        "id": "reject-neutralised-in-planid",
+        "independent": {
+          "valid": false
+        },
+        "artifact": {
+          "valid": false
+        },
+        "match": true
+      },
+      {
+        "id": "reject-keyed-absent-from-planid",
+        "independent": {
+          "valid": false
+        },
+        "artifact": {
+          "valid": false
+        },
+        "match": true
+      },
+      {
+        "id": "reject-forbidden-in-planid",
+        "independent": {
+          "valid": false
+        },
+        "artifact": {
+          "valid": false
+        },
+        "match": true
+      }
+    ],
+    "summary": "6/6 match."
+  },
+  "surfaceQuestions": {
+    "inventoryCompleteness": {
+      "question": "Is ambient-input inventory complete enough to be useful?",
+      "answer": "Useful as a DECLARED closure with mechanical totality over listed inputs (RI-CL-1). Not absolute completeness \u2014 correctly stated. First omission likely to bite: process-level things already listed (map iteration, path form, collation) cover the classic determinism set; next risk is platform-specific (Windows short paths, macOS NFD-by-default FS, Go module proxy env) \u2014 those belong as inventory growth under the same three classes, not a redesign.",
+      "firstBiteCandidate": "Platform path normalisation edge cases beyond the stated NFC/forward-slash rule; and any CI-injected env that is analysis-affecting but not allowlisted."
+    },
+    "neutraliseLocale": {
+      "question": "Is 'neutralise when you can' right, or does neutralising locale hide a real user expectation?",
+      "answer": "RIGHT for the analysis path. A rule that case-folds, sorts, or formats under the user's LC_* makes PlanId non-portable and cross-machine comparison a false miss or false hit. User-facing *display* localization (messages, number formatting in the TTY) is orthogonal and must not feed PlanId, fact identity, or rule IR. Agent 3's assertion 'no rule should respect the user's locale' is correct as a *rule-evaluation* constraint, not a product-UX ban.",
+      "contest": false
+    },
+    "A1_RI_04": {
+      "question": "Untracked overrides that can flip CI \u2014 product owner?",
+      "answer": "CONFIRM still open product decision. Architecture correctly surfaces three options + recommends CI mode ignoring layer 4. Do not pretend architecture sealed this.",
+      "recommendation": "Ship default: layer 4 in PlanId AND projected; CI profile ignores layer 4 (or fails if layer 4 present). Product picks which."
+    },
+    "CFG6_TM": {
+      "question": "TM F8-class secret-value finding?",
+      "answer": "threat-model.v3 V11 + R11 now root the secret-value-never-reaches-durable-artifact obligation. A1-RI-02 residue is discharged by TM v3, not by RI text alone. RI should cite V11/R11 (RI-TM checks live ids)."
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-RI-01",
+      "severity": "medium",
+      "title": "A1-RI-04 remains undecided \u2014 CI can still flip on untracked layer 4",
+      "evidence": "resolves A1-RI-04 SURFACED NOT DECIDED; configuration layer 4 affectsPlanId true; untrackedOverridePosture is recommendation only.",
+      "impact": "Two machines / local vs CI can share a command line and diverge on analysis if a local override file exists. Determinism story has a known hole until product picks.",
+      "requiredChange": "Product disposition before seal of *shipping* default config story. Architecture artifact may stay CANDIDATE-with-open-product-item, or record a provisional default (CI ignores layer 4) as TEMPORARY ship rule.",
+      "confidence": 0.85,
+      "whatWouldChangeMyMind": "Written product owner choice among the three options with test fixtures.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-RI-02",
+      "severity": "medium",
+      "title": "Ambient read denial (RI-18) unimplementable without capability substrate",
+      "evidence": "knownLimitations: RI-18 blocked on ARCH.PROBE-CONTRACT REOPENED \u2014 same class as C-2 PS-09.",
+      "impact": "Closure is intent specification. A host that reads forbidden inputs still computes wrong PlanId-relevant state if code paths exist.",
+      "requiredChange": "Keep implementable:false. Build must not claim ambient isolation until substrate exists.",
+      "confidence": 0.95,
+      "whatWouldChangeMyMind": "Runtime capability denial with conformance tests.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-RI-03",
+      "severity": "low",
+      "title": "Locale neutralisation must not be over-read as UX ban",
+      "evidence": "theRule NEUTRALISE locale; whyNotJustKeyEverything argues cache locality.",
+      "impact": "Implementers might strip all localization including human output, harming UX without helping determinism.",
+      "requiredChange": "One sentence: analysis/rule/fact path forces C locale; presentation surfaces may localise messages without entering PlanId.",
+      "confidence": 0.75,
+      "whatWouldChangeMyMind": "Explicit existing split already in architecture surfaces (if present \u2014 not found in this artifact).",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    }
+  ],
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "blocker": "R1-RI-01 needs product disposition or an explicit provisional ship default recorded in the artifact. R1-RI-02 is residual honesty (like C-2 CONDITIONAL) \u2014 not a text defect.",
+    "doNotSealBecauseFlagged": true,
+    "afterChanges": "Record provisional CI/layer-4 rule or product decision; optional presentation-vs-analysis locale sentence.",
+    "adjudicated": true,
+    "postAdjudicationVerdict": "SEAL-WITH-CHANGES",
+    "openFindingsAfterAdjudication": []
+  },
+  "resolves": {
+    "R1-RI-01": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-RI-02": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-RI-03": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+  },
+  "adjudicationArtifact": "artifacts/resolved-inputs.adjudication-agent-c.json",
+  "postAdjudicationNote": "Adjudicated by agent-a-as-c; see artifacts/resolved-inputs.adjudication-agent-c.json. Post-adjudication seal recommendation: SEAL-WITH-CHANGES."
+}

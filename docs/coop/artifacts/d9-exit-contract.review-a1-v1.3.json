@@ -1,0 +1,163 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1.3 (candidate-agent-3)",
+  "reviewer": "agent-1",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-shape-require-v1.4-fixes",
+  "method": "DIFFERENT FROM AUTHOR: (1) For 12 goldens, author independent scenarioAxes from id+expectedTermination only, then diff Agent 3 axes. (2) Check dual errorCode/reasonCode vocabularies by grepping artifact, not by re-running their derivation. (3) Read referenceDerivation for circularity without executing it. (4) Did not use Agent 3's 39/39 derivation pass as evidence of scenario correctness.",
+  "whatCouldHaveFailed": [
+    "Independent axes disagree on load-bearing inputs (verdict under missing coverage; baseline modelled as coverage)",
+    "finalizationCommitReached appears only as output of derivation",
+    "reasonCodes in termination use a different vocabulary than reasonCodeVocabulary",
+    "exitCode still stored on HostTermination contrary to nullabilityPolicy",
+    "39/39 derivation match with co-authored axes hides wrong scenario modelling"
+  ],
+  "decisionDependencies": [
+    "item-37 one host finalizer",
+    "C4/F3 baseline no mass false net-new",
+    "C2 snapshot convergence-exhausted",
+    "A2-D9-V12 findings that v1.3 claims to resolve"
+  ],
+  "independentAxesDiff": {
+    "sampleSize": 12,
+    "method": "Axes authored before comparing to file; scenario prose absent for 11/12 so ids used as scenario names",
+    "results": [
+      {
+        "id": "analysis-required-coverage-missing",
+        "finding": "A1-D9-AX-01",
+        "severity": "high",
+        "detail": "Independent axes set verdict=indeterminate when requiredCoverageSatisfied=false. Author axes set verdict=pass. Both derive class indeterminate because derivation short-circuits on coverage before verdict. The axes are co-consistent with the derivation but **the pass verdict is not a faithful scenario model** — policy cannot honestly hold pass under required-coverage failure. This is exactly the mutual-consistency trap."
+      },
+      {
+        "id": "baseline-compare-unsupported-recipe",
+        "finding": "A1-D9-AX-02",
+        "severity": "high",
+        "detail": "Independent axes use baselineRecipeSupported=false. Author models the case as requiredCoverageSatisfied=false + reason BASELINE.RECIPE_UNSUPPORTED. Recipe negotiation failure is **not** Coverage. Forcing Coverage false makes the derivation return indeterminate for the wrong reason and conflates remedies (upgrade baseline recipe vs widen analysis scope)."
+      },
+      {
+        "id": "query-addressed-run-not-found",
+        "finding": "A1-D9-AX-03",
+        "severity": "medium",
+        "detail": "Axes carry errorCode IDENTITY.UNKNOWN while expectedTermination uses IDENTITY.NEVER_EXISTED. With tombstoneFound=false, IDENTITY.UNKNOWN is the coherent code per v1.2 tombstone rule; NEVER_EXISTED claims knowledge the axes do not support. Dual vocabulary between axes.errorCode and termination.errorCode is a second defect."
+      },
+      {
+        "id": "analysis-pass",
+        "finding": "A1-D9-AX-04",
+        "severity": "low",
+        "detail": "Author omits explicit interruption=none and finalizationCommitReached; defaults make derivation work. Prefer explicit axes for executability."
+      },
+      {
+        "id": "serve-graceful-signal-stop",
+        "finding": null,
+        "severity": "ok",
+        "detail": "Independent axes match author; class success correct."
+      },
+      {
+        "id": "user-interrupt-post-finalization-commit",
+        "finding": null,
+        "severity": "ok",
+        "detail": "Match; finalizationCommitReached as INPUT suppresses interrupt — non-circular for this case."
+      },
+      {
+        "id": "analysis-policy-fail",
+        "finding": null,
+        "severity": "ok",
+        "detail": "Match."
+      },
+      {
+        "id": "analysis-durability-failed",
+        "finding": null,
+        "severity": "ok",
+        "detail": "Match on load-bearing durability flags; author errorCode field is supplementary."
+      },
+      {
+        "id": "analysis-ephemeral-when-authoritative-required",
+        "finding": null,
+        "severity": "ok",
+        "detail": "admitted=false matches; class request-rejected correct."
+      },
+      {
+        "id": "user-interrupt-finite",
+        "finding": null,
+        "severity": "ok",
+        "detail": "Match."
+      },
+      {
+        "id": "required-delivery-failed",
+        "finding": null,
+        "severity": "ok",
+        "detail": "requiredPostconditionsMet=false matches."
+      },
+      {
+        "id": "query-latest-resolver-empty-domain",
+        "finding": "A1-D9-AX-05",
+        "severity": "low",
+        "detail": "Same UNKNOWN vs RESOLVER.EMPTY_DOMAIN / NEVER_EXISTED dual-code issue as AX-03; EMPTY_DOMAIN is the better specific code for latest-on-empty."
+      }
+    ],
+    "summary": "12 reviewed; 2 high axis-modelling defects; 2 medium/low code-vocabulary issues; 8 ok. Derivation 39/39 does not catch AX-01/AX-02."
+  },
+  "structuralFindings": [
+    {
+      "id": "A1-D9-V13-01",
+      "severity": "high",
+      "title": "Dual reason-code vocabularies",
+      "detail": "reasonCodeVocabulary lists COVERAGE.REQUIRED_MISSING etc., but golden expectedTermination.reasonCodes use required-coverage-missing kebab form. Closed vocabulary is not actually closed.",
+      "requiredFix": "One vocabulary; goldens and derivation emit only listed codes."
+    },
+    {
+      "id": "A1-D9-V13-02",
+      "severity": "high",
+      "title": "exitCode still on HostTermination in 38/39 goldens",
+      "detail": "nullabilityPolicy says exitCode is NOT a union field and must not be stored on HostTermination. Almost every golden still carries exitCode in expectedTermination, reintroducing dual-source disagreement risk.",
+      "requiredFix": "Strip exitCode from HostTermination fixtures; assert classToExitCode(class) in the test harness only."
+    },
+    {
+      "id": "A1-D9-V13-03",
+      "severity": "medium-high",
+      "title": "Axes errorCode vs termination errorCode not identity-mapped",
+      "detail": "Multiple cases use different strings in scenarioAxes.errorCode and expectedTermination.errorCode (e.g. PROVIDER.PROTOCOL_VIOLATION vs PROVIDER.PROTOCOL). Without an explicit remap table, the axes are not the derivation input for codes.",
+      "requiredFix": "Either axes.errorCode IS the wire code, or document a pure remap function tested separately."
+    },
+    {
+      "id": "A1-D9-V13-04",
+      "severity": "medium",
+      "title": "finalizationCommitReached non-circular for listed rules but underspecified default",
+      "detail": "referenceDerivation treats finalizationCommitReached as input — good. When the field is absent, behaviour is implicit. Goldens should set it explicitly on all finite run cases.",
+      "requiredFix": "Default false in schema; require explicit bool on run/mutation analysis axes."
+    },
+    {
+      "id": "A1-D9-V13-05",
+      "severity": "medium",
+      "title": "absence-not-null policy is right; incomplete in fixtures",
+      "detail": "Policy ABSENT vs null is correct for wire. query-empty-search still uses identityResolved: null and completenessMet: null in axes — contradicts the policy for the axes document itself.",
+      "requiredFix": "Omit inapplicable keys entirely in scenarioAxes."
+    },
+    {
+      "id": "A1-D9-V13-06",
+      "severity": "low",
+      "title": "Almost no scenario prose",
+      "detail": "Independent review asked for scenario prose; only 1/39 goldens has it. Ids are mnemonic but not a substitute for a falsifiable scenario sentence.",
+      "requiredFix": "Add one-line scenario to every golden."
+    }
+  ],
+  "circularity": {
+    "verdict": "PASS with caveat",
+    "detail": "Ordered rules read input axes only; finalizationCommitReached is an input on interrupt cases. Caveat: baseline and coverage cases encode the *conclusion* (indeterminate) by setting coverage false rather than a first-class recipe axis — semantic circularity of modelling, not of the pure function."
+  },
+  "reasonCodeRemedies": {
+    "verdict": "PARTIAL",
+    "detail": "Vocabulary note correctly separates SNAPSHOT.CONVERGENCE_EXHAUSTED from COVERAGE.REQUIRED_MISSING. Missing first-class BASELINE.RECIPE_UNSUPPORTED in the *same* enum that goldens emit; kebab codes break the closed set."
+  },
+  "nullabilityPolicy": {
+    "verdict": "APPROVE policy; FAIL fixtures",
+    "detail": "ABSENT-not-null is correct. Fixtures and axes still use null and exitCode-on-term."
+  },
+  "overall": "v1.3 is a real advance (typed axes + executable derivation). It does **not** yet prove scenario faithfulness. Block seal on AX-01, AX-02, dual vocabularies, and exitCode-on-term. Confidence: high on findings; medium that v1.4 is one edit cycle away.",
+  "whatWouldChangeMyMind": "Independent third authoring of all 39 axes matching Agent 3's without dual vocab, and baseline modelled with a first-class recipe axis.",
+  "knownLimitations": [
+    "Only 12/39 goldens received full independent axis authoring.",
+    "Did not re-implement the derivation in a second language."
+  ]
+}

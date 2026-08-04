@@ -1,0 +1,47 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.review",
+  "reviewOf": "opensip.c2-plan-stage-schema v1",
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "accept-with-named-blockers",
+  "method": "DIFFERENT FROM AUTHOR: (1) Enumerate product workflows (audit, fit-changed, graph-build+rules, yagni, sim, query-only) and ask which logical stage is missing. (2) Stress-test per-relation Coverage with mixed languages under P-4. (3) Ask how PS-07 could be gamed or is untestable without a planner debug hook.",
+  "whatCouldHaveFailed": [
+    "Missing admission/config-resolve stage that creates PlanId",
+    "Per-stage Coverage reintroduced for convenience",
+    "PS-07 impossible without non-deterministic planner internals",
+    "Reduction forced into a sixth public stage"
+  ],
+  "exhaustiveness": {
+    "fiveKinds": ["snapshot", "fact-derivation", "rule-evaluation", "policy-evaluation", "probe"],
+    "workflowCoverage": [
+      {"workflow": "query-only fact view", "stages": "none of analysis stages; domainResults.query", "ok": true},
+      {"workflow": "fit/check rules", "stages": "snapshot→fact-derivation→rule-evaluation→policy", "ok": true},
+      {"workflow": "graph impact query on stored view", "stages": "query contract; no Run", "ok": true},
+      {"workflow": "graph rules after extract", "stages": "same as fit", "ok": true},
+      {"workflow": "yagni reduction", "stages": "rule-evaluation with reduction result contract", "ok": true},
+      {"workflow": "sim", "stages": "probe (+ snapshot)", "ok": true},
+      {"workflow": "repair apply+verify", "stages": "mutation outside this schema + verification run stages", "ok": true, "note": "Mutation is command class, not plan stage — OK"},
+      {"workflow": "config resolve / contribution admission", "stages": "NOT listed", "finding": "A1-C2-01", "severity": "medium", "detail": "Plan construction (resolve config, admit extensions, allocate PlanId) is a real step with failures (request-rejected). It may be *before* the plan DAG rather than a stage kind — if so, state explicitly that admission is pre-plan host work, not a sixth stage. Silence will grow a sixth kind later."}
+    ],
+    "verdict": "Five kinds are sufficient for analysis execution if admission is explicitly pre-plan. Without that sentence, exhaustiveness is not sealed.",
+    "confidence": "medium-high"
+  },
+  "perRelationCoverage": {
+    "verdict": "CORRECT and load-bearing",
+    "detail": "Under P-4 (TS+Rust semantic, other languages syntax), a single stage-level Coverage bit cannot express 'syntax complete for Go, resolved unavailable for Go, resolved complete for TS'. Per-relation is mandatory. Prefer per-relation **per language** in the next field-level schema (P-4 loud tier).",
+    "confidence": "high"
+  },
+  "ps07Testability": {
+    "verdict": "WEAKLY TESTABLE",
+    "finding": "A1-C2-02",
+    "severity": "medium-high",
+    "detail": "PS-07 requires two Plans that differ only in private operators. Without a test-only planner hook to force operator selection, implementers will either skip PS-07 or expose private operators in the public schema. Required: a conformance harness API forcePrivateOperatorSet(ops) available only in test builds, OR redefine PS-07 as 'digest invariant under store warmth / shard count' which is already LN-06 territory.",
+    "confidence": "high"
+  },
+  "sealC2": {
+    "ready": false,
+    "blockers": ["A1-C2-01 pre-plan admission boundary sentence", "A1-C2-02 PS-07 harness or rewrite"],
+    "substance": "Approve five kinds + private operators + per-relation Coverage + query-never-runs-analysis"
+  },
+  "knownLimitations": ["Did not draft field-level JSON schemas for each stage."]
+}

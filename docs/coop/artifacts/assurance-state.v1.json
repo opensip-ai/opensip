@@ -1,0 +1,283 @@
+{
+  "artifact": "opensip.cross-artifact-assurance-state",
+  "version": 1,
+  "status": "CANDIDATE-ADJUDICATED (R2-FINAL-02 repair; coordinator acceptance pending)",
+  "purpose": "Bind one evidentiary state machine across every load-bearing architecture surface and prevent feasibility declarations or design-integrity checks from being presented as retained product evidence.",
+  "canonicalStateMachine": {
+    "source": "artifacts/operability.v2.json#assuranceStateMachine",
+    "states": [
+      "SPECIFIED",
+      "IMPLEMENTABLE",
+      "QUALIFIED",
+      "DEMONSTRATED",
+      "BLOCKED-NO-MECHANISM",
+      "PARTIAL"
+    ],
+    "transitions": [
+      {
+        "from": "SPECIFIED",
+        "to": "IMPLEMENTABLE",
+        "requires": [
+          "target",
+          "positiveCase",
+          "negativeControls"
+        ]
+      },
+      {
+        "from": "IMPLEMENTABLE",
+        "to": "QUALIFIED",
+        "requires": [
+          "qualificationEvidenceIds"
+        ]
+      },
+      {
+        "from": "QUALIFIED",
+        "to": "DEMONSTRATED",
+        "requires": [
+          "qualificationEvidenceIds",
+          "releaseEvidenceIds"
+        ]
+      }
+    ],
+    "noImplicitTransition": true
+  },
+  "invariants": [
+    {
+      "id": "AS-1",
+      "assert": "implementable:true is feasibility metadata only. It performs no assurance-state transition and is never qualification, demonstration, or discharge evidence."
+    },
+    {
+      "id": "AS-2",
+      "assert": "QUALIFIED requires retained qualificationEvidenceIds for a target, a positive control, and every declared negative control."
+    },
+    {
+      "id": "AS-3",
+      "assert": "DEMONSTRATED requires QUALIFIED evidence plus retained releaseEvidenceIds for the identified release subject."
+    },
+    {
+      "id": "AS-4",
+      "assert": "DISCHARGED is a compatibility spelling for DEMONSTRATED only. A live DISCHARGED property requires evidenceGrade DEMONSTRATED and non-empty demonstrationEvidenceIds; test IDs or checker success are not those identities."
+    },
+    {
+      "id": "AS-5",
+      "assert": "A design-integrity checker may support architecture seal readiness but cannot qualify or demonstrate a product property."
+    },
+    {
+      "id": "AS-6",
+      "assert": "Product release and public privacy/offline claims remain blocked until the closed required-property registry is DEMONSTRATED for one identified release."
+    },
+    {
+      "id": "AS-7",
+      "assert": "Run evidence capabilities such as recorded, later-verifiable, and replayable describe custody and later verification of one Run. They are orthogonal to architecture/product assurance states and never imply QUALIFIED or DEMONSTRATED."
+    },
+    {
+      "id": "AS-8",
+      "assert": "The adapter inventory covers the exact eleven load-bearing surfaces scored by the completeness instrument; a surface with no live assurance table is explicitly classified rather than silently skipped."
+    }
+  ],
+  "compatibilityVocabulary": {
+    "DISCHARGED": {
+      "mapsTo": "DEMONSTRATED",
+      "requires": [
+        "evidenceGrade=DEMONSTRATED",
+        "demonstrationEvidenceIds"
+      ]
+    },
+    "NOT DISCHARGED": {
+      "mapsTo": "not-DEMONSTRATED",
+      "countsAsEvidence": false
+    },
+    "CONDITIONAL": {
+      "mapsTo": "PARTIAL",
+      "requires": [
+        "condition"
+      ]
+    },
+    "IMPLEMENTABLE_UNEXECUTED": {
+      "kind": "evidence-grade",
+      "maximumAssurance": "IMPLEMENTABLE",
+      "countsAsExecutionEvidence": false
+    },
+    "dischargedBy": {
+      "kind": "legacy-test-reference-field",
+      "meaning": "Tests that specify or exercise a property; never retained execution evidence by field presence alone."
+    }
+  },
+  "surfaceCoverage": {
+    "denominatorSource": "artifacts/check-completeness.py load-bearing surface set",
+    "exactCount": 11,
+    "adapters": [
+      {
+        "claimId": "D9",
+        "mode": "NO-LIVE-ASSURANCE-TABLE",
+        "reason": "Termination/result states are domain outcomes, not evidentiary assurance states."
+      },
+      {
+        "claimId": "FACT-PLANE",
+        "mode": "NO-LIVE-ASSURANCE-TABLE",
+        "reason": "Fact quality and Coverage are domain data, not evidence that the product has passed a gate."
+      },
+      {
+        "claimId": "C-2",
+        "mode": "LEGACY-PROPERTY-TABLE",
+        "path": "dischargeStatus"
+      },
+      {
+        "claimId": "EVIDENCE",
+        "mode": "RUN-ASSURANCE-ORTHOGONAL",
+        "reason": "Evidence capability records what a sealed Run can later prove; AS-7 forbids treating it as product qualification."
+      },
+      {
+        "claimId": "RESOLVED-INPUTS",
+        "mode": "NO-LIVE-ASSURANCE-TABLE",
+        "reason": "Input resolution and deficiency states are domain states; implementation conformance is owned by OPERABILITY gates."
+      },
+      {
+        "claimId": "FACT-IDENTITY",
+        "mode": "LEGACY-PROPERTY-TABLE",
+        "path": "dischargeStatus"
+      },
+      {
+        "claimId": "VERSIONING",
+        "mode": "LEGACY-PROPERTY-TABLE",
+        "path": "dischargeStatus"
+      },
+      {
+        "claimId": "OPERABILITY",
+        "mode": "CANONICAL-GATES",
+        "path": "validationGates"
+      },
+      {
+        "claimId": "DELIVERY",
+        "mode": "CANONICAL-PROPERTY-TABLE",
+        "path": "assuranceStatus"
+      },
+      {
+        "claimId": "TM",
+        "mode": "DERIVED-PUBLICATION",
+        "path": "shipGate.currentState"
+      },
+      {
+        "claimId": "R-1",
+        "mode": "LEGACY-PROPERTY-TABLE",
+        "path": "dischargeStatus"
+      }
+    ]
+  },
+  "fixtures": [
+    {
+      "id": "as-valid-specified-implementable-boolean",
+      "record": {
+        "state": "SPECIFIED",
+        "implementable": true
+      },
+      "valid": true
+    },
+    {
+      "id": "as-valid-qualified",
+      "record": {
+        "state": "QUALIFIED",
+        "target": "gate-harness-v1",
+        "positiveCase": "positive-1",
+        "negativeControls": [
+          "negative-1"
+        ],
+        "qualificationEvidenceIds": [
+          "qe-1"
+        ]
+      },
+      "valid": true
+    },
+    {
+      "id": "as-valid-demonstrated",
+      "record": {
+        "state": "DEMONSTRATED",
+        "target": "release-1",
+        "positiveCase": "positive-1",
+        "negativeControls": [
+          "negative-1"
+        ],
+        "qualificationEvidenceIds": [
+          "qe-1"
+        ],
+        "releaseEvidenceIds": [
+          "re-1"
+        ]
+      },
+      "valid": true
+    },
+    {
+      "id": "as-valid-discharged-alias",
+      "record": {
+        "state": "DISCHARGED",
+        "evidenceGrade": "DEMONSTRATED",
+        "demonstrationEvidenceIds": [
+          "de-1"
+        ]
+      },
+      "valid": true
+    },
+    {
+      "id": "as-reject-paper-discharge",
+      "record": {
+        "state": "DISCHARGED",
+        "implementable": true,
+        "testIds": [
+          "future-test"
+        ]
+      },
+      "valid": false,
+      "violates": "AS-1/AS-4"
+    },
+    {
+      "id": "as-reject-bare-qualified",
+      "record": {
+        "state": "QUALIFIED",
+        "target": "gate-harness-v1",
+        "positiveCase": "positive-1",
+        "negativeControls": [
+          "negative-1"
+        ],
+        "observedFailure": true
+      },
+      "valid": false,
+      "violates": "AS-2"
+    },
+    {
+      "id": "as-reject-demonstrated-without-release",
+      "record": {
+        "state": "DEMONSTRATED",
+        "target": "release-1",
+        "positiveCase": "positive-1",
+        "negativeControls": [
+          "negative-1"
+        ],
+        "qualificationEvidenceIds": [
+          "qe-1"
+        ]
+      },
+      "valid": false,
+      "violates": "AS-3"
+    },
+    {
+      "id": "as-reject-run-capability-as-demonstration",
+      "record": {
+        "state": "DEMONSTRATED",
+        "runAssuranceCapability": "replayable"
+      },
+      "valid": false,
+      "violates": "AS-3/AS-7"
+    }
+  ],
+  "validator": {
+    "path": "artifacts/check-assurance.py",
+    "selfTest": "python3 artifacts/check-assurance.py --selftest",
+    "scope": "Validates the exact surface denominator, canonical vocabulary and evidence transitions, every live legacy property table, derived OPERABILITY/TM/release state, and explicit no-table classifications."
+  },
+  "knownLimitations": [
+    "This is a design-integrity contract. Its green checker cannot itself QUALIFY or DEMONSTRATE a product property.",
+    "Evidence identifiers become trustworthy only when the product implementation retains them under the evidence and operability contracts; this checker validates required identity presence and derivation, not a product evidence store that does not yet exist.",
+    "The compatibility spellings remain only because current surface artifacts already use them. New contracts should serialize canonical states directly.",
+    "Authored in the coordinator's parallel closure lane; coordinator acceptance and registration are still required."
+  ]
+}

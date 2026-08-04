@@ -1,0 +1,80 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance",
+  "version": 1,
+  "status": "candidate-agent-1",
+  "date": "2026-07-29",
+  "reviewer": "agent-1",
+  "closes": "R-1 decision (1) only — core lifetime-neutrality and re-entrancy",
+  "doesNotClose": [
+    "R-1 (2) resident host ships",
+    "R-1 (3) autostart/default",
+    "R-1 (4) per-project vs multi-project residency"
+  ],
+  "decisionDependencies": [
+    "architecture/08 topology decomposition",
+    "architecture/03 warm state is acceleration never authority",
+    "architecture/02 EvidenceDigest determinism",
+    "C5 multi-process storage protocol"
+  ],
+  "conformanceClaims": [
+    {
+      "id": "LN-01",
+      "obligation": "Execution core has no ambient process-global analysis state",
+      "test": "Two Core instances in one process with distinct ProjectIds never share Plan/Snapshot/FactView/Program handles unless explicitly passed"
+    },
+    {
+      "id": "LN-02",
+      "obligation": "All dependencies are explicit constructor/context parameters",
+      "test": "Core API surface enumeration: Snapshotter, FactStore, ProviderRegistry, RuleEngine, Policy, Ledger, Clock, Budget — no hidden singletons; static analysis / depcruise forbid module-level mutable analysis state"
+    },
+    {
+      "id": "LN-03",
+      "obligation": "Core is safe to instantiate twice and run concurrent Plans for different projects",
+      "test": "Concurrent run(PlanA) and run(PlanB) with isolated backends; no cross-talk in EvidenceDigest inputs"
+    },
+    {
+      "id": "LN-04",
+      "obligation": "One-shot host and resident host call the same Core entrypoints",
+      "test": "Shared library symbol: runAnalysis(ctx, plan) -> Run; hosts differ only in process lifetime and cache retention policy object passed into ctx"
+    },
+    {
+      "id": "LN-05",
+      "obligation": "Warm caches cannot invent evidence",
+      "test": "Identical SnapshotId+PlanId+toolchain+exact Coverage => identical EvidenceDigest for cold ctx and warm ctx; if Coverage differs, test fails as Coverage divergence before digest compare"
+    },
+    {
+      "id": "LN-06",
+      "obligation": "Dropping all warm state and re-running yields same digest when inputs equal",
+      "test": "run warm; clearCaches(); run cold; digests equal"
+    },
+    {
+      "id": "LN-07",
+      "obligation": "Storage writes use one transaction/CAS protocol regardless of host lifetime",
+      "test": "CAS write-then-link + ledger publish sequence identical; no host-specific write path"
+    },
+    {
+      "id": "LN-08",
+      "obligation": "Full-capability one-shot host remains mandatory",
+      "test": "CI profile builds without resident process; all sealed analysis features available"
+    }
+  ],
+  "apiShapeSketch": {
+    "note": "Normative for conformance naming, not a full IDL",
+    "types": [
+      "AnalysisContext { projectId, backend, providers, budgets, cachePolicy, clock }",
+      "cachePolicy: cold | warm(inventory|semantic|indexes)",
+      "runAnalysis(ctx, plan) -> SealedRun",
+      "queryFactView(ctx, factViewId, query) -> QueryResult  // never creates Run"
+    ]
+  },
+  "nonRequirements": [
+    "No latency SLO in this artifact",
+    "No autostart policy",
+    "No multi-project fairness scheduling beyond isolation"
+  ],
+  "sealProposal": {
+    "ifConformanceGreen": "SEAL R-1 item (1): execution core is lifetime-neutral and re-entrant",
+    "stillOpen": "R-1 items (2)–(4) remain measurement-gated",
+    "confidence": "high on closability; medium until tests exist in product repo"
+  }
+}

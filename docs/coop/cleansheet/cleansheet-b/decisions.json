@@ -1,0 +1,404 @@
+{
+  "meta": {
+    "title": "Clean-sheet architecture decisions",
+    "isolation": "Derived only from task requirements; no repo source, ADRs, or prior architecture docs consulted",
+    "marking": {
+      "FORCED": "A named requirement or workload compels this choice (or its equivalence class)",
+      "PREFERRED": "Judgment call; alternatives remain live",
+      "GUESSED": "Insufficient information"
+    }
+  },
+  "decisions": [
+    {
+      "id": "D1",
+      "decision": "Primary domain object is a Finding (claim) paired with Evidence; Result aggregates findings, completeness, input identity, tool/rule identity",
+      "forcing": "FORCED",
+      "forcedBy": "Prove the answer; checkable later (why); human reviewers need why",
+      "rejected": [
+        "Exit-code-only product",
+        "LLM narrative explanations",
+        "Findings without evidence"
+      ],
+      "falsifiedBy": "Users accept bare violation flags with no path to reconstruct reason from stored artifacts, or proof requires a live service"
+    },
+    {
+      "id": "D2",
+      "decision": "Rules are first-class versioned declared inputs (identity + version/content hash + evaluation definition); built-ins use the same model",
+      "forcing": "FORCED",
+      "forcedBy": "Rules they have declared; checkability against what inputs",
+      "rejected": [
+        "Implicit floating linter defaults without identity",
+        "Rules as non-evaluable free text only"
+      ],
+      "falsifiedBy": "Runs with same claimed tool version disagree due to undeclared rule default changes, or baselines cannot pin rule set identity"
+    },
+    {
+      "id": "D3",
+      "decision": "Findings have stable FindingKey identity separate from display location/message; key scheme is documented and versioned",
+      "forcing": "FORCED",
+      "forcedBy": "Accept current state and gate only on what is new; mechanism trustworthy across tool upgrades",
+      "rejected": [
+        "Key equals full message text",
+        "Key equals line number only",
+        "Key equals whole-file hash",
+        "No key; full re-baseline every upgrade"
+      ],
+      "falsifiedBy": "Benign edits re-fire accepted issues as new, or real new violations hide under old keys after upgrades"
+    },
+    {
+      "id": "D4",
+      "decision": "InputIdentity uses cryptographic content hashes of analysed bytes/trees; VCS revision labels are annotations only",
+      "forcing": "FORCED",
+      "forcedBy": "Against what inputs; reproduce; offline",
+      "rejected": [
+        "Timestamp-only provenance",
+        "Unhashed on-disk state",
+        "Network-fetched canonical source as required input"
+      ],
+      "falsifiedBy": "Different trees share identical input identity, or past results cannot be matched to recoverable inputs"
+    },
+    {
+      "id": "D5",
+      "decision": "Completeness is first-class: in-scope, fully determined, skipped/failed/unsupported, and Undetermined with reasons",
+      "forcing": "FORCED",
+      "forcedBy": "Report what could not be determined; CI must fail the build correctly; multi-language partial depth",
+      "rejected": [
+        "Empty findings equals pass",
+        "stderr-only warnings",
+        "Collapse undetermined into no violation"
+      ],
+      "falsifiedBy": "Parse failure on a changed file yields exit 0 and empty findings with no undetermined record"
+    },
+    {
+      "id": "D6",
+      "decision": "Analysis is a deterministic function of inputs, rule set, tool identity, and config; no LLM or probabilistic gate judgment",
+      "forcing": "FORCED",
+      "forcedBy": "Calls no language models ever; determinism is credibility; offline; reproducible CI",
+      "rejected": [
+        "Optional AI explain inside the tool",
+        "ML classifiers as core gate",
+        "Nondeterministic races that change findings"
+      ],
+      "falsifiedBy": "Same inputs/rules/tool/config produce different FindingKeys or completeness across runs"
+    },
+    {
+      "id": "D7",
+      "decision": "One engine with two invocation shapes: Full (entire project) and Scoped (paths/changed-set/dependency closure); same finding model",
+      "forcing": "FORCED",
+      "forcedBy": "AI agents: few-file edits, many rapid queries; CI: full one-shot; scale to 100k+ files",
+      "rejected": [
+        "Agent-only daemon without full mode",
+        "CI-only full scans with no scope",
+        "Separate unrelated products for agent vs CI"
+      ],
+      "falsifiedBy": "Scoped green systematically contradicts full red on same edits, or agents cannot answer without full-repo cost linear in repo size every query"
+    },
+    {
+      "id": "D8",
+      "decision": "Scoped runs declare an explicit SoundnessClaim; partial scope must not claim global absence of violations",
+      "forcing": "FORCED",
+      "forcedBy": "Prove/checkability combined with agent partial queries",
+      "rejected": [
+        "Silent no-violations from path-limited runs without soundness boundary",
+        "Always expand every rule to whole program as the only option"
+      ],
+      "falsifiedBy": "Users treat scoped exit 0 as CI-equivalent full certification and the tool model encourages that"
+    },
+    {
+      "id": "D9",
+      "decision": "Decompose analysis into pure units (discover → facts → rules → findings) with deterministic merge; exact stage names preferred not forced",
+      "forcing": "PREFERRED",
+      "forcedBy": "Purity/determinism forced by D6; parallelisable units pressured by 100k+ CI scale (structure preferred)",
+      "rejected": [
+        "Single-threaded monolithic walk as sole design",
+        "Shared mutable racing global analysis state"
+      ],
+      "falsifiedBy": "Parallel full analysis is nondeterministic, or 100k-file CI cannot complete without any unit decomposition/reuse path"
+    },
+    {
+      "id": "D10",
+      "decision": "Full mode data-parallel with deterministic merge; interactive may cancel/supersede overlapping queries; no multi-tenant scheduler",
+      "forcing": "PREFERRED",
+      "forcedBy": "CI scale (parallel preferred); many overlapping agent queries (supersede preferred); multi-tenant is non-goal",
+      "rejected": [
+        "Required distributed cluster scheduler",
+        "Priority pricing queues",
+        "Multi-tenant behaviour"
+      ],
+      "falsifiedBy": "Overlapping agent queries deadlock or corrupt results, or parallel merge order changes findings set"
+    },
+    {
+      "id": "D11",
+      "decision": "Optional content-addressed local fact cache; correctness must hold with cache disabled",
+      "forcing": "PREFERRED",
+      "forcedBy": "Agent latency preferred; correctness without residency forced by CI no residency + offline reproducibility",
+      "rejected": [
+        "Mandatory long-lived daemon for correct results",
+        "Remote cache service as dependency"
+      ],
+      "falsifiedBy": "CI without cache disagrees with warm-cache agent results on same inputs/tool/rules"
+    },
+    {
+      "id": "D12",
+      "decision": "Primary output is portable filesystem Result Artifact(s); hosted products import them; not required for gating",
+      "forcing": "FORCED",
+      "forcedBy": "Offline; checkable later; hosted may consume never required; CI ephemeral",
+      "rejected": [
+        "Cloud dashboard as only results store",
+        "Results only in daemon memory",
+        "Database server as requirement"
+      ],
+      "falsifiedBy": "Checking a past claim requires original process still running or a network account"
+    },
+    {
+      "id": "D13",
+      "decision": "Evidence is mechanical: rule pin, locations, fact references, byte/path anchors; human message is projection not sole proof",
+      "forcing": "FORCED",
+      "forcedBy": "Prove the answer; human why; no LLMs",
+      "rejected": [
+        "Free-text only evidence",
+        "Screenshots as proof",
+        "Model said so"
+      ],
+      "falsifiedBy": "Reviewer cannot re-derive claim from evidence + inputs + rules without guessing"
+    },
+    {
+      "id": "D14",
+      "decision": "Artifact embeds reproduction pins: tool identity, rule set content hash, config hash, input hashes, invocation shape; pins imply byte-stable structured findings",
+      "forcing": "FORCED",
+      "forcedBy": "Reproduce it; determinism; CI credibility",
+      "rejected": [
+        "Unpinned works-on-my-machine provenance",
+        "Floating latest tool in artifact"
+      ],
+      "falsifiedBy": "Following the recipe yields different FindingKeys or completeness"
+    },
+    {
+      "id": "D15",
+      "decision": "Canonical result is structured machine-readable; human views are projections; exact codec (JSON/SARIF/etc.) is preferred not forced",
+      "forcing": "FORCED",
+      "forcedBy": "Agents + CI need parseable outcomes; humans need why (capability forced; codec preferred)",
+      "rejected": [
+        "Human text as only output",
+        "Proprietary binary only with no dump tool"
+      ],
+      "falsifiedBy": "Agents cannot reliably parse outcomes, or humans cannot get why without a separate required product"
+    },
+    {
+      "id": "D16",
+      "decision": "Baseline is an explicit set of accepted FindingKeys (with rule id and key-scheme version); gate fails on non-baselined keys subject to policy",
+      "forcing": "FORCED",
+      "forcedBy": "Teams adopt with existing violations; gate only on what is new",
+      "rejected": [
+        "Max N violations thresholds",
+        "Silence all rules globally",
+        "Auto re-baseline on every tool upgrade"
+      ],
+      "falsifiedBy": "Brownfield teams cannot adopt without fixing all history, or new misses real regressions"
+    },
+    {
+      "id": "D17",
+      "decision": "FindingKey scheme is versioned; upgrades that change keys require documented migration; silent remapping forbidden",
+      "forcing": "FORCED",
+      "forcedBy": "Baselining trustworthy across tool upgrades",
+      "rejected": [
+        "Unversioned keys",
+        "Auto-accept all newly detected keys on upgrade"
+      ],
+      "falsifiedBy": "After upgrade, accepted issues reappear as new without code change and without migration path, or real new issues are auto-swallowed"
+    },
+    {
+      "id": "D18",
+      "decision": "Baseline is a local/reviewable artifact (VCS co-location preferred); no server required to trust it",
+      "forcing": "FORCED",
+      "forcedBy": "Offline (serverless baseline forced); team reviewability (VCS co-location preferred)",
+      "rejected": [
+        "Cloud-only baseline store as required path"
+      ],
+      "falsifiedBy": "Gating on only-new requires network to the vendor"
+    },
+    {
+      "id": "D19",
+      "decision": "Distinguish detection-delta (tool/rules improved on same inputs) from code-delta (inputs changed); default CI treatment of detection-delta is preferred policy",
+      "forcing": "FORCED",
+      "forcedBy": "Trust across tool upgrades (distinction forced; fail vs warn policy preferred)",
+      "rejected": [
+        "Treat all new keys identically with no tool-vs-code classification"
+      ],
+      "falsifiedBy": "Operators cannot tell we regressed from analyzer improved after a version bump"
+    },
+    {
+      "id": "D20",
+      "decision": "Emit first-class Undetermined records with subject, reason category, and gate treatment",
+      "forcing": "FORCED",
+      "forcedBy": "Report what could not be determined; CI fail correctly",
+      "rejected": [
+        "stderr-only undetermined",
+        "Fold undetermined into violations",
+        "Ignore incompleteness"
+      ],
+      "falsifiedBy": "Incomplete runs look identical to complete clean runs in machine-readable output"
+    },
+    {
+      "id": "D21",
+      "decision": "Default full CI policy: undetermined on in-scope code is non-zero exit (fail closed); overrides allowed and recorded",
+      "forcing": "PREFERRED",
+      "forcedBy": "CI fail the build correctly (spirit supports fail closed; not uniquely forced); recording overrides forced by checkability",
+      "rejected": [
+        "Always exit 0 if no violations ignoring incompleteness"
+      ],
+      "falsifiedBy": "Broken parser yields green CI by default with no trace in the artifact"
+    },
+    {
+      "id": "D22",
+      "decision": "Primary deliverable is a local CLI run on laptop and CI; analysis completes in that trust boundary",
+      "forcing": "FORCED",
+      "forcedBy": "Command-line tool; offline laptop; CI one-shot",
+      "rejected": [
+        "Mandatory always-on cloud analyzer",
+        "IDE-first as sole surface"
+      ],
+      "falsifiedBy": "Core analysis requires a vendor service call"
+    },
+    {
+      "id": "D23",
+      "decision": "Ephemeral process is sufficient for correctness; optional local helper/daemon for cache warmth only",
+      "forcing": "FORCED",
+      "forcedBy": "CI no residency forces ephemeral sufficiency; agent latency makes optional helper preferred",
+      "rejected": [
+        "Architecture that cannot function without resident process",
+        "Multi-tenant hosted analyzer as core"
+      ],
+      "falsifiedBy": "Documented CI path needs a standing daemon"
+    },
+    {
+      "id": "D24",
+      "decision": "Hosted product is a pure consumer of Result Artifacts; never on critical path of offline gate decisions",
+      "forcing": "FORCED",
+      "forcedBy": "Hosted may consume results but must never be required",
+      "rejected": [
+        "Phone-home license checks per analysis",
+        "Upload-required gating"
+      ],
+      "falsifiedBy": "Offline mode cannot produce a trustworthy gate decision"
+    },
+    {
+      "id": "D25",
+      "decision": "Prefer self-contained native binary distribution; analysed-project runtimes are user-owned; deep engines bundled/pinned",
+      "forcing": "PREFERRED",
+      "forcedBy": "Offline CI pin pressure; not uniquely forced packaging shape",
+      "rejected": [
+        "Unpinned multi-toolchain install as only ship form"
+      ],
+      "falsifiedBy": "Install drift routinely changes analysis outcomes without tool version change"
+    },
+    {
+      "id": "D26",
+      "decision": "Layered extension model: config → declarative rules → extractors → core runtime; third parties mainly rules/extractors; core retains gate integrity",
+      "forcing": "PREFERRED",
+      "forcedBy": "Third parties may contribute (depth open); purity/no-LLM on certified path forced by determinism/offline",
+      "rejected": [
+        "Arbitrary in-process scripts with full authority and no purity contract",
+        "Fully closed system as forced choice",
+        "Unrestricted plugin API"
+      ],
+      "falsifiedBy": "Third-party rules change FindingKey semantics without scheme version, or extensions network during offline analysis"
+    },
+    {
+      "id": "D27",
+      "decision": "Extensions on the gating path must be deterministic, pure-input, and offline; contract breaks exclude from certified mode or mark undetermined",
+      "forcing": "FORCED",
+      "forcedBy": "Offline; no LLMs; determinism; checkability",
+      "rejected": [
+        "Extensions may call network APIs for analysis context"
+      ],
+      "falsifiedBy": "Enabling a plugin makes CI unreproducible"
+    },
+    {
+      "id": "D28",
+      "decision": "Third-party extractors/rules are opt-in, content-hash pinned in config, listed in Result artifact",
+      "forcing": "PREFERRED",
+      "forcedBy": "Security judgment for opt-in; provenance in artifact forced by checkability",
+      "rejected": [
+        "Auto-download plugins on first run"
+      ],
+      "falsifiedBy": "A result cannot list which extension code participated"
+    },
+    {
+      "id": "D29",
+      "decision": "Exit status distinguishes clean complete, violations gate-fail, undetermined/incomplete, and tool error; exact numeric codes preferred",
+      "forcing": "FORCED",
+      "forcedBy": "CI fail the build correctly; undetermined reporting; agent parsing (class separation forced; codes preferred)",
+      "rejected": [
+        "Single non-zero for all failure modes",
+        "Exit 0 on tool crash"
+      ],
+      "falsifiedBy": "CI cannot separate violation fails from infra errors, or agents treat crashes as clean"
+    },
+    {
+      "id": "D30",
+      "decision": "Policy maps immutable findings to GateDecision (baseline, severity, undetermined); policy params hashed into Result; baselined findings remain auditable",
+      "forcing": "FORCED",
+      "forcedBy": "Accept current / only new; checkability of observation vs gate",
+      "rejected": [
+        "Drop evidence for baselined findings entirely"
+      ],
+      "falsifiedBy": "Accepted findings disappear so thoroughly they cannot be audited"
+    },
+    {
+      "id": "D31",
+      "decision": "Language tiering: deep / standard / surface; product commits to two deep languages; many languages at lower tiers",
+      "forcing": "FORCED",
+      "forcedBy": "Supports many programming languages with genuinely deep analysis in two",
+      "rejected": [
+        "Equal deep investment in all languages",
+        "Only two languages total"
+      ],
+      "falsifiedBy": "Claims deep support where Completeness always marks semantic rules undetermined"
+    },
+    {
+      "id": "D32",
+      "decision": "Deep languages: TypeScript (with JS surface) and Python",
+      "forcing": "GUESSED",
+      "forcedBy": "Requirements force count=2 and depth quality, not which pair; TS/Python guessed from typical AI-agent and CI estates",
+      "rejected": [
+        "Treating any specific pair as forced by the prompt",
+        "Pair chosen only for elegance"
+      ],
+      "falsifiedBy": "Target users critical-path languages are neither TS nor Python and agent workload is mostly elsewhere"
+    },
+    {
+      "id": "D33",
+      "decision": "Implement CLI runtime in a static-binary-friendly language (e.g. Rust or Go); deep engines embedded or pinned subprocesses recorded in Result",
+      "forcing": "PREFERRED",
+      "forcedBy": "Offline CLI and determinism constrain packaging/pins, not host language choice",
+      "rejected": [
+        "Host language presented as forced",
+        "Unpinned PATH tools as sole deep engines"
+      ],
+      "falsifiedBy": "Host language prevents offline single-artifact distribution or forces nondeterministic runtimes for core gating"
+    },
+    {
+      "id": "D34",
+      "decision": "Small common fact vocabulary plus language-specific extensions; avoid grand unified IR and avoid zero commonality",
+      "forcing": "PREFERRED",
+      "forcedBy": "Multi-language + two deep; requirements do not force universal IR",
+      "rejected": [
+        "Mandatory mega-IR for every rule",
+        "Zero shared fact/evidence machinery per language"
+      ],
+      "falsifiedBy": "Common IR erases deep fidelity, or total split duplicates FindingKey/evidence bugs per language"
+    },
+    {
+      "id": "D35",
+      "decision": "At 100k+ scale: stream unit results, shard by path/package, merge deterministically; avoid requiring whole monorepo in one RAM ball; whole-program graphs optional per rule",
+      "forcing": "PREFERRED",
+      "forcedBy": "Scale hundreds to 100k+ files (pressure forced; tactics preferred; no hard memory SLO given)",
+      "rejected": [
+        "Load all ASTs into one structure as only design",
+        "Required distributed mapreduce cluster"
+      ],
+      "falsifiedBy": "Fixed architecture OOM on large monorepos with no sharding path"
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "artifact": "opensip.evidence.v3.author-response",
+  "version": 1,
+  "status": "AUTHOR-REPAIR-COMPLETE-AWAITING-INDEPENDENT-REREVIEW",
+  "author": "evidence-v3-repair-lane",
+  "reviewer": "independent-reviewer10",
+  "date": "2026-07-31",
+  "scope": "Evidence and VERSIONING repair only: evidence.v3, versioning-policy.v3, their binding checkers, and this response. Phase-1A artifacts are exact consumed dependencies.",
+  "reviewBinding": {
+    "artifact": "evidence.v2.review-independent-reviewer10.json",
+    "sha256": "4e5c1526b1f8e336759a5c514e6ac33efa92df1764e0d63c8f87ed67b6605c78",
+    "reviewedStatus": "INDEPENDENT-REVIEW-COMPLETE-FINDINGS-OPEN",
+    "reviewedVerdict": "DO-NOT-SEAL"
+  },
+  "preservedReviewedInputs": [
+    {
+      "artifact": "evidence.v2.json",
+      "sha256": "8d54839bfc30befa5fb21ec96165ad35f888a6f06453424d16b865e6ec72b2be",
+      "preservation": "BYTE-IDENTICAL"
+    },
+    {
+      "artifact": "versioning-policy.v2.json",
+      "sha256": "4278b97a79671be3f5429e64c819f80178e0bc1996c2c0a64220a62d1d3d5f39",
+      "preservation": "BYTE-IDENTICAL"
+    }
+  ],
+  "replacementBindings": [
+    {
+      "artifact": "evidence.v3.json",
+      "sha256": "c05c744b21682ab5aa37e6dfab7b6810be80ed7b0fd24b628375bcb5751c68e4",
+      "assurance": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED",
+      "reviewState": "AWAITING-INDEPENDENT-REREVIEW"
+    },
+    {
+      "artifact": "versioning-policy.v3.json",
+      "sha256": "2fd47be1a17b657947fa555c8bb23be6fe418458cd95da0ef75367f5ace6a0f1",
+      "assurance": "PROVISIONAL / IMPLEMENTABLE_UNEXECUTED",
+      "reviewState": "AWAITING-INDEPENDENT-REREVIEW"
+    }
+  ],
+  "checkerBindings": [
+    {
+      "checker": "check-evidence.py",
+      "binding": "evidence.v3.json",
+      "sha256": "6933d2931912a43e3018dc6037068230af0bbc0c0a00d5d9429c155930bde1af"
+    },
+    {
+      "checker": "check-versioning.py",
+      "binding": "versioning-policy.v3.json",
+      "sha256": "2b845558addfc366ab4c00da630abbcedfd92c02c0a282213470e3a86090c2e9"
+    }
+  ],
+  "exactDependencyBindings": [
+    {
+      "artifact": "evaluation-proof.v2.json",
+      "sha256": "c468c131ea23fff066a0becedcad0cd76511b9d0507f0b6b6fb80a803e8d4950",
+      "checkerSha256": "692ff8a9a3e2166da0f7c406cf829ed99bd08495c03da2d135fbb6b7ce86e7bf",
+      "publicApi": [
+        "frame_component",
+        "encode_member",
+        "encode_outcome",
+        "encode_subject",
+        "commit",
+        "derive_verdict",
+        "derive_verdict_commitment",
+        "validate_bundle",
+        "derive_proof_requirements"
+      ]
+    },
+    {
+      "artifact": "retention-tiers.v7.json",
+      "sha256": "8bf992e7bb42866c1bec6646f897875f3532039de94ab1d1972ed453890c618e",
+      "checkerSha256": "d5d6db5351ef8f9504bed8df368e91cbdbf62705a7756111840176017d957264",
+      "publicApi": [
+        "encode_closure_unit",
+        "closure_commitment",
+        "validate_capability_closure",
+        "derive_effective_capability"
+      ]
+    },
+    {
+      "artifact": "fact-plane.v1.json",
+      "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+      "relationship": "Coverage verificationRequirement and predicate-relative sufficiency are resolved from canonical bytes; fact-plane does not self-assert completeness."
+    }
+  ],
+  "authorityBoundary": {
+    "authorMay": "accept reviewer findings, implement replacement candidates, retain executable falsifiers, record reproducible checker evidence, and request rereview",
+    "authorMayNot": "independently adjudicate the repair, qualify Evidence, decide CD-RT-5, promote the OPERABILITY RequestId join, claim A1-RTV4-02 measured, seal Phase 1A/1B, or release the product",
+    "independentRereview": "REQUIRED",
+    "candidateState": "NOT-APPLIED",
+    "productState": "CD-RT-5 BLOCKED_ON_PHASE_1A",
+    "measurementState": "A1-RTV4-02 UNMEASURED",
+    "sealRecommendation": "DO-NOT-SEAL"
+  },
+  "findings": [
+    {
+      "id": "R10-EVD-01",
+      "severity": "CRITICAL",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E-SCHEMA/E-META/EVIDENCE_TYPE_MISMATCH/E-SCHEMA-TOTAL",
+      "response": "Evidence v3 has 66 named recursive schemas. Every object and array node is closed and exactly typed; WitnessEdge, canonical anchors, Coverage, partition entries, CAS bytes, replay objects, proof refs, dependency edges, units, and object states have named child schemas. Validation is total over every parsed JSON root and recursively rejects operational, lifetime, removed-boolean, and producer-adequacy metadata."
+    },
+    {
+      "id": "R10-EVD-02",
+      "severity": "CRITICAL",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E1/E2/E5",
+      "response": "Activation keys are rejected for duplication before set commitment; memberIds equals the canonical activated set; outcome, claimShape, and proof tag form one exact pairing; commitments and verdict are replayed through evaluation-proof.v2."
+    },
+    {
+      "id": "R10-EVD-03",
+      "severity": "CRITICAL",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E4/E10",
+      "response": "The CAS oracle recomputes full SHA-256 identifiers from canonical retained bytes. No-match resolves exact predicate, Coverage, fact-partition, verification requirement, subject domain, fact references, subject count, and subject commitment; coverageId must equal Coverage identity. Completeness is derived from equality of the predicate domain, Coverage domain, and canonical partition subjects."
+    },
+    {
+      "id": "R10-EVD-04",
+      "severity": "HIGH",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E2/E3/E-META",
+      "response": "Relationship evidence uses a closed ordered WitnessEdge, exact resolved fact bytes, nonempty canonical anchors, and resolved relation semantics. proofObligationId is host-derived from framed predicateId, claimShape, and exact Coverage reference; producer-selected obligations are recursively forbidden."
+    },
+    {
+      "id": "R10-EVD-05",
+      "severity": "CRITICAL",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E7/E12 plus retention-v7 RC-11/RC-12",
+      "response": "Evidence derives typed dependency edges from canonical CAS bytes, delegates transitive minimum-capability propagation to evaluation-proof.v2, and passes the exact closure to retention-tiers.v7. Evidence copies no rank table. Retention validates exact proof refs/one-owner minima and alone derives effectiveCapability from immutable sealedCapability and unit states."
+    },
+    {
+      "id": "R10-EVD-06",
+      "severity": "HIGH",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E8/E12/E-META",
+      "response": "ReplayClosure contains nonempty unique closed replay records. Every full reference resolves to retained CAS bytes, maps to exactly one declared replay unit, and must be AVAILABLE. No locallyResolvable assertion exists; replayability is derived through retention v7."
+    },
+    {
+      "id": "R10-EVD-07",
+      "severity": "HIGH",
+      "reviewerFindingAccepted": true,
+      "repairDisposition": "ACCEPTED-REPAIRED",
+      "authorRepairState": "COMPLETE",
+      "independentAdjudicationState": "OPEN-AWAITING-INDEPENDENT-REREVIEW",
+      "rejectedBy": "E11/VER-HIST",
+      "response": "VERSIONING v3 selects artifact-custody historical verification for trusted bundled declarative predicate/policy semantics only. It binds canonical semantics bytes, IR family/major, verifier ABI, signed bundled content-addressed verifier artifacts, and typed availability refusal. Each IR major has its own verifier artifact; old Runs are immutable and proof migration creates a new Run. Support remains PROVISIONAL with no fixed window, SLA, or cost claim. Evidence consumes the live VERSIONING decision and retention v7 owns capability effects."
+    }
+  ],
+  "probes": [
+    {"id": "R10-PROBE-01", "originalResult": "PASS", "repairResult": "REJECTED-WITHOUT-EXCEPTION", "rejectedBy": "EVIDENCE_TYPE_MISMATCH", "fixtures": 5},
+    {"id": "R10-PROBE-02", "originalResult": "FAIL", "repairResult": "REJECTED-WITHOUT-EXCEPTION", "rejectedBy": "EVIDENCE_TYPE_MISMATCH", "fixtures": 1},
+    {"id": "R10-PROBE-03", "originalResult": "FAIL", "repairResult": "REJECTED-WITHOUT-EXCEPTION", "rejectedBy": "EVIDENCE_TYPE_MISMATCH", "fixtures": 1},
+    {"id": "R10-PROBE-04", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "EVIDENCE_TYPE_MISMATCH/E6", "fixtures": 5},
+    {"id": "R10-PROBE-05", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E-META", "fixtures": 1},
+    {"id": "R10-PROBE-06", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E-META", "fixtures": 3},
+    {"id": "R10-PROBE-07", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E-META", "fixtures": 1},
+    {"id": "R10-PROBE-08", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "EVIDENCE_TYPE_MISMATCH/E2", "fixtures": 3},
+    {"id": "R10-PROBE-09", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E1", "fixtures": 2},
+    {"id": "R10-PROBE-10", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E1", "fixtures": 1},
+    {"id": "R10-PROBE-11", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E1/E2", "fixtures": 2},
+    {"id": "R10-PROBE-12", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E5", "fixtures": 2},
+    {"id": "R10-PROBE-13", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E4/E11/EVIDENCE_CONSTRAINT_VIOLATION", "fixtures": 4},
+    {"id": "R10-PROBE-14", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E9", "fixtures": 1},
+    {"id": "R10-PROBE-15", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E10/E4", "fixtures": 4},
+    {"id": "R10-PROBE-16", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E4", "fixtures": 2},
+    {"id": "R10-PROBE-17", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E-META/E3", "fixtures": 2},
+    {"id": "R10-PROBE-18", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E7/RC-11", "fixtures": 1},
+    {"id": "R10-PROBE-19", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E7/E12/RC-11", "fixtures": 1},
+    {"id": "R10-PROBE-20", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E8/E12/RC-12", "fixtures": 4},
+    {"id": "R10-PROBE-21", "originalResult": "FAIL", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E8/E-META", "fixtures": 2},
+    {"id": "R10-PROBE-22", "originalResult": "PASS", "repairResult": "REJECTED-WITH-STABLE-FINDINGS", "rejectedBy": "E7/RC-11", "fixtures": 2},
+    {"id": "R10-PROBE-23", "originalResult": "PASS", "repairResult": "CONTROL-RETAINED", "rejectedBy": "SELFTEST-GUARDS", "fixtures": 3}
+  ],
+  "positiveVectors": [
+    {
+      "id": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+      "verdict": "pass",
+      "sealedCapability": "verifiable",
+      "effectiveCapability": "verifiable",
+      "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301",
+      "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+      "derivationCommitment": "sha256:b2c46ace15aaa986466585dfa11f7382bb5b60d18f5b692b78ae2a7da67f5547",
+      "closureCommitment": "sha256:121312cc50d027b2a551b5fc6833713529522eb2bc85b5ffe64f83b833ab82a5",
+      "proofRefs": 6,
+      "typedDependencyEdges": 5
+    },
+    {
+      "id": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+      "verdict": "fail",
+      "sealedCapability": "verifiable",
+      "effectiveCapability": "verifiable",
+      "universeCommitment": "sha256:b6ac4de8af5ed3b655a7899b98f9c8a2a20c6d294087549b20280743143e6124",
+      "outcomeSetCommitment": "sha256:ff13fbd6a5e139c17babf289d26185d71085a0219537da202baa17e2457c6bc2",
+      "derivationCommitment": "sha256:0ec8f32b063bff7166c860d62ce3190fbc3795b8006d4c23a20d4634595ad3d8",
+      "closureCommitment": "sha256:3e74f01d61bf556f2fefb0dac269a8dd6eebc9682b0e796fb5531156831a6b79",
+      "proofRefs": 8,
+      "typedDependencyEdges": 6
+    },
+    {
+      "id": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+      "verdict": "pass",
+      "sealedCapability": "replayable",
+      "effectiveCapability": "replayable",
+      "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301",
+      "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+      "derivationCommitment": "sha256:b2c46ace15aaa986466585dfa11f7382bb5b60d18f5b692b78ae2a7da67f5547",
+      "closureCommitment": "sha256:1c0cfb9236d8858de1e7ed8992061bfee66e38d2b4506775e14ba7b7e50fa9e3",
+      "proofRefs": 7,
+      "typedDependencyEdges": 6
+    }
+  ],
+  "executableEvidence": {
+    "evidence": {
+      "normal": "PASS: 66 named schemas, 3 positive vectors, 50 retained counterexamples, R10-PROBE-01..23 and R10-EVD-01..07 dispositioned",
+      "selftest": "PASS: 14/14 contract mutations rejected",
+      "dirtyBaseControl": "PASS: returned 1 before mutation loop",
+      "nonApplyingMutationControl": "PASS: no-op returned 1 and counted as ESCAPED",
+      "raisingMutationControl": "PASS: exception returned 1 and counted as ESCAPED"
+    },
+    "versioning": {
+      "normal": "PASS: 7 comparison fixtures, 7 historical fixtures, VER-HIST clean",
+      "selftest": "PASS: 25/25 mutations rejected"
+    },
+    "readOnlyRegressionMatrix": [
+      "evaluation-proof.v2 normal PASS; selftest 113 PASS",
+      "retention-tiers.v7 normal PASS; selftest 164 PASS",
+      "fact-plane.v1 normal PASS; selftest 30 semantic plus 4 root-shape PASS",
+      "d9-exit-contract.v1.6 normal PASS; selftest 13 semantic plus 8 shape PASS",
+      "operability.v2 normal PASS; selftest 27 semantic plus 4 root-shape PASS",
+      "resolved-inputs.v2 normal PASS; selftest 42 semantic plus 4 root-shape PASS",
+      "delivery.v2 normal PASS; selftest 93 PASS",
+      "product-dispositions.v1 normal PASS; product/retention authority selftest PASS"
+    ]
+  },
+  "crossSurfaceBoundary": {
+    "operabilityRequestIdJoin": "FORBIDDEN-TO-PROMOTE-PENDING-INDEPENDENT-REREVIEW",
+    "reason": "Evidence v3 recursively enforces semantic exclusion, but OPERABILITY remains the owner and its pendingCrossSurfaceClosure must not be paper-promoted by this author response."
+  },
+  "retainedResiduals": [
+    {
+      "id": "A1-RTV4-02",
+      "status": "UNMEASURED",
+      "statement": "No-match fold/reverification cost is not demonstrated; no constant-size or cost claim is made."
+    },
+    {
+      "id": "CD-RT-5",
+      "status": "BLOCKED_ON_PHASE_1A",
+      "statement": "Product authority remains outside Evidence and VERSIONING author scope."
+    }
+  ],
+  "authorConclusion": "All seven Reviewer-10 findings and all 23 probes have candidate repairs with retained executable evidence. This is an author repair record, not independent verification: Evidence v3 remains SPECIFIED / IMPLEMENTABLE_UNEXECUTED, unqualified, NOT-APPLIED, DO-NOT-SEAL, and requires independent rereview."
+}

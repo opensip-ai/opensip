@@ -1,0 +1,367 @@
+{
+  "ruleVersion": "cleansheet-adjudication-rule.v1",
+  "adjudicator": "agent-1",
+  "status": "PROVISIONAL-SELECTED-ROWS-ONLY",
+  "supersedesProvisional": "artifacts/cleansheet-comparison.a3-provisional.json",
+  "provisionalStanding": "INVALID as adjudication under Who adjudicates (Agent 3 disqualified). Checker A8 was satisfied only by setting incumbentAuthor to a non-matching string 'agent-3-AUTHOR-CONFLICT'. Mechanical A1-A9 clean does not ratify.",
+  "cleansheetSets": 3,
+  "cleansheetPaths": [
+    "cleansheet/cleansheet-a/decisions.json",
+    "cleansheet/cleansheet-b/decisions.json",
+    "cleansheet/cleansheet-c/decisions.json"
+  ],
+  "decisions": [
+    {
+      "id": "INC-01",
+      "title": "One fact plane; extractors produce facts; rules query facts",
+      "disposition": "DOWNGRADED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a:D03,D06,D19 b:D9,D11 c:D05,D16 \u2014 all three derivations",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Users need many questions over one codebase; re-parsing per question does not scale and yields inconsistent answers."
+      },
+      "a1Note": "Amended per B-ADJ-02: multi-set forcing not uniformly FORCED.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-02",
+      "title": "Analysis pins an immutable input snapshot",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D02 b:D4 c:D02 \u2014 all three; A3 undercounted as 'only a' for weak corroboration",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A result must be checkable later against what it examined; a mutable input makes that impossible."
+      },
+      "a1Note": "Upgrade from A3 CORROBORATED-WEAK: b and c both pin snapshot/content hashes.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-03",
+      "title": "Analysis is deterministic given declared inputs",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D01,D26 b:D6 c:D03 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Determinism is the credibility of a gateable claim; a non-reproducible verdict cannot gate a merge."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-04",
+      "title": "Coverage/completeness is first-class; absence \u2260 could-not-look",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D05,D06 b:D5,D20 c:D06,D07 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "'Found nothing' and 'could not look' have opposite meanings for a gate."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-05",
+      "title": "Policy (severity/enablement/gating) separate from detection",
+      "disposition": "DOWNGRADED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a:D15 b:D30 c:D05,D24 \u2014 present in all three but often as preferred packaging not sole forced shape",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A team must set thresholds and enablement without editing detection logic."
+      },
+      "a1Note": "Keep DOWNGRADED: agreement exists but not uniformly FORCED across 3/3 as necessity of the exact split.",
+      "tieBreakerApplied": null,
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-06",
+      "title": "Stable finding identity enabling net-new gates",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D07,D08,D36 b:D3,D16 c:D14 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Gating only on new findings requires identity stable across edits that move or reword."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-07",
+      "title": "Addressable run/assessment record binds inputs to conclusions",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D27 b:D12,D14 c:D01 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A checkable result requires one addressable record binding inputs to conclusions."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-08",
+      "title": "Shared reference/reachability substrate rather than per-tool graphs",
+      "disposition": "DOWNGRADED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a strong (D03,D20); b/c weaker explicit 'one graph' \u2014 more fact+evidence than graph product",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Reachability questions need resolved references; duplicating traversal per capability yields inconsistent answers."
+      },
+      "a1Note": "DOWNGRADED: 3/3 have reference/resolution themes but not 3/3 forced single graph product. Rule: 1-of-3 is not corroborated; here partial multi-set \u2192 PREFERRED necessity.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-09",
+      "title": "Local-first offline distribution; hosted not on critical path",
+      "disposition": "CONVERGENT-JUDGMENT",
+      "incumbentForcing": "PREFERRED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a:D46,D61 b:D22,D24,D25 c:D29 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Distribution, safety and portability support local offline use; none force a unique packaging shape."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-10",
+      "title": "Untrusted analysis logic must not hold ambient full authority",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D51,D55 b:D26,D27 c:D23,D24 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Third-party analysis logic running with full developer-machine authority is unacceptable for a trusted gate."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-11",
+      "title": "Effectful Probe/simulation as a first-class analysis product",
+      "disposition": "REMOVED",
+      "incumbentForcing": "PREFERRED",
+      "cleansheetForcing": null,
+      "evidence": "0/3 propose executing the analyzed program or a simulation product; external toolchains appear as optional extractors, not Probe",
+      "justificationTest": {
+        "result": "FAIL",
+        "statedRequirement": "No stated product requirement forces executing the analyzed program. Effectful simulation is not implied by offline deterministic static analysis."
+      },
+      "a1Note": "Ratify REMOVED from greenfield architecture spine; may reappear as product if coordinator scopes sim. Not migration cost.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "ONLY-INCUMBENT"
+    },
+    {
+      "id": "INC-12",
+      "title": "Distinguishable exit/termination classes for CI",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D57,D58 b:D29 c:D25 \u2014 all three (A3 said only a)",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "CI acts on exit status; conflating policy failure with tool failure makes wrong action invisible."
+      },
+      "a1Note": "Upgrade from CORROBORATED-WEAK: b and c both distinguish exit classes.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-13",
+      "title": "Baseline / accepted-debt mechanism for adoption with backlog",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D36-D42 b:D16-D19 c:D12-D15 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Teams adopt with existing violations; gating on the entire backlog is unusable."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-14",
+      "title": "Lifetime-neutral core; one-shot and optional resident host",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "PREFERRED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D46,D47 b:D23 c:D18 \u2014 all three address dual lifetime; incumbent R-1 REOPENED on deployment, not on neutrality of core",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Agent loops benefit from warm state; CI requires no residency. Both workloads are in scope of a local analysis CLI."
+      },
+      "a1Note": "Content match on dual-lifetime architecture. Incumbent REOPENED applies to ship/autostart/per-project (EC-2), not to denying core neutrality. A3 used incumbentForcing=REOPENED (invalid forcing enum); corrected to PREFERRED for deployment openness while corroborating dual-path design.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-15",
+      "title": "Retention/privacy: tool-created copies of user source are a first-class liability",
+      "disposition": "RETAINED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": null,
+      "evidence": "a:D28,D61 c:D02,D03,D11 \u2014 b thinner but D12 portable artifacts; privacy explicit a+c, b via local trust boundary",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "The tool reads proprietary source; what it retains is a liability it created on the user's behalf."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "ONLY-INCUMBENT",
+      "forcingRequirement": "The tool creates user-derived copies; that is a liability requiring minimisation, disclosure, and control \u2014 statable without the codebase.",
+      "a1Note": "Amended per B-ADJ-05: privacy-centered liability not clean-sheet MATCH."
+    },
+    {
+      "id": "INC-16",
+      "title": "Resolved configuration participates in analysis identity",
+      "disposition": "CORROBORATED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D01,D20 b:D6,D14 c:D04,D17 \u2014 all three",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A verdict that changes with unexplained configuration is unauditable."
+      },
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-17",
+      "title": "Deep/semantic analysis capability for some languages",
+      "disposition": "OUT-OF-SCOPE-ADVISORY-NO-CHANGE",
+      "incumbentForcing": "PRODUCT-OWNER",
+      "cleansheetForcing": "ADVISORY",
+      "evidence": "A3 class ONLY-INCUMBENT is FALSE: a:D04,D52,D68 b:D31,D32 c:D07,D27 all address deep/tiered/semantic capability. Reclassified MATCH.",
+      "justificationTest": null,
+      "a1Note": "Amended per B-ADJ-03: product languages/depth out of frozen Scope.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "INC-18",
+      "title": "Public versioned contracts for machine consumers",
+      "disposition": "DOWNGRADED",
+      "incumbentForcing": "FORCED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a:D32 b:D15 c:D09 \u2014 present; exact contract set is preferred shape",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "External consumers hold artifacts shaped by these contracts and cannot negotiate silently."
+      },
+      "a1Note": "Keep DOWNGRADED: versioned machine output is forced; the incumbent's full contract surface is not uniquely forced.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "MATCH"
+    },
+    {
+      "id": "CS-01",
+      "title": "System neutralises environment inputs (locale, TZ, entropy, paths)",
+      "disposition": "ADOPT",
+      "incumbentForcing": null,
+      "cleansheetForcing": "FORCED",
+      "evidence": "a:D31 FORCED; c:D03 hermetic clock/random/ambient; b weaker. Incumbent treats environment identity as user precondition more than system obligation.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A result must be reproducible; an unenumerated environment input silently breaks reproducibility with no signal."
+      },
+      "a1Note": "Ratify ADOPT as architecture obligation (system discharges neutralisation). Not product-out-of-scope.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "ONLY-CLEANSHEET"
+    },
+    {
+      "id": "CS-02",
+      "title": "Bounded rule computational class (e.g. stratified fixpoint)",
+      "disposition": "INCUMBENT-WINS",
+      "incumbentForcing": "PREFERRED",
+      "cleansheetForcing": "PREFERRED",
+      "evidence": "a:D13 only; b/c do not fix a class. Incumbent deferred.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Rule surfaces must eventually be budgetable, but selecting a day-one computational class without a measured schema is not forced; deferral freezes fewer contracts."
+      },
+      "a1Note": "Amended per B-ADJ-04: DIVERGE with pre-clean-sheet rejection of day-one Datalog.",
+      "adjudicator": "agent-1",
+      "incumbentAuthor": "agent-3",
+      "class": "DIVERGE",
+      "tieBreakerApplied": "fewer irreversible public contracts \u2014 defer computational class (architecture/01, R-2) vs freeze Datalog-shaped evaluator now"
+    }
+  ],
+  "metrics": {
+    "selectedComparisonRows": 20,
+    "incumbentInScopeDecisions": 17,
+    "incumbentPassedJustification": 16,
+    "incumbentFailedJustification": 1,
+    "forcedDowngradedToPreferred": 4,
+    "onlyIncumbentCount": 2,
+    "onlyIncumbentRemoved": 1,
+    "onlyIncumbentRetained": 1,
+    "onlyCleansheetCount": 1,
+    "onlyCleansheetAdopted": 1,
+    "divergeCount": 1,
+    "unresolvedCount": 0,
+    "coverageStatus": "UNESTABLISHED \u2014 selected-row metrics only (B-ADJ-01)"
+  },
+  "precommittedInterpretation": {
+    "selectedRowsOnly": "Do not apply the fixed >80% whole-design band. Selected-row metrics are lower-bound evidence only.",
+    "wholeDesignConclusion": "NOT PERMITTED until a complete decision inventory and crosswalk exist (B-ADJ-01).",
+    "provisionalMergedDirection": "Keep corroborated spine. Apply DOWNGRADED items as PREFERRED not FORCED. Remove Probe from greenfield forced set. Adopt environment neutralisation. Do not treat 94% JT pass as sealing TO/EC or retention detail.",
+    "amendedBy": "artifacts/cleansheet-adjudication.response-a1.json"
+  },
+  "disagreementsWithProvisional": [
+    "A8: adjudicator must not be agent-3; provisional invalid",
+    "INC-02/INC-12: upgraded to CORROBORATED (3/3) after inventory \u2014 provisional undercounted",
+    "INC-17: reclassified MATCH+DOWNGRADED; ONLY-INCUMBENT was false (deep/tier language in a,b,c)",
+    "INC-14: incumbentForcing REOPENED replaced with PREFERRED; corroborate dual-lifetime content",
+    "forcedDowngraded count 4 (includes INC-17) vs provisional 3"
+  ],
+  "methodLimitations": [
+    "18 incumbent decisions inherit A3's selection; register has more claims \u2014 residual selection bias",
+    "ONLY-CLEANSHEET still lower-bound (lexical+thematic search, not full 138-to-31 matrix)",
+    "Shared requirements brief was authored by agent-3 \u2014 known rule limit on convergence strength",
+    "Agent-1 authored some incumbent reviews/artifacts (retention v2, TO/EC review) but not the bulk SEALED spine; rule allows agent-1 for less authorship than agent-3",
+    "Did not re-read full derivation.md prose for every decision \u2014 decisions.json primary"
+  ],
+  "knownLimitations": [
+    "Checker cannot detect shared-brief contamination",
+    "RETAINED-WEAK disposition avoided; non-standard provisional disposition not reused"
+  ],
+  "wholeDesignVerdict": "WITHDRAWN \u2014 B-ADJ-01/06 accepted; see cleansheet-adjudication.response-a1.json"
+}

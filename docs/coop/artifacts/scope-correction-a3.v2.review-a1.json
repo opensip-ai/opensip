@@ -1,0 +1,174 @@
+{
+  "artifact": "opensip.scope-correction.review",
+  "reviewOf": "artifacts/scope-correction-a3.v2.json",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-30",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "DIFFERENT FROM AUTHOR: (1) Re-listed v1.5 architectural safety invariants still required after demotion, THEN checked whether TO-9..11 restore them by name or only as vague totality. (2) Re-tested EC-1 falsifiedBy for surface-form vs semantic lifetime neutrality. (3) Audited findingDispositions: counts, non-STILL-OPEN entries, whether DEFAULT-OPEN is real disposition or a todo dump. (4) Compared object shape to retention-tiers.v4 (handoff, CEs, responsibility). (5) Checked resolves map for A1-SC-* and incomplete B-SC-04 closure. (6) Fixed B-SCC-01 on this review object (resolves map present).",
+    "Did not treat author resolves.B-SC-04 ACCEPTED as evidence that the missing set is complete."
+  ],
+  "whatCouldHaveFailed": [
+    "TO-9..11 restore every omitted v1.5 safety invariant",
+    "EC-1 semantic re-entrancy not surface flags",
+    "Disposition table classifies architectural vs detailed findings",
+    "v2 ready to be sole D9/R-1 binding",
+    "Handoff mandatory for future wire contracts"
+  ],
+  "resolves": {
+    "A1-SC-01": "PARTIAL — TO-9..11 restore some lost safety (totality, no false empty success, integrity fail-closed) but still omit envelope parity, pre-admission constructibility, orphan recovery, exit0≠attestation, tombstone expiry, baseline no-mass-net-new, and the named six-class remedy partition",
+    "A1-SC-02": "PARTIAL — EC-8 restores core/host/provider/storage boundary; EC-7 narrowed correctly; EC-1 still falsified only by surface branching (local form → global lifetime claim)",
+    "A1-SC-03": "PARTIAL — disposition table exists with DEFAULT STILL-OPEN (anti-laundering); 83/89 are boilerplate open without altitude classification (architectural|detailed|rehomed|superseded)",
+    "A1-SC-04": "CLOSED — percentages withdrawn as decision evidence",
+    "A1-SC-05": "CLOSED in altitudeTest text — consequence-based rule + worked example on exit-class set; METHOD.ALTITUDE substance still CANDIDATE until peer re-confirm",
+    "A1-SC-06": "OPEN — each invariant has falsifiedBy but no mandatory detailedDesignHandoff requiring future wire contracts to fail those CEs (cf. retention A1-RTV4-01)",
+    "A1-SC-07": "CLOSED-SHAPE — TO-8 owned by VERSIONING with explicit dependency note",
+    "A1-SC-08": "PARTIAL — outside this artifact; 07 improved; 09 fixed by A1; 11 residual risk remains process",
+    "B-SC-02": "CLOSED as repaired in v2",
+    "B-SC-03": "CLOSED as repaired in altitudeTest",
+    "B-SC-04": "PARTIAL — not fully restored (see A1-SC-01)",
+    "B-SC-05": "CLOSED-SHAPE",
+    "B-SC-06": "PARTIAL — EC-8 present; semantic lifetime and provider placement still thin",
+    "B-SC-07": "PARTIAL — EC-7 narrowed; ARCH.PROBE still REOPENED and not dependsOn",
+    "B-SC-08": "PARTIAL — table exists; bulk open without classification",
+    "B-SC-10": "OPEN — falsifiedBy ≠ mandatory production acceptance tests",
+    "B-SCC-01": "CLOSED on this artifact — resolves map present; candidate altitude not in sealedPropertiesCovered"
+  },
+  "progressSinceV1": {
+    "realRepairs": [
+      "altitudeTest consequence-based; % withdrawn",
+      "findingDispositions with DEFAULT STILL-OPEN",
+      "TO-9..11 and EC-8 additions",
+      "TO-8 versioning ownership",
+      "EC-7 ambient narrowing",
+      "per-invariant falsifiedBy",
+      "honest knownLimitations (author cannot audit own extraction)"
+    ],
+    "notYetArchitectureComplete": [
+      "named six-class remedy partition and remaining D9 safety invariants",
+      "semantic EC-1 / provider effect placement / PROBE dependency",
+      "per-finding altitude classification",
+      "retention-v4-style design handoff",
+      "responsibilityBoundaries / alternatives / open product decisions sections"
+    ]
+  },
+  "independentMissingD9Still": [
+    {
+      "invariant": "six named remedy classes with distinct CI meanings",
+      "status": "NOT NAMED — TO-9 says total partition without naming success|policy-failed|request-rejected|indeterminate|operational-failed|interrupted"
+    },
+    {
+      "invariant": "envelope/process termination parity for finite CLI",
+      "status": "ABSENT"
+    },
+    {
+      "invariant": "pre-admission FailureResult constructible without project/Run",
+      "status": "ABSENT"
+    },
+    {
+      "invariant": "orphan publication never seals success",
+      "status": "ABSENT"
+    },
+    {
+      "invariant": "exit 0 alone is never attestation",
+      "status": "ABSENT (related TO-5 durability partial)"
+    },
+    {
+      "invariant": "IDENTITY.EXPIRED requires tombstone else UNKNOWN",
+      "status": "ABSENT as architecture (only demoted-artifact disposition for A2-D9-V12-05)"
+    },
+    {
+      "invariant": "unsupported baseline recipe never mass net-new",
+      "status": "ABSENT"
+    }
+  ],
+  "findings": [
+    {
+      "id": "A1-SCV2-01",
+      "severity": "critical",
+      "title": "B-SC-04 / A1-SC-01 only partially repaired — remedy partition still unnamed; major safety invariants still missing",
+      "detail": "TO-9 claims a total semantic remedy partition without binding the six CI-distinct classes. Envelope parity, pre-admission constructibility, orphan recovery, exit0≠attestation, tombstone expiry, and baseline no-mass-net-new remain absent from invariants. An implementation can still satisfy TO-1..11 with a coarse failure model and no orphan/baseline safety. Author resolves claims B-SC-04 ACCEPTED as if fully restored — overclaim.",
+      "requiredFix": "Add TO-12+ naming the six classes and their non-collapsible meanings; restore missing safety invariants with falsifiedBy; or rehome each to a referenced sealed claim with CE. Do not mark B-SC-04 closed until independent inventory is empty.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A trace mapping every v1.5 invariant to a TO id or rehomed claim."
+    },
+    {
+      "id": "A1-SCV2-02",
+      "severity": "high",
+      "title": "EC-1 still defines lifetime neutrality by surface form",
+      "detail": "falsifiedBy is 'any parameter/field/environment that branches on host lifetime'. A surface can omit isResident while semantics still depend on warm caches, resident providers, or publication paths (prior R1 findings). Retention of EC-3 helps but does not replace semantic re-entrancy.",
+      "requiredFix": "Rewrite EC-1: under identical Plan/Snapshot/exact Coverage, cold and resident hosts yield identical EvidenceDigest and evaluation outcomes; falsifiedBy any observable semantic difference. Surface flags are neither necessary nor sufficient.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SCV2-03",
+      "severity": "high",
+      "title": "Disposition table is anti-laundering but not yet altitude-classified",
+      "detail": "DEFAULT STILL-OPEN is the correct failure mode for incomplete adjudication. 83 boilerplate opens do not discharge B-SC-08's requireChange to classify retained architectural vs detailed-design vs rehomed. Only 4 PROMOTED and 2 ADDRESSED-IN-DEMOTED. Architectural open items (A1-R1V13-01..03, B-R1V12-02..) should map to EC invariants or explicit still-open architecture blockers on R-1.",
+      "requiredFix": "Add disposition enum: STILL-OPEN-ARCH | STILL-OPEN-DETAIL | PROMOTED-TO-INVARIANT | ADDRESSED-IN-DEMOTED | SUPERSEDED | REHOMED(claim). Batch-classify by prefix rules with review, not 83 identical sentences.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SCV2-04",
+      "severity": "high",
+      "title": "No mandatory design handoff for TO/EC counterexamples",
+      "detail": "falsifiedBy is good documentation. Without a handoff clause, a future d9-exit-contract.v2 can green-check field schemas while implementing a falsifying behavior. retention-tiers.v4 + A1-RTV4-01 is the pattern.",
+      "requiredFix": "detailedDesignHandoff: any production termination or core contract is incomplete until executable tests exist that attempt each TO/EC falsifiedBy and fail. Second author preferred for those tests. Demoted v1.5 runner is not that suite while A1-D9-V15C holes remain.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SCV2-05",
+      "severity": "medium-high",
+      "title": "Register rebinding D9/R-1 to unreviewed v2 is premature",
+      "detail": "v2 status is CANDIDATE-UNREVIEWED and still incomplete (A1-SCV2-01). Binding both claims to it before independent accept repeats the v1 rebind error at smaller scale.",
+      "requiredFix": "Keep D9/R-1 unbound or bound only after accept-with-required-changes is dispositioned by coordinator; or bind with explicit sealBlockers listing A1-SCV2-01..04 (register already has unreviewed note — strengthen).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SCV2-06",
+      "severity": "medium",
+      "title": "EC-7 still lacks dependsOn ARCH.PROBE-CONTRACT",
+      "detail": "Narrowing is right; the reopened probe/capability substrate still falsifies global confidence in ambient denial. R-1 should dependOn or explicitly articulate independence.",
+      "requiredFix": "dependsOn ARCH.PROBE-CONTRACT or note EC-7 limited until probe TCB model sealed.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-SCV2-07",
+      "severity": "low-medium",
+      "title": "resolves map keys B-SC findings but not A1-SC-01..08",
+      "detail": "Author addressed B findings by name; A1 parallel findings need explicit resolve entries for traceability.",
+      "requiredFix": "Add A1-SC-* keys to resolves in next revision.",
+      "confidence": "high"
+    }
+  ],
+  "positiveObservations": [
+    "Largest real repair: DEFAULT STILL-OPEN disposition rule — correct anti-laundering design.",
+    "Altitude test rewrite matches A1-SC-05 / B-SC-03 and uses exit-class set as worked example.",
+    "EC-8 boundary restoration and EC-7 narrowing are the right abstractions.",
+    "Author honesty that restored TO-9..11 came from reviewers, not self-audit.",
+    "Stopping further wire-only D9/R1 versions remains correct."
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal METHOD.ALTITUDE, D9, or R-1 on v2 alone. Accept v2 as the best scope-correction draft yet; require A1-SCV2-01 (full D9 safety set), A1-SCV2-02 (semantic EC-1), A1-SCV2-03 (classified dispositions), A1-SCV2-04 (handoff) before treating it as architecture binding.",
+  "whatWouldChangeMyMind": [
+    "Independent inventory empty of missing D9 safety invariants",
+    "EC-1 rewritten to EvidenceDigest/outcome parity cold vs warm",
+    "Disposition classification + handoff section present"
+  ],
+  "candidatePropertiesCovered": [
+    "METHOD.ALTITUDE consequence-based definition (still CANDIDATE)",
+    "D9/R-1 altitude extraction (partial)"
+  ],
+  "sealedPropertiesCovered": [
+    "METHOD.RULE-3 decisions close by artifact (process)",
+    "status attaches to claims — disposition default open supports this"
+  ],
+  "knownLimitations": [
+    "Did not re-author full D9/R1 architecture documents this turn.",
+    "Did not verify 89-finding inventory completeness against every historical review file.",
+    "Reviewer authored rejected D9/R1 review findings; bias toward restoring those invariants is declared and appropriate."
+  ]
+}

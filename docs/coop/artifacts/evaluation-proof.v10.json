@@ -1,0 +1,802 @@
+{
+ "artifact": "opensip.evaluation-proof",
+ "version": 10,
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewState": "AWAITING-INDEPENDENT-REVIEW",
+ "author": "evaluation-proof v10 authoring lane; successor to the REJECTED evaluation-proof.v9.json",
+ "date": "2026-08-02",
+ "claimId": "EVIDENCE",
+ "role": "Repair the two blocking findings of ep9.review-independent.json by MEASUREMENT: retract v9's false identity-inertness mitigation and its regime-specific 'exact admitted set', and replace v9's falsified routing guard with a per-call served-module ledger bound to the specific pinned vectors. v10 supersedes the proof obligations of evaluation-proof.v9.json and takes NO authority from it.",
+ "supersedesProofObligationsOf": "evaluation-proof.v9.json",
+ "predecessor": {
+  "file": "evaluation-proof.v9.json",
+  "sha256": "02f9955f4f90e91afd163a5fa8274eb8832aa5419221da7e9e825a1cbf17430b",
+  "verdict": "REJECT",
+  "review": "ep9.review-independent.json",
+  "reviewSha256": "46b244235321c8a36549d0b92ebf843b1561ea6c37a5a7bcc49a498f7899c8cf",
+  "blockersAddressed": [
+   "IR-EP9-01",
+   "IR-EP9-02"
+  ],
+  "whatV10TakesFromIt": "NOTHING but its retracted text, quoted verbatim so each retraction demonstrably targets the pinned bytes. The positive vectors are taken from evaluation-proof.v8.json, which carries a PASSING independent review, and v9's vectors are required to agree with EP8's byte for byte.",
+  "surviveUnchanged": [
+   "the ten-executable delegation closure and its pin recomputation",
+   "hash-verify-then-execute-from-the-verified-snapshot ordering",
+   "non-circular commitment verification (never compared against a literal in this checker's own text; recomputed and required to be a member of this run's recomputed set)",
+   "measured, not baked-in, counts that recite THIS RUN's numbers",
+   "a live --selftest with a distinct 0/1/2/3 exit matrix and dirty-base refusal at exit 3",
+   "RES-EP9-01 scope honesty, carried forward as RES-EP10-01 and printed in the green banner of every successful run",
+   "no paper seals"
+  ]
+ },
+ "retractions": [
+  {
+   "id": "RET-EP10-01",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subject": "evaluation-proof.v9.json knownLimitations[RES-EP9-05] and scalarLeafTotality.surfaces[evaluation-authority-candidate].admittedPositionsNote",
+   "retractedText": "On the frozen bytes this moves NO proof identity, because every ref is derived from the stored raw CAS bytes rather than from the in-memory record",
+   "statement": "FALSE. The `!= 1` type-level false-accept class DOES move durable identity. check-evaluation-proof-v8.py computes the admission ref with ep6.raw_record_ref over the IN-MEMORY candidate record, and that value is written into the durable EvaluationAuthorityIndexV1 row and into the index fingerprint. Measured here under producer consistency: 5 type-distinct-one positions move durable identity and 3 of them do so beneath a byte-identical EvaluationAuthoritySealRef. That is strictly worse than a visible mismatch: two byte-distinct raw lineages then resolve under one and the same seal ref, decided only by which producer reached the store first, and each of them cold-reconstructs through resolve_stored_evaluation with assert_store_continuity() returning True.",
+   "howEstablished": "executed, not argued: admittedClassMeasurement.regimes.B enumerates every scalar leaf of the producer source, regenerates every derived field and every stored byte string with the pinned encoders, drives EP8's PUBLIC authorize_evaluation over a freshly opened EMPTY store, and records per-site identity movement across six durable identities plus the cold-reconstruction and continuity result."
+  },
+  {
+   "id": "RET-EP10-02",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subject": "evaluation-proof.v9.json knownLimitations[RES-EP9-05] 'the exact admitted set'",
+   "retractedText": "it enumerates the exact admitted set in scalarLeafTotality.surfaces[evaluation-authority-candidate].admittedPositions and makes any change to that set a finding",
+   "statement": "The published set is regime-specific and is wrong in both directions when read as a property of the class. A regime that injects at ONE in-memory position while leaving the stored CAS bytes at their honest encoding is STRUCTURALLY INCAPABLE of observing identity movement, because the refs are re-derived from bytes the injection never touched. Measured here: regime A admits 8 positions and regime B admits 9; 5 positions are admitted in A only and 6 in B only.",
+   "howEstablished": "both regimes are enumerated at SCALAR LEAF positions and executed on every run; every published position states its regime."
+  },
+  {
+   "id": "RET-EP10-03",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subject": "evaluation-proof.v9.json astScanScope.loadBearingGuard",
+   "retractedText": "the LB-C2-01 behavioural battery and the Authority.c2v4 access counter, neither of which reads source",
+   "statement": "Neither is a guard for the routing property. The LB-C2-01 battery's entire discriminating power is a FIXED 8-case family (measured discriminating cardinality 4), so a mutation can whitelist exactly those cases; and the accessor counter counts accessor TOUCHES, not which module SERVED the call, so an evasion that touches the accessor on every path keeps it ticking. Both of the reviewer's evasions are rebuilt here and executed. Measured this run: the AST tripwire caught 6 of 8 source variants and MISSED 2; the differential oracle — the alternative the reviewer named — caught 7 of 11 and MISSED 4, INCLUDING BOTH R1 AND R4; the per-call served-module ledger caught 11 of 11.",
+   "howEstablished": "evasionMeasurement builds and EXECUTES every variant on every ordinary run and publishes the per-layer catch matrix."
+  },
+  {
+   "id": "RET-EP10-04",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subject": "evaluation-proof.v9.json planIntentCommitmentStability and its green-banner headline",
+   "retractedText": "\"reproducedUnderSupersededEncoder\": 7",
+   "statement": "Publishing '7 vectors ... distinct commitments [1]' reads as seven independent confirmations. It is ONE PlanIntent encoded seven times. Measured here: the seven positiveVectors carry 1 distinct frozenPlanIntent and 1 distinct planDescriptor, so a distinct-commitment count of 1 is FORCED BY THE INPUT and establishes nothing about the encoder. The measurement that does carry discriminating power is published separately as distinctIntentFamily.",
+   "howEstablished": "distinctFrozenPlanIntents and distinctPlanDescriptors are recomputed by canonical digest on every run; the routing guard's own aggregate rule compares against the measured distinct-intent count, not the vector count."
+  }
+ ],
+ "repairs": [
+  {
+   "id": "REP-EP10-1",
+   "title": "Re-derive the admitted set by execution, per encoder regime",
+   "clears": "IR-EP9-01",
+   "how": "two declared regimes, both enumerated at scalar leaf positions and executed through EP8's public authorize_evaluation; per-site identity movement measured across six durable identities; cold reconstruction and assert_store_continuity() verified for every admitted position."
+  },
+  {
+   "id": "REP-EP10-2",
+   "title": "Establish the C-2 routing property behaviourally",
+   "clears": "IR-EP9-02",
+   "how": "a per-call served-module ledger installed on BOTH C-2 module objects; for every pinned vector the join is driven inside a ledger window and the guard requires a non-empty window, every call served by the repaired module, every depth-0 call bound to THIS vector's PlanIntent fingerprint, all three imported APIs served, and repaired-module provenance for the returned commitment object."
+  },
+  {
+   "id": "REP-EP10-3",
+   "title": "Rebuild the reviewer's R1 and R4 and measure every layer",
+   "clears": "IR-EP9-02",
+   "how": "eight source variants that rewrite this checker's own route region plus three object-level attacks on the Authority, all built and EXECUTED on every ordinary run, with the AST tripwire, the differential oracle and the served-module ledger each scored separately."
+  },
+  {
+   "id": "REP-EP10-4",
+   "title": "State plainly what the seven vectors are",
+   "clears": "IR-NB-01",
+   "how": "the distinct-intent and distinct-descriptor counts are measured and published beside the vector count, and a family of legally distinct PlanIntents supplies the injectivity measurement the seven vectors cannot."
+  },
+  {
+   "id": "REP-EP10-5",
+   "title": "No AST scan is the sole guard for any property",
+   "clears": "IR-NB-07",
+   "how": "each scan declares the property it guards and the behavioural counterpart that guards it independently; every counterpart is EXECUTED on every ordinary run and the set of AST-only properties is measured and required empty."
+  },
+  {
+   "id": "REP-EP10-6",
+   "title": "State the pin-agreement scope truthfully",
+   "clears": "IR-NB-04",
+   "how": "pinAgreementRule says 'of those that expose one' and the number of predecessor pin tables actually cross-checked is measured and published."
+  }
+ ],
+ "admittedClassMeasurement": {
+  "class": "values v with v == 1 in the host language that are not the JSON integer 1 — the LB-C2-01 class, present in the evaluation-proof chain's own exact-closed-record guards and not only in C-2",
+  "retractsPredecessorSet": true,
+  "injectionValues": [
+   "json-true",
+   "json-float-one"
+  ],
+  "identities": [
+   "evaluationAuthoritySealRef",
+   "admissionRef",
+   "indexFingerprint",
+   "receiptCasRef",
+   "resolvedCasRef",
+   "admissionCasRef"
+  ],
+  "regimeDeclaration": {
+   "A": "single in-memory position; every raw CAS row and every semantic record keeps its HONEST encoding. This is the regime evaluation-proof.v9.json's census used. It cannot observe identity movement, because the refs are re-derived from bytes the injection never touched.",
+   "B": "producer consistency: the mutation is applied to the SOURCE OF TRUTH and every derived field and every stored byte string is regenerated with the pinned encoders, exactly as an honest producer must. This is the regime a real producer operates in."
+  },
+  "regimes": {
+   "A": {
+    "regime": "A",
+    "enumeratedPaths": 345,
+    "containerPaths": 93,
+    "scalarLeafPaths": 252,
+    "executedCases": 504,
+    "noOpInjections": 0,
+    "admittedCount": 8,
+    "admitted": [
+     {
+      "position": "$.activationManifest.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.activationManifest.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthoritySeal.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthoritySeal.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     }
+    ],
+    "baseline": {
+     "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358",
+     "admissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+     "indexFingerprint": "sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689",
+     "receiptCasRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+     "resolvedCasRef": "sha256:22b1a27031516ab43c1e7a0693c58d5e097665dfc0ce71ea2c4be044563c86e6",
+     "admissionCasRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78"
+    }
+   },
+   "B": {
+    "regime": "B",
+    "enumeratedPaths": 164,
+    "containerPaths": 51,
+    "scalarLeafPaths": 113,
+    "executedCases": 226,
+    "noOpInjections": 0,
+    "admittedCount": 9,
+    "admitted": [
+     {
+      "position": "$.admittedResolvedInputs.frozenPlanIntent.analysis.admissionDescriptor.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.frozenPlanIntent.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.snapshotDescriptor.entries[0].executable=json-true",
+      "classification": "legal-variant",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.snapshotDescriptor.vcsState.sparseCheckout.enabled=json-true",
+      "classification": "legal-variant",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthorityAdmission.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     }
+    ],
+    "baseline": {
+     "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358",
+     "admissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+     "indexFingerprint": "sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689",
+     "receiptCasRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+     "resolvedCasRef": "sha256:22b1a27031516ab43c1e7a0693c58d5e097665dfc0ce71ea2c4be044563c86e6",
+     "admissionCasRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78"
+    }
+   }
+  },
+  "regimeDivergence": {
+   "admittedInAOnly": [
+    "$.activationManifest.schemaVersion=json-float-one",
+    "$.activationManifest.schemaVersion=json-true",
+    "$.evaluationAuthoritySeal.schemaVersion=json-float-one",
+    "$.evaluationAuthoritySeal.schemaVersion=json-true",
+    "$.planAuthorityReceipt.schemaVersion=json-float-one"
+   ],
+   "admittedInBOnly": [
+    "$.admittedResolvedInputs.frozenPlanIntent.analysis.admissionDescriptor.schemaVersion=json-true",
+    "$.admittedResolvedInputs.frozenPlanIntent.schemaVersion=json-true",
+    "$.admittedResolvedInputs.schemaVersion=json-true",
+    "$.admittedResolvedInputs.snapshotDescriptor.entries[0].executable=json-true",
+    "$.admittedResolvedInputs.snapshotDescriptor.vcsState.sparseCheckout.enabled=json-true",
+    "$.evaluationAuthorityAdmission.schemaVersion=json-true"
+   ],
+   "whyAOnly": "under producer consistency the EP5 semantic encoder renders schemaVersion with str() and its decoder requires a canonical unsigned decimal, so a boolean or float at activationManifest.schemaVersion or evaluationAuthoritySeal.schemaVersion is REJECTED; regime A never re-encodes those records, so it admits them. A float anywhere inside a RAW record is rejected by the canonical-JSON model, which regime A also never re-runs.",
+   "whyBOnly": "regime A cannot admit a mutation of admittedResolvedInputs or of the PlanIntent, because the honest stored bytes no longer match the in-memory record. Only a producer that regenerates them reaches those positions — and they are the identity-moving ones."
+  },
+  "identityMovingPositions": 5,
+  "identityMovingUnderByteIdenticalSeal": 3,
+  "identityMovingNote": "MEASURED, NOT REPAIRED. v10 cannot repair check-evaluation-proof-v6.py or -v8.py: both are pinned by passed work and out of scope for edit. v10 therefore enumerates the class by execution, requires the measured set to match exactly so it can neither grow nor shrink silently, and records it as RES-EP10-06. Closing it requires v6/v8 successors.",
+  "negativeControlsExecuted": 36,
+  "admittedNegativeControls": [
+   "$.activationManifest.schemaVersion=json-two",
+   "$.activationManifest.schemaVersion=json-zero",
+   "$.evaluationAuthoritySeal.schemaVersion=json-two",
+   "$.evaluationAuthoritySeal.schemaVersion=json-zero"
+  ],
+  "unconstrainedVersionSites": [
+   "$.activationManifest.schemaVersion",
+   "$.evaluationAuthoritySeal.schemaVersion"
+  ],
+  "unconstrainedVersionNote": "A SEPARATE defect found by the same measurement and NOT folded into the `!= 1` class: the two SEMANTIC records constrain schemaVersion only LEXICALLY (canonical unsigned decimal), so any integer version is admitted there under producer consistency. Recorded as RES-EP10-05."
+ },
+ "routingGuard": {
+  "mechanism": "a per-call served-module ledger installed on BOTH C-2 module objects at load time; the tag is fixed at install time from the module the wrapper was installed on, so no caller can influence it and no spelling of the call can avoid it",
+  "readsSource": false,
+  "requirements": [
+   "R-1 the ledger window for each vector is NON-EMPTY (a silent instrument fails closed)",
+   "R-2 EVERY call observed in the window was served by the repaired module",
+   "R-3 every depth-0 call carries the fingerprint of THIS vector's PlanIntent",
+   "R-4 all three imported APIs are observed at depth 0 for the vector",
+   "R-5 the returned commitment OBJECT has repaired-module provenance",
+   "R-6 the distinct fingerprints observed equal the measured distinct intents driven, and zero superseded-module calls occur in any authority-join window"
+  ],
+  "whyACounterIsInsufficient": "a counter records THAT a call happened; it counts accessor touches. The reviewer's R4 touches the accessor on every path and still routes 100% of the real vectors to the superseded module.",
+  "whyAFixedProbeFamilyIsInsufficient": "its discriminating power is a fixed case list, so a mutation can whitelist exactly those cases. R1 and R4 both do.",
+  "vectorsDriven": 7,
+  "distinctIntentsDriven": 1,
+  "observedCalls": 28,
+  "depthZeroCalls": 21,
+  "distinctFingerprintsObserved": 1,
+  "supersededCallsInsideJoin": 0,
+  "whatThisDoesNotEstablish": "the ledger observes the calls THIS checker makes. It says nothing about what any other consumer of EP6/EP8 routes, which is RES-EP10-01."
+ },
+ "evasionMeasurement": {
+  "sourceVariantsBuilt": 8,
+  "objectAttacksBuilt": 3,
+  "variantsBuilt": 11,
+  "astTripwireDenominator": 8,
+  "caughtByAstTripwire": 6,
+  "missedByAstTripwire": 2,
+  "caughtByDifferentialOracle": 7,
+  "missedByDifferentialOracle": 4,
+  "caughtByRoutingLedger": 11,
+  "perVariant": [
+   {
+    "variant": "R1-probe-whitelist-direct-module",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": false,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "R4-probe-whitelist-accessor-routed",
+    "class": "source",
+    "caughtByAstTripwire": false,
+    "caughtByDifferentialOracle": false,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "accessor-c2v3",
+    "class": "source",
+    "caughtByAstTripwire": false,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "direct-module-subscript",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "local-alias",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "getattr-indirection",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "dispatch-table",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "class-method-indirection",
+    "class": "source",
+    "caughtByAstTripwire": true,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "poisoned-accessor",
+    "class": "object",
+    "caughtByAstTripwire": false,
+    "caughtByDifferentialOracle": true,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "unwrapped-module",
+    "class": "object",
+    "caughtByAstTripwire": false,
+    "caughtByDifferentialOracle": false,
+    "caughtByRoutingLedger": true
+   },
+   {
+    "variant": "deinstalled-ledger",
+    "class": "object",
+    "caughtByAstTripwire": false,
+    "caughtByDifferentialOracle": false,
+    "caughtByRoutingLedger": true
+   }
+  ],
+  "measurementRule": "every variant is BUILT AND EXECUTED on every ordinary run and the unflattering numbers are published as measured, because refusing to state them is precisely the coverage claim over an unobserved region this corpus keeps shipping.",
+  "headline": "the differential oracle the reviewer named as an acceptable alternative MISSES both R1 and R4, because the R1/R4 class routes exactly the positions where the two instruments disagree to the repaired module. Only the served-module ledger catches them."
+ },
+ "differentialOracle": {
+  "role": "RETAINED as an independent second behavioural layer over the live leaf-inclusive census, NOT as the routing guard",
+  "isSufficientAlone": false,
+  "drives": "both instruments over every enumerated position of the pinned PlanIntent, requiring the JOIN's answer to equal the REPAIRED instrument's at every position",
+  "executedCases": 1656,
+  "joinVsRepairedMismatches": 0,
+  "discriminatingCardinality": 4,
+  "discriminatingPositions": [
+   "$.schemaVersion=json-true",
+   "$.schemaVersion=json-float-one",
+   "$.analysis.admissionDescriptor.schemaVersion=json-true",
+   "$.analysis.admissionDescriptor.schemaVersion=json-float-one"
+  ],
+  "whyNotSufficient": "it can only witness a routing defect where the two instruments DISAGREE. Its measured discriminating cardinality on this census is 4, and the R1/R4 class routes exactly those positions to the repaired module."
+ },
+ "lbC201ProbeFamily": {
+  "role": "POSITIVE CONTROL on the repair only",
+  "isTheGuard": false,
+  "cases": 8,
+  "repairedAdmitted": 0,
+  "supersededAdmitted": 4,
+  "secondDigests": 2,
+  "admitThenRaise": 2,
+  "discriminatingCardinality": 4,
+  "controlIsNotVacuous": "the expected superseded-admission count is DERIVED from the injection and leaf tables rather than asserted, so a control that stopped modelling the defect is reported rather than passing quietly as a stronger-looking result."
+ },
+ "planIntentCommitmentStability": {
+  "unmovedFromEP8": true,
+  "vectors": 7,
+  "recomputedUnderV4": 7,
+  "reproducedUnderSupersededEncoder": 7,
+  "preimageByteIdentical": 7,
+  "distinctCommitments": [
+   "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85"
+  ],
+  "preimageByteLengths": [
+   2463
+  ],
+  "distinctFrozenPlanIntents": 1,
+  "distinctPlanDescriptors": 1,
+  "whatThisEstablishes": "that the one PlanIntent the corpus carries encodes to the same commitment under the repaired instrument as under the superseded one, with byte-identical preimages, and that the commitment has not moved from the digest-pinned EP8 artifact.",
+  "whatThisDoesNotEstablish": "it does NOT establish seven independent confirmations. The seven vectors carry one distinct frozenPlanIntent and one distinct planDescriptor, so a distinct-commitment count of 1 is forced by the input, not established by the measurement. Injectivity is measured separately in distinctIntentFamily.",
+  "neverCopied": "the declared commitment is never read as authority: it is compared against the digest-pinned EP8 artifact's field AND required to be a member of the set recomputed on this run."
+ },
+ "distinctIntentFamily": {
+  "why": "the measurement the seven vectors cannot supply",
+  "construction": "legal perturbations of declared free positions of the pinned PlanIntent; each variant must be ACCEPTED by the repaired instrument to enter the family",
+  "declaredPerturbations": 13,
+  "acceptedByRepairedInstrument": 14,
+  "distinctIntentsDriven": 14,
+  "rejectedPerturbations": 0,
+  "distinctCommitments": 14,
+  "injective": true,
+  "reproducedUnderSupersededEncoder": 14,
+  "preimageByteIdentical": 14,
+  "whatThisDoesNotEstablish": "injectivity over this family is not injectivity over all PlanIntents. It is a measurement over 14 intents, not a proof."
+ },
+ "c2AuthorityJoin": {
+  "sourceArtifact": "c2-plan-stage-schema.v4.json",
+  "sourceSha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+  "checker": "check-c2-v4.py",
+  "checkerSha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+  "importedCheckerApis": [
+   "validate_plan_intent",
+   "plan_intent_commitment",
+   "canonical_plan_intent"
+  ],
+  "factPlaneArtifact": "fact-plane.v1.json",
+  "factPlaneSha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+  "expectedPlanIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+  "authorityRule": "v10 is the authority for this join. The commitment above is NEVER read as a literal: it is recomputed through the repaired instrument, reproduced under the superseded independent encoder, and required to be a member of this run's recomputed set."
+ },
+ "c2AuthorityRepairJoin": {
+  "repairedContract": "c2-plan-stage-schema.v4.json",
+  "repairedContractSha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+  "repairedChecker": "check-c2-v4.py",
+  "repairedCheckerSha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+  "supersededContract": "c2-plan-stage-schema.v3.json",
+  "supersededContractSha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+  "supersededChecker": "check-c2.py",
+  "supersededCheckerSha256": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3",
+  "repairAuthorisedBy": "c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+  "repairAuthorisedBySha256": "c74612ef4519750aa529db543c2f0cc81fce50d57c3d636486fd2f0ddc0c41f3",
+  "inheritedDefect": "LB-C2-01",
+  "ep6InnerJoinResidualId": "RES-EP10-01",
+  "ep6InnerJoinResidual": "v10 does not repair check-evaluation-proof-v6.py. EP6's inner C-2 join still executes against the defective check-c2.py bytes underneath EP8. v10 is a strictly stronger OUTER gate over it, not a replacement of its internals, and closing the inner join requires a v6 successor.",
+  "howTheOuterGateIsEstablished": "behaviourally, by the served-module ledger, not by an AST scan and not by a fixed probe family."
+ },
+ "astScanScope": {
+  "isSoleGuardForAnyProperty": false,
+  "astOnlyProperties": [],
+  "routingScanCannotSeeWhichModuleServes": true,
+  "measuredBlindSpot": 2,
+  "declaredScope": "each scan sees an ast node inside a TOP-LEVEL ast.FunctionDef. It does not see a call reached through getattr, a dispatch table, a class body, or any construct that names no identifier. The routing scan additionally CANNOT see which module serves a call, because both c2v4() and c2v3() are legitimate Authority accessors here — that blind spot is the whole of the reviewer's R4 evasion.",
+  "scans": [
+   {
+    "id": "c2-route",
+    "isTripwire": true,
+    "guardedProperty": "which module the authority join reaches a C-2 API through",
+    "behaviouralCounterpart": "routing_ledger_guard: a per-call served-module ledger that reads no source, bound to the specific pinned vectors",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "selftest-dispatch",
+    "isTripwire": true,
+    "guardedProperty": "exactly one flag-guarded selftest dispatch positioned before any findings return",
+    "behaviouralCounterpart": "exit_matrix_probe: main() driven in-process, observing the declared exit codes behaviourally",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "integer-guard",
+    "isTripwire": true,
+    "guardedProperty": "no bare numeric comparison between a wire-sourced expression and a numeric literal",
+    "behaviouralCounterpart": "own_constant_leaf_battery: every int/bool scalar leaf of the candidate replaced by a type-distinct value and the whole checking layer re-run",
+    "counterpartExecutionWindow": "every ordinary run"
+   }
+  ],
+  "ownConstantLeafBattery": {
+   "declaredScope": "reads NO source. Every int/bool scalar leaf of this candidate is replaced in turn by JSON true, JSON false and JSON 1.0 and the COMPLETE checking layer is re-run.",
+   "executionWindow": "every ordinary run",
+   "intBoolLeaves": 164,
+   "cases": 412,
+   "rejected": 400,
+   "silentlyAdmitted": 12,
+   "silentlyAdmittedPositions": [
+    "$.astScanScope.ownConstantLeafBattery.cases",
+    "$.astScanScope.ownConstantLeafBattery.intBoolLeaves",
+    "$.astScanScope.ownConstantLeafBattery.rejected",
+    "$.astScanScope.ownConstantLeafBattery.silentlyAdmitted"
+   ],
+   "silentlyAdmittedRule": "a leaf this checker constrains must produce a finding when the checking layer is re-run over the mutated candidate. A leaf it does not constrain IN THAT NESTED MODE is enumerated here and the set must match exactly on every run, so it can neither grow nor shrink silently.",
+   "whyTheRemainingPositionsAreSilent": "they are the battery's OWN four published numbers. The battery cannot re-run itself once per injected leaf without non-terminating recursion, so its nested runs do not compare them. They ARE compared by the top-level run, which is how the numbers above got here; the disclosure is that the guard for those four leaves is the outer run only. Stated rather than hidden, per RES-EP10-10."
+  }
+ },
+ "scalarLeafTotality": {
+  "standingRequirement": "IMPLEMENTATION-FREEZE section 7",
+  "domain": "the root, every object key and every array index at unlimited depth, CONTAINER AND SCALAR LEAF alike",
+  "injectionValues": 17,
+  "surfaces": [
+   {
+    "surface": "plan-intent",
+    "rejectionMode": "findings",
+    "enumeratedPaths": 98,
+    "containerPaths": 28,
+    "scalarLeafPaths": 70,
+    "enumeratedCases": 1666,
+    "noOpInjections": 10,
+    "executedCases": 1656,
+    "guardedEscapes": 0,
+    "silentAccepts": 7
+   },
+   {
+    "surface": "plan-descriptor",
+    "rejectionMode": "findings",
+    "enumeratedPaths": 88,
+    "containerPaths": 26,
+    "scalarLeafPaths": 62,
+    "enumeratedCases": 1496,
+    "noOpInjections": 11,
+    "executedCases": 1485,
+    "guardedEscapes": 0,
+    "silentAccepts": 41
+   }
+  ],
+  "evaluationAuthorityCandidateSurface": {
+   "coveredBy": "admittedClassMeasurement, which drives this surface through EP8's real public authorize_evaluation under BOTH declared regimes rather than through a single in-memory injection",
+   "regimeAScalarLeafPaths": 252,
+   "regimeBScalarLeafPaths": 113
+  },
+  "contractRoot": {
+   "enumeratedPaths": 674,
+   "containerPaths": 141,
+   "scalarLeafPaths": 533,
+   "dictPaths": 94,
+   "listPaths": 47
+  },
+  "understatingIsAFinding": true
+ },
+ "delegationClosure": {
+  "verificationRule": "read once, SHA-256 verified, then executed or parsed from that verified byte string; no second disk read between verification and execution for anything v10 loads",
+  "verificationRuleScope": "this rule is about what v10 loads. The PREDECESSORS re-read some of their own pinned data from disk while executing — check-evaluation-proof-v6.py's admit_evaluation_authority re-reads c2-plan-stage-schema.v3.json and fact-plane.v1.json on every call, and check-evaluation-proof-v8.py's _ep7 sha_file()-verifies then loads from disk. Both hash-verify what they re-read, so the trust order holds transitively, but v10 does not claim more than it enforces.",
+  "executables": [
+   {
+    "file": "check-evaluation-proof-v8.py",
+    "sha256": "c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769"
+   },
+   {
+    "file": "check-evaluation-proof-v7.py",
+    "sha256": "550a2231264ab6b308b3ddb752199c6496f7c2417a8dbeeb9f21c230569b36c4"
+   },
+   {
+    "file": "check-evaluation-proof-v6.py",
+    "sha256": "0a7ac122a598bb7b9454b1b3c46c586f6fd551a2a1ebcf5584665f875457c5f0"
+   },
+   {
+    "file": "check-evaluation-proof.py",
+    "sha256": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2"
+   },
+   {
+    "file": "check-c2-v4.py",
+    "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17"
+   },
+   {
+    "file": "check-evidence.py",
+    "sha256": "6933d2931912a43e3018dc6037068230af0bbc0c0a00d5d9429c155930bde1af"
+   },
+   {
+    "file": "check-retention-custody.py",
+    "sha256": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7"
+   },
+   {
+    "file": "check-d9.py",
+    "sha256": "9f8e16a0000e59d2f1326f97f1b8afcc5c7121eb0c57b6c440d76b9c401346a7"
+   },
+   {
+    "file": "check-versioning.py",
+    "sha256": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227"
+   },
+   {
+    "file": "check-resolved-inputs.py",
+    "sha256": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0"
+   }
+  ],
+  "supersededIndependentEncoder": [
+   {
+    "file": "check-c2.py",
+    "sha256": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3"
+   }
+  ],
+  "pinnedData": [
+   {
+    "file": "evaluation-proof.v9.json",
+    "sha256": "02f9955f4f90e91afd163a5fa8274eb8832aa5419221da7e9e825a1cbf17430b"
+   },
+   {
+    "file": "ep9.review-independent.json",
+    "sha256": "46b244235321c8a36549d0b92ebf843b1561ea6c37a5a7bcc49a498f7899c8cf"
+   },
+   {
+    "file": "evaluation-proof.v8.json",
+    "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303"
+   },
+   {
+    "file": "evaluation-proof.v7.json",
+    "sha256": "92d51e9232c6ee137b7228aa7885a2e32f668f9b4b108d7140fdb52dae864ef8"
+   },
+   {
+    "file": "evaluation-proof.v6.json",
+    "sha256": "74f35668afae2efb57070ff9a2897d373a91b42cc1cbbc87f3c673f872ca4bce"
+   },
+   {
+    "file": "evaluation-proof.v5.json",
+    "sha256": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b"
+   },
+   {
+    "file": "c2-plan-stage-schema.v4.json",
+    "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39"
+   },
+   {
+    "file": "c2-plan-stage-schema.v3.json",
+    "sha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285"
+   },
+   {
+    "file": "c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+    "sha256": "c74612ef4519750aa529db543c2f0cc81fce50d57c3d636486fd2f0ddc0c41f3"
+   },
+   {
+    "file": "ep8-rt13.review-independent-cold-reconstruction.json",
+    "sha256": "f4599b32a9f1b93049111b9e86debd19419902c9c5f4fb886f8d0dc9c330567e"
+   },
+   {
+    "file": "fact-plane.v1.json",
+    "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d"
+   },
+   {
+    "file": "resolved-inputs.v2.json",
+    "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43"
+   },
+   {
+    "file": "versioning-policy.v4.json",
+    "sha256": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6"
+   }
+  ],
+  "pinAgreementRule": "every predecessor pin table that exists is read back out of the executed module object and required to agree with v10's digit for digit — of those that expose one. Six of the ten closure members expose no pin-like table at all, so a '10/10' claim would quantify over a region the instrument cannot observe.",
+  "pinTablesCrossChecked": 4,
+  "recordingObligation": "IMPLEMENTATION-FREEZE 7.2: every input this verdict depends on is recorded here by filename AND SHA-256. A count is not a record and a prose assertion is not a record."
+ },
+ "checkerModeContract": {
+  "checker": "check-evaluation-proof-v10.py",
+  "declaredFlags": [
+   "--selftest"
+  ],
+  "exitCodes": {
+   "0": "candidate accepted / selftest passed",
+   "1": "findings",
+   "2": "unsupported invocation or refused pinned input",
+   "3": "--selftest refused over a dirty base"
+  },
+  "exitMatrixIsObservedBehaviourally": true,
+  "exitMatrixNote": "the three unsupported-invocation arms return before any pinned input is loaded and run on EVERY invocation; the dirty-base arm reaches main -> selftest -> refusal and observes exit 3, and is given the already-verified authority so the observation does not re-execute the pinned closure — stated here rather than implied. The 0 and 1 arms run a complete ordinary check and run under --selftest."
+ },
+ "assurance": {
+  "state": "SPECIFIED",
+  "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+  "qualificationEvidenceIds": [],
+  "releaseEvidenceIds": [],
+  "candidateState": "NOT-APPLIED",
+  "nonClaims": [
+   "no seal, freeze, integration or product acceptance is declared",
+   "no production store, durable backend, host admission or transaction implementation is demonstrated",
+   "implementable is not discharged and not demonstrated",
+   "no signoff authority; CD-RT-5 remains unsigned",
+   "independent re-review is REQUIRED before any status changes"
+  ]
+ },
+ "knownLimitations": [
+  "RES-EP10-01. v10 does NOT repair check-evaluation-proof-v6.py, which is pinned by passed work and out of scope for edit. EP6's INNER C-2 join still executes against the defective check-c2.py bytes underneath EP8. v10 is a strictly stronger OUTER gate, not a replacement of EP6's internals: it independently re-validates every PlanIntent in the closure through C-2 v4 and refuses anything v4 rejects, and it now establishes that routing BEHAVIOURALLY rather than syntactically. Closing the inner join requires a v6 successor and is not closed here.",
+  "RES-EP10-02. The AST scans are tripwires with a declared blind spot, measured at 2 of 8 source variants this run. Every property a scan guards has an independent behavioural counterpart that is executed on every ordinary run, and the set of AST-only properties is measured and required empty.",
+  "RES-EP10-03. Reported honestly and not used to downgrade IR-EP9-02: the reviewer's 2548-case differential fuzz of check-c2.py against check-c2-v4.py over the corpus's only distinct PlanIntent found divergence at exactly the 4 LB-C2-01 (path,value) pairs, and v10's own differential oracle measures a discriminating cardinality of 4 on the same census. A routing evasion therefore produces no wrong ANSWER on today's pinned bytes. The defect the served-module ledger closes is in the EVIDENCE, not currently in the verdict.",
+  "RES-EP10-04. check-completeness.py and check-rust-provider-protocol-v4.py exit 1 for reasons that PRE-EXIST this candidate: open finding R2-FINAL-03, and the absence of an rg binary on PATH. Neither is attributable to v10 and neither is repaired here.",
+  "RES-EP10-05. MEASURED, NOT REPAIRED, and NOT part of the `!= 1` class. Under producer consistency the two SEMANTIC records constrain schemaVersion only LEXICALLY: check-evaluation-proof.py's decoder requires a canonical unsigned decimal but nothing requires the value to be 1, so the sites ['$.activationManifest.schemaVersion', '$.evaluationAuthoritySeal.schemaVersion'] admit any integer version. The admitted control set is enumerated in admittedClassMeasurement.admittedNegativeControls and must match exactly on every run. Closing it requires an EP5 successor.",
+  "RES-EP10-06. MEASURED, NOT REPAIRED. The `!= 1` class is present in the evaluation-proof chain's own exact-closed-record guards. Under producer consistency 5 positions move durable identity and 3 of them do so beneath a byte-identical EvaluationAuthoritySealRef. v10 cannot repair it without editing pinned predecessors, so it enumerates the set by execution and makes any change to that set a finding. Closing it requires v6/v8 successors.",
+  "RES-EP10-07. The instrument's own source is by construction not in its own pinned set, so the AST scans analyse bytes that are not a verified snapshot. Unavoidable for a self-scan; recorded so the trust-order claim is not over-read to cover this checker's own source.",
+  "RES-EP10-08. The distinct-intent family measures injectivity over 14 intents built by legal perturbation of one pinned PlanIntent. That is a measurement, not an equivalence or injectivity proof over all PlanIntents.",
+  "RES-EP10-09. The evasion battery covers routing evasions and three object-level attacks on the Authority. A mutation that deletes the ledger AND the guard that reads it is instrument removal, which no self-check can exclude; the ledger's liveness rule (R-1) covers the case where the instrument is silenced but the guard remains.",
+  "RES-EP10-10. The own-constant-leaf battery cannot re-run itself, so its four published numbers (astScanScope.ownConstantLeafBattery.intBoolLeaves / cases / rejected / silentlyAdmitted) are guarded by the TOP-LEVEL run only and appear in silentlyAdmittedPositions. Every other int/bool leaf of this candidate is rejected by the checking layer re-run in nested mode. The battery also found and repaired an LB-C2-01-class defect in this checker's own first draft: a published JSON 1.0 satisfied a comparison against a measured integer because 1.0 == 1 in the host language. All published-versus-measured comparisons are now recursively type-exact.",
+  "V10 remains unresolved; CD-RT-5 and G19 remain blocked; the candidate is not applied and has no seal or signoff authority."
+ ],
+ "sealRecommendation": "DO-NOT-SEAL"
+}

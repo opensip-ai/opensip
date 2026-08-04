@@ -1,0 +1,1210 @@
+{
+  "artifact": "opensip.retention-custody",
+  "version": 6,
+  "status": "CANDIDATE-AWAITING-INDEPENDENT-REVIEW",
+  "author": "architecture-closer",
+  "date": "2026-07-31",
+  "claimId": "ARCH.RETENTION-TIERS",
+  "supersedesAsArchitectureCandidate": "artifacts/retention-tiers.v5.json",
+  "rejectedPredecessor": {
+    "artifact": "artifacts/retention-tiers.v5.json",
+    "review": "artifacts/retention-tiers.v5.review-reviewer3.json",
+    "verdict": "DO-NOT-SEAL with seven OPEN findings",
+    "retainedWhy": "v5 remains historical evidence. Its sealed-versus-effective split survives review and is carried forward; its closure, concurrency, lineage, D9 and authority claims did not."
+  },
+  "repairs": [
+    "R3-RTV5-02",
+    "R3-RTV5-03",
+    "R3-RTV5-04",
+    "R3-RTV5-05",
+    "R3-RTV5-06",
+    "R3-RTV5-07"
+  ],
+  "repairedElsewhere": {
+    "R3-RTV5-01": "artifacts/evaluation-proof.v1.json + artifacts/check-evaluation-proof.py — the proof object graph is a separate versioned binding rather than an overload of retention."
+  },
+  "role": "Decide what happens to a sealed authoritative Run when its evidence stops being available: which units its capability depends on, how a reader and a purger serialize, what targeted purge can honestly promise, and which typed outcome each failure produces.",
+  "carriedForwardFromV5": {
+    "sealedVersusEffective": "A Run seals one immutable assurance capability and evidence inventory. Readers DERIVE an effective capability from live unit states. The sealed value is never rewritten.",
+    "why": "Reviewer-3 explicitly endorsed this split and directed repair toward its closure and operational semantics rather than a return to tiers or Run rewriting.",
+    "capabilityLattice": {
+      "order": [
+        "recorded",
+        "verifiable",
+        "replayable"
+      ],
+      "ranks": {
+        "recorded": 0,
+        "verifiable": 1,
+        "replayable": 2
+      },
+      "authorityFloor": "An authoritative gate, baseline mutation, waiver decision, or compliance assertion requires effective capability >= verifiable."
+    },
+    "unitStates": [
+      {
+        "state": "AVAILABLE",
+        "terminal": false,
+        "meaning": "resolves and passes integrity"
+      },
+      {
+        "state": "OUTAGE",
+        "terminal": false,
+        "meaning": "temporarily unresolvable; may recover"
+      },
+      {
+        "state": "PURGED",
+        "terminal": true,
+        "meaning": "removed by explicit policy purge"
+      },
+      {
+        "state": "EXPIRED",
+        "terminal": true,
+        "meaning": "removed by explicit retention expiry"
+      },
+      {
+        "state": "CORRUPT",
+        "terminal": true,
+        "meaning": "resolves but fails integrity"
+      },
+      {
+        "state": "MISSING-DEPENDENCY",
+        "terminal": true,
+        "meaning": "replay closure object not obtainable offline"
+      }
+    ],
+    "terminalMonotonicity": "The terminally lost set is append-only. A terminal state never returns to AVAILABLE. OUTAGE may recover, so effective capability can dip and recover under transient loss while the terminal ceiling is non-increasing."
+  },
+  "capabilityClosure": {
+    "repairs": "R3-RTV5-02",
+    "problem": "v5 derived effective capability from whatever units a caller happened to list. Omitting or misclassifying one proof dependency left effectiveCapability at verifiable after the material needed to verify was gone (R3-RTV5-CE-03).",
+    "rule": "The sealed Run carries a host-owned capability-requirement closure that maps EVERY reference in the evaluation-proof graph to exactly one retention unit, with the minimum capability that needs it. The closure is recomputed and verified at seal time and at read time.",
+    "derivation": {
+      "source": "artifacts/evaluation-proof.v1.json proof graph for the Run",
+      "requiredForCapability": "the MINIMUM lattice level of any proof that references the object. A reference used by a verifiable no-match is 'verifiable' even if a replay closure also uses it.",
+      "commitmentGrammar": "identical to evaluation-proof.v1 canonicalCommitmentGrammar, domain 'capability-closure'",
+      "member": "unitId || 0x1F || requiredForCapability || 0x1F || sorted objectRefs joined by 0x1E"
+    },
+    "invariantsEnforced": [
+      "every proof reference maps to exactly one unit — no omission",
+      "no two units alias the same object reference — no duplicate that could mask a purge",
+      "no unit declares a capability weaker than the strongest claim depending on it — no downgrade",
+      "the closure commitment recomputes from the units",
+      "a unit is available only if EVERY object it contains is available — partial availability retains no authority"
+    ],
+    "fixtures": [
+      {
+        "id": "CL-POS-01",
+        "expect": "accept",
+        "why": "complete closure, everything available",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:9bb052d43b2764e1cde91db6f3453f43a0807eed1582a7b047baab05900e0787",
+        "expectedEffectiveCapability": "verifiable"
+      },
+      {
+        "id": "CL-POS-02",
+        "expect": "accept",
+        "why": "one verifiable unit purged demotes to recorded",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "PURGED"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:9bb052d43b2764e1cde91db6f3453f43a0807eed1582a7b047baab05900e0787",
+        "expectedEffectiveCapability": "recorded"
+      },
+      {
+        "id": "CL-POS-03",
+        "expect": "accept",
+        "why": "losing only the replay closure demotes replayable -> verifiable",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5",
+            "neededAtCapability": "replayable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-env",
+            "requiredForCapability": "replayable",
+            "objectRefs": [
+              "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5"
+            ],
+            "objectStates": {
+              "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5": "MISSING-DEPENDENCY"
+            }
+          }
+        ],
+        "sealedCapability": "replayable",
+        "closureCommitment": "sha256:24ad57a7e966262ef3c999c646e3ac21047717bbc5a1baf6b8e000bed2ceeae6",
+        "expectedEffectiveCapability": "verifiable"
+      },
+      {
+        "id": "CL-NEG-01",
+        "expect": "reject",
+        "why": "R3-RTV5-CE-03: the closure omits the predicate-semantics unit",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:bc5c05fd3beee52a579dac757c60702fc664428c5dbaa1c0d648f0671aeb22bc",
+        "violates": "RC-11"
+      },
+      {
+        "id": "CL-NEG-02",
+        "expect": "reject",
+        "why": "two units alias the same object, so a purge of one is masked",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-facts-alias",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:4a91ebb346b8723f5fa2be48c11b49396d92796ce662455e2ad80b623e6289c7",
+        "violates": "RC-11"
+      },
+      {
+        "id": "CL-NEG-03",
+        "expect": "reject",
+        "why": "R3-RTV5-CE-03: predicate unit downgraded to replayable while a verifiable no-match needs it",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "replayable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:f9eb45c7bafdd5cb061e87ff66ad7ca55783d76e2c85f401097304cc1633c8e1",
+        "violates": "RC-11"
+      },
+      {
+        "id": "CL-NEG-04",
+        "expect": "reject",
+        "why": "closure commitment does not recompute from the units",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-pred",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "AVAILABLE"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:dededededededededededededededededededededededededededededededede",
+        "violates": "RC-11"
+      },
+      {
+        "id": "CL-NEG-05",
+        "expect": "reject",
+        "why": "a unit is partially available and still counted as available",
+        "proofRefs": [
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "neededAtCapability": "verifiable"
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "neededAtCapability": "verifiable"
+          }
+        ],
+        "units": [
+          {
+            "unitId": "u-facts",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+            ],
+            "objectStates": {
+              "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0": "AVAILABLE",
+              "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1": "PURGED"
+            }
+          },
+          {
+            "unitId": "u-policy",
+            "requiredForCapability": "verifiable",
+            "objectRefs": [
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0"
+            ],
+            "objectStates": {
+              "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0": "AVAILABLE"
+            }
+          }
+        ],
+        "sealedCapability": "verifiable",
+        "closureCommitment": "sha256:3335af3a75e281fb52f80cc02e796713ddde93ada5c255601551f0a15a0d2767",
+        "violates": "RC-12"
+      }
+    ]
+  },
+  "leaseProtocol": {
+    "repairs": "R3-RTV5-03",
+    "problem": "v5 used a boolean resolvedAtAdmission. A second one-shot process holding the purge authority could delete a unit between resolution and use (R3-RTV5-CE-04). One-shot topology does not remove cross-process concurrency.",
+    "operation": {
+      "name": "resolve-and-pin",
+      "atomicity": "ONE transaction in the project ledger. Resolving effective capability and acquiring the read lease are not separable steps.",
+      "owner": "host admission boundary",
+      "durableRecord": "projects/<ProjectId>/ledger.sqlite — the same transactional authority that owns the purge lease, so both serialize in one lock domain"
+    },
+    "leaseRecord": {
+      "fields": [
+        "leaseId",
+        "ownerProcessId",
+        "ownerLivenessToken",
+        "unitIds",
+        "acquiredAtSeq",
+        "expiresAtSeq",
+        "state"
+      ],
+      "states": [
+        "HELD",
+        "RELEASED",
+        "RECLAIMED-STALE"
+      ],
+      "note": "leaseId is durable and content-independent; a boolean is never a lease."
+    },
+    "totalOrder": "Ledger sequence numbers order read leases and purge leases in one domain. There is no separate read-side lock that a purge could miss.",
+    "transitions": [
+      {
+        "id": "LP-1",
+        "scenario": "read lease HELD, purge targets a covered unit",
+        "resolution": "purge is REJECTED, not queued; it reports the blocking leaseIds",
+        "outcome": "operational-failed / LEDGER.BUSY_TIMEOUT",
+        "why": "contention is retryable; the caller re-runs purge after the reader finishes. Waiting would let a long reader block deletion indefinitely, which is a privacy hazard."
+      },
+      {
+        "id": "LP-2",
+        "scenario": "purge committed (unit tombstoned), then resolve-and-pin requested",
+        "resolution": "lease acquisition fails for that unit; effective capability is recomputed without it",
+        "outcome": "request-rejected / REQUEST.UNSATISFIABLE when the caller required authoritative use",
+        "why": "the evidence is terminally gone; restating or re-running is the remedy"
+      },
+      {
+        "id": "LP-3",
+        "scenario": "PURGE-PREPARED tombstone exists but physical removal has not run",
+        "resolution": "resolve-and-pin refuses the unit — a prepared purge is already authoritative intent",
+        "outcome": "request-rejected / REQUEST.UNSATISFIABLE",
+        "why": "TM deletionProtocol resumes tombstoned purges on startup before analysis; granting a lease over prepared material would resurrect it"
+      },
+      {
+        "id": "LP-4",
+        "scenario": "lease holder crashes while HELD",
+        "resolution": "lease is RECLAIMED-STALE once expiresAtSeq passes and the liveness token is dead; units return to normal purge eligibility",
+        "outcome": "no user-visible outcome; recovery is internal",
+        "why": "a crashed reader must not pin evidence forever"
+      },
+      {
+        "id": "LP-5",
+        "scenario": "retention expiry falls due while a read lease is HELD",
+        "resolution": "expiry does not preempt a live lease; it applies at release",
+        "outcome": "success for the in-flight read",
+        "why": "an admitted, pinned read completes against the state it was admitted on — this is the actual TOCTOU closure"
+      },
+      {
+        "id": "LP-6",
+        "scenario": "resolve-and-pin retried with the same leaseId",
+        "resolution": "idempotent — returns the same grant and does not extend the pin window",
+        "outcome": "success",
+        "why": "retry safety without lease laundering"
+      }
+    ],
+    "doesNotClaim": "Runtime atomicity is a property of the ledger transaction, not of this document. This contract specifies the required serialization; it does not demonstrate an implementation achieves it.",
+    "fixtures": [
+      {
+        "id": "LF-01",
+        "transition": "LP-1",
+        "scenario": "purge attempted while a read lease is HELD",
+        "leaseHeld": true,
+        "purgeTargetsHeldUnit": true,
+        "expectRow": "RD-08",
+        "why": "contention is retryable; purge is rejected rather than queued"
+      },
+      {
+        "id": "LF-02",
+        "transition": "LP-2",
+        "scenario": "purge committed before admission; authoritative use requested",
+        "leaseHeld": false,
+        "unitTerminal": true,
+        "authoritativeRequested": true,
+        "expectRow": "RD-02",
+        "why": "terminally gone; restate or re-run"
+      },
+      {
+        "id": "LF-03",
+        "transition": "LP-3",
+        "scenario": "PURGE-PREPARED tombstone present at admission",
+        "leaseHeld": false,
+        "tombstonePrepared": true,
+        "authoritativeRequested": true,
+        "expectRow": "RD-02",
+        "why": "a prepared purge is authoritative intent; a lease must not resurrect it"
+      },
+      {
+        "id": "LF-04",
+        "transition": "LP-4",
+        "scenario": "holder crashes while HELD",
+        "leaseHeld": true,
+        "ownerAlive": false,
+        "expiredSeq": true,
+        "expectLeaseState": "RECLAIMED-STALE",
+        "why": "a crashed reader must not pin evidence forever"
+      },
+      {
+        "id": "LF-05",
+        "transition": "LP-5",
+        "scenario": "retention expiry falls due during a held lease",
+        "leaseHeld": true,
+        "expiryDue": true,
+        "expectRow": "RD-01",
+        "why": "expiry applies at release; the admitted read completes — this is the TOCTOU closure"
+      },
+      {
+        "id": "LF-06",
+        "transition": "LP-6",
+        "scenario": "resolve-and-pin retried with the same leaseId",
+        "leaseHeld": true,
+        "retrySameLeaseId": true,
+        "expectIdempotent": true,
+        "why": "retry safety without extending the pin window"
+      }
+    ]
+  },
+  "storageAndLineage": {
+    "repairs": "R3-RTV5-04",
+    "problem": "v5 promised that a targeted purge affects exactly the units containing the material AND leaves unrelated Runs untouched AND never rewrites sealed identity. R3-RTV5-CE-05 showed those three cannot all hold when a fact partition holds many subjects and is shared by many Runs.",
+    "resolution": "The over-promise is withdrawn. The purge key is the content-addressed OBJECT, not the subject, and blocked material is reported rather than silently removed or silently retained.",
+    "join": {
+      "source": "artifacts/threat-model.v3.json#deletionProtocol and #storageNamespace, artifacts/storage-namespace.adjudication-admission-storage-lane.v1.json",
+      "projectScope": "projects/<ProjectId> — ProjectId matches ^prj1-[0-9a-f]{64}$",
+      "objectPath": "projects/<ProjectId>/objects/sha256/<digestHex>",
+      "crossProject": "physical deduplication is FORBIDDEN; equal content in two projects is two independently written files",
+      "withinProject": "shared objects use transactional reference counts plus a reachability proof"
+    },
+    "purgeKeyGranularity": "content-addressed object within one ProjectId namespace",
+    "targetedPurgeSemantics": {
+      "step1": "resolve the selection (path/subject/privacy class) to the exact set of objects containing it, via proof-unit -> object -> Run reachability in that project's ledger",
+      "step2": "partition those objects into UNBLOCKED (reachable only by Runs in the purge scope) and BLOCKED (reachable by a retained Run outside the scope)",
+      "step3": "tombstone and remove UNBLOCKED objects; report BLOCKED objects as retained with their blocking Run IDs",
+      "step4": "append an audit record with before/after inventory commitments",
+      "honestPromise": "A targeted purge removes exactly the unblocked objects containing the selection. It does NOT guarantee the selected subject is gone — shared retained material is reported, never silently removed and never silently ignored.",
+      "escalation": "Removing blocked material requires explicitly purging every blocking Run. That is a separate, stronger operation the user must request; it is not implied by a targeted purge.",
+      "noSilentDemotion": "Because BLOCKED objects are never removed, a targeted purge never demotes a Run outside its scope. Runs inside the scope demote to the capability their surviving units support.",
+      "noIdentityRewrite": "Objects are never rewritten in place. A shared partition is retained or removed whole; editing it would change an identity two sealed Runs already committed to."
+    },
+    "residual": "Subject-level isolation inside a shared partition is NOT provided. If product requires that a targeted purge always removes the subject, the storage architecture must supply subject-isolated partitioning or per-Run duplication, both of which have cost and privacy consequences that are not decided here.",
+    "fixtures": [
+      {
+        "id": "PF-01",
+        "why": "unshared object containing the subject is removed",
+        "targetSubject": "src/secret.ts",
+        "scopeRunIds": [
+          "run-A"
+        ],
+        "objects": [
+          {
+            "objectId": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "containsSubject": true,
+            "reachableByRunIds": [
+              "run-A"
+            ]
+          }
+        ],
+        "expect": {
+          "removed": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ],
+          "retainedBlocked": [],
+          "demotedOutsideScope": false
+        }
+      },
+      {
+        "id": "PF-02",
+        "why": "R3-RTV5-CE-05: shared partition is reported blocked, not removed",
+        "targetSubject": "src/secret.ts",
+        "scopeRunIds": [
+          "run-A"
+        ],
+        "objects": [
+          {
+            "objectId": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "containsSubject": true,
+            "reachableByRunIds": [
+              "run-A",
+              "run-B"
+            ]
+          }
+        ],
+        "expect": {
+          "removed": [],
+          "retainedBlocked": [
+            {
+              "objectId": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+              "blockingRunIds": [
+                "run-B"
+              ]
+            }
+          ],
+          "demotedOutsideScope": false
+        }
+      },
+      {
+        "id": "PF-03",
+        "why": "mixed: one removable, one blocked; no out-of-scope demotion either way",
+        "targetSubject": "src/secret.ts",
+        "scopeRunIds": [
+          "run-A"
+        ],
+        "objects": [
+          {
+            "objectId": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+            "containsSubject": true,
+            "reachableByRunIds": [
+              "run-A"
+            ]
+          },
+          {
+            "objectId": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+            "containsSubject": true,
+            "reachableByRunIds": [
+              "run-A",
+              "run-C"
+            ]
+          }
+        ],
+        "expect": {
+          "removed": [
+            "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          ],
+          "retainedBlocked": [
+            {
+              "objectId": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+              "blockingRunIds": [
+                "run-C"
+              ]
+            }
+          ],
+          "demotedOutsideScope": false
+        }
+      },
+      {
+        "id": "PF-04",
+        "why": "objects not containing the subject are untouched",
+        "targetSubject": "src/secret.ts",
+        "scopeRunIds": [
+          "run-A"
+        ],
+        "objects": [
+          {
+            "objectId": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+            "containsSubject": false,
+            "reachableByRunIds": [
+              "run-A"
+            ]
+          }
+        ],
+        "expect": {
+          "removed": [],
+          "retainedBlocked": [],
+          "demotedOutsideScope": false
+        }
+      }
+    ]
+  },
+  "d9Derivation": {
+    "repairs": "R3-RTV5-05",
+    "problem": "v5's RC-10 checked only that a code was in D9's closed vocabulary. R3-PROBE-04 changed a row's class while keeping the code and the checker passed. v5 also mapped recoverable OUTAGE to the same code as terminal purge, erasing the remedy distinction D9 groups by (R3-RTV5-CE-06).",
+    "rule": "Every row declares complete D9 scenario axes. The retained checker imports the live d9 reference derivation (check_d9.derive_class / derive_codes, which d9-exit-contract.v1.6 names as referenceDerivation.implementation) and asserts the declared class and code are what D9 DERIVES. Membership is not derivation.",
+    "noNewVocabulary": true,
+    "rows": [
+      {
+        "id": "RD-01",
+        "situation": "inspect a degraded Run",
+        "class": "success",
+        "code": null,
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "none",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        }
+      },
+      {
+        "id": "RD-02",
+        "situation": "authoritative use of a Run whose required unit is terminally PURGED or EXPIRED",
+        "class": "request-rejected",
+        "code": "REQUEST.UNSATISFIABLE",
+        "axes": {
+          "commandKind": "run",
+          "admission": "rejected",
+          "lifecycle": "pre-run",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "none",
+          "deficiency": "none",
+          "rejectionCause": "unsatisfiable",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        }
+      },
+      {
+        "id": "RD-03",
+        "situation": "required unit is in transient OUTAGE — unmounted or removable store",
+        "class": "operational-failed",
+        "code": "HOST.IO_FAILURE",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "host-fault",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "host-io",
+          "secondaryDeficiencies": []
+        },
+        "whyNotUnsatisfiable": "The same request becomes satisfiable when the store returns. D9 groups codes by remedy: remount and retry is not restate-or-re-run."
+      },
+      {
+        "id": "RD-04",
+        "situation": "ledger integrity failure while resolving evidence",
+        "class": "operational-failed",
+        "code": "LEDGER.CORRUPT",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "host-fault",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "ledger-corrupt",
+          "secondaryDeficiencies": []
+        }
+      },
+      {
+        "id": "RD-05",
+        "situation": "content-addressed proof object cannot be linked or materialised",
+        "class": "operational-failed",
+        "code": "CAS.LINK_FAILED",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "host-fault",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "cas-link",
+          "secondaryDeficiencies": []
+        },
+        "whyNotLedgerCorrupt": "Object materialisation failure has its own remedy — run store repair — and D9 already separates it."
+      },
+      {
+        "id": "RD-06",
+        "situation": "addressed Run was retention-collected and a tombstone is retained",
+        "class": "request-rejected",
+        "code": "IDENTITY.EXPIRED",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "addressed-identity-unresolved",
+          "deficiency": "none",
+          "rejectionCause": "identity-expired",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        }
+      },
+      {
+        "id": "RD-07",
+        "situation": "addressed Run has no tombstone",
+        "class": "request-rejected",
+        "code": "IDENTITY.UNKNOWN",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "addressed-identity-unresolved",
+          "deficiency": "none",
+          "rejectionCause": "identity-unknown",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        }
+      },
+      {
+        "id": "RD-08",
+        "situation": "purge rejected because a read lease covers the targeted unit (LP-1)",
+        "class": "operational-failed",
+        "code": "LEDGER.BUSY_TIMEOUT",
+        "axes": {
+          "commandKind": "mutation",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "host-fault",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "ledger-busy",
+          "secondaryDeficiencies": []
+        },
+        "whyRetryable": "Contention, not corruption. The purge succeeds once the reader releases."
+      },
+      {
+        "id": "RD-09",
+        "situation": "caller requires complete evidence a degraded Run cannot supply",
+        "class": "indeterminate",
+        "code": "QUERY.COMPLETENESS_UNMET",
+        "axes": {
+          "commandKind": "query",
+          "admission": "admitted",
+          "lifecycle": "not-applicable",
+          "requiredCoverage": "unsatisfied",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "none",
+          "deficiency": "query-completeness-unmet",
+          "rejectionCause": "none",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        },
+        "whyIncluded": "R3-RTV5-05 named this as the omitted D9 case. An admitted completeness query is answered honestly as indeterminate, not rejected."
+      },
+      {
+        "id": "RD-10",
+        "situation": "durable or authoritative evidence requested with no explicit retention policy resolved",
+        "class": "request-rejected",
+        "code": "REQUEST.UNSATISFIABLE",
+        "axes": {
+          "commandKind": "run",
+          "admission": "rejected",
+          "lifecycle": "pre-run",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "none",
+          "deficiency": "none",
+          "rejectionCause": "unsatisfiable",
+          "faultCause": "none",
+          "secondaryDeficiencies": []
+        }
+      }
+    ],
+    "requiredDistinctions": {
+      "why": "R3-RTV5-05 named the exact distinctions the mapping must keep separate. Listing them makes coverage checkable, so a row cannot be quietly dropped and leave a whole remedy class unrepresented.",
+      "byCode": {
+        "REQUEST.UNSATISFIABLE": "terminal authorized loss (purge/expiry) and unsatisfiable durable request",
+        "HOST.IO_FAILURE": "transient storage or provider outage — recoverable",
+        "LEDGER.CORRUPT": "ledger integrity failure — repairable",
+        "CAS.LINK_FAILED": "content-addressed object cannot be materialised — store repair",
+        "IDENTITY.EXPIRED": "retention-collected identity with a tombstone",
+        "IDENTITY.UNKNOWN": "identity with no tombstone",
+        "LEDGER.BUSY_TIMEOUT": "concurrent purge/pin contention — retryable",
+        "QUERY.COMPLETENESS_UNMET": "admitted completeness query answered as indeterminate"
+      },
+      "requiresSuccessRow": "at least one row must terminate success, or honest inspection of degraded history has been lost"
+    }
+  },
+  "custodyPolicy": {
+    "repairs": "R3-RTV5-06",
+    "perObligation": "Custody strategy — frozen evidence or an exact deterministic regeneration closure — is selected per proof obligation by the host, never by a producer.",
+    "recommendedDefaultPosture": {
+      "recommendation": "no managed durable user-derived write without an explicit project storage and retention policy",
+      "whenPolicyMissing": "the request is explicitly advisory/ephemeral, or rejected if durable or authoritative evidence was requested (RD-10)",
+      "status": "AWAITING-PRODUCT-DISPOSITION",
+      "authority": "artifacts/product-dispositions.v1.json#pendingDecisions.CD-RT-5",
+      "currentProductState": "BLOCKED_ON_PHASE_1A",
+      "selfSignoffPolicy": "This architecture candidate RECOMMENDS the posture and states its consequences. It does not and cannot record product acceptance. v5 asserted PRODUCT-SIGNED-OFF inside its own status field, which was an authority inversion (R3-RTV5-06).",
+      "consequencesIfAccepted": [
+        "a first Run with no configured policy cannot produce durable authoritative evidence",
+        "CI and agents must carry a pre-provisioned or versioned policy",
+        "no interactive consent question is answered implicitly by a non-interactive client"
+      ],
+      "consequencesIfReplaced": [
+        "a documented short default retention with first-run consent would need an explicit consent mechanism and a real purge path",
+        "the storage admission checks in RA-6/E6 still apply before the first durable write"
+      ]
+    }
+  },
+  "integrationState": {
+    "repairs": "R3-RTV5-07",
+    "rule": "This candidate closes NOTHING outside its own artifact. Every cross-artifact state below stays as it is until independent re-review passes, product records CD-RT-5, and one serialized integration lands.",
+    "pending": [
+      {
+        "target": "threat-model.v3.json#V10",
+        "currentState": "must remain UNRESOLVED",
+        "note": "v5 set it RESOLVED and cited a path that did not exist. That edit is superseded; see integrationPatch in the adjudication artifact."
+      },
+      {
+        "target": "operability.v2.json#G19",
+        "currentState": "BLOCKED-NO-MECHANISM",
+        "note": "unchanged by this candidate"
+      },
+      {
+        "target": "product-dispositions.v1.json#CD-RT-5",
+        "currentState": "BLOCKED_ON_PHASE_1A",
+        "note": "only the product authority may change this"
+      },
+      {
+        "target": "claim-register.v1.json#ARCH.RETENTION-TIERS",
+        "currentState": "unchanged by this candidate",
+        "note": "concurrently owned; not edited"
+      },
+      {
+        "target": "architecture/09-open-decisions.md",
+        "currentState": "unchanged by this candidate",
+        "note": "narrative reconciliation is part of the serialized integration"
+      }
+    ],
+    "forbiddenClaims": [
+      "V10 resolved",
+      "TM sealed",
+      "G19 unblocked",
+      "CD-RT-5 signed",
+      "Phase 1A complete",
+      "architecture freeze"
+    ]
+  },
+  "invariants": [
+    {
+      "id": "RC-1",
+      "assert": "The sealed assurance capability and sealed evidence inventory are immutable; no availability event rewrites them."
+    },
+    {
+      "id": "RC-2",
+      "assert": "Effective capability is derived at read time from the sealed closure and live unit states, and is never persisted into the sealed Run."
+    },
+    {
+      "id": "RC-3",
+      "assert": "Effective capability never exceeds sealed capability, and terminal loss is irreversible."
+    },
+    {
+      "id": "RC-4",
+      "assert": "A Run whose effective capability is below verifiable is never accepted as an authoritative input."
+    },
+    {
+      "id": "RC-5",
+      "assert": "Effective capability and the read lease are acquired in one atomic durable operation ordered against purge in a single lock domain."
+    },
+    {
+      "id": "RC-6",
+      "assert": "A degradation report identifies each unavailable unit and its cause; one Run-wide word is insufficient."
+    },
+    {
+      "id": "RC-7",
+      "assert": "Inspecting a degraded Run succeeds and reports honestly; loss of proof restricts authority, never readability."
+    },
+    {
+      "id": "RC-8",
+      "assert": "Purge is explicit and recorded and never converts an unverifiable claim into a trusted one."
+    },
+    {
+      "id": "RC-9",
+      "assert": "No managed durable user-derived write occurs without an explicit resolved retention policy."
+    },
+    {
+      "id": "RC-10",
+      "assert": "Every outcome DERIVES from D9's live reference derivation over complete axes; vocabulary membership alone is not conformance."
+    },
+    {
+      "id": "RC-11",
+      "assert": "The capability-requirement closure is exact: every proof reference maps to exactly one unit at the minimum capability that needs it, with no omission, alias, or downgrade."
+    },
+    {
+      "id": "RC-12",
+      "assert": "A unit is available only if every object it contains is available; partial availability retains no authority."
+    },
+    {
+      "id": "RC-13",
+      "assert": "A targeted purge removes only unblocked objects and reports blocked objects with their blocking Run IDs; it never demotes a Run outside its scope and never rewrites a shared object."
+    },
+    {
+      "id": "RC-14",
+      "assert": "This candidate never records product acceptance for CD-RT-5 and never declares a cross-artifact dependency closed."
+    }
+  ],
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "why": "A contract plus a retained checker is design-integrity evidence. AS-1: implementable:true performs no assurance transition. Nothing here is QUALIFIED or DEMONSTRATED and no product gate is unblocked."
+  },
+  "retainedResiduals": [
+    {
+      "id": "A1-RTV4-02",
+      "class": "MEASUREMENT",
+      "statement": "No-match fold plus reverification cost including retained fact custody is unmeasured. No constant-size or orders-of-magnitude claim is authorized.",
+      "doesNotBlock": "implementing the proof or custody model"
+    },
+    {
+      "id": "RC-R-01",
+      "class": "STORAGE-ARCHITECTURE",
+      "statement": "Subject-level isolation inside a shared fact partition is not provided. Targeted purge reports blocked shared material rather than removing it."
+    },
+    {
+      "id": "RC-R-02",
+      "class": "STORAGE-ARCHITECTURE",
+      "statement": "Real deletion for deduplicated and backup-held objects remains open; purge promises an honest recorded transition, not forensic erasure."
+    },
+    {
+      "id": "RC-R-03",
+      "class": "PROCESS",
+      "statement": "v6 and its checkers are authored by the same agent that authored the rejected v5. Independent re-review by an agent that authored neither the proof contract nor the checkers is required before any seal."
+    },
+    {
+      "id": "RC-R-04",
+      "class": "PRODUCT",
+      "statement": "CD-RT-5 remains BLOCKED_ON_PHASE_1A. Product authority must accept or replace the recommended default posture."
+    },
+    {
+      "id": "RC-R-05",
+      "class": "MEASUREMENT",
+      "statement": "Storage exposure detector coverage remains catalog-scoped with DETECTED/NOT-DETECTED/UNKNOWN fallback."
+    }
+  ],
+  "knownLimitations": [
+    "Same-author risk is the dominant residual: the agent that wrote the rejected v5 wrote v6, the proof contract, and all three checkers. Green checkers here are checker-scope evidence only, exactly as reviewer-3 recorded.",
+    "The lease protocol specifies required serialization. It is not demonstrated against a real ledger, and no crash-injection harness exists.",
+    "The storage join reads the admission-storage lane's adjudication at a point in time. If that lane changes purge or reference-count semantics, the targeted-purge rules here must be re-derived.",
+    "Effective-capability derivation is specified as a pure function over unit states. Its cost for a Run with many thousands of units is unmeasured.",
+    "The D9 rows are validated against the live derivation, but they enumerate the situations this contract knows about. Totality over all future operations is not proved."
+  ],
+  "confidence": "high on the sealed/effective split and the D9 derivation join; medium-high on the closure and lease specifications, which are exact but unexecuted; medium on targeted purge, which is now honest but delivers less than v5 promised.",
+  "sealRecommendation": "DO NOT SEAL. Hand to an independent reviewer who authored neither the proof contract nor the checkers. Phase 1A closes only after that review passes and product records CD-RT-5."
+}

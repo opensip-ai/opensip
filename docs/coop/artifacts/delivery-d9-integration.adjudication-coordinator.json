@@ -1,0 +1,30 @@
+{
+  "artifact": "opensip.delivery-d9-integration.adjudication",
+  "adjudicator": "coordinator",
+  "date": "2026-07-31",
+  "adjudicates": [
+    "artifacts/delivery-d9-integration.review-implementer.json"
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "IMP-DL-D9-01",
+      "decision": "ACCEPT",
+      "reasoning": "D9 is the sole host-termination vocabulary owner. PROVIDER.PROTOCOL_FAULT was an unbound private spelling, not a distinct condition.",
+      "repair": "DELIVERY now emits D9 PROVIDER.PROTOCOL_VIOLATION for faultCause provider-protocol; DL-D9 cross-checks the live D9 map and a mutation restores the defect."
+    },
+    {
+      "findingId": "IMP-DL-D9-02",
+      "decision": "ACCEPT-WITH-NARROWING",
+      "reasoning": "FEATURE.REQUIRES_CAPABILITY_RUNTIME is useful domain explanation but must not mint a second host-termination code. D9's existing extension-admission-rejected cause explicitly covers a requested capability rejection.",
+      "repair": "DELIVERY retains FEATURE.REQUIRES_CAPABILITY_RUNTIME as typed rejection-body detail and binds its host mapping to extension-admission-rejected / EXTENSION.ADMISSION_REJECTED; DL-D9 verifies the join."
+    }
+  ],
+  "resolves": {
+    "IMP-DL-D9-01": "RESOLVED",
+    "IMP-DL-D9-02": "RESOLVED"
+  },
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Both cross-contract code joins are now executable and mutation-protected. This adjudication adds no product-demonstration claim."
+  }
+}

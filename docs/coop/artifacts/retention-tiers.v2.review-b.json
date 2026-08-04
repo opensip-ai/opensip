@@ -1,0 +1,239 @@
+{
+  "artifact": "opensip.review.retention-tiers",
+  "version": "1.0",
+  "subject": "artifacts/retention-tiers.v2.json",
+  "reviewer": "agent-b",
+  "date": "2026-07-30",
+  "independence": {
+    "method": "Blindly derived the minimum durable proof for a positive match, a negative/no-match result, a relationship/set claim, a policy verdict, and a later replay before reading v2; then diffed those obligations against every retained field and conformance assertion.",
+    "differentInstrument": "The author repaired the known excerpt-versus-relationship examples. This review tests the unit of proof (finding versus evaluation/outcome), commitment versus witness bytes, adversarial shape declarations, and zero-finding Runs."
+  },
+  "verdict": "reject-require-v3",
+  "acceptedDirection": [
+    "T1-excerpt is correctly withdrawn as a universal proof tier.",
+    "Local, path, and absence claims do require different witness shapes.",
+    "T0 now states that fact-relation bodies are not silently pinned; this removes the largest T0 custody ambiguity.",
+    "An immutable sealedTier plus separately derived current availability is the correct direction for B-RT-04; the sealed Run must not be rewritten.",
+    "Fail-loud policy for insufficient proof capability and no silent proof truncation are correct requirements."
+  ],
+  "decisionRecommendations": {
+    "CD-RT-1": "REJECT the current accept-as-default recommendation and require v3. Keep T1-proof as the design direction, but do not ship authoritative/gating persistence with T0 as a fallback: until a verifiable T1 exists and storage choice occurs before the first write, Runs must be explicitly ephemeral/advisory or the release remains incomplete.",
+    "CD-RT-2": "POSTPONE. T1-partition may be required, not optional, for absence and complete-set proofs; that cannot be decided until proof sufficiency and deduplication are specified and measured.",
+    "CD-RT-3": "ACCEPT IN DIRECTION. sealedTier stays immutable; availability belongs in a separate append-only retention/availability record. v3 must define per-proof granularity, permitted degradation events, and the conflict with retained-Run pinning."
+  },
+  "priorFindingDisposition": {
+    "B-RT-01": "PARTIAL. v2 recognizes path and absence shapes, but the required payloads are commitments rather than independently checkable witnesses and the model omits no-finding/outcome proofs.",
+    "B-RT-02": "MOSTLY CLOSED for T0 fact-body ambiguity: v2 says T0 retains identities/digests rather than full relation bodies. Coverage-body custody remains load-bearing for absence proofs.",
+    "B-RT-03": "OPEN. The default remains underived: no complete proof-family matrix, executable verifier, representative size/privacy distribution, or resolution for unsupported/truncated proofs exists.",
+    "B-RT-04": "CLOSED IN CONCEPT for the mutable-Run defect. sealedTier plus external effective availability is correct; the successor availability and pinning contract remains incomplete.",
+    "B-RT-05": "OPEN. Proof size and source/PII cost remain unmeasured; absence and aggregate proofs may approach relation-partition scale.",
+    "B-RT-06": "OPEN. T2 still claims full re-derivation and attestation while retaining input bytes and toolchain identities rather than the executable environment.",
+    "B-RT-07": "PARTIAL. Excerpts are optional and privacy-classed, but v2 permits default T1 proof objects to retain them without a default-off rule, retention lifetime, or pre-write storage choice."
+  },
+  "resolves": {
+    "B-RTV2-01": "OPEN-BLOCKER: FindingProof is the wrong proof unit; a clean/pass Run carries no proof of rule evaluations, no-match results, baseline comparison, or policy verdict.",
+    "B-RTV2-02": "OPEN-BLOCKER: required local/path/absence fields are anchors and digests, not sufficient retained witnesses; well-typed T1 objects can remain unverifiable.",
+    "B-RTV2-03": "OPEN-BLOCKER: rule-declared findingShape plus structural typing is producer self-attestation; no host-owned proof obligation or verifier validates semantic adequacy.",
+    "B-RTV2-04": "OPEN-BLOCKER: truncation is allowed while T1 promises complete why; residualDigest cannot replace omitted witness data and terminal semantics are unspecified.",
+    "B-RTV2-05": "OPEN-BLOCKER: T1-proof default is unmeasured and does not resolve V1/V2/V4/V5 before source-derived proof objects are written.",
+    "B-RTV2-06": "OPEN-BLOCKER: reachability-based degradation conflicts with retained-Run evidence pinning and is too coarse to report per-evaluation proof availability.",
+    "B-RTV2-07": "OPEN-BLOCKER: the shape taxonomy cannot express complete-set/aggregate, metric, policy/baseline, external-observation, and derivation claims; blast radius is reduced incorrectly to one membership path.",
+    "B-RTV2-08": "OPEN-BLOCKER: T2 retains insufficient custody for its full-replay and attestation-grade claim.",
+    "B-RTV2-09": "OPEN-BLOCKER: the proposed proof schema and tests are prose-only; no executable schema, independent verifier, or failing golden establishes conformance."
+  },
+  "findings": [
+    {
+      "id": "B-RTV2-01",
+      "severity": "critical",
+      "category": "wrong-proof-unit",
+      "evidence": [
+        "T1 retains a FindingProof `for each finding`; no other evaluation- or outcome-proof type exists.",
+        "A passing Run with zero findings therefore retains zero FindingProof objects and differs from T0 only by an empty proof collection.",
+        "The sealed domain model separates facts, findings, Coverage, and verdict; proving findings does not prove the policy verdict.",
+        "No proof records why an activated rule produced no match, why a baseline comparison produced no net-new finding, how waivers affected policy, or why required Coverage justified pass.",
+        "The artifact contains no EvaluationProof, VerdictProof, or no-finding proof concept."
+      ],
+      "counterexample": "Run a forbidden-dependency rule over a clean repository. findings=[] satisfies `noProofNoSeal` vacuously at T1-proof, yet a later reader has no retained witness that the dependency relation was exhaustively evaluated or that policy legitimately returned pass.",
+      "impact": "The tool's most important answer—no new violations—remains unexplained and uncheckable. A local per-finding form is promoted into a global claim that the Run is proven.",
+      "requiredChange": "Make the retained unit an EvaluationProof for every activated rule/query plus a VerdictDerivationProof. Positive findings carry nested witnesses; no-match evaluations carry exact predicate/rule identity, fact-view and Coverage commitments with retained verification material; baseline/waiver/policy steps carry their input identities and derivation. T1 may seal only when the complete outcome proof graph is valid.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A different mandatory T1 object already proving every no-match evaluation and the verdict, referenced by v2 but not named in this artifact."
+    },
+    {
+      "id": "B-RTV2-02",
+      "severity": "critical",
+      "category": "commitment-is-not-proof",
+      "evidence": [
+        "A local proof requires only subjectAnchors; source/context/metric inputs are optional. A content-relative span identity cannot show why a forbidden API or large-function threshold matched after bytes are gone.",
+        "A path proof requires edge identities and endpoints; its edge description requires evidence digests, not the evidence bodies or authenticated membership witnesses needed to check each edge.",
+        "An absence proof requires coverageDigest, relation, and roots. T0 already retains Coverage digests/outcomes, while architecture/04 says the exact Coverage manifest can be fact-partition-sized and is stored behind that digest.",
+        "A digest commits to unseen data; it does not demonstrate membership, non-membership, exhaustive traversal, or predicate evaluation.",
+        "t0FactBodies says needed fact bodies may be embedded or referenced, but proofSchema does not require those bodies or require references to remain reachable."
+      ],
+      "counterexample": "A `large-function` finding with only a file/span hash is well typed as local and can seal at T1, but the retained object contains neither the measured size nor the body/normalized facts from which the threshold can be checked. An absence proof containing only a Coverage root has the same defect for zero references.",
+      "impact": "T1 objects may identify the assertion without carrying evidence sufficient to verify it. The design renames references and commitments as proof while still losing the why after GC.",
+      "requiredChange": "For every proof obligation, specify the retained witness body or an authenticated membership/non-membership proof and deterministic verifier. Local proofs retain predicate inputs or canonical fact/source witness; path proofs retain checkable edge provenance; absence proofs retain the exact Coverage certificate body plus a verifiable closed-set/non-membership witness. Required object references enter the sealed manifest and remain reachable for the promised lifetime.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative definition that `proof` means only a non-verifiable human explanation. That would require withdrawing the product constraint that the answer can be established later."
+    },
+    {
+      "id": "B-RTV2-03",
+      "severity": "high",
+      "category": "producer-self-attestation",
+      "evidence": [
+        "Each rule/profile declares its own findingShape.",
+        "The seal rule checks that exactly one proof is well typed and its kind matches that declaration.",
+        "No verifier identity, verifier version, validation algorithm, or host-owned mapping from evaluator semantics to proof obligation exists.",
+        "A buggy or adversarial relationship rule can declare local and satisfy T1 with a span anchor."
+      ],
+      "impact": "The producer whose conclusion needs proof also chooses the easiest proof class and attests that its own output satisfies it. Structural validity is mistaken for semantic validity.",
+      "requiredChange": "Make proof obligations host-owned, versioned, and bound to the evaluator/rule contract. Record ProofObligationId and VerifierId/version in PlanId and the sealed proof graph. Validate proofs through an independent deterministic verifier path with mutation cases that a producer-generated but semantically false witness fails.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A contribution admission contract outside this artifact that independently reviews and enforces the declaration against executable proof-verifier tests for every gate-authoritative rule."
+    },
+    {
+      "id": "B-RTV2-04",
+      "severity": "high",
+      "category": "truncated-proof-contradiction",
+      "evidence": [
+        "RT-6 and noProofNoSeal say a T1 Run cannot seal without a well-typed proof for every finding.",
+        "RT-7 says proof-budget exhaustion is Coverage/diagnostic rather than silent truncation.",
+        "bounds nevertheless permits FindingProof truncation=true plus residualDigest and only instructs consumers not to treat it as complete.",
+        "An SCC member list may be cut at 32 and replaced by a digest of omitted members, which cannot explain or verify a claim about the complete set.",
+        "No lifecycle, Coverage, verdict, tier-downgrade, or finding-authority result is specified for this case."
+      ],
+      "impact": "The same Run can be labelled T1-proof while its own contract says the proof is incomplete. Different consumers can gate, display, or reject the same truncated finding differently.",
+      "requiredChange": "Define claim-specific sufficiency. If the authoritative claim needs omitted data, proof exhaustion makes the evaluation indeterminate or prevents T1 seal; a digest is not a substitute. If a bounded witness proves only a narrower claim (for example one cycle exists), emit that narrower claim and keep aggregate/member-count claims separate. Add exact D9/Coverage outcomes for exhaustion.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A rule that every truncatable proof's authoritative claim is fully established by the retained prefix alone, with the omitted data explicitly excluded from the claim semantics."
+    },
+    {
+      "id": "B-RTV2-05",
+      "severity": "critical",
+      "category": "default-underived-and-user-copy-risk",
+      "evidence": [
+        "V1 and V2 are critical because the tool writes source-derived/PII-bearing copies to a location and lifetime the user did not choose, often under sync/backup software.",
+        "T1-proof is default and may retain identifiers, edge structures, fact bodies, and bounded source excerpts; privacy classification inventories the copy but does not prevent creating it.",
+        "defaultAndDisclosure states first-run disclosure but does not make safe-root resolution, sync-root refusal, retention duration, or a storage/tier choice a precondition before the first proof write.",
+        "Threat V5 requires a stated default lifetime and real deletion; v2 specifies neither duration nor deletion semantics.",
+        "Proof budgets and size labels are judgment; absence/complete-set evidence can require the exact Coverage manifest, which architecture/04 says may approach fact-partition size.",
+        "The clean-sheet comparison and representative size/privacy measurement have not run."
+      ],
+      "impact": "Accepting T1-proof as default can resolve the explainability problem by silently recreating the high-severity user-copy problem. The cost may approach T1-partition/T2 for the rule families used to justify the default.",
+      "requiredChange": "Before any persistent proof write, resolve and display the exact storage root, refuse unsafe/sync-managed roots, inventory projected data classes/size, and let the user choose durable T1/T2 or explicit ephemeral/advisory operation. State default lifetimes and deletion behavior. Measure deduplicated proof size and privacy classes on representative workloads before ratifying a universal default.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A binding admission/storage contract that runs before the first write and already supplies those guarantees, plus representative evidence that proof storage remains materially below replay custody."
+    },
+    {
+      "id": "B-RTV2-06",
+      "severity": "high",
+      "category": "availability-and-pinning-contract",
+      "evidence": [
+        "The sealedTier/current-availability separation correctly avoids mutating a Run.",
+        "architecture/06 says evidence objects referenced by retained Runs are pinned by ledger reachability.",
+        "v2 simultaneously describes GC deleting FindingProof bytes while the retained Run remains sealed as T1-proof.",
+        "effectiveExplainability is one Run-level value even when one finding proof, one optional excerpt, one Coverage body, or one T2 input may be missing independently.",
+        "The store state does not distinguish explicit purge, policy expiry, corruption, temporary unavailability, or partial-object loss."
+      ],
+      "impact": "Consumers cannot know which exact claim remains checkable or whether loss was authorized. Automatic GC can break a retained manifest reference contrary to the existing pinning invariant.",
+      "requiredChange": "Commit the required proof-object inventory in the immutable Run/Evidence manifest. Track per-evaluation/per-object availability and loss reason in a separate append-only retention ledger or tombstone. Retained authoritative Runs pin required proof objects until an explicit policy expiry/purge transition; ordinary cache GC cannot degrade them. Derive a Run summary from those granular states.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A definition that every retained Run ceases to be retained at the same atomic transition that unpins its proof graph, with typed tombstone resolution preserving the loss reason."
+    },
+    {
+      "id": "B-RTV2-07",
+      "severity": "high",
+      "category": "incomplete-proof-taxonomy",
+      "evidence": [
+        "The taxonomy offers local, path, absence, and an unspecified composite list.",
+        "Blast radius as a whole is a complete reachable set/cardinality claim, not merely proof that one member has one path.",
+        "Large-function is a metric/threshold derivation, not established by a local subject anchor.",
+        "Policy verdicts, baseline differences, aggregate counts, similarity/clone scores, external scanner observations, and Probe results have no proof kind or aggregation operator.",
+        "Composite lists sub-proofs but does not encode the deterministic derivation combining them into the claimed value."
+      ],
+      "impact": "Many shipped or planned result families either cannot seal at T1 or will be forced into a weaker shape that does not prove their actual claim.",
+      "requiredChange": "Derive proof obligations from all evaluator/result families. Add at least derivation/metric, complete-set/aggregate, external-observation, and policy/baseline forms, each with exact claim semantics and verifier. Treat composite as a typed derivation DAG, not an unstructured list.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A proof that each omitted family is encoded losslessly by an existing kind, including its aggregate/threshold operation and verification algorithm."
+    },
+    {
+      "id": "B-RTV2-08",
+      "severity": "high",
+      "category": "replay-overclaim",
+      "evidence": [
+        "T2 retains all read-set bytes plus Plan/toolchain identities.",
+        "It does not require retrievable producer/provider binaries, rule IR, schemas, compiler/sysroot/package/database artifacts, environment realization, or a supported replay executor.",
+        "An identity proves what was used; it does not make that historical executable artifact available offline.",
+        "The tier nevertheless promises full re-derivation and attestation grade."
+      ],
+      "impact": "A user can pay the full source-retention privacy cost and discover later that the promised replay is impossible because the execution environment is gone.",
+      "requiredChange": "Rename T2 to input-complete unless it pins or guarantees retrieval of the complete executable derivation closure and defines a deterministic replay verifier. State attestation trust/signature requirements separately from replayability.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A binding delivery/versioning contract guaranteeing offline retrieval and execution of every identity in the historical Plan for the stated retention period."
+    },
+    {
+      "id": "B-RTV2-09",
+      "severity": "high",
+      "category": "non-executable-conformance",
+      "evidence": [
+        "proofSchema is explicitly logical; field-level encoding is a known limitation.",
+        "conformanceTests are English assertions with no payload goldens or executable verifier.",
+        "There is no schema validation for required references, shape/claim compatibility, digest closure, or availability state.",
+        "No failing cases cover a clean Run with no proofs, a forged edge, a missing Coverage body, a misdeclared shape, incomplete truncation, or deleted required proof bytes."
+      ],
+      "impact": "The artifact cannot yet demonstrate that any implementation—or even a concrete example object—satisfies its load-bearing claims. It is a useful design sketch, not a closable contract.",
+      "requiredChange": "v3 must include a concrete versioned schema, canonicalization/digest rules, proof-verifier interface, outcome-proof graph, and executable positive/negative goldens authored or reviewed independently from the schema author.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A separately retained executable conformance artifact already referenced by v2 and covering these negative cases."
+    }
+  ],
+  "counterexamples": [
+    {
+      "id": "RTV2-CE-01-clean-pass",
+      "inputs": "one activated forbidden-dependency rule, complete declared Coverage, zero findings, pass verdict",
+      "v2ProofCount": 0,
+      "v2SealResult": "allowed by the per-finding noProofNoSeal rule",
+      "expected": "a retained no-match EvaluationProof and VerdictDerivationProof"
+    },
+    {
+      "id": "RTV2-CE-02-local-anchor-only",
+      "inputs": "large-function finding with subjectAnchors but no body, metric, or predicate inputs",
+      "v2SealResult": "well-typed local proof",
+      "expected": "reject as unverifiable"
+    },
+    {
+      "id": "RTV2-CE-03-absence-root-only",
+      "inputs": "dead-code finding with subject, relation, roots, and coverageDigest but no exact Coverage body/non-membership witness",
+      "v2SealResult": "well-typed absence proof",
+      "expected": "reject as a commitment without proof of exhaustive absence"
+    },
+    {
+      "id": "RTV2-CE-04-misdeclared-shape",
+      "inputs": "relationship rule declares local and emits one subject anchor",
+      "v2SealResult": "shape matches producer declaration",
+      "expected": "host-owned proof obligation rejects it"
+    },
+    {
+      "id": "RTV2-CE-05-truncated-scc",
+      "inputs": "SCC/member-set claim exceeds 32 members; retained prefix plus residualDigest",
+      "v2SealResult": "truncated proof representable; terminal effect unspecified",
+      "expected": "narrow the claim or make evaluation indeterminate/prevent T1 seal"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    "architecture/01 product constraint — results are checkable later and prove the answer",
+    "architecture/02 plane separation — facts, findings, Coverage, and verdict require distinct derivation evidence",
+    "architecture/02 EvidenceDigest — immutable canonical sealed manifest",
+    "architecture/04 Coverage artifact — exact membership, predicate IR, and set commitment rather than summary",
+    "architecture/06 evidence-object reachability — retained Runs pin required evidence",
+    "threat-model.v2 V1/V2/V4/V5/V10 — minimise source-derived copies, safe storage root, excerpt handling, stated retention/deletion, and explainability conflict",
+    "B-RT-01..07 from artifacts/arch.retention-tiers.review-b.json"
+  ],
+  "knownLimitations": [
+    "This review specifies proof obligations, not a chosen authenticated-set or cryptographic proof construction.",
+    "No representative proof-size dataset exists, so the review rejects categorical default/size claims rather than supplying replacement numbers.",
+    "It does not inspect current implementation code because retention-tiers.v2 is a greenfield contract and makes no load-bearing claim about existing runtime behavior.",
+    "Reviewer A authored the subject artifact; no Reviewer-A review artifact or note comparison was used."
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,4624 @@
+{
+  "artifact": "opensip.evidence",
+  "version": 3,
+  "status": "CANDIDATE-AWAITING-INDEPENDENT-REREVIEW",
+  "author": "evidence-v3-repair-lane",
+  "date": "2026-07-31",
+  "claimId": "EVIDENCE",
+  "role": "Versioned replacement for evidence.v2; closes independent reviewer-10 findings without mutating historical artifacts.",
+  "supersedes": 2,
+  "consumes": [
+    {
+      "artifact": "artifacts/evaluation-proof.v2.json",
+      "sha256": "c468c131ea23fff066a0becedcad0cd76511b9d0507f0b6b6fb80a803e8d4950",
+      "api": [
+        "frame_component",
+        "encode_member",
+        "encode_outcome",
+        "encode_subject",
+        "commit",
+        "derive_verdict",
+        "derive_verdict_commitment",
+        "validate_bundle",
+        "derive_proof_requirements"
+      ]
+    },
+    {
+      "artifact": "artifacts/retention-tiers.v7.json",
+      "sha256": "8bf992e7bb42866c1bec6646f897875f3532039de94ab1d1972ed453890c618e",
+      "api": [
+        "encode_closure_unit",
+        "closure_commitment",
+        "validate_capability_closure",
+        "derive_effective_capability"
+      ]
+    },
+    {
+      "artifact": "artifacts/versioning-policy.v3.json",
+      "sha256": "2fd47be1a17b657947fa555c8bb23be6fe418458cd95da0ef75367f5ace6a0f1",
+      "api": [
+        "historicalSemanticsPolicy",
+        "_historical_decision"
+      ]
+    },
+    {
+      "artifact": "artifacts/fact-plane.v1.json",
+      "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+      "api": [
+        "requirementSchema",
+        "predicate-relative sufficiency"
+      ]
+    }
+  ],
+  "schemaLanguage": {
+    "rule": "Every object/array node uses a named closed schema. Every field/element has an exact type, enum/pattern/range and deterministic outcome. Inline anonymous object/array schemas are forbidden.",
+    "unknownFieldOutcome": "schema-specific stable finding code",
+    "totality": "Every successfully parsed JSON root/value/path returns findings; no caller-controlled type may raise."
+  },
+  "recordSchemas": {
+    "EvidenceBundle": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "projectId",
+        "runId",
+        "sealedCapability",
+        "effectiveCapability",
+        "authoritative",
+        "verdict",
+        "requiredUniverse",
+        "activatedEvaluations",
+        "verdictDerivation",
+        "storageAdmission",
+        "capabilityClosure",
+        "casOracle",
+        "verifierRuntime"
+      ],
+      "optional": [
+        "replayClosure"
+      ],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_BUNDLE_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "schemaVersion": {
+          "type": "integer",
+          "const": 3
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "runId": {
+          "type": "string",
+          "pattern": "^run1:[0-9a-f]{64}$"
+        },
+        "sealedCapability": {
+          "type": "string",
+          "enum": [
+            "recorded",
+            "verifiable",
+            "replayable"
+          ]
+        },
+        "effectiveCapability": {
+          "type": "string",
+          "enum": [
+            "recorded",
+            "verifiable",
+            "replayable"
+          ]
+        },
+        "authoritative": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "advisory",
+            "indeterminate"
+          ]
+        },
+        "requiredUniverse": {
+          "schema": "RequiredUniverse"
+        },
+        "activatedEvaluations": {
+          "schema": "EvaluationList"
+        },
+        "verdictDerivation": {
+          "schema": "VerdictDerivation"
+        },
+        "storageAdmission": {
+          "schema": "StorageAdmission"
+        },
+        "capabilityClosure": {
+          "schema": "CapabilityClosure"
+        },
+        "casOracle": {
+          "schema": "CasObjectList"
+        },
+        "verifierRuntime": {
+          "schema": "VerifierRuntime"
+        },
+        "replayClosure": {
+          "schema": "ReplayClosure"
+        }
+      }
+    },
+    "RequiredUniverse": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "declaredCount",
+        "memberIds",
+        "universeCommitment"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "declaredCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "memberIds": {
+          "schema": "ActivationMemberList"
+        },
+        "universeCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "ActivationMember": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "evaluationId",
+        "predicateId"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "evaluationId": {
+          "type": "string",
+          "pattern": "^eval1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$"
+        },
+        "predicateId": {
+          "type": "string",
+          "pattern": "^predicate1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$"
+        }
+      }
+    },
+    "ActivationMemberList": {
+      "kind": "array",
+      "closed": true,
+      "items": "ActivationMember",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "EvaluationEvidence": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "evaluationId",
+        "predicateId",
+        "outcome",
+        "claimShape",
+        "coverageId",
+        "coverageRef",
+        "predicateSemanticsRef",
+        "proofObligationId",
+        "proof"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "evaluationId": {
+          "type": "string",
+          "pattern": "^eval1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$"
+        },
+        "predicateId": {
+          "type": "string",
+          "pattern": "^predicate1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$"
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "match",
+            "no-match",
+            "indeterminate",
+            "error"
+          ]
+        },
+        "claimShape": {
+          "type": "string",
+          "enum": [
+            "local-match",
+            "relationship-match",
+            "aggregate-match",
+            "no-match",
+            "indeterminate",
+            "error"
+          ]
+        },
+        "coverageId": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "coverageRef": {
+          "schema": "ContentRef"
+        },
+        "predicateSemanticsRef": {
+          "schema": "ContentRef"
+        },
+        "proofObligationId": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "proof": {
+          "schema": "ProofUnion"
+        }
+      }
+    },
+    "EvaluationList": {
+      "kind": "array",
+      "closed": true,
+      "items": "EvaluationEvidence",
+      "minItems": 1,
+      "uniqueItems": false,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "ProofUnion": {
+      "kind": "taggedUnion",
+      "closed": true,
+      "discriminator": "kind",
+      "variants": {
+        "local-match-proof": "ProofLocalMatch",
+        "relationship-match-proof": "ProofRelationshipMatch",
+        "aggregate-match-proof": "ProofAggregateMatch",
+        "no-match-proof": "ProofNoMatch",
+        "indeterminate-proof": "ProofReason",
+        "error-proof": "ProofReason"
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_TAGGED_UNION_MISMATCH"
+    },
+    "ProofLocalMatch": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "subjectId",
+        "factRefs"
+      ],
+      "optional": [
+        "spanAnchor"
+      ],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_PROOF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "local-match-proof"
+        },
+        "subjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "factRefs": {
+          "schema": "ContentRefList"
+        },
+        "spanAnchor": {
+          "schema": "CanonicalAnchor"
+        }
+      }
+    },
+    "ProofRelationshipMatch": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "relationSemanticsRef",
+        "witnessEdges",
+        "factRefs"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_PROOF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "relationship-match-proof"
+        },
+        "relationSemanticsRef": {
+          "schema": "ContentRef"
+        },
+        "witnessEdges": {
+          "schema": "WitnessEdgeList"
+        },
+        "factRefs": {
+          "schema": "ContentRefList"
+        }
+      }
+    },
+    "ProofAggregateMatch": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "memberSetCommitment",
+        "memberCount",
+        "factPartitionRef",
+        "foldSpec",
+        "factRefs"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_PROOF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "aggregate-match-proof"
+        },
+        "memberSetCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "memberCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "factPartitionRef": {
+          "schema": "ContentRef"
+        },
+        "foldSpec": {
+          "type": "string",
+          "const": "typed-merkle-set-v2"
+        },
+        "factRefs": {
+          "schema": "ContentRefList"
+        }
+      }
+    },
+    "ProofNoMatch": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "subjectSetCommitment",
+        "subjectCount",
+        "factPartitionRef"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_PROOF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "no-match-proof"
+        },
+        "subjectSetCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "subjectCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "factPartitionRef": {
+          "schema": "ContentRef"
+        }
+      }
+    },
+    "ProofReason": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "reasonRef"
+      ],
+      "optional": [
+        "partialSubjectCount",
+        "factRefs"
+      ],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_PROOF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "indeterminate-proof",
+            "error-proof"
+          ]
+        },
+        "reasonRef": {
+          "schema": "ContentRef"
+        },
+        "partialSubjectCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "factRefs": {
+          "schema": "ContentRefList"
+        }
+      }
+    },
+    "WitnessEdge": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "fromSubjectId",
+        "toSubjectId",
+        "relationKind",
+        "factId",
+        "factRef",
+        "anchors"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_WITNESS_EDGE_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "fromSubjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "toSubjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "relationKind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "factId": {
+          "type": "string",
+          "pattern": "^fact1:[0-9a-f]{64}$"
+        },
+        "factRef": {
+          "schema": "ContentRef"
+        },
+        "anchors": {
+          "schema": "CanonicalAnchorList"
+        }
+      }
+    },
+    "WitnessEdgeList": {
+      "kind": "array",
+      "closed": true,
+      "items": "WitnessEdge",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "CanonicalAnchor": {
+      "kind": "taggedUnion",
+      "closed": true,
+      "discriminator": "kind",
+      "variants": {
+        "source-span": "SourceSpanAnchor",
+        "fact-ref": "FactRefAnchor"
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_TAGGED_UNION_MISMATCH"
+    },
+    "SourceSpanAnchor": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "snapshotId",
+        "path",
+        "contentSha256",
+        "startByte",
+        "endByte"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_ANCHOR_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "source-span"
+        },
+        "snapshotId": {
+          "type": "string",
+          "pattern": "^snapshot1:[0-9a-f]{64}$"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^[^/\\\\][^\\\\]*$",
+          "nonempty": true
+        },
+        "contentSha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "startByte": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endByte": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "FactRefAnchor": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "factId",
+        "factRef"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_ANCHOR_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "fact-ref"
+        },
+        "factId": {
+          "type": "string",
+          "pattern": "^fact1:[0-9a-f]{64}$"
+        },
+        "factRef": {
+          "schema": "ContentRef"
+        }
+      }
+    },
+    "CanonicalAnchorList": {
+      "kind": "array",
+      "closed": true,
+      "items": "CanonicalAnchor",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "VerdictDerivation": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "verdict",
+        "outcomeSetCommitment",
+        "coverageRef",
+        "baseline",
+        "waivers",
+        "waiverSetCommitment",
+        "policyRef",
+        "derivationCommitment"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "advisory",
+            "indeterminate"
+          ]
+        },
+        "outcomeSetCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "coverageRef": {
+          "schema": "ContentRef"
+        },
+        "baseline": {
+          "schema": "BaselineUnion"
+        },
+        "waivers": {
+          "schema": "WaiverList"
+        },
+        "waiverSetCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "policyRef": {
+          "schema": "ContentRef"
+        },
+        "derivationCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "BaselineUnion": {
+      "kind": "taggedUnion",
+      "closed": true,
+      "discriminator": "kind",
+      "variants": {
+        "none": "BaselineNone",
+        "comparison": "BaselineComparison"
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_TAGGED_UNION_MISMATCH"
+    },
+    "BaselineNone": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "none"
+        }
+      }
+    },
+    "BaselineComparison": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "baselineRef",
+        "matchedMembers"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "const": "comparison"
+        },
+        "baselineRef": {
+          "schema": "ContentRef"
+        },
+        "matchedMembers": {
+          "schema": "ActivationMemberList"
+        }
+      }
+    },
+    "Waiver": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "waiverId",
+        "waiverRef",
+        "target",
+        "disposition"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "waiverId": {
+          "type": "string",
+          "pattern": "^waiver1:[a-z0-9][a-z0-9._:-]{0,127}$"
+        },
+        "waiverRef": {
+          "schema": "ContentRef"
+        },
+        "target": {
+          "schema": "ActivationMember"
+        },
+        "disposition": {
+          "type": "string",
+          "const": "suppress-match"
+        }
+      }
+    },
+    "WaiverList": {
+      "kind": "array",
+      "closed": true,
+      "items": "Waiver",
+      "minItems": 0,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "StorageAdmission": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "storageRoot",
+        "privacyClass",
+        "retentionPolicy"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "storageRoot": {
+          "type": "string",
+          "nonempty": true,
+          "maxLength": 4096
+        },
+        "privacyClass": {
+          "type": "string",
+          "nonempty": true,
+          "maxLength": 128
+        },
+        "retentionPolicy": {
+          "type": "string",
+          "nonempty": true,
+          "maxLength": 128
+        }
+      }
+    },
+    "CapabilityClosure": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "closureCommitment",
+        "proofReferences",
+        "dependencyEdges",
+        "units"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "closureCommitment": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "proofReferences": {
+          "schema": "ProofReferenceList"
+        },
+        "dependencyEdges": {
+          "schema": "DependencyEdgeList"
+        },
+        "units": {
+          "schema": "RetentionUnitList"
+        }
+      }
+    },
+    "ProofReference": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "projectId",
+        "neededAtCapability"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "ref": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "neededAtCapability": {
+          "type": "string",
+          "enum": [
+            "verifiable",
+            "replayable"
+          ]
+        }
+      }
+    },
+    "ProofReferenceList": {
+      "kind": "array",
+      "closed": true,
+      "items": "ProofReference",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "DependencyEdge": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "fromRef",
+        "toRef",
+        "projectId",
+        "role"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "fromRef": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "toRef": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "coverage-fact-partition",
+            "coverage-predicate-semantics",
+            "partition-fact",
+            "predicate-verifier",
+            "policy-verifier",
+            "verifier-signature",
+            "fact-anchor",
+            "replay-input"
+          ]
+        }
+      }
+    },
+    "DependencyEdgeList": {
+      "kind": "array",
+      "closed": true,
+      "items": "DependencyEdge",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "RetentionUnit": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "unitId",
+        "projectId",
+        "runId",
+        "requiredForCapability",
+        "objectRefs",
+        "objectStates"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "unitId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "runId": {
+          "type": "string",
+          "pattern": "^run1:[0-9a-f]{64}$"
+        },
+        "requiredForCapability": {
+          "type": "string",
+          "enum": [
+            "verifiable",
+            "replayable"
+          ]
+        },
+        "objectRefs": {
+          "schema": "ContentRefList"
+        },
+        "objectStates": {
+          "schema": "ObjectStateEntryList"
+        }
+      }
+    },
+    "RetentionUnitList": {
+      "kind": "array",
+      "closed": true,
+      "items": "RetentionUnit",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "ObjectStateEntry": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "projectId",
+        "state"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "ref": {
+          "schema": "ContentRef"
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "AVAILABLE",
+            "OUTAGE",
+            "PURGED",
+            "EXPIRED",
+            "CORRUPT",
+            "MISSING-DEPENDENCY"
+          ]
+        }
+      }
+    },
+    "ObjectStateEntryList": {
+      "kind": "array",
+      "closed": true,
+      "items": "ObjectStateEntry",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "ReplayClosure": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "objects"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "objects": {
+          "schema": "ReplayObjectList"
+        }
+      }
+    },
+    "ReplayObject": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "unitId"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "ref": {
+          "schema": "ContentRef"
+        },
+        "unitId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        }
+      }
+    },
+    "ReplayObjectList": {
+      "kind": "array",
+      "closed": true,
+      "items": "ReplayObject",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "VerifierRuntime": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "defaultIrMajor",
+        "supportedVerifierAbis"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "defaultIrMajor": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supportedVerifierAbis": {
+          "schema": "StringList"
+        }
+      }
+    },
+    "CasObject": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "mediaType",
+        "bytes"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_CAS_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "ref": {
+          "schema": "ContentRef"
+        },
+        "mediaType": {
+          "type": "string",
+          "enum": [
+            "application/json",
+            "application/vnd.opensip.ed25519-signature"
+          ]
+        },
+        "bytes": {
+          "schema": "RetainedBytes"
+        }
+      }
+    },
+    "CasObjectList": {
+      "kind": "array",
+      "closed": true,
+      "items": "CasObject",
+      "minItems": 1,
+      "uniqueItems": false,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "RetainedBytes": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "encoding",
+        "canonical"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_BYTES_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "encoding": {
+          "type": "string",
+          "const": "utf-8"
+        },
+        "canonical": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1048576
+        }
+      }
+    },
+    "ContentRef": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_CONTENT_REF_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "predicate-semantics",
+            "policy-semantics",
+            "coverage",
+            "fact-partition",
+            "fact",
+            "relation-semantics",
+            "verifier-artifact",
+            "bundle-signature",
+            "replay-closure",
+            "reason",
+            "baseline",
+            "waiver"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "ContentRefList": {
+      "kind": "array",
+      "closed": true,
+      "items": "ContentRef",
+      "minItems": 0,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "FactPartition": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "snapshotId",
+        "entries"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.fact-partition"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "snapshotId": {
+          "type": "string",
+          "pattern": "^snapshot1:[0-9a-f]{64}$"
+        },
+        "entries": {
+          "schema": "FactPartitionEntryList"
+        }
+      }
+    },
+    "FactPartitionEntry": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "subjectId",
+        "factRefs"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "subjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "factRefs": {
+          "schema": "ContentRefList"
+        }
+      }
+    },
+    "FactPartitionEntryList": {
+      "kind": "array",
+      "closed": true,
+      "items": "FactPartitionEntry",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "Coverage": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "predicateSemanticsRef",
+        "factPartitionRef",
+        "verificationRequirement",
+        "coveredSubjectIds"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.coverage"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "predicateSemanticsRef": {
+          "schema": "ContentRef"
+        },
+        "factPartitionRef": {
+          "schema": "ContentRef"
+        },
+        "verificationRequirement": {
+          "schema": "VerificationRequirement"
+        },
+        "coveredSubjectIds": {
+          "schema": "SubjectIdList"
+        }
+      }
+    },
+    "VerificationRequirement": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "relation",
+        "minResolution",
+        "minConfidenceMillionths",
+        "completeness",
+        "subjectDomain"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "relation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "minResolution": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "minConfidenceMillionths": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "completeness": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial-ok"
+          ]
+        },
+        "subjectDomain": {
+          "schema": "SubjectIdList"
+        }
+      }
+    },
+    "PredicateSemantics": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "predicateId",
+        "irFamily",
+        "irMajor",
+        "verifierAbi",
+        "verifierArtifactRef",
+        "expression",
+        "verificationRequirement"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.predicate-semantics"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "predicateId": {
+          "type": "string",
+          "pattern": "^predicate1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$"
+        },
+        "irFamily": {
+          "type": "string",
+          "const": "opensip.rule-ir"
+        },
+        "irMajor": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verifierAbi": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "verifierArtifactRef": {
+          "schema": "ContentRef"
+        },
+        "expression": {
+          "schema": "PredicateExpression"
+        },
+        "verificationRequirement": {
+          "schema": "VerificationRequirement"
+        }
+      }
+    },
+    "PredicateExpression": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "operator",
+        "relation"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "operator": {
+          "type": "string",
+          "enum": [
+            "none",
+            "exists-relation"
+          ]
+        },
+        "relation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        }
+      }
+    },
+    "PolicySemantics": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "policyId",
+        "irFamily",
+        "irMajor",
+        "verifierAbi",
+        "verifierArtifactRef",
+        "rule"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.policy-semantics"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "policyId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "irFamily": {
+          "type": "string",
+          "const": "opensip.policy-ir"
+        },
+        "irMajor": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verifierAbi": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "verifierArtifactRef": {
+          "schema": "ContentRef"
+        },
+        "rule": {
+          "type": "string",
+          "const": "all-evaluations-satisfied"
+        }
+      }
+    },
+    "VerifierArtifact": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "bundleSignature",
+        "entrypoint",
+        "irFamilies",
+        "irMajors",
+        "verifierAbi"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.offline-verifier"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bundleSignature": {
+          "type": "string",
+          "nonempty": true
+        },
+        "entrypoint": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "irFamilies": {
+          "schema": "StringList"
+        },
+        "irMajors": {
+          "schema": "PositiveIntegerList"
+        },
+        "verifierAbi": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        }
+      }
+    },
+    "RelationSemantics": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "relationId",
+        "allowedKinds"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.relation-semantics"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "relationId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "allowedKinds": {
+          "schema": "RelationKindList"
+        }
+      }
+    },
+    "RelationshipFact": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "factId",
+        "fromSubjectId",
+        "toSubjectId",
+        "relationKind",
+        "anchors"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.relationship-fact"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "factId": {
+          "type": "string",
+          "pattern": "^fact1:[0-9a-f]{64}$"
+        },
+        "fromSubjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "toSubjectId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+        },
+        "relationKind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+        },
+        "anchors": {
+          "schema": "CanonicalAnchorList"
+        }
+      }
+    },
+    "ReplayInput": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "dependencyRefs"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.replay-input"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "dependencyRefs": {
+          "schema": "ContentRefList"
+        }
+      }
+    },
+    "ReasonObject": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "reason"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.evidence-reason"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "reason": {
+          "type": "string",
+          "nonempty": true,
+          "maxLength": 1024
+        }
+      }
+    },
+    "BaselineObject": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "matchedMembers"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.baseline"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "matchedMembers": {
+          "schema": "ActivationMemberList"
+        }
+      }
+    },
+    "WaiverObject": {
+      "kind": "object",
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "version",
+        "projectId",
+        "waiverId",
+        "target",
+        "disposition"
+      ],
+      "optional": [],
+      "forbiddenFields": [
+        "requestId",
+        "executionId",
+        "attemptId",
+        "correlationId",
+        "timestamp",
+        "createdAt",
+        "updatedAt",
+        "sealedAt",
+        "producedAt",
+        "processId",
+        "pid",
+        "cacheState",
+        "lifetimeState",
+        "cacheLifetime",
+        "producerDeclaredObligation",
+        "producerAssertedAdequacy",
+        "factPartitionPinned",
+        "regenerationClosureRetained",
+        "locallyResolvable"
+      ],
+      "unknownFieldOutcome": "EVIDENCE_RECORD_UNKNOWN_FIELD",
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION",
+      "fields": {
+        "artifact": {
+          "type": "string",
+          "const": "opensip.waiver"
+        },
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "projectId": {
+          "type": "string",
+          "pattern": "^prj1-[0-9a-f]{64}$"
+        },
+        "waiverId": {
+          "type": "string",
+          "pattern": "^waiver1:[a-z0-9][a-z0-9._:-]{0,127}$"
+        },
+        "target": {
+          "schema": "ActivationMember"
+        },
+        "disposition": {
+          "type": "string",
+          "const": "suppress-match"
+        }
+      }
+    },
+    "CanonicalString": {
+      "kind": "primitive",
+      "closed": true,
+      "value": {
+        "type": "string",
+        "nonempty": true,
+        "maxLength": 4096
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "PositiveInteger": {
+      "kind": "primitive",
+      "closed": true,
+      "value": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "SubjectId": {
+      "kind": "primitive",
+      "closed": true,
+      "value": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*:[^\\x00-\\x1f\\x7f]+$"
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "RelationKind": {
+      "kind": "primitive",
+      "closed": true,
+      "value": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9]*(?:[._:#/-][a-z0-9]+)*$"
+      },
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "StringList": {
+      "kind": "array",
+      "closed": true,
+      "items": "CanonicalString",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "PositiveIntegerList": {
+      "kind": "array",
+      "closed": true,
+      "items": "PositiveInteger",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "SubjectIdList": {
+      "kind": "array",
+      "closed": true,
+      "items": "SubjectId",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    },
+    "RelationKindList": {
+      "kind": "array",
+      "closed": true,
+      "items": "RelationKind",
+      "minItems": 1,
+      "uniqueItems": true,
+      "typeOutcome": "EVIDENCE_TYPE_MISMATCH",
+      "constraintOutcome": "EVIDENCE_CONSTRAINT_VIOLATION"
+    }
+  },
+  "casSchemaByKind": {
+    "predicate-semantics": "PredicateSemantics",
+    "policy-semantics": "PolicySemantics",
+    "coverage": "Coverage",
+    "fact-partition": "FactPartition",
+    "fact": "RelationshipFact",
+    "relation-semantics": "RelationSemantics",
+    "verifier-artifact": "VerifierArtifact",
+    "replay-closure": "ReplayInput",
+    "reason": "ReasonObject",
+    "baseline": "BaselineObject",
+    "waiver": "WaiverObject",
+    "bundle-signature": "RetainedBytes"
+  },
+  "invariants": [
+    {
+      "id": "E1",
+      "assert": "Activated evaluation keys are unique before commitment; memberIds exactly equals the canonical activated set."
+    },
+    {
+      "id": "E2",
+      "assert": "Outcome/claim/proof is an exact tagged union; relationship proof uses closed ordered WitnessEdges with full fact refs and anchors."
+    },
+    {
+      "id": "E3",
+      "assert": "proofObligationId is host-derived from predicateId + claimShape + exact Coverage identity."
+    },
+    {
+      "id": "E4",
+      "assert": "No-match resolves canonical partition/Coverage/predicate bytes and derives exact subject domain, count and completeness."
+    },
+    {
+      "id": "E5",
+      "assert": "Universe/outcome/verdict commitments consume evaluation-proof.v2's injective grammar and pure policy."
+    },
+    {
+      "id": "E6",
+      "assert": "Storage admission is fully resolved before durable evidence."
+    },
+    {
+      "id": "E7",
+      "assert": "CAS-derived dependency edges and proof refs equal Phase1A's canonical minimum-capability closure."
+    },
+    {
+      "id": "E8",
+      "assert": "Replay objects are non-empty unique full refs, CAS-resolved, one-unit-owned and AVAILABLE."
+    },
+    {
+      "id": "E9",
+      "assert": "Indeterminate/error never becomes authoritative pass."
+    },
+    {
+      "id": "E10",
+      "assert": "Closed CAS maps each full ContentRef to one exact canonical retained byte sequence and recomputes SHA-256."
+    },
+    {
+      "id": "E11",
+      "assert": "Exact historical predicate/policy verifier artifacts consume VERSIONING v3 and fail closed when unavailable/unsupported."
+    },
+    {
+      "id": "E12",
+      "assert": "sealedCapability is immutable and distinct; retention-tiers.v7 alone derives effectiveCapability from unit states."
+    }
+  ],
+  "positiveFixtures": [
+    {
+      "id": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+        "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+        "sealedCapability": "verifiable",
+        "effectiveCapability": "verifiable",
+        "authoritative": true,
+        "verdict": "pass",
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:no-secret",
+              "predicateId": "predicate1:no-secret"
+            }
+          ],
+          "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301"
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "eval1:no-secret",
+            "predicateId": "predicate1:no-secret",
+            "outcome": "no-match",
+            "claimShape": "no-match",
+            "coverageId": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+            "coverageRef": {
+              "kind": "coverage",
+              "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-semantics",
+              "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+            },
+            "proofObligationId": "sha256:c04d0adffb20dcfec717f27b0ef3e2ba6ac883b6e8af478d9e1029882224fb03",
+            "proof": {
+              "kind": "no-match-proof",
+              "subjectSetCommitment": "sha256:550cd0df1eb9275d7fadf7b9294e5772b0a42de0f14abc4d57e2f0a8cf5e4132",
+              "subjectCount": 2,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+              }
+            }
+          }
+        ],
+        "verdictDerivation": {
+          "verdict": "pass",
+          "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+          "coverageRef": {
+            "kind": "coverage",
+            "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policyRef": {
+            "kind": "policy-semantics",
+            "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+          },
+          "derivationCommitment": "sha256:b2c46ace15aaa986466585dfa11f7382bb5b60d18f5b692b78ae2a7da67f5547"
+        },
+        "storageAdmission": {
+          "storageRoot": "evidence/cas",
+          "privacyClass": "project-derived",
+          "retentionPolicy": "sealed-capability-closure"
+        },
+        "capabilityClosure": {
+          "closureCommitment": "sha256:121312cc50d027b2a551b5fc6833713529522eb2bc85b5ffe64f83b833ab82a5",
+          "proofReferences": [
+            {
+              "ref": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            }
+          ],
+          "dependencyEdges": [
+            {
+              "fromRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "toRef": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "verifier-signature"
+            },
+            {
+              "fromRef": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "predicate-verifier"
+            },
+            {
+              "fromRef": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "policy-verifier"
+            },
+            {
+              "fromRef": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "toRef": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-fact-partition"
+            },
+            {
+              "fromRef": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "toRef": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-predicate-semantics"
+            }
+          ],
+          "units": [
+            {
+              "unitId": "unit1:proof-00",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "bundle-signature",
+                  "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "bundle-signature",
+                    "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-01",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "fact-partition",
+                  "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "fact-partition",
+                    "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-02",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "verifier-artifact",
+                  "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "verifier-artifact",
+                    "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-03",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "predicate-semantics",
+                  "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "predicate-semantics",
+                    "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-04",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "policy-semantics",
+                  "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "policy-semantics",
+                    "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-05",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:3333333333333333333333333333333333333333333333333333333333333333",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "coverage",
+                  "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "coverage",
+                    "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            }
+          ]
+        },
+        "casOracle": [
+          {
+            "ref": {
+              "kind": "predicate-semantics",
+              "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"none\",\"relation\":\"declares\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"predicateId\":\"predicate1:no-secret\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "policy-semantics",
+              "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.policy-semantics\",\"irFamily\":\"opensip.policy-ir\",\"irMajor\":1,\"policyId\":\"policy-gate-v1\",\"rule\":\"all-evaluations-satisfied\",\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "verifier-artifact",
+              "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.offline-verifier\",\"bundleSignature\":\"sig:opensip-release-key-v1:0123456789abcdef\",\"entrypoint\":\"verify-declarative-v1\",\"irFamilies\":[\"opensip.policy-ir\",\"opensip.rule-ir\"],\"irMajors\":[1],\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "bundle-signature",
+              "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+            },
+            "mediaType": "application/vnd.opensip.ed25519-signature",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "ed25519:opensip-release-key-v1:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+            }
+          },
+          {
+            "ref": {
+              "kind": "fact-partition",
+              "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.fact-partition\",\"entries\":[{\"factRefs\":[],\"subjectId\":\"subject:src/a.ts\"},{\"factRefs\":[],\"subjectId\":\"subject:src/b.ts\"}],\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"snapshotId\":\"snapshot1:2222222222222222222222222222222222222222222222222222222222222222\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "coverage",
+              "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.coverage\",\"coveredSubjectIds\":[\"subject:src/a.ts\",\"subject:src/b.ts\"],\"factPartitionRef\":{\"id\":\"sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5\",\"kind\":\"fact-partition\"},\"predicateSemanticsRef\":{\"id\":\"sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f\",\"kind\":\"predicate-semantics\"},\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"version\":1}"
+            }
+          }
+        ],
+        "verifierRuntime": {
+          "defaultIrMajor": 2,
+          "supportedVerifierAbis": [
+            "opensip.offline-verifier-abi.v1",
+            "opensip.offline-verifier-abi.v2"
+          ]
+        }
+      }
+    },
+    {
+      "id": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+        "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+        "sealedCapability": "verifiable",
+        "effectiveCapability": "verifiable",
+        "authoritative": true,
+        "verdict": "fail",
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:forbidden-dependency",
+              "predicateId": "predicate1:forbidden-dependency"
+            }
+          ],
+          "universeCommitment": "sha256:b6ac4de8af5ed3b655a7899b98f9c8a2a20c6d294087549b20280743143e6124"
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "eval1:forbidden-dependency",
+            "predicateId": "predicate1:forbidden-dependency",
+            "outcome": "match",
+            "claimShape": "relationship-match",
+            "coverageId": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c",
+            "coverageRef": {
+              "kind": "coverage",
+              "id": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-semantics",
+              "id": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55"
+            },
+            "proofObligationId": "sha256:f54b3f069f04423fe26041183af00a4138f6fee9c3042fcfc7445cb6d7d54034",
+            "proof": {
+              "kind": "relationship-match-proof",
+              "relationSemanticsRef": {
+                "kind": "relation-semantics",
+                "id": "sha256:53b336eada8ea2bee89db5d90bf858689a0e39698d38ae496f88b454171f0107"
+              },
+              "witnessEdges": [
+                {
+                  "fromSubjectId": "subject:src/a.ts",
+                  "toSubjectId": "subject:src/b.ts",
+                  "relationKind": "depends-on",
+                  "factId": "fact1:7777777777777777777777777777777777777777777777777777777777777777",
+                  "factRef": {
+                    "kind": "fact",
+                    "id": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967"
+                  },
+                  "anchors": [
+                    {
+                      "kind": "source-span",
+                      "snapshotId": "snapshot1:2222222222222222222222222222222222222222222222222222222222222222",
+                      "path": "src/a.ts",
+                      "contentSha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+                      "startByte": 10,
+                      "endByte": 20
+                    }
+                  ]
+                }
+              ],
+              "factRefs": [
+                {
+                  "kind": "fact",
+                  "id": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967"
+                }
+              ]
+            }
+          }
+        ],
+        "verdictDerivation": {
+          "verdict": "fail",
+          "outcomeSetCommitment": "sha256:ff13fbd6a5e139c17babf289d26185d71085a0219537da202baa17e2457c6bc2",
+          "coverageRef": {
+            "kind": "coverage",
+            "id": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policyRef": {
+            "kind": "policy-semantics",
+            "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+          },
+          "derivationCommitment": "sha256:0ec8f32b063bff7166c860d62ce3190fbc3795b8006d4c23a20d4634595ad3d8"
+        },
+        "storageAdmission": {
+          "storageRoot": "evidence/cas",
+          "privacyClass": "project-derived",
+          "retentionPolicy": "sealed-capability-closure"
+        },
+        "capabilityClosure": {
+          "closureCommitment": "sha256:3e74f01d61bf556f2fefb0dac269a8dd6eebc9682b0e796fb5531156831a6b79",
+          "proofReferences": [
+            {
+              "ref": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:53b336eada8ea2bee89db5d90bf858689a0e39698d38ae496f88b454171f0107",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            }
+          ],
+          "dependencyEdges": [
+            {
+              "fromRef": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c",
+              "toRef": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-predicate-semantics"
+            },
+            {
+              "fromRef": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c",
+              "toRef": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-fact-partition"
+            },
+            {
+              "fromRef": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "predicate-verifier"
+            },
+            {
+              "fromRef": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48",
+              "toRef": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "partition-fact"
+            },
+            {
+              "fromRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "toRef": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "verifier-signature"
+            },
+            {
+              "fromRef": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "policy-verifier"
+            }
+          ],
+          "units": [
+            {
+              "unitId": "unit1:proof-00",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "bundle-signature",
+                  "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "bundle-signature",
+                    "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-01",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "fact",
+                  "id": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "fact",
+                    "id": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-02",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "relation-semantics",
+                  "id": "sha256:53b336eada8ea2bee89db5d90bf858689a0e39698d38ae496f88b454171f0107"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "relation-semantics",
+                    "id": "sha256:53b336eada8ea2bee89db5d90bf858689a0e39698d38ae496f88b454171f0107"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-03",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "coverage",
+                  "id": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "coverage",
+                    "id": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-04",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "predicate-semantics",
+                  "id": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "predicate-semantics",
+                    "id": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-05",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "fact-partition",
+                  "id": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "fact-partition",
+                    "id": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-06",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "verifier-artifact",
+                  "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "verifier-artifact",
+                    "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-07",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:4444444444444444444444444444444444444444444444444444444444444444",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "policy-semantics",
+                  "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "policy-semantics",
+                    "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            }
+          ]
+        },
+        "casOracle": [
+          {
+            "ref": {
+              "kind": "predicate-semantics",
+              "id": "sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"exists-relation\",\"relation\":\"depends-on\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"predicateId\":\"predicate1:forbidden-dependency\",\"verificationRequirement\":{\"completeness\":\"partial-ok\",\"minConfidenceMillionths\":0,\"minResolution\":\"resolved-target\",\"relation\":\"depends-on\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "policy-semantics",
+              "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.policy-semantics\",\"irFamily\":\"opensip.policy-ir\",\"irMajor\":1,\"policyId\":\"policy-gate-v1\",\"rule\":\"all-evaluations-satisfied\",\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "verifier-artifact",
+              "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.offline-verifier\",\"bundleSignature\":\"sig:opensip-release-key-v1:0123456789abcdef\",\"entrypoint\":\"verify-declarative-v1\",\"irFamilies\":[\"opensip.policy-ir\",\"opensip.rule-ir\"],\"irMajors\":[1],\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "bundle-signature",
+              "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+            },
+            "mediaType": "application/vnd.opensip.ed25519-signature",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "ed25519:opensip-release-key-v1:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+            }
+          },
+          {
+            "ref": {
+              "kind": "fact",
+              "id": "sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"anchors\":[{\"contentSha256\":\"sha256:6666666666666666666666666666666666666666666666666666666666666666\",\"endByte\":20,\"kind\":\"source-span\",\"path\":\"src/a.ts\",\"snapshotId\":\"snapshot1:2222222222222222222222222222222222222222222222222222222222222222\",\"startByte\":10}],\"artifact\":\"opensip.relationship-fact\",\"factId\":\"fact1:7777777777777777777777777777777777777777777777777777777777777777\",\"fromSubjectId\":\"subject:src/a.ts\",\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"relationKind\":\"depends-on\",\"toSubjectId\":\"subject:src/b.ts\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "fact-partition",
+              "id": "sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.fact-partition\",\"entries\":[{\"factRefs\":[{\"id\":\"sha256:5204f84f414993ed464762a5e7464887589cb1ef090fe89b2369a4ab6b132967\",\"kind\":\"fact\"}],\"subjectId\":\"subject:src/a.ts\"},{\"factRefs\":[],\"subjectId\":\"subject:src/b.ts\"}],\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"snapshotId\":\"snapshot1:2222222222222222222222222222222222222222222222222222222222222222\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "coverage",
+              "id": "sha256:5bcd0f8a61af017b7c3b91d00f1006edb8523a90063e6101a7baccce123b207c"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.coverage\",\"coveredSubjectIds\":[\"subject:src/a.ts\",\"subject:src/b.ts\"],\"factPartitionRef\":{\"id\":\"sha256:a11fe97effac93f62c98c399eba7cbb8a85e88062df9017a74ad47c7414f5f48\",\"kind\":\"fact-partition\"},\"predicateSemanticsRef\":{\"id\":\"sha256:973b982636ad6e9b5ec47005e60f3916e04ced4c594ca52dfc82880294492e55\",\"kind\":\"predicate-semantics\"},\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"verificationRequirement\":{\"completeness\":\"partial-ok\",\"minConfidenceMillionths\":0,\"minResolution\":\"resolved-target\",\"relation\":\"depends-on\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "relation-semantics",
+              "id": "sha256:53b336eada8ea2bee89db5d90bf858689a0e39698d38ae496f88b454171f0107"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"allowedKinds\":[\"depends-on\"],\"artifact\":\"opensip.relation-semantics\",\"relationId\":\"depends-on\",\"version\":1}"
+            }
+          }
+        ],
+        "verifierRuntime": {
+          "defaultIrMajor": 2,
+          "supportedVerifierAbis": [
+            "opensip.offline-verifier-abi.v1",
+            "opensip.offline-verifier-abi.v2"
+          ]
+        }
+      }
+    },
+    {
+      "id": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+        "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+        "sealedCapability": "replayable",
+        "effectiveCapability": "replayable",
+        "authoritative": true,
+        "verdict": "pass",
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:no-secret",
+              "predicateId": "predicate1:no-secret"
+            }
+          ],
+          "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301"
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "eval1:no-secret",
+            "predicateId": "predicate1:no-secret",
+            "outcome": "no-match",
+            "claimShape": "no-match",
+            "coverageId": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+            "coverageRef": {
+              "kind": "coverage",
+              "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-semantics",
+              "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+            },
+            "proofObligationId": "sha256:c04d0adffb20dcfec717f27b0ef3e2ba6ac883b6e8af478d9e1029882224fb03",
+            "proof": {
+              "kind": "no-match-proof",
+              "subjectSetCommitment": "sha256:550cd0df1eb9275d7fadf7b9294e5772b0a42de0f14abc4d57e2f0a8cf5e4132",
+              "subjectCount": 2,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+              }
+            }
+          }
+        ],
+        "verdictDerivation": {
+          "verdict": "pass",
+          "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+          "coverageRef": {
+            "kind": "coverage",
+            "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policyRef": {
+            "kind": "policy-semantics",
+            "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+          },
+          "derivationCommitment": "sha256:b2c46ace15aaa986466585dfa11f7382bb5b60d18f5b692b78ae2a7da67f5547"
+        },
+        "storageAdmission": {
+          "storageRoot": "evidence/cas",
+          "privacyClass": "project-derived",
+          "retentionPolicy": "sealed-capability-closure"
+        },
+        "capabilityClosure": {
+          "closureCommitment": "sha256:1c0cfb9236d8858de1e7ed8992061bfee66e38d2b4506775e14ba7b7e50fa9e3",
+          "proofReferences": [
+            {
+              "ref": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "replayable"
+            },
+            {
+              "ref": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "neededAtCapability": "verifiable"
+            }
+          ],
+          "dependencyEdges": [
+            {
+              "fromRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "toRef": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "verifier-signature"
+            },
+            {
+              "fromRef": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "predicate-verifier"
+            },
+            {
+              "fromRef": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "policy-verifier"
+            },
+            {
+              "fromRef": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f",
+              "toRef": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "replay-input"
+            },
+            {
+              "fromRef": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "toRef": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-fact-partition"
+            },
+            {
+              "fromRef": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8",
+              "toRef": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "role": "coverage-predicate-semantics"
+            }
+          ],
+          "units": [
+            {
+              "unitId": "unit1:proof-00",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "bundle-signature",
+                  "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "bundle-signature",
+                    "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-01",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "fact-partition",
+                  "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "fact-partition",
+                    "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-02",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "verifier-artifact",
+                  "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "verifier-artifact",
+                    "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-03",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "predicate-semantics",
+                  "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "predicate-semantics",
+                    "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-04",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "policy-semantics",
+                  "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "policy-semantics",
+                    "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:replay",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "replayable",
+              "objectRefs": [
+                {
+                  "kind": "replay-closure",
+                  "id": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "replay-closure",
+                    "id": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            },
+            {
+              "unitId": "unit1:proof-06",
+              "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+              "runId": "run1:5555555555555555555555555555555555555555555555555555555555555555",
+              "requiredForCapability": "verifiable",
+              "objectRefs": [
+                {
+                  "kind": "coverage",
+                  "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+                }
+              ],
+              "objectStates": [
+                {
+                  "ref": {
+                    "kind": "coverage",
+                    "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+                  },
+                  "projectId": "prj1-1111111111111111111111111111111111111111111111111111111111111111",
+                  "state": "AVAILABLE"
+                }
+              ]
+            }
+          ]
+        },
+        "casOracle": [
+          {
+            "ref": {
+              "kind": "predicate-semantics",
+              "id": "sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"none\",\"relation\":\"declares\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"predicateId\":\"predicate1:no-secret\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "policy-semantics",
+              "id": "sha256:cf5a9723495be80bc2a5ab00864f1dc60876c08372506e658cdc90c23b2a5080"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.policy-semantics\",\"irFamily\":\"opensip.policy-ir\",\"irMajor\":1,\"policyId\":\"policy-gate-v1\",\"rule\":\"all-evaluations-satisfied\",\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "verifier-artifact",
+              "id": "sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.offline-verifier\",\"bundleSignature\":\"sig:opensip-release-key-v1:0123456789abcdef\",\"entrypoint\":\"verify-declarative-v1\",\"irFamilies\":[\"opensip.policy-ir\",\"opensip.rule-ir\"],\"irMajors\":[1],\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "bundle-signature",
+              "id": "sha256:0ce7f3657eb53b4d77c7a7e1a9c111bc25dd89fb4c46bda70da440b49a187920"
+            },
+            "mediaType": "application/vnd.opensip.ed25519-signature",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "ed25519:opensip-release-key-v1:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+            }
+          },
+          {
+            "ref": {
+              "kind": "fact-partition",
+              "id": "sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.fact-partition\",\"entries\":[{\"factRefs\":[],\"subjectId\":\"subject:src/a.ts\"},{\"factRefs\":[],\"subjectId\":\"subject:src/b.ts\"}],\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"snapshotId\":\"snapshot1:2222222222222222222222222222222222222222222222222222222222222222\",\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "coverage",
+              "id": "sha256:f218fc191a4aaa30d6977421dd70c463a68ed7a17094190961f2d73423e9f9a8"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.coverage\",\"coveredSubjectIds\":[\"subject:src/a.ts\",\"subject:src/b.ts\"],\"factPartitionRef\":{\"id\":\"sha256:2f0ad0caa9de33290d186ea6902f262c6a104d84c58324b0efd70a7e7739e5a5\",\"kind\":\"fact-partition\"},\"predicateSemanticsRef\":{\"id\":\"sha256:ca433e65aa5a4f88a1100c89884f5948700a044c1026e1b9cec65005be8cab5f\",\"kind\":\"predicate-semantics\"},\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"version\":1}"
+            }
+          },
+          {
+            "ref": {
+              "kind": "replay-closure",
+              "id": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f"
+            },
+            "mediaType": "application/json",
+            "bytes": {
+              "encoding": "utf-8",
+              "canonical": "{\"artifact\":\"opensip.replay-input\",\"dependencyRefs\":[{\"id\":\"sha256:c6349255a2b2c1f49d5e7eaf38f548fa4be832d64ac409ac12dbfe36b2425e7e\",\"kind\":\"verifier-artifact\"}],\"projectId\":\"prj1-1111111111111111111111111111111111111111111111111111111111111111\",\"version\":1}"
+            }
+          }
+        ],
+        "verifierRuntime": {
+          "defaultIrMajor": 2,
+          "supportedVerifierAbis": [
+            "opensip.offline-verifier-abi.v1",
+            "opensip.offline-verifier-abi.v2"
+          ]
+        },
+        "replayClosure": {
+          "objects": [
+            {
+              "ref": {
+                "kind": "replay-closure",
+                "id": "sha256:d6f1eed50104f216dd11f492f71bd28c6b2a3bc08f90d8fdaad2e99ed0b0607f"
+              },
+              "unitId": "unit1:replay"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "counterexampleFixtures": {
+    "fixtures": [
+      {
+        "id": "EV3-NEG-01A-ROOT-NULL",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "root-null",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-01"
+      },
+      {
+        "id": "EV3-NEG-01B-ROOT-NUMBER",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "root-number",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-01"
+      },
+      {
+        "id": "EV3-NEG-01C-ROOT-STRING",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "root-string",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-01"
+      },
+      {
+        "id": "EV3-NEG-01D-ROOT-ARRAY",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "root-array",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-01"
+      },
+      {
+        "id": "EV3-NEG-01E-ROOT-BOOLEAN",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "root-boolean",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-01"
+      },
+      {
+        "id": "EV3-NEG-02-CAS-BYTES-OBJECT",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "cas-bytes-object",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-02"
+      },
+      {
+        "id": "EV3-NEG-03-CLAIM-SHAPE-ARRAY",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "claim-shape-array",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-03"
+      },
+      {
+        "id": "EV3-NEG-04A-MEMBER-IDS-SCALAR",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "member-ids-scalar",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-04"
+      },
+      {
+        "id": "EV3-NEG-04B-AUTHORITATIVE-STRING",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "authoritative-string",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-04"
+      },
+      {
+        "id": "EV3-NEG-04C-CONTENT-KIND-ARRAY",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "content-ref-kind-array",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-04"
+      },
+      {
+        "id": "EV3-NEG-04D-EVALUATIONS-SCALAR",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "evaluations-scalar",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-04"
+      },
+      {
+        "id": "EV3-NEG-04E-STORAGE-CONTAINERS",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "storage-truthy-containers",
+        "mustRejectBy": "E6",
+        "reviewProbe": "R10-PROBE-04"
+      },
+      {
+        "id": "EV3-NEG-05-TOP-REQUEST-ID",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "top-request-id",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-05"
+      },
+      {
+        "id": "EV3-NEG-06-WITNESS-METADATA",
+        "baseId": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+        "mutation": "nested-witness-metadata",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-06"
+      },
+      {
+        "id": "EV3-NEG-07-ANCHOR-METADATA",
+        "baseId": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+        "mutation": "nested-anchor-metadata",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-07"
+      },
+      {
+        "id": "EV3-NEG-08-WITNESS-TYPES",
+        "baseId": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+        "mutation": "mistyped-witness-edge",
+        "mustRejectBy": "EVIDENCE_TYPE_MISMATCH",
+        "reviewProbe": "R10-PROBE-08"
+      },
+      {
+        "id": "EV3-NEG-08B-RELATION-KIND",
+        "baseId": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+        "mutation": "invalid-relation-kind",
+        "mustRejectBy": "E2",
+        "reviewProbe": "R10-PROBE-08"
+      },
+      {
+        "id": "EV3-NEG-08C-SPAN-ONLY",
+        "baseId": "EV3-POS-02-RELATIONSHIP-ORDERED-WITNESS",
+        "mutation": "span-only-relationship",
+        "mustRejectBy": "E2",
+        "reviewProbe": "R10-PROBE-08"
+      },
+      {
+        "id": "EV3-NEG-09A-MEMBERS-OMITTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "member-ids-omitted",
+        "mustRejectBy": "E1",
+        "reviewProbe": "R10-PROBE-09"
+      },
+      {
+        "id": "EV3-NEG-09B-MEMBERS-SUBSTITUTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "member-ids-substituted",
+        "mustRejectBy": "E1",
+        "reviewProbe": "R10-PROBE-09"
+      },
+      {
+        "id": "EV3-NEG-10-DUPLICATE-EVALUATION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "duplicate-evaluation-recomputed",
+        "mustRejectBy": "E1",
+        "reviewProbe": "R10-PROBE-10"
+      },
+      {
+        "id": "EV3-NEG-11A-SAME-KEY-DIFFERENT-OUTCOME",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "same-key-different-outcome-recomputed",
+        "mustRejectBy": "E1",
+        "reviewProbe": "R10-PROBE-11"
+      },
+      {
+        "id": "EV3-NEG-11B-OUTCOME-SHAPE-SUBSTITUTION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "outcome-shape-substitution-recomputed",
+        "mustRejectBy": "E2",
+        "reviewProbe": "R10-PROBE-11"
+      },
+      {
+        "id": "EV3-NEG-12A-OUTCOME-UNRECOMPUTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "outcome-substitution-unrecomputed",
+        "mustRejectBy": "E5",
+        "reviewProbe": "R10-PROBE-12"
+      },
+      {
+        "id": "EV3-NEG-12B-EMPTY-OUTCOME-COMMITMENT",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "empty-outcome-commitment",
+        "mustRejectBy": "E5",
+        "reviewProbe": "R10-PROBE-12"
+      },
+      {
+        "id": "EV3-NEG-13A-UNRESOLVABLE-FULL-REF",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "unresolvable-full-ref",
+        "mustRejectBy": "E4",
+        "reviewProbe": "R10-PROBE-13"
+      },
+      {
+        "id": "EV3-NEG-13B-TRUNCATED-REF",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "truncated-ref",
+        "mustRejectBy": "EVIDENCE_CONSTRAINT_VIOLATION",
+        "reviewProbe": "R10-PROBE-13"
+      },
+      {
+        "id": "EV3-NEG-14-INDETERMINATE-ABSORBED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "indeterminate-absorbed-pass",
+        "mustRejectBy": "E9",
+        "reviewProbe": "R10-PROBE-14"
+      },
+      {
+        "id": "EV3-NEG-15A-SAME-ID-DIFFERENT-BYTES",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "same-id-different-bytes",
+        "mustRejectBy": "E10",
+        "reviewProbe": "R10-PROBE-15"
+      },
+      {
+        "id": "EV3-NEG-15B-PARTITION-SUBSTITUTION-RECOMPUTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "same-id-different-partition-recomputed",
+        "mustRejectBy": "E10",
+        "reviewProbe": "R10-PROBE-15"
+      },
+      {
+        "id": "EV3-NEG-15C-INCOMPLETE-PARTITION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "incomplete-partition",
+        "mustRejectBy": "E4",
+        "reviewProbe": "R10-PROBE-15"
+      },
+      {
+        "id": "EV3-NEG-15D-PREDICATE-DOMAIN-OMITTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "predicate-domain-omitted",
+        "mustRejectBy": "E4",
+        "reviewProbe": "R10-PROBE-15"
+      },
+      {
+        "id": "EV3-NEG-16A-COVERAGE-ID-MISMATCH",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "coverage-id-mismatch",
+        "mustRejectBy": "E4",
+        "reviewProbe": "R10-PROBE-16"
+      },
+      {
+        "id": "EV3-NEG-16B-COVERAGE-BYTES-SUBSTITUTION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "coverage-substitution",
+        "mustRejectBy": "E4",
+        "reviewProbe": "R10-PROBE-16"
+      },
+      {
+        "id": "EV3-NEG-17A-PRODUCER-OBLIGATION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "producer-obligation",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-17"
+      },
+      {
+        "id": "EV3-NEG-17B-HOST-OBLIGATION-SUBSTITUTION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "proof-obligation-substitution",
+        "mustRejectBy": "E3",
+        "reviewProbe": "R10-PROBE-17"
+      },
+      {
+        "id": "EV3-NEG-18-MINIMUM-CAPABILITY-DOWNGRADE",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "downgrade-predicate-unit",
+        "mustRejectBy": "E7",
+        "reviewProbe": "R10-PROBE-18"
+      },
+      {
+        "id": "EV3-NEG-19-PURGED-DOWNGRADED-PREDICATE",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "purged-downgraded-predicate",
+        "mustRejectBy": "E7",
+        "reviewProbe": "R10-PROBE-19"
+      },
+      {
+        "id": "EV3-NEG-20A-REPLAY-MISSING-DEPENDENCY",
+        "baseId": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+        "mutation": "replay-missing-dependency",
+        "mustRejectBy": "E12",
+        "reviewProbe": "R10-PROBE-20"
+      },
+      {
+        "id": "EV3-NEG-20B-SEALED-EFFECTIVE-SUBSTITUTION",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "sealed-effective-mismatch",
+        "mustRejectBy": "E12",
+        "reviewProbe": "R10-PROBE-20"
+      },
+      {
+        "id": "EV3-NEG-20C-REPLAY-DUPLICATE",
+        "baseId": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+        "mutation": "replay-duplicate",
+        "mustRejectBy": "E8",
+        "reviewProbe": "R10-PROBE-20"
+      },
+      {
+        "id": "EV3-NEG-20D-REPLAY-WRONG-UNIT",
+        "baseId": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+        "mutation": "replay-wrong-unit",
+        "mustRejectBy": "E8",
+        "reviewProbe": "R10-PROBE-20"
+      },
+      {
+        "id": "EV3-NEG-21-MALFORMED-REPLAY-BAG",
+        "baseId": "EV3-POS-03-REPLAYABLE-OFFLINE-CLOSURE",
+        "mutation": "malformed-replay-bag",
+        "mustRejectBy": "E8",
+        "reviewProbe": "R10-PROBE-21"
+      },
+      {
+        "id": "EV3-NEG-22A-ALIASED-PROOF-REF",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "alias-proof-ref",
+        "mustRejectBy": "E7",
+        "reviewProbe": "R10-PROBE-22"
+      },
+      {
+        "id": "EV3-NEG-22B-OMITTED-PROOF-UNIT",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "omit-proof-unit",
+        "mustRejectBy": "E7",
+        "reviewProbe": "R10-PROBE-22"
+      },
+      {
+        "id": "EV3-NEG-META-CAS-REQUEST-ID",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "nested-cas-request-id",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-06"
+      },
+      {
+        "id": "EV3-NEG-META-CAS-REMOVED-BOOLEAN",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "nested-cas-removed-boolean",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-06"
+      },
+      {
+        "id": "EV3-NEG-META-OBJECT-STATE",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "nested-object-state-metadata",
+        "mustRejectBy": "E-META",
+        "reviewProbe": "R10-PROBE-21"
+      },
+      {
+        "id": "EV3-NEG-VERSIONING-VERIFIER-UNAVAILABLE",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "historical-verifier-unavailable",
+        "mustRejectBy": "E11",
+        "reviewProbe": "R10-PROBE-13"
+      },
+      {
+        "id": "EV3-NEG-VERSIONING-ABI-UNSUPPORTED",
+        "baseId": "EV3-POS-01-AUTHORITATIVE-NO-MATCH-HISTORICAL-V1",
+        "mutation": "historical-abi-unsupported",
+        "mustRejectBy": "E11",
+        "reviewProbe": "R10-PROBE-13"
+      }
+    ]
+  },
+  "hostileTypeMatrices": {
+    "roots": [
+      null,
+      0,
+      "bundle",
+      [],
+      true
+    ],
+    "nestedTypes": [
+      null,
+      0,
+      "scalar",
+      [],
+      true,
+      {}
+    ]
+  },
+  "reviewer10ProbeDisposition": [
+    {
+      "id": "R10-PROBE-01",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-01A-ROOT-NULL",
+        "EV3-NEG-01B-ROOT-NUMBER",
+        "EV3-NEG-01C-ROOT-STRING",
+        "EV3-NEG-01D-ROOT-ARRAY",
+        "EV3-NEG-01E-ROOT-BOOLEAN"
+      ]
+    },
+    {
+      "id": "R10-PROBE-02",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-02-CAS-BYTES-OBJECT"
+      ]
+    },
+    {
+      "id": "R10-PROBE-03",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-03-CLAIM-SHAPE-ARRAY"
+      ]
+    },
+    {
+      "id": "R10-PROBE-04",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-04A-MEMBER-IDS-SCALAR",
+        "EV3-NEG-04B-AUTHORITATIVE-STRING",
+        "EV3-NEG-04C-CONTENT-KIND-ARRAY",
+        "EV3-NEG-04D-EVALUATIONS-SCALAR",
+        "EV3-NEG-04E-STORAGE-CONTAINERS"
+      ]
+    },
+    {
+      "id": "R10-PROBE-05",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-05-TOP-REQUEST-ID"
+      ]
+    },
+    {
+      "id": "R10-PROBE-06",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-06-WITNESS-METADATA",
+        "EV3-NEG-META-CAS-REQUEST-ID",
+        "EV3-NEG-META-CAS-REMOVED-BOOLEAN"
+      ]
+    },
+    {
+      "id": "R10-PROBE-07",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-07-ANCHOR-METADATA"
+      ]
+    },
+    {
+      "id": "R10-PROBE-08",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-08-WITNESS-TYPES",
+        "EV3-NEG-08B-RELATION-KIND",
+        "EV3-NEG-08C-SPAN-ONLY"
+      ]
+    },
+    {
+      "id": "R10-PROBE-09",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-09A-MEMBERS-OMITTED",
+        "EV3-NEG-09B-MEMBERS-SUBSTITUTED"
+      ]
+    },
+    {
+      "id": "R10-PROBE-10",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-10-DUPLICATE-EVALUATION"
+      ]
+    },
+    {
+      "id": "R10-PROBE-11",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-11A-SAME-KEY-DIFFERENT-OUTCOME",
+        "EV3-NEG-11B-OUTCOME-SHAPE-SUBSTITUTION"
+      ]
+    },
+    {
+      "id": "R10-PROBE-12",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-12A-OUTCOME-UNRECOMPUTED",
+        "EV3-NEG-12B-EMPTY-OUTCOME-COMMITMENT"
+      ]
+    },
+    {
+      "id": "R10-PROBE-13",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-13A-UNRESOLVABLE-FULL-REF",
+        "EV3-NEG-13B-TRUNCATED-REF",
+        "EV3-NEG-VERSIONING-VERIFIER-UNAVAILABLE",
+        "EV3-NEG-VERSIONING-ABI-UNSUPPORTED"
+      ]
+    },
+    {
+      "id": "R10-PROBE-14",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-14-INDETERMINATE-ABSORBED"
+      ]
+    },
+    {
+      "id": "R10-PROBE-15",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-15A-SAME-ID-DIFFERENT-BYTES",
+        "EV3-NEG-15B-PARTITION-SUBSTITUTION-RECOMPUTED",
+        "EV3-NEG-15C-INCOMPLETE-PARTITION",
+        "EV3-NEG-15D-PREDICATE-DOMAIN-OMITTED"
+      ]
+    },
+    {
+      "id": "R10-PROBE-16",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-16A-COVERAGE-ID-MISMATCH",
+        "EV3-NEG-16B-COVERAGE-BYTES-SUBSTITUTION"
+      ]
+    },
+    {
+      "id": "R10-PROBE-17",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-17A-PRODUCER-OBLIGATION",
+        "EV3-NEG-17B-HOST-OBLIGATION-SUBSTITUTION"
+      ]
+    },
+    {
+      "id": "R10-PROBE-18",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-18-MINIMUM-CAPABILITY-DOWNGRADE"
+      ]
+    },
+    {
+      "id": "R10-PROBE-19",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-19-PURGED-DOWNGRADED-PREDICATE"
+      ]
+    },
+    {
+      "id": "R10-PROBE-20",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-20A-REPLAY-MISSING-DEPENDENCY",
+        "EV3-NEG-20B-SEALED-EFFECTIVE-SUBSTITUTION",
+        "EV3-NEG-20C-REPLAY-DUPLICATE",
+        "EV3-NEG-20D-REPLAY-WRONG-UNIT"
+      ]
+    },
+    {
+      "id": "R10-PROBE-21",
+      "originalResult": "FAIL",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-21-MALFORMED-REPLAY-BAG",
+        "EV3-NEG-META-OBJECT-STATE"
+      ]
+    },
+    {
+      "id": "R10-PROBE-22",
+      "originalResult": "PASS",
+      "repairedResult": "REJECTED_WITH_STABLE_FINDINGS",
+      "fixtures": [
+        "EV3-NEG-22A-ALIASED-PROOF-REF",
+        "EV3-NEG-22B-OMITTED-PROOF-UNIT"
+      ]
+    },
+    {
+      "id": "R10-PROBE-23",
+      "originalResult": "PASS",
+      "repairedResult": "CONTROL_RETAINED",
+      "fixtures": [
+        "SELFTEST-DIRTY-BASE",
+        "SELFTEST-NON-APPLYING-MUTATION"
+      ]
+    }
+  ],
+  "reviewer10FindingDisposition": [
+    {
+      "id": "R10-EVD-01",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "named recursive closed schemas, exact field types, stable outcomes, and total wrapper"
+    },
+    {
+      "id": "R10-EVD-02",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "unique activation before commitment, exact member identity, and proof-tag pairing"
+    },
+    {
+      "id": "R10-EVD-03",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "canonical retained CAS bytes, digest recomputation, Coverage/partition/domain derivation"
+    },
+    {
+      "id": "R10-EVD-04",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "typed ordered WitnessEdge/fact/anchor joins and host-derived proof obligation"
+    },
+    {
+      "id": "R10-EVD-05",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "Phase1A-derived transitive minima plus retention-v7 sealed/effective derivation"
+    },
+    {
+      "id": "R10-EVD-06",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "closed replay refs resolved to retained bytes and exactly one AVAILABLE unit"
+    },
+    {
+      "id": "R10-EVD-07",
+      "status": "CLOSED_AWAITING_INDEPENDENT_REREVIEW",
+      "repairEvidence": "VERSIONING-v3 historical semantics/verifier artifact decision consumed by exact hash"
+    }
+  ],
+  "selftestControls": {
+    "dirtyBase": "REFUSE_BEFORE_MUTATION_LOOP",
+    "nonApplyingMutation": "COUNT_AS_ESCAPE",
+    "mutationException": "COUNT_AS_ESCAPE"
+  },
+  "futureCrossSurfaceJoin": {
+    "OPERABILITY-RequestId": "FORBIDDEN TO PROMOTE until Evidence v3 passes independent re-review. Exact future join: operability.v2 requestIdContract.semanticExclusion.pendingCrossSurfaceClosure may move EvidenceBundle to mechanicallyJoined only with evidence.v3 recursive E-META/E-SCHEMA normal+selftest evidence."
+  },
+  "retainedResiduals": [
+    {
+      "id": "A1-RTV4-02",
+      "class": "MEASUREMENT",
+      "status": "UNMEASURED",
+      "statement": "No-match fold/reverification cost remains unmeasured; no constant-size or cost claim."
+    },
+    {
+      "id": "CD-RT-5",
+      "class": "PRODUCT",
+      "status": "BLOCKED_ON_PHASE_1A"
+    }
+  ],
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "qualified": false,
+    "demonstrated": false,
+    "productReleaseQualified": false
+  },
+  "sealRecommendation": "DO NOT SEAL until independent re-review of Evidence v3 and its exact Phase1A/Versioning dependency hashes."
+}

@@ -1,0 +1,160 @@
+{
+  "artifact": "opensip.arch-retention-tiers.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute",
+  "claimId": "ARCH.RETENTION-TIERS",
+  "verdict": "reject-require-vN",
+  "method": "Mapped each advertised tier to independent proof obligations for a local span finding, a positive relationship finding (cycle), a set-completeness finding (blast radius), a negative finding (dead code), and full replay. For each, asked what retained object lets a later consumer verify why the predicate held without consulting mutable caches or the live repository.",
+  "answerToAuthorsDoubt": "No. T1 as cited source spans does not answer why for relationship, completeness, or absence claims. The tiered-and-declared direction is sound; the T1 definition and default are not.",
+  "resolves": {
+    "B-RT-01": "OPEN-BLOCKER: cited spans prove neither a relationship path nor completeness/absence; T1 is proof-incomplete for shipped rule classes.",
+    "B-RT-02": "OPEN-BLOCKER: T0's retained 'facts' are undefined. If it retains fact bodies it may already contain the proof and is not tiny; if it retains only identities/digests it cannot support the advertised queries.",
+    "B-RT-03": "OPEN-BLOCKER: T1 cannot be the universal default until a rule-family proof matrix and negative controls demonstrate proof completeness and bounded privacy cost.",
+    "B-RT-04": "OPEN-BLOCKER: an immutable sealed Run cannot contain a mutable currentTier that degrades after GC.",
+    "B-RT-05": "OPEN-BLOCKER: relationship and negative proof capsules may be large and source-bearing, so the unconditional 'small fraction' and 'small' claims are unproved.",
+    "B-RT-06": "OPEN-BLOCKER: T2 read-set bytes do not by themselves permit full re-derivation; historical providers, toolchains, environment inputs, schemas, and deterministic execution must remain obtainable.",
+    "B-RT-07": "OPEN-BLOCKER: T1 default excerpt retention contradicts threat-model V4/R7's explicit, default-off excerpt materialisation."
+  },
+  "findings": [
+    {
+      "id": "B-RT-01",
+      "severity": "critical",
+      "category": "proof-insufficiency",
+      "counterexamples": [
+        {
+          "findingClass": "cycle",
+          "whyRequires": "an ordered closed witness path, relation kinds, node identities, and provenance for every edge",
+          "whySpansFail": "one or more cited lines do not establish that the edges resolve to the claimed nodes or close the cycle"
+        },
+        {
+          "findingClass": "blast-radius completeness",
+          "whyRequires": "the start set, traversal relation/direction, exact graph view, Coverage, and either the relevant closure or a verifiable commitment/certificate",
+          "whySpansFail": "a sampled path can prove membership but cannot prove the returned set is complete"
+        },
+        {
+          "findingClass": "dead code",
+          "whyRequires": "entrypoint/public-surface policy, semantic universe, searched reference relation, exact Coverage, dynamic-resolution limits, and a closed-world absence certificate",
+          "whySpansFail": "the declaration span proves the symbol exists; it cannot prove no qualifying reference exists"
+        }
+      ],
+      "requiredChange": "Replace T1-excerpt with T1-proof. A finding retains a typed, predicate-specific proof capsule: positive witness subgraph and edge provenance where applicable; exact predicate/query identity; Coverage and universe commitments for negative or complete-set claims; source excerpts only when the proof actually needs source text.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A worked T1 object for all three counterexamples that a later verifier can check using only retained T1 state."
+    },
+    {
+      "id": "B-RT-02",
+      "severity": "high",
+      "category": "ambiguous-contract",
+      "evidence": "T0 says it retains facts, findings, Coverage, and identities, while also claiming it cannot answer why and remains tiny.",
+      "impact": "The word 'facts' can mean full immutable fact chunks, selected fact identities, or only digests. Those choices have opposite privacy, size, and explanatory consequences.",
+      "requiredChange": "Give each retained field a schema-level custody form: body, identity, digest/commitment, or reference with retention state. Define whether Coverage bodies and set commitments remain available after cache GC.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A field-level T0 manifest showing exactly which object bodies survive and demonstrating both the tiny-size and no-why claims."
+    },
+    {
+      "id": "B-RT-03",
+      "severity": "high",
+      "category": "default-underived",
+      "evidence": "The default is selected from a lint-shaped example and no conformance matrix covers relationship, absence, external-scanner, aggregate, or multi-finding proofs.",
+      "impact": "Retention only tightens. A user discovers that the default discarded necessary proof when recovery is impossible.",
+      "requiredChange": "Keep the default undecided until every shipped predicate family supplies a T1 proof schema, a positive verification case, a mutation the verifier rejects, a measured size/privacy distribution, and an explicit answer for unsupported proofs. Permit per-finding proof capability with a Run-level minimum/summary rather than pretending every finding has the same evidence shape.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A representative proof corpus showing T1-proof verifies every shipped class while meeting a published privacy/size budget."
+    },
+    {
+      "id": "B-RT-04",
+      "severity": "high",
+      "category": "immutability-contradiction",
+      "evidence": [
+        "architecture/02 defines Run as an immutable sealed manifest",
+        "RT-1 puts the retention tier in that sealed manifest",
+        "RT-2 says the Run records a current tier that mutates T2->T1->T0 as data expires"
+      ],
+      "impact": "Either the sealed Run mutates, or its current availability claim becomes stale.",
+      "requiredChange": "Put immutable requested/sealedTier and proof inventory commitments in the Run/EvidenceDigest. Represent current availability in a separate append-only retention ledger or signed retention event, resolved at read time and never hashed back into the historical Run.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A precise split already intended by 'records' but absent from the current text."
+    },
+    {
+      "id": "B-RT-05",
+      "severity": "medium-high",
+      "category": "unmeasured-size-and-privacy",
+      "evidence": "A cycle can cite many edges; a blast-radius proof can approach the graph partition; an absence certificate may require a universe/set commitment; each anchor can expose paths, symbols, and source.",
+      "impact": "T1 can approach T2 size for graph-heavy findings and can retain more sensitive metadata than the 'small fraction' rationale admits.",
+      "requiredChange": "Remove categorical size labels. Budget proof capsules, deduplicate shared witness objects, privacy-class every member, disclose truncation as proof unavailability rather than silently weakening proof, and measure representative workloads.",
+      "confidence": "high on possibility, medium on prevalence until measured",
+      "whatWouldChangeMyMind": "Representative measurements bounding proof closure far below read-set retention for the target workload."
+    },
+    {
+      "id": "B-RT-06",
+      "severity": "high",
+      "category": "replay-overclaim",
+      "evidence": [
+        "T2 retains all read-set bytes",
+        "architecture/02 conditions equality on toolchain and environment identity",
+        "P-4a leaves the Rust substrate and packaging unresolved",
+        "an identity proves which producer ran but does not make that executable available later"
+      ],
+      "impact": "A T2 Run may be called attestation-grade/full-replay even when the historical provider or toolchain cannot be obtained or executed.",
+      "requiredChange": "Rename the guarantee to input-complete unless the Run also pins retrievable producer/provider binaries, schemas, toolchain/sysroot/lock inputs, environment contract, and a supported replay executor. Make replay capability independently testable from byte retention.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A delivery/versioning contract guaranteeing offline retrieval and execution of every historical derivation dependency within the declared support window."
+    },
+    {
+      "id": "B-RT-07",
+      "severity": "high",
+      "category": "privacy-contract-contradiction",
+      "evidence": "Threat model V4/R7 says excerpt materialisation is explicit and off by default; this section automatically retains excerpts at the default tier.",
+      "impact": "The same default is simultaneously a privacy violation and a product requirement.",
+      "requiredChange": "Resolve jointly with B-TM2-01. A proof tier must distinguish non-source structural witnesses from source-bearing excerpts and record the user's forward-only retention choice.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative distinction showing that the retained T1 object is not materialised source content."
+    }
+  ],
+  "recommendedTierShape": {
+    "T0-manifest": "Immutable claims, identities, digests/commitments, exact retention-state references, Coverage summary plus commitments; answers what and which identities, not why.",
+    "T1-proof": "T0 plus typed predicate-specific proof capsules sufficient for later verification: source excerpt only for local textual claims; witness graph/provenance for positive relations; universe/Coverage/set commitments for negative or complete-set claims.",
+    "T2-input-complete": "T1 plus all read-set bytes. Call it replay-capable only when the historical executable/toolchain/environment contract is also available and verified."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "ARCH.RETENTION-TIERS",
+      "source": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute",
+      "assessment": "Tiered, declared, forward-only retention is accepted as a direction; the tier semantics/default are rejected."
+    },
+    {
+      "id": "ARCH.RUN-IMMUTABLE",
+      "source": "architecture/02-domain-model.md#core-types",
+      "assessment": "RT-2 violates it unless current availability is moved outside the sealed Run."
+    },
+    {
+      "id": "ARCH.COVERAGE-ARTIFACT",
+      "source": "architecture/04-fact-plane.md#coverage-is-an-artifact",
+      "assessment": "Negative and completeness proofs require retained exact-Coverage commitments, not only projected summaries."
+    },
+    {
+      "id": "TM.V1/V4/V5",
+      "source": "artifacts/threat-model.v2.json",
+      "assessment": "Privacy minimisation and real inventory remain binding; automatic excerpt retention currently conflicts with V4/R7."
+    }
+  ],
+  "checksThatCouldHaveFailed": [
+    "A cycle could have been verifiable from a single canonical anchor if the anchor resolved to a retained witness object; no such object is defined.",
+    "T0 could have specified digest-only facts and avoided the size ambiguity; it does not.",
+    "T2 could have pinned replay executables/toolchains through delivery/versioning; it does not."
+  ],
+  "knownLimitations": [
+    "No representative proof-size corpus exists, so the review rejects the categorical size claim rather than supplying replacement thresholds.",
+    "A cryptographic absence proof could make some negative claims compact, but no such proof system or canonical universe commitment is designed here.",
+    "I inspected agents-log.md only after this derivation was complete; see the independence disclosure in threat-model.v2.review-b.json."
+  ],
+  "confidence": {
+    "overall": "high",
+    "tieredDirection": "high",
+    "T1Rejection": "high",
+    "replacementDefault": "medium pending measured proof corpus"
+  },
+  "whatWouldChangeOverallVerdict": "A revised section with field-level tier schemas, immutable-vs-current retention separation, proof-complete T1 examples and mutation tests for local/relational/negative/set-complete claims, measured privacy/size bounds, and an honest T2 replay dependency contract."
+}

@@ -1,0 +1,52 @@
+{
+  "artifact": "opensip.identity-contracts.evidence-requestid-closure.deferred-patch",
+  "version": 1,
+  "date": "2026-07-31",
+  "status": "PENDING-EXTERNAL-PHASE1A-OWNER-INTEGRATION",
+  "owner": "Phase-1A evidence/retention repair lane",
+  "reasonForDeferral": "evidence.v1.json and check-evidence.py are concurrently owned by the external Phase-1A repair. The identity lane must not overwrite or race that work.",
+  "targets": [
+    "artifacts/evidence.v1.json#bundleSchema.EvidenceBundle",
+    "artifacts/check-evidence.py#_schema_check",
+    "artifacts/evidence.v1.json#counterexampleFixtures",
+    "artifacts/check-evidence.py#MUTATIONS"
+  ],
+  "requiredContractChanges": {
+    "schema": {
+      "closed": true,
+      "additionalProperties": false,
+      "allowedFields": "exact union of the post-Phase-1A EvidenceBundle.required and EvidenceBundle.optional lists",
+      "unknownFieldOutcome": "EVIDENCE_BUNDLE_UNKNOWN_FIELD",
+      "forbiddenField": "requestId"
+    },
+    "fixture": {
+      "id": "evidence-bundle-reject-request-id",
+      "valid": false,
+      "addField": {
+        "requestId": "req1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expectedInvariant": "E-SCHEMA",
+      "expectedOutcome": "EVIDENCE_BUNDLE_UNKNOWN_FIELD"
+    },
+    "checker": [
+      "Before semantic evaluation, reject every top-level EvidenceBundle key outside the exact required-plus-optional union.",
+      "Require closed=true, additionalProperties=false and unknownFieldOutcome=EVIDENCE_BUNDLE_UNKNOWN_FIELD on the binding schema.",
+      "Require and execute evidence-bundle-reject-request-id against a known-valid base bundle.",
+      "Add retained mutations that open additional properties, admit requestId and delete the RequestId fixture.",
+      "Continue refusing --selftest when the base contract is dirty."
+    ]
+  },
+  "postIntegrationJoin": {
+    "consumer": "artifacts/operability.v2.json#requestIdContract.semanticExclusion.proofStatus",
+    "requiredAction": "Move EvidenceBundle unknown-field closure from pendingCrossSurfaceClosure into mechanicallyJoined only after check-evidence.py normal and --selftest both pass with the patch above.",
+    "requiredSource": "evidence.v1.json#bundleSchema.EvidenceBundle",
+    "proofText": "RequestId is structurally absent from this exact closed semantic record"
+  },
+  "acceptance": [
+    "python3 artifacts/check-evidence.py",
+    "python3 artifacts/check-evidence.py --selftest",
+    "python3 artifacts/check-operability.py",
+    "python3 artifacts/check-operability.py --selftest"
+  ],
+  "noOverclaim": "Until this patch is applied by the owning lane and the OPERABILITY join is promoted, RequestId exclusion from the EvidenceBundle record is pending. Absence from today's required/optional lists alone is not unknown-field closure and is not mechanical proof."
+}

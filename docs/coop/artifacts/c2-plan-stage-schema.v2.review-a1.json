@@ -1,0 +1,130 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.review",
+  "reviewOf": "opensip.c2-plan-stage-schema v2 (CANDIDATE-UNREVIEWED)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "medium-high",
+  "method": [
+    "Re-checked my v1 blockers A1-C2-01/02 against v2 text without treating resolves as closed.",
+    "Workflow enumeration (query-only, fit, graph rules, yagni, sim/probe, scanner, repair verify) → which stage/host activity owns each — different from author's stage list walk.",
+    "Compared ExecutionPlan kinds to architecture/05 stage table for restatement drift.",
+    "Asked whether PS-09/PS-12 can be true given ARCH.PROBE-CONTRACT REOPENED and provider/scanner effect surfaces.",
+    "PS-07: ask what would make the test pass while private operators still leak into public schema.",
+    "Did not use Reviewer B's C2 findings as a checklist (read only after drafting; overlap noted in log)."
+  ],
+  "whatCouldHaveFailed": [
+    "InvocationPlan still silent on admission (A1-C2-01 open)",
+    "PS-07 still two public Plans (A2-C2-V1-03 open)",
+    "Coverage key still relation-only",
+    "Required rule fault still isolated",
+    "Architecture/05 already matches v2 (no drift)",
+    "PS-09 implementable without new substrate"
+  ],
+  "priorFindingsDisposition": {
+    "A1-C2-01": {
+      "status": "CLOSED",
+      "detail": "InvocationPlan explicitly covers config resolution, contribution admission, capability grants, scope, snapshot, PlanId/ExecutionId allocation; failureBefore is pre-admission. This is the sentence v1 lacked."
+    },
+    "A1-C2-02": {
+      "status": "PARTIAL",
+      "detail": "PS-07 correctly rewritten to one public ExecutionPlan + test-only dual physical strategies with exact-Coverage-first. Harness still does not exist (knownLimitations). Spec shape is sealable; discharge is not."
+    },
+    "A2-C2-V1-01": {
+      "status": "CLOSED-SHAPE",
+      "detail": "Two-level model removes Snapshotter-before-Planner vs snapshot-stage contradiction for the inner Plan. architecture/05 still lists Snapshot as a plan stage kind — restatement not updated."
+    },
+    "A2-C2-V1-02": {
+      "status": "CLOSED-SHAPE",
+      "detail": "Compound Coverage key (relation × language/universe × subject-scope) + consumer status. Field-level schema still missing."
+    },
+    "A2-C2-V1-03": {
+      "status": "CLOSED-SPEC",
+      "detail": "PS-07 rewrite matches required shape; implementation owed."
+    },
+    "A2-C2-V1-04": {
+      "status": "OPEN",
+      "detail": "PS-09 states runtime denial; no capability substrate (knownLimitation). ARCH.PROBE-CONTRACT REOPENED for the same reason. Enum still cannot prove capability."
+    },
+    "A2-C2-V1-05": {
+      "status": "CLOSED-SPEC",
+      "detail": "requiredness + PS-10 force indeterminate on required fault/budget. Good."
+    }
+  },
+  "findings": [
+    {
+      "id": "A1-C2V2-01",
+      "severity": "high",
+      "title": "architecture/05 still presents Snapshot as a public plan stage; C2 v2 removed it from ExecutionPlan",
+      "detail": "05's C-2 section table lists Snapshot | Fact derivation | Rule | Policy | Probe as plan stage kinds. v2 ExecutionPlan.stageKinds has four kinds and containsSnapshotStage=false. Claim-register C-2 bindingArtifact still points at c2-plan-stage-schema.v1.json. Readers of SEALED-looking stage tables get a different contract than the candidate artifact.",
+      "requiredFix": "Update 05 to InvocationPlan vs ExecutionPlan (mark CANDIDATE); retarget claim-register bindingArtifact to v2; CHK-style restatement if registered.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-C2V2-02",
+      "severity": "high",
+      "title": "PS-12 / sealedProperties 'effectful only as probe' overclaims against provider and scanner surfaces",
+      "detail": "Architecture execution tiers include external scanners and guest/semantic-provider processes that are effectful or ambient-authority. PS-12 says effectful work is representable only as probe; PS-09 only denies effects on rule-evaluation labels. Fact-derivation via a provider that executes repository-controlled code (TM V9) is not a Probe stage yet is effectful. Either expand stage model / host supervision boundary, or narrow PS-12 to 'Rules cannot be effectful' without claiming Probe exclusivity for all effects.",
+      "requiredFix": "Align PS-12 with reopened ARCH.PROBE-CONTRACT: forbid effectful Rules; place scanners/providers under named host supervision outside rule-evaluation; do not discharge 'effectful unrepresentable as Rule' via Probe-only wording alone.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-C2V2-03",
+      "severity": "high",
+      "title": "PS-09 has no enforcement substrate — same Error-2 class as signature-as-boundary",
+      "detail": "knownLimitations admit this. sealedPropertiesCovered still lists effectful-unrepresentable dischargedBy PS-09/PS-12. That is discharging a sealed property with an unimplemented test — paper seal risk.",
+      "requiredFix": "Remove from sealedPropertiesCovered discharge until a capability-matrix artifact exists; or mark discharge CONDITIONAL.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-C2V2-04",
+      "severity": "medium",
+      "title": "External scanner workflow has no stage kind and no InvocationPlan home",
+      "detail": "Product surface includes scanner adapters. Workflow enumeration: where does trivy/gitleaks-class work sit? Not fact-derivation (different authority), not probe (unless forced), not private operator (produces findings). Silence will invent a fifth public kind later — same failure mode as A1-C2-01 for admission.",
+      "requiredFix": "State scanners as host-supervised stages with a result contract, or as a subclass of probe, or as fact-derivation producers with explicit non-rule authority — pick one and put it in the schema narrative.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-C2V2-05",
+      "severity": "medium",
+      "title": "PS-07 still unimplementable without harness; gaming path remains",
+      "detail": "Test-only physical planner is specified not built. An implementer can skip PS-07 or expose operators. Acceptable for candidate if seal blocked; not a discharge of private-operator privacy alone.",
+      "requiredFix": "Keep A1-C2-02 as seal blocker until harness API exists or PS-07 is redefined to an already-testable warmth/shard invariant with explicit non-claim about operator privacy.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-C2V2-06",
+      "severity": "low-medium",
+      "title": "domainResults createsRun:true for all analysis results may over-create Runs for pure reduction queries",
+      "detail": "reduction candidates createsRun true. If reduction is a query profile over stored facts, creating a Run contradicts queryNeverRunsAnalysis. If reduction is always an admitted analysis Plan, state that — otherwise agents get spurious Runs.",
+      "requiredFix": "Split reduction-as-query vs reduction-as-analysis in domainResults.",
+      "confidence": "medium"
+    },
+    {
+      "id": "A1-C2V2-07",
+      "severity": "low",
+      "title": "Field-level stage schemas still absent",
+      "detail": "Acknowledged. Blocks implementability of PS-01/02 round-trip claims.",
+      "requiredFix": "Minimal JSON schemas per kind before seal.",
+      "confidence": "high"
+    }
+  ],
+  "invocationPlanVerdict": {
+    "splitIsRight": true,
+    "detail": "Naming outer host work beats deleting snapshot from existence. Alternative (snapshot wholly outside any plan concept) loses a place to hang snapshot failure taxonomy; InvocationPlan is fine.",
+    "whatWouldChangeMyMind": "Evidence that InvocationPlan becomes a dumping ground for every host concern and reintroduces four products under a new name."
+  },
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal C-2. v2 is a real advance on v1 blockers; capability substrate, 05 restatement, and scanner/provider effect boundary remain.",
+  "whatWouldChangeMyMind": "Capability-denial artifact + 05/register aligned + PS-12 narrowed + scanner placement stated + PS-07 harness or honest non-discharge.",
+  "knownLimitations": [
+    "Did not design the capability matrix.",
+    "Did not read B's C2 review until after drafting findings; A1-C2V2-02/03 likely overlap B-C2V2 — independent method was architecture tier table + TM V9, not B's list."
+  ],
+  "sealedPropertiesCovered": [
+    "C-2 one mechanism typed stages (candidate v2)",
+    "C-1 predicate-relative sufficiency (PS-04/08 intent)"
+  ]
+}

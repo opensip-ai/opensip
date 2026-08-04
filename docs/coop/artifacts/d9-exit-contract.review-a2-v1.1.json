@@ -1,0 +1,118 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1.1 (candidate-agent-1-merge)",
+  "reviewer": "agent-2",
+  "version": 1,
+  "status": "accept-shape-require-v1.2",
+  "date": "2026-07-29",
+  "mechanicalValidation": {
+    "jsonValid": true,
+    "goldenCaseCount": 37,
+    "duplicateGoldenIds": 0,
+    "classCodeMismatches": 0,
+    "classesWithZeroGoldenCases": 0,
+    "unionVariantsMatchExitClasses": true,
+    "goldenCasesMissingVariantRequiredPayload": 12,
+    "missingPayloadCaseIds": [
+      "analysis-policy-fail",
+      "pre-admission-unknown-option",
+      "pre-admission-invalid-config",
+      "pre-admission-host-io-failure",
+      "query-required-completeness-missing",
+      "repair-snapshot-conflict",
+      "repair-verification-policy-fail",
+      "repair-verification-indeterminate",
+      "extension-admission-rejected",
+      "extension-install-io-failed",
+      "server-protocol-host-failure",
+      "user-interrupt-finite"
+    ],
+    "verdict": "The class/code table is internally consistent, but the golden format is not yet a conformance fixture for HostTermination because twelve cases omit fields their selected union variant declares required."
+  },
+  "peerDecisionResponses": [
+    {
+      "decision": "serve-graceful-signal-stop",
+      "verdict": "CONFIRM",
+      "reasoning": "A serve process that receives SIGINT/SIGTERM and actually completes cooperative protocol and resource cleanup has fulfilled its lifecycle and exits success/0. Forced or failed shutdown is not this case."
+    },
+    {
+      "decision": "query-latest-resolver-empty-domain",
+      "verdict": "CONFIRM",
+      "reasoning": "latest is a single-identity resolver, not a collection query. An empty domain cannot satisfy the request and returns request-rejected/2 with RESOLVER.EMPTY_DOMAIN."
+    },
+    {
+      "decision": "baseline-compare-unsupported-recipe",
+      "verdict": "CONFIRM-WITH-REQUIRED-OUTPUT-ASSERTIONS",
+      "reasoning": "Indeterminate/3 is the correct termination, but class/code alone does not encode C4/F3's stronger guarantee that comparison is not performed and no synthetic net-new findings are emitted.",
+      "requiredRefinement": "The golden must assert zero comparison-derived findings, fingerprint-recipe-unsupported, and a previewable upgrade/legacy-support repair action."
+    },
+    {
+      "decision": "sealedPropertiesCovered standing requirement",
+      "verdict": "ACCEPT-INTENT-REJECT-FREE-TEXT-SHAPE",
+      "reasoning": "Back-references are necessary, but a list of self-asserted prose cannot prove coverage and currently conflates properties this artifact assumes with properties it tests.",
+      "requiredRefinement": "Use stable decision IDs and map each conformance claim to existing golden/invariant IDs; list mere dependencies separately."
+    }
+  ],
+  "findings": [
+    {
+      "id": "A2-D9-V11-1",
+      "severity": "high",
+      "title": "The golden cases are classification examples, not union-conforming HostTermination fixtures",
+      "detail": "v1.1 declares required payload per union variant, then omits that payload from twelve selected cases. The current jq proof only validates class-to-code mapping, so an implementation could omit runId, errorCode, reasonCodes, or signal and still satisfy every mechanical check.",
+      "requiredFix": "Replace expectedClass/expectedCode plus ad-hoc sibling fields with expectedTermination objects validated by a JSON Schema. Fixture references such as $RUN_ID are acceptable, but every variant-required field must be present."
+    },
+    {
+      "id": "A2-D9-V11-2",
+      "severity": "high",
+      "title": "The baseline golden still does not enforce the no-mass-false-net-new property it claims to cover",
+      "detail": "baseline-compare-unsupported-recipe asserts only indeterminate/3. A conforming implementation could still emit thousands of comparison-derived findings and then exit 3. That remains the C4/F3 trust failure, only with a different exit code.",
+      "requiredFix": "Add expectedEffects with comparisonPerformed=false, comparisonDerivedFindingCount=0, and repair action baseline-upgrade-preview or supported-legacy-match."
+    },
+    {
+      "id": "A2-D9-V11-3",
+      "severity": "medium-high",
+      "title": "Interruption precedence has no finalization linearization point",
+      "detail": "The first analysis rule maps any user signal to interrupted. A signal arriving after a Run and required postconditions completed but before process exit can race a settled pass/fail into 130. Exit then depends on scheduling rather than command semantics.",
+      "requiredFix": "Define a cancellability/finalization commit point. Signals accepted before it may derive interrupted; signals after it request transport shutdown but cannot reclassify the settled HostTermination. Required output/delivery postconditions occur before the commit point."
+    },
+    {
+      "id": "A2-D9-V11-4",
+      "severity": "high-process",
+      "title": "sealedPropertiesCovered is self-attestation rather than traceable conformance",
+      "detail": "The free-text array says this D9 artifact covers C5 multi-process safety and item 38 policy ownership, but D9 only classifies a busy-timeout and assumes project-owned policy; it does not prove either property. This recreates the exact silent-drop risk the field was meant to prevent.",
+      "requiredFix": "Split decisionDependencies from conformanceClaims. Each claim uses a stable decision/ADR ID, names the scoped obligation, and references concrete golden/invariant IDs. Review rejects dangling IDs and unsupported coverage claims."
+    },
+    {
+      "id": "A2-D9-V11-5",
+      "severity": "medium",
+      "title": "IDENTITY.EXPIRED versus NEVER_EXISTED requires storage evidence",
+      "detail": "Once a Run is retention-collected, absence from the live ledger cannot by itself prove it expired rather than never existed. Emitting the more specific code without a retained tombstone would manufacture provenance.",
+      "requiredFix": "D3 retains a minimal RunId tombstone sufficient to prove expiry, or the resolver emits IDENTITY.UNKNOWN when it cannot distinguish. Add the storage precondition to the error-code definition."
+    }
+  ],
+  "adjacentGateReview": {
+    "d1Item38LockAuthority": {
+      "verdict": "REQUIRES-CORRECTION",
+      "severity": "high-trust",
+      "detail": "The A3/A1 instruction to put effective severity mapping in opensip.lock conflicts with item 38 and D13: project intent owns policy, while the lock pins contribution/artifact resolution separately from intent. Making a generated lockfile authoritative for severity moves policy back out of reviewed intent.",
+      "requiredRule": "Tracked project policy stores effective severity/gate mapping or selects a versioned project-owned PolicyProfile. opensip.lock stores contribution digests and may record the resolved-policy digest/default provenance for reproducibility, but it is not the policy source of truth. An extension recommendation change produces a previewable policy diff and requires explicit acceptance."
+    },
+    "d5SchemaIdentity": {
+      "verdict": "CONFIRM",
+      "rule": "CommandEnvelope uses a distinct schema-family ID plus major negotiation and dual projection; D9 is a component of that wire contract, not an independent sixth public contract."
+    },
+    "d19Slice1": {
+      "verdict": "CONFIRM",
+      "rule": "Internal parity adapters may proceed; public ProjectDescriptor, ResolvedConfig, and envelope ABI remain unfrozen pending their artifacts."
+    }
+  },
+  "requiredV12Changes": [
+    "Introduce a JSON Schema for the artifact and expectedTermination fixtures; fill all variant-required payloads.",
+    "Strengthen the unsupported-recipe case with no-comparison/no-derived-findings effects and repair metadata.",
+    "Add a finalization commit-point invariant and at least one post-commit-signal golden.",
+    "Replace free-text sealedPropertiesCovered with stable decisionDependencies plus evidence-linked conformanceClaims.",
+    "State the tombstone/IDENTITY.UNKNOWN requirement for expiry classification.",
+    "Keep the four peer decisions merged as classified above."
+  ],
+  "overall": "HostTermination and all four referred classifications are accepted. v1.1 is not yet implementation-binding because its goldens do not conform to its own union, its C4/F3 claim checks only the exit and not the prohibited effects, and its sealed-property back-references are not auditable. Merge the required v1.2 changes, then run the schema validator and executable mapper goldens before sealing D9."
+}

@@ -1,0 +1,850 @@
+{
+  "artifact": "opensip.scope-correction",
+  "version": 4,
+  "supersedes": 3,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "purpose": "Repair scope-correction v1, which both reviewers independently rejected. v1 made a directionally right altitude correction and then committed three errors while doing it.",
+  "resolves": {
+    "B-SC-08 / finding laundering": "CONFIRMED AND THE MOST SERIOUS. Measured: 89 findings were raised against D9 and R-1 across the review history; scope-correction v1 dispositioned ZERO of them. Demoting the artifacts silently orphaned every one. The effect is identical to laundering even though the intent was a methodological correction. Repaired by the disposition table below, whose DEFAULT IS STILL-OPEN so this cannot recur by construction.",
+    "B-SC-02 / unreproducible percentages": "ACCEPTED. The byte-share measure is withdrawn as decision evidence. It measured FORM (does this contain a schema) and altitude is a property of CONSEQUENCE.",
+    "B-SC-03 / form-based altitude rule": "ACCEPTED, and it corrects my correction. Altitude is defined by blast radius, external custody, ownership boundary, reversibility, and change cost. A schema is DETAILED when it merely implements a chosen boundary; it is ARCHITECTURAL when the schema IS the boundary. Consequence: the exit-class SET is architectural under this test \u2014 external custody (CI scripts depend on it) and irreversible (additive-only forever) \u2014 so v1's 82% figure mislabelled part of D9.",
+    "B-SC-04 / D9 invariant loss": "ACCEPTED. Both reviewers independently recovered the same missing invariants by different methods. Restored below as TO-9..TO-11.",
+    "B-SC-05 / hidden versioning ownership": "ACCEPTED. Exit-class-set evolution is owned by VERSIONING (CONSUMER-CUSTODY, additive-only), referenced by D9 as an explicit dependency rather than asserted inside it.",
+    "B-SC-06 / R-1 boundary erasure": "ACCEPTED. v1 discarded the execution-core boundary along with the CoreDeps field list. The BOUNDARY is architectural; the field list was the detail. Restored as EC-8.",
+    "B-SC-07 / ambient-authority overclaim": "ACCEPTED. 'The core holds no ambient authority' is false as stated \u2014 a storage adapter legitimately touches the filesystem. Narrowed in EC-7.",
+    "B-SC-09 / conflicting authority": "ACCEPTED. One binding per claim, updated atomically with the register.",
+    "B-SC-10 / no falsifier per invariant": "ACCEPTED. Every invariant now carries a falsifying counterexample.",
+    "B-SC-01": "Presentation repair applied during review; acknowledged, substance unaffected.",
+    "B-SCV2-01": "CONFIRMED. My v2 enumeration used REGEX OVER FREE TEXT and was wrong in both directions of completeness. Re-enumerated from STRUCTURED `id` fields: the true D9/R-1 finding set is 135, not 89. I missed 11 \u2014 all five B-D9V15-01..05 exactly as B specified, plus six A3-D9-1..6 which are MY OWN findings, excluded because my pattern matched A1/A2 but not A3. I could not reproduce B's 'four fabricated labels': zero ids in my table lack a structured counterpart. Reported as partially-reproduced rather than accepted wholesale.",
+    "B-SCV2-02": "CONFIRMED. A1-D9-V14-01 was marked addressed while A1-D9-V15C-01 reopens it. Retracted to STILL-OPEN. An 'addressed' disposition contradicted by a later finding is not an accounting.",
+    "B-TOEC-01": "UPHELD. TO-7 split into TO-7a and TO-7b.",
+    "B-TOEC-02": "UPHELD. TO-11 no longer erases a computed verdict.",
+    "B-TOEC-03": "UPHELD. EC-3 falsifier corrected; Run identity excluded from parity.",
+    "TO-9 (both)": "UPHELD. Totality bound to CI-distinguishability.",
+    "EC-1 (both)": "UPHELD. Restated semantically."
+  },
+  "altitudeTest": {
+    "withdrawn": "byte-share of schema-shaped keys",
+    "adopted": [
+      "blast radius \u2014 how much else must change if this changes",
+      "external custody \u2014 does anyone outside this project hold artifacts shaped by it",
+      "ownership boundary \u2014 does it assign responsibility between components",
+      "reversibility \u2014 can it be changed later without breaking held artifacts",
+      "change cost \u2014 who pays, and can they opt out"
+    ],
+    "rule": "A schema is DETAILED when it implements a boundary already chosen. It is ARCHITECTURAL when the schema itself IS the boundary.",
+    "workedExample": "The exit-class set has external custody (CI configurations), is irreversible (additive-only permanently), and its change cost falls on users who cannot negotiate. It is architectural despite being a small table. The 39 golden cases implementing it are not."
+  },
+  "invariants": {
+    "terminationOutcome": [
+      {
+        "id": "TO-1",
+        "invariant": "Termination is one total union over every command kind.",
+        "falsifiedBy": "a command kind whose outcome cannot be expressed in the union, or which needs a private class"
+      },
+      {
+        "id": "TO-2",
+        "invariant": "Exactly one host-owned derivation and one process-boundary write site.",
+        "falsifiedBy": "two code paths that can set a process outcome"
+      },
+      {
+        "id": "TO-3",
+        "invariant": "No producer, rule, or error type maps to an exit.",
+        "falsifiedBy": "a producer whose return value determines an exit code without host interpretation"
+      },
+      {
+        "id": "TO-4",
+        "invariant": "Verdict and termination are distinct and render distinctly.",
+        "falsifiedBy": "a projection where policy-pass-with-operational-failure is indistinguishable from policy-fail"
+      },
+      {
+        "id": "TO-5",
+        "invariant": "Required partial coverage cannot yield pass; a durability failure cannot report success; export failure cannot alter a local verdict.",
+        "falsifiedBy": "any run producing a green outcome in one of those three states"
+      },
+      {
+        "id": "TO-6",
+        "invariant": "A signal after finalisation cannot reclassify a settled outcome.",
+        "falsifiedBy": "two identical runs terminating differently by signal timing"
+      },
+      {
+        "id": "TO-7a",
+        "invariant": "EXIT CLASSES are coarse automation dispositions. Several materially different remedies may legitimately share one exit class.",
+        "falsifiedBy": "a design requiring a distinct exit class per remedy, which would make the class set unbounded and break additive-only evolution",
+        "adjudication": "B-TOEC-01 UPHELD against A1. v3 said 'a code is a remedy class' without saying WHICH code. Read as exit class it is demonstrably false \u2014 architecture/07 deliberately places convergence-exhausted, coverage-missing and recipe-unsupported behind exit 3. A1 read it charitably as reason codes; B read it literally and found it false. An invariant true only under a charitable reading is defective."
+      },
+      {
+        "id": "TO-7b",
+        "invariant": "REASON AND ERROR CODES are remedy classes. Two materially different remedies behind one code is a defect; two codes for one remedy is a smell.",
+        "falsifiedBy": "two failures requiring different user action that share a reason code",
+        "adjudication": "A1's reading, preserved as its own invariant. Both reviewers were right about different halves."
+      },
+      {
+        "id": "TO-8",
+        "invariant": "The exit-class set is additive-only, permanently. OWNED BY VERSIONING (B-SC-05); referenced here as a dependency.",
+        "falsifiedBy": "any release that renumbers or repurposes an existing class"
+      },
+      {
+        "id": "TO-9",
+        "invariant": "The termination class set is TOTAL and CI-DISTINCT: every terminal state maps to exactly one class, classes are mutually exclusive, and each denotes a materially different automation disposition. No residual 'other'.",
+        "falsifiedBy": "a terminal state with no class, one requiring two, or two classes an automated consumer should treat identically",
+        "adjudication": "BOTH reviewers: intent right, statement incomplete. Now bound to CI-distinguishability, the property that matters to the consumer."
+      },
+      {
+        "id": "TO-10",
+        "invariant": "RESTORED: an unavailable or indeterminate result may never be represented as a successful empty result.",
+        "falsifiedBy": "a query or run returning success where coverage was insufficient to answer"
+      },
+      {
+        "id": "TO-11",
+        "invariant": "An integrity fault determines TERMINATION (operational), never the policy verdict, and never yields authoritative success. A verdict already computed is RETAINED and reported as computed-but-not-durable.",
+        "falsifiedBy": "a corrupt-store run reporting policy pass or fail as its outcome; OR a run that silently discards a verdict it had already computed",
+        "adjudication": "B-TOEC-02 UPHELD against A1. v3's 'never yields a policy verdict of any kind' erased the verdict, collapsing the axes TO-4 exists to separate. A1 was right that integrity must not drive a policy outcome; B was right that this does not license erasing a computed verdict."
+      }
+    ],
+    "executionCore": [
+      {
+        "id": "EC-1",
+        "invariant": "The core's observable behaviour is a function of (Snapshot, Plan, Deps) alone. Host lifetime is not an input to any decision it makes.",
+        "falsifiedBy": "any core decision that varies with host lifetime, whether or not a lifetime flag appears in its surface",
+        "adjudication": "BOTH reviewers: goal right, formulation wrong. v3 tested for ABSENCE OF SURFACE FLAGS, which is neither necessary nor sufficient \u2014 a core can read lifetime indirectly, or carry a harmless flag."
+      },
+      {
+        "id": "EC-2",
+        "invariant": "Whether residency ships, autostarts, or is per-project are three separate decisions; EC-1 settles none of them.",
+        "falsifiedBy": "a design where accepting lifetime-neutrality forces a deployment choice"
+      },
+      {
+        "id": "EC-3",
+        "invariant": "Warm state is an acceleration, never an evidence authority.",
+        "falsifiedBy": "under explicitly equal Snapshot, Plan, toolchain and environment: any divergence in EvidenceDigest, evaluation outcomes, or exact Coverage between a resident and a cold host. Run IDENTITY is excluded \u2014 EC-6 requires it to differ.",
+        "adjudication": "B-TOEC-03 UPHELD against A1. The invariant was sound; its FALSIFIER was unsatisfiable \u2014 it demanded a Run a cold host could produce 'identically', which EC-6 forbids. A1 endorsed that falsifier explicitly. This is the same error corrected in r1 v1.3 LN-13 and RE-INTRODUCED during extraction."
+      },
+      {
+        "id": "EC-4",
+        "invariant": "Multi-process safety is an obligation on the storage protocol, binding on any evidence-writing host.",
+        "falsifiedBy": "a deployment-specific safety argument"
+      },
+      {
+        "id": "EC-5",
+        "invariant": "The storage protocol guarantees integrity, not liveness. A contender may return a typed busy outcome; it may never produce corrupt, partial, or lost publication.",
+        "falsifiedBy": "a concurrency design promising both contenders complete"
+      },
+      {
+        "id": "EC-6",
+        "invariant": "ExecutionId is an attempt anchor and differs per attempt; content-derived identity belongs to the sealed result.",
+        "falsifiedBy": "two attempts on identical inputs sharing an attempt identity"
+      },
+      {
+        "id": "EC-7",
+        "invariant": "NARROWED (B-SC-07): direct core modules cannot reach ambient authority. Named adapters and providers are explicit TCB or OS-confined capabilities with declared authority \u2014 not implicitly clean. Absence is established by closure analysis over the core, never by a dependency list.",
+        "falsifiedBy": "a core module reaching filesystem, network, spawn, or entropy directly; or an adapter with undeclared authority"
+      },
+      {
+        "id": "EC-8",
+        "invariant": "RESTORED (B-SC-06): there is an explicit core / host / provider / storage responsibility boundary. Admission, capability granting, resolution, and process supervision sit OUTSIDE the core.",
+        "falsifiedBy": "a core that can grant a capability, resolve a contribution, or spawn a process"
+      }
+    ]
+  },
+  "findingDispositions": {
+    "rule": "DEFAULT IS STILL-OPEN. Demotion never discharges a finding. Enumeration is from STRUCTURED id fields, never from regex over prose \u2014 the v2 error.",
+    "enumerationMethod": "structured `id` keys across all artifacts/*.json",
+    "counts": {
+      "total": 135,
+      "stillOpen": 130,
+      "accounted": 5
+    },
+    "entries": [
+      {
+        "id": "A1-D9-AX-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-AX-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-AX-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-AX-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-AX-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V13-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V14-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "RETRACTED per B-SCV2-02: v2 marked this addressed while A1-D9-V15C-01 explicitly reopens it. An 'addressed' claim contradicted by a later finding is not accounted for."
+      },
+      {
+        "id": "A1-D9-V14-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V14-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V14-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V14-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15C-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15C-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15C-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-D9-V15C-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1-DEPS-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1-DEPS-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-R1V13C-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-2",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-3",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-4",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-5",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A1-on-A3-D9-6",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-BLIND-METHOD",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V11-1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V11-2",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V11-3",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V11-4",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V11-5",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-05",
+        "disposition": "ADDRESSED-IN-DEMOTED-ARTIFACT",
+        "evidence": "tombstone distinction; regressed in v1.4 and restored in v1.5. Detailed-design."
+      },
+      {
+        "id": "A2-D9-V12-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-07",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-ACCEPT-1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-ACCEPT-2",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-ACCEPT-3",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-ACCEPT-4",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-ACCEPT-5",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V12-MECH",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-07",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-D9-V13-08",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-06",
+        "disposition": "PROMOTED-TO-INVARIANT",
+        "evidence": "execution-core boundary -> restored as EC-8 per B-SC-06; v1 erased it."
+      },
+      {
+        "id": "A2-R1-07",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-08",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-V11-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-V11-02",
+        "disposition": "PROMOTED-TO-INVARIANT",
+        "evidence": "a field list cannot prove absence of ambient access -> EC-7, narrowed per B-SC-07."
+      },
+      {
+        "id": "A2-R1-V11-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A2-R1-V11-04",
+        "disposition": "PROMOTED-TO-INVARIANT",
+        "evidence": "storage protocol guarantees integrity not liveness -> EC-5."
+      },
+      {
+        "id": "A3-D9-1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A3-D9-2",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A3-D9-3",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A3-D9-4",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A3-D9-5",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "A3-D9-6",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "ARCH.RUN-MULTIAXIS/D9",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-D9V15-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-D9V15-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-D9V15-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-D9V15-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-D9V15-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-01",
+        "disposition": "PROMOTED-TO-INVARIANT",
+        "evidence": "ExecutionId is an attempt anchor -> EC-6."
+      },
+      {
+        "id": "B-R1V12-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V12-07",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V13",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V13-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "B-R1V13-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "BM-D9-BASELINE",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "BM-D9-IDENTITY",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "BM-D9-PARITY",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "BM-D9-PREADMIT",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "BM-R1-EFFECTS",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "C3-A1-R1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-01",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-02",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-03",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-04",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-05",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-06",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-07",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CC-D9-08",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "CLAIM.D9",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.A2.V11-REVIEW",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.FINALIZATION",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.LEDGER-BUSY",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.REMAINING-WORK",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.REMEDY-CODES",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "D9.TOTAL-UNION",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1-A",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1-B",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1-C",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1-D",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      },
+      {
+        "id": "R1.DECOMPOSITION",
+        "disposition": "STILL-OPEN",
+        "evidence": "Not individually re-adjudicated. Demotion never discharges a finding. Default is open."
+      }
+    ]
+  },
+  "knownLimitations": [
+    "130 of 135 findings are STILL-OPEN. That is the honest state.",
+    "The v2 denominator was produced by regex over prose and was wrong \u2014 the same lexical-enumeration error as Error 1 and the authorship misattribution. Eighth instance of inferring a set from a pattern instead of reading the source.",
+    "Authored solo by the agent whose work the correction indicts.",
+    "Five of nineteen invariants were defective on first substantive review. The set survived several packaging rounds without anyone testing whether it was RIGHT.",
+    "EC-3's defect was a correction already made at detailed-design level (r1 v1.3 LN-13) and lost during extraction. Extraction does not carry corrections forward.",
+    "B-SCV2-03..08 remain unaddressed."
+  ],
+  "reviewerDisagreements": {
+    "note": "Three head-to-head disagreements. A1 marked TO-7, TO-11 and EC-3 correct; B found each defective. Adjudicated individually, not by majority or deference.",
+    "outcome": "B upheld on all three \u2014 but in two, A1's reading was also correct about a different half and is preserved (TO-7b, and the retained clause of TO-11).",
+    "lesson": "An invariant true only under a charitable reading is defective. A1 read charitably and found no fault; B read literally and found three. Literal reading is the correct standard for an invariant."
+  }
+}

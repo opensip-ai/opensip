@@ -1,0 +1,742 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance",
+  "version": "v1.4",
+  "status": "BINDING-CANDIDATE (independently reviewed and adjudicated; Phase 1B coordinator recommends SEAL-WITH-CHANGES for the v1 one-shot/pure-core scope)",
+  "supersedes": "r1-lifetime-neutrality.conformance.v1.3.json",
+  "author": "agent-3",
+  "reviewStatus": "INDEPENDENT REVIEW COMPLETE for the v1.4 base — Reviewer 2 findings R2-R1-01..07 adjudicated by Agent A; Phase 1B coordinator closure is r1-lifetime-neutrality.freeze-closure-coordinator.v1.json. The later R6-IP02-01 SealedStageInput/AttemptMetadata unknown-field closure repair AWAITS INDEPENDENT REREVIEW.",
+  "purpose": "Bind the v1 one-shot orchestration-host plus pure-evaluation-core floor, while keeping future residency parked and runtime ambient-authority denial explicitly NOT DISCHARGED.",
+  "resolves": {
+    "B-R1V12-01": "RESOLVED \u2014 ExecutionId is allocated by the host at attempt admission and INJECTED as metadata; the core never mints it; LN-13 asserts distinct ids over identical inputs yield identical EvidenceDigest.",
+    "B-R1V12-02": "RESOLVED \u2014 boundary-aware rules: direct ambient imports forbidden, port calls permitted, core analysed TO THE PORT BOUNDARY, each production adapter conformance-tested separately. The runtime half is LN-12, unimplementable, and the corresponding property is NOT DISCHARGED.",
+    "B-R1V12-03": "RESOLVED BY CHOOSING A FACTORING \u2014 orchestration host runs effectful and provider stages and passes a sealed StageInput into a pure evaluation core, which never calls back out. This is the factoring C-2's effect taxonomy already implies.",
+    "B-R1V12-04": "RESOLVED \u2014 three suites (core, host, storage) with the rule that a failure in one may not be read as evidence about another. R-1(1) closes on the CORE suite alone.",
+    "B-R1V12-05": "RESOLVED \u2014 no exhaustiveness claim. Four instruments are named with what each cannot see; unmodelled dynamic and native paths are TCB-ACCEPTED or denied by construction, never claimed as analysed.",
+    "B-R1V12-06": "RESOLVED \u2014 CoreCompletion is a typed union (completed / incomplete / cancelled / faulted) reusing the fact-plane deficiency and D9 fault vocabularies. The core never seals or maps a termination.",
+    "B-R1V12-07": "RESOLVED — the v1 floor is one-shot host plus pure core. Resident/autostart/default/multi-project modes are parked outside v1 and require measurement plus an explicit later scope change."
+  },
+  "decisionDependencies": [
+    {
+      "id": "R-1",
+      "source": "architecture/08-surfaces-and-topology.md#topology-reopened",
+      "claim": "v1 selects one-shot host + pure core; future resident topology is parked outside the implementation scope"
+    },
+    {
+      "id": "ARCH.STORAGE.MULTIPROCESS",
+      "source": "architecture/03-execution-model.md#concurrency",
+      "claim": "contention resolved by busy-timeout, idempotent insert, write-then-link \u2014 integrity, not liveness"
+    },
+    {
+      "id": "ARCH.WARM-STATE",
+      "source": "architecture/08-surfaces-and-topology.md#what-is-not-in-doubt",
+      "claim": "warm state is an acceleration, never an evidence authority"
+    },
+    {
+      "id": "ARCH.DETERMINISM",
+      "source": "architecture/02-domain-model.md#determinism-stated-precisely",
+      "claim": "equality only for deterministic producers under identical identities and exact Coverage"
+    },
+    {
+      "id": "D9.LEDGER-BUSY",
+      "source": "artifacts/d9-exit-contract.v1.4.json",
+      "claim": "LEDGER.BUSY_TIMEOUT is a typed operational termination distinct from corruption"
+    }
+  ],
+  "executionCoreBoundary": {
+    "definition": "The execution core is a pure evaluation function: it takes a sealed StageInput / ObservationSet (already derived by the host), a validated Plan fragment naming rule-evaluation and policy-evaluation stages, and host-injected AttemptMetadata, and returns a CoreCompletion. It does NOT take an unsealed Snapshot for fact derivation, does NOT produce a SealedRun, does NOT seal, publish, or map HostTermination.",
+    "inside": [
+      {
+        "authority": "rule evaluation over sealed observations",
+        "why": "C-2 declares rule-evaluation holds no effect authority; this is the pure core's job."
+      },
+      {
+        "authority": "policy evaluation over findings + exactCoverage + Plan policy identity",
+        "why": "Policy is a pure total function of sealed inputs; the core returns the policy outcome so the host need not re-evaluate."
+      },
+      {
+        "authority": "budget accounting for core-executed stages only",
+        "why": "Budgets for rule/policy stages are Plan inputs; exhaustion is Coverage the core must produce."
+      }
+    ],
+    "outside": [
+      {
+        "authority": "configuration and contribution resolution",
+        "why": "InvocationPlan work (c2-plan-stage-schema.v2). The core receives resolved identities."
+      },
+      {
+        "authority": "admission and capability granting",
+        "why": "Grants are fixed in PlanId before the core runs. A core that could grant could escalate."
+      },
+      {
+        "authority": "external process supervision and sandboxing",
+        "why": "Probe and scanner execution is supervised OUTSIDE the core. Placing a process supervisor inside would give the core spawn authority, defeating LN-12."
+      },
+      {
+        "authority": "transport, RPC, session lifecycle",
+        "why": "Host concerns. Their absence from the core is what makes lifetime-neutrality meaningful."
+      }
+    ],
+    "injectedNotAmbient": [
+      {
+        "authority": "AttemptMetadata.executionId",
+        "resolution": "INJECTED by the host. Never minted by the core. Excluded from EvidenceDigest.",
+        "wasUnresolved": false
+      },
+      {
+        "authority": "resolved rule and contribution map",
+        "resolution": "INJECTED as an immutable value map. The core cannot look anything up.",
+        "wasUnresolved": false
+      },
+      {
+        "authority": "deterministic in-memory resource meter",
+        "resolution": "INJECTED pure value: remaining budgets and a meter that only decrements counters. No threads, processes, clocks, or entropy.",
+        "wasUnresolved": false
+      },
+      {
+        "authority": "diagnostics sink",
+        "resolution": "INJECTED and bounded. A no-op sink must be valid and must not change results.",
+        "wasUnresolved": false
+      }
+    ],
+    "exhaustiveness": {
+      "claimed": false,
+      "why": "v1.1 asserted CoreDeps exhaustive, which A2 correctly rejected: a field list cannot prove the absence of unlisted ambient access. Exhaustiveness is now the CONCLUSION of LN-11 and LN-12, not a premise."
+    },
+    "forbiddenLegacyWording": [
+      "produces a SealedRun",
+      "fact derivation",
+      "ID and entropy source",
+      "SnapshotPort",
+      "StorePort",
+      "ProviderPort"
+    ]
+  },
+  "coreApi": {
+    "signature": "evaluate(stageInput: SealedStageInput, deps: CoreDeps, attempt: AttemptMetadata) -> CoreCompletion",
+    "attemptMetadata": {
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "executionId"
+      ],
+      "optional": [],
+      "unknownFieldOutcome": "CORE_ATTEMPT_METADATA_UNKNOWN_FIELD",
+      "rule": "Injected, never minted. Excluded from EvidenceDigest by construction. No entropy field."
+    },
+    "sealedStageInput": {
+      "closed": true,
+      "additionalProperties": false,
+      "contains": [
+        "observationSet",
+        "targetUniverseId",
+        "coverageContext",
+        "planStageIds"
+      ],
+      "required": [
+        "observationSet",
+        "targetUniverseId",
+        "coverageContext",
+        "planStageIds"
+      ],
+      "optional": [],
+      "fields": {
+        "observationSet": "sealed immutable ObservationSet value",
+        "targetUniverseId": "canonical semantic target-universe identity",
+        "coverageContext": "exact immutable Coverage input",
+        "planStageIds": "non-empty ordered immutable Plan stage identity list"
+      },
+      "unknownFieldOutcome": "CORE_STAGE_INPUT_UNKNOWN_FIELD",
+      "forbids": [
+        "unsealed snapshot handles",
+        "live provider clients",
+        "storage mutation capability"
+      ]
+    }
+  },
+  "sealedStageInputFixtures": [
+    {
+      "id": "sealed-stage-input-valid-minimal",
+      "valid": true,
+      "stageInput": {
+        "observationSet": "observations:sealed",
+        "targetUniverseId": "universe:target",
+        "coverageContext": "coverage:exact",
+        "planStageIds": [
+          "stage:rule-evaluation"
+        ]
+      },
+      "attemptMetadata": {
+        "executionId": "execution:one"
+      }
+    },
+    {
+      "id": "sealed-stage-input-reject-request-id",
+      "valid": false,
+      "target": "stageInput",
+      "addField": {
+        "requestId": "req1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "CORE_STAGE_INPUT_UNKNOWN_FIELD"
+    },
+    {
+      "id": "sealed-stage-input-reject-unknown-field",
+      "valid": false,
+      "target": "stageInput",
+      "addField": {
+        "futureAuthority": true
+      },
+      "expected": "CORE_STAGE_INPUT_UNKNOWN_FIELD"
+    },
+    {
+      "id": "attempt-metadata-reject-request-id",
+      "valid": false,
+      "target": "attemptMetadata",
+      "addField": {
+        "requestId": "req1_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected": "CORE_ATTEMPT_METADATA_UNKNOWN_FIELD"
+    }
+  ],
+  "conformanceTests": [
+    {
+      "id": "LN-01",
+      "suite": "core",
+      "implementable": true,
+      "assert": "Two sequential evaluations in one process produce identical results to two in fresh processes."
+    },
+    {
+      "id": "LN-02",
+      "suite": "core",
+      "implementable": true,
+      "assert": "The core package declares only port dependencies; no direct ambient import appears in its dependency policy."
+    },
+    {
+      "id": "LN-03",
+      "suite": "host",
+      "implementable": true,
+      "assert": "The host releases every resource on every exit path, including cancellation."
+    },
+    {
+      "id": "LN-04",
+      "suite": "host",
+      "implementable": true,
+      "assert": "Cancellation mid-evaluation returns a typed cancelled CoreCompletion, not an exception."
+    },
+    {
+      "id": "LN-05",
+      "suite": "host",
+      "implementable": true,
+      "assert": "A provider fault is contained and returned as faulted, never as a finding."
+    },
+    {
+      "id": "LN-06",
+      "suite": "storage",
+      "implementable": true,
+      "assert": "A warm and a cold store carry byte-identical authoritative ledger, baseline, evidence and derivation inputs, differing only in disposable acceleration entries."
+    },
+    {
+      "id": "LN-07",
+      "suite": "storage",
+      "implementable": true,
+      "assert": "Two concurrent writers never produce a corrupt, partial or lost publication."
+    },
+    {
+      "id": "LN-08",
+      "suite": "storage",
+      "implementable": true,
+      "assert": "Crash during publication leaves the ledger recoverable; orphans are abandoned, never sealed as success."
+    },
+    {
+      "id": "LN-09",
+      "suite": "storage",
+      "implementable": true,
+      "assert": "A contender may return a typed busy timeout after bounded retries; integrity is guaranteed, liveness is not."
+    },
+    {
+      "id": "LN-10",
+      "suite": "composition-acceptance",
+      "implementable": true,
+      "assert": "A resident host produces no Run a cold host could not produce identically (EC-3). COMPOSITION: compares resident vs cold host with byte-identical core and storage held fixed by construction; failure is not attributable to host suite alone."
+    },
+    {
+      "id": "LN-11",
+      "suite": "core",
+      "implementable": true,
+      "assert": "Import/call closure over the core package reaches no direct ambient authority, analysed TO THE PORT BOUNDARY, with the boundary and its limits stated."
+    },
+    {
+      "id": "LN-12",
+      "suite": "core",
+      "implementable": false,
+      "requiresMechanism": "ARCH.PROBE-CONTRACT (REOPENED) \u2014 a capability-restricted runtime",
+      "assert": "A core attempting a denied capability at RUNTIME is refused and the attempt recorded.",
+      "note": "B-R1V12-02/05. Static closure cannot prove runtime denial, and no restricted runtime exists. Declared, not discharged."
+    },
+    {
+      "id": "LN-13",
+      "suite": "core",
+      "implementable": true,
+      "assert": "Varying ExecutionId over identical semantic inputs produces byte-identical EvidenceDigest, and every ExecutionId is distinct across attempts.",
+      "note": "B-R1V12-01. Both halves matter: distinctness makes orphans nameable, digest-invariance makes retries comparable."
+    },
+    {
+      "id": "LN-14",
+      "suite": "core",
+      "implementable": true,
+      "assert": "Every CoreCompletion variant is reachable, and no variant seals a Run or maps a termination."
+    }
+  ],
+  "productObligationsNotClosedHere": [
+    {
+      "id": "PO-01",
+      "status": "REMOVED FROM V1; FUTURE RESIDENCY PARKED",
+      "why": "B-R1V12-07. Preserving a resident deployment option inside the initial artifact left a week-one topology fork. The accepted v1 slice selects one-shot only.",
+      "replacement": "CI, offline operation, and crash recovery use the one-shot host. A future resident host requires workload measurement, explicit product scope change, and LN-10 composition evidence; it is not a v1 implementation option."
+    }
+  ],
+  "peerReviewClosure": [
+    {
+      "question": "Is orchestration-host + pure-core the right factoring?",
+      "disposition": "CLOSED — chosen consistently as SealedStageInput to CoreCompletion; effectful stages stay host-owned.",
+      "evidence": "r1-lifetime-neutrality.conformance.v1.4.review-reviewer2.json plus r1-lifetime-neutrality.adjudication-agent-a.json"
+    },
+    {
+      "question": "Which suite owns LN-10?",
+      "disposition": "CLOSED — composition-acceptance, because lifetime comparison crosses host, core, and storage subjects.",
+      "caveat": "The original suite sub-review was not blind; the repaired assignment is structural and mutation-tested."
+    },
+    {
+      "question": "Do residency decisions remain a v1 fork?",
+      "disposition": "CLOSED BY SCOPE — resident/autostart/default/multi-project modes are parked outside v1; the one-shot floor is binding."
+    }
+  ],
+  "knownLimitations": [
+    "Whether residency is ever worth shipping remains unmeasured, but resident topology is parked outside v1 and does not reopen the one-shot floor.",
+    "LN-12 is unimplementable and the runtime-authority property is NOT DISCHARGED. The core's authority claim is static-only.",
+    "The factoring makes lifetime neutrality easier to satisfy by moving effects to the host. That is a real design choice and possibly a way of making the claim true by shrinking its subject.",
+    "Initial authorship was solo; the current binding has independent review, adjudication, and coordinator closure."
+  ],
+  "priorFindingDispositions": {
+    "A2-R1-01": "PARTIAL in v1 \u2014 LN-04 had the right negative shape. SPECIFIED by executionCoreBoundary plus LN-11 (static closure). NOT CLOSED by LN-12: LN-12 is implementable:false and the runtime-authority property remains NOT DISCHARGED (R2-R1-04). Static evidence is not runtime denial.",
+    "A2-R1-02": "ACCEPT in v1 \u2014 no LN test intrinsically requires a resident host. Still true in v1.2.",
+    "A2-R1-03": "PARTIAL in v1 \u2014 LN-09 exercised the right contention case but over-asserted liveness. CLOSED by the corrected LN-09 required-outcome set permitting typed LEDGER.BUSY_TIMEOUT.",
+    "A2-R1-04": "ACCEPT in v1 \u2014 deterministic equality preconditions explicit. Retained and extended to LN-06.",
+    "A2-R1-05": "ACCEPT in v1 \u2014 cachePolicy removal correct. Retained; explicitlyAbsent now also bars any lifetime discriminator.",
+    "A2-R1-06": "REJECT in v1.1 \u2014 CoreDeps not exhaustive, two storage authorities. CoreDeps is now a closed data-only schema; StorePort/ProviderPort removed from the pure core. Exhaustiveness of runtime denial remains NOT DISCHARGED. LN-12 must not be cited as closure of a runtime claim (R2-R1-04).",
+    "A2-R1-07": "ACCEPT in v1 \u2014 decision source paths resolvable. Retained.",
+    "A2-R1-08": "ACCEPT in v1 \u2014 one-shot availability separated as a product obligation. Retained as PO-01."
+  },
+  "identityOwnership": {
+    "why": "B-R1V12-01, critical. v1.2 had the CORE mint an identity that admission owns, so retries and concurrent identical requests collided.",
+    "rule": "ExecutionId is allocated by the HOST at attempt admission (C-2 level 2) and INJECTED into the core as AttemptMetadata. The core never mints it and has no entropy source.",
+    "mustNotAffect": "EvidenceDigest. Two attempts with different ExecutionIds over identical semantic inputs MUST produce byte-identical EvidenceDigest.",
+    "whyBoth": "ExecutionId must DIFFER per attempt (EC-6) so a crash can name a specific orphan; and it must NOT reach evidence, or every retry would look like a different analysis. Those are compatible only if it is metadata, never an input.",
+    "contentDerivedIdentity": "If a content-derived Run or Evidence identity is wanted, it is a SEPARATE identity computed from the sealed result \u2014 not the attempt anchor.",
+    "noEntropyInCore": true
+  },
+  "capabilityBoundary": {
+    "why": "B-R1V12-02 + R2-R1-02. Effectful ports reintroduce orchestration authority while the core is called pure.",
+    "rule": "DATA-ONLY CORE DEPS. The core never calls back out.",
+    "part1": {
+      "scope": "the core package, closed over CoreDeps",
+      "forbidden": "direct ambient imports or calls \u2014 filesystem, network, process spawn, clock, entropy, environment; and any effectful port (SnapshotPort, StorePort, ProviderPort, scheduler that creates threads/processes)",
+      "permitted": "reads of immutable value inputs already present in SealedStageInput and CoreDeps; pure in-memory budget meter mutations that cannot escape the evaluate call"
+    },
+    "part2": {
+      "scope": "host adapters that produce SealedStageInput",
+      "rule": "Snapshot capture, provider execution, storage I/O and process supervision live in the host. Their authority is tested in host/adapter suites, never attributed to the pure core."
+    },
+    "honestLimit": "Static closure over the pure core proves no direct ambient authority in that package. It does not prove host adapter confinement. Runtime denial of host authority is ARCH.PROBE-CONTRACT / NOT DISCHARGED.",
+    "coreDepsSchema": {
+      "form": "closed data-only record",
+      "fields": {
+        "rulesById": "immutable map RuleId -> sealed rule artifact bytes/identity",
+        "policyById": "immutable map PolicyId -> sealed policy artifact",
+        "resourceMeter": "pure counter state for deterministic budgets declared in Plan",
+        "diagnostics": "bounded sink handle whose no-op form is observationally equivalent for evidence"
+      },
+      "forbids": [
+        "filesystem handles",
+        "network clients",
+        "process spawner",
+        "clock",
+        "entropy",
+        "storage mutation ports",
+        "provider invocation ports"
+      ],
+      "rule": "Any field not listed is forbidden. CoreDeps is not an open extension point."
+    }
+  },
+  "factoring": {
+    "why": "B-R1V12-03. v1.2's core API could not execute a full Plan \u2014 effectful fact-derivation and provider stages have no home in a pure core \u2014 so it either could not run, or relied on an unlisted orchestration authority that invalidated every lifetime-neutrality test.",
+    "chosen": "ORCHESTRATION HOST + PURE EVALUATION CORE.",
+    "hostExecutes": [
+      "fact-derivation stages, including semantic providers and external scanners (C-2's supervised-implementation-effect class)",
+      "probe stages (scenario effects)",
+      "snapshot capture and sealing",
+      "storage publication and Run finalisation"
+    ],
+    "coreExecutes": [
+      "rule-evaluation and policy-evaluation, which C-2 declares hold NO effect authority"
+    ],
+    "interface": "The host passes a SEALED StageInput / ObservationSet into the core. The core returns a CoreCompletion including policyOutcome. The core never calls back out and never seals a Run.",
+    "whyThisOne": "It is the factoring C-2's effect taxonomy already implies: the stages with no effect authority are exactly the ones the pure core can run. The alternative \u2014 giving the core a typed supervisor port \u2014 would put effectful behaviour inside the boundary and make lifetime neutrality a property of the supervisor rather than of the core.",
+    "consequence": "Lifetime neutrality is now a property of a component that genuinely could be resident or not, because it holds no resources either way."
+  },
+  "suites": {
+    "why": "B-R1V12-04. One suite could pass lifetime-neutral core code without testing the host behaviour it claimed, while an unrelated storage failure could fail the core decision.",
+    "split": [
+      {
+        "suite": "core",
+        "tests": [
+          "LN-01",
+          "LN-02",
+          "LN-11",
+          "LN-12",
+          "LN-13",
+          "LN-14"
+        ],
+        "subject": "the core package",
+        "proves": "re-entrancy, no direct ambient authority, identity injection"
+      },
+      {
+        "suite": "host",
+        "tests": [
+          "LN-03",
+          "LN-04",
+          "LN-05"
+        ],
+        "subject": "the orchestration host",
+        "proves": "lifecycle, cancellation, supervision"
+      },
+      {
+        "suite": "storage",
+        "tests": [
+          "LN-06",
+          "LN-07",
+          "LN-08",
+          "LN-09"
+        ],
+        "subject": "the storage protocol",
+        "proves": "multi-process integrity, busy timeout, byte-identical authoritative content"
+      },
+      {
+        "subject": "host lifecycle + core determinism + storage authority together",
+        "tests": [
+          "LN-10"
+        ],
+        "rule": "Cross-suite composition tests live here. A failure may not be read as evidence that the host suite alone is broken (R2-R1-05).",
+        "suite": "composition-acceptance",
+        "proves": "byte-identical evidence across host lifetime modes with core and storage fixed"
+      }
+    ],
+    "rule": "Suites are split by controlled subject. A failure in one suite may NOT be read as evidence about another. Cross-subject tests belong in composition-acceptance (R2-R1-05)."
+  },
+  "analysisBoundary": {
+    "why": "B-R1V12-05. v1.2 called the dependency set exhaustive while its instruments gave bounded evidence \u2014 the third recurrence of the absence-from-signature error.",
+    "instruments": [
+      {
+        "instrument": "dependency policy enforcement",
+        "detects": "declared direct dependencies"
+      },
+      {
+        "instrument": "import/call closure analysis",
+        "detects": "static reach through the package's own code"
+      },
+      {
+        "instrument": "binary/link inspection where applicable",
+        "detects": "native and linked reach"
+      },
+      {
+        "instrument": "restricted-runtime negative tests",
+        "detects": "actual attempts at denied capabilities",
+        "availableInV1": false,
+        "blockedOn": "ARCH.PROBE-CONTRACT"
+      }
+    ],
+    "limits": [
+      "dynamic dispatch and reflective loading are NOT fully covered by static closure",
+      "native code reached through FFI is covered only where binary inspection applies",
+      "an injected collaborator supplied by the host is outside the core's own closure by construction"
+    ],
+    "rule": "Unmodelled dynamic and native paths are TCB-ACCEPTED for included v1 code, or the dependent feature is excluded. They are NOT claimed as analysed or denied at runtime.",
+    "noExhaustivenessClaim": "This artifact makes no exhaustiveness claim about the dependency set. It states which instruments ran and what each cannot see."
+  },
+  "dischargeStatus": {
+    "rule": "implementable:true is feasibility metadata only. A property may be SPECIFIED by an implementable test declaration. DISCHARGED requires evidenceGrade DEMONSTRATED plus non-empty retained demonstrationEvidenceIds showing the test ran over its required domain and its negative control failed.",
+    "legacyFieldRule": "For a property whose status is not DISCHARGED, dischargedBy is a legacy test-link field equivalent to specifiedBy; it is never assurance evidence.",
+    "properties": [
+      {
+        "property": "the execution core is lifetime-neutral",
+        "dischargedBy": [
+          "LN-01",
+          "LN-02",
+          "LN-11"
+        ],
+        "specifiedBy": [
+          "LN-01",
+          "LN-02",
+          "LN-11"
+        ],
+        "status": "PARTIAL",
+        "note": "Static evidence only. LN-12 (runtime denial) is unimplementable, so the claim rests on the core holding no DIRECT ambient authority."
+      },
+      {
+        "property": "warm state is never an evidence authority",
+        "dischargedBy": [
+          "LN-06",
+          "LN-10"
+        ],
+        "specifiedBy": [
+          "LN-06",
+          "LN-10"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+        "note": "R2-R1-04: implementable tests specify; DISCHARGED requires demonstration."
+      },
+      {
+        "property": "any evidence-writing host is multi-process safe",
+        "dischargedBy": [
+          "LN-07",
+          "LN-08",
+          "LN-09"
+        ],
+        "specifiedBy": [
+          "LN-07",
+          "LN-08",
+          "LN-09"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+        "note": "R2-R1-04: implementable tests specify; DISCHARGED requires demonstration."
+      },
+      {
+        "property": "ExecutionId is an attempt anchor that does not reach evidence",
+        "dischargedBy": [
+          "LN-13"
+        ],
+        "specifiedBy": [
+          "LN-13"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+        "note": "R2-R1-04: implementable tests specify; DISCHARGED requires demonstration."
+      },
+      {
+        "property": "the core does not seal or terminate",
+        "dischargedBy": [
+          "LN-14"
+        ],
+        "specifiedBy": [
+          "LN-14"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+        "note": "R2-R1-04: implementable tests specify; DISCHARGED requires demonstration."
+      },
+      {
+        "property": "the core holds no ambient authority AT RUNTIME",
+        "dischargedBy": [],
+        "specifiedBy": [],
+        "status": "NOT DISCHARGED",
+        "note": "B-R1V12-02. Static closure to the port boundary is not runtime denial; no restricted runtime exists."
+      }
+    ],
+    "grades": [
+      "UNSPECIFIED",
+      "SPECIFIED",
+      "IMPLEMENTABLE",
+      "QUALIFIED",
+      "DEMONSTRATED",
+      "PARTIAL",
+      "NOT DISCHARGED",
+      "DISCHARGED"
+    ]
+  },
+  "coreCompletionSchema": {
+    "why": "B-R1V12-06. v1.2's return had no truthful value for cancellation, provider faults, missing Coverage, busy timeout or commit failure \u2014 so the core either lied or overstepped into host-owned sealing.",
+    "form": "a typed UNION",
+    "variants": [
+      {
+        "variant": "completed",
+        "carries": [
+          "findings",
+          "exactCoverage",
+          "policyOutcome",
+          "diagnosticsRef"
+        ],
+        "policyOutcome": {
+          "required": [
+            "policyId",
+            "verdict",
+            "derivationDigest"
+          ],
+          "verdictEnum": [
+            "pass",
+            "fail",
+            "advisory",
+            "indeterminate"
+          ],
+          "rule": "policy evaluation is core-owned; the host seals using this outcome and must not re-derive a different verdict from the same inputs"
+        }
+      },
+      {
+        "variant": "incomplete",
+        "carries": [
+          "partialFindings",
+          "exactCoverage",
+          "deficiency",
+          "policyOutcome",
+          "diagnosticsRef"
+        ],
+        "note": "deficiency uses the fact-plane vocabulary; policyOutcome.verdict is indeterminate when Coverage is incomplete"
+      },
+      {
+        "variant": "cancelled",
+        "carries": [
+          "exactCoverage",
+          "diagnosticsRef"
+        ],
+        "note": "cancellation is a first-class outcome, not an exception"
+      },
+      {
+        "variant": "faulted",
+        "carries": [
+          "faultCause",
+          "diagnosticsRef"
+        ],
+        "note": "faultCause uses D9's vocabulary"
+      }
+    ],
+    "rule": "The core NEVER seals a Run, publishes, or maps a termination. It returns a contribution; the host publication layer seals the authoritative Run and derives HostTermination (D9 TO-2/TO-3).",
+    "AttemptMetadata": {
+      "closed": true,
+      "additionalProperties": false,
+      "required": [
+        "executionId"
+      ],
+      "optional": [],
+      "unknownFieldOutcome": "CORE_ATTEMPT_METADATA_UNKNOWN_FIELD",
+      "aliasOf": "coreApi.attemptMetadata",
+      "rule": "Injected, never minted. Excluded from EvidenceDigest by construction."
+    }
+  },
+  "identityFixtures": [
+    {
+      "id": "same-inputs-different-attempts",
+      "valid": true,
+      "executionIds": [
+        "e1",
+        "e2"
+      ],
+      "semanticInputs": "identical",
+      "expectDigestEqual": true
+    },
+    {
+      "id": "different-inputs",
+      "valid": true,
+      "executionIds": [
+        "e1",
+        "e2"
+      ],
+      "semanticInputs": "different",
+      "expectDigestEqual": false
+    },
+    {
+      "id": "reject-colliding-execution-ids",
+      "valid": false,
+      "violates": "R1-ID",
+      "executionIds": [
+        "e1",
+        "e1"
+      ],
+      "semanticInputs": "identical",
+      "expectDigestEqual": true,
+      "why": "two attempts sharing an ExecutionId make a crashed orphan unnameable (EC-6)"
+    },
+    {
+      "id": "reject-id-leaks-into-digest",
+      "valid": false,
+      "violates": "R1-ID",
+      "executionIds": [
+        "e1",
+        "e2"
+      ],
+      "semanticInputs": "identical",
+      "expectDigestEqual": false,
+      "why": "if the attempt anchor reaches the digest, a retry is incomparable to the original"
+    }
+  ],
+  "completionFixtures": [
+    {
+      "id": "clean-completion",
+      "valid": true,
+      "variant": "completed",
+      "seals": false,
+      "carriesPolicyOutcome": true
+    },
+    {
+      "id": "coverage-shortfall",
+      "valid": true,
+      "variant": "incomplete",
+      "seals": false
+    },
+    {
+      "id": "cancelled-is-an-outcome",
+      "valid": true,
+      "variant": "cancelled",
+      "seals": false
+    },
+    {
+      "id": "provider-fault",
+      "valid": true,
+      "variant": "faulted",
+      "seals": false
+    },
+    {
+      "id": "reject-core-seals",
+      "valid": false,
+      "violates": "R1-RET",
+      "variant": "completed",
+      "seals": true,
+      "why": "D9 TO-2: exactly one host-owned derivation and one write site"
+    },
+    {
+      "id": "reject-unknown-variant",
+      "valid": false,
+      "violates": "R1-RET",
+      "variant": "probably-fine",
+      "seals": false
+    }
+  ],
+  "adjudicationRevision": {
+    "by": "agent-a",
+    "date": "2026-07-31",
+    "resolves": [
+      "R2-R1-01",
+      "R2-R1-02",
+      "R2-R1-03",
+      "R2-R1-04",
+      "R2-R1-05",
+      "R2-R1-06",
+      "R2-R1-07"
+    ],
+    "note": "Single pure-evaluation core boundary; data-only CoreDeps; policy outcome on completion; LN-12 cannot close findings; LN-10 composition suite; entropy removed; initial topology floor chosen."
+  },
+  "initialTopology": {
+    "normativeFloor": "one-shot orchestration host + pure evaluation core",
+    "optionalResidentHost": {
+      "permittedInV1": false,
+      "futurePermittedOnlyAfterScopeChange": true,
+      "constraint": "A resident host is prohibited from changing EvidenceDigest, PlanId, Coverage semantics, or HostTermination relative to the one-shot floor for identical semantic inputs.",
+      "measurementGated": "Whether residency's measured benefits ever justify a later scope change remains a product decision; the v1 architecture contains no resident mode."
+    },
+    "sharedBoundaries": {
+      "host": "admission, resolution, fact-derivation/providers, snapshot seal, storage publication, D9 mapping; Probe is future ontology only and excluded from v1",
+      "core": "rule-evaluation + policy-evaluation over sealed inputs -> CoreCompletion",
+      "storage": "multi-process safe ledger; content-addressed evidence"
+    },
+    "weekOneDecision": "Implement only the one-shot floor. Do not add resident mode behind a flag and do not invent a second evidence authority."
+  }
+}

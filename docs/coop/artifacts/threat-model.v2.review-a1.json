@@ -1,0 +1,120 @@
+{
+  "artifact": "opensip.threat-model.review",
+  "reviewOf": "opensip.threat-model v2 (CANDIDATE-UNREVIEWED)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "Framing check: re-derived the usage model from product constraints (local binary, proprietary source, offline, no models) BEFORE accepting v2Center.",
+    "Compared v1 findings F1–F9 to v2 findings V1–V10 for drops that remain valid under the new center (not a migration of enterprise framing).",
+    "Severity stress on V1/V2: asked whether a non-malicious default still creates irreversible copies and third-party upload via the user's own agents.",
+    "Checked residualRisks/knownLimitations against architecture/06 (amendment already landed as CANDIDATE) for stale contradiction claims.",
+    "Did NOT treat check-threat-claims.py green as evidence the model answers the right question (Error 6 lesson)."
+  ],
+  "whatCouldHaveFailed": [
+    "v2Center still enterprise-framed (would reject)",
+    "V1/V2 overstated relative to residual/heuristic limits (would downgrade severity)",
+    "v2 silently dropped user-facing liabilities that other artifacts still depend on",
+    "residual text claims architecture still contradicts after 06 amendment",
+    "requiredProperties fail user-verifiability (T9 class)"
+  ],
+  "centerVerdict": {
+    "centerIsRight": true,
+    "detail": "v2Center — protect the user FROM opensip-cli — matches actual usage: a downloaded binary with read of proprietary source and write to disk. Four of five v1 adversaries correctly demoted to CONDITIONAL/SECONDARY/NARROW. Primary risks P1 (our defaults), P2 (surrounding software on our writes), P3 (supply chain) are the right first-order risks.",
+    "whatWouldChangeMyMind": "Evidence that the dominant deployment is multi-tenant SaaS analysis of third-party code, or that network egress is required for core value."
+  },
+  "severityVerdicts": {
+    "V1": {
+      "severity": "critical",
+      "agree": true,
+      "detail": "A second copy of source/secrets/PII in a tool-chosen store, format, and lifetime the user did not choose is correctly critical. The user granted READ, not RETAIN. First-run disclosure + minimise-by-default + privacy class at write time are the right mitigation shape.",
+      "whatWouldChangeMyMind": "A design that never persists source-derived content except under an explicit T2 grant with inventory (then V1 collapses into V10/opt-in)."
+    },
+    "V2": {
+      "severity": "critical",
+      "agree": true,
+      "detail": "Home/XDG paths inside iCloud/Dropbox/OneDrive/Time Machine/corporate backup is the realistic exfiltration path for a local tool: the user's own software uploads what we wrote, invisible to our network audit. Refuse-not-warn is correct; permission-setting is not a boundary (trustBoundaries correctly says NOT A BOUNDARY). Residual that detection is heuristic is load-bearing and must stay primary, not a footnote.",
+      "whatWouldChangeMyMind": "Empirical proof that default storage is outside all common sync/backup scopes on the supported OS matrix without user configuration."
+    }
+  },
+  "findings": [
+    {
+      "id": "A1-TM2-01",
+      "severity": "high",
+      "title": "v2 dropped still-valid user-liability findings that sibling artifacts depend on",
+      "detail": "v1 F3 (findings/diagnostics as unbounded exfiltration channel), F8 (credential storage/leakage boundary), and parts of F6 (forgeable local ledger/baselines) remain liabilities under the v2 center — they protect the user from this tool's defaults and ambient machine writers. v2 covers PII-in-excerpts (V4) but not diagnostic/report bandwidth bounds, not credential-handle discipline, and not integrity of the evidence the user will gate CI on. Meanwhile resolved-inputs, delivery, operability, and fact-identity still cite TM.F1/F2/F3/F8 from threat-model.v1.json as decisionDependencies — a split brain.",
+      "requiredFix": "Port the still-valid user-facing obligations into v2 (or an explicit v2 appendix) under P1/P2 numbering; retire v1 citations from all candidate artifacts; do not keep depending on a superseded model.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-TM2-02",
+      "severity": "high",
+      "title": "Missing: OS crash dumps, core dumps, swap/hibernate, and desktop-search indexing of our store",
+      "detail": "V6 covers shared temp; V2 covers sync/backup of the storage root. Neither covers (a) kernel/OS crash dumps of a process that held source in memory, (b) swap/hibernate writing that memory to disk outside our root, (c) Spotlight/mdworker/Windows Search indexing inside a non-sync path we did accept. These are P2-class and common on developer laptops.",
+      "requiredFix": "Add findings or explicit residual risks with mitigations where possible (mlock where appropriate is usually wrong; prefer minimise residency, document OS dump risk, set storage attributes that exclude indexing where the platform supports it).",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-TM2-03",
+      "severity": "medium-high",
+      "title": "Missing: long-lived serve/MCP surface as an egress amplifier",
+      "detail": "The product serves evidence to agents over stdio (mcp). That is not 'the network' but it is a high-bandwidth channel to another process that may itself egress. V4/V7 frame accidental network egress and report export; they do not treat agent-facing serve as a first-class exfiltration amplifier of U1/U2/U3 under default T1 excerpts.",
+      "requiredFix": "Either fold into V4 (excerpt materialisation off by default must apply to serve/query projections) with an explicit serve finding, or add a primary risk about downstream agent clients.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-TM2-04",
+      "severity": "medium",
+      "title": "Stale residual: claims architecture still contradicts on V10 after 06 amendment landed",
+      "detail": "residualRisks says 'V10 is unresolved and the architecture currently contradicts itself on it' and knownLimitations say the amendment awaits coordinator sign-off 'until then the contradiction stands'. claim-register ARCH.RETENTION-TIERS records amendmentAuthority GRANTED and content landed in architecture/06 as CANDIDATE. The contradiction-as-sealed-vs-sealed is no longer accurate; what remains is whether the tier design is right (see retention-tier review).",
+      "requiredFix": "Rewrite residualRisks/knownLimitations/V10 status to: amendment authorised and landed as CANDIDATE; open question is T1 sufficiency for relationship findings and real deletion (R5), not dual sealed absolutes.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-TM2-05",
+      "severity": "medium",
+      "title": "Missing: integrity of user-held evidence (baselines/ledger) under ambient writers",
+      "detail": "v1 F6 (forgeable ledger/baselines) was enterprise-tinged but has a user-centered restatement: the user relies on baselines for net-new gates; any local process running as the user can alter USER-CUSTODY artifacts. That is P2-adjacent (surrounding software) and undermines U6 (ability to know) if inventory cannot detect tampering.",
+      "requiredFix": "Add a finding or residual: sealed Run manifests and baselines need integrity checks (content digests already help if verified on read); document that filesystem MAC is not assumed.",
+      "confidence": "medium"
+    },
+    {
+      "id": "A1-TM2-06",
+      "severity": "low-medium",
+      "title": "check-threat-claims.py header still cites threat-model.v1 shipGate",
+      "detail": "Cosmetic but it trains the next reader to treat v1 as live. The checker loads v2; the docstring does not.",
+      "requiredFix": "Point the docstring at v2.",
+      "confidence": "high"
+    }
+  ],
+  "whatIsMissingSummary": [
+    "Diagnostic/finding-channel bandwidth bound (v1 F3 restated under P1)",
+    "Credential handle discipline (v1 F8)",
+    "OS dump / swap / search-index exposure",
+    "Serve/MCP as exfiltration amplifier",
+    "Evidence-integrity against ambient local writers",
+    "Honest residual update after 06 tier amendment"
+  ],
+  "positiveObservations": [
+    "Center correction is correctly classified as Error 4/6 class and caught by framing, not checkers.",
+    "Trust boundary honesty (Host↔provider TCB-ACCEPTED, process = fault containment only) prevents confinement theatre.",
+    "V9 severity reduction for primary usage (own repo) is correct; parse-only mode retained for secondary workload.",
+    "R1–R10 as primary gates are the right ship shape if implemented; R5 real-deletion unsolved is correctly residual."
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal. Center is right; V1/V2 severities are right; A1-TM2-01 and residual staleness must land before seal candidacy.",
+  "whatWouldChangeMyMind": "A v2.1 that re-homes F3/F8-class obligations, updates residuals to match 06, and adds serve/OS-index residuals with mitigations or honest non-goals.",
+  "knownLimitations": [
+    "Did not empirically verify sync-client marker files on macOS/Windows.",
+    "Did not audit existing opensip-cli storage paths in the codebase for this review (greenfield exercise; observations only if construct-valid).",
+    "Serve/MCP risk severity assumes agents may egress; if product forbids agent-side export of excerpts by contract, severity drops."
+  ],
+  "sealedPropertiesCovered": [
+    "METHOD.RULE-4 (internal consistency is not conformance)",
+    "METHOD.EVIDENCE-PROMOTION (no migration framing)",
+    "TM center: protect user from tool"
+  ]
+}

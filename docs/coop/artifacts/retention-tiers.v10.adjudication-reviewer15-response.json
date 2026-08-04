@@ -1,0 +1,270 @@
+{
+  "artifact": "opensip.phase1a.semantic-binding-raw-custody.reviewer15-author-response",
+  "version": 1,
+  "date": "2026-08-01",
+  "author": "phase1a-v5-typed-semantic-binding-raw-custody-lane",
+  "reviewer": "reviewer-15",
+  "status": "AUTHOR-SUCCESSORS-SPECIFIED-AWAITING-INDEPENDENT-COMBINED-REREVIEW",
+  "reviewBinding": {
+    "artifact": "retention-tiers.v8.rereview3-independent-reviewer15.json",
+    "sha256": "7283db1a45358ff7d110297fdbd8ea168eb61dd2d06d932d8dcaeaf4c1737566",
+    "decision": "REQUIRED-CHANGES — DO-NOT-SEAL PHASE 1A"
+  },
+  "responseSupersession": {
+    "removedResponse": "retention-tiers.v9.adjudication-reviewer15-response.json",
+    "reason": "EP4/RT9 did not make semantic commitment identity resolve through a unique typed binding to byte-addressed raw custody. Their author response is therefore not a valid completion response.",
+    "replacement": "retention-tiers.v10.adjudication-reviewer15-response.json"
+  },
+  "scope": {
+    "implementedHere": [
+      "Publish evaluation-proof.v5.json as the EP4 successor with a closed SemanticObjectBindingV1 record and executable semantic-to-raw resolution rules.",
+      "Publish retention-tiers.v10.json as the RT9 successor, exactly bound to EP5, with typed raw physical keys and UNIT-ID-V3 custody derived only after semantic resolution.",
+      "Update the evaluation-proof, retention-custody, and product-disposition checkers to consume exactly EP5/RT10 and adversarially reject stale, ambiguous, untyped, cross-project, binding-only, or authority-inflating states.",
+      "Preserve EP3/RT8 and EP4/RT9 byte-identically. EP4/RT9 remain rejected intermediate candidates, not accepted authority."
+    ],
+    "notImplementedHere": [
+      "No Evidence, operability, storage-authority, D9, threat-model, C-2, resolved-inputs, VERSIONING, DELIVERY, claim-register, product-authority, plan, blueprint, freeze, or narrative prose artifact is changed.",
+      "No production Run, durable ledger, physical store, signature execution, lease, purge, migration, or performance behavior is demonstrated.",
+      "No Phase 1A completion, V10 resolution, CD-RT-5 disposition, product sign-off, seal, or integration authority is asserted."
+    ]
+  },
+  "preservedArtifacts": {
+    "acceptedPredecessors": {
+      "evaluation-proof.v3.json": "b1f10c9b7bd88d5e794c428d176084e497ba0ffbd8234b3b8c712ea532d8a40e",
+      "retention-tiers.v8.json": "7a754b0eac75f5335c9a48646f19825f3b3ffaad44c8a7daf99360253dacb989"
+    },
+    "rejectedIntermediateCandidates": {
+      "evaluation-proof.v4.json": "f854a6e5731b0f2c32fedb617279379c39051074f3cd051c14eadc61109b9de1",
+      "retention-tiers.v9.json": "4391c98c31a626a07573952d24a94755aedc0553d2d51f43a73e28948a6cb753"
+    },
+    "preservation": "BYTE-IDENTICAL"
+  },
+  "successorBindings": {
+    "evaluationProof": {
+      "artifact": "evaluation-proof.v5.json",
+      "sha256": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b",
+      "checker": "check-evaluation-proof.py",
+      "checkerSha256": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2"
+    },
+    "retentionCustody": {
+      "artifact": "retention-tiers.v10.json",
+      "sha256": "606b5e7125d4a3a46f44f1a7565f9c9ea69132d9ab2783d00339e1b8aac5e026",
+      "checker": "check-retention-custody.py",
+      "checkerSha256": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7",
+      "exactEvaluationProofSource": "evaluation-proof.v5.json@sha256:e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b"
+    },
+    "productBoundary": {
+      "checker": "check-product-dispositions.py",
+      "checkerSha256": "f73cb878ade9376f6f8a9c19a459742c1721932ad16625e6b63cd0d1645d732e",
+      "exactConsumedChain": "evaluation-proof.v5.json@sha256:e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b -> retention-tiers.v10.json@sha256:606b5e7125d4a3a46f44f1a7565f9c9ea69132d9ab2783d00339e1b8aac5e026"
+    }
+  },
+  "semanticObjectBindingContract": {
+    "type": "SemanticObjectBindingV1",
+    "closedFields": [
+      "projectId",
+      "semanticDomain",
+      "semanticRef",
+      "recordCasRef",
+      "recordKind"
+    ],
+    "uniqueSemanticKey": [
+      "ProjectId",
+      "semanticDomain",
+      "semanticRef"
+    ],
+    "admittedDomains": [
+      {
+        "semanticDomain": "activation-manifest-v1",
+        "recordKind": "ActivationManifestV1"
+      },
+      {
+        "semanticDomain": "evaluation-authority-seal-v1",
+        "recordKind": "EvaluationAuthoritySealV1"
+      }
+    ],
+    "resolverSteps": [
+      "Require exactly one binding for the ProjectId, semanticDomain, and semanticRef tuple.",
+      "Fetch the raw record by the typed physical key (ProjectId, recordCasRef, recordKind).",
+      "Verify recordCasRef against the fetched raw bytes.",
+      "Closed-decode the declared recordKind and reject unknown, missing, duplicate, or mistyped fields.",
+      "Canonical-reencode the decoded record and require byte identity with the fetched raw bytes.",
+      "Recompute the declared semantic-domain commitment and require equality with semanticRef."
+    ],
+    "authorityRule": "SemanticObjectBindingV1 is a derived witness only. A binding record is neither a semantic root nor proof of raw availability, and it cannot independently satisfy a custody capability.",
+    "normativeEncoding": {
+      "grammarId": "EVALUATION-PROOF-NORMATIVE-PREIMAGE-GRAMMAR-V1",
+      "grammarSha256": "343889cf713931b0e228d84de82cb67d8cb22cc13ae2b3cc71302476f89ef9e0",
+      "bindingRecordTag": "0x1b",
+      "bindingFieldTags": [
+        "0x5e",
+        "0x5f",
+        "0x60",
+        "0x61",
+        "0x62"
+      ],
+      "recordGoldens": 12,
+      "commitmentGoldens": 9
+    }
+  },
+  "resolvedSemanticObjects": [
+    {
+      "semanticDomain": "activation-manifest-v1",
+      "semanticRef": "sha256:62033398da77955311c084b0e2ea07912f72745cdbc22f61047d2c0cbd3adfd1",
+      "recordKind": "ActivationManifestV1",
+      "recordCasRef": "sha256:6c95712f0ab9e4fa6ffa0162de92bcd842e9d5c2cf2c659e6f88f76e445cc1ce",
+      "rawByteLength": 594
+    },
+    {
+      "semanticDomain": "evaluation-authority-seal-v1",
+      "semanticRef": "sha256:48f20fbdf3d577a0aaba5d309fb96e0529c1770ef67a7d5b38a1a6b1de69de4f",
+      "recordKind": "EvaluationAuthoritySealV1",
+      "recordCasRef": "sha256:10990321b83a5113c22640db203e9917298157dae354763df2d1d9162faf85d8",
+      "rawByteLength": 391
+    }
+  ],
+  "rawCustodyClosure": {
+    "physicalKey": [
+      "ProjectId",
+      "recordCasRef",
+      "recordKind"
+    ],
+    "semanticRoots": 2,
+    "rawPhysicalRefs": 22,
+    "verifiableRawRefs": 18,
+    "replayableRawRefs": 4,
+    "objectRecords": 19,
+    "typedRawDependencyEdges": 16,
+    "semanticCustodyUnits": 2,
+    "rawGraphJoin": "receipt raw record -> EvaluationAuthoritySealV1 raw record -> ActivationManifestV1 raw record",
+    "versioningJoin": "The six VERSIONING v4 historical refs remain byte-addressed raw refs and are not retyped as semantic commitments.",
+    "unitIdentity": {
+      "grammarId": "SEMANTIC-CAPABILITY-CLOSURE-GRAMMAR-V3",
+      "grammarSha256": "abd8c541da028f2a273cc509bb8a2bc1c19eb78618ea56676ac301a83dd82ef8",
+      "commitmentDomain": "semantic-capability-closure-v3",
+      "closureCommitment": "sha256:3e2e151273a69e1f9ccb0272f6a507de45e9fd1f43e4094507537ee1e34cac57",
+      "unitIdDomain": "opensip.semantic-custody-unit-id.v3",
+      "verifiable": "unit3:sha256:5a8baa81053462139cd9f10a8ed1ef80c64db7dcae0edce8827b268f55c26b16",
+      "replayable": "unit3:sha256:e04218d49e7774f142b0bfa4e0e5e336e930184fd904141824d8f96b9d7c82be"
+    },
+    "mutableBoundary": "RunId, lease state, inventory state, purge state, effective availability, clocks, ledger positions, and physical locators remain outside semantic closure and UNIT-ID-V3 bytes."
+  },
+  "negativeCoverage": {
+    "evaluationProof": "450 mutations and hostile parsed-value cases rejected. Named controls include semantic-ref substitution, missing/duplicate/cross-project bindings, domain-kind mismatch, binding-only availability, raw-byte digest mismatch, noncanonical raw bytes, semantic commitment mismatch, hidden binding fields, lifecycle authority aliases, grammar drift, and all six historical-role omissions or mislabels.",
+    "retention": "272 mutations and hostile parsed-value cases rejected. Named controls include using semanticRef as a CAS key, a semantic ref in a physical path or purge key, untyped or mismatched physical keys, missing/duplicate/cross-project bindings, binding-only AVAILABLE, target purge retaining authority, role/minimum downgrade, hidden binding fields, VERSIONING ref retyping, downstream binding fields, and RunId admission into semantic closure.",
+    "product": "Seven product-choice mutations, eleven recursive retention-authority regressions, four stale EP/RT successor bindings, four hostile root shapes, and four hostile nested shapes rejected."
+  },
+  "verificationRuns": [
+    {
+      "checker": "check-evaluation-proof.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "7 fixed-authority positives; 32 named negatives; 12 record and 9 commitment preimage goldens; 3 retained cross-language goldens; EP-1..EP-13 clean; 450 mutations/hostile values rejected."
+    },
+    {
+      "checker": "check-retention-custody.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "22 raw proof refs; 16 typed raw edges; 2 semantic custody units; 15 lease fixtures plus 3 scenarios; 3 purge fixtures; 11 D9 rows; RC-1..RC-15 clean; 272 mutations/hostile values rejected."
+    },
+    {
+      "checker": "check-product-dispositions.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "Exact EP5-to-RT10 digest chain consumed; CD-RT-5 remains blocked; 7 product-choice, 11 authority, 4 stale-binding, 4 root-shape, and 4 nested-shape regressions rejected."
+    },
+    {
+      "checker": "check-d9.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "44 goldens and D0..D16 clean; 13 semantic, 4 root-shape, and 4 nested-shape mutations rejected."
+    },
+    {
+      "checker": "check-threat-claims.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "7 user assets, 3 primary risks, 19 findings, 18 required properties, T1..T13 clean, V10 UNRESOLVED; 29 semantic, 4 root-shape, and 4 nested-shape mutations rejected."
+    },
+    {
+      "checker": "check-c2.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "C-2 normal pass; 32 semantic and 4 root-shape mutations rejected."
+    },
+    {
+      "checker": "check-resolved-inputs.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "22 ambient inputs and 6 closure fixtures clean; 42 semantic and 4 root-shape mutations rejected."
+    },
+    {
+      "checker": "check-versioning.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "7 comparison and 13 historical fixtures clean; 36 mutations rejected."
+    },
+    {
+      "checker": "check-delivery.py",
+      "normalExit": 0,
+      "selftestExit": 0,
+      "summary": "14 admission/rollback, 7 migration, and 5 release fixtures clean; product release remains NOT-DEMONSTRATED; 93 mutations rejected."
+    }
+  ],
+  "stableHashWindow": {
+    "algorithm": "sha256",
+    "inputs": 30,
+    "matrix": "Nine normal checker runs plus nine native --selftest runs",
+    "startAndEndMatch": true,
+    "inputHashDrift": false,
+    "frozenHashes": {
+      "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "IMPLEMENTER-BLUEPRINT.md": "7d2c1a697fb130524fc1f238513a5528b485ce1c7fba1c4ad9bbe7d435975763",
+      "IMPLEMENTATION-FREEZE.md": "df422a924bee290f07c27f98ccc2a8d7ee905eaff6dcfa4f6664ab2ac8e3dea1",
+      "evaluation-proof.v3.json": "b1f10c9b7bd88d5e794c428d176084e497ba0ffbd8234b3b8c712ea532d8a40e",
+      "evaluation-proof.v4.json": "f854a6e5731b0f2c32fedb617279379c39051074f3cd051c14eadc61109b9de1",
+      "evaluation-proof.v5.json": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b",
+      "retention-tiers.v8.json": "7a754b0eac75f5335c9a48646f19825f3b3ffaad44c8a7daf99360253dacb989",
+      "retention-tiers.v9.json": "4391c98c31a626a07573952d24a94755aedc0553d2d51f43a73e28948a6cb753",
+      "retention-tiers.v10.json": "606b5e7125d4a3a46f44f1a7565f9c9ea69132d9ab2783d00339e1b8aac5e026",
+      "retention-tiers.v8.rereview3-independent-reviewer15.json": "7283db1a45358ff7d110297fdbd8ea168eb61dd2d06d932d8dcaeaf4c1737566",
+      "check-evaluation-proof.py": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2",
+      "check-retention-custody.py": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7",
+      "check-product-dispositions.py": "f73cb878ade9376f6f8a9c19a459742c1721932ad16625e6b63cd0d1645d732e",
+      "product-dispositions.v1.json": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c",
+      "evidence.v3.json": "c05c744b21682ab5aa37e6dfab7b6810be80ed7b0fd24b628375bcb5751c68e4",
+      "operability.v2.json": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+      "storage-namespace.adjudication-admission-storage-lane.v1.json": "a9877d6de9efb6ca336b92f6da8a79296ebdc9fa981da88525bef2b727e885c0",
+      "d9-exit-contract.v1.6.json": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046",
+      "check-d9.py": "9f8e16a0000e59d2f1326f97f1b8afcc5c7121eb0c57b6c440d76b9c401346a7",
+      "threat-model.v3.json": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+      "check-threat-claims.py": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221",
+      "c2-plan-stage-schema.v3.json": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+      "check-c2.py": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3",
+      "resolved-inputs.v2.json": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+      "check-resolved-inputs.py": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0",
+      "versioning-policy.v4.json": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6",
+      "check-versioning.py": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227",
+      "delivery.v2.json": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "check-delivery.py": "50f30407e0f47f5deec63452a34caa5c8f11677daa774d7e90dec5ba0c451b0d",
+      "claim-register.v1.json": "2338f7e08d24dead2540f04f9f2a071af42870b34c851393ed863f9d89ab1b42"
+    }
+  },
+  "authorityBoundary": {
+    "candidateIntegrationState": "NOT-APPLIED",
+    "externalClosureClaim": "NONE",
+    "phase1AComplete": false,
+    "V10": "UNRESOLVED",
+    "CD-RT-5": "BLOCKED_ON_PHASE_1A",
+    "productAcceptanceRecorded": false,
+    "integrationPatchesApplied": false,
+    "productMayTakeUpCDRT5Now": false,
+    "nextGate": "Obtain one independent, stable-hash, lineage-free combined-packet rereview. Any coordinated external contract successors and any later product disposition remain separate authority-bearing work."
+  },
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "runtimeDemonstrated": false,
+    "independentCombinedRereview": "REQUIRED",
+    "sealRecommendation": "DO NOT SEAL OR APPLY"
+  }
+}

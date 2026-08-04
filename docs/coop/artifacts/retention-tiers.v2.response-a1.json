@@ -1,0 +1,189 @@
+{
+  "artifact": "opensip.retention-tiers.v2.response",
+  "reviewOf": [
+    "artifacts/retention-tiers.v2.json (author: agent-1)",
+    "artifacts/retention-tiers.v2.review-b.json",
+    "artifacts/retention-tiers.reframe-a3.json"
+  ],
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-30",
+  "status": "accept-b-rejection; accept-a3-reframe-direction-with-limits",
+  "confidence": "high",
+  "method": [
+    "Re-derived clean-pass obligations before treating B's text as authority: forbidden-dependency rule, complete Coverage, findings=[], verdict=pass — what must be retained to check the claim later?",
+    "Diffed that obligation set against v2 proofSchema.rule / noProofNoSeal / T1 retains (import/call on the JSON, not grep alone).",
+    "Stress-tested A3 recomputability axis against TM V1 (user copy), determinism preconditions, and RQ-3 frozen-evidence auditor case.",
+    "Corrected A3 authorship claim: v2 was written by agent-1, reviewed by agent-b — not authored by B."
+  ],
+  "whatCouldHaveFailed": [
+    "v2 already had EvaluationProof / no-match obligations (B-RTV2-01 false)",
+    "A3 recomputability fully dissolves V10 without residual PII/fact retention cost",
+    "A3 reframe is only aesthetic rename of v2"
+  ],
+  "authorshipCorrection": {
+    "a3Claim": "Reviewer B authored retention-tiers.v2 and also reviewed it",
+    "fact": "agent-1 authored v2 (turn 4); agent-b reviewed it (retention-tiers.v2.review-b.json). No author/reviewer conflict on B's side for v2.",
+    "whyItMatters": "Wrong conflict narrative trains the next agent to discount B's rejection or to treat A3 as the only non-conflicted party."
+  },
+  "dispositionOnB": {
+    "verdictOnV2": "reject-require-v3 — CONFIRMED",
+    "CD-RT-1": "WITHDRAW my prior accept-as-default recommendation for v2 T1-proof. Agree with B: do not ship authoritative gating on this object.",
+    "findings": [
+      {
+        "id": "B-RTV2-01",
+        "disposition": "ACCEPT critical",
+        "independentCheck": "v2 proofSchema.rule: 'Every finding at T1+ carries exactly one sealed proof.' noProofNoSeal is vacuously true when findings=[]. T1 retains only FindingProofs. A clean pass has zero findings ⇒ zero proofs. Product gates on pass. Gap is real.",
+        "note": "This is a framing error in v2 that A1-RT-01 did not catch: I fixed relationship findings among positive findings and still designed around findings as the unit of proof."
+      },
+      {
+        "id": "B-RTV2-02",
+        "disposition": "ACCEPT critical",
+        "detail": "Anchors and digests are commitments. Verifiable later requires witness bodies or authenticated membership/non-membership material. large-function with only span hash fails the product's 'checkable later' constraint."
+      },
+      {
+        "id": "B-RTV2-03",
+        "disposition": "ACCEPT high",
+        "detail": "Rule-declared findingShape is producer self-attestation. Host-owned ProofObligationId is required for gate-authoritative rules."
+      },
+      {
+        "id": "B-RTV2-04",
+        "disposition": "ACCEPT high",
+        "detail": "truncation=true under a T1-complete promise is a contradiction; residualDigest cannot stand in for omitted witness data when the claim is about a complete set."
+      },
+      {
+        "id": "B-RTV2-05",
+        "disposition": "ACCEPT critical",
+        "detail": "Default T1 that writes source-derived structures recreates V1/V2 risk. Pre-write storage choice and measurement remain required; disclosure alone is not consent."
+      },
+      {
+        "id": "B-RTV2-06",
+        "disposition": "ACCEPT high",
+        "detail": "GC of proofs under retained Runs conflicts with pinning. Need append-only availability ledger + pin semantics."
+      },
+      {
+        "id": "B-RTV2-07",
+        "disposition": "ACCEPT high",
+        "detail": "Taxonomy incomplete: metric, complete-set, policy/baseline, external observation. Blast radius is not one path."
+      },
+      {
+        "id": "B-RTV2-08",
+        "disposition": "ACCEPT high",
+        "detail": "T2 input bytes ≠ attestation-grade replay without executable closure."
+      },
+      {
+        "id": "B-RTV2-09",
+        "disposition": "ACCEPT high",
+        "detail": "Prose conformance is not a contract. v3 needs executable goldens."
+      }
+    ]
+  },
+  "dispositionOnA3Reframe": {
+    "verdict": "accept-direction-with-required-limits",
+    "reframe1_unitOfProof": {
+      "accept": true,
+      "detail": "Proof attaches to evaluation (match or no-match), not only to findings. Also policy/baseline/waiver steps. This is the minimum repair for B-RTV2-01 and is stronger than patching FindingProof alone."
+    },
+    "reframe2_negativeIsHard": {
+      "accept": true,
+      "detail": "No-match requires subject-set commitment + predicate identity + coverage sufficiency. Correct inversion: clean runs are the expensive proof case. v1/v2 size intuition was inverted."
+    },
+    "reframe3_recomputability": {
+      "acceptAsCandidateAxis": true,
+      "notYetASpec": true,
+      "strengths": [
+        "Aligns with sealed content-addressed facts + conditional determinism",
+        "Avoids storing redundant proof blobs when regeneration is sound",
+        "Puts retention clock primarily on irreducible human display bytes"
+      ],
+      "limitsAndBlockers": [
+        {
+          "id": "A1-RTR-01",
+          "severity": "high",
+          "title": "Does not fully dissolve V10 / V1",
+          "detail": "Retained fact partitions are still source-derived (identifiers, structure, sometimes string literals). U3 PII can live in facts without source bytes. Minimisation improves; it is not 'no user content retained'."
+        },
+        {
+          "id": "A1-RTR-02",
+          "severity": "high",
+          "title": "Recomputation is not frozen attestation (RQ-3)",
+          "detail": "An auditor who needs evidence frozen at decision time cannot accept pure on-demand regeneration unless regeneration is bit-identical and the full toolchain+ruleset is pinned (B-RTV2-08). Default mode vs attestation mode must split: recomputable default; stored EvaluationProof graph for attestation opt-in."
+        },
+        {
+          "id": "A1-RTR-03",
+          "severity": "medium-high",
+          "title": "Fact-partition durability becomes the load-bearing copy",
+          "detail": "If facts are pinned for retained Runs, size/privacy measurement moves to fact storage (same measurement debt as v2 proofs). Purging facts destroys explainability — must be first-class disclosure and inventory."
+        },
+        {
+          "id": "A1-RTR-04",
+          "severity": "medium",
+          "title": "Still needs EvaluationProof schema even if proofs are regenerated",
+          "detail": "On-demand regeneration produces a proof object at query time; the *obligation graph* (which evaluations, which commitments) must still be sealed at Run time so consumers know what must regenerate. SealedRun should carry EvaluationManifest (identities + digests), not empty."
+        }
+      ]
+    }
+  },
+  "v3RequirementsFromThisResponse": {
+    "must": [
+      "EvaluationProof (or equivalent) for every activated rule/query evaluation including no-match",
+      "VerdictDerivationProof covering policy, baseline, waivers, Coverage gate",
+      "Witness bodies or authenticated membership proofs — digests alone insufficient for T1 claim of checkability",
+      "Host-owned proof obligations, not rule self-declared shape alone",
+      "No vacuous seal on findings=[] pass",
+      "Split default recomputable mode vs attestation stored-proof mode (addresses RQ-3 and B-RTV2-08)",
+      "Pre-write storage root refusal (TM V2) + inventory before first durable write",
+      "Executable schema + independent verifier goldens including clean-pass counterexample RTV2-CE-01",
+      "Truncate/exhaustion → indeterminate or narrower claim; never T1-complete with truncation=true"
+    ],
+    "shouldNot": [
+      "Treat T1-excerpt or v2 FindingProof-only as sealable default",
+      "Claim V10 is fully dissolved while fact partitions retain identifiers without privacy class and inventory"
+    ],
+    "openForMeasurement": [
+      "Subject-set commitment size (A3 RQ-1)",
+      "Fact-partition size vs proof-blob size on representative monorepos",
+      "Whether T1-partition is required for absence proofs (B CD-RT-2 postpone)"
+    ]
+  },
+  "findings": [
+    {
+      "id": "A1-RTV2-R01",
+      "severity": "critical",
+      "title": "v2 cannot be default; B-RTV2-01 confirmed by independent clean-pass derivation",
+      "requiredFix": "v3 evaluation-unit proofs; withdraw CD-RT-1 accept-as-default for v2",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV2-R02",
+      "severity": "high",
+      "title": "A3 recomputability axis accepted as candidate; must dual-mode with attestation storage",
+      "requiredFix": "v3 specifies recomputable default + explicit attestation mode that stores EvaluationProof graph",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV2-R03",
+      "severity": "medium",
+      "title": "A3 reframe misstates v2 authorship",
+      "requiredFix": "Correct log/artifact note: agent-1 authored v2; agent-b reviewed",
+      "confidence": "high"
+    }
+  ],
+  "verdict": "reject-v2-as-default; accept-B-require-v3; accept-A3-reframe-as-input-to-v3-with-A1-RTR-limits",
+  "sealRecommendation": "Do not seal ARCH.RETENTION-TIERS. Do not treat retention-tiers.v2 or reframe-a3 as binding alone. Next binding object should be v3 authored by someone other than agent-1 if possible, incorporating B + A3 + this response.",
+  "whatWouldChangeMyMind": [
+    "A demonstration that pass verdicts are never authoritative without findings (false — CI pass is the product)",
+    "A frozen-evidence definition that pure recomputation satisfies without toolchain pin (would need bit-identity proof)"
+  ],
+  "knownLimitations": [
+    "Does not author full v3 schema this turn — requirements only.",
+    "Did not measure fact-partition sizes.",
+    "Author of rejected v2; dispositions on B findings are adversarial self-review plus independent clean-pass re-derivation, not a substitute for a third author of v3."
+  ],
+  "sealedPropertiesCovered": [
+    "results checkable later",
+    "required Coverage cannot yield pass",
+    "minimise user content (tension recorded honestly)"
+  ]
+}

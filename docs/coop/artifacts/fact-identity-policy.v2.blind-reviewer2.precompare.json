@@ -1,0 +1,97 @@
+{
+  "artifact": "opensip.fact-identity.blind-precomparison",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/fact-identity-policy.v2.json",
+  "date": "2026-07-31",
+  "phase": "PRECOMMITTED BEFORE READING languageCapability.matrix values, fixture valid fields, checker source, or conformance expected results",
+  "method": "Read the normalization-level definitions and language safety rules, then independently judged the four language rows. Fixture outcomes were derived from their human rationale and input fields only.",
+  "languageCapability": [
+    {
+      "language": "typescript",
+      "L1": "full",
+      "L2": "restricted",
+      "L3": "full",
+      "reason": "The scanner can preserve token boundaries and semantic binding analysis can rename locals; triple-slash, ts-check/ignore, source-map and JSDoc-like comment semantics make comment removal require a preserved-directive subset."
+    },
+    {
+      "language": "rust",
+      "L1": "full",
+      "L2": "restricted",
+      "L3": "restricted",
+      "reason": "Token-aware lexical normalization is available. Doc comments lower to attributes and macro token trees complicate comment and local-binding normalization; deep semantics can handle ordinary locals but source macros prevent an unconditional full claim."
+    },
+    {
+      "language": "python",
+      "L1": "restricted",
+      "L2": "restricted",
+      "L3": "unavailable",
+      "reason": "Indentation/newline layout is semantic, and encoding/type/noqa-style comments require preservation. Under the stated product tier, no complete semantic binding substrate is promised for safe local-only renaming."
+    },
+    {
+      "language": "go",
+      "L1": "restricted",
+      "L2": "restricted",
+      "L3": "unavailable",
+      "reason": "Whitespace participates in semicolon insertion, and build/line/go directives are comment-shaped. The product does not promise Go as one of its two deep semantic languages, so safe binding-aware renaming is unavailable in this architecture."
+    }
+  ],
+  "levelFixtureOutcomes": [
+    {
+      "id": "python-l1-restricted",
+      "decision": "VALID"
+    },
+    {
+      "id": "python-l3-unavailable",
+      "decision": "VALID_ONLY_WITH_LOUD_COVERAGE_DEFICIENCY"
+    },
+    {
+      "id": "go-l2-restricted",
+      "decision": "VALID"
+    },
+    {
+      "id": "typescript-l3-full",
+      "decision": "VALID"
+    },
+    {
+      "id": "reject-unavailable-without-deficiency",
+      "decision": "INVALID"
+    },
+    {
+      "id": "reject-deficiency-outside-factplane",
+      "decision": "INVALID"
+    }
+  ],
+  "transitionFixtureOutcomes": [
+    {
+      "id": "additive-level-no-impact",
+      "decision": "VALID_UNAFFECTED"
+    },
+    {
+      "id": "algorithm-change-with-protocol",
+      "decision": "VALID_MANY_TO_MANY",
+      "condition": "A witness must relate old and new occurrence groups without pretending one-to-one identity."
+    },
+    {
+      "id": "algorithm-change-no-witness",
+      "decision": "VALID_INDETERMINATE"
+    },
+    {
+      "id": "reject-algorithm-change-without-dual-emit",
+      "decision": "INVALID"
+    },
+    {
+      "id": "reject-algorithm-change-without-acceptance",
+      "decision": "INVALID"
+    },
+    {
+      "id": "reject-silent-reidentification",
+      "decision": "INVALID"
+    }
+  ],
+  "knownLimitations": [
+    "This is an architecture/toolchain judgment, not a compiled golden corpus. Macro expansion, generated code, JSX, and language-version edges can lower a capability.",
+    "The level fixture IDs themselves encode some intended outcomes; the independent value lies mainly in the language matrix and transition semantics.",
+    "No existing implementation shape was used as a merit argument; the product's stated deep-language boundary was treated as a design input."
+  ],
+  "confidence": "MEDIUM"
+}

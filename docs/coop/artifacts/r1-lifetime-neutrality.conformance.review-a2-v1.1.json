@@ -1,0 +1,99 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/r1-lifetime-neutrality.conformance.v1.1.json",
+  "status": "reject-seal-require-v1.2",
+  "method": "Constructed an ambient-authority threat model independently of the listed CoreDeps, then checked whether LN-02 would fail for each omitted authority. Separately modelled authoritative-store state versus rebuildable cache state for LN-06 and compared LN-09's success obligation with the sealed busy-timeout/idempotent-insert/write-then-link protocol.",
+  "resolves": {
+    "A2-R1-01": "PARTIAL: LN-04 has the correct lifetime-neutral negative shape, but the suite does not prove semantic neutrality until the capability boundary is closed.",
+    "A2-R1-02": "ACCEPT: none of LN-01..10 intrinsically requires a resident host.",
+    "A2-R1-03": "PARTIAL: LN-09 exercises the right same-project contention case but asserts both executions succeed, which the sealed busy-timeout protocol does not guarantee.",
+    "A2-R1-04": "ACCEPT: deterministic equality preconditions are explicit.",
+    "A2-R1-05": "ACCEPT: removing cachePolicy from the semantic API is correct.",
+    "A2-R1-06": "REJECT: CoreDeps is not exhaustive and the signature has two storage authorities.",
+    "A2-R1-07": "ACCEPT: decision source paths are resolvable.",
+    "A2-R1-08": "ACCEPT: one-shot availability is correctly separated as a product obligation.",
+    "A2-R1-V11-01": "BLOCKER: define the exact execution-core boundary and add or explicitly forbid ID/entropy, rule/contribution registry, external-process supervisor/sandbox, scheduler/executor/resource-meter, and diagnostics authorities.",
+    "A2-R1-V11-02": "BLOCKER: LN-02 proves only that listed fields have no fallback; it cannot detect unlisted ambient process/env/fs/net/RNG/signal/thread-local/global-registry access. Add import/call-closure and runtime-denial conformance.",
+    "A2-R1-V11-03": "BLOCKER: LN-06 must compare stores with identical authoritative ledger/evidence and different rebuildable cache state, not an undifferentiated populated store versus empty store.",
+    "A2-R1-V11-04": "BLOCKER: LN-09 must permit a typed LEDGER.BUSY_TIMEOUT after bounded retries while still forbidding corruption, partial publication, or lost successful writes."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "R-1(1)",
+      "source": "architecture/08-surfaces-and-topology.md#topology-reopened",
+      "property": "One re-entrant execution core has no lifetime discriminator and has identical semantics under one-shot and resident host lifetimes."
+    },
+    {
+      "id": "ARCH.STORAGE.MULTIPROCESS",
+      "source": "architecture/03-execution-model.md#concurrency",
+      "property": "Storage integrity is provided by the storage protocol without requiring an external deployment coordinator."
+    },
+    {
+      "id": "METHOD.RULE-2",
+      "source": "architecture/10-method.md#2-no-in-language-signature-is-a-capability-boundary",
+      "property": "An explicit dependency record is not a capability boundary while ambient imports and process authority remain available."
+    }
+  ],
+  "coreDepsAudit": {
+    "listed": [
+      "clock",
+      "cancellation",
+      "snapshotAccess",
+      "environmentIdentity",
+      "progressSink",
+      "storeHandle",
+      "providerRegistry",
+      "budgets"
+    ],
+    "signatureDefect": "analyze(snapshot, plan, store, deps) supplies StoreHandle directly while CoreDeps also contains storeHandle. Two storage paths make ownership and LN-02 ambiguous.",
+    "missingOrUnresolvedAuthorities": [
+      {
+        "authority": "ID/entropy source",
+        "why": "RunId/ExecutionId creation must be deterministic, content-derived, or injected; ambient RNG defeats replay and equality tests."
+      },
+      {
+        "authority": "rule/contribution/pack resolver",
+        "why": "A Plan identifies work, but executable implementations still need resolution. providerRegistry covers semantic providers, not necessarily rules and contributions."
+      },
+      {
+        "authority": "external-process supervisor and sandbox",
+        "why": "Probe/external-scanner execution, child cancellation, and reaping cannot safely use ambient process APIs if the core includes execution."
+      },
+      {
+        "authority": "scheduler/executor/resource meter",
+        "why": "Process-global pools and meters can cause cross-run interference and make budgets lifetime-dependent."
+      },
+      {
+        "authority": "structured diagnostics",
+        "why": "Either define diagnostics as progress-only and semantically inert or inject a separate bounded sink."
+      }
+    ],
+    "ln02FalsePass": "An implementation can satisfy LN-02 for every listed member while importing process.env, fs, net, crypto.randomUUID, signal handlers, a thread-local scope, or a global registry. Therefore LN-02 does not establish its stated completeness property.",
+    "verdict": "exhaustiveForV1_1 must be false until the boundary and negative authority tests are explicit."
+  },
+  "ln06": {
+    "verdict": "directionally correct but insufficient",
+    "requiredPrecondition": "Both executions see byte-identical authoritative ledger, baseline, evidence, and derivation inputs; they differ only in disposable acceleration entries.",
+    "requiredAssertion": "The core cannot observe store implementation type, cache warmth, hit rate, or presence except through fact/CAS operations whose semantic result is identical.",
+    "failureIfUnchanged": "An empty store may omit authoritative baselines/history, so a digest difference would not prove a lifetime bug and an equality pass could hide cache authority."
+  },
+  "ln09": {
+    "externalCoordinatorAssumed": false,
+    "matchesProtocol": "Yes on ownership: contention is resolved by busy-timeout, idempotent insert, and write-then-link, not an external mutex.",
+    "overclaim": "No on liveness: the protocol allows bounded retry exhaustion and LEDGER.BUSY_TIMEOUT. It guarantees integrity, not that both concurrent plans always complete successfully.",
+    "requiredOutcomeSet": "Each contender either publishes one valid SealedRun or returns the typed operational busy-timeout; every successful write remains reachable, and no corrupt, partial, or lost publication is observable."
+  },
+  "confidence": {
+    "CoreDeps": "high that exhaustiveness is unproven; medium on which missing authorities belong inside versus outside the core because its execution boundary is not specified",
+    "LN-06": "high",
+    "LN-09": "high"
+  },
+  "whatWouldChangeMyMind": "A v1.2 capability-closure artifact that fixes the duplicate StoreHandle, defines the core boundary, makes ambient authority mechanically unreachable or test-failing, and rewrites LN-06/LN-09 with the stated preconditions and allowed outcomes.",
+  "knownLimitations": [
+    "This reviews the conformance specification, not an implemented suite.",
+    "The exact process-sandbox API depends on whether Probe execution is inside the execution core; resolving that boundary is part of the blocker."
+  ]
+}

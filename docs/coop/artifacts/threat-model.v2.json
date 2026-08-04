@@ -1,0 +1,556 @@
+{
+  "artifact": "opensip.threat-model",
+  "version": 2,
+  "status": "CANDIDATE-UNREVIEWED",
+  "supersedes": 1,
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review.",
+  "centerCorrection": {
+    "v1Center": "Defending the platform from malicious extensions and hostile repositories.",
+    "whyWrong": "That is an enterprise, multi-tenant framing imported from the existing codebase's plugin and trust machinery. It was not derived from how the product is actually used.",
+    "actualUsage": "A person downloads a binary from the internet and points it at proprietary source on their own machine. They grant it read access to everything and write access to their disk.",
+    "v2Center": "PROTECT THE USER FROM OPENSIP-CLI. The tool is granted extraordinary trust; every byte it ingests, derives, retains, or emits is a liability it created on the user's behalf. The user's real question is: 'if I run this, what of mine now exists somewhere I did not put it?'",
+    "consequence": "Four of v1's five adversaries mostly evaporate under real usage. They are retained as CONDITIONAL, applicable only to scenarios that do not exist yet or are secondary.",
+    "errorClass": "Same class as Error 4 in architecture/10-method.md \u2014 a framing inherited rather than derived, committed shortly after writing the rule against it. Caught by the coordinator, not by any checker, because the checkers test internal consistency rather than whether the artifact answers the right question."
+  },
+  "decisionDependencies": [
+    {
+      "id": "ARCH.OFFLINE",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "claim": "local-first, fully useful offline, network default-deny"
+    },
+    {
+      "id": "ARCH.NO-MODELS",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "claim": "no model calls in the product path"
+    },
+    {
+      "id": "ARCH.SNAPSHOT",
+      "source": "architecture/03-execution-model.md#snapshot-capture",
+      "claim": "snapshot owns blobs; read-set recorded"
+    },
+    {
+      "id": "ARCH.RETENTION",
+      "source": "architecture/06-evidence-and-persistence.md#retention-classes",
+      "claim": "a durable Run must remain explainable after cache GC, which for a dirty worktree means pinning input blobs"
+    },
+    {
+      "id": "ARCH.PRIVACY",
+      "source": "architecture/06-evidence-and-persistence.md#privacy",
+      "claim": "dirty and untracked blobs are privacy-classed, user-only permissions, never exported by default"
+    },
+    {
+      "id": "RESOLVED-INPUTS.PATHS",
+      "source": "artifacts/resolved-inputs.v1.json",
+      "claim": "canonicalise and root-confine; symlink policy declared"
+    }
+  ],
+  "assets": [
+    {
+      "id": "U1",
+      "asset": "Source confidentiality",
+      "owner": "user",
+      "why": "The tool reads all of it. That is its job, and it is the reason trust is required."
+    },
+    {
+      "id": "U2",
+      "asset": "Secrets reachable from the machine",
+      "owner": "user",
+      "why": "`.env`, `.git/config` tokens, cloud credential files, private keys \u2014 reachable from the project root or via a symlink out of it."
+    },
+    {
+      "id": "U3",
+      "asset": "PII embedded in the codebase",
+      "owner": "user AND third parties",
+      "why": "Test fixtures with real names, seed data, database migrations, sample payloads, hardcoded contact details. The user may not know it is there, and the data subjects are not the user."
+    },
+    {
+      "id": "U4",
+      "asset": "Host integrity",
+      "owner": "user",
+      "why": "The tool executes with the user's privileges."
+    },
+    {
+      "id": "U5",
+      "asset": "The user's own compliance posture",
+      "owner": "user",
+      "why": "A user under data-protection obligations can be put in breach by a tool that silently copies PII into an unmanaged store with no retention policy. We would create the violation."
+    },
+    {
+      "id": "U6",
+      "asset": "The user's ability to know and undo",
+      "owner": "user",
+      "why": "Trust requires being able to answer 'what do you have of mine, where is it, and how do I remove it?' Without that, every other guarantee is unverifiable."
+    }
+  ],
+  "primaryRisks": [
+    {
+      "id": "P1",
+      "risk": "Our own default behaviour",
+      "what": "What we ingest, what we derive, what we retain, where we write, what we emit."
+    },
+    {
+      "id": "P2",
+      "risk": "The software surrounding our writes",
+      "what": "Cloud sync, backup, desktop search indexing, CI cache upload \u2014 all act on whatever we leave on disk."
+    },
+    {
+      "id": "P3",
+      "risk": "Our supply chain",
+      "what": "What the user actually downloaded and ran."
+    }
+  ],
+  "conditionalAdversaries": [
+    {
+      "id": "C1",
+      "adversary": "Malicious extension author",
+      "appliesWhen": "A third-party contribution ecosystem exists. P-1 has not committed to one.",
+      "status": "CONDITIONAL"
+    },
+    {
+      "id": "C2",
+      "adversary": "Hostile analyzed repository",
+      "appliesWhen": "The 'audit an unknown dependency' workload \u2014 reviewing code the user does not own.",
+      "status": "SECONDARY",
+      "note": "For the primary case the code is the user's own; invoking their toolchain on their repo is no worse than their own build."
+    },
+    {
+      "id": "C3",
+      "adversary": "Co-tenant on shared CI or a shared workstation",
+      "appliesWhen": "Shared execution environment.",
+      "status": "CONDITIONAL"
+    },
+    {
+      "id": "C4",
+      "adversary": "Network attacker",
+      "appliesWhen": "Install time, and any optional export.",
+      "status": "NARROW"
+    }
+  ],
+  "findings": [
+    {
+      "id": "V1",
+      "severity": "critical",
+      "title": "We create a second copy of the user's most sensitive data in a location, format, and lifetime they never chose",
+      "detail": "Content-addressed snapshot blobs, fact chunks, span excerpts and findings derived from source are written to a tool-chosen store. That store may contain source (U1), secrets that were ingested (U2), and PII (U3). The user chose to let us READ their code. They did not choose to let us MAINTAIN A COPY of it, and in most cases will not know one exists.",
+      "affects": [
+        "U1",
+        "U2",
+        "U3",
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "MINIMISE BY DEFAULT: persist hashes, spans, and structural facts \u2014 not source bytes. Bytes are retained only when a retained Run demonstrably requires them, never speculatively.",
+        "Every stored item carries a privacy class at write time, not at export time.",
+        "First-run disclosure: state plainly what will be written, where, and how to change or remove it. A tool that copies source without saying so has not earned trust regardless of its intentions.",
+        "See V10 \u2014 this collides with a sealed property and needs a decision, not just a default."
+      ]
+    },
+    {
+      "id": "V2",
+      "severity": "critical",
+      "title": "Our write location is commonly inside directories the user's other software uploads",
+      "detail": "Home-directory and XDG cache paths routinely sit inside Dropbox, iCloud Drive, OneDrive, Time Machine, and corporate backup scopes. Writing a content-addressed store of proprietary source there means the user's own software uploads their source to a third party. We would be the proximate cause of an exfiltration we never perform \u2014 and it would not appear in any audit of our network behaviour.",
+      "affects": [
+        "U1",
+        "U3",
+        "U5"
+      ],
+      "cause": "P2",
+      "requiredMitigations": [
+        "Detect sync- and backup-managed roots (provider marker files and directories, known parent paths, filesystem attributes) and REFUSE to place source-derived content there. Refuse, not warn \u2014 a warning on a path the user cannot see the consequence of is not consent.",
+        "Detect world- or group-readable storage roots and refuse.",
+        "Verify permissions at open, every run, rather than at creation. Directories get chmod'd by other tools.",
+        "Provide an explicit storage-location override so a user can choose a non-synced path deliberately.",
+        "CI guidance: storage inside the job workspace, never a shared or uploaded cache, unless the cache is per-tenant."
+      ]
+    },
+    {
+      "id": "V3",
+      "severity": "high",
+      "title": "Ingestion overreach: we read the user's secrets and PII because we were pointed at a directory",
+      "detail": "Broad globs and followed symlinks pull in `.env`, `.git/config` containing tokens, `~/.aws/credentials`, private keys, and PII-bearing fixtures. v1 framed this as an attacker escaping the root. The realistic version is the tool accidentally ingesting the user's own secrets and then persisting them per V1. A blocklist of known-sensitive names cannot work \u2014 the space is unbounded and user-specific.",
+      "affects": [
+        "U2",
+        "U3"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "ALLOWLIST, not blocklist: ingest only files matching a declared, language-or-rule-driven requirement. A file no consumer requested is never read.",
+        "Never follow a symlink out of the project root; canonicalise before inclusion and reject escapes as typed errors.",
+        "Known-sensitive patterns are an additional refusal layer on top of the allowlist, never the primary defence.",
+        "Ingesting a file that no rule required is a defect, and the read-set makes it detectable."
+      ]
+    },
+    {
+      "id": "V4",
+      "severity": "high",
+      "title": "PII propagates into derived artifacts that outlive the analysis",
+      "detail": "Findings quote source. Span excerpts are source. Symbol and identifier names can themselves be PII \u2014 a function named for a real customer, a fixture constant holding an email. Reports, exported evidence, and support bundles carry all of it. Content-addressing does not anonymise anything; it just makes the copy durable and deduplicated.",
+      "affects": [
+        "U3",
+        "U5"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "Findings reference spans by identity; the host resolves an excerpt on demand rather than embedding source in the finding record.",
+        "Excerpt materialisation into a report or export is an explicit, classed operation with a default of off.",
+        "Support bundles redact by CLASS, never by pattern-matching for things that look like PII \u2014 pattern matching on PII is a losing game.",
+        "Acknowledge in documentation that derived identifiers may themselves be personal data. Pretending only file contents are sensitive is the mistake."
+      ]
+    },
+    {
+      "id": "V5",
+      "severity": "high",
+      "title": "No retention default, no real deletion, no way for the user to see what we hold",
+      "detail": "U6 is unaddressed. There is no stated lifetime for source-derived content, no guarantee that a purge actually removes bytes rather than dereferencing them, and no way for a user to enumerate what exists. A user cannot verify any privacy claim we make.",
+      "affects": [
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "A stated default retention for source-derived content, favouring the shorter side, published rather than emergent from GC behaviour.",
+        "A `data inventory` capability: what is stored, of which classes, where, how large, how old. This is the mechanism by which trust becomes checkable instead of asserted.",
+        "A purge that DELETES content rather than dropping references, and reports what it removed. Deduplicated CAS makes this non-trivial and that is not an excuse.",
+        "Purge must be able to target by privacy class and by project, not only wholesale."
+      ]
+    },
+    {
+      "id": "V6",
+      "severity": "medium-high",
+      "title": "Temporary directories leak source on shared machines",
+      "detail": "Temp is commonly readable by other local users and is cleaned on an OS schedule the tool does not control. Source-derived content placed there is exposed for an unbounded window.",
+      "affects": [
+        "U1",
+        "U3"
+      ],
+      "cause": "P1 and P2",
+      "requiredMitigations": [
+        "No source-derived content in a shared temp location. If a temporary file is unavoidable, create it inside the storage root with user-only permissions.",
+        "Guaranteed cleanup on all exit paths, including cancellation and fault \u2014 a crash must not leave source in temp.",
+        "Materialisation for a scanner or probe uses an ephemeral directory inside the storage root, removed on stage completion."
+      ]
+    },
+    {
+      "id": "V7",
+      "severity": "medium-high",
+      "title": "Accidental egress is more likely than deliberate egress",
+      "detail": "The offline promise is broken not by a designed feature but by an update check, a telemetry default, a provider fetching a grammar or toolchain on first use, or a crash reporter. Any of these turns a local tool into a network client without anyone deciding to.",
+      "affects": [
+        "U1",
+        "U3"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "An enumerable egress inventory: every code path capable of a network call, listed, with the condition that triggers it.",
+        "Zero egress on the analysis path, proved by a gate that runs a full analysis with the network blocked \u2014 a primary release gate, not one of many.",
+        "No crash reporting, telemetry, or update check enabled by default.",
+        "No lazy fetch of grammars, toolchains, or migrators. If it is needed for analysis, it ships in the release."
+      ]
+    },
+    {
+      "id": "V8",
+      "severity": "medium-high",
+      "title": "The user's only real defence is verifying what they downloaded",
+      "detail": "Every property in this model is a property of the binary the user actually ran. If they cannot verify provenance, none of it is checkable.",
+      "affects": [
+        "U4",
+        "U1"
+      ],
+      "cause": "P3",
+      "requiredMitigations": [
+        "Signed releases with a verification path a user can actually follow, documented at the download point rather than buried.",
+        "Optional bundles signed too \u2014 an unsigned optional provider is the cheapest substitution target.",
+        "Reproducible builds as a goal, so a third party can corroborate. Stated as a goal, not claimed as achieved.",
+        "Honest limit: signing raises substitution cost. It does not defend against a malicious first-party release."
+      ]
+    },
+    {
+      "id": "V9",
+      "severity": "medium",
+      "title": "Analysis may execute repository-controlled code",
+      "detail": "A semantic provider invoking a real toolchain can execute build scripts, procedural macros, or compiler plugins. For the PRIMARY case \u2014 the user's own repository \u2014 this is not a new risk: they already build that code. It matters for the secondary 'audit an unknown dependency' workload, and it matters that the user knows which mode they are in.",
+      "affects": [
+        "U4"
+      ],
+      "cause": "C2",
+      "severityChangeFromV1": "Reduced from high to medium. v1 treated the analyzed repository as hostile by default, which is wrong for the primary usage.",
+      "requiredMitigations": [
+        "Providers declare whether they can execute repository-controlled code, as a manifest field.",
+        "Execution-capable resolution requires an explicit grant and is visible in PlanId.",
+        "A parse-only mode must remain available for analyzing code the user does not trust.",
+        "This is a security input to P-4a: a build-driven Rust substrate executes repository code; a parse-only one does not."
+      ]
+    },
+    {
+      "id": "V10",
+      "severity": "high",
+      "title": "Durable explainability and minimal retention are in direct conflict, and the architecture has sealed both",
+      "detail": "A sealed property requires that a durable Run remain explainable after cache GC, which for a dirty worktree means pinning the input blobs \u2014 i.e. retaining source. V1's mitigation requires minimising retained source. These cannot both hold unconditionally. The architecture currently asserts both and has never noticed.",
+      "affects": [
+        "U1",
+        "U3",
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredResolution": [
+        "This needs a DECISION, not a default. Options, in the author's order of preference: (a) explainability degrades gracefully \u2014 a Run retains hashes and structural facts and reports 'source no longer retained' rather than pinning bytes; (b) byte pinning is opt-in per project with the privacy consequence stated; (c) byte pinning is default with a short stated retention and a real purge.",
+        "Author's lean is (a): a Run that can prove WHAT it concluded and WHICH inputs it used, without keeping the inputs, satisfies the audit purpose for most users while defaulting to privacy. Attestation-grade replay becomes an explicit opt-in.",
+        "Whichever is chosen, the other sealed property must be amended rather than left contradictory."
+      ],
+      "kind": "CONTRADICTION-WITH-PROPOSED-RESOLUTION",
+      "whyNoMitigation": "A mitigation would imply one side is merely under-implemented. The resolution is an amendment to a sealed property, proposed here and requiring sign-off.",
+      "proposedResolution": {
+        "origin": "coordinator: durable explainability with configurable retention",
+        "shape": "A named tier LADDER carried in the Run manifest \u2014 not a global promise and not a free-form slider.",
+        "insight": "You do not need the snapshot to explain a finding; you need the spans it cited. That is a fraction of the data and it satisfies the audit purpose most users actually have, which shrinks the conflict rather than trading one side off.",
+        "tiers": [
+          {
+            "tier": "T0-structural",
+            "retains": "hashes, facts, findings, Coverage, read-set identities",
+            "answers": "what was concluded, and which inputs by identity",
+            "cannotAnswer": "why this specific finding, in source terms",
+            "size": "tiny"
+          },
+          {
+            "tier": "T1-excerpt",
+            "retains": "T0 plus the spans each finding cited",
+            "answers": "why this finding \u2014 the question users actually ask",
+            "size": "small",
+            "isDefault": false,
+            "whyDefault": "T0 cannot answer 'why', which is the product's value proposition. T2 is a source archive. T1 answers the real question at a fraction of the cost, and the cited span is content the user needs anyway to act on the finding.",
+            "status": "WITHDRAWN-AS-DEFAULT",
+            "whyWithdrawn": "ARCH.RETENTION-TIERS REOPENED; A1-RT-01/B-RT-01/B-RTV2-01 \u2014 excerpt default and finding-only proof rejected. v3 is now non-binding detailed-design exploration; v4 is an unreviewed architecture candidate. No replacement default is sealed."
+          },
+          {
+            "tier": "T2-replay",
+            "retains": "T0 plus all read-set bytes",
+            "answers": "full re-derivation; attestation grade",
+            "size": "large",
+            "note": "Read-set bounded, not repository bounded \u2014 the recorded read-set already reduces this."
+          }
+        ],
+        "requirements": [
+          {
+            "id": "RT-1",
+            "requirement": "The retention tier is a field of the sealed Run manifest, not ambient configuration.",
+            "why": "Otherwise two Runs with identical EvidenceDigests have different explanatory power and no consumer can tell. Explainability becomes a declared per-Run CAPABILITY instead of an uncheckable global claim."
+          },
+          {
+            "id": "RT-2",
+            "requirement": "A Run records both its SEALED tier and its CURRENT tier. Degradation is one-way (T2->T1->T0) and is reported.",
+            "why": "Retention expiry must produce an honest 'source no longer retained' rather than a mysterious failure. Tightening later works; loosening never does."
+          },
+          {
+            "id": "RT-3",
+            "requirement": "Tier configuration is per-project, visible in the Run, and applies forward only. It never reinterprets an existing Run.",
+            "why": "A config change that retroactively altered what old Runs claim would make the evidence plane untrustworthy."
+          },
+          {
+            "id": "RT-4",
+            "requirement": "Every tier carries privacy classes and participates in the data inventory (V5/R5). A T2 project can enumerate and purge exactly what T2 costs it.",
+            "why": "Configurable retention can make privacy WORSE if a user opts into T2 without seeing the consequence. Visibility is what makes the opt-in informed."
+          },
+          {
+            "id": "RT-5",
+            "requirement": "A policy or attestation that requires T2 must FAIL LOUDLY against a T0/T1 Run rather than silently accepting weaker evidence.",
+            "why": "Otherwise configurable retention becomes a silent downgrade of every downstream guarantee."
+          }
+        ],
+        "amends": "This resolves the contradiction by making explainability tiered and declared rather than absolute. The sealed property in architecture/06-evidence-and-persistence.md ('a durable Run must remain explainable after cache GC, which for a dirty worktree means pinning input blobs') must be AMENDED to: a durable Run must remain explainable AT ITS DECLARED TIER, and must report its tier honestly.",
+        "authority": "This artifact proposes the amendment; it does not have authority to make it. Requires coordinator sign-off because it changes a sealed property.",
+        "residualRisk": "The default still carries most of the weight, because loosening retention retroactively is impossible. If T1 is wrong for a class of users, they discover it only when they need T2 evidence they no longer have.",
+        "defaultStatus": "UNSET pending independent review and coordinator disposition of retention-tiers.v4; do not treat T1-excerpt or the v3 wire sketch as product defaults",
+        "seeAlso": [
+          "artifacts/retention-tiers.v4.json",
+          "artifacts/retention-tiers.v3.review-a1.json",
+          "artifacts/retention-tiers.v2.response-a1.json",
+          "artifacts/retention-tiers.reframe-a3.json"
+        ]
+      }
+    }
+  ],
+  "requiredProperties": [
+    {
+      "id": "R1",
+      "property": "Zero network egress on the analysis path, provable with the network blocked",
+      "verifies": [
+        "V7"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R2",
+      "property": "Storage root is never a sync-managed, backup-managed, or world-readable location; refused, not warned",
+      "verifies": [
+        "V2"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R3",
+      "property": "Ingestion is allowlist-driven; nothing is read that no consumer required",
+      "verifies": [
+        "V3"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R4",
+      "property": "Source bytes are retained only when a retained Run requires them, per the V10 decision",
+      "verifies": [
+        "V1",
+        "V10"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R5",
+      "property": "A user can enumerate everything held about their project, by class, and delete it for real",
+      "verifies": [
+        "V5",
+        "U6"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R6",
+      "property": "No source-derived content in shared temp; cleanup guaranteed on every exit path",
+      "verifies": [
+        "V6"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R7",
+      "property": "Findings reference spans; excerpt materialisation is explicit and off by default",
+      "verifies": [
+        "V4"
+      ],
+      "gate": "primary"
+    },
+    {
+      "id": "R8",
+      "property": "First-run disclosure of what is written where, and how to change or remove it",
+      "verifies": [
+        "V1"
+      ],
+      "gate": "product"
+    },
+    {
+      "id": "R9",
+      "property": "Signed releases with a user-followable verification path",
+      "verifies": [
+        "V8"
+      ],
+      "gate": "release"
+    },
+    {
+      "id": "R10",
+      "property": "Execution-capable resolution requires an explicit grant visible in PlanId",
+      "verifies": [
+        "V9"
+      ],
+      "gate": "primary"
+    }
+  ],
+  "trustBoundaries": [
+    {
+      "boundary": "User's machine \u2194 opensip-cli",
+      "strength": "TRUST GRANTED BY THE USER",
+      "why": "This is the boundary that matters. It is not enforced by anything \u2014 the user grants it by running the tool. Every requiredProperty above exists to make that grant safe to give."
+    },
+    {
+      "boundary": "opensip-cli \u2194 the network",
+      "strength": "MUST BE PROVABLY CLOSED on the analysis path",
+      "why": "The one property a user can verify independently, by blocking the network."
+    },
+    {
+      "boundary": "Our storage \u2194 other software on the machine",
+      "strength": "NOT A BOUNDARY",
+      "why": "Sync, backup and indexing act on what we write. Filesystem permissions do not stop the user's own agents running as the user. This is why V2 requires refusal rather than permission-setting."
+    },
+    {
+      "boundary": "Host \u2194 declarative rule",
+      "strength": "REAL",
+      "why": "Data has no execution semantics."
+    },
+    {
+      "boundary": "Host \u2194 linked native built-ins",
+      "strength": "NOT A BOUNDARY",
+      "why": "Explicitly TCB."
+    },
+    {
+      "boundary": "Host \u2194 semantic provider",
+      "strength": "TCB-ACCEPTED",
+      "why": "It must read source and can import a compiler regardless of interface. Confinement language must not be used here."
+    },
+    {
+      "boundary": "Host \u2194 scanner sidecar or probe",
+      "strength": "FAULT CONTAINMENT ONLY",
+      "why": "A process is not a sandbox absent an OS confinement profile."
+    },
+    {
+      "boundary": "Host \u2194 WASM contribution",
+      "strength": "REAL IF CAPABILITY-SCOPED",
+      "why": "Conditional, and the finding channel still leaks. Only relevant if C1 becomes real."
+    }
+  ],
+  "nonGoals": [
+    {
+      "id": "N1",
+      "nonGoal": "Defending against a compromised operating system or toolchain",
+      "why": "Trusted inputs."
+    },
+    {
+      "id": "N2",
+      "nonGoal": "Making source confidential from a producer that reads it and emits text",
+      "why": "We are that producer. The mitigations bound what we retain and emit; they cannot make reading not have happened.",
+      "mustAppearIn": "any confinement claim"
+    },
+    {
+      "id": "N3",
+      "nonGoal": "Treating a process boundary as a sandbox",
+      "why": "Fault containment only, absent OS confinement.",
+      "mustAppearIn": "any isolation claim"
+    },
+    {
+      "id": "N4",
+      "nonGoal": "Defending the user from their own deliberate export",
+      "why": "An explicit, classed export is the user's decision. Our obligation is that it is explicit and classed, not that it is prevented."
+    },
+    {
+      "id": "N5",
+      "nonGoal": "Defending against a malicious first-party release",
+      "why": "The host is TCB by construction. Signing raises substitution cost; it does not remove this."
+    },
+    {
+      "id": "N6",
+      "nonGoal": "Detecting PII in the user's source",
+      "why": "We must assume it is present and behave accordingly. Attempting to detect and specially handle PII would be unreliable and would create a false assurance."
+    }
+  ],
+  "residualRisks": [
+    "We read the user's source. No mitigation changes that; they are trusting us with it.",
+    "V2's sync detection is heuristic. A novel or corporate sync tool will not be recognised, so the override and the disclosure matter as much as the detection.",
+    "R5's real deletion is hard under content-addressed deduplication and has not been designed.",
+    "V10 remains unresolved. retention-tiers.v4 is a candidate architecture resolution, not a sealed disposition.",
+    "N6 means a user with PII in fixtures gets no special protection beyond minimisation \u2014 which is the honest position but is not zero risk to them."
+  ],
+  "shipGate": {
+    "rule": "No documentation may use sandbox, isolation, or confinement language for a boundary whose strength is NOT A BOUNDARY, FAULT CONTAINMENT ONLY, or TCB-ACCEPTED without stating that strength in the same place. Additionally, no privacy or offline claim may be published unless its corresponding requiredProperty has a passing gate.",
+    "checker": "artifacts/check-threat-claims.py"
+  },
+  "knownLimitations": [
+    "Authored solo. The center of this model was wrong in v1 and was corrected by the coordinator, not by review or by a checker \u2014 which is itself evidence that solo authoring plus self-checking does not catch framing errors.",
+    "V2's sync/backup detection mechanisms are asserted, not verified against real sync clients.",
+    "R5 (real deletion under deduplication) is required but unsolved.",
+    "V10 identifies a contradiction between two sealed properties and proposes a resolution; it does not have authority to amend either.",
+    "No attack tree, no likelihood ratings. This is an asset-and-obligation model.",
+    "V10's embedded T1-default ladder is withdrawn historical text. retention-tiers.v4 is the current unreviewed architecture candidate and still requires coordinator disposition."
+  ]
+}

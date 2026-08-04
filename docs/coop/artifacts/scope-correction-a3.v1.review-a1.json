@@ -1,0 +1,175 @@
+{
+  "artifact": "opensip.scope-correction.review",
+  "reviewOf": "artifacts/scope-correction-a3.v1.json",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-30",
+  "status": "reject-require-v2",
+  "confidence": "high",
+  "method": [
+    "DIFFERENT FROM AUTHOR and FROM B's parallel review: (1) Built an independent inventory of d9-exit-contract.v1.5 invariants + six exit classes BEFORE reading TO-1..TO-8, then diffed for losses. (2) Built independent R-1 boundary list from r1 v1.3 executionCoreBoundary inside/outside + prior A1-R1V13 findings, then diffed against EC-1..EC-7. (3) Asked what document is for: altitude correction vs rebind that launders open findings. (4) Tested percentage metric reproducibility (no script/counts). (5) Compared scope-correction handoff quality to retention-tiers.v4 (good architecture pattern already in-tree). Did not use detail-% as corroboration."
+  ],
+  "whatCouldHaveFailed": [
+    "TO-1..8 complete relative to v1.5 invariant list",
+    "EC-1..7 define a core boundary and ambient-authority honesty",
+    "Percentages reproducible and not used to ratify unrelated artifacts",
+    "Rebind preserves open D9/R1 findings",
+    "Corrected method still allows public compatibility contracts as architecture"
+  ],
+  "directionVerdict": {
+    "accept": true,
+    "detail": "Architecture should bind decisions at decision altitude (invariants, ownership, counterexamples, failure posture). Over-specified wire schemas with author dual-written goldens should not be the sole binding form — that lesson is real (D9/R1 churn; retention v3 vacuity under green checker). Stopping d9 v1.6 / r1 v1.4 churn until architecture is right is prudent.",
+    "rejectAsBinding": "v1 extraction + register rebind is not an adequate architectural replacement for D9 or R-1."
+  },
+  "independentD9Diff": {
+    "v15Invariants": [
+      "one-mapper",
+      "envelope-parity",
+      "failure-preadmit",
+      "no-policy-as-error / operational-not-finding",
+      "optional-egress",
+      "durability",
+      "finalization-commit",
+      "orphan-recovery",
+      "verdict-vs-termination",
+      "exit0-not-attestation",
+      "identity-expiry tombstone",
+      "baseline-no-mass-netnew"
+    ],
+    "exitClassesSemanticPartition": [
+      "success",
+      "policy-failed",
+      "request-rejected",
+      "indeterminate",
+      "operational-failed",
+      "interrupted"
+    ],
+    "presentInTO": ["one-mapper≈TO-2", "verdict-vs-termination≈TO-4", "durability+coverage+export≈TO-5", "finalization≈TO-6", "remedy smell≈TO-7", "additive≈TO-8", "total union≈TO-1", "no producer exit≈TO-3"],
+    "missingOrWeakened": [
+      "six-class semantic partition (TO-1 total union without meanings; TO-8 additive without set)",
+      "envelope/process parity",
+      "pre-admission FailureResult constructibility",
+      "policy-not-Error and operational-not-Finding as distinct from TO-4",
+      "orphan-publication recovery",
+      "exit0-not-attestation",
+      "tombstone-backed IDENTITY.EXPIRED",
+      "baseline comparisonPerformed=false / no mass net-new"
+    ],
+    "conclusion": "Confirms B-SC-04: extraction loses architectural failure safety. Independent inventory matches B's omitted set."
+  },
+  "independentR1Diff": {
+    "v13Boundary": {
+      "inside": ["fact derivation", "rule evaluation", "policy evaluation", "budget accounting"],
+      "outside": ["config/contribution resolution", "admission/grants", "process supervision", "transport/session"]
+    },
+    "priorOpen": ["A1-R1V13-01 ExecutionId ownership", "A1-R1V13-02 LN-11 interface scope", "A1-R1V13-03 provider vs no-spawn", "B-R1V12-02..07", "B-R1V13-01/02"],
+    "ECLoss": "EC-1..7 name 'the core' without an inside/outside ownership table; demote CoreDeps/signature (OK) but also erase the boundary itself (not OK). EC-7 absolute ambient claim conflicts with ARCH.PROBE REOPENED and prior closure-limit findings.",
+    "conclusion": "Confirms B-SC-06/07 and my prior R1 reviews."
+  },
+  "percentageMetric": {
+    "reproducible": false,
+    "attempt": "No script, raw counts, classifier, or denominator in the artifact.",
+    "misuse": "whatDoesNotChange promotes six artifacts as acceptable altitude from this proxy — construct-invalid global claim (Error class 1/4).",
+    "conclusion": "Confirms B-SC-02; percentages must decide nothing."
+  },
+  "methodRuleAltitude": {
+    "overcorrection": true,
+    "detail": "Exit class set is CONSUMER-CUSTODY / public CI compatibility (versioning-policy). That exact compatibility surface can be architectural even when expressed as a closed set schema. 'Not with a schema' is form-based (Error pattern: local form → global rule).",
+    "betterRule": "Altitude by blast radius, external custody, ownership, reversibility, change cost. Schema may be the binding form of an architectural public contract; schema is detail when it only implements a prior boundary.",
+    "retentionV4Lesson": "retention-tiers.v4 already models good architecture altitude: decisions + RA-* + counterexamples + detailedDesignHandoff without freezing wire fields. Scope correction should require D9/R1 architecture objects of that shape, not weak TO/EC lists."
+  },
+  "findings": [
+    {
+      "id": "A1-SC-01",
+      "severity": "critical",
+      "title": "D9 extraction TO-1..TO-8 is too weak to rebind architecture",
+      "detail": "Independent inventory of v1.5 invariants shows loss of semantic six-class partition, envelope parity, pre-admission constructibility, orphan recovery, exit0≠attestation, tombstone expiry, baseline no-mass-net-new. TO-1..8 alone can be satisfied by a single generic failure class. Confirms B-SC-04 by different method (prior blind D9 work + full invariant list, not only architecture/07 prose).",
+      "requiredFix": "D9 architecture object (v2) with full semantic partition, retained safety invariants, falsifying counterexamples (retention v4 style), and handoff that future wire contracts must fail those CEs. Demote field/axis spellings only.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-02",
+      "severity": "critical",
+      "title": "R-1 extraction erases core boundary and overclaims ambient denial",
+      "detail": "v1.3 boundary table is architectural; CoreDeps field list is detail. Extraction demoted both. EC-7 absolute ambient authority remains false/vacuous without interface-scoped closure (A1-R1V13-02/03). Confirms B-SC-06/07.",
+      "requiredFix": "R-1 architecture object retaining inside/outside ownership, effectful provider placement, attempt vs content identity (EC-6 kept), lifetime neutrality as semantic re-entrancy not surface flag absence, narrowed ambient claim, CEs.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-03",
+      "severity": "critical",
+      "title": "Rebinding without per-finding disposition launders open reviews",
+      "detail": "Prior D9/R1 blockers (A1-D9-V15*, B-D9V15*, A1-R1*, B-R1*) are architectural or design-handoff, not 'wire only'. Scope-correction has no resolves map. Register moved to generic SC lines. Confirms B-SC-08.",
+      "requiredFix": "v2 disposition table for every open finding: architectural | rehomed | detailed-design | superseded. Restore unresolved architectural findings as blockers.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-04",
+      "severity": "high",
+      "title": "Detail-% metric is construct-invalid and was used to ratify six artifacts",
+      "detail": "No reproducible measurement. knownLimitations admits short invariant can outweigh long schema. whatDoesNotChange still promotes threat/operability/versioning/delivery/resolved-inputs/fact-identity as altitude-ok. That is a global claim from a local unreproduced instrument.",
+      "requiredFix": "Withdraw % as decision evidence; per-artifact consequence audit only.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-05",
+      "severity": "high",
+      "title": "Corrected method rule is form-based overcorrection",
+      "detail": "Public exit-class compatibility and fingerprint recipes can be architectural while schema-shaped. Align with versioning custody classes and retention v4 pattern.",
+      "requiredFix": "Rewrite METHOD.ALTITUDE by consequence/custody/ownership/reversibility/change-cost; allow schema when it IS the public boundary.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-06",
+      "severity": "high",
+      "title": "Demotion without mandatory design handoff",
+      "detail": "retention-tiers.v4 + A1 handoff amendment require RA-CE tests for future contracts. Scope-correction demotes d9/r1 specs to NON-BINDING without equivalent mandatory inheritance of TO/EC (even incomplete ones) or of omitted safety invariants. Confirms B-SC-10.",
+      "requiredFix": "Every retained architectural invariant gets ≥1 falsifying CE and a handoff clause like retention A1-RTV4-01.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-07",
+      "severity": "medium",
+      "title": "TO-8 / VERSIONING ownership still muddled",
+      "detail": "Additive-only exit classes are a versioning/public-custody decision. Placing them only under D9 TO-8 without dependsOn VERSIONING recreates hidden dependency (B-SC-05).",
+      "requiredFix": "Explicit dependsOn and single owner.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-SC-08",
+      "severity": "medium",
+      "title": "Cross-doc authority still multipolar after partial prose fixes",
+      "detail": "architecture/07 now says no accepted binding and scope-correction rejected; 09 still points at d9 v1.5 as candidate binding; 11 inventory still elevates v1.5. Register D9 binding null. Better than triple validator confusion, but incomplete (B-SC-09 residual).",
+      "requiredFix": "Atomic update of 07/09/11 + register when a real D9 architecture v2 exists; until then one sentence: no binding architecture object.",
+      "confidence": "medium-high"
+    }
+  ],
+  "positiveObservations": [
+    "Honest root-cause: 'close by artifact' optimised checkability over altitude.",
+    "Correct to stop further wire-version churn on D9/R1 until architecture is right.",
+    "Demoted specs remain useful as non-binding feasibility evidence if clearly labelled.",
+    "Author knownLimitations admit author-conflict on extraction — accurate.",
+    "METHOD.ALTITUDE now marked CANDIDATE inline in architecture/10 (presentation repair)."
+  ],
+  "convergenceWithB": {
+    "sameConclusions": ["B-SC-02", "B-SC-03", "B-SC-04", "B-SC-06", "B-SC-07", "B-SC-08", "B-SC-10"],
+    "methodsDiffered": "A1 used full v1.5 invariant inventory + prior D9 blind-axes experience + retention-v4 pattern comparison; B used architecture/07+versioning crosswalk and register authority audit. Overlap is multi-method corroboration.",
+    "a1Extras": ["retention-v4 as positive template for D9/R1 architecture objects", "explicit independent missing-invariant inventory list"]
+  },
+  "verdict": "reject-require-v2",
+  "sealRecommendation": "Do not seal METHOD.ALTITUDE or rebind D9/R1 to scope-correction-a3.v1. Accept the direction; require scope-correction v2 or separate D9-arch / R1-arch artifacts modeled after retention-tiers.v4.",
+  "whatWouldChangeMyMind": [
+    "A dispositioned extraction that retains every v1.5 safety invariant with CEs and handoff",
+    "A core boundary table with falsifiers for lifetime and ambient claims",
+    "Percentages removed as evidence and six-artifact ratification withdrawn"
+  ],
+  "knownLimitations": [
+    "Did not re-author full D9/R1 architecture objects this turn.",
+    "Did not re-run full architecture purity audit of all six 'acceptable' artifacts."
+  ],
+  "sealedPropertiesCovered": [
+    "status attaches to claims",
+    "architecture vs detailed design altitude (candidate rule)"
+  ]
+}

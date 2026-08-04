@@ -1,0 +1,151 @@
+{
+  "artifact": "opensip.retention-architecture.review",
+  "reviewOf": "artifacts/retention-tiers.v4.json",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-30",
+  "status": "accept-as-architecture-candidate-with-required-changes",
+  "confidence": "high on unit/boundaries; medium on no-match feasibility (shared with author)",
+  "method": [
+    "DIFFERENT FROM AUTHOR: (1) Re-listed product obligations from checkable-later + clean-pass + privacy before reading v4 decision tree. (2) Checked that A1-RTV3-01/02 appear as architectural force (RA-1, RA-9, RA-CE-7, emptyPlan), not as prose that could be ignored by a future wire contract. (3) Diffed v3 load-bearing guarantees against v4 to test 'removed mechanism without removing guarantee'. (4) Re-ran v3 vacuity probes to confirm defects still live and that demotion is honest. (5) Asked what document is for — architecture vs contract (Error 4/6 lesson)."
+  ],
+  "whatCouldHaveFailed": [
+    "v4 drops evaluation+verdict unit while claiming to address B-RTV2-01",
+    "RA-1/RA-9 are weaker than A1-RTV3-01/02 (e.g. still allow zero-eval clean pass)",
+    "Demoting v3 leaves implementers with a green checker that still allows vacuous pass without banner",
+    "Architecture is so abstract that no implementation could be falsified",
+    "Lost storage admission / host-owned proof / pin / replay≠attestation from v3"
+  ],
+  "independentObligationList": [
+    "Authoritative clean pass must prove a non-empty required evaluation set ran and each outcome (incl. no-match)",
+    "Verdict derivation must consume all outcomes; indeterminate/error cannot be ignored into pass",
+    "Evidence sufficient for the claim (witness/regeneration), not digests alone",
+    "Host owns proof adequacy; producers cannot self-downgrade",
+    "No durable user-derived write without explicit policy and safe root",
+    "Sealed promise immutable; availability external and granular",
+    "Replay ≠ attestation; source archive is opt-in"
+  ],
+  "coverageOfObligations": {
+    "allMapped": true,
+    "map": {
+      "clean-pass non-vacuity": "claimUnits + authoritativeNonVacuity + RA-1 + RA-CE-1",
+      "outcome consumption": "outcomeConsumption + RA-9 + RA-CE-7 + policy plane mustNot",
+      "witness not digest": "proofAuthority.semanticRule + RA-2 + RA-CE-2",
+      "host-owned adequacy": "proofAuthority + RA-3 + RA-CE-3",
+      "admission": "defaultPosture + storageAdmission + RA-6 + RA-CE-5",
+      "immutability/pins": "immutabilityAndRetention + RA-5/RA-7 + RA-CE-4",
+      "replay/attestation": "replayAndAttestation + RA-8 + RA-CE-6"
+    }
+  },
+  "v3DemotionCheck": {
+    "v3StillHasA1Holes": true,
+    "evidence": "Re-probed check-retention-v3.derive: activatedEvaluations=0 → durable-pass; all outcomes=indeterminate + pass → durable-pass. outcome still unused in derive().",
+    "bannerHonesty": "Runner now labels exploration and mentions known A1-RTV3-01/02 defects — acceptable as historical sketch.",
+    "risk": "A future implementer may still treat v3 as the production contract if handoff is ignored.",
+    "required": "Any production evidence contract MUST list RA-CE-1 and RA-CE-7 as mandatory acceptance tests (A1-RTV4-01)."
+  },
+  "a1Rtv3DispositionInV4": {
+    "A1-RTV3-01": {
+      "verdict": "ADEQUATELY CARRIED",
+      "detail": "RA-1 and emptyPlan forbid clean authoritative pass from zero required evaluations / vacuous activation. Stronger and clearer than a checker patch alone."
+    },
+    "A1-RTV3-02": {
+      "verdict": "ADEQUATELY CARRIED",
+      "detail": "RA-9 and RA-CE-7 and policy plane mustNot forbid ignoring indeterminate/error into clean pass. Matches product+D9 posture."
+    },
+    "A1-RTV3-03": {
+      "verdict": "CORRECT SCOPE RESPONSE",
+      "detail": "Demoting author-dual-written wire goldens from architecture to exploration is the right response to mutual-consistency theatre."
+    }
+  },
+  "mechanismRemovalAudit": {
+    "question": "Did removing wire schema lose a necessary guarantee?",
+    "answer": "No for the architectural layer.",
+    "retainedAsDecision": [
+      "evaluation+verdict proof units",
+      "recorded/verifiable/replayable capability ladder (working labels)",
+      "frozen vs regenerable custody as orthogonal dimension",
+      "storage admission before first durable write",
+      "host-owned proof adequacy",
+      "pinning of retained authoritative evidence",
+      "source witness only with policy grant else indeterminate"
+    ],
+    "correctlyDeferred": [
+      "JSON fields, hashes, reason codes, payload taxonomy names",
+      "authenticated-set crypto",
+      "numeric retention presets"
+    ],
+    "caution": "Deferral of payload taxonomy must not allow reintroducing finding-only designs; RA-1 and claimUnits already block that."
+  },
+  "findings": [
+    {
+      "id": "A1-RTV4-01",
+      "severity": "medium-high",
+      "title": "Production handoff must mandatorily inherit RA-CE-1 and RA-CE-7 as acceptance tests",
+      "detail": "v4 correctly demotes the broken v3 runner but does not bind future detailed design to re-fail those exact semantic holes. openDecisions says design the production contract later without requiring the counterexamples as gates. Without that, a new wire contract can reintroduce zero-eval pass and outcome-blind pass under a green schema checker (Error-6 recurrence).",
+      "requiredFix": "Add to detailedDesignHandoff or openDecisions: any production evidence contract is incomplete until executable tests fail RA-CE-1 and RA-CE-7 attempts (and preferably RA-CE-2..6). Prefer second-author goldens.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV4-02",
+      "severity": "medium",
+      "title": "Feasibility of privacy-acceptable authoritative no-match remains load-bearing and unproved",
+      "detail": "Author confidence correctly medium. Architecture can require it (RA-1/RA-2) while product still cannot ship if no construction stays below source-archive cost. This is not a reason to reject v4; it is a seal and product gate.",
+      "requiredFix": "Keep openDecisions measurement/demo items as seal blockers; do not mark ARCH.RETENTION-TIERS sealed until one representative construction exists (even if experimental).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV4-03",
+      "severity": "low-medium",
+      "title": "Zero-implicit-retention is correctly candidate product posture, not free architecture",
+      "detail": "defaultPosture is right for the threat model. Product may still want a documented short retention with first-run consent. openCoordinatorDecision already flags this.",
+      "requiredFix": "Coordinator/product disposition recorded before treating defaultPosture as sealed product behavior.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV4-04",
+      "severity": "low",
+      "title": "Working labels recorded/verifiable/replayable should stay unbound to C0/C1/C2 codes until detailed design",
+      "detail": "v4 avoids freezing C0/C1/C2 — good. Register/log should not re-equate them as sealed identities.",
+      "requiredFix": "When writing detailed design, map working labels explicitly; do not assume v3 ids.",
+      "confidence": "high"
+    }
+  ],
+  "positiveObservations": [
+    "Correct diagnosis of v1–v3 failure modes (visible artifact vs load-bearing claim; mechanism theatre vs architecture).",
+    "authoritativeNonVacuity is the cleanest statement of A1-RTV3-01/02 yet.",
+    "Responsibility boundaries (planner, evaluation, policy, evidence, retention, projection) are implementable and testable.",
+    "Falsifying counterexamples make the architecture checkable without a wire schema.",
+    "Alternatives considered correctly reject excerpt default, finding-only, recompute-as-only-axis, full read-set default.",
+    "Honest demotion of v3 and dual-author green runner."
+  ],
+  "verdict": "accept-as-architecture-candidate-with-required-changes",
+  "sealRecommendation": "Do not seal ARCH.RETENTION-TIERS. v4 is the right architectural binding for further work. Require: (1) A1-RTV4-01 handoff strengthener, (2) product sign-off on zero-implicit-retention, (3) representative no-match/relationship verification feasibility demo, (4) TM still candidate. Then detailed design under RA-* constraints with independent goldens.",
+  "whatWouldChangeMyMind": [
+    "A missing product obligation not covered by RA-1..9 that forces reopening claim units",
+    "Evidence that zero-implicit-retention is incompatible with the product's first-run value proposition in a way that cannot be solved by explicit ephemeral mode (would need product, not architecture, to decide)"
+  ],
+  "coordinatorDecisionsRequested": [
+    {
+      "id": "CD-RT-4",
+      "question": "Accept retention-tiers.v4 as the architecture candidate (still unsealed) for all further retention detailed design?",
+      "recommendation": "yes, with A1-RTV4-01 handoff clause"
+    },
+    {
+      "id": "CD-RT-5",
+      "question": "Sign off zero managed durable user-derived copy when project policy is absent?",
+      "recommendation": "yes for greenfield; document first-run UX separately"
+    }
+  ],
+  "knownLimitations": [
+    "Architecture review only; no representative measurement.",
+    "Reviewer previously authored rejected v2; bias toward evaluation+verdict unit is declared and shared with B.",
+    "Did not draft the production contract."
+  ],
+  "sealedPropertiesCovered": [
+    "checkable later",
+    "Coverage governs pass eligibility",
+    "user-from-tool privacy constraints (candidate coupling to TM)"
+  ]
+}

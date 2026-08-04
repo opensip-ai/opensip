@@ -1,0 +1,142 @@
+{
+  "artifact": "opensip.versioning-policy.v2.review-reviewer1",
+  "reviews": "versioning-policy.v2.json",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "method": "Phase 2: blind re-author 7 comparison fixtures classification; adversarial detector-pivot cost, support windows GUESSED, custody rules; suite check-versioning.py OK + 11/11 selftest",
+  "suiteState": {
+    "check": "OK \u2014 7 comparison fixtures, VER-CMP/MIG/DEP/EG/DIS/CUST clean",
+    "selftest": "all 11 mutations rejected"
+  },
+  "blindReauthor": {
+    "comparisonFixtures": [
+      {
+        "id": "same-detector-new-finding",
+        "independent": "CODE-NET-NEW",
+        "artifact": "CODE-NET-NEW",
+        "match": true,
+        "reasoning": "inPivot true, not in baseline \u2192 same detector on new code"
+      },
+      {
+        "id": "detector-changed-its-mind",
+        "independent": "DETECTION-DELTA",
+        "artifact": "DETECTION-DELTA",
+        "match": true,
+        "reasoning": "not in pivot, in current \u2192 detector1 only"
+      },
+      {
+        "id": "genuinely-fixed",
+        "independent": "CODE-FIXED",
+        "artifact": "CODE-FIXED",
+        "match": true
+      },
+      {
+        "id": "unchanged",
+        "independent": "UNCHANGED",
+        "artifact": "UNCHANGED",
+        "match": true
+      },
+      {
+        "id": "pivot-unavailable-is-indeterminate",
+        "independent": "INDETERMINATE",
+        "artifact": "INDETERMINATE",
+        "match": true
+      },
+      {
+        "id": "reject-blaming-code-without-pivot",
+        "independent": {
+          "valid": false,
+          "wouldBeWrong": "CODE-NET-NEW"
+        },
+        "artifact": {
+          "valid": false,
+          "expect": "CODE-NET-NEW"
+        },
+        "match": true,
+        "note": "Negative fixture: attributing without pivot must be rejected"
+      },
+      {
+        "id": "reject-detection-delta-as-regression",
+        "independent": {
+          "valid": false,
+          "wouldBeWrong": "CODE-NET-NEW"
+        },
+        "artifact": {
+          "valid": false,
+          "expect": "CODE-NET-NEW"
+        },
+        "match": true
+      }
+    ],
+    "summary": "7/7 match. Three-way pivot classification is independently sound."
+  },
+  "surfaceQuestions": {
+    "detectorPivotAffordable": {
+      "question": "Is running OLD detector over new code affordable (potentially 2\u00d7 analysis during transition)?",
+      "answer": "UNMEASURED. The mechanism is correct and necessary to avoid false net-new regressions. Affordability is an engineering/product budget question, not settled by architecture. knownLimitations already states this. Dual-emit window exists precisely to keep detector0 runnable \u2014 good coupling.",
+      "posture": "Do not claim the pivot is cheap. Ship dual-emit only with a measured budget or an explicit product acceptance of 2\u00d7 cost during major transitions. Prefer: pivot only when detector major changes and baseline compare is requested \u2014 not on every analysis."
+    },
+    "A1_VER_05": {
+      "question": "Support windows all GUESSED \u2014 permanent?",
+      "answer": "CONFIRM: marking NOT DISCHARGED is correct. VT-12 may be permanently unbuildable if grounding telemetry is refused by the threat model \u2014 that is honest tension, not paper. Product owner must either accept GUESSED windows as published policy (with label) or gather non-telemetry evidence (support ticket frequency, major adoption surveys).",
+      "contestRejection": false,
+      "note": "Resolved-by-marking is the right architecture outcome when evidence is unavailable by design."
+    },
+    "custodyPrinciple": {
+      "question": "Custody-keyed evolution policy?",
+      "answer": "Sound. USER-CUSTODY migrators, additive exit classes, refuse-don't-reshape, V7 reachability-follows-custody are the right set. run-manifest NOT-YET-ENFORCEABLE residual is honest."
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-VER-01",
+      "severity": "medium",
+      "title": "Detector pivot cost unmeasured \u2014 dual-emit ship gate should require a budget disposition",
+      "evidence": "detectorSemanticDelta requires running detector0 over code1; knownLimitations: doubles work; no measurement; no conformance test bounds cost.",
+      "impact": "During multi-major support, every gate-compare may double analysis. Unbounded cost can make the correct classification unusable in CI time budgets, pressuring operators to skip pivot and reintroduce false regressions.",
+      "requiredChange": "Add a ship-gate note: dual-emit / pivot path requires product acceptance of cost bound OR an optimization (cache pivot results, pivot-only-on-detector-major-change). Do not leave affordability as silent assumption.",
+      "confidence": 0.85,
+      "whatWouldChangeMyMind": "A measured fold on a reference repo showing pivot overhead within an accepted CI budget.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-VER-02",
+      "severity": "low",
+      "title": "Support windows remain GUESSED \u2014 property correctly NOT DISCHARGED",
+      "evidence": "dischargeStatus support windows NOT DISCHARGED; every evidenceGrade GUESSED; A1-VER-05 resolved by marking.",
+      "impact": "Published majorsSupported numbers look like promises. Without evidenceGrade surfaced to consumers, users treat guesses as SLAs.",
+      "requiredChange": "Any consumer-facing support matrix must display evidenceGrade or 'provisional'. Architecture already forbids sealing windows on GUESSED (VER-EG) \u2014 preserve.",
+      "confidence": 0.9,
+      "whatWouldChangeMyMind": "Non-telemetry grounding method accepted by product and VT-12 made implementable.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-VER-03",
+      "severity": "low",
+      "title": "run-manifest migrator NOT-YET-ENFORCEABLE leaves evidence bundles USER-CUSTODY without migration path",
+      "evidence": "knownLimitations; A1-VER-01 resolution excludes run-manifest from discharge lists.",
+      "impact": "Evidence bundle consumers can be stuck on a major with typed refusal only \u2014 correct under V3, painful operationally.",
+      "requiredChange": "Track as implementation backlog when evidence surface seals; not a versioning-policy text defect.",
+      "confidence": 0.8,
+      "whatWouldChangeMyMind": "Migrator specified and VT-covered.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    }
+  ],
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "blocker": "R1-VER-01: record cost disposition / ship-gate for pivot before treating dual-emit as ready-to-build without caveat. R1-VER-02 is already correctly marked \u2014 not a seal blocker for the *policy mechanism*.",
+    "doNotSealBecauseFlagged": true,
+    "afterChanges": "Add pivot cost ship-gate note; keep support windows NOT DISCHARGED.",
+    "sealableNow": "Three-way comparison classification, custody rules V1\u2013V9, migrator *shape*, refuse-don't-reshape \u2014 these are independently sound (7/7 fixtures).",
+    "adjudicated": true,
+    "postAdjudicationVerdict": "SEAL-WITH-CHANGES",
+    "openFindingsAfterAdjudication": []
+  },
+  "resolves": {
+    "R1-VER-01": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-VER-02": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-VER-03": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+  },
+  "adjudicationArtifact": "artifacts/versioning-policy.adjudication-agent-c.json",
+  "postAdjudicationNote": "Adjudicated by agent-a-as-c; see artifacts/versioning-policy.adjudication-agent-c.json. Post-adjudication seal recommendation: SEAL-WITH-CHANGES."
+}

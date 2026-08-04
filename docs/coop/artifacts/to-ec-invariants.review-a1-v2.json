@@ -1,0 +1,60 @@
+{
+  "artifact": "opensip.to-ec-invariants.review",
+  "reviewOf": "artifacts/scope-correction-a3.v4.json#invariants",
+  "reviewer": "agent-1",
+  "date": "2026-07-30",
+  "status": "REVIEW-COMPLETE",
+  "prior": "artifacts/to-ec-invariants.review-a1.json (on earlier TO/EC wording)",
+  "method": [
+    "Diff v4 wording against A1 turn-10 required repairs and B-TOEC findings.",
+    "Re-test each repaired invariant for residual incompleteness (named six classes; TO-5 bundle; EC-8 inside list).",
+    "Accept where B correctly overturned A1 (TO-7 split, TO-11 retain verdict, EC-3 falsifier vs Run identity)."
+  ],
+  "summary": {
+    "answer": "v4 fixes the two highest A1 defects (TO-9 substance, EC-1 formulation) and correctly splits TO-7 / repairs TO-11 and EC-3 falsifiers. Residual gaps remain: TO-9 still does not name the six classes; TO-5 still bundled; several architecture/07 safety TOs still missing; EC-7/8 still incomplete on PROBE/provider placement.",
+    "overall": "accept-with-required-changes as candidate invariant set — not seal-ready, not complete D9/R-1 architecture."
+  },
+  "resolves": {
+    "A1-TO-9-under-specified": "PARTIAL — v4 binds CI-distinct mutually exclusive totality; still does not name success|policy-failed|request-rejected|indeterminate|operational-failed|interrupted",
+    "A1-EC-1-surface-form": "CLOSED — semantic function of (Snapshot, Plan, Deps); lifetime not an input; falsifier includes indirect lifetime dependence",
+    "B-TOEC-01-TO-7": "ACCEPT B over A1 charitable reading — TO-7a exit classes coarse dispositions; TO-7b reason/error codes are remedy classes. A1 was wrong to treat TO-7 as only reason codes.",
+    "B-TOEC-02-TO-11": "ACCEPT B — integrity drives operational termination; computed verdict retained as non-durable. A1's 'never yields a policy verdict' was too strong and collapsed TO-4.",
+    "B-TOEC-03-EC-3-falsifier": "ACCEPT B — exclude Run identity from cold/warm parity; A1 endorsed an unsatisfiable falsifier conflicting with EC-6.",
+    "A1-TO-5-bundle": "OPEN — still three rules one sentence; green falsifier still weak",
+    "A1-missing-safety-TOs": "OPEN — envelope parity, pre-admission, orphan, exit0≠attestation, tombstone, baseline no-mass-net-new still absent",
+    "A1-EC-6-allocator": "OPEN — still no host-allocates ExecutionId clause",
+    "A1-EC-7-8-PROBE": "OPEN — still incomplete"
+  },
+  "perInvariantV4": [
+    {"id": "TO-1", "verdict": "correct", "note": "Unchanged core; B scope edits still nice-to-have"},
+    {"id": "TO-2", "verdict": "correct", "note": "Unchanged"},
+    {"id": "TO-3", "verdict": "correct", "note": "Unchanged"},
+    {"id": "TO-4", "verdict": "correct", "note": "Unchanged; TO-11 now consistent with it"},
+    {"id": "TO-5", "verdict": "correct-but-incomplete", "note": "Still bundled; still needs split per B-TOEC and A1"},
+    {"id": "TO-6", "verdict": "correct", "note": "Unchanged"},
+    {"id": "TO-7a", "verdict": "correct", "note": "New; necessary"},
+    {"id": "TO-7b", "verdict": "correct", "note": "New; necessary"},
+    {"id": "TO-8", "verdict": "correct-with-VERSIONING-dependency", "note": "Still unsettled until VERSIONING seals; ownership note right"},
+    {"id": "TO-9", "verdict": "improved-still-incomplete", "note": "Must name the six classes from architecture/07 to be binding"},
+    {"id": "TO-10", "verdict": "correct", "note": "Keep empty-set-under-complete-coverage success allowed"},
+    {"id": "TO-11", "verdict": "correct", "note": "v4 repair accepted"},
+    {"id": "EC-1", "verdict": "correct", "note": "Semantic rewrite accepted"},
+    {"id": "EC-2", "verdict": "correct"},
+    {"id": "EC-3", "verdict": "correct", "note": "Falsifier repair accepted"},
+    {"id": "EC-4", "verdict": "correct"},
+    {"id": "EC-5", "verdict": "correct"},
+    {"id": "EC-6", "verdict": "correct-incomplete-ownership"},
+    {"id": "EC-7", "verdict": "correct-incomplete"},
+    {"id": "EC-8", "verdict": "correct-incomplete"}
+  ],
+  "requiredBeforeSealOfD9R1Binding": [
+    "Name six termination classes in TO-9",
+    "Split TO-5",
+    "Add missing safety TOs or rehome with CEs",
+    "EC-6b host allocation of ExecutionId",
+    "EC-8 affirmative inside + provider/probe placement; dependsOn ARCH.PROBE or limit",
+    "Independent review after those edits (author remains A3)"
+  ],
+  "confidence": "high",
+  "knownLimitations": ["Does not re-litigate B-SCV2 disposition table completeness."]
+}

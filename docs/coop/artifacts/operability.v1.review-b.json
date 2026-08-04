@@ -1,0 +1,187 @@
+{
+  "artifact": "opensip.operability.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/operability.v1.json",
+  "verdict": "reject-require-v2",
+  "method": "For every plane and gate, identified the runtime subject, injected a representative defect, and asked whether the named test would fail. Then traced every dependency path and test ID to its current artifact/source.",
+  "resolves": {
+    "B-OP-01": "OPEN-BLOCKER: G5/G10/G11 are deliberation-artifact validators, not shipped-product release gates; the artifact answers two different release questions as one.",
+    "B-OP-02": "OPEN-BLOCKER: the three gates counted as demonstrated can all pass while their advertised product properties are broken.",
+    "B-OP-03": "OPEN-BLOCKER: ten unproved gates and an unmeasured non-blocking performance gate cannot constitute a release policy under the artifact's own anti-vacuity principle.",
+    "B-OP-04": "OPEN-BLOCKER: G9 checks only identity equality, so a projection may omit or misstate verdict, Coverage, findings, termination, or truncation and still pass.",
+    "B-OP-05": "OPEN-BLOCKER: per-Run budgets and mandatory ExecutionId correlation do not cover queries, mutations, pre-admission failures, or serve requests that create no Run.",
+    "B-OP-06": "OPEN-BLOCKER: dependencies cite superseded threat-model.v1 and a non-existent no-flake source in architecture/09.",
+    "B-OP-07": "OPEN-BLOCKER: G6 depends on PS-09/LN-11/LN-12 even though their artifacts admit no capability-denial mechanism and an unresolved closure boundary.",
+    "B-OP-08": "OPEN-BLOCKER: no durable user-audit plane covers data inventory, excerpt access, export, purge, repair, and mutation receipts.",
+    "B-OP-09": "OPEN-BLOCKER: G12 is made non-blocking because it has no pass condition; that records an unfinished decision rather than a safe release posture."
+  },
+  "findings": [
+    {
+      "id": "B-OP-01",
+      "severity": "critical",
+      "category": "wrong-release-subject",
+      "evidence": [
+        "G5 invokes artifacts/check-d9.py, which validates the candidate JSON and a duplicate Python derivation, not the production process-boundary mapper",
+        "G10 invokes check-threat-claims.py over architecture prose/JSON",
+        "G11 invokes check-claims.py over this deliberation's status register",
+        "none executes a built opensip-cli artifact"
+      ],
+      "impact": "A product release can pass all three 'demonstrated' gates without implementing the termination mapper, threat mitigations, or claim-status machinery at all.",
+      "requiredChange": "Separate architecture-artifact CI from product release gates. Keep the three checkers as design-integrity gates; add implementation conformance tests that invoke the built binary/library against the binding fixtures and mutation cases.",
+      "confidence": "high; verified by reading all three checker sources",
+      "whatWouldChangeMyMind": "A production implementation imported/executed by those checkers. It currently is not."
+    },
+    {
+      "id": "B-OP-02",
+      "severity": "high",
+      "category": "false-gate-assurance",
+      "evidence": [
+        "check-threat-claims T2 only checks that primaryRisks is non-empty and T9 only checks that a gate label exists",
+        "its table skip misses architecture/05's unqualified Probe sandbox claim",
+        "check-claims passes the live METHOD.CLAIM-STATUS-INTEGRITY and stale-version/status contradictions in architecture/07 and /11",
+        "check-d9's derivation is implemented inside the checker rather than compared with the product mapper"
+      ],
+      "impact": "The artifact violates its own principle that a gate able to pass while the protected property is broken is worse than no gate.",
+      "requiredChange": "Require a target implementation, an injected defect/negative control, and observed failure for every gate. Do not count a self-consistency validator as product conformance.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Recorded mutations against the actual implementation for G5/G10/G11."
+    },
+    {
+      "id": "B-OP-03",
+      "severity": "high",
+      "category": "acknowledged-vacuity",
+      "evidence": "gateOnGates admits ten of thirteen gates have no failing case; OP-07 itself is only a sentence and no release-bootstrap rule says missing negative controls blocks release.",
+      "impact": "The artifact describes desired tests but cannot decide release readiness.",
+      "requiredChange": "Make gate qualification a prerequisite: a blocking gate is disabled/unqualified until its implementation target, positive case, negative mutation, and failure evidence are recorded. Product release is blocked while any required property lacks a qualified gate.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Executable negative controls and recorded catches for every blocking gate."
+    },
+    {
+      "id": "B-OP-04",
+      "severity": "high",
+      "category": "under-specified-parity",
+      "evidence": "G9 asserts only that every surface resolves the same Run and Finding identities.",
+      "counterexample": "JSON can carry the correct IDs but report verdict pass instead of fail; HTML can omit all Coverage; SARIF can silently truncate findings. G9 still passes.",
+      "requiredChange": "Define a per-surface semantic projection matrix over required fields and permitted loss. Golden-test verdict, termination, finding set/count, severity, Coverage/truncation, artifact availability, and Run/Finding identities from one canonical Run.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative projection schema elsewhere that G9 actually invokes."
+    },
+    {
+      "id": "B-OP-05",
+      "severity": "high",
+      "category": "identity-domain-mismatch",
+      "evidence": [
+        "volumeBudgets are per-Run",
+        "correlation requires ExecutionId on every event",
+        "architecture/07 and /08 define queries, mutations, serve requests, and pre-admission failures that do not create Runs and may not have an admitted ExecutionId",
+        "the command envelope already defines a command/request ID"
+      ],
+      "impact": "Non-analysis diagnostics/progress are either unbudgeted or forced to mint analysis identities, breaking the command model.",
+      "requiredChange": "Use RequestId/CommandId on every event; add optional ExecutionId after attempt admission and optional RunId after seal. Budget by request/execution, with child budgets for stages and streams, not universally by Run.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A domain rule making every command an Execution without creating a Run, consistently reflected in D9 and the envelope."
+    },
+    {
+      "id": "B-OP-06",
+      "severity": "high",
+      "category": "invalid-dependencies",
+      "evidence": [
+        "TM.F3 and TM.PRIVACY cite superseded threat-model.v1 rather than v2",
+        "ARCH.NO-FLAKY cites architecture/09, but no flake policy appears anywhere in architecture/",
+        "the flake policy exists in repository guidance, not in this design's declared dependency"
+      ],
+      "impact": "The artifact claims to discharge properties it did not inherit from an authoritative current source.",
+      "requiredChange": "Replace threat dependencies with v3 findings/properties and either add a greenfield no-flake decision artifact or mark the policy as an unreviewed proposal with its own rationale and status.",
+      "confidence": "high; verified with repository search",
+      "whatWouldChangeMyMind": "A resolvable architecture source containing the cited policy."
+    },
+    {
+      "id": "B-OP-07",
+      "severity": "high",
+      "category": "non-executable-gate",
+      "evidence": [
+        "G6 asserts PS-09 and LN-11/LN-12",
+        "c2-plan-stage-schema.v2 knownLimitations says PS-09 assumes a runtime denial mechanism no artifact designs",
+        "r1-lifetime-neutrality v1.2 says LN-11's storage closure boundary is unresolved",
+        "both are conformance specifications, not implemented suites"
+      ],
+      "impact": "A release-blocking capability gate has neither a defined enforcement boundary nor executable implementation.",
+      "requiredChange": "Design the enforcement mechanism and boundary first; split Rule capability denial, core ambient-authority closure, and host/process confinement into separate gates with target-specific negative controls.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "An implemented restricted runtime/build boundary that the tests attack through direct, transitive, dynamic, and injected paths."
+    },
+    {
+      "id": "B-OP-08",
+      "severity": "medium-high",
+      "category": "missing-observability-plane",
+      "evidence": [
+        "Threat U6 requires knowing and undoing stored data",
+        "the four planes focus on analysis output/progress/diagnostics/telemetry",
+        "mutations, data inventory, excerpt retrieval, export, purge, and repair need durable user-auditable receipts but are not evidence of a code analysis verdict"
+      ],
+      "impact": "Privacy-sensitive state changes can be neither reconstructed from ephemeral progress nor safely inserted into analysis evidence.",
+      "requiredChange": "Add or explicitly place a durable host-audit/mutation-receipt plane with RequestId, actor/client, project, privacy classes, before/after object commitments, and retention. Keep it out of the analysis EvidenceDigest while making it authoritative for the host mutation.",
+      "confidence": "medium-high",
+      "whatWouldChangeMyMind": "A normative mapping proving MutationReceipt and data-access events already inhabit one of the four planes with the required durability."
+    },
+    {
+      "id": "B-OP-09",
+      "severity": "medium-high",
+      "category": "unfinished-release-policy",
+      "evidence": "G12 is non-blocking solely because no SLO or reference corpus has been defined, while the architecture makes agent-loop latency and bounded resources product-relevant.",
+      "impact": "Catastrophic performance/resource regressions can ship indefinitely; absence of a pass condition is used as a reason not to protect the property.",
+      "requiredChange": "Mark release policy incomplete until at least safety capacity limits (memory, disk, runtime/cancellation) and a reference capacity class exist. Product-latency SLO may remain product-owned, but resource-safety thresholds need a blocking gate before release.",
+      "confidence": "medium-high",
+      "whatWouldChangeMyMind": "A separate release-readiness decision explicitly accepting unbounded performance risk for an initial experimental release."
+    }
+  ],
+  "planeAssessment": {
+    "verdict": "directionally useful but incomplete",
+    "accepted": [
+      "evidence, progress, diagnostics, and telemetry have materially different authority/durability",
+      "telemetry and sinks must not influence verdicts",
+      "diagnostics and producer stderr need bounded privacy-aware handling"
+    ],
+    "required": [
+      "request/execution/run identity layering",
+      "durable host mutation/data-access audit placement",
+      "field-level privacy classification and budget-exhaustion semantics"
+    ]
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "ARCH.TELEMETRY-NOT-EVIDENCE",
+      "source": "architecture/02-domain-model.md#plane-separation",
+      "assessment": "Conceptually covered; OP-01 needs stronger sink-failure/config mutations."
+    },
+    {
+      "id": "D9",
+      "source": "artifacts/d9-exit-contract.v1.4.json",
+      "assessment": "A candidate JSON checker is not product termination conformance."
+    },
+    {
+      "id": "TM",
+      "source": "artifacts/threat-model.v2.json",
+      "assessment": "The artifact instead cites v1; privacy/offline gates are not discharged."
+    },
+    {
+      "id": "METHOD.CLAIM-STATUS-INTEGRITY",
+      "source": "artifacts/claim-register.v1.json",
+      "assessment": "G11 relies on a mechanism whose own authoritative status is CANDIDATE and whose live false negatives are demonstrated."
+    }
+  ],
+  "knownLimitations": [
+    "No implementation exists to execute product-level mutations against; this is exactly why the current release-gate status cannot be accepted.",
+    "This review does not choose numeric budgets or SLOs.",
+    "The four-plane taxonomy may be retained if mutation/audit receipts are normatively placed rather than added as a fifth plane."
+  ],
+  "confidence": {
+    "overall": "high",
+    "wrongGateSubject": "high",
+    "planeCount": "medium",
+    "identityMismatch": "high"
+  },
+  "whatWouldChangeOverallVerdict": "A v2 separating design CI from product release gates, qualifying every blocker with implementation-level negative controls, strengthening projection parity, fixing identity/budget domains and dependencies, placing durable mutation audit, and defining minimum resource-safety release thresholds."
+}

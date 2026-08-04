@@ -1,0 +1,76 @@
+{
+  "artifact": "opensip.c3-architecture-purity-audit.reverify",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "fail-structural-recurrence",
+  "failureClass": "A container's status marker or unregistered restatement silently promotes a weaker claim.",
+  "method": "Fresh coverage audit rather than checking Agent 3's six repairs: (1) count status-bearing prose against registered claim identities; (2) trace every live register claim to home/restatement enforcement; (3) inspect summaries and artifact indexes for stale or unmarked candidate claims; (4) inspect the checker's predicates and mutation self-tests to identify false-negative classes.",
+  "resolves": {
+    "A2-C3-RV-01": "BLOCKER: claim-register.v1.json has 10 claims while architecture/ and steering/ contain 81 explicit SEALED/CANDIDATE/REOPENED/OPEN markers and numerous named decisions such as D3, P-1..P-3, and extension/capability decisions. Marker count is not a claim count, but the concrete omissions disprove 'every decision exactly one ID'.",
+    "A2-C3-RV-02": "BLOCKER: no current claim has a _probe. CHK-1 therefore skips location-level status checking for all registered claims and cannot enforce its advertised no-promotion property.",
+    "A2-C3-RV-03": "BLOCKER: CHK-3 contains hand-written signatures for only three claims and --self-test mutates only CHK-1, CHK-2, and CHK-4. The worked statement that all recurrences are reproduced is not supported.",
+    "A2-C3-RV-04": "BLOCKER: C-2 is CANDIDATE in its home/register but architecture/00 line 118 and architecture/11 line 82 restate 'one mechanism, typed logical stages' without an inline C-2 candidate marker. check-claims.py passes: an observed false negative of the exact recurrence class.",
+    "A2-C3-RV-05": "BLOCKER: architecture/11 lines 67-70 says C-1 remains candidate and P-4 is open, despite the register sealing both. Its artifact table still points to D9 v1.2 and R-1 v1 after v1.3/v1.1 were authored.",
+    "A2-C3-RV-06": "BLOCKER: architecture/07 and architecture/09 still describe D9 v1.1/v1.2 as current while the register binds v1.3. A single-source claim that readers must mentally override is not mechanically enforced purity.",
+    "A2-C3-RV-07": "BLOCKER: architecture/05 still calls the rejected global ordering a 'semantics-first correction'. That wording can reintroduce the C-1 overcorrection even though C-1's home is now correct."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "METHOD.RULE-8",
+      "source": "architecture/10-method.md#8-status-attaches-to-claims-not-containers",
+      "property": "Every decision claim has one authoritative status, and no home, restatement, summary, or container presents a stronger status."
+    },
+    {
+      "id": "METHOD.RULE-7",
+      "source": "architecture/10-method.md#7-do-not-seal-what-you-have-flagged-for-review",
+      "property": "Candidate claims cannot be used as settled premises through an unmarked summary."
+    },
+    {
+      "id": "METHOD.RULE-5",
+      "source": "architecture/10-method.md#5-agreement-between-reviewers-using-the-same-instrument-is-not-corroboration",
+      "property": "The repair author's checker is challenged by coverage and mutation analysis rather than merely re-run as corroboration."
+    }
+  ],
+  "falsifiableEvidence": {
+    "explicitStatusMarkerCount": 81,
+    "registeredClaimCountBeforeThisReview": 10,
+    "registeredClaimsWithLocationProbe": 0,
+    "chk3SignatureCount": 3,
+    "selfTestedChecks": [
+      "CHK-1",
+      "CHK-2",
+      "CHK-4"
+    ],
+    "selfTestMissing": [
+      "CHK-3",
+      "unregistered-claim detection",
+      "stale artifact binding detection",
+      "articulationReferences abuse detection"
+    ],
+    "observedFalseNegative": "With C-2 CANDIDATE, the unmarked architecture/00 and architecture/11 restatements still pass python3 artifacts/check-claims.py."
+  },
+  "independentVerdict": {
+    "agent3SixRepairs": "Several instance repairs hold, but they do not establish the failure-class invariant.",
+    "purity": "FAIL",
+    "claimRegisterMechanism": "CANDIDATE with named blockers, not a proven enforcement mechanism",
+    "confidence": "high because the current checker passes a concrete stronger-than-register restatement"
+  },
+  "requiredSuccessorArtifact": {
+    "name": "claim-register.v2.json + checker conformance suite",
+    "requirements": [
+      "Inventory every named decision claim, including open and candidate claims, with stable IDs and machine-resolvable home/restatement locations.",
+      "Reject a restatement of a candidate/reopened/open claim that lacks an equal-or-weaker inline status, including summary tables and headings.",
+      "Reject missing or stale binding-artifact references and contradictory version/status prose.",
+      "Generate claim signatures or require explicit claim IDs in prose; do not depend on three hand-written phrases.",
+      "Mutation-test every checker invariant, including CHK-3, unregistered claims, stale artifact bindings, and articulation-reference reclassification.",
+      "Make the checker fail on the currently observed unmarked C-2 restatements before repairing the prose."
+    ]
+  },
+  "whatWouldChangeMyMind": "A successor checker that first fails on the current C-2 and stale-index cases, then passes only after complete register coverage and document repairs, with mutation tests for every enforcement rule.",
+  "knownLimitations": [
+    "The 81-marker count includes container statuses and is not asserted to equal the number of claims; the verdict relies on specific omitted decisions and a demonstrated C-2 false negative.",
+    "This audit does not claim every stale sentence has been enumerated; the checker must make that enumeration mechanical.",
+    "The static-analysis MCP remains bound to the wrong project root, so no MCP graph evidence was used and refresh_graph was not called."
+  ]
+}

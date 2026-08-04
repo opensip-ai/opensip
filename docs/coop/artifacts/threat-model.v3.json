@@ -1,0 +1,1739 @@
+{
+  "artifact": "opensip.threat-model",
+  "version": 3,
+  "status": "CANDIDATE-REPAIRED-AWAITING-REREVIEW (reviewer7 storage findings addressed; product gates intentionally undemonstrated)",
+  "supersedes": "threat-model.v2.json",
+  "author": "agent-3; repaired by agent-b; IP-R4-06 repair by admission-storage parallel lane",
+  "reviewStatus": "INDEPENDENTLY REVIEWED base by reviewer-1 and reviewer-2; reviewer4 CONFIRMED IP-R4-06, reviewer7 found R7-SN-02/03, and rereview isolated the missing durable QUARANTINED transition. That exact recovery row/fixture and reachable-state coverage check are now authored and AWAIT INDEPENDENT REPLAY. Coordinator seal pending.",
+  "centerCorrection": {
+    "v1Center": "Defending the platform from malicious extensions and hostile repositories.",
+    "whyWrong": "That is an enterprise, multi-tenant framing imported from the existing codebase's plugin and trust machinery. It was not derived from how the product is actually used.",
+    "actualUsage": "A person downloads a binary from the internet and points it at proprietary source on their own machine. They grant it read access to everything and write access to their disk.",
+    "v2Center": "PROTECT THE USER FROM OPENSIP-CLI. The tool is granted extraordinary trust; every byte it ingests, derives, retains, or emits is a liability it created on the user's behalf. The user's real question is: 'if I run this, what of mine now exists somewhere I did not put it?'",
+    "consequence": "Four of v1's five adversaries mostly evaporate under real usage. They are retained as CONDITIONAL, applicable only to scenarios that do not exist yet or are secondary.",
+    "errorClass": "Same class as Error 4 in architecture/10-method.md — a framing inherited rather than derived, committed shortly after writing the rule against it. Caught by the coordinator, not by any checker, because the checkers test internal consistency rather than whether the artifact answers the right question."
+  },
+  "decisionDependencies": [
+    {
+      "id": "ARCH.OFFLINE",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "claim": "local-first, fully useful offline, network default-deny"
+    },
+    {
+      "id": "ARCH.NO-MODELS",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "claim": "no model calls in the product path"
+    },
+    {
+      "id": "ARCH.SNAPSHOT",
+      "source": "architecture/03-execution-model.md#snapshot-capture",
+      "claim": "snapshot owns blobs; read-set recorded"
+    },
+    {
+      "id": "ARCH.RETENTION",
+      "source": "architecture/06-evidence-and-persistence.md#retention-classes",
+      "claim": "a durable Run must remain explainable after cache GC, which for a dirty worktree means pinning input blobs"
+    },
+    {
+      "id": "ARCH.PRIVACY",
+      "source": "architecture/06-evidence-and-persistence.md#privacy",
+      "claim": "dirty and untracked blobs are privacy-classed, user-only permissions, never exported by default"
+    },
+    {
+      "id": "RESOLVED-INPUTS.PATHS",
+      "source": "artifacts/resolved-inputs.v1.json",
+      "claim": "canonicalise and root-confine; symlink policy declared"
+    }
+  ],
+  "assets": [
+    {
+      "id": "U1",
+      "asset": "Source confidentiality",
+      "owner": "user",
+      "why": "The tool reads all of it. That is its job, and it is the reason trust is required."
+    },
+    {
+      "id": "U2",
+      "asset": "Secrets reachable from the machine",
+      "owner": "user",
+      "why": "`.env`, `.git/config` tokens, cloud credential files, private keys — reachable from the project root or via a symlink out of it."
+    },
+    {
+      "id": "U3",
+      "asset": "PII embedded in the codebase",
+      "owner": "user AND third parties",
+      "why": "Test fixtures with real names, seed data, database migrations, sample payloads, hardcoded contact details. The user may not know it is there, and the data subjects are not the user."
+    },
+    {
+      "id": "U4",
+      "asset": "Host integrity",
+      "owner": "user",
+      "why": "The tool executes with the user's privileges."
+    },
+    {
+      "id": "U5",
+      "asset": "The user's own compliance posture",
+      "owner": "user",
+      "why": "A user under data-protection obligations can be put in breach by a tool that silently copies PII into an unmanaged store with no retention policy. We would create the violation."
+    },
+    {
+      "id": "U6",
+      "asset": "The user's ability to know and undo",
+      "owner": "user",
+      "why": "Trust requires being able to answer 'what do you have of mine, where is it, and how do I remove it?' Without that, every other guarantee is unverifiable."
+    },
+    {
+      "id": "U7",
+      "asset": "Evidence correctness and project isolation",
+      "detail": "The user relies on a verdict being about THEIR project and no other. Two projects analysed on one machine, or one project analysed by two concurrent sessions, must not contaminate each other's facts, Coverage, baselines or verdicts.",
+      "why": "B-TM2-10. A guardrail that silently mixes projects produces a confidently wrong verdict, which is worse than no verdict — and the user has no way to detect it."
+    }
+  ],
+  "primaryRisks": [
+    {
+      "id": "P1",
+      "risk": "Our own default behaviour",
+      "what": "What we ingest, what we derive, what we retain, where we write, what we emit."
+    },
+    {
+      "id": "P2",
+      "risk": "The software surrounding our writes",
+      "what": "Cloud sync, backup, desktop search indexing, CI cache upload — all act on whatever we leave on disk."
+    },
+    {
+      "id": "P3",
+      "risk": "Our supply chain",
+      "what": "What the user actually downloaded and ran."
+    }
+  ],
+  "conditionalAdversaries": [
+    {
+      "id": "C1",
+      "adversary": "Malicious extension author",
+      "appliesWhen": "A third-party contribution ecosystem exists. P-1 has not committed to one.",
+      "status": "CONDITIONAL"
+    },
+    {
+      "id": "C2",
+      "adversary": "Hostile analyzed repository",
+      "appliesWhen": "The 'audit an unknown dependency' workload — reviewing code the user does not own.",
+      "status": "SECONDARY",
+      "note": "For the primary case the code is the user's own; invoking their toolchain on their repo is no worse than their own build."
+    },
+    {
+      "id": "C3",
+      "adversary": "Co-tenant on shared CI or a shared workstation",
+      "appliesWhen": "Shared execution environment.",
+      "status": "CONDITIONAL"
+    },
+    {
+      "id": "C4",
+      "adversary": "Network attacker",
+      "appliesWhen": "Install time, and any optional export.",
+      "status": "NARROW"
+    }
+  ],
+  "findings": [
+    {
+      "id": "V1",
+      "severity": "critical",
+      "title": "We create a second copy of the user's most sensitive data in a location, format, and lifetime they never chose",
+      "detail": "Content-addressed snapshot blobs, fact chunks, span excerpts and findings derived from source are written to a tool-chosen store. That store may contain source (U1), secrets that were ingested (U2), and PII (U3). The user chose to let us READ their code. They did not choose to let us MAINTAIN A COPY of it, and in most cases will not know one exists.",
+      "affects": [
+        "U1",
+        "U2",
+        "U3",
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "MINIMISE BY DEFAULT: persist hashes, spans, and structural facts — not source bytes. Bytes are retained only when a retained Run demonstrably requires them, never speculatively.",
+        "Every stored item carries a privacy class at write time, not at export time.",
+        "First-run disclosure: state plainly what will be written, where, and how to change or remove it. A tool that copies source without saying so has not earned trust regardless of its intentions.",
+        "See V10 — this collides with a sealed property and needs a decision, not just a default."
+      ]
+    },
+    {
+      "id": "V2",
+      "severity": "high",
+      "title": "A detected sync or CI-upload root can copy source-derived storage to another party",
+      "detail": "If the admitted storage root is inside a detected cloud-sync or CI-upload scope, software outside opensip-cli can upload what the tool writes. Prevalence is not assumed and detection is explicitly non-exhaustive; backup management and filesystem permission exposure are separate findings V17 and V18.",
+      "affects": [
+        "U1",
+        "U3",
+        "U5"
+      ],
+      "cause": "P2",
+      "requiredMitigations": [
+        "Use the versioned storageExposureDetectors catalog and refuse a root only when a cloud-sync/CI-upload detector returns DETECTED.",
+        "Show the exact detector and evidence; UNKNOWN is not SAFE and never reads as exhaustive detection.",
+        "An override chooses another root; it cannot relabel a detected upload root safe.",
+        "CI storage is job- and tenant-scoped and is not registered with an upload/cache action unless the user explicitly exports it."
+      ],
+      "evidenceGrade": "MECHANISM-SPECIFIED; detector fixtures and prevalence remain unmeasured",
+      "note": "R2-TM-03. Sync upload, backup custody and permission exposure are different mechanisms with different remedies."
+    },
+    {
+      "id": "V3",
+      "severity": "high",
+      "title": "Ingestion overreach: we read the user's secrets and PII because we were pointed at a directory",
+      "detail": "Broad globs and followed symlinks pull in `.env`, `.git/config` containing tokens, `~/.aws/credentials`, private keys, and PII-bearing fixtures. v1 framed this as an attacker escaping the root. The realistic version is the tool accidentally ingesting the user's own secrets and then persisting them per V1. A blocklist of known-sensitive names cannot work — the space is unbounded and user-specific.",
+      "affects": [
+        "U2",
+        "U3"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "ALLOWLIST, not blocklist: ingest only files matching a declared, language-or-rule-driven requirement. A file no consumer requested is never read.",
+        "Never follow a symlink out of the project root; canonicalise before inclusion and reject escapes as typed errors.",
+        "Known-sensitive patterns are an additional refusal layer on top of the allowlist, never the primary defence.",
+        "Ingesting a file that no rule required is a defect, and the read-set makes it detectable."
+      ]
+    },
+    {
+      "id": "V4",
+      "severity": "high",
+      "title": "PII propagates into derived artifacts that outlive the analysis",
+      "detail": "Findings quote source. Span excerpts are source. Symbol and identifier names can themselves be PII — a function named for a real customer, a fixture constant holding an email. Reports, exported evidence, and support bundles carry all of it. Content-addressing does not anonymise anything; it just makes the copy durable and deduplicated.",
+      "affects": [
+        "U3",
+        "U5"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "Findings reference spans by identity; the host resolves an excerpt on demand rather than embedding source in the finding record.",
+        "Excerpt materialisation into a report or export is an explicit, classed operation with a default of off.",
+        "Support bundles redact by CLASS, never by pattern-matching for things that look like PII — pattern matching on PII is a losing game.",
+        "Acknowledge in documentation that derived identifiers may themselves be personal data. Pretending only file contents are sensitive is the mistake."
+      ]
+    },
+    {
+      "id": "V5",
+      "severity": "high",
+      "title": "No retention default, no real deletion, no way for the user to see what we hold",
+      "detail": "U6 is unaddressed. There is no stated lifetime for source-derived content, no guarantee that a purge actually removes bytes rather than dereferencing them, and no way for a user to enumerate what exists. A user cannot verify any privacy claim we make.",
+      "affects": [
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "A stated default retention for source-derived content, favouring the shorter side, published rather than emergent from GC behaviour.",
+        "A `data inventory` capability: what is stored, of which classes, where, how large, how old. This is the mechanism by which trust becomes checkable instead of asserted.",
+        "A purge that DELETES content rather than dropping references, and reports what it removed. Deduplicated CAS makes this non-trivial and that is not an excuse.",
+        "Purge must be able to target by privacy class and by project, not only wholesale."
+      ]
+    },
+    {
+      "id": "V6",
+      "severity": "high",
+      "title": "Temporary directories leak source on shared machines",
+      "detail": "Temp is commonly readable by other local users and is cleaned on an OS schedule the tool does not control. Source-derived content placed there is exposed for an unbounded window.",
+      "affects": [
+        "U1",
+        "U3"
+      ],
+      "cause": "P1 and P2",
+      "requiredMitigations": [
+        "No source-derived content in a shared temp location. If a temporary file is unavoidable, create it inside the storage root with user-only permissions.",
+        "Materialisation uses a private project-owned ephemeral directory inside the admitted storage root with restrictive creation permissions.",
+        "Every ephemeral object is inventoried with an owner and expiry; normal exits delete it, while startup scavenging resumes cleanup after crash or power loss.",
+        "Do not promise instantaneous deletion after SIGKILL, host crash or power loss."
+      ]
+    },
+    {
+      "id": "V7",
+      "severity": "high",
+      "title": "Accidental egress is more likely than deliberate egress",
+      "detail": "The offline promise is broken not by a designed feature but by an update check, a telemetry default, a provider fetching a grammar or toolchain on first use, or a crash reporter. Any of these turns a local tool into a network client without anyone deciding to.",
+      "affects": [
+        "U1",
+        "U3"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "An enumerable egress inventory: every code path capable of a network call, listed, with the condition that triggers it.",
+        "Zero egress on the analysis path, proved by a gate that runs a full analysis with the network blocked — a primary release gate, not one of many.",
+        "No crash reporting, telemetry, or update check enabled by default.",
+        "No lazy fetch of grammars, toolchains, or migrators. If it is needed for analysis, it ships in the release."
+      ]
+    },
+    {
+      "id": "V8",
+      "severity": "high",
+      "title": "The user's only real defence is verifying what they downloaded",
+      "detail": "Every property in this model is a property of the binary the user actually ran. If they cannot verify provenance, none of it is checkable.",
+      "affects": [
+        "U4",
+        "U1"
+      ],
+      "cause": "P3",
+      "requiredMitigations": [
+        "Signed releases with a verification path a user can actually follow, documented at the download point rather than buried.",
+        "Optional bundles signed too — an unsigned optional provider is the cheapest substitution target.",
+        "Reproducible builds as a goal, so a third party can corroborate. Stated as a goal, not claimed as achieved.",
+        "Honest limit: signing raises substitution cost. It does not defend against a malicious first-party release."
+      ]
+    },
+    {
+      "id": "V9",
+      "severity": "medium",
+      "title": "Analysis may execute repository-controlled code",
+      "detail": "A semantic provider invoking a real toolchain can execute build scripts, procedural macros, or compiler plugins. For the PRIMARY case — the user's own repository — this is not a new risk: they already build that code. It matters for the secondary 'audit an unknown dependency' workload, and it matters that the user knows which mode they are in.",
+      "affects": [
+        "U4"
+      ],
+      "cause": "C2",
+      "severityChangeFromV1": "Reduced from high to medium. v1 treated the analyzed repository as hostile by default, which is wrong for the primary usage.",
+      "requiredMitigations": [
+        "Providers declare whether they can execute repository-controlled code, as a manifest field.",
+        "Execution-capable resolution requires an explicit grant and is visible in PlanId.",
+        "A parse-only mode must remain available for analyzing code the user does not trust.",
+        "This is a security input to P-4a: a build-driven Rust substrate executes repository code; a parse-only one does not."
+      ]
+    },
+    {
+      "id": "V10",
+      "severity": "high",
+      "title": "Durable explainability and minimal retention remain in unresolved tension",
+      "detail": "Unresolved. retention-tiers.v5 was rejected by reviewer-3. evaluation-proof.v1 and retention-tiers.v6 are repaired architecture candidates awaiting independent re-review; neither candidate nor its authored checker closes V10. Durable authoritative Runs remain blocked until that review passes and the product authority records CD-RT-5.",
+      "affects": [
+        "U1",
+        "U3",
+        "U5",
+        "U6"
+      ],
+      "cause": "P1",
+      "requiredResolution": [
+        "Select and independently verify an evaluation proof that covers exact activation, every outcome, relational findings, no-match and verdict derivation",
+        "Select the retained verification/regeneration closure and a per-Run custody policy before durable authoritative Runs are enabled",
+        "State how purge changes current evidence availability without rewriting the sealed Run"
+      ],
+      "kind": "UNRESOLVED-CONTRADICTION",
+      "status": "UNRESOLVED",
+      "whyNoMitigation": "This is a load-bearing architecture choice, not a local mitigation. Candidate history is retained below but has no authority.",
+      "rejectedAndCandidateHistory": {
+        "origin": "coordinator: durable explainability with configurable retention",
+        "shape": "A named tier LADDER carried in the Run manifest — not a global promise and not a free-form slider.",
+        "insight": "You do not need the snapshot to explain a finding; you need the spans it cited. That is a fraction of the data and it satisfies the audit purpose most users actually have, which shrinks the conflict rather than trading one side off.",
+        "tiers": [
+          {
+            "tier": "T0-structural",
+            "retains": "hashes, facts, findings, Coverage, read-set identities",
+            "answers": "what was concluded, and which inputs by identity",
+            "cannotAnswer": "why this specific finding, in source terms",
+            "size": "tiny"
+          },
+          {
+            "tier": "T1-excerpt",
+            "retains": "T0 plus the spans each finding cited",
+            "answers": "why this finding — the question users actually ask",
+            "size": "small",
+            "isDefault": false,
+            "whyDefault": "T0 cannot answer 'why', which is the product's value proposition. T2 is a source archive. T1 answers the real question at a fraction of the cost, and the cited span is content the user needs anyway to act on the finding.",
+            "status": "WITHDRAWN-AS-DEFAULT",
+            "whyWithdrawn": "ARCH.RETENTION-TIERS REOPENED; A1-RT-01/B-RT-01/B-RTV2-01 — excerpt default and finding-only proof rejected. v3 is now non-binding detailed-design exploration; v4 is an unreviewed architecture candidate. No replacement default is sealed."
+          },
+          {
+            "tier": "T2-replay",
+            "retains": "T0 plus all read-set bytes",
+            "answers": "full re-derivation; attestation grade",
+            "size": "large",
+            "note": "Read-set bounded, not repository bounded — the recorded read-set already reduces this."
+          }
+        ],
+        "requirements": [
+          {
+            "id": "RT-1",
+            "requirement": "The retention tier is a field of the sealed Run manifest, not ambient configuration.",
+            "why": "Otherwise two Runs with identical EvidenceDigests have different explanatory power and no consumer can tell. Explainability becomes a declared per-Run CAPABILITY instead of an uncheckable global claim."
+          },
+          {
+            "id": "RT-2",
+            "requirement": "A Run records both its SEALED tier and its CURRENT tier. Degradation is one-way (T2->T1->T0) and is reported.",
+            "why": "Retention expiry must produce an honest 'source no longer retained' rather than a mysterious failure. Tightening later works; loosening never does."
+          },
+          {
+            "id": "RT-3",
+            "requirement": "Tier configuration is per-project, visible in the Run, and applies forward only. It never reinterprets an existing Run.",
+            "why": "A config change that retroactively altered what old Runs claim would make the evidence plane untrustworthy."
+          },
+          {
+            "id": "RT-4",
+            "requirement": "Every tier carries privacy classes and participates in the data inventory (V5/R5). A T2 project can enumerate and purge exactly what T2 costs it.",
+            "why": "Configurable retention can make privacy WORSE if a user opts into T2 without seeing the consequence. Visibility is what makes the opt-in informed."
+          },
+          {
+            "id": "RT-5",
+            "requirement": "A policy or attestation that requires T2 must FAIL LOUDLY against a T0/T1 Run rather than silently accepting weaker evidence.",
+            "why": "Otherwise configurable retention becomes a silent downgrade of every downstream guarantee."
+          }
+        ],
+        "amends": "This historical candidate attempted to resolve the contradiction by making explainability tiered and declared rather than absolute. It did not prove relational/no-match outcomes or select the required custody closure, so it has no authority to amend architecture/06-evidence-and-persistence.md.",
+        "authority": "This artifact proposes the amendment; it does not have authority to make it. Requires coordinator sign-off because it changes a sealed property.",
+        "residualRisk": "The default still carries most of the weight, because loosening retention retroactively is impossible. If T1 is wrong for a class of users, they discover it only when they need T2 evidence they no longer have.",
+        "defaultStatus": "UNSET pending independent review and coordinator disposition of retention-tiers.v4; do not treat T1-excerpt or the v3 wire sketch as product defaults",
+        "seeAlso": [
+          "artifacts/retention-tiers.v4.json",
+          "artifacts/retention-tiers.v3.review-a1.json",
+          "artifacts/retention-tiers.v2.response-a1.json",
+          "artifacts/retention-tiers.reframe-a3.json"
+        ]
+      },
+      "residual": "Fact tuples contain identifiers and paths and may themselves be personal data. Even a correct source-free proof moves custody to facts; it does not eliminate it."
+    },
+    {
+      "id": "V11",
+      "severity": "high",
+      "title": "Secret values reach durable artifacts through configuration and diagnostics",
+      "detail": "A secret value obtained through the resolved-configuration secret channel can be copied into PlanId, the evidence digest, diagnostics, or a support bundle. This finding does not claim that arbitrary source/scanner text can be perfectly classified as secret.",
+      "affects": [
+        "U2",
+        "U5"
+      ],
+      "cause": "P1",
+      "note": "This is the F8-class finding A1-TM2-01 said v2 dropped, and that resolved-inputs v2 registered as owed.",
+      "requiredMitigations": [
+        "Values obtained through the resolved-configuration secret channel are referenced by HANDLE. The handle may enter PlanId; the value may never enter PlanId, the evidence digest, diagnostics, or a support bundle.",
+        "Source/scanner strings follow R16: no raw excerpt by default, bounded explicit materialisation and context-safe projection. Pattern redaction is never claimed complete."
+      ]
+    },
+    {
+      "id": "V12",
+      "severity": "high",
+      "title": "The operating system copies source we never wrote",
+      "detail": "Core dumps, swap, hibernation images, crash reporters and desktop search indexers can capture source bytes from our address space or our temp files without any write of ours. A retention promise expressed only over OUR writes is therefore incomplete.",
+      "affects": [
+        "U1",
+        "U3"
+      ],
+      "cause": "P2",
+      "note": "A1-TM2-02. Some of this is genuinely unpreventable; saying so is the mitigation.",
+      "requiredMitigations": [
+        "Disable core dumps for the analysis process where the platform allows",
+        "Avoid long-lived plaintext source in mapped memory beyond the analysis window",
+        "Prefer platform-excluded temp locations and mark artifacts non-indexable where supported",
+        "State plainly what cannot be prevented, rather than implying coverage"
+      ]
+    },
+    {
+      "id": "V13",
+      "severity": "high",
+      "title": "A serving surface amplifies every other exposure",
+      "detail": "A long-lived serve/MCP process turns a local read into a queryable interface. Whatever a caller may ask for, an over-broad or unauthenticated surface will eventually be asked for by something that is not the user — another local process, an agent with wider scope than intended, or a misconfigured client.",
+      "affects": [
+        "U1",
+        "U2",
+        "U3",
+        "U7"
+      ],
+      "cause": "P1",
+      "note": "A1-TM2-03 / B-TM2-05.",
+      "requiredMitigations": [
+        "The serving surface is bounded by the same ingestion allowlist as analysis; it may never widen scope",
+        "Callers are authenticated to at least the local-user boundary, and that boundary is stated rather than implied",
+        "Serve exposes projections, never raw retained source, unless the Run's retention policy authorises it",
+        "Serve access is recorded on the audit plane"
+      ]
+    },
+    {
+      "id": "V14",
+      "severity": "high",
+      "title": "Analysis can exhaust the user's machine",
+      "detail": "Repository-controlled input drives our resource consumption. A pathological or hostile repository can drive memory, disk or CPU to the point of harming the user's machine — a host-integrity harm distinct from confidentiality.",
+      "affects": [
+        "U4"
+      ],
+      "cause": "P1",
+      "note": "B-TM2-03. v2 treated host integrity as an asset but carried no finding that consumed it.",
+      "requiredMitigations": [
+        "Declared memory, disk and runtime limits against a reference capacity class",
+        "Prompt cancellation",
+        "Limits are a blocking release gate, not a tuning parameter"
+      ]
+    },
+    {
+      "id": "V15",
+      "severity": "critical",
+      "title": "Repository-controlled code executes during analysis",
+      "detail": "Build scripts, proc macros, plugin resolution and toolchain hooks execute code the repository author controls. v2's V9 named this; v3 raises it because the resolved-inputs work showed the cfg corpus is PARTLY A FUNCTION OF EXECUTION — so execution is not an optional deep mode, it is on the path to a sound semantic universe.",
+      "affects": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U7"
+      ],
+      "cause": "P1",
+      "note": "B-TM2-04. Supersedes nothing; sharpens V9.",
+      "requiredMitigations": [
+        "Execution-capable resolution requires an explicit grant, visible in PlanId (R10)",
+        "Without the grant, the semantic universe is declared INCOMPLETE and reports Coverage rather than resolving",
+        "The grant is per-project and never inherited from a global default"
+      ]
+    },
+    {
+      "id": "V16",
+      "severity": "high",
+      "title": "Two projects or two sessions contaminate each other",
+      "detail": "A shared content-addressed store, a shared cache root, or two concurrent sessions over one checkout can leak facts, Coverage or baselines across project boundaries.",
+      "affects": [
+        "U7",
+        "U1"
+      ],
+      "cause": "P1",
+      "note": "B-TM2-10.",
+      "requiredMitigations": [
+        "Storage authority is keyed by canonical ProjectId",
+        "Concurrent writers are safe by the storage protocol, not by convention (ARCH.STORAGE.MULTIPROCESS)",
+        "A fact's identity includes its snapshot, so cross-project reuse is impossible by construction rather than by policy"
+      ]
+    },
+    {
+      "id": "V17",
+      "severity": "medium",
+      "title": "Backup-managed storage creates durable copies outside the tool's retention authority",
+      "detail": "A storage root may be included in local or enterprise backup even when it is not cloud-synced. Backup is often deliberate user policy, so automatic refusal is not universally correct, but an OpenSIP purge cannot delete or enumerate those copies.",
+      "affects": [
+        "U1",
+        "U3",
+        "U5",
+        "U6"
+      ],
+      "cause": "P2",
+      "requiredMitigations": [
+        "Classify known backup-managed roots separately from upload roots and permissions.",
+        "Before first source-derived write, disclose detected backup custody and require an explicit storage-policy choice.",
+        "Inventory and purge output state that backup copies are outside tool control and identify the detector evidence; UNKNOWN is never reported as not-backed-up."
+      ]
+    },
+    {
+      "id": "V18",
+      "severity": "high",
+      "title": "Group- or world-readable storage exposes source-derived content to other local principals",
+      "detail": "Permissions and ACLs can expose the authoritative store independently of sync or backup. Permissions may change after creation, so admission-time checks alone are insufficient.",
+      "affects": [
+        "U1",
+        "U2",
+        "U3",
+        "U5"
+      ],
+      "cause": "P2",
+      "requiredMitigations": [
+        "Refuse source-derived persistence when effective owner, mode or ACL grants unintended principals access.",
+        "Revalidate the opened directory and object handle on every run to avoid check/use and post-creation drift.",
+        "Report the exact permission/ACL evidence and a repair path; no override may relabel an exposed root private."
+      ]
+    },
+    {
+      "id": "V19",
+      "severity": "high",
+      "title": "Repository-controlled strings can attack terminal, HTML and downstream machine consumers",
+      "detail": "Filenames, identifiers, snippets and provider diagnostics are attacker-controlled for an unknown repository. Raw ANSI/OSC can alter terminal state or clipboard, unescaped HTML can execute active content, unsafe URIs can escape the report context, and oversized or malformed strings can harm structured consumers.",
+      "affects": [
+        "U4",
+        "U7"
+      ],
+      "cause": "P1",
+      "requiredMitigations": [
+        "Terminal projection neutralises every C0/C1 control except layout characters introduced by the renderer; ESC/CSI/OSC and bidi controls render as visible escapes.",
+        "HTML projection context-escapes all untrusted text, permits no contribution HTML/JavaScript, vendors assets and uses CSP default-src 'none'.",
+        "JSON, SARIF and MCP use typed encoders, bounded strings and host-constructed relative/file URIs; source text is never concatenated into syntax.",
+        "Every projection runs the cross-surface projectionSafetyFixtures for ANSI/OSC, HTML/script, malformed Unicode, path/URI and oversized payloads."
+      ]
+    }
+  ],
+  "storageExposureDetectors": {
+    "schemaVersion": 1,
+    "closedResults": [
+      "DETECTED",
+      "NOT-DETECTED",
+      "UNKNOWN"
+    ],
+    "classes": [
+      "cloud-sync-or-ci-upload",
+      "backup-managed",
+      "permission-exposed"
+    ],
+    "catalogRule": "The release manifest identifies one signed detector catalog. Each entry has detectorId, version, platforms, class, evidence shape, confidence and fixtures. NOT-DETECTED is scoped only to that detector/version; it never means globally safe.",
+    "admissionDecisions": {
+      "cloud-sync-or-ci-upload/DETECTED": "REFUSE",
+      "backup-managed/DETECTED": "REQUIRE-EXPLICIT-POLICY-AND-DISCLOSE-EXTERNAL-COPIES",
+      "permission-exposed/DETECTED": "REFUSE",
+      "any/UNKNOWN": "DO-NOT-CLAIM-SAFE; disclose detector limit and require an admitted private root"
+    },
+    "initialCatalog": [
+      {
+        "detectorId": "sync-provider-declared-root",
+        "class": "cloud-sync-or-ci-upload",
+        "platforms": [
+          "linux",
+          "macos",
+          "windows"
+        ],
+        "evidence": "provider/OS-declared canonical root contains candidate root"
+      },
+      {
+        "detectorId": "ci-upload-workspace-policy",
+        "class": "cloud-sync-or-ci-upload",
+        "platforms": [
+          "linux",
+          "macos",
+          "windows"
+        ],
+        "evidence": "CI environment plus declared cache/artifact upload path contains candidate root"
+      },
+      {
+        "detectorId": "os-backup-membership",
+        "class": "backup-managed",
+        "platforms": [
+          "linux",
+          "macos",
+          "windows"
+        ],
+        "evidence": "platform backup API/policy reports candidate root included"
+      },
+      {
+        "detectorId": "effective-permissions",
+        "class": "permission-exposed",
+        "platforms": [
+          "linux",
+          "macos",
+          "windows"
+        ],
+        "evidence": "opened directory owner/mode/ACL grants an unintended principal read access"
+      }
+    ],
+    "qualification": "Release fixtures use real supported-platform clients/APIs where available and record false-positive/false-negative limits. This is a legitimate pre-implementation evidence gap, not an undecided mechanism."
+  },
+  "storageNamespace": {
+    "schemaVersion": 1,
+    "purpose": "Bind one logical PROJECT-ID-V1 to one lexically project-exclusive ledger/CAS namespace beneath the currently authoritative admitted root. Canonical path separation is specified here; actual regular-file non-aliasing is a separate IMPLEMENTABLE_UNEXECUTED product qualification property.",
+    "authority": "Exactly one authority-selection record names the active admitted root for a canonical ProjectId. projects/<ProjectId> is a tenant namespace inside that authority, not a profile-selected backend. A migration may stage bytes at another root, but staged bytes are non-authoritative until the single authority-record compare-and-swap commits.",
+    "projectId": {
+      "logicalIdentityOwner": "PROJECT-ID-V1 is owned exclusively by resolved-inputs.v2.json#projectIdContract. Storage neither mints, derives, imports nor repairs logical project identity; it consumes only a host-verified typed ProjectId.",
+      "canonicalTextPattern": "^prj1-[0-9a-f]{64}$",
+      "encoding": "ASCII bytes: literal prj1- followed by exactly 64 lowercase hexadecimal digits decoding to the 32 persisted random allocation bytes from PROJECT-ID-V1.",
+      "pathComponent": "Use the verified text byte-for-byte as one path component. Reject uppercase, alternate prefixes, separators, dot segments, percent escapes, Unicode lookalikes and normalization-on-read.",
+      "admissionJoin": "resolved-inputs.v2.json#projectIdContract (PROJECT-ID-V1) verifies marker/registry custody before c2-plan-stage-schema.v3.json#planIntent.wireTypes.projectId or this namespace may consume ProjectId."
+    },
+    "admittedStorageRoot": {
+      "role": "A user- or policy-selected canonical absolute base directory that may contain multiple project namespaces and bounded host operation metadata.",
+      "admission": "Canonicalise and open the root; validate storage-root.v1.json; run exposure detectors and filesystem support checks before user-derived writes; retain the root handle for root-confined operations.",
+      "rootMarker": {
+        "path": "storage-root.v1.json",
+        "exactFields": [
+          "schemaVersion",
+          "rootId"
+        ],
+        "schemaVersion": 1,
+        "rootIdPattern": "^root1-[0-9a-f]{32}$",
+        "allocation": "Host-generated 16-byte CSPRNG allocation, create-new and fsync; never derived from the root path or ProjectId."
+      },
+      "rootContents": "Exactly storage-root.v1.json plus projects/, control/ and quarantine/ are host-managed at the authority root. control/ contains bounded operation metadata only; user-derived evidence bytes may exist only below a canonical project namespace or an explicitly journaled quarantine namespace.",
+      "notProjectExclusive": "The base root may be shared by many projects. Lexical separation comes from mandatory projects/<ProjectId>; actual physical non-aliasing requires physicalIsolationConformance evidence."
+    },
+    "layout": {
+      "rootMarker": "<admittedStorageRoot>/storage-root.v1.json",
+      "projectNamespace": "<admittedStorageRoot>/projects/<ProjectId>",
+      "ledger": "<admittedStorageRoot>/projects/<ProjectId>/ledger.sqlite",
+      "ledgerWal": "<admittedStorageRoot>/projects/<ProjectId>/ledger.sqlite-wal",
+      "ledgerShm": "<admittedStorageRoot>/projects/<ProjectId>/ledger.sqlite-shm",
+      "casObject": "<admittedStorageRoot>/projects/<ProjectId>/objects/sha256/<digestHex>",
+      "cache": "<admittedStorageRoot>/projects/<ProjectId>/cache",
+      "privateEphemeral": "<admittedStorageRoot>/projects/<ProjectId>/ephemeral",
+      "rootControl": "<admittedStorageRoot>/control",
+      "purgeJournal": "<admittedStorageRoot>/control/purge/<ProjectId>/<purgeId>.v1.json",
+      "purgeQuarantine": "<admittedStorageRoot>/quarantine/purge/<ProjectId>/<purgeId>/namespace",
+      "migrationStaging": "<targetStorageRoot>/quarantine/migrate/<ProjectId>/<migrationId>/namespace",
+      "migrationRetirement": "<sourceStorageRoot>/quarantine/migrate-retired/<ProjectId>/<migrationId>/namespace",
+      "rule": "There is no root-level ledger.sqlite, objects/, cache or ephemeral directory. Authoritative evidence bytes are below projects/<ProjectId>; journaled full-namespace purge/migration staging is confined to the exact quarantine paths. control/ never stores source, fact, finding or artifact bytes."
+    },
+    "objectId": {
+      "wirePattern": "^sha256:[0-9a-f]{64}$",
+      "digestAlgorithm": "SHA-256",
+      "digestHex": "The 64 lowercase hexadecimal characters after sha256:, used byte-for-byte as the final filename.",
+      "pathDerivation": "Validate the wire pattern, then derive projects/<ProjectId>/objects/sha256/<digestHex>; never concatenate unvalidated text or use the colon-bearing wire form as a filename.",
+      "withinProjectDedup": "Equal digests within one ProjectId resolve to one canonical object path and may share transactional references.",
+      "lexicalNamespaceRule": "Equal digests under different ProjectIds resolve to different canonical paths. This is a lexical guarantee only and is what contract vectors can establish before implementation.",
+      "physicalImplementationRule": "The product MUST publish independent regular files and MUST NOT create cross-project hardlinks, reflinks, clone-file references or a shared lower CAS. This normative rule is not demonstrated by unequal path strings."
+    },
+    "pathSafety": {
+      "resolution": "Open descendants relative to retained root/project handles. Reject symlinks/reparse points and non-directory intermediates; use no-follow/create-new and atomically rename only within one admitted root.",
+      "containmentCheck": "After open/create/reuse, verify the expected file type and project containment by handle. String-prefix checks are insufficient.",
+      "collisionRule": "Reuse a pre-existing object path only after its bytes hash to the requested digest, its ledger ownership is the same ProjectId, it is a regular file, and link count is one; mismatch is corruption, never overwrite.",
+      "unsupported": "Refuse a filesystem lacking the handle-relative no-follow, file identity, link-count, atomic rename, locking, fsync or SQLite semantics required by the operation being admitted."
+    },
+    "ledgerTenancy": {
+      "rule": "Exactly one SQLite ledger per projectNamespace. No SQLite database or table spans ProjectIds; every object/ref/purge/audit row is lexically project-scoped before logical keys are interpreted.",
+      "sameProjectConcurrency": "One-shot hosts for one ProjectId contend on that ledger/WAL and the project lease under the multiprocess protocol.",
+      "crossProjectConcurrency": "Different ProjectIds use distinct canonical ledger, WAL, CAS, cache, ephemeral and lease paths even when the admitted root and digest match."
+    },
+    "physicalIsolationConformance": {
+      "state": "SPECIFIED",
+      "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+      "gateIds": [
+        "G14"
+      ],
+      "claimBoundary": "Canonical-path vectors prove lexical separation only. A release may claim physical cross-project non-aliasing only after every required observation passes on every supported platform/filesystem/operation tuple and retained evidence IDs are registered.",
+      "requiredObservationIds": [
+        "PI-REGULAR-FILE",
+        "PI-DISTINCT-FILE-IDENTITY",
+        "PI-LINK-COUNT-ONE",
+        "PI-NO-LINK-OR-CLONE-PRIMITIVE",
+        "PI-SUPPORTED-FILESYSTEM-MATRIX"
+      ],
+      "observations": [
+        {
+          "id": "PI-REGULAR-FILE",
+          "property": "Both newly published and reused CAS handles are regular files, not symlinks, reparse points, devices or directories.",
+          "runtimeEvidence": "opened-handle file type captured after create/publish and on every reuse"
+        },
+        {
+          "id": "PI-DISTINCT-FILE-IDENTITY",
+          "property": "For equal digest and different ProjectId, the opened files have different stable file identities.",
+          "runtimeEvidence": "POSIX (st_dev,st_ino) or Windows (volume serial,file index), recorded for both handles in one test"
+        },
+        {
+          "id": "PI-LINK-COUNT-ONE",
+          "property": "Each cross-project object reports link count exactly one after publication and after revalidation/reuse.",
+          "runtimeEvidence": "handle-derived link count for both files at both checkpoints"
+        },
+        {
+          "id": "PI-NO-LINK-OR-CLONE-PRIMITIVE",
+          "property": "Host publication/migration invokes no hardlink, reflink, clone-file or shared-lower-CAS primitive across ProjectIds.",
+          "runtimeEvidence": "platform syscall/API tracing plus source/build audit for the exercised product binary"
+        },
+        {
+          "id": "PI-SUPPORTED-FILESYSTEM-MATRIX",
+          "property": "Every advertised platform/filesystem/operation tuple executes the other four observations, including create, collision-reuse, purge staging, migration staging and recovery.",
+          "runtimeEvidence": "retained qualification record per supported tuple; unsupported/unknown filesystems are refused, not inferred safe"
+        }
+      ],
+      "qualificationRecordRequired": [
+        "evidenceId",
+        "productBuildId",
+        "platform",
+        "filesystem",
+        "mountFeatures",
+        "operation",
+        "projectA",
+        "projectB",
+        "objectId",
+        "fileKindA",
+        "fileKindB",
+        "fileIdentityA",
+        "fileIdentityB",
+        "linkCountA",
+        "linkCountB",
+        "transferTrace",
+        "result"
+      ],
+      "requiredOperations": [
+        "publish-new",
+        "reuse-existing",
+        "purge-quarantine",
+        "migration-stage",
+        "crash-recovery"
+      ],
+      "demonstrationEvidenceIds": [],
+      "paperSealRule": "Empty or partial evidence leaves state SPECIFIED/IMPLEMENTABLE_UNEXECUTED. Fixture declarations and a green checker are not observations from a built storage engine."
+    },
+    "inventoryPurgeMigration": {
+      "inventory": {
+        "project": "Read only the active project's ledger and authoritative projectNamespace.",
+        "root": "Enumerate storage-root marker, canonical projects/<ProjectId>, control/purge journals and both purge/migration quarantine trees. Report active, staged, quarantined, incomplete and corrupt-orphan states separately; never infer ownership from a shared object index.",
+        "userAuthority": "Join the user-scoped authority registry and migration journals so a staged target or retired source is visible but never reported as authoritative."
+      },
+      "purge": {
+        "scope": "Full-project purge state machine. Class-selective purge remains ledger-transactional inside the active project namespace and does not rename the namespace.",
+        "purgeIdPattern": "^purge1-[0-9a-f]{32}$",
+        "idAllocation": "Host-generated 16-byte CSPRNG allocation reserved create-new under the project lease.",
+        "journalPath": "<admittedStorageRoot>/control/purge/<ProjectId>/<purgeId>.v1.json",
+        "journalExactFields": [
+          "schemaVersion",
+          "purgeId",
+          "projectId",
+          "state",
+          "transitionCounter",
+          "namespaceInventoryCommitment",
+          "quarantineRelativePath"
+        ],
+        "quarantinePath": "<admittedStorageRoot>/quarantine/purge/<ProjectId>/<purgeId>/namespace",
+        "movingMarkerPath": "<projectNamespace>/.opensip-purge-v1.json",
+        "movingMarkerExactFields": [
+          "schemaVersion",
+          "purgeId",
+          "projectId",
+          "namespaceInventoryCommitment"
+        ],
+        "states": [
+          "PREPARED",
+          "QUARANTINED",
+          "DELETE_IN_PROGRESS",
+          "VERIFIED_ABSENT",
+          "COMPLETE"
+        ],
+        "reachableDurableNonterminalStates": [
+          "PREPARED",
+          "QUARANTINED",
+          "DELETE_IN_PROGRESS",
+          "VERIFIED_ABSENT"
+        ],
+        "operationOrdering": [
+          "Acquire the project lease; create and fsync the PREPARED root-control journal before changing the namespace. Storage admission for that ProjectId refuses while any non-COMPLETE journal exists.",
+          "Write/fsync the exact moving marker inside the canonical namespace; atomically rename the whole namespace to the exact purge quarantine path; fsync both parent directories; then persist QUARANTINED.",
+          "Persist DELETE_IN_PROGRESS and recursively remove only through no-follow handles below the quarantine namespace. Deletion is idempotent and records no user bytes in control metadata.",
+          "Verify both canonical namespace and quarantine namespace absent, reconcile the root inventory, persist VERIFIED_ABSENT and fsync. This is the deletion commit point.",
+          "Produce an idempotent receipt from the verified journal, persist COMPLETE, then remove/fsync the journal. A completed full purge leaves no project namespace, quarantine, moving marker or operation journal."
+        ],
+        "recoveryRule": "At root admission, reconcile every purge journal with canonical/quarantine paths and the moving marker before project analysis. The exact crashRecoveryTable chooses one forward action; ambiguity or malformed/multiple markers is typed corruption and no namespace is opened.",
+        "crashRecoveryTable": [
+          {
+            "observed": "PREPARED|canonical-present|quarantine-absent",
+            "action": "resume-atomic-quarantine",
+            "nextState": "QUARANTINED"
+          },
+          {
+            "observed": "PREPARED|canonical-absent|quarantine-present-matching-marker",
+            "action": "reconcile-rename-gap",
+            "nextState": "QUARANTINED"
+          },
+          {
+            "observed": "QUARANTINED|canonical-absent|quarantine-present",
+            "action": "persist-delete-in-progress-and-resume-delete",
+            "nextState": "DELETE_IN_PROGRESS"
+          },
+          {
+            "observed": "DELETE_IN_PROGRESS|canonical-absent|quarantine-present",
+            "action": "resume-idempotent-delete",
+            "nextState": "DELETE_IN_PROGRESS"
+          },
+          {
+            "observed": "DELETE_IN_PROGRESS|canonical-absent|quarantine-absent",
+            "action": "verify-root-inventory",
+            "nextState": "VERIFIED_ABSENT"
+          },
+          {
+            "observed": "VERIFIED_ABSENT|canonical-absent|quarantine-absent",
+            "action": "emit-receipt-and-remove-journal",
+            "nextState": "COMPLETE"
+          }
+        ],
+        "crashFixtures": [
+          {
+            "id": "purge-crash-before-rename",
+            "observed": "PREPARED|canonical-present|quarantine-absent",
+            "expectedAction": "resume-atomic-quarantine",
+            "expectedNextState": "QUARANTINED"
+          },
+          {
+            "id": "purge-crash-after-rename-before-journal",
+            "observed": "PREPARED|canonical-absent|quarantine-present-matching-marker",
+            "expectedAction": "reconcile-rename-gap",
+            "expectedNextState": "QUARANTINED"
+          },
+          {
+            "id": "purge-crash-after-quarantined-before-delete-state",
+            "observed": "QUARANTINED|canonical-absent|quarantine-present",
+            "expectedAction": "persist-delete-in-progress-and-resume-delete",
+            "expectedNextState": "DELETE_IN_PROGRESS"
+          },
+          {
+            "id": "purge-crash-mid-delete",
+            "observed": "DELETE_IN_PROGRESS|canonical-absent|quarantine-present",
+            "expectedAction": "resume-idempotent-delete",
+            "expectedNextState": "DELETE_IN_PROGRESS"
+          },
+          {
+            "id": "purge-crash-after-delete-before-verify",
+            "observed": "DELETE_IN_PROGRESS|canonical-absent|quarantine-absent",
+            "expectedAction": "verify-root-inventory",
+            "expectedNextState": "VERIFIED_ABSENT"
+          },
+          {
+            "id": "purge-crash-after-verify-before-cleanup",
+            "observed": "VERIFIED_ABSENT|canonical-absent|quarantine-absent",
+            "expectedAction": "emit-receipt-and-remove-journal",
+            "expectedNextState": "COMPLETE"
+          }
+        ]
+      },
+      "migration": {
+        "scope": "Cross-root migration of exactly one ProjectId. It is a journaled copy plus one atomic authority-record switch, not a nonexistent cross-filesystem transaction.",
+        "migrationIdPattern": "^migrate1-[0-9a-f]{32}$",
+        "idAllocation": "Host-generated 16-byte CSPRNG allocation reserved create-new while holding the logical project authority lease.",
+        "userStateRootRole": "Host-owned user-scoped control plane containing ProjectId/root locators and operation metadata only; it is not an evidence backend and stores no source, fact, finding or artifact bytes.",
+        "authorityRecordPath": "<userStateRoot>/opensip/storage-authority-v1/<ProjectId>.json",
+        "authorityRecordExactFields": [
+          "schemaVersion",
+          "projectId",
+          "generation",
+          "activeRootId",
+          "activeRootCanonicalPath",
+          "pendingMigrationId"
+        ],
+        "authorityRecordRule": "Storage resolution trusts only this record after PROJECT-ID-V1 verification. Compare-and-swap requires the expected generation/source root; atomically replace and fsync on the single user-state filesystem. If atomic replace/fsync or the registry lease is unavailable, migration is refused.",
+        "journalPath": "<userStateRoot>/opensip/storage-operations/migrate/<migrationId>.v1.json",
+        "journalExactFields": [
+          "schemaVersion",
+          "migrationId",
+          "projectId",
+          "baseAuthorityGeneration",
+          "sourceRootId",
+          "sourceRootCanonicalPath",
+          "targetRootId",
+          "targetRootCanonicalPath",
+          "state",
+          "sourceInventoryCommitment",
+          "targetInventoryCommitment"
+        ],
+        "targetStagingPath": "<targetStorageRoot>/quarantine/migrate/<ProjectId>/<migrationId>/namespace",
+        "sourceRetirementPath": "<sourceStorageRoot>/quarantine/migrate-retired/<ProjectId>/<migrationId>/namespace",
+        "states": [
+          "PREPARED",
+          "COPYING",
+          "TARGET_VERIFIED",
+          "TARGET_INSTALLED",
+          "AUTHORITY_SWITCHED",
+          "SOURCE_QUARANTINED",
+          "SOURCE_RETIRED",
+          "COMPLETE",
+          "ROLLED_BACK"
+        ],
+        "operationOrdering": [
+          "Acquire the logical authority lease plus source project lease; verify authority generation/source root; reserve target root/project and persist PREPARED journal.",
+          "Persist COPYING; independently copy regular files into target staging without hardlink/reflink/clone/shared lower CAS; rebuild the ledger and verify full inventory, object digests, regular-file/link-count rules; persist TARGET_VERIFIED.",
+          "Atomically rename target staging to target projects/<ProjectId>, fsync target parents and persist TARGET_INSTALLED. The target path is still non-authoritative because the authority record still names source.",
+          "Compare-and-swap the one authority record from base generation/source to generation+1/target with pendingMigrationId cleared; fsync it; then persist AUTHORITY_SWITCHED. The authority-record value dominates a stale journal after a crash.",
+          "Only after the authority switch is durable, atomically rename the source namespace to source retirement quarantine, fsync and persist SOURCE_QUARANTINED; delete/verify it and persist SOURCE_RETIRED; then persist COMPLETE and remove/fsync the journal.",
+          "Before AUTHORITY_SWITCHED, rollback may delete the non-authoritative target candidate and persist ROLLED_BACK while source remains untouched and authoritative. After the switch, recovery always rolls forward; it never silently switches authority back."
+        ],
+        "recoveryRule": "On startup, hold the logical authority lease, compare journal state with the authority record generation/root and reconcile exact staging/canonical/retirement paths. A newer/different authority generation, mismatched root marker or multiple target candidates is typed corruption/refusal.",
+        "crashRecoveryTable": [
+          {
+            "observed": "PREPARED|authority-source|target-absent",
+            "action": "resume-copy",
+            "nextState": "COPYING"
+          },
+          {
+            "observed": "COPYING|authority-source|target-staging-present",
+            "action": "resume-and-reverify-copy",
+            "nextState": "COPYING"
+          },
+          {
+            "observed": "TARGET_VERIFIED|authority-source|target-staging-present",
+            "action": "install-target-candidate",
+            "nextState": "TARGET_INSTALLED"
+          },
+          {
+            "observed": "TARGET_INSTALLED|authority-source|target-canonical-present",
+            "action": "compare-and-swap-authority",
+            "nextState": "AUTHORITY_SWITCHED"
+          },
+          {
+            "observed": "TARGET_INSTALLED|authority-target-generation-plus-one|journal-stale",
+            "action": "reconcile-switch-gap",
+            "nextState": "AUTHORITY_SWITCHED"
+          },
+          {
+            "observed": "AUTHORITY_SWITCHED|source-canonical-present|target-authoritative",
+            "action": "quarantine-source",
+            "nextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "observed": "AUTHORITY_SWITCHED|source-retirement-present|journal-stale",
+            "action": "reconcile-source-rename-gap",
+            "nextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "observed": "SOURCE_QUARANTINED|source-retirement-present",
+            "action": "resume-source-delete",
+            "nextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "observed": "SOURCE_QUARANTINED|source-retirement-absent",
+            "action": "verify-source-retired",
+            "nextState": "SOURCE_RETIRED"
+          },
+          {
+            "observed": "SOURCE_RETIRED|authority-target|source-absent",
+            "action": "complete-and-remove-journal",
+            "nextState": "COMPLETE"
+          }
+        ],
+        "crashFixtures": [
+          {
+            "id": "migration-crash-prepared",
+            "observed": "PREPARED|authority-source|target-absent",
+            "expectedAction": "resume-copy",
+            "expectedNextState": "COPYING"
+          },
+          {
+            "id": "migration-crash-copying",
+            "observed": "COPYING|authority-source|target-staging-present",
+            "expectedAction": "resume-and-reverify-copy",
+            "expectedNextState": "COPYING"
+          },
+          {
+            "id": "migration-crash-target-verified",
+            "observed": "TARGET_VERIFIED|authority-source|target-staging-present",
+            "expectedAction": "install-target-candidate",
+            "expectedNextState": "TARGET_INSTALLED"
+          },
+          {
+            "id": "migration-crash-target-installed",
+            "observed": "TARGET_INSTALLED|authority-source|target-canonical-present",
+            "expectedAction": "compare-and-swap-authority",
+            "expectedNextState": "AUTHORITY_SWITCHED"
+          },
+          {
+            "id": "migration-crash-after-authority-cas",
+            "observed": "TARGET_INSTALLED|authority-target-generation-plus-one|journal-stale",
+            "expectedAction": "reconcile-switch-gap",
+            "expectedNextState": "AUTHORITY_SWITCHED"
+          },
+          {
+            "id": "migration-crash-before-source-quarantine",
+            "observed": "AUTHORITY_SWITCHED|source-canonical-present|target-authoritative",
+            "expectedAction": "quarantine-source",
+            "expectedNextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "id": "migration-crash-after-source-rename",
+            "observed": "AUTHORITY_SWITCHED|source-retirement-present|journal-stale",
+            "expectedAction": "reconcile-source-rename-gap",
+            "expectedNextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "id": "migration-crash-mid-source-delete",
+            "observed": "SOURCE_QUARANTINED|source-retirement-present",
+            "expectedAction": "resume-source-delete",
+            "expectedNextState": "SOURCE_QUARANTINED"
+          },
+          {
+            "id": "migration-crash-after-source-delete",
+            "observed": "SOURCE_QUARANTINED|source-retirement-absent",
+            "expectedAction": "verify-source-retired",
+            "expectedNextState": "SOURCE_RETIRED"
+          },
+          {
+            "id": "migration-crash-before-journal-cleanup",
+            "observed": "SOURCE_RETIRED|authority-target|source-absent",
+            "expectedAction": "complete-and-remove-journal",
+            "expectedNextState": "COMPLETE"
+          }
+        ],
+        "rollback": {
+          "allowedStates": [
+            "PREPARED",
+            "COPYING",
+            "TARGET_VERIFIED",
+            "TARGET_INSTALLED"
+          ],
+          "forbiddenStates": [
+            "AUTHORITY_SWITCHED",
+            "SOURCE_QUARANTINED",
+            "SOURCE_RETIRED",
+            "COMPLETE"
+          ],
+          "staleGenerationResult": "MIGRATION_AUTHORITY_CONFLICT; leave source/target bytes untouched for explicit recovery"
+        }
+      },
+      "schemaChange": "Changing fixed paths, identifiers, authority-record fields or ledger tenancy is a storage schema major with an explicit offline migrator."
+    },
+    "fixtures": [
+      {
+        "id": "equal-digest-different-projects-have-distinct-paths",
+        "fixtureClass": "lexical-object-path",
+        "valid": true,
+        "projectA": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "projectB": "prj1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "objectId": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectedPathA": "projects/prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/objects/sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectedPathB": "projects/prj1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/objects/sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectPathAlias": false,
+        "claimBoundary": "LEXICAL_ONLY"
+      },
+      {
+        "id": "equal-digest-same-project-deduplicates-path",
+        "fixtureClass": "lexical-object-path",
+        "valid": true,
+        "projectA": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "projectB": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "objectId": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectedPathA": "projects/prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/objects/sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectedPathB": "projects/prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/objects/sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "expectPathAlias": true,
+        "claimBoundary": "LEXICAL_ONLY"
+      },
+      {
+        "id": "different-project-ledgers-have-distinct-paths",
+        "fixtureClass": "lexical-ledger-path",
+        "valid": true,
+        "projectA": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "projectB": "prj1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "expectedLedgerA": "projects/prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/ledger.sqlite",
+        "expectedLedgerB": "projects/prj1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/ledger.sqlite",
+        "expectPathAlias": false,
+        "claimBoundary": "LEXICAL_ONLY"
+      },
+      {
+        "id": "physical-non-alias-qualification-declaration",
+        "fixtureClass": "implementation-conformance-declaration",
+        "valid": true,
+        "scenario": "equal digest under two different ProjectIds after publish and reuse",
+        "requiredObservationIds": [
+          "PI-REGULAR-FILE",
+          "PI-DISTINCT-FILE-IDENTITY",
+          "PI-LINK-COUNT-ONE",
+          "PI-NO-LINK-OR-CLONE-PRIMITIVE",
+          "PI-SUPPORTED-FILESYSTEM-MATRIX"
+        ],
+        "claimState": "IMPLEMENTABLE_UNEXECUTED",
+        "demonstrationEvidenceIds": [],
+        "expectedQualification": "BLOCKED_UNTIL_COMPLETE_RETAINED_EVIDENCE"
+      },
+      {
+        "id": "reject-project-traversal",
+        "fixtureClass": "negative",
+        "valid": false,
+        "projectId": "prj1-../../other",
+        "violates": "SN-01"
+      },
+      {
+        "id": "reject-uppercase-project-id",
+        "fixtureClass": "negative",
+        "valid": false,
+        "projectId": "prj1-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "violates": "SN-01"
+      },
+      {
+        "id": "reject-object-traversal",
+        "fixtureClass": "negative",
+        "valid": false,
+        "objectId": "sha256:../../ledger.sqlite",
+        "violates": "SN-02"
+      },
+      {
+        "id": "reject-symlink-project-component",
+        "fixtureClass": "negative",
+        "valid": false,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pathComponentState": "symlink-or-reparse-point",
+        "violates": "SN-03"
+      },
+      {
+        "id": "reject-cross-project-hardlink-migration",
+        "fixtureClass": "negative",
+        "valid": false,
+        "migrationTransfer": "hardlink",
+        "violates": "SN-04"
+      }
+    ],
+    "assurance": {
+      "state": "SPECIFIED",
+      "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+      "lexicalContract": "Closed vectors/checker establish canonical ProjectId/object path derivation and per-project ledger topology.",
+      "physicalIsolation": "Normative implementation and qualification properties are complete, but no built storage engine or supported-filesystem evidence exists.",
+      "recoveryContract": "Purge/migration states, authority commit points, crash reconciliation and rollback direction are exact and mechanically checked; they remain unexecuted.",
+      "demonstrationEvidenceIds": [],
+      "why": "The contract removes week-one design forks without promoting checker success to product isolation, deletion or migration evidence. G5/G14 remain undemonstrated."
+    }
+  },
+  "deletionProtocol": {
+    "scope": "All user-derived objects and ledger rows controlled by opensip-cli. Class-selective deletion is ledger-transactional inside the active namespace; full-project deletion uses storageNamespace.inventoryPurgeMigration.purge as the binding rename/quarantine/recovery protocol.",
+    "ownership": "Every user-derived object has exactly one canonical ProjectId namespace under storageNamespace.layout. Cross-project physical deduplication is forbidden. Within a project, shared objects use transactional reference counts plus a reachability proof.",
+    "states": [
+      "ACTIVE",
+      "PURGE-PREPARED",
+      "TOMBSTONED",
+      "PHYSICALLY-REMOVED",
+      "VERIFIED"
+    ],
+    "protocol": [
+      "Persist a PREPARED host-audit record and acquire an exclusive project purge lease; new writes are refused. For full-project purge this is the fsynced root-control journal defined by storageNamespace before namespace rename.",
+      "Transactionally tombstone selected privacy classes/project references in that ProjectId's ledger and enumerate exact paths derived by storageNamespace.objectId.",
+      "Remove unreferenced object files and private ephemeral material; checkpoint WAL and rewrite ledger pages that held user-derived payloads.",
+      "After crash, startup resumes every tombstoned purge and reconciles every root-control purge journal/quarantine marker before analysis for that project.",
+      "Verify no live reference, object path, index, temp entry or project wrapping-key reference remains for a selective purge; for full-project purge verify canonical and quarantine namespaces absent and commit VERIFIED_ABSENT in the root-control journal before receipt/cleanup."
+    ],
+    "sharedObjectRule": "An object still reachable by another Run in the same project is reported as retained with the blocking Run IDs. A full-project purge has no such blockers. No object is shared with another project.",
+    "meaningOfDelete": "No tool-controlled live reference or readable byte remains. The model does not promise forensic erasure from SSD remapping, swap, filesystem journals, sync or backup copies; V12/V17 disclose those protection domains.",
+    "fixturesRequired": [
+      "shared-within-project",
+      "full-project",
+      "class-selective",
+      "crash-after-tombstone",
+      "concurrent-writer-refused",
+      "post-purge-verification"
+    ]
+  },
+  "projectionSafety": {
+    "contexts": {
+      "terminal": "Neutralise repository C0/C1, ESC/CSI/OSC and bidi controls; renderer-owned newline/tab only.",
+      "html": "Contextual escaping, no contribution HTML/JS, vendored assets, CSP default-src 'none'.",
+      "json-sarif-mcp": "Typed encoders, bounded strings, explicit UTF-8 error handling and host-constructed URI fields.",
+      "path-uri": "Canonical relative path is display text; only the host may construct file URIs; javascript/data/http schemes from repository text are forbidden."
+    },
+    "projectionSafetyFixtures": [
+      {
+        "id": "ansi-osc-clipboard",
+        "payloadClass": "terminal-control",
+        "surfaces": [
+          "terminal",
+          "json",
+          "sarif",
+          "mcp",
+          "html"
+        ],
+        "expect": "inert-visible-text"
+      },
+      {
+        "id": "html-script-breakout",
+        "payloadClass": "html-script",
+        "surfaces": [
+          "html"
+        ],
+        "expect": "escaped-no-active-content"
+      },
+      {
+        "id": "bidi-and-malformed-unicode",
+        "payloadClass": "unicode",
+        "surfaces": [
+          "terminal",
+          "json",
+          "sarif",
+          "mcp",
+          "html"
+        ],
+        "expect": "valid-encoded-explicit-escape"
+      },
+      {
+        "id": "javascript-path-uri",
+        "payloadClass": "uri",
+        "surfaces": [
+          "terminal",
+          "json",
+          "sarif",
+          "mcp",
+          "html"
+        ],
+        "expect": "text-not-active-uri"
+      },
+      {
+        "id": "oversized-diagnostic",
+        "payloadClass": "volume",
+        "surfaces": [
+          "terminal",
+          "json",
+          "sarif",
+          "mcp",
+          "html"
+        ],
+        "expect": "typed-visible-truncation"
+      }
+    ]
+  },
+  "requiredProperties": [
+    {
+      "id": "R1",
+      "property": "Zero ungranted network egress on the analysis path, proved with the network blocked",
+      "verifies": [
+        "V7"
+      ],
+      "gateIds": [
+        "G3"
+      ],
+      "expectedSubject": "product",
+      "limits": "The initial product excludes network-granted analysis stages; a future explicitly granted mode reopens this property."
+    },
+    {
+      "id": "R2",
+      "property": "A detected cloud-sync or CI-upload root is refused and detector limits are visible",
+      "verifies": [
+        "V2"
+      ],
+      "gateIds": [
+        "G13"
+      ],
+      "expectedSubject": "product",
+      "limits": "Detection is catalog/version scoped and non-exhaustive.",
+      "evidenceGrade": "MECHANISM-SPECIFIED; real-client qualification pending"
+    },
+    {
+      "id": "R3",
+      "property": "Ingestion is allowlist-driven; nothing is read that no consumer required",
+      "verifies": [
+        "V3"
+      ],
+      "gateIds": [
+        "G14"
+      ],
+      "expectedSubject": "product",
+      "absolute": true,
+      "absoluteRationale": "No analysis input path exists outside the host-owned requested read set."
+    },
+    {
+      "id": "R4",
+      "property": "Durable source/fact custody follows an explicitly selected per-Run evidence and retention contract",
+      "verifies": [
+        "V1",
+        "V10"
+      ],
+      "gateIds": [
+        "G19"
+      ],
+      "expectedSubject": "product",
+      "architectureState": "BLOCKED-ON-EVIDENCE-AND-RETENTION"
+    },
+    {
+      "id": "R5",
+      "property": "A user can inventory and purge all tool-controlled project data under deletionProtocol, with external-copy limits stated",
+      "verifies": [
+        "V5"
+      ],
+      "gateIds": [
+        "G5"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R6",
+      "property": "No source-derived content enters shared temp; private ephemeral content is inventoried, bounded and scavenged after crashes",
+      "verifies": [
+        "V6"
+      ],
+      "gateIds": [
+        "G15"
+      ],
+      "expectedSubject": "product",
+      "absolute": true,
+      "absoluteRationale": "The shared-temp prohibition is structural; crash cleanup is deliberately not phrased as instantaneous."
+    },
+    {
+      "id": "R7",
+      "property": "Findings reference spans; excerpt materialisation is explicit and off by default",
+      "verifies": [
+        "V4"
+      ],
+      "gateIds": [
+        "G6"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R8",
+      "property": "First-run disclosure states what is written, where, and how to inventory or purge it",
+      "verifies": [
+        "V1"
+      ],
+      "gateIds": [
+        "G4"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R9",
+      "property": "Signed exact releases have a user-followable, fully offline verification path",
+      "verifies": [
+        "V8"
+      ],
+      "gateIds": [
+        "G16"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R10",
+      "property": "Execution-capable Rust resolution requires a per-project grant visible in PlanId",
+      "verifies": [
+        "V9",
+        "V15"
+      ],
+      "gateIds": [
+        "G17"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R11",
+      "property": "A value obtained through the resolved-configuration secret channel never reaches PlanId, evidence, diagnostics or support bundles; only its handle does",
+      "verifies": [
+        "V11"
+      ],
+      "gateIds": [
+        "G14"
+      ],
+      "expectedSubject": "product",
+      "absolute": true,
+      "absoluteRationale": "The typed configuration API propagates handles only; arbitrary source/scanner strings are governed separately by R16."
+    },
+    {
+      "id": "R12",
+      "property": "Core dumps are disabled where possible, temp is platform-excluded/non-indexable where supported, and unavoidable OS copies are stated",
+      "verifies": [
+        "V12"
+      ],
+      "gateIds": [
+        "G15"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R13",
+      "property": "Serve is project-bound, local-user authenticated, projection-only and audited",
+      "verifies": [
+        "V13"
+      ],
+      "gateIds": [
+        "G18"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R14",
+      "property": "Reference-capacity memory, disk, runtime, cancellation and orphan limits block release independently",
+      "verifies": [
+        "V14"
+      ],
+      "gateIds": [
+        "G7"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R15",
+      "property": "Storage authority consumes PROJECT-ID-V1 and derives lexically distinct per-project ledger/CAS paths; before a physical-isolation claim, G14 must retain regular-file identity, link-count/no-clone and supported filesystem evidence for equal cross-project digests",
+      "verifies": [
+        "V16"
+      ],
+      "gateIds": [
+        "G14"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R16",
+      "property": "Every projection renders repository-controlled data inertly under projectionSafety",
+      "verifies": [
+        "V19"
+      ],
+      "gateIds": [
+        "G6"
+      ],
+      "expectedSubject": "product"
+    },
+    {
+      "id": "R17",
+      "property": "Detected backup custody is disclosed and requires explicit policy; purge states those copies are outside tool control",
+      "verifies": [
+        "V17"
+      ],
+      "gateIds": [
+        "G13"
+      ],
+      "expectedSubject": "product",
+      "limits": "Backup APIs and policies are not exhaustively observable."
+    },
+    {
+      "id": "R18",
+      "property": "Permission-exposed storage roots are refused and effective permissions are revalidated every run",
+      "verifies": [
+        "V18"
+      ],
+      "gateIds": [
+        "G13"
+      ],
+      "expectedSubject": "product"
+    }
+  ],
+  "trustBoundaries": [
+    {
+      "boundary": "User's machine ↔ opensip-cli",
+      "strength": "TRUST GRANTED BY THE USER",
+      "why": "This is the boundary that matters. It is not enforced by anything — the user grants it by running the tool. Every requiredProperty above exists to make that grant safe to give."
+    },
+    {
+      "boundary": "opensip-cli ↔ the network",
+      "strength": "MUST BE PROVABLY CLOSED on the analysis path",
+      "why": "The one property a user can verify independently, by blocking the network."
+    },
+    {
+      "boundary": "Our storage ↔ other software on the machine",
+      "strength": "NOT A BOUNDARY",
+      "why": "Sync, backup and indexing act on what we write. Filesystem permissions do not stop the user's own agents running as the user. This is why V2 requires refusal rather than permission-setting."
+    },
+    {
+      "boundary": "Host ↔ declarative rule",
+      "strength": "REAL",
+      "why": "Data has no execution semantics."
+    },
+    {
+      "boundary": "Host ↔ linked native built-ins",
+      "strength": "NOT A BOUNDARY",
+      "why": "Explicitly TCB."
+    },
+    {
+      "boundary": "Host ↔ semantic provider",
+      "strength": "TCB-ACCEPTED",
+      "why": "It must read source and can import a compiler regardless of interface. Confinement language must not be used here."
+    },
+    {
+      "boundary": "Host ↔ scanner sidecar or probe",
+      "strength": "FAULT CONTAINMENT ONLY",
+      "why": "A process is not a sandbox absent an OS confinement profile."
+    },
+    {
+      "boundary": "Host ↔ WASM contribution",
+      "strength": "REAL IF CAPABILITY-SCOPED",
+      "why": "Conditional, and the finding channel still leaks. Only relevant if C1 becomes real."
+    }
+  ],
+  "nonGoals": [
+    {
+      "id": "N1",
+      "nonGoal": "Defending against a compromised operating system or toolchain",
+      "why": "Trusted inputs."
+    },
+    {
+      "id": "N2",
+      "nonGoal": "Making source confidential from a producer that reads it and emits text",
+      "why": "We are that producer. The mitigations bound what we retain and emit; they cannot make reading not have happened.",
+      "mustAppearIn": "any confinement claim"
+    },
+    {
+      "id": "N3",
+      "nonGoal": "Treating a process boundary as a sandbox",
+      "why": "Fault containment only, absent OS confinement.",
+      "mustAppearIn": "any isolation claim"
+    },
+    {
+      "id": "N4",
+      "nonGoal": "Defending the user from their own deliberate export",
+      "why": "An explicit, classed export is the user's decision. Our obligation is that it is explicit and classed, not that it is prevented."
+    },
+    {
+      "id": "N5",
+      "nonGoal": "Defending against a malicious first-party release",
+      "why": "The host is TCB by construction. Signing raises substitution cost; it does not remove this."
+    },
+    {
+      "id": "N6",
+      "nonGoal": "Detecting PII in the user's source",
+      "why": "We must assume it is present and behave accordingly. Attempting to detect and specially handle PII would be unreliable and would create a false assurance."
+    }
+  ],
+  "residualRisks": [
+    "We read the user's source. No mitigation changes that; they are trusting us with it.",
+    "Storage exposure detection is catalog-scoped and non-exhaustive; UNKNOWN never becomes a safety claim.",
+    "DeletionProtocol removes tool-controlled live bytes and references but cannot erase filesystem journals, remapped media, swap, sync or backup copies outside the tool's protection domain.",
+    "V10 remains unresolved. retention-tiers.v6 plus evaluation-proof.v1 are the current architecture candidates awaiting independent re-review; retention-tiers.v5 was rejected by reviewer-3.",
+    "N6 means a user with PII in fixtures gets no special protection beyond minimisation — which is the honest position but is not zero risk to them."
+  ],
+  "shipGate": {
+    "rule": "No documentation may use sandbox, isolation, or confinement language for a weak/TCB boundary without the qualifier in the same place. No privacy or offline claim may publish unless every mapped gate is DEMONSTRATED for the identified release under operability.v2.",
+    "qualification": "SPECIFIED and IMPLEMENTABLE are paper architecture states; QUALIFIED calibrates a harness; DEMONSTRATED binds a passing qualified gate to the release. Controlled CI negative controls can QUALIFY before first release, but claim publication requires DEMONSTRATED.",
+    "checker": "artifacts/check-threat-claims.py",
+    "operabilitySource": "artifacts/operability.v2.json",
+    "currentState": {
+      "derived": true,
+      "demonstratedGateIds": [],
+      "blockedPropertyIds": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R9",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18"
+      ],
+      "publicationState": "BLOCKED"
+    }
+  },
+  "knownLimitations": [
+    "No requiredProperty has a DEMONSTRATED gate, so the product may publish no privacy or offline claim yet. This is the correct pre-implementation state.",
+    "Storage detector fixtures against real clients/APIs are a legitimate pre-release evidence gap; the catalog/result/fallback mechanism is decided.",
+    "V12 includes harms that are genuinely unpreventable on some platforms; the mitigation there is disclosure.",
+    "V10 remains an unresolved architecture dependency. Durable authoritative retention must not ship by inventing a proof/default.",
+    "Two independent reviews were adjudicated; coordinator seal is still required.",
+    "storageNamespace specifies lexical layout, real-file qualification properties and exact purge/migration recovery, but no built storage engine or supported-filesystem evidence exists. G5/G14 remain undemonstrated; a green checker is not physical isolation, deletion or migration evidence."
+  ],
+  "resolves": {
+    "A1-TM2-01": "RESOLVED — V11 restores the F8-class secret-value finding that v2 dropped and that resolved-inputs v2 registered as owed. Sibling artifacts now cite v3 ids, checked mechanically by each surface's *-TM invariant.",
+    "A1-TM2-02": "RESOLVED — V12 covers core dumps, swap, hibernation, crash reporters and search indexers, with R12; what cannot be prevented is stated rather than implied.",
+    "A1-TM2-03": "RESOLVED — V13 treats the serving surface as an amplifier, with R13 binding it to the ingestion allowlist, local-user authentication, projections-not-source, and audit-plane recording.",
+    "A1-TM2-07": "RESOLVED BY RETRACTION — V10 is consistently UNRESOLVED; prior tiers/proof sketches are non-authoritative history.",
+    "B-TM2-01": "OPEN DEPENDENCY, HONESTLY BOUNDED — no reviewed universal no-match proof is promoted; V10 blocks durable-authoritative retention until EVIDENCE/RETENTION resolve.",
+    "B-TM2-02": "RESOLVED BY MARKING — V2 carries evidenceGrade ASSERTED for prevalence, and R2 drops the absolute promise for 'refused on DETECTION, with the limits stated'. No implementation can promise the root is never in a sync scope.",
+    "B-TM2-03": "RESOLVED — V14 makes resource exhaustion a host-integrity harm with a BLOCKING gate (R14).",
+    "B-TM2-04": "RESOLVED — V15 raises repository-controlled execution to critical and records the resolved-inputs finding that the cfg corpus is partly a function of execution, so execution is on the soundness path, not an optional deep mode.",
+    "B-TM2-05": "RESOLVED — V13 (serve) and V12 (OS-created copies) close the two boundary gaps.",
+    "B-TM2-06": "RESOLVED — V12 states the protection-domain limit explicitly: a retention promise over OUR writes does not cover copies the OS makes.",
+    "B-TM2-07": "RESOLVED — the ship gate now requires a QUALIFIED gate under the operability definition, and records that NO property qualifies today, so no privacy or offline claim may be published yet.",
+    "B-TM2-08": "RESOLVED — R1 becomes zero UNGRANTED egress, with granted Probes as a stated exception visible in PlanId. The absolute form contradicted the architecture.",
+    "B-TM2-10": "RESOLVED — U7 (evidence correctness and project isolation) is a user asset, with V16 and R15.",
+    "R1-TM-01": "RESOLVED — deletionProtocol selects per-project ownership, forbids cross-project physical dedup, defines crash recovery and narrows deletion to the tool-controlled protection domain.",
+    "R1-TM-02": "RESOLVED AS PRE-RELEASE EVIDENCE GAP — detector catalog and fallback are normative; real-client qualification remains required by G13.",
+    "R1-TM-03": "RESOLVED — controlled CI negative controls may QUALIFY a gate; field incidents are not required, while release claims require DEMONSTRATED evidence.",
+    "R1-TM-04": "RESOLVED PROCESS-WISE — both independent reviews are registered; coordinator remains the seal authority.",
+    "R2-TM-01": "RESOLVED — Finding and RequiredProperty instances validate against closed enums/shapes; exact gate IDs replace category labels.",
+    "R2-TM-02": "RESOLVED BY RETRACTION — V10 is UNRESOLVED throughout and candidate history has no authority.",
+    "R2-TM-03": "RESOLVED — V2 upload, V17 backup and V18 permission exposure are separate findings with typed detector decisions.",
+    "R2-TM-04": "RESOLVED — every required property maps to exact operability gate IDs and current publication state is derived.",
+    "R2-TM-05": "RESOLVED — deletionProtocol supplies ownership, no cross-project sharing, tombstone/recovery and verification semantics with external-copy limits.",
+    "R2-TM-06": "RESOLVED — R11 is scoped to the resolved-config secret channel; source/scanner strings use R16.",
+    "R2-TM-07": "RESOLVED — V19/R16 and projectionSafety add cross-surface hostile-output controls and fixtures.",
+    "R2-TM-08": "RESOLVED — R6 keeps the shared-temp absolute but replaces impossible all-exit cleanup with private inventory, bounded lifetime and startup scavenging.",
+    "IP-R4-06": "REPAIRED; INDEPENDENT REREVIEW PENDING — storageNamespace consumes the exact PROJECT-ID-V1 owner, fixes canonical project paths and per-project ledger/CAS tenancy, and separates lexical vectors from physical qualification. Assurance remains SPECIFIED/IMPLEMENTABLE_UNEXECUTED until G5/G14 product evidence exists.",
+    "R7-SN-02": "REPAIRED; INDEPENDENT REREVIEW PENDING — unequal path strings establish only lexical separation. Physical non-aliasing now requires retained regular-file type, stable file-identity inequality, link-count-one, no-link/clone tracing and supported-filesystem operation-matrix evidence; no such evidence is claimed pre-implementation.",
+    "R7-SN-03": "REPAIRED; INDEPENDENT REPLAY PENDING — full-project purge has root-control journal/quarantine commit points plus an exact recovery branch for every reachable durable nonterminal state, including QUARANTINED before DELETE_IN_PROGRESS; cross-root migration retains its authority-record compare-and-swap and exhaustive crash vectors.",
+    "R7R-SN-01": "REPAIRED; INDEPENDENT REPLAY PENDING — QUARANTINED|canonical-absent|quarantine-present deterministically persists DELETE_IN_PROGRESS and resumes idempotent deletion. The checker now compares recovery-row state prefixes with the exact reachable durable nonterminal state set, so deleting both row and fixture cannot escape."
+  },
+  "modelSchema": {
+    "why": "The model is used as a cross-check by five other contracts (RI-TM, FI-TM, OP-TM, DL-TM and the register). An untyped model means each of those consumers guesses at its shape.",
+    "Finding": {
+      "required": [
+        "id",
+        "severity",
+        "title",
+        "detail",
+        "affects",
+        "cause"
+      ],
+      "oneOf": [
+        "requiredMitigations",
+        "requiredResolution"
+      ],
+      "optional": [
+        "evidenceGrade",
+        "note",
+        "residual",
+        "kind",
+        "status",
+        "whyNoMitigation",
+        "rejectedAndCandidateHistory",
+        "resolution",
+        "severityChangeFromV1"
+      ],
+      "severity": {
+        "closed": true,
+        "values": [
+          "critical",
+          "high",
+          "medium",
+          "low"
+        ]
+      },
+      "closedKeys": true,
+      "closureRule": "required + oneOf + optional is the complete key set for a Finding. An undeclared key is a contract violation: the model is a cross-check for five other contracts, so a key that exists but is not declared is a shape those consumers cannot see. V9.severityChangeFromV1 and a leaked tier-level V10.isDefault both escaped the previously unenforced closure."
+    },
+    "RequiredProperty": {
+      "required": [
+        "id",
+        "property",
+        "verifies",
+        "gateIds",
+        "expectedSubject"
+      ],
+      "optional": [
+        "exception",
+        "limits",
+        "absolute",
+        "absoluteRationale",
+        "evidenceGrade",
+        "architectureState"
+      ],
+      "expectedSubject": {
+        "closed": true,
+        "values": [
+          "product"
+        ]
+      },
+      "gateRule": "gateIds is non-empty and every ID resolves to an implementation-conformance/product gate in operability.v2 requiredPropertyRegistry.",
+      "absoluteRule": "A property phrased absolutely (zero/never/always/no) must EITHER declare absolute:true with a rationale for why it holds by construction, OR carry an exception/limits. An undeclared absolute is how 'zero network egress' shipped beside network-granted Probes."
+    },
+    "PublicationDecision": {
+      "closed": true,
+      "values": [
+        "publishable",
+        "blocked-undemonstrated-gate",
+        "blocked-weak-boundary-language"
+      ],
+      "rule": "A privacy or offline claim is publishable only when its mapped gate is DEMONSTRATED for the identified release."
+    }
+  },
+  "shipGateFixtures": [
+    {
+      "id": "implementable-gate-blocks-claim",
+      "valid": true,
+      "claim": "we never send your source anywhere",
+      "propertyId": "R1",
+      "gateState": "IMPLEMENTABLE",
+      "boundaryLanguage": false,
+      "expect": "blocked-undemonstrated-gate"
+    },
+    {
+      "id": "demonstrated-gate-permits-claim",
+      "valid": true,
+      "claim": "we never send your source anywhere",
+      "propertyId": "R1",
+      "gateState": "DEMONSTRATED",
+      "boundaryLanguage": false,
+      "expect": "publishable"
+    },
+    {
+      "id": "weak-boundary-language-blocks",
+      "valid": true,
+      "claim": "rules run in a sandbox",
+      "propertyId": "R10",
+      "gateState": "DEMONSTRATED",
+      "boundaryLanguage": true,
+      "boundaryQualified": false,
+      "expect": "blocked-weak-boundary-language"
+    },
+    {
+      "id": "qualified-boundary-language-ok",
+      "valid": true,
+      "claim": "rules run in a process boundary that provides fault containment, not a security sandbox",
+      "propertyId": "R10",
+      "gateState": "DEMONSTRATED",
+      "boundaryLanguage": true,
+      "boundaryQualified": true,
+      "expect": "publishable"
+    },
+    {
+      "id": "reject-publish-on-implementable-gate",
+      "valid": false,
+      "violates": "T10",
+      "claim": "we never send your source anywhere",
+      "propertyId": "R1",
+      "gateState": "IMPLEMENTABLE",
+      "boundaryLanguage": false,
+      "expect": "publishable"
+    },
+    {
+      "id": "reject-unqualified-sandbox-language",
+      "valid": false,
+      "violates": "T1",
+      "claim": "rules run in a sandbox",
+      "propertyId": "R10",
+      "gateState": "DEMONSTRATED",
+      "boundaryLanguage": true,
+      "boundaryQualified": false,
+      "expect": "publishable"
+    }
+  ]
+}

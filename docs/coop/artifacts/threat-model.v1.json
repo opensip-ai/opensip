@@ -1,0 +1,356 @@
+{
+  "artifact": "opensip.threat-model",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. Not reviewed by any second party. Every prior significant defect in this author's work was found by an independent reviewer using a different method and passed this author's own checks. Treat confidence accordingly.",
+  "purpose": "Back the confinement claims the architecture already makes, and state precisely what is NOT defended. This is the declared ship gate for any confinement or sandbox language.",
+  "decisionDependencies": [
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "claim": "process isolation is fault containment, not a sandbox, absent OS confinement; no in-language signature is a capability boundary"
+    },
+    {
+      "id": "ARCH.HONEST-LIMITS",
+      "source": "architecture/01-product-boundary.md#honest-limits-the-product-must-not-overstate",
+      "claim": "no extension mechanism can promise source confidentiality from a producer that reads source and returns text"
+    },
+    {
+      "id": "ARCH.CAPABILITY-MATRIX",
+      "source": "architecture/05-rules-and-extensions.md#capability-matrix",
+      "claim": "execution authority per tier; grants enter PlanId; no ambient secrets"
+    },
+    {
+      "id": "ARCH.NETWORK-DENY",
+      "source": "architecture/03-execution-model.md#invariants-shipped-from-commit-one",
+      "claim": "network denied unless the workflow grants it"
+    },
+    {
+      "id": "P-4",
+      "source": "artifacts/claim-register.v1.json",
+      "claim": "TypeScript and Rust receive semantic providers"
+    }
+  ],
+  "assets": [
+    {
+      "id": "A1",
+      "asset": "Source confidentiality",
+      "why": "The analyzed code is usually proprietary",
+      "owner": "user"
+    },
+    {
+      "id": "A2",
+      "asset": "Evidence integrity",
+      "why": "A Run's claims must not be forgeable, or the whole trust story collapses",
+      "owner": "product"
+    },
+    {
+      "id": "A3",
+      "asset": "Verdict integrity",
+      "why": "A gate that can be silently defeated is theatre",
+      "owner": "product"
+    },
+    {
+      "id": "A4",
+      "asset": "Baseline integrity",
+      "why": "Customer-owned artifact; forging it defeats the net-new ratchet",
+      "owner": "user"
+    },
+    {
+      "id": "A5",
+      "asset": "Credentials",
+      "why": "Optional export may hold tokens",
+      "owner": "user"
+    },
+    {
+      "id": "A6",
+      "asset": "Developer/CI host integrity",
+      "why": "Extensions and toolchains execute on it",
+      "owner": "user"
+    },
+    {
+      "id": "A7",
+      "asset": "Local availability",
+      "why": "An analysis that never terminates blocks the workflow it is meant to serve",
+      "owner": "user"
+    }
+  ],
+  "adversaries": [
+    {
+      "id": "ADV1",
+      "adversary": "Malicious extension author",
+      "capability": "Ships a rule pack, provider, scanner, or probe that runs on the developer's machine with whatever authority the tier grants",
+      "motivation": "Exfiltrate source or credentials; establish persistence",
+      "inScope": true
+    },
+    {
+      "id": "ADV2",
+      "adversary": "Hostile analyzed repository",
+      "capability": "Supplies crafted source, config, and build files as ANALYSIS INPUT \u2014 e.g. reviewing an untrusted pull request or auditing an unknown dependency",
+      "motivation": "Code execution on the analyzing host; escape the snapshot",
+      "inScope": true,
+      "note": "This is the most under-examined surface in the design so far \u2014 see F1."
+    },
+    {
+      "id": "ADV3",
+      "adversary": "Insider gaming the gate",
+      "capability": "Edits config, waivers, baselines, environment, or simply does not run the tool",
+      "motivation": "Make the build pass",
+      "inScope": "partially \u2014 see non-goal N1"
+    },
+    {
+      "id": "ADV4",
+      "adversary": "Network attacker",
+      "capability": "MITM on extension install or optional evidence export",
+      "motivation": "Supply malicious contributions; capture exported evidence",
+      "inScope": true
+    },
+    {
+      "id": "ADV5",
+      "adversary": "Co-tenant on shared CI",
+      "capability": "Reads cache, ledger, or snapshot blobs left by another job",
+      "motivation": "Read another tenant's source or evidence",
+      "inScope": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "high",
+      "title": "Running a semantic provider on untrusted source can be arbitrary code execution",
+      "detail": "P-4 commits to semantic providers for TypeScript and Rust. Real toolchains execute repository-controlled code in ordinary operation: TypeScript configuration can reference compiler plugins and custom transformers; Rust builds execute build scripts and procedural macros at compile time. If a semantic provider invokes a real toolchain over an untrusted repository, analysis is code execution under the analyzing user's authority. Nothing in the architecture currently says otherwise, and the workload 'audit an unknown dependency' makes this reachable by design.",
+      "consequence": "A1, A6 compromised by ADV2. Snapshot immutability is irrelevant here \u2014 the snapshot is honest; the danger is what reading it invokes.",
+      "requiredMitigations": [
+        "Semantic providers declare whether they can execute repository-controlled code. This is a provider manifest field, not documentation.",
+        "A provider that can must run under an explicit grant, denied by default, and never in a workflow whose scope includes untrusted input.",
+        "Feature/plugin resolution is part of the semantic universe identity, so an execution-capable configuration is visible in PlanId rather than implicit.",
+        "Syntax-tier extraction MUST remain available for untrusted input: parsing without a toolchain is the safe mode, and the capability tier already makes its reduced predicates honest."
+      ],
+      "constrainsOpenDecision": "P-4a \u2014 a build-system-driven Rust substrate executes repository code; a pure-parse or metadata-only substrate does not. This is now a security input to that choice, not only an engineering one."
+    },
+    {
+      "id": "F2",
+      "severity": "medium-high",
+      "title": "Snapshot capture is a path-traversal surface",
+      "detail": "The snapshotter enumerates a live worktree containing attacker-controlled names, symlinks, hardlinks, case variants, and submodule pointers. Read-only access does not prevent reading OUTSIDE the project root via a symlink, nor a path that escapes when materialised into CAS.",
+      "requiredMitigations": [
+        "Canonicalise and root-confine every path before inclusion; a path that resolves outside the project root is a typed rejection, not a skipped file.",
+        "Symlink policy is declared in the snapshot manifest and participates in SnapshotId; the default does not follow links out of the root.",
+        "Materialisation into CAS is by content digest, never by attacker-supplied path."
+      ]
+    },
+    {
+      "id": "F3",
+      "severity": "medium",
+      "title": "Findings and diagnostics are an exfiltration channel with no declared bound",
+      "detail": "Already sealed as an honest limit, but no artifact bounds it. A contribution can encode arbitrary source into a finding message, a proof anchor, or a diagnostic, and the host will faithfully persist and export it.",
+      "requiredMitigations": [
+        "Length and cardinality budgets on messages, anchors, and diagnostics \u2014 the exfiltration bandwidth is a resource, so budget it.",
+        "Proof anchors are structured references (span identities), not free text, so quoting source requires the host's excerpt path rather than a contribution's string.",
+        "Export carries privacy classes and a declared default; source excerpts are not exported by default."
+      ]
+    },
+    {
+      "id": "F4",
+      "severity": "medium",
+      "title": "Shared-host cache and ledger have no stated isolation",
+      "detail": "Snapshot blobs, facts, and the ledger may hold source from a private repository. On a shared CI runner or multi-user machine, default filesystem permissions may expose them to ADV5.",
+      "requiredMitigations": [
+        "User-only permissions on the storage root, verified at open rather than assumed.",
+        "Refuse or warn when the resolved storage root is world- or group-readable.",
+        "CI guidance: storage root inside the job workspace, not a shared cache, unless the cache is per-tenant."
+      ]
+    },
+    {
+      "id": "F5",
+      "severity": "medium",
+      "title": "Resource exhaustion is a correctness problem before it is an availability problem",
+      "detail": "Crafted input can drive pathological parser, resolver, or matcher behaviour. Budgets already exist, but budget exhaustion changes Coverage, and Coverage changes the verdict \u2014 so a hostile repository can steer a verdict toward indeterminate by making analysis expensive.",
+      "requiredMitigations": [
+        "Budget exhaustion attributable to a specific input is reported with an attribution reason code, distinguishable from ordinary scale.",
+        "Required-Coverage policy means an attacker can force indeterminate but never force pass. Confirm this direction holds for every budget class.",
+        "Linear-time pattern primitives in the declarative tier; no backtracking regex over untrusted input."
+      ],
+      "consequence": "A7 degraded by ADV2; A3 steered toward indeterminate."
+    },
+    {
+      "id": "F6",
+      "severity": "high",
+      "title": "Local ledger and baseline files are forgeable by anyone who can write them",
+      "detail": "Evidence integrity (A2) and baseline integrity (A4) rest on files in a user-writable location. A local actor \u2014 or any process running as that user, including a contribution that obtained filesystem authority \u2014 can insert a Run manifest, alter fingerprints, or rewrite a committed baseline to suppress findings. Nothing in the design detects this.",
+      "consequence": "A2 and A4 compromised by ADV3, or by ADV1 if any tier leaks filesystem authority.",
+      "requiredMitigations": [
+        "Sealed Run manifests are self-authenticating: the EvidenceDigest covers the manifest, and the ledger stores the digest so an altered row is detectable on read.",
+        "Committed baselines carry the digest of the Run they derive from; a baseline whose digest does not resolve is INDETERMINATE, never silently accepted.",
+        "Detection, not prevention, is the honest goal \u2014 see N1. A local actor can always delete evidence; the requirement is that they cannot forge it undetectably.",
+        "Integrity failure is an operational termination, never a passing verdict."
+      ]
+    },
+    {
+      "id": "F7",
+      "severity": "medium-high",
+      "title": "A contribution can influence the verdict without holding policy authority",
+      "detail": "Verdict integrity (A3) is protected by the sealed rule that extensions own detection while the project owns policy. The residual path is quantitative: a contribution that emits findings at attacker-chosen severity, volume, or fingerprint identity can push a gate toward failure (denial of merge) or, by colliding fingerprints with baselined entries, toward suppression.",
+      "consequence": "A3 degraded by ADV1 without ever violating the policy boundary.",
+      "requiredMitigations": [
+        "Fingerprints are host-computed from typed subjects and anchors; a contribution cannot choose an identity, so it cannot deliberately collide with a baselined entry.",
+        "Per-contribution finding cardinality budgets, so volume cannot be used as a denial-of-merge tool.",
+        "Effective severity resolves from tracked project policy; a contribution supplies an observed score and a non-authoritative default only."
+      ]
+    },
+    {
+      "id": "F8",
+      "severity": "medium",
+      "title": "Credential handling has no stated storage or leakage boundary",
+      "detail": "Optional export implies a token (A5). No artifact states where it lives, which surfaces may read it, or that it is excluded from diagnostics and evidence.",
+      "consequence": "A5 compromised by ADV1 (reads it) or ADV4 (captures it in transit).",
+      "requiredMitigations": [
+        "OS keychain where available; secure-file fallback with user-only permissions, verified at open.",
+        "Credentials are referenced by handle in resolved config, never inlined, so they cannot enter PlanId or EvidenceDigest.",
+        "No contribution tier receives credential access at any level; export is host-only.",
+        "Diagnostics and support bundles redact by class, not by pattern-matching for secrets."
+      ]
+    },
+    {
+      "id": "F9",
+      "severity": "low-medium",
+      "title": "Availability degradation is attributable but unbounded per-run",
+      "detail": "Local availability (A7) is protected by budgets, but a repository can make every run expensive, and a contribution can consume its budget adversarially each invocation. There is no cross-run notion of a persistently pathological input.",
+      "consequence": "A7 degraded by ADV1 or ADV2 without ever exceeding a single-run limit.",
+      "requiredMitigations": [
+        "Budget exhaustion carries an attribution reason code naming the input or contribution responsible.",
+        "Repeated attributable exhaustion is surfaced to the user; the tool does not silently absorb a permanently degraded path.",
+        "Exhaustion can force INDETERMINATE but must never force PASS \u2014 confirm per budget class (see F5)."
+      ]
+    }
+  ],
+  "trustBoundaries": [
+    {
+      "boundary": "Host TCB \u2194 declarative rule/profile",
+      "strength": "REAL",
+      "why": "Data with no execution semantics cannot hold authority. This is the only boundary that is structural rather than enforced."
+    },
+    {
+      "boundary": "Host TCB \u2194 linked native built-ins",
+      "strength": "NOT A BOUNDARY",
+      "why": "Explicitly trusted computing base. Stated so no one mistakes the tier table for a security claim."
+    },
+    {
+      "boundary": "Host \u2194 WASM contribution",
+      "strength": "REAL IF CAPABILITY-SCOPED",
+      "why": "Component isolation with explicit imports. Conditional on granting no filesystem or network interface; the finding channel (F3) still leaks."
+    },
+    {
+      "boundary": "Host \u2194 scanner sidecar",
+      "strength": "FAULT CONTAINMENT ONLY",
+      "why": "A process is not a sandbox absent an OS confinement profile. Label trusted unless confined."
+    },
+    {
+      "boundary": "Host \u2194 semantic provider",
+      "strength": "TCB-ACCEPTED",
+      "why": "It must read source to do its job and can import a compiler regardless of its interface. Accepting it as TCB is the honest position; confinement language must not be used here."
+    },
+    {
+      "boundary": "Host \u2194 Probe",
+      "strength": "EXPLICIT-GRANT",
+      "why": "Effectful by contract, ephemeral workspace, per-Plan grants, never implicitly retried."
+    },
+    {
+      "boundary": "Analyzed source \u2194 parsers and providers",
+      "strength": "ADVERSARIAL INPUT BOUNDARY",
+      "why": "The surface F1/F2/F5 attack. Previously unnamed in the architecture; the most important addition in this model."
+    }
+  ],
+  "nonGoals": [
+    {
+      "id": "N1",
+      "nonGoal": "Defending against a determined repository owner",
+      "why": "They control config, waivers, baselines, and whether the tool runs at all. The gate is an integrity mechanism against drift and accident, not an access control. Enforcement against a motivated insider requires branch protection and required checks in the forge \u2014 outside this tool.",
+      "mustAppearIn": "any gate or enforcement claim"
+    },
+    {
+      "id": "N2",
+      "nonGoal": "Source confidentiality from a producer that reads source and emits text",
+      "why": "The finding stream is a channel; F3 bounds bandwidth but cannot close it.",
+      "mustAppearIn": "any extension confinement claim"
+    },
+    {
+      "id": "N3",
+      "nonGoal": "Treating a process boundary as a sandbox",
+      "why": "Fault containment and compatibility only, absent OS confinement.",
+      "mustAppearIn": "any isolation claim"
+    },
+    {
+      "id": "N4",
+      "nonGoal": "Defending against a compromised host toolchain or OS",
+      "why": "Compilers, package managers, and the OS are trusted inputs. Verifying them is out of scope."
+    },
+    {
+      "id": "N5",
+      "nonGoal": "Defending against a malicious first-party release",
+      "why": "Signing and provenance raise the cost of substitution but the host is TCB by construction."
+    }
+  ],
+  "privacyClasses": [
+    {
+      "class": "source-bytes",
+      "examples": "snapshot blobs, span excerpts",
+      "defaultExport": "NEVER",
+      "storage": "user-only permissions"
+    },
+    {
+      "class": "derived-identity",
+      "examples": "symbol names, qualified names, paths",
+      "defaultExport": "opt-in",
+      "note": "Often reveals product structure; treat as sensitive rather than metadata."
+    },
+    {
+      "class": "finding-text",
+      "examples": "messages, remediation prose",
+      "defaultExport": "opt-in",
+      "note": "May quote source (F3)."
+    },
+    {
+      "class": "config-values",
+      "examples": "resolved configuration",
+      "defaultExport": "redacted",
+      "note": "May contain secrets; referenced not inlined."
+    },
+    {
+      "class": "credentials",
+      "examples": "export tokens",
+      "defaultExport": "NEVER",
+      "storage": "OS keychain where available, secure-file fallback",
+      "note": "Never in EvidenceDigest, never in diagnostics."
+    },
+    {
+      "class": "aggregate-metrics",
+      "examples": "counts, durations, verdicts",
+      "defaultExport": "opt-in",
+      "note": "The only class safe to default toward export, and still opt-in because offline is the product default."
+    }
+  ],
+  "residualRisks": [
+    "F3 bandwidth reduction is not closure. A contribution that sees source can leak it slowly.",
+    "WASM confinement depends on the component host's own soundness, which is a trusted dependency.",
+    "F1 mitigation depends on providers declaring execution capability honestly; a lying manifest is only caught by review or signing, not by the host.",
+    "N1 means the product's enforcement value rests on forge-side controls this tool does not own."
+  ],
+  "shipGate": {
+    "rule": "No documentation, marketing, or artifact may use sandbox, isolation, or confinement language for a boundary whose strength in trustBoundaries is NOT A BOUNDARY, FAULT CONTAINMENT ONLY, or TCB-ACCEPTED, without stating that strength in the same place.",
+    "checker": "artifacts/check-threat-claims.py",
+    "coversNonGoals": [
+      "N1",
+      "N2",
+      "N3"
+    ]
+  },
+  "knownLimitations": [
+    "Authored solo. No adversarial review. F1 in particular deserves a second opinion from someone who has actually integrated a Rust semantic substrate, because its severity depends on facts about toolchain behaviour that this author has not verified against a running system.",
+    "No attack tree or likelihood ratings: this is a boundary-and-asset model, not a risk quantification.",
+    "F2's mitigations are stated but the interaction with case-insensitive filesystems and submodules is not worked through.",
+    "Nothing here has been tested against a real hostile repository.",
+    "F6-F9 were added because this model's own ship-gate checker found that five declared assets had no finding covering them. That is a gap the author did not notice while writing the assets and findings in one pass \u2014 the same failure mode recorded four times elsewhere in this exercise."
+  ]
+}

@@ -1,0 +1,621 @@
+{
+  "artifact": "opensip.v10-disposition",
+  "version": 1,
+  "date": "2026-08-03",
+  "status": "CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW",
+  "reviewState": "AWAITING-INDEPENDENT-REVIEW",
+  "claimId": "ARCH.RETENTION-TIERS",
+  "sealRecommendation": "DO-NOT-SEAL",
+  "author": "architecture disposition lane, 2026-08-03",
+
+  "role": "Assess threat-model.v3.json#V10.requiredResolution item by item against the artifacts that are actually independently reviewed today, and record what each item does and does not close. This is an architecture assessment. It applies nothing, seals nothing, freezes nothing, signs nothing and selects no retention default. It is written to be consumable by the evidence-gated T12 guard in check-threat-claims.py if and only if a later authority applies the deferred integration patch recorded below, and the preconditions of that patch are NOT met today.",
+
+  "authority": {
+    "candidateState": "NOT-APPLIED",
+    "authorityClaim": "NONE",
+    "mayAmendThreatModel": false,
+    "mayAmendClaimRegister": false,
+    "mayConstituteAProductDecision": false,
+    "rule": "An architecture disposition may cite a product decision and may never constitute one. The binding packet is the only place a product decision is constituted. This artifact was written after IMPLEMENTATION-FREEZE section 4.4, which records that a fabricated retention sign-off survived three days in this corpus because an architecture candidate asserted what only the binding packet may carry.",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "whatThisArtifactChangedOnDisk": "Only itself. threat-model.v3.json, ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md, IMPLEMENTATION-FREEZE.md, IMPLEMENTER-BLUEPRINT.md and claim-register.v1.json were read and not written."
+  },
+
+  "verdict": {
+    "v10Resolvable": false,
+    "disposition": "PARTIAL — V10 IS NOT RESOLVED BY THIS ARTIFACT",
+    "itemsAssessed": 3,
+    "itemsDischarged": 1,
+    "itemsPartiallyDischarged": 1,
+    "itemsNotDischarged": 1,
+    "statement": "Item 1 is discharged with residuals against independently reviewed bytes at architecture-candidate grade. Item 2 is partially discharged: the retained verification/regeneration closure and the per-Run custody policy are both selected and bound in independently reviewed bytes, but the durable default posture is UNSELECTED and is not an architecture choice to make. Item 3 is NOT DISCHARGED: the property is stated in bytes that passed independent review, but that review examined none of the keys carrying it, no retained checker evaluates it, the one checker that ever derived it belongs to an independently rejected artifact, and the freeze itself still lists purge semantics that do not rewrite a sealed Run as a mandatory unmet insertion. Because one of three required items is open, V10 remains open and the status-changing half of the deferred patch is NOT authorised.",
+    "whyThisIsNotAPaperSeal": "No discharge below rests on an implementable claim, a self-declared status, or a checker exit code alone. Each names a reviewed artifact, its recomputed SHA-256, the review that judged those exact bytes, and the specific structural position that carries the obligation. Where the reviewed bytes carry the words but the review did not read them, that is recorded as NOT DISCHARGED rather than as a discharge."
+  },
+
+  "requiredResolutionAssessment": [
+    {
+      "item": 1,
+      "obligation": "Select and independently verify an evaluation proof that covers exact activation, every outcome, relational findings, no-match and verdict derivation",
+      "status": "DISCHARGED-WITH-RESIDUALS",
+      "grade": "architecture-candidate; IMPLEMENTABLE_UNEXECUTED",
+      "primaryCitation": {
+        "artifact": "artifacts/evaluation-proof.v8.json",
+        "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+        "checker": "artifacts/check-evaluation-proof-v8.py",
+        "checkerSha256": "c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769",
+        "review": "artifacts/ep8-rt13.review-independent-cold-reconstruction.json",
+        "reviewSha256": "f4599b32a9f1b93049111b9e86debd19419902c9c5f4fb886f8d0dc9c330567e",
+        "reviewDecision": "PASS",
+        "reviewBlockingFindingCount": 0,
+        "reviewVerdictFieldsRead": "verdict.decision, verdict.blockingFindings"
+      },
+      "consumingCitation": {
+        "artifact": "artifacts/evidence.v10.json",
+        "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+        "checker": "artifacts/check-evidence-v10.py",
+        "checkerSha256": "0379bb9b9006558be9546774b177ed2a1e8c23d8000d16cc4a2cff9d8ed12bbd",
+        "review": "artifacts/evidence.v10.review-independent-prefreeze.json",
+        "reviewSha256": "5ce636fa1ceadc83699e8990babe421b8df89f4f99955de05444d84a9621676e",
+        "reviewDecision": "PASS",
+        "reviewBlockingFindingCount": 0,
+        "join": "evidence.v10 dependencies.evaluationProof pins the evaluation-proof v8 artifact, its checker and its review by SHA-256 and names acceptedVectorId EP8-POS-NOMATCH-PASS. The three digests recorded there equal the digests recomputed by this disposition."
+      },
+      "coverageOfTheFiveNamedAreas": [
+        {
+          "area": "exact activation",
+          "covered": true,
+          "where": "evaluation-proof.v8.json $.activationAuthority — EvaluationAuthoritySealV1 is content-addressed and admitted BEFORE evaluation, and $.activationAuthority.forbiddenInAuthoritySeal excludes verdict, outcome, sealedCapability, effectiveCapability, runId and runSealRef, so activation cannot be back-derived from its own result. Carried into evidence.v10 as the universeCommitment field of SemanticEvidenceV1."
+        },
+        {
+          "area": "every outcome",
+          "covered": true,
+          "where": "evaluation-proof.v8.json $.proofObligationsByClaimShape is a closed six-shape map: local-match, relationship-match, aggregate-match, no-match, indeterminate, error. $.positiveVectors carries seven vectors covering each shape: EP8-POS-RELATIONSHIP-FAIL, EP8-POS-LOCAL-ADVISORY, EP8-POS-AGGREGATE-WAIVED-PASS, EP8-POS-NOMATCH-PASS, EP8-POS-INDETERMINATE, EP8-POS-ERROR, EP8-POS-BASELINE-WAIVER-PASS. indeterminate and error each carry 'typed resolvable reason; never absorbed into pass'. Carried into evidence.v10 as outcomeSetCommitment."
+        },
+        {
+          "area": "relational findings",
+          "covered": true,
+          "vocabularyNote": "The literal token 'relational' occurs in NO evaluation-proof artifact in this corpus and in no evidence artifact. The vocabulary is 'relationship-match'. This was measured, not assumed: a regex sweep for 'relational' across all thirteen evaluation-proof versions returns zero in every one.",
+          "where": "evaluation-proof.v8.json $.proofObligationsByClaimShape['relationship-match'] — 'typed relation semantics plus at least one retraceable witness edge and factRef' — with vector EP8-POS-RELATIONSHIP-FAIL."
+        },
+        {
+          "area": "no-match",
+          "covered": true,
+          "where": "evaluation-proof.v8.json $.proofObligationsByClaimShape['no-match'] — 'typed exact subject-set commitment/count and retained fact partition' — and $.acceptedAuthorityVectorId is EP8-POS-NOMATCH-PASS, which evidence.v10 independently re-reads rather than accepting as self-declared."
+        },
+        {
+          "area": "verdict derivation",
+          "covered": true,
+          "where": "evidence.v10.json separates verdict from verdictDerivationCommitment as distinct tagged fields of SemanticEvidenceV1 (tags 0x97 and 0x98). The commitment is bound by equality to bundle.verdictProof.derivationCommitment of the accepted evaluation-proof vector, and evidence.v10 runSubstitutionGoldens reject a valid-looking arbitrary digest at that position, a same-cardinality swap with outcomeSetCommitment, and a same-shape substitution of one commitment for another."
+        }
+      ],
+      "whatTheBriefNamedAndWhatItActuallyIs": {
+        "namedArtifact": "artifacts/evaluation-proof.v13.json",
+        "sha256": "1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe",
+        "checker": "artifacts/check-evaluation-proof-v13.py",
+        "checkerSha256": "0de5b5bfe16dcee539abcfd9f10de74062c90582fb0eeaebb92b52e33f3e04a1",
+        "review": "artifacts/ep13.review-independent.json",
+        "reviewSha256": "c7b80c396caa51d67db5fbade110f7ff1ade44c962b50de9bfc905a2b585d53d",
+        "reviewVerdict": "PASS-WITH-RESIDUALS",
+        "reviewBlockingFindingCount": 0,
+        "reviewSubjectDigestsAgreeWithLiveBytes": true,
+        "finding": "evaluation-proof.v13 does NOT cover item 1 and cannot discharge it. Its claimId is CD-RT-5, not EVIDENCE, and its declared role is repairing the two blocking findings of the v11 review about answer provenance and guard-tamper enumeration. Measured over its bytes: zero occurrences of no-match, zero of exactActivation, two of relationship and seven of outcome, against 59, 21 and 56 respectively in evaluation-proof.v8. The claim-shape coverage was present through v9 and dropped at v10; v10 through v13 carry none of it while each declaring supersedesProofObligationsOf its immediate predecessor, so the head of the evaluation-proof chain declares supersession of obligations whose content it does not carry. The corpus resolves this its own way and correctly: evidence.v10, the binding EVIDENCE artifact, deliberately pins evaluation-proof.v8 rather than the chain head.",
+        "whatV13DoesEstablish": "That a hostile route region cannot substitute the encoder behind a pinned commitment without detection, at the scope its banner prints. That is a real and independently adjudicated property. It is not item 1's property, and citing it as item 1's discharge would be a category error."
+      },
+      "residualsCarriedForwardFromTheCitedReviews": [
+        {
+          "id": "IR-EP13-NB-01",
+          "severity": "MAJOR",
+          "source": "artifacts/ep13.review-independent.json $.nonBlockingObservations[0]",
+          "summary": "The reviewer built a FOURTH means of distinguishing an observed call from an unobserved one, in the same class and by the same means as the candidate's own published escape — the ledger-entry-count signal, comparing no binding at all. The reviewer's instance SB-MD6 routes the VALIDATION VERDICT, the commitment AND the preimage, 7 of 7 each, to check-c2.py, with exit 0, a banner byte-identical to the honest run's, and a selftest that prints SELFTEST-PASS. The verdict is the accept/reject gate. The candidate's own published escape substitutes only a commitment, so a reader pricing the residual from the published text underprices it. The reviewer records this as the sharpest observation in the review and the one a successor should act on first.",
+          "reviewerMeasurement": "lab/sb_md6.py sha256 54310e1002948d07212bf770bc88855a0ccd1d55899959c8139b96b5e36401e8, attribution by r13/prove.py",
+          "whyNonBlocking": "The published scope statement is general and covers the class, and the escape set is declared as a measurement over instances rather than as an enumeration. Nothing published is falsified. The gap is disclosure severity, not truth.",
+          "effectOnThisDischarge": "It does not weaken item 1, because item 1 is discharged against evaluation-proof.v8 and evidence.v10, not against v13. It is carried here in full because a disposition that cited v13's PASS without carrying it would be exactly the paper seal this corpus keeps catching."
+        },
+        {
+          "id": "IR-EP13-NB-02",
+          "severity": "MAJOR",
+          "summary": "The scope self-scan tokenises on whitespace only, so the predecessor's own rejected sentence can be reintroduced with a comma or parentheses and is not flagged. More fundamentally the refusal is name-based and cannot detect narrowing at all: the reviewer wrote a scope naming no variant that is the predecessor's false boundary in substance, and the run is green. The phrase 'refuses it structurally rather than by intention' is an overclaim."
+        },
+        {
+          "id": "IR-EP13-NB-03",
+          "severity": "MAJOR",
+          "summary": "answerProvenance.independentPathIsUnreachable is FALSE by measurement. After one heavy run, seventy-five private module instances remain in sys.modules, including the anchor and the reference; sys.modules is neither the guard's frame nor a server's closure cell, so the reader's exclusion set is incomplete. Non-blocking because the field is unenforced and unprinted, the introspection tripwire catches the cheap spellings, and the reviewer could not turn the reachability into an escape."
+        },
+        {
+          "id": "IR-EP13-NB-04",
+          "severity": "MAJOR",
+          "summary": "assurance.nonClaims and guardInventory.whatNoGuardHereCovers appear nowhere in the retained checker, so both are unverified prose in a document whose thesis is that a prose assertion is not a record. They carry the predecessor's narrow framing and two stale counts — twenty-five built classes where the enforced number is twenty-nine — and one wrong cross-reference. The reviewer considered this as a blocker and rejected it because the enforced banner-printed scope carries an override clause that binds the document."
+        },
+        {
+          "id": "IR-EP13-NB-05",
+          "severity": "MINOR",
+          "summary": "A residual whose anchors are intact but whose surrounding prose contradicts them passes green. Forty-six of one hundred ninety-eight float/bool cases are rejected by a whole-block comparison whose message names the block rather than the leaf, so a future auditor grepping finding text will not find those leaves named. No case escapes."
+        },
+        {
+          "id": "IR-EP13-NB-06",
+          "severity": "MINOR",
+          "summary": "Recorded in the candidate's favour: the exactly-one-witness-record rule makes the obvious strengthening of the published escape impossible, forcing the reviewer's own attack onto a strictly more fragile positional signal. The design is doing work neither the scope nor the published residual claims credit for."
+        },
+        {
+          "id": "IR-EP13-NB-07",
+          "severity": "INFORMATIONAL",
+          "summary": "Environment and reproduction. CPython 3.14.6, Darwin 25.5.0 arm64, python3 -I -B, stdlib only, no timeout binary on this host."
+        },
+        {
+          "id": "EV10-RESIDUAL-ACCEPTED-VECTOR-CARDINALITY",
+          "severity": "MAJOR-FOR-THIS-ITEM",
+          "source": "artifacts/evidence.v10.json $.retainedResiduals",
+          "verbatim": "Exactly one accepted evaluation-proof vector is bound, so only the no-match claim shape is exercised at this layer.",
+          "effectOnThisDischarge": "The five non-no-match claim shapes are covered at the evaluation-proof layer and are NOT exercised at the Evidence layer. Item 1 asks for coverage, and coverage exists; it does not ask for every shape to be re-exercised downstream. This is recorded so the discharge is not read as stronger than it is."
+        }
+      ]
+    },
+
+    {
+      "item": 2,
+      "obligation": "Select the retained verification/regeneration closure and a per-Run custody policy before durable authoritative Runs are enabled",
+      "status": "PARTIALLY-DISCHARGED",
+      "grade": "architecture-candidate; IMPLEMENTABLE_UNEXECUTED",
+      "primaryCitation": {
+        "artifact": "artifacts/retention-tiers.v22.json",
+        "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1",
+        "checker": "artifacts/check-retention-custody-v22.py",
+        "checkerSha256": "497909c21118b656d222346d9498b7a9cac34ef3dd3bb0f29ef59c0db90e1c5c",
+        "review": "artifacts/retention-tiers.v22.review-independent-prefreeze.json",
+        "reviewSha256": "a30e84cbc67e25a2da231d0204202755c9ee2e3baf3bd0dc48039f4a8bc38600",
+        "reviewDecision": "PASS",
+        "reviewBlockingFindingCount": 0,
+        "reviewNonBlockingFindingIds": [
+          "RT22-RF-01-HOST-BINDING-ATTESTS-DISK-BYTES-NOT-EXECUTED-BYTES",
+          "RT22-RF-02-MAPPINGPROXY-BACKING-DICT-REACHABLE-VIA-GC-REFERENTS",
+          "RT22-OBS-01-PIN-GATE-FAILED-CLOSED-UNDER-A-LIVE-DEPENDENCY-PERTURBATION"
+        ]
+      },
+      "whatIsSelectedAndBound": [
+        {
+          "half": "retained verification/regeneration closure",
+          "position": "retention-tiers.v22.json $.custodyPolicy.perObligation",
+          "verbatim": "frozen evidence or exact deterministic regeneration closure is selected per proof obligation",
+          "assessment": "SELECTED. The choice between retaining frozen evidence and retaining a deterministic regeneration closure is made per proof obligation rather than globally, which is what the obligation asks for. The closure itself is structurally bound: SemanticCapabilityClosureV3 requires schemaVersion, projectId, sealedCapability, semanticObjectBindings, semanticRoots, proofRefs, dependencyEdges, units and closureCommitment, with a closed forbidden list, and evidence.v10 pins its CAS ref and commitment by digest."
+        },
+        {
+          "half": "per-Run custody policy",
+          "position": "retention-tiers.v22.json $.custodyPolicy.selectionOwner",
+          "verbatim": "orchestration host applies an explicit project policy; producers never select custody",
+          "assessment": "SELECTED. Custody selection is host-resolved and never producer-selected. This is the authority direction reviewer-3 required when the rejected predecessor inverted it."
+        }
+      ],
+      "whatIsNotSelectedAndWhyThisLaneCannotSelectIt": {
+        "position": "retention-tiers.v22.json $.custodyPolicy.recommendedDefaultPosture",
+        "recordedState": {
+          "durableDefault": "UNSELECTED",
+          "status": "AWAITING-PRODUCT-DISPOSITION",
+          "namedAuthority": "product-dispositions.v1.json#pendingDecisions.CD-RT-5",
+          "currentProductState": "BLOCKED_ON_PHASE_1A"
+        },
+        "assessment": "The default durable-custody posture remains unselected and this disposition does not select it. The candidate records a recommendation — no managed durable user-derived write without an explicit project storage and retention policy, and advisory or ephemeral only when policy is missing — and correctly leaves it as a recommendation. An architecture lane has no standing to turn a recommendation into a decision, which is precisely the mechanism IMPLEMENTATION-FREEZE section 4.4 records as having failed once already.",
+        "consequence": "Item 2's clause 'before durable authoritative Runs are enabled' is satisfied only in the trivial direction: durable authoritative Runs are not enabled. retention-tiers.v22 $.integrationState records G19 blocked, and the same block records this finding open. The obligation is therefore partially discharged, not discharged."
+      },
+      "cdRt5": "BLOCKED_ON_PHASE_1A — cited from the binding packet, unchanged by this artifact, and this artifact remains without standing to move it.",
+      "residualsCarriedForward": [
+        "The v22 review is a verifier-integrity review. Its requirementCoverage has seven items and all seven concern the checker's own snapshot, host binding, pin window and graph quarantine. It did not adjudicate the custody policy as a product or architecture posture.",
+        "retention-tiers.v22.json $.retainedResiduals records that the candidate itself remains unreviewed at its own head and NOT-APPLIED, that no production byte store, transaction, durability, recovery or atomicity implementation is demonstrated, and that the durable default remains unselected.",
+        "A1-RTV4-02 remains unmeasured. No cost, size or orders-of-magnitude retention advantage is claimed anywhere in this disposition."
+      ]
+    },
+
+    {
+      "item": 3,
+      "obligation": "State how purge changes current evidence availability without rewriting the sealed Run",
+      "status": "NOT DISCHARGED",
+      "grade": "no reviewed artifact carries this obligation as adjudicated, evaluated text",
+      "whyNotDischarged": "The property is stated, precisely and in several places. Every place that states it fails a different gate. Nothing was stretched into coverage.",
+      "bestAvailableTextAndWhyItIsNotEnough": [
+        {
+          "position": "artifacts/evidence.v10.json $.foundationImplementation.serializedCustodyContract.mutableEvents",
+          "verbatim": "Intersecting purge while HELD is rejected by the RT13 reducer; intersecting expiry becomes pending and blocks commit; after release purge/expiry may alter current availability without changing persisted Run identity.",
+          "artifactSha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+          "artifactReviewDecision": "PASS at 0 blocking findings",
+          "disqualifier": "The passing review examined none of it. A case-insensitive sweep of evidence.v10.review-independent-prefreeze.json for purg, availab, effectivecapab and sealedcapab returns ZERO matches. That review is about hostile-input totality and the path-consumer guard. A PASS verdict covers what the reviewer read, and this text is outside it."
+        },
+        {
+          "position": "artifacts/evidence.v10.json $.sealedCapabilityContract.readTime and $.availabilityDifferential",
+          "verbatim": "$.availabilityDifferential declares changesOnly = [effectiveCapability, authoritative, currentAvailability, typedRefusal] and invariant = [SemanticEvidenceV1, EvidenceDigest, RunId, TerminalRunV1, runSealRef, sealedCapability, RunAuthorityIndexV1].",
+          "disqualifier": "Declared, never evaluated. check-evidence-v10.py contains ZERO occurrences of effectiveCapability. Its mutations at availabilityDifferential.invariant, availabilityDifferential.changesOnly and the dropped root key all carry semantic_expected False, so they are caught only by exact-bytes comparison against the pinned expected successor. Inverting changesOnly to name EvidenceDigest, RunId, runSealRef and TerminalRunV1 is refused for the same reason a typo would be refused. The checker detects that the sentence changed; it never decides whether the sentence is true.",
+          "alsoNote": "$.availabilityDifferential.mutation is stated as removing one replay-only raw object from current availability. It does not name purge. Only the mutableEvents sentence names purge."
+        },
+        {
+          "position": "artifacts/retention-tiers.v22.json $.semanticBasisProjection.semanticClosureGrammar.availabilityBoundary",
+          "verbatim": "UnitAvailabilityRecordV2 and effectiveCapability are mutable/read-derived, use only RawObjectKeyV1, may carry RunId, and remain outside semantic closure bytes and EvidenceDigest.",
+          "assessment": "This is the strongest structural statement in the head candidate, and it is genuinely load-bearing: SemanticCapabilityClosureV3 requires sealedCapability and forbids runId, runSealRef, expectedEffectiveCapability, effectiveCapability, objectStates, unitAvailabilityRecords, lease, fence, ledger, clocks and physicalLocators, so the mutable side structurally cannot enter the sealed side.",
+          "disqualifier": "It states the BOUNDARY. It does not state how purge changes availability, and it names no purge transition. The head candidate contains no prose form of the obligation at all: the phrases that carried it in the rejected predecessors — no availability event rewrites them, never persisted into the sealed Run, never exceeds sealed capability, terminal loss append-only — occur zero times in these bytes."
+        },
+        {
+          "position": "artifacts/retention-tiers.v22.json $.semanticBasisProjection.availabilityFixtures",
+          "content": "AF-01-ALL-AVAILABLE expects replayable; AF-02-REPLAY-MISSING overrides one object to MISSING-DEPENDENCY and expects verifiable; AF-03-VERIFY-PURGED overrides one object to PURGED and expects recorded; AF-04-VERIFY-OUTAGE overrides one object to OUTAGE and expects recorded.",
+          "assessment": "AF-03-VERIFY-PURGED is exactly the shape item 3 asks for: a purge changes the read-derived effective capability from replayable to recorded while the sealed capability in the closure stays replayable.",
+          "disqualifier": "Asserted, never computed. check-retention-custody-v22.py contains no capability-derivation function and ZERO occurrences of effectiveCapability; its only related literal is expectedEffectiveCapability in a synthetic all-AVAILABLE fixture the checker builds for itself. The artifact's four fixtures are held by byte and hash equality against the pinned semantic basis, so AF-03 is protected against editing and is never re-derived from PURGED. The only checker in this corpus that ever derived it is check-retention-custody.py, which belongs to retention-tiers.v5 — independently REJECTED, seven findings, two CRITICAL, all recorded open."
+        },
+        {
+          "position": "artifacts/retention-tiers.v22.review-independent-prefreeze.json $.scopeLimitationsAndResiduals[5]",
+          "verbatim": "The negative purge fixtures PN-01..PN-04 declare invariants without expected outputs, so the reviewer could not recompute them; only the three positive fixtures were independently reproduced.",
+          "assessment": "The reviewer of the head candidate recorded, in the passing review itself, that the negative purge fixtures were not recomputable. This is the review declining to cover the purge negatives, in its own words."
+        },
+        {
+          "position": "architecture/06-evidence-and-persistence.md, the declared home of this claim",
+          "assessment": "It does state the rule, at the current-availability row and at RT-2. The same section says the requirement table is v4-era text retained as the shape the lineage was built on, that it is not the head's requirement list, and that it binds nothing. It self-nullifies as binding text."
+        }
+      ],
+      "corpusRecordsThisAsOpen": [
+        {
+          "source": "IMPLEMENTATION-FREEZE.md section 3.1, Phase-1A insertion — mandatory, line 261",
+          "verbatim": "- purge/deletion semantics that do not rewrite a sealed Run;",
+          "reading": "The freeze lists this obligation as a mandatory insertion that has not been made. Line 260 in the same list carries typed degradation/unavailability behavior after expiry or purge."
+        },
+        {
+          "source": "IMPLEMENTATION-FREEZE.md section 7.3, line 892",
+          "verbatim": "- V10/evaluation proof/custody/default/degradation/purge;",
+          "reading": "Listed under items that are explicitly not residuals and must be closed before signature."
+        },
+        {
+          "source": "IMPLEMENTATION-FREEZE.md section 8 implementer litmus, line 1021",
+          "verbatim": "- what happens after proof expiry/purge without rewriting the sealed Run;",
+          "reading": "Still posed as an open implementer-readiness question."
+        },
+        {
+          "source": "artifacts/retention-tiers.v22.json $.integrationState",
+          "reading": "The head retention candidate self-records this finding open and G19 blocked."
+        },
+        {
+          "source": "artifacts/evidence.v10.json $.retainedResiduals",
+          "reading": "The head evidence candidate self-records this finding open in its own retained residual list."
+        }
+      ],
+      "conclusion": "NOT DISCHARGED. Item 3 requires a statement that has been independently verified. The corpus has the statement and does not have the verification, and its own freeze says so. Recording this item as discharged would manufacture the resolution of a long-standing blocker out of unread bytes."
+    }
+  ],
+
+  "invariants": [
+    {
+      "id": "VD-1",
+      "assert": "A discharge names a real artifact, its SHA-256 as recomputed at authoring time, the review that judged those exact bytes, and the structural position carrying the obligation. An implementable claim, a self-declared status, or a green checker exit is never a discharge."
+    },
+    {
+      "id": "VD-2",
+      "assert": "A review verdict covers only what the review read. Where reviewed bytes carry an obligation that the review did not examine, the obligation is NOT DISCHARGED, however clean the verdict."
+    },
+    {
+      "id": "VD-3",
+      "assert": "Declared text is not evaluated text. Where a retained checker protects a sentence by byte equality but never computes whether the sentence is true, the sentence is recorded as declared and the obligation it carries is not closed by it."
+    },
+    {
+      "id": "VD-4",
+      "assert": "This finding may be recorded resolved only when all three of its required items are discharged. One open item leaves the finding open, and no aggregate of the other two substitutes for it."
+    },
+    {
+      "id": "VD-5",
+      "assert": "This artifact may cite a product decision and may never constitute one. No retention default, durable posture or product acceptance is selected, implied or advanced here, and the pending retention decision remains blocked exactly as the binding packet records it."
+    },
+    {
+      "id": "VD-6",
+      "assert": "Nothing here signs, seals, freezes, applies or integrates. Every status this artifact touches stays CANDIDATE-NOT-APPLIED and DO-NOT-SEAL, and the deferred integration patch is a specification of an edit, never the edit."
+    },
+    {
+      "id": "VD-7",
+      "assert": "An artifact whose declared claim differs from the obligation under assessment cannot discharge that obligation, however clean its own review. Subject drift inside a version chain is measured, not inferred from the filename."
+    },
+    {
+      "id": "VD-8",
+      "assert": "Every residual carried by a review this disposition cites is reproduced here at its own severity, including the ones that make the citation weaker. A discharge that omits the sharpest residual of the review it rests on is a paper seal."
+    }
+  ],
+
+  "counterexampleFixtures": {
+    "purpose": "Executable counterexamples — inputs a correct implementation rejects. Not descriptions.",
+    "correctImplementations": [
+      {
+        "name": "check-threat-claims.py T12 V10 evidence gate",
+        "sha256": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221",
+        "entryPoint": "check(model, operability, c2, resolved_inputs); findings filtered to those beginning 'T12 V10'"
+      },
+      {
+        "name": "check-product-dispositions.py assertion lane",
+        "sha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4",
+        "entryPoint": "document_assertion_failures(packet_decision_states(product), name, doc, 'PD-SCAN')"
+      }
+    ],
+    "howExercised": "A harness in a scratch directory outside this repository imported both live checkers by path under python3 -I -B, repointed check-threat-claims.ROOT at a scratch tree whose artifacts/ is a symlink farm over the real one and whose architecture/ is a symlink to the real one, and drove each fixture through the unmodified checker. Threat-model-side fixtures are in-memory deep copies of the live threat model with the deferred patch applied and then damaged; no threat-model byte was written. Disposition-side fixtures materialise a MUTATED COPY of this artifact inside the scratch farm, replacing the symlink for the duration of one run and restoring it afterwards, so the real artifact is never edited. Every fixture is paired with a control that must come back clean, because a fixture suite with no clean control measures nothing.",
+    "environment": "CPython 3.14.6 (main, Jun 10 2026) [Clang 21.0.0], Darwin 25.5.0 arm64, python3 -I -B, stdlib only. There is no timeout binary on this host.",
+    "fixtures": [
+      {
+        "id": "CX-TM-01-bare-status-flip",
+        "input": "This finding set to RESOLVED with kind left at UNRESOLVED-CONTRADICTION and no resolution object — the original greenwash shape, resolved by assertion.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: RESOLVED without kind RESOLVED-BY-DISPOSITION",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-02-phantom-disposition",
+        "input": "A complete resolution object citing artifacts/v10-disposition.v99.json, which does not exist.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: disposition artifact artifacts/v10-disposition.v99.json does not resolve",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-03-partial-discharge-2-of-3",
+        "input": "Two discharges recorded against three requiredResolution items — the exact shape this disposition's own honest verdict would tempt an editor into, since only two items have any discharge at all.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: 2 discharges for 3 requiredResolution items",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-04-discharge-without-cited-source",
+        "input": "Three discharges, the third carrying a status but no by field — a discharge by assertion rather than by citation.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: discharge 2 lacks a cited source or status",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-05-discharge-without-status",
+        "input": "Three discharges, the first carrying a by citation but no status — a citation with no honest verdict attached to it.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: discharge 0 lacks a cited source or status",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-06-retained-residual-vanishes",
+        "input": "A complete, well-formed resolution whose retainedResiduals array is empty — the measurement disappearing along with the contradiction.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: resolution claims no retained residual — measurement cannot vanish with the contradiction",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-TM-07-residual-phrase-dropped",
+        "input": "A complete resolution whose threat-model residual line reads 'V10 is now closed and nothing further is retained', dropping the phrase the gate requires.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: resolution not recorded in residual risks",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-DISP-01-wrong-claim-binding",
+        "input": "A copy of this artifact whose claimId is changed to ARCH.EVIDENCE-CENTER, cited by an otherwise valid resolution — a disposition that binds a different claim than the one this finding sits under.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: disposition does not bind ARCH.RETENTION-TIERS",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-DISP-02-no-invariants",
+        "input": "A copy of this artifact with an empty invariants array — a disposition that asserts nothing a successor could violate.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: disposition declares no invariants",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-DISP-03-no-executable-counterexamples",
+        "input": "A copy of this artifact with counterexampleFixtures.fixtures emptied — prose with nothing executable behind it. This is the shape that disqualifies retention-tiers.v22 from serving as this disposition: v22 carries no counterexampleFixtures key at all, its fixtures living under storageAndLineage.fixtures instead.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: disposition has no executable counterexamples",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-DISP-04-no-retained-residual",
+        "input": "A copy of this artifact with retainedResiduals emptied — a disposition that closed everything and kept nothing.",
+        "mustBeRejectedBy": "check-threat-claims.py T12",
+        "observedFinding": "T12 V10: disposition names no retained residual",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-PD-01-constitutes-product-signoff",
+        "input": "A copy of this artifact carrying a resolves object whose retention-decision value asserts a completed sign-off by the product owner. This is the freeze section 4.4 shape verbatim: an architecture artifact constituting the decision it may only cite.",
+        "mustBeRejectedBy": "check-product-dispositions.py assertion lane",
+        "observedFinding": "PD-SCAN-CONFLICT v10-disposition.v1.json$.resolves.CD-RT-5: asserts CD-RT-5 CLOSED_POSITIVE (via 'signed off') while the binding product packet records PENDING",
+        "result": "REJECTED"
+      },
+      {
+        "id": "CX-PD-02-key-anchored-closed-positive",
+        "input": "A copy of this artifact carrying a disposition map keyed by the retention decision id whose value leads with an acceptance by product authority — the reworded form, which no literal-string guard would catch.",
+        "mustBeRejectedBy": "check-product-dispositions.py assertion lane",
+        "observedFinding": "PD-SCAN-CONFLICT v10-disposition.v1.json$.dispositionMap.CD-RT-5: asserts CD-RT-5 CLOSED_POSITIVE (via 'accepted') while the binding product packet records PENDING",
+        "result": "REJECTED"
+      }
+    ],
+    "controls": [
+      {
+        "id": "CTRL-01-patched-base-is-clean",
+        "assert": "The live threat model with the deferred patch applied and THIS artifact present produces zero T12 V10 findings.",
+        "result": "CLEAN — 0 T12 V10 findings",
+        "why": "Without this control every rejection above could be an artefact of a broken base rather than of the mutation."
+      },
+      {
+        "id": "CTRL-02-this-artifact-asserts-no-product-closure",
+        "assert": "The unmutated bytes of this artifact, scanned by the assertion lane against the live binding packet, produce zero conflicts.",
+        "result": "CLEAN — 0 conflicts",
+        "measuredSites": "key-anchored 1, key-scoped 0, prose 6, cross-checked against a packet row 1, checked against the unbacked-closure rule 0, clauses semantically classified 7"
+      }
+    ]
+  },
+
+  "measuredNonRejections": {
+    "why": "Freeze section 7.4 records that respelling an integer as a float takes many checkers to a green exit. These are measured limits of the gate that consumes this artifact, recorded because a disposition that only reports what its consumer catches is describing a guard rather than measuring one.",
+    "observations": [
+      {
+        "id": "MNR-01",
+        "observation": "T12 reads no numeric leaf of this artifact. It reads claimId as a string comparison and tests invariants, counterexampleFixtures.fixtures and retainedResiduals for truthiness only. Every integer this artifact publishes — version, item numbers, counts — is therefore inert to check-threat-claims.py, and no float or bool respelling of any of them can change its verdict.",
+        "measured": "Exhaustive, nothing sampled. This artifact carries 15 integer leaves. Each was replaced, one at a time, by its float equivalent, and each whose value is 0 or 1 was additionally replaced by the corresponding bool: 25 respellings in total. Each mutated copy was materialised in the scratch farm and driven through the unmodified gate against the patched base. T12 V10 findings: ZERO in 25 of 25.",
+        "readCorrectly": "This is not a claim that this artifact is guarded against numeric drift. It is the opposite: the gate does not look, so nothing here is guarded by it. A consumer that does read these numbers must guard them itself."
+      },
+      {
+        "id": "MNR-02",
+        "observation": "T12 accepts any non-empty string as a discharge status. A discharge recording status NOT DISCHARGED, with a valid by citation, passes the gate exactly as one recording DISCHARGED does. The gate enforces that a discharge exists and is sourced; it does not enforce that the discharge succeeded.",
+        "measured": "A resolution carrying three discharges, every one of them with status 'NOT DISCHARGED' and a valid by citation, was driven through the unmodified gate: 0 T12 V10 findings. The gate reports the finding closed against three admitted failures.",
+        "consequence": "The gate cannot by itself stop this finding being recorded resolved against three honestly-failing discharges. That judgement is the reviewer's and the signer's, which is why invariant VD-4 is stated here in words rather than left to the checker."
+      },
+      {
+        "id": "MNR-03",
+        "observation": "T12 resolves the disposition artifact by basename only — it takes pathlib.Path(art).name and joins it under artifacts/. A resolution citing a path in any other directory resolves to the same file, so the directory component of dispositionArtifact is not load-bearing and cannot be relied on to distinguish two dispositions of the same name.",
+        "measured": "dispositionArtifact set to 'artifacts/v10-disposition.v1.json', 'docs/elsewhere/v10-disposition.v1.json' and '/absolute/nowhere/v10-disposition.v1.json' each produced 0 T12 V10 findings. Only the basename is load-bearing."
+      }
+    ]
+  },
+
+  "deferredIntegrationPatch": {
+    "state": "SPECIFIED — NOT APPLIED. This artifact has no authority to edit threat-model.v3.json, which is concurrently owned. Nothing below has been written to that file.",
+    "target": "artifacts/threat-model.v3.json",
+    "targetSha256AtAuthoring": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+    "schemaNote": "The Finding schema is closed — required plus oneOf plus optional is the complete key set. resolution is already declared in optional, so adding it introduces no undeclared key. No new key outside that set may be added by either variant.",
+
+    "variantB_authorisedNow": {
+      "name": "Staleness correction, status-preserving",
+      "authorised": "This is the only half supported by the evidence today. It changes no status and closes nothing.",
+      "whyNeeded": "findings[9].detail and residualRisks[3] both still name retention-tiers.v6 and evaluation-proof.v1 as the current candidates awaiting re-review. Neither is current. retention-tiers.v5 was rejected, v6 was DO-NOT-SEAL at 8 findings, and the live heads are evaluation-proof.v8, evidence.v10, retention-tiers.v22 and evaluation-proof.v13.",
+      "edits": [
+        {
+          "op": "replace",
+          "path": "$.findings[9].detail",
+          "constraint": "The replacement must not contain the substrings 'resolved by', 'resolution is now known' or 'both hold', and the key proposedResolution must not be introduced, or T12's UNRESOLVED branch fails.",
+          "newValue": "Unresolved. The candidate set named in earlier revisions of this detail is superseded: retention-tiers.v5 was independently rejected by reviewer-3, and retention-tiers.v6 and evaluation-proof.v1 are no longer the heads. The current independently reviewed heads are evaluation-proof.v8 (PASS, 0 blocking), evidence.v10 (PASS, 0 blocking), retention-tiers.v22 (PASS, 0 blocking) and evaluation-proof.v13 (PASS-WITH-RESIDUALS, 0 blocking). Their per-item standing against requiredResolution is assessed in artifacts/v10-disposition.v1.json, which is a candidate assessment and applies nothing. Durable authoritative Runs remain blocked: product-dispositions.v1.json records CD-RT-5 BLOCKED_ON_PHASE_1A with the rule that no freeze may claim this finding closed, and both head candidates self-record this finding open."
+        },
+        {
+          "op": "replace",
+          "path": "$.residualRisks[3]",
+          "constraint": "The replacement must retain the exact substring 'V10 remains unresolved' or T12's UNRESOLVED branch fails.",
+          "newValue": "V10 remains unresolved. The current independently reviewed candidates are evaluation-proof.v8, evidence.v10, retention-tiers.v22 and evaluation-proof.v13; artifacts/v10-disposition.v1.json assesses them per requiredResolution item and applies nothing. retention-tiers.v5 was rejected by reviewer-3 and retention-tiers.v6 plus evaluation-proof.v1 are superseded."
+        }
+      ],
+      "unchanged": "$.findings[9].status stays UNRESOLVED. $.findings[9].kind stays UNRESOLVED-CONTRADICTION. No resolution object is added.",
+      "verified": "Both replacement strings were applied to an in-memory deep copy of the live threat model and driven through the unmodified check-threat-claims.py. Result: 1 finding, and it is the pre-existing T1 prose finding in architecture/07-outcomes-and-failure.md, unchanged from the live base. Zero T12 findings.",
+      "sideEffects": "None expected on the other five required checkers; none of them reads findings[9].detail or residualRisks[3]."
+    },
+
+    "variantA_conditionalAndNotAuthorised": {
+      "name": "Resolution of the finding",
+      "authorised": false,
+      "blockedBy": [
+        "requiredResolution item 3 is NOT DISCHARGED. VD-4 forbids recording this finding resolved while any required item is open.",
+        "product-dispositions.v1.json pendingDecisions.CD-RT-5.ruleWhilePending reads: No implementer may choose a retention default and no freeze may claim V10 resolved. That rule remains in force and this lane remains without standing to lift it.",
+        "retention-tiers.v22.json integrationState and evidence.v10.json retainedResiduals both self-record this finding open. Applying variant A would put the threat model in direct contradiction with the two candidates the resolution would cite.",
+        "IMPLEMENTATION-FREEZE.md section 3.1 still lists purge/deletion semantics that do not rewrite a sealed Run as a mandatory Phase-1A insertion, and section 7.3 lists the whole cluster as not-a-residual and required to be closed before signature."
+      ],
+      "preconditionsForApplying": [
+        "An independent review whose declared subject includes the purge-versus-sealed-Run obligation, returning a passing verdict at zero blocking findings over exact bytes that state it.",
+        "A retained checker that DERIVES effective capability from object states rather than protecting the assertion by byte equality, so that the purged-to-recorded transition is computed and a mutation inverting it is rejected by position. The rejected retention-tiers.v5 lane had exactly such a function; rebuilding it in a live checker is the concrete missing artefact.",
+        "The Phase-1A insertion recorded at IMPLEMENTATION-FREEZE.md section 3.1 actually made, by the authority that owns that document.",
+        "The retention decision moved out of BLOCKED_ON_PHASE_1A by the binding packet, by its owner, through the defined mechanism — cited here and constituted only there."
+      ],
+      "editsIfAndOnlyIfPreconditionsAreMet": [
+        {"op": "replace", "path": "$.findings[9].status", "from": "UNRESOLVED", "to": "RESOLVED"},
+        {"op": "replace", "path": "$.findings[9].kind", "from": "UNRESOLVED-CONTRADICTION", "to": "RESOLVED-BY-DISPOSITION"},
+        {
+          "op": "add",
+          "path": "$.findings[9].resolution",
+          "value": {
+            "dispositionArtifact": "artifacts/v10-disposition.v1.json",
+            "discharges": [
+              {
+                "item": 1,
+                "by": "artifacts/evaluation-proof.v8.json@sha256:4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303 joined through artifacts/evidence.v10.json@sha256:62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+                "status": "DISCHARGED-WITH-RESIDUALS"
+              },
+              {
+                "item": 2,
+                "by": "artifacts/retention-tiers.v22.json@sha256:52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1",
+                "status": "PARTIALLY-DISCHARGED"
+              },
+              {
+                "item": 3,
+                "by": "REPLACE WITH THE ARTIFACT AND DIGEST THAT ACTUALLY CLOSES THIS ITEM. As of this authoring no such artifact exists and this discharge must read NOT DISCHARGED, which is why variant A is not authorised.",
+                "status": "NOT DISCHARGED"
+              }
+            ],
+            "retainedResiduals": [
+              "IR-EP13-NB-01: a fourth means of distinguishing an observed call from an unobserved one routes the validation verdict, the commitment and the preimage, 7 of 7 each, at exit 0 with a byte-identical banner. Open.",
+              "IR-EP13-NB-02, IR-EP13-NB-03 and IR-EP13-NB-04 remain open: the scope self-scan is defeated by punctuation and cannot detect narrowing, seventy-five private instances remain reachable through sys.modules against a field asserting unreachability, and two unenforced prose blocks carry stale counts.",
+              "The durable retention default remains UNSELECTED and no artifact in this repository may select it.",
+              "A1-RTV4-02 remains unmeasured; no cost or orders-of-magnitude retention claim is authorised.",
+              "Only the no-match claim shape is exercised at the Evidence layer; the other five shapes are exercised only at the evaluation-proof layer.",
+              "The purged-to-recorded availability transition is declared and byte-protected, never derived by any retained checker."
+            ]
+          }
+        },
+        {
+          "op": "replace",
+          "path": "$.residualRisks[3]",
+          "constraint": "Must contain the exact substring 'V10 resolved by disposition' or T12's RESOLVED branch fails.",
+          "newValue": "V10 resolved by disposition; artifacts/v10-disposition.v1.json records six retained residuals including the fourth-means observability escape IR-EP13-NB-01, the unselected durable retention default, and the unmeasured A1-RTV4-02."
+        }
+      ],
+      "verifiedShapeOnly": "The structural shape of variant A was driven through the unmodified check-threat-claims.py against an in-memory copy of the live threat model with this artifact present on disk, and returns zero T12 findings. That measures only that the shape satisfies the gate. It does not and cannot measure that item 3 is closed, and MNR-02 records that the gate accepts a NOT DISCHARGED status without complaint. The gate passing is not permission to apply."
+    }
+  },
+
+  "recordedInputs": {
+    "rule": "IMPLEMENTATION-FREEZE section 7.2 recording obligation — filename and SHA-256 for every input this disposition depends on. A count is not a record. Every digest below was recomputed from the live bytes at authoring time on this host, not copied from any brief, register or predecessor.",
+    "inputs": [
+      {"file": "artifacts/threat-model.v3.json", "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499", "role": "subject; carries the finding and its requiredResolution"},
+      {"file": "artifacts/check-threat-claims.py", "sha256": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221", "role": "consumer; the T12 evidence gate this artifact is shaped for and is tested against"},
+      {"file": "artifacts/operability.v2.json", "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04", "role": "execution closure of the consumer; live gate join"},
+      {"file": "artifacts/c2-plan-stage-schema.v3.json", "sha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285", "role": "execution closure of the consumer"},
+      {"file": "artifacts/resolved-inputs.v2.json", "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43", "role": "execution closure of the consumer"},
+      {"file": "artifacts/evaluation-proof.v8.json", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303", "role": "item 1 primary citation"},
+      {"file": "artifacts/check-evaluation-proof-v8.py", "sha256": "c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769", "role": "item 1 retained checker"},
+      {"file": "artifacts/ep8-rt13.review-independent-cold-reconstruction.json", "sha256": "f4599b32a9f1b93049111b9e86debd19419902c9c5f4fb886f8d0dc9c330567e", "role": "item 1 independent review; PASS at 0 blocking findings"},
+      {"file": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4", "role": "item 1 consuming citation; also the best available item 3 text"},
+      {"file": "artifacts/check-evidence-v10.py", "sha256": "0379bb9b9006558be9546774b177ed2a1e8c23d8000d16cc4a2cff9d8ed12bbd", "role": "measured for item 3: zero occurrences of effectiveCapability"},
+      {"file": "artifacts/evidence.v10.review-independent-prefreeze.json", "sha256": "5ce636fa1ceadc83699e8990babe421b8df89f4f99955de05444d84a9621676e", "role": "PASS at 0 blocking findings; measured for item 3: zero matches for purg, availab, effectivecapab, sealedcapab"},
+      {"file": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "item 2 primary citation; item 3 candidate"},
+      {"file": "artifacts/check-retention-custody-v22.py", "sha256": "497909c21118b656d222346d9498b7a9cac34ef3dd3bb0f29ef59c0db90e1c5c", "role": "measured for item 3: zero occurrences of effectiveCapability, no capability-derivation function"},
+      {"file": "artifacts/retention-tiers.v22.review-independent-prefreeze.json", "sha256": "a30e84cbc67e25a2da231d0204202755c9ee2e3baf3bd0dc48039f4a8bc38600", "role": "PASS at 0 blocking findings; carries the purge-negative-fixture scope limitation"},
+      {"file": "artifacts/evaluation-proof.v13.json", "sha256": "1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe", "role": "assessed and found to carry a different claim than item 1"},
+      {"file": "artifacts/check-evaluation-proof-v13.py", "sha256": "0de5b5bfe16dcee539abcfd9f10de74062c90582fb0eeaebb92b52e33f3e04a1", "role": "retained checker of the above; exits 0"},
+      {"file": "artifacts/ep13.review-independent.json", "sha256": "c7b80c396caa51d67db5fbade110f7ff1ade44c962b50de9bfc905a2b585d53d", "role": "PASS-WITH-RESIDUALS at 0 blocking findings; source of the seven residuals carried above"},
+      {"file": "artifacts/product-dispositions.v1.json", "sha256": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c", "role": "binding packet; cited, never amended"},
+      {"file": "artifacts/claim-register.v1.json", "sha256": "ff4df1d7eec949cdc6172dd8a90d109367e7eaae94a9aa56b72fe163c44febeb", "role": "read for claim identity and binding-citation history; not written"},
+      {"file": "artifacts/check-product-dispositions.py", "sha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4", "role": "second correct implementation for the CX-PD fixtures"},
+      {"file": "artifacts/check-package-coherence.py", "sha256": "f2c85958250a10296214e56fe799d0ff7e47f6cf23894dc2423f118e8e1eb52a", "role": "regression"},
+      {"file": "artifacts/check-claims.py", "sha256": "0226cfb5ab720e4e8b4696b2df4377cf17a143d84692001a6bc72fa53caaff4b", "role": "regression"},
+      {"file": "artifacts/check-d9-v1.14.py", "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e", "role": "regression"},
+      {"file": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "subject of the above regression"},
+      {"file": "artifacts/operability.v10.json", "sha256": "9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be", "role": "searched for item 3 text; carries deletion-protocol gates only, nothing on sealed Runs"},
+      {"file": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "role": "pinned by seven checkers; confirmed unchanged before and after this authoring; not read for content and not written"},
+      {"file": "IMPLEMENTATION-FREEZE.md", "sha256": "READ-ONLY, CONCURRENTLY EDITED DURING THIS AUTHORING — no digest is recorded because any digest would be stale on arrival. Sections 3.1, 4.4, 7.2, 7.3 and 7.4 were read and are cited by section and line number rather than by digest, and this file was not written by this lane.", "role": "authority for the recording obligation, the product-authority rule and the open-insertion list"}
+    ],
+    "honestyNoteOnTheLastRow": "Recording a digest for a file under concurrent edit would be a record that is false the moment it is written, which is the failure mode section 7.2 exists to stop. The citation is therefore by section and line and is verifiable by re-reading, not by comparison."
+  },
+
+  "retainedResiduals": [
+    "Item 3 is open. No reviewed, evaluated artifact states how purge changes current evidence availability without rewriting the sealed Run. The best available text sits in evidence.v10, whose passing review returns zero matches for purge, availability, effective capability and sealed capability, and whose retained checker contains zero occurrences of effectiveCapability. This finding therefore cannot be recorded resolved.",
+    "The purged-to-recorded availability transition is declared and byte-protected, never derived. retention-tiers.v22 fixture AF-03-VERIFY-PURGED asserts that a PURGED object state yields effective capability recorded; no retained checker recomputes it. The only checker that ever derived it belongs to retention-tiers.v5, which was independently rejected at seven findings, two CRITICAL, all open.",
+    "IR-EP13-NB-01 is open and is the sharpest residual under any citation here. A fourth means of distinguishing an observed call from an unobserved one, built by the reviewer in the same class as the candidate's own published escape, routes the validation verdict, the commitment and the preimage, 7 of 7 each, to check-c2.py at exit 0 with a banner byte-identical to the honest run's and a selftest reporting pass. The verdict is the accept/reject gate. The published escape substitutes only a commitment, so the published residual underprices the class.",
+    "IR-EP13-NB-02, IR-EP13-NB-03 and IR-EP13-NB-04 are open. The scope self-scan tokenises on whitespace only and cannot detect narrowing at all; seventy-five private module instances remain reachable through sys.modules against a field asserting the independent path is unreachable; and two prose blocks carrying the predecessor's narrow framing and two stale counts sit in the two places the retained checker's own grep does not reach.",
+    "The durable retention default remains UNSELECTED and AWAITING-PRODUCT-DISPOSITION, and the retention decision remains BLOCKED_ON_PHASE_1A in the binding packet. This artifact selects nothing and remains without standing to select anything.",
+    "A1-RTV4-02 remains unmeasured. No cost advantage, size advantage, orders-of-magnitude advantage or measured performance property of any kind is claimed anywhere in this artifact.",
+    "The head of the evaluation-proof chain no longer carries the item-1 obligations its own supersedesProofObligationsOf field chains back to. v10 through v13 declare supersession of their predecessors while carrying zero occurrences of no-match and zero of the claim-shape obligation map that v1 through v9 carried. The corpus works around this correctly by pinning v8 in evidence.v10, but the chain metadata says something the chain bytes do not support, and nothing currently detects that.",
+    "Only the no-match claim shape is exercised at the Evidence layer. evidence.v10 binds exactly one accepted evaluation-proof vector, so the local-match, relationship-match, aggregate-match, indeterminate and error shapes are exercised at the evaluation-proof layer only.",
+    "The two reviews this disposition leans on hardest for item 2 and item 3 are verifier-integrity reviews. The v22 review's requirementCoverage is seven items all concerning the checker's own snapshot, host binding, pin window and graph quarantine; the evidence.v10 review is about hostile-input totality and the path-consumer guard. Neither adjudicated a retention or purge posture, and this disposition does not represent them as having done so.",
+    "check-threat-claims.py exits 1 on the live corpus for a reason unrelated to this finding: T1 reports an unqualified confinement claim in architecture/07-outcomes-and-failure.md, triggered by the phrase 'isolated child interpreters' in a paragraph about the D9 checker's selftest. It is a vocabulary collision in prose, not a confinement claim. It was present before this artifact existed and is untouched by it; repairing it is an architecture-prose action outside this lane's single permitted write.",
+    "T12 cannot enforce the honesty of a discharge status. MNR-02 measures that three discharges recording NOT DISCHARGED pass the gate exactly as three recording DISCHARGED do. Invariant VD-4 is therefore load-bearing on the reviewer and the signer, not on the checker.",
+    "T12 reads no numeric leaf of this artifact, so no integer published here is guarded by it. MNR-01 measures this rather than assuming it. A consumer that does read these numbers must guard them itself.",
+    "This disposition is authored, not independently reviewed. Independent review of exactly these bytes is REQUIRED before any of it is relied on, and implementable is not discharged."
+  ],
+
+  "residualRisks": [
+    "V10 remains unresolved after this disposition. One of three required items has no reviewed, evaluated artifact behind it.",
+    "If a later authority applies the conditional half of the deferred integration patch, the exact phrase the consuming gate requires in the threat model's residual risks is 'V10 resolved by disposition', and the residual list it replaces must not lose the measurement residuals recorded above.",
+    "Nothing in this artifact is sealed, applied, integrated or signed."
+  ],
+
+  "productAuthorityBoundary": {
+    "CD-RT-5": "BLOCKED_ON_PHASE_1A — cited from the binding packet, unchanged, and this lane remains without standing to move it.",
+    "rule": "This artifact cites the binding packet and constitutes nothing. The packet's ruleWhilePending remains in force and is quoted rather than interpreted: no implementer may choose a retention default and no freeze may claim this finding closed.",
+    "unblocksWhenAssessment": "The packet records that the pending retention decision unblocks when Phase 1A supplies an independently reviewed evaluation proof, verification/regeneration closure, degradation model and purge semantics. Measured against that list: the evaluation proof is supplied and independently reviewed; the verification/regeneration closure is supplied and independently reviewed; the degradation model is supplied as declared data and is not independently evaluated; the purge semantics are not supplied as adjudicated text. Two of four are met. This is a readiness measurement reported to the decision owner and is not a decision.",
+    "freeze44Compliance": "This artifact carries no resolves object, no signOff field, no productAcceptance field and no disposition map keyed by a product decision id. Fixtures CX-PD-01 and CX-PD-02 construct exactly those shapes on copies of these bytes and confirm the live assertion lane rejects both, and control CTRL-02 confirms the unmutated bytes are clean."
+  },
+
+  "environment": {
+    "interpreter": "CPython 3.14.6 (main, Jun 10 2026) [Clang 21.0.0]",
+    "platform": "Darwin 25.5.0 arm64",
+    "invocation": "python3 -I -B, stdlib only",
+    "timeoutBinary": "ABSENT on this host",
+    "concurrency": "Other lanes were writing in this directory during this authoring. Every digest in recordedInputs was recomputed by this lane at the time it was used."
+  }
+}

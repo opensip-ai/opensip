@@ -1,0 +1,500 @@
+{
+  "artifact": "opensip.trusted-request-context",
+  "version": 3,
+  "date": "2026-08-01",
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "purpose": "Extract the minimum host-owned REQUEST-ID-V1 authority needed to pass an opaque TrustedRequestContextV3 across host components. An independently rooted trusted host authority, not the context, owns the exact reservation-to-object registry used for projection; neither a raw RequestId nor any downstream contract becomes authority.",
+  "successorDelta": {
+    "predecessor": "trusted-request-context.v2.json@df38a7e3a77169655baca38e9c494a9e4197bdab6737bec77085c3d49b0dc917",
+    "predecessorChecker": "check-trusted-request-context-v2.py@4419ead424c13a8b5b6b82bc6fa1192d123a90795613fe836b85fdbaf634a3dd",
+    "predecessorAdjudication": "trusted-request-context.v2.adjudication-v1-rejection-response.json@bff86b9bcf9f10519256a219feb1a47b0ca2d3dfde8b41913716113fa54235ba",
+    "rejection": "trusted-request-context.v2.review-independent-prefreeze.json@fbb82c379ccc238c9a635395601f8d2fd9ff094fbe84bd0ee9c47b265b51d7aa",
+    "changedRootKeys": [
+      "version",
+      "purpose",
+      "authorityBoundary",
+      "dependencyClosure",
+      "capabilityContract",
+      "invocationLifecycle",
+      "positiveControls",
+      "adversarialControls",
+      "invariants",
+      "retainedResiduals",
+      "findingDispositions"
+    ],
+    "addedRootKeys": [
+      "successorDelta"
+    ],
+    "protectedRootKeys": [
+      "artifact",
+      "date",
+      "status",
+      "reviewStatus",
+      "sourceAuthority",
+      "sourceProjection",
+      "semanticBoundary",
+      "assurance",
+      "sealRecommendation"
+    ],
+    "scope": "The v3 checker loads the exact pinned v2 predecessor, compares every unlisted predecessor root value for exact equality, rejects additions outside addedRootKeys, and recomputes the changed authority claims with executable probes. No text-substring or authored boolean is a successor oracle."
+  },
+  "authorityBoundary": {
+    "owner": "orchestration host request-ingress adapter",
+    "type": "TrustedRequestContextV3",
+    "rule": "One selected TrustedHostRequestAuthorityV3 owns an out-of-band reservation-to-exact-context registry. Its trusted ingress operation validates and reserves one canonical RequestId and commits the exact newly allocated context in the same modeled ledger-state transition. Projection is an operation of that selected authority and accepts only the exact object in its own exactly-once reservation binding. The context carries and exposes no RequestId, authority, gate, registry, token, mint helper, or projection helper.",
+    "nonAuthority": "This leaf does not define an event envelope, attempt identity, semantic record, storage transaction, analysis result, or product behavior.",
+    "modelBoundary": "The Python checker is a trusted-host API and provenance model: authority identity plus an out-of-band exact-object registry are executable. It does not protect against arbitrary same-process reflection, private-state inspection or mutation, memory writes, or debugger compromise. Production Rust module privacy and capability ownership must establish the real boundary."
+  },
+  "sourceAuthority": {
+    "artifact": "operability.v2.json",
+    "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+    "checker": "check-operability.py",
+    "checkerSha256": "925496916ef2c7075c02f7a767353aa6ff047cf55557304f3983e17e1c5256e2",
+    "jsonPointer": "/requestIdContract",
+    "sourceId": "REQUEST-ID-V1",
+    "extractionRule": "The checker loads the exact pinned OPERABILITY v2 artifact and recomputes sourceProjection from a closed path set. Every declared local executable dependency is authenticated by hashing its exact source bytes and compiling/executing those bytes in an isolated namespace; path/importlib loaders capable of selecting __pycache__ are not used. The source checker's whole-contract check is not invoked."
+  },
+  "sourceProjection": {
+    "id": "REQUEST-ID-V1",
+    "status": "IMPLEMENTABLE",
+    "authority": {
+      "allocationOwner": "orchestration host request-ingress adapter",
+      "callerRule": "Public callers MUST NOT supply requestId. An optional caller correlation token is accepted only in a separately typed clientCorrelationId field, is untrusted display/audit metadata, and never aliases or replaces RequestId.",
+      "propagationRule": "After allocation, the immutable typed RequestContext is the only source of RequestId for events, host-audit records, and child operations. Sinks, providers, stages, profiles, and projection adapters cannot mint, replace, or accept a raw RequestId."
+    },
+    "allocation": {
+      "point": "Immediately when a CLI/API/stored-view invocation crosses the first trusted host ingress, before request parsing, request validation, contribution/capability admission, project resolution, stored-Run lookup, event creation, ExecutionId allocation, or AttemptRecord creation.",
+      "allRequests": [
+        "requests later rejected during parse or request-validation",
+        "requests admitted as analysis attempts",
+        "stored-Run and stored-fact read/projection requests",
+        "host-mutation requests"
+      ],
+      "entropyBoundary": "Uses OS CSPRNG only as non-analysis host correlation metadata. RequestId is excluded from every analysis identity and semantic result, so this does not weaken the RESOLVED-INPUTS prohibition on entropy influencing analysis."
+    },
+    "representation": {
+      "raw": "16 uniformly random bytes from the OS CSPRNG",
+      "text": "req1_<32 lowercase hexadecimal characters>",
+      "regex": "^req1_[0-9a-f]{32}$",
+      "decode": "The 32 hexadecimal characters decode to exactly the 16 allocated bytes. Uppercase, padding, braces, UUID hyphens, alternate prefixes, empty values, or Unicode lookalikes are invalid rather than aliases.",
+      "schemaVersion": 1
+    },
+    "collisionAndRetry": {
+      "reservationAuthority": "host RequestId registry",
+      "reservationRule": "Before publishing RequestContext or any EventEnvelope, atomically reserve the candidate under a unique RequestId constraint. A host using durable audit/event custody reserves in the host request ledger transaction; an explicitly ephemeral invocation reserves in the process registry for its complete lifetime.",
+      "maximumCandidates": 8,
+      "onCollision": "Discard the colliding candidate, draw a fresh independent 16-byte candidate, and retry atomic reservation. Never reuse the colliding candidate with a suffix or overwrite the existing request.",
+      "externalRetry": "Every new CLI invocation, API call, transport retry, or stored-view read is a new request and receives a new RequestId. RequestId is not an idempotency key. A mutation uses its separately typed mutationId; an internal retry that remains inside one accepted host request retains the same RequestContext and RequestId.",
+      "collisionScope": "Uniqueness is enforced over the registry's custody lifetime. A durable ledger never reissues an ID present in that ledger; an explicitly ephemeral process prevents duplicates among its live/retained-in-process requests."
+    },
+    "custody": {
+      "requestContext": "Host-owned immutable value from successful reservation until every child operation and event sink closes.",
+      "operationalRecords": "May be retained in bounded progress/diagnostic/telemetry records and is required in HostAuditRecord. Retention follows the owning operational/audit plane, not analysis evidence custody.",
+      "redaction": "RequestId is opaque and contains no timestamp, project, user, path, or source content; it is still treated as correlation metadata in support bundles."
+    },
+    "semanticExclusion": {
+      "excludedFrom": [
+        "SnapshotId preimage",
+        "PlanId preimage",
+        "fact identity and fingerprints",
+        "FactViewId",
+        "EvidenceDigest and evaluation proofs",
+        "RunId derivation",
+        "sealed Run semantic manifest",
+        "Coverage, findings, verdict, policy and termination derivation",
+        "cache and regeneration keys"
+      ],
+      "rule": "Changing only RequestId while holding all semantic inputs and exact Coverage fixed cannot change SnapshotId, PlanId, any fact/finding identity, EvidenceDigest, RunId, Run content, verdict, or termination. RequestId may correlate operational records but never establishes evidence authority."
+    }
+  },
+  "dependencyClosure": {
+    "data": [
+      "operability.v2.json"
+    ],
+    "executable": [
+      "check-operability.py"
+    ],
+    "successorInputs": [
+      "trusted-request-context.v1.json",
+      "check-trusted-request-context.py",
+      "trusted-request-context.v1.review-independent-prefreeze.json",
+      "trusted-request-context.v2.json",
+      "check-trusted-request-context-v2.py",
+      "trusted-request-context.v2.adjudication-v1-rejection-response.json",
+      "trusted-request-context.v2.review-independent-prefreeze.json"
+    ],
+    "rule": "The only semantic source inputs are the pinned OPERABILITY v2 data and checker. The listed v1/v2 successor-process inputs are read only to verify exact preservation, the closed v3-to-v2 delta, and complete rejection dispositions; they do not become RequestId authority. Local executable dependencies must appear in executable, be authenticated from exact source bytes, and run only via compile of those bytes. Predecessor checkers are run as separate preservation commands, never imported. Undeclared local imports are rejected. Timestamp-valid malicious .pyc images are never selected.",
+    "forbiddenBackEdges": [
+      "current OPERABILITY successor",
+      "analysis evidence contract",
+      "event-envelope contract",
+      "attempt-identity contract",
+      "delivery or projection contract",
+      "retention or D9 contract",
+      "E8 or OP6"
+    ]
+  },
+  "capabilityContract": {
+    "type": "TrustedRequestContextV3",
+    "opaque": true,
+    "serializable": false,
+    "copyable": false,
+    "publicConstructors": [],
+    "mintOwner": "TrustedHostRequestAuthorityV3 trusted ingress operation",
+    "mintAuthority": "The selected host authority instance is the independent root. It owns one private out-of-band ledger state mapping each exactly-once reserved RequestId to one exact context object. The context supplies no authenticity fact. There is no module-global token, gate, registry, or mint helper; an independently created authority is a different root and cannot make a context project under the selected authority.",
+    "mintPreconditions": [
+      "the candidate decodes as exactly sixteen bytes under REQUEST-ID-V1",
+      "the candidate and exact newly allocated context are committed as one reservation-to-object binding under the host registry's unique RequestId constraint",
+      "the invocation has crossed trusted ingress and has not yet published a child operation"
+    ],
+    "contextExposes": [],
+    "authorityRegistry": {
+      "owner": "the selected TrustedHostRequestAuthorityV3 instance",
+      "key": "one canonical RequestIdV1 reserved exactly once",
+      "value": "one exact TrustedRequestContextV3 object identity allocated inside the same trusted ingress operation",
+      "projectionRule": "trustedAuthority.request_id(context) searches only its own out-of-band binding and rejects absent, duplicate, substituted, or non-exact objects",
+      "callerSuppliedRegistry": false,
+      "contextSuppliedAuthority": false
+    },
+    "forbiddenConstructionSources": [
+      "raw string",
+      "parsed JSON",
+      "public caller",
+      "event sink",
+      "provider",
+      "stage",
+      "profile",
+      "projection adapter",
+      "object.__new__ plus slot injection",
+      "copy or deepcopy",
+      "pickle dumps or loads",
+      "reconstructed lookalike",
+      "wrong-authority instance",
+      "registry substitution"
+    ],
+    "allowedProjection": {
+      "method": "TrustedHostRequestAuthorityV3.request_id(TrustedRequestContextV3) -> RequestIdV1",
+      "fields": [
+        "requestId"
+      ],
+      "representation": "^req1_[0-9a-f]{32}$",
+      "persistence": "The projected value may enter only a downstream closed operational-correlation record. The capability, authority, reservation binding, and registry never serialize."
+    },
+    "tokenRule": "No module-global mint token, gate, registry, or mint helper exists. Possession of a context conveys no mint or projection authority. The selected trusted authority remains out-of-band, is absent from the RequestId projection, and is never accepted as caller data."
+  },
+  "invocationLifecycle": {
+    "acceptedKinds": [
+      "CLI",
+      "API",
+      "recovery"
+    ],
+    "internalRetry": "An internal retry inside one accepted invocation receives the identical TrustedRequestContextV3 capability and identical RequestId from the same selected authority; it performs no new allocation, reservation, or registry update.",
+    "newInvocation": "Every new CLI, API, or recovery invocation allocates and reserves a new canonical RequestId and receives a distinct TrustedRequestContextV3. A prior capability cannot be supplied as the new invocation's authority, and a context from another authority cannot project under the selected authority.",
+    "transportRetry": "A transport retry that crosses trusted ingress is a new invocation. A retry wholly contained inside the accepted host invocation is internalRetry.",
+    "collision": "A reserved RequestId cannot mint a second context. Collision handling remains owned by the pinned REQUEST-ID-V1 source and never overwrites or aliases the existing reservation."
+  },
+  "semanticBoundary": {
+    "classification": "operational-correlation-only",
+    "rule": "Neither the capability nor its projected RequestId is an analysis input or evidence authority. Only explicitly downstream operational schemas may persist the projection.",
+    "forbiddenParticipation": [
+      "SnapshotId preimage",
+      "PlanId preimage",
+      "fact identity and fingerprints",
+      "FactViewId",
+      "EvidenceDigest and evaluation proofs",
+      "RunId derivation",
+      "sealed Run semantic manifest",
+      "Coverage, findings, verdict, policy and termination derivation",
+      "cache and regeneration keys"
+    ],
+    "downstreamSchemasDefinedHere": []
+  },
+  "positiveControls": [
+    {
+      "id": "TRC3-POS-01-CLI-EXACT-BINDING",
+      "assert": "A canonical unreserved candidate at the selected authority's trusted CLI ingress commits one exactly-once reservation bound to the exact returned opaque context, and that authority projects the exact RequestId."
+    },
+    {
+      "id": "TRC3-POS-02-INTERNAL-RETRY",
+      "assert": "Internal retry returns the identical capability and projection without changing reservation or registry state."
+    },
+    {
+      "id": "TRC3-POS-03-API-NEW-CONTEXT",
+      "assert": "A new API invocation receives a distinct context with a distinct exactly-once reserved RequestId in the selected authority."
+    },
+    {
+      "id": "TRC3-POS-04-RECOVERY-NEW-CONTEXT",
+      "assert": "A new recovery invocation receives a distinct context with a distinct exactly-once reserved RequestId in the selected authority."
+    },
+    {
+      "id": "TRC3-POS-05-NONSERIALIZABLE",
+      "assert": "JSON, pickle, copy, and deepcopy reject the capability while the selected authority's RequestId projection remains canonical text."
+    }
+  ],
+  "adversarialControls": [
+    {
+      "id": "TRC3-NEG-01-RAW-STRING",
+      "input": "raw string as context",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC3-NEG-02-PARSED-JSON",
+      "input": "parsed JSON object as context",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC3-NEG-03-CALLER-CONSTRUCTION",
+      "input": "public caller directly allocates an exact-type context",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-04-SINK-CONSTRUCTION",
+      "input": "event sink directly allocates an exact-type context",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-05-PROVIDER-CONSTRUCTION",
+      "input": "provider directly allocates an exact-type context",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-06-STAGE-CONSTRUCTION",
+      "input": "stage directly allocates an exact-type context through its distinct route",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-07-PROFILE-CONSTRUCTION",
+      "input": "profile directly allocates an exact-type context through its distinct route",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-08-PROJECTION-ADAPTER-CONSTRUCTION",
+      "input": "projection adapter directly allocates an exact-type context through its distinct route",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-09-UPPERCASE",
+      "input": "uppercase RequestId",
+      "expected": "REQUEST_ID_INVALID_REPRESENTATION"
+    },
+    {
+      "id": "TRC3-NEG-10-UUID-ALIAS",
+      "input": "UUID-shaped alias",
+      "expected": "REQUEST_ID_INVALID_REPRESENTATION"
+    },
+    {
+      "id": "TRC3-NEG-11-COLLISION-REUSE",
+      "input": "already reserved RequestId",
+      "expected": "REQUEST_ID_COLLISION"
+    },
+    {
+      "id": "TRC3-NEG-12-INTERNAL-REMINT",
+      "input": "internal retry remints context",
+      "expected": "INTERNAL_RETRY_CONTEXT_DRIFT"
+    },
+    {
+      "id": "TRC3-NEG-13-EXTERNAL-CONTEXT-REUSE",
+      "input": "new invocation supplies prior context",
+      "expected": "NEW_INVOCATION_REQUIRES_NEW_CONTEXT"
+    },
+    {
+      "id": "TRC3-NEG-14-CAPABILITY-SERIALIZATION",
+      "input": "serialize opaque capability",
+      "expected": "TRUSTED_CONTEXT_NONSERIALIZABLE"
+    },
+    {
+      "id": "TRC3-NEG-15-SEMANTIC-PROJECTION",
+      "input": "project context into semantic input",
+      "expected": "REQUEST_ID_SEMANTIC_EXCLUSION_VIOLATION"
+    },
+    {
+      "id": "TRC3-NEG-16-OBJECT-NEW-FORGE",
+      "input": "object.__new__ exact-type forge without ingress binding",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-17-COPY",
+      "input": "copy.copy of trusted context",
+      "expected": "TRUSTED_CONTEXT_NONCOPYABLE"
+    },
+    {
+      "id": "TRC3-NEG-18-DEEPCOPY",
+      "input": "copy.deepcopy of trusted context",
+      "expected": "TRUSTED_CONTEXT_NONCOPYABLE"
+    },
+    {
+      "id": "TRC3-NEG-19-PICKLE-CONTEXT",
+      "input": "pickle.dumps trusted context",
+      "expected": "TRUSTED_CONTEXT_NONSERIALIZABLE"
+    },
+    {
+      "id": "TRC3-NEG-20-UNPICKLE-LOOKALIKE",
+      "input": "unpickle reconstructed lookalike",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC3-NEG-21-INDEPENDENT-AUTHORITY",
+      "input": "project a second authority's valid context under the selected authority",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-22-POPULATED-REGISTRY-SUBSTITUTION",
+      "input": "supply a populated forged RequestId-to-exact-context registry to projection",
+      "expected": "TRUSTED_AUTHORITY_PARAMETER_FORBIDDEN"
+    },
+    {
+      "id": "TRC3-NEG-23-NEW-GATE-AND-MINT-EQUIVALENT",
+      "input": "create an equivalent independent authority and mint through its ingress",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-24-NO-GLOBAL-SHARED-MINT-AUTHORITY",
+      "input": "search the executable model for a shared token, gate, registry, authority instance, or module-level allocator capable of binding an object into an existing authority",
+      "expected": "NO_SHARED_MINT_AUTHORITY"
+    },
+    {
+      "id": "TRC3-NEG-25-DIRECT-NO-INGRESS-ALLOCATION",
+      "input": "directly allocate a context without any authority ingress",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-26-CONTEXT-AUTHORITY-LEAK",
+      "input": "obtain a gate, registry, token, authority, mint helper, RequestId, or projection helper from a valid context",
+      "expected": "TRUSTED_CONTEXT_AUTHORITY_OPAQUE"
+    },
+    {
+      "id": "TRC3-NEG-27-DUPLICATE-CONTEXT",
+      "input": "directly allocate a second exact-type object for an already reserved RequestId",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-28-UNRESERVED-CONTEXT",
+      "input": "directly allocate an exact-type object for an unreserved RequestId",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC3-NEG-29-CALLER-REGISTRY-ARGUMENT",
+      "input": "pass a caller-created registry as a projection argument",
+      "expected": "TRUSTED_AUTHORITY_PARAMETER_FORBIDDEN"
+    },
+    {
+      "id": "TRC3-NEG-30-CONTEXT-SLOT-INJECTION",
+      "input": "inject RequestId or authority state into the fieldless exact context",
+      "expected": "TRUSTED_CONTEXT_AUTHORITY_OPAQUE"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "TRC3-1",
+      "assert": "The source projection is recomputed from the exact pinned REQUEST-ID-V1 authority rather than trusted as authored presence."
+    },
+    {
+      "id": "TRC3-2",
+      "assert": "The selected host authority independently owns one out-of-band exactly-once RequestId-to-exact-context binding; projection consults only that authority and never context-supplied authenticity."
+    },
+    {
+      "id": "TRC3-3",
+      "assert": "TrustedRequestContextV3 is fieldless and exposes no RequestId, authority, token, gate, registry, mint helper, or projection helper; it conveys only exact object identity to the selected authority."
+    },
+    {
+      "id": "TRC3-4",
+      "assert": "Every declared foreign construction route, direct allocation, independent authority, populated registry substitution, duplicate, unreserved object, copy, and serialization attack rejects without changing the selected authority's reservation or registry state."
+    },
+    {
+      "id": "TRC3-5",
+      "assert": "Internal retry retains one context; every new CLI, API, or recovery invocation gets a distinct newly reserved context."
+    },
+    {
+      "id": "TRC3-6",
+      "assert": "RequestId remains operational-only and cannot influence any enumerated semantic identity or result."
+    },
+    {
+      "id": "TRC3-7",
+      "assert": "The malicious-bytecode regression invokes the actual authenticated-source execution helper; declared local executables run only from the exact hashed source bytes and timestamp-valid malicious .pyc images are never executed."
+    },
+    {
+      "id": "TRC3-8",
+      "assert": "The v3 successor delta is closed: every unlisted v2 root is byte-value equal, every changed root is declared, and no undeclared root is added."
+    },
+    {
+      "id": "TRC3-9",
+      "assert": "Checker results are design-integrity evidence only; production Rust capability enforcement and durable atomic reservation remain unexecuted, and the candidate remains not applied and do-not-seal."
+    }
+  ],
+  "assurance": {
+    "state": "IMPLEMENTABLE_UNEXECUTED",
+    "checkerEvidence": "DESIGN-INTEGRITY-ONLY",
+    "runtimeImplementationExecuted": false,
+    "productQualified": false,
+    "productDemonstrated": false,
+    "applicationAuthorized": false
+  },
+  "retainedResiduals": [
+    {
+      "id": "INDEPENDENT-REVIEW",
+      "state": "REQUIRED",
+      "effect": "No consumer may treat this candidate as accepted authority until a reviewer with no authorship of these v3 bytes independently reconstructs the source extraction, exact-helper hash-exec path, independently rooted authority model, exact reservation-to-object registry, and retained attack probes."
+    },
+    {
+      "id": "PRODUCTION-CAPABILITY-IMPLEMENTATION",
+      "state": "UNEXECUTED",
+      "effect": "The checker uses a Python trusted-host API/provenance model. Production Rust module privacy and capability ownership must establish the real boundary; this model does not demonstrate allocator, durable registry, restart, concurrency, or resistance to arbitrary same-process inspection, memory mutation, or debugger compromise."
+    },
+    {
+      "id": "ATOMIC-RESERVATION-RUNTIME",
+      "state": "UNEXECUTED",
+      "effect": "The checker models an immutable single-process ledger-state replacement containing reservation count and exact object binding; it is not evidence of a durable atomic unique constraint, crash recovery, or multi-thread/process behavior."
+    },
+    {
+      "id": "SAME-PROCESS-INSPECTION",
+      "state": "OUT-OF-CLAIM",
+      "effect": "The model does not claim protection if arbitrary code can inspect or mutate Python name-mangled authority state, replace object internals, write process memory, or attach a debugger. The retained v2 counterexamples require none of those powers and are closed by the ordinary API/provenance model."
+    }
+  ],
+  "findingDispositions": [
+    {
+      "id": "TRC-PF-01-UNPINNED-PYC-EXECUTION",
+      "sourceReview": "trusted-request-context.v1.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-REPAIR-RETAINED-IN-V3",
+      "repair": "Executable dependencies remain authenticated by hashing exact source bytes then compile()/exec() of that buffer in an isolated namespace. importlib path loaders and __pycache__ selection are not used. The v3 malicious-pyc and wrong-hash probes invoke the actual _exec_pinned_source helper rather than duplicating its logic."
+    },
+    {
+      "id": "TRC-PF-02-CAPABILITY-ORACLE-FORGEABLE",
+      "sourceReview": "trusted-request-context.v1.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V2-REPAIR-REJECTED-V3-CANDIDATE-RESPONSE",
+      "repair": "The v2 self-authenticating gate disposition is withdrawn. In v3 the selected host authority independently owns the reservation-to-exact-object registry; the fieldless context supplies no authenticity input, and projection is an authority method that consults only its own state. Direct allocation, a second authority, populated registry substitution, context authority leak, duplicate/unreserved objects, and every declared construction route reject without selected-authority state change."
+    },
+    {
+      "id": "TRC2-PF-01-SELF-AUTHENTICATING-MINT-GATE",
+      "sourceReview": "trusted-request-context.v2.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V3-CANDIDATE-RESPONSE",
+      "repair": "No gate, context-carried authority, module registry, or module mint helper remains. Each TrustedHostRequestAuthorityV3 is an independent root. It atomically models one exactly-once reservation-to-exact-context binding and rejects every object not present by identity in its own state, including valid contexts from a second authority."
+    },
+    {
+      "id": "TRC2-OBS-01-REGISTRY-CONTROL-DOES-NOT-SUBSTITUTE",
+      "sourceReview": "trusted-request-context.v2.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V3-CANDIDATE-RESPONSE",
+      "repair": "TRC3-NEG-22 supplies a nonempty forged registry whose canonical RequestId maps to the exact forged object; projection rejects the caller-supplied authority parameter and the selected authority state is byte-value unchanged. TRC3-NEG-21 separately exercises a populated second authority."
+    },
+    {
+      "id": "TRC2-OBS-02-NO-GLOBAL-TOKEN-CONTROL-IS-NAME-ONLY",
+      "sourceReview": "trusted-request-context.v2.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V3-CANDIDATE-RESPONSE",
+      "repair": "The control is no longer a literal _MINT_TOKEN name test. Structural source inspection requires the only object.__new__(TrustedRequestContextV3) allocation site to be TrustedHostRequestAuthorityV3.begin and rejects module-global authority/context instances or mutable mint registries. The behavioral oracle also proves a separately constructed equivalent authority cannot mint for the selected authority."
+    },
+    {
+      "id": "TRC2-OBS-03-CONSTRUCTION-ROUTE-DENOMINATOR",
+      "sourceReview": "trusted-request-context.v2.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V3-CANDIDATE-RESPONSE",
+      "repair": "Caller, sink, provider, stage, profile, and projection-adapter each have a distinct route function and retained adversarial result; each directly allocates its own exact-type lookalike and each rejects under the selected authority with no state change."
+    },
+    {
+      "id": "TRC2-OBS-04-PYC-REGRESSION-DUPLICATES-HELPER",
+      "sourceReview": "trusted-request-context.v2.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-V3-CANDIDATE-RESPONSE",
+      "repair": "The v3 timestamp-valid malicious-pyc regression and pre-execution wrong-hash side-effect regression both call the same _exec_pinned_source helper used by normal source loading, with an isolated root parameter."
+    }
+  ],
+  "sealRecommendation": "DO-NOT-SEAL-OR-APPLY"
+}

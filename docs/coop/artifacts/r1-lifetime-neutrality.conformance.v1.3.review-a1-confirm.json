@@ -1,0 +1,41 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "reviewOf": "opensip.r1-lifetime-neutrality.conformance v1.3 (confirm pass after B-R1V13)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "reject-require-v1.4",
+  "confidence": "high",
+  "method": [
+    "Authority trace: architecture/02 ExecutionId-at-admission → R1 outside.admission → CoreDeps.idSource → injectedNotAmbient prose → LN-13 → peerReviewRequired last question. Distinct from assertion-only LN-13 check and from B only in also binding prior A1-R1V13-01 residual.",
+    "Did not re-open B-R1V12-02..07 beyond confirming author still lists them outstanding."
+  ],
+  "whatCouldHaveFailed": [
+    "injectedNotAmbient already says attempt-unique ExecutionId only",
+    "idSource cannot mint ExecutionId",
+    "peerReviewRequired dispositioned"
+  ],
+  "repairDisposition": {
+    "B-R1V12-01": "PARTIAL — LN-13 assert correct; ownership of who mints ExecutionId unresolved",
+    "A1-R1V13-01": "OPEN — content-derived ExecutionId prose remains",
+    "B-R1V13-01": "ACCEPT — ownership contradiction is the correct generalization of A1-R1V13-01",
+    "B-R1V13-02": "ACCEPT — peerReviewRequired still asks the 'answered' question",
+    "A1-R1V13-02..06": "OPEN unchanged"
+  },
+  "findings": [
+    {
+      "id": "A1-R1V13C-01",
+      "severity": "high",
+      "title": "Confirm: ExecutionId ownership is contradictory; LN-13 alone does not close B-R1V12-01",
+      "detail": "Admission is outside the core; LN-13 says allocated at admission; CoreDeps still includes idSource; injectedNotAmbient still says RunId/ExecutionId are content-derived or supplied; peerReviewRequired still asks whether LN-13 holds for admission-time allocation. Two implementable stories remain (host allocates vs core mints). A1-R1V13-01 remains open; B-R1V13-01 is the right framing.",
+      "requiredFix": "Host allocates ExecutionId; inject as immutable attempt context; idSource is not for attempt IDs; fix prose; disposition peer question; LN-13 asserts preservation of supplied distinct IDs + equal digests.",
+      "confidence": "high"
+    }
+  ],
+  "verdict": "reject-require-v1.4",
+  "sealRecommendation": "Do not seal R-1(1).",
+  "whatWouldChangeMyMind": "Single ownership story with consistent prose, CoreDeps, LN-13, and peerReview disposition.",
+  "knownLimitations": ["Spec-only; no suite."],
+  "sealedPropertiesCovered": ["R-1 item (1) candidate"]
+}

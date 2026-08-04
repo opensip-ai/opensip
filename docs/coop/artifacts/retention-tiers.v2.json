@@ -1,0 +1,277 @@
+{
+  "artifact": "opensip.retention-tiers",
+  "version": 2,
+  "status": "CANDIDATE-UNREVIEWED",
+  "supersedes": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute (excerpt-T1 default) and threat-model.v2.json#V10.proposedResolution tiers as defaulted",
+  "author": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "date": "2026-07-30",
+  "purpose": "Close ARCH.RETENTION-TIERS after both reviewers rejected excerpt-T1 as the universal default. Keep the tiered/declared ladder (that part was right). Redefine T1 so durable explainability answers why for local, path-relationship, and negative-absence findings without defaulting to a source archive (T2).",
+  "decisionDependencies": [
+    {
+      "id": "A1-RT-01",
+      "claim": "excerpt-T1 is lint-shaped and cannot prove cycles, blast radius, or dead code"
+    },
+    {
+      "id": "B-RT-01",
+      "claim": "same defect, independent method"
+    },
+    {
+      "id": "B-RT-03",
+      "claim": "mutable current tier conflicts with immutable Run"
+    },
+    {
+      "id": "TM.V1",
+      "claim": "minimise retained source by default"
+    },
+    {
+      "id": "ARCH.RUN-MULTIAXIS",
+      "claim": "Run is multi-axis sealed evidence"
+    },
+    {
+      "id": "04-wedge",
+      "claim": "graph/blast-radius/dead-code are the product wedge, not an edge case"
+    }
+  ],
+  "problem": {
+    "wrongInsight": "Explaining a finding requires the spans it cited.",
+    "whyWrong": "True for local predicates. False as a general theory: path findings need edge sets; negative findings need closed-world Coverage of a relation. The product's differentiated value is relationship analysis (04).",
+    "whatSurvives": [
+      "Explainability is tiered and declared per Run, not absolute",
+      "RT-1 manifest field; RT-3 forward-only config; RT-4 inventory; RT-5 fail-loud for insufficient tier",
+      "T2 is read-set-bounded full replay, not whole-repo archive",
+      "Privacy classes apply at every tier"
+    ]
+  },
+  "findingShapes": [
+    {
+      "id": "local-predicate",
+      "examples": ["pattern over spans", "large-function", "forbidden API"],
+      "proofObject": "subject span(s) + optional local AST/context excerpt",
+      "display": "source excerpt for human action"
+    },
+    {
+      "id": "path-relationship",
+      "examples": ["package cycle", "blast radius membership", "who-calls path"],
+      "proofObject": "ordered path certificate or SCC member list: edge ids with endpoint symbol/file identities; optional hop display spans",
+      "display": "path summary + selected hop excerpts"
+    },
+    {
+      "id": "negative-absence",
+      "examples": ["dead code", "unused export", "zero inbound references"],
+      "proofObject": "subject identity + Coverage certificate for the reference (or relevant) relation over declared scope/partition roots — proof of exhaustive absence, not a positive cite",
+      "display": "subject location excerpt only (display, not proof)"
+    }
+  ],
+  "tiers": [
+    {
+      "tier": "T0-structural",
+      "retains": [
+        "content digests of inputs (read-set identities)",
+        "finding records without proof bodies",
+        "Coverage digests and required-relation outcomes",
+        "verdict, policy inputs, fingerprint subjects",
+        "PlanId / SnapshotId / EvidenceDigest"
+      ],
+      "answers": "what was concluded; which inputs by identity; whether required Coverage held",
+      "cannotAnswer": "why, in proof terms, for any finding shape",
+      "size": "tiny",
+      "isDefault": false
+    },
+    {
+      "tier": "T1-proof",
+      "retains": [
+        "everything in T0",
+        "for each finding: the sealed FindingProof object (see proofSchema)",
+        "optional display excerpts referenced by the proof (privacy-classed, bounded)"
+      ],
+      "answers": "why this finding for all three finding shapes, without retaining the full read-set",
+      "cannotAnswer": "byte-identical re-derivation of all facts; attestation-grade replay",
+      "size": "small-to-medium; bounded by proof budgets (see bounds)",
+      "isDefault": true,
+      "whyDefault": "T0 cannot answer why. T2 retains all read-set bytes (source archive of everything the analysis touched). T1-proof is the minimum that satisfies the product's explainability promise for the wedge capabilities while remaining minimising relative to T2.",
+      "replaces": "T1-excerpt"
+    },
+    {
+      "tier": "T2-replay",
+      "retains": [
+        "everything in T0",
+        "all read-set bytes required to re-derive under the same Plan/toolchain identities",
+        "FindingProof objects (optional redundancy for UX)"
+      ],
+      "answers": "full re-derivation; attestation grade",
+      "size": "large; read-set bounded not repository bounded",
+      "isDefault": false
+    }
+  ],
+  "proofSchema": {
+    "typeName": "FindingProof",
+    "rule": "Every finding at T1+ carries exactly one sealed proof whose kind matches the rule's declared findingShape.",
+    "kinds": [
+      {
+        "kind": "local",
+        "required": ["subjectAnchors"],
+        "optional": ["displayExcerpts", "localContext"],
+        "subjectAnchors": "file + span identity (content-hash relative)"
+      },
+      {
+        "kind": "path",
+        "required": ["edges", "endpoints"],
+        "optional": ["displayExcerpts", "pathDigest"],
+        "edges": "ordered list of edge identities (from, to, relation, evidence digests)",
+        "note": "SCC findings may use memberSet + cycleWitness path instead of a single path"
+      },
+      {
+        "kind": "absence",
+        "required": ["subject", "relation", "scopePartitionRoots", "coverageDigest"],
+        "optional": ["displayExcerpts"],
+        "note": "coverageDigest commits to the closed-world claim; without it the finding is not explainable at T1"
+      }
+    ],
+    "rulesDeclareShape": "Each rule/profile declares findingShape ∈ {local, path, absence, composite}. Composite findings carry a list of sub-proofs.",
+    "noProofNoSeal": "A Run cannot seal at T1 if any finding lacks a well-typed FindingProof."
+  },
+  "t0FactBodies": {
+    "clarifies": "A1-RT-03",
+    "statement": "T0 does NOT pin full fact relation bodies by default. T0 pins digests of fact partitions and Coverage. Full fact bodies needed for path/absence proofs are either (a) embedded or referenced inside FindingProof at T1, or (b) retained only if the project opts into a T1 variant that pins declared relation partitions (T1-partition) — see optionalVariants.",
+    "why": "If T0 silently kept all facts, T1 would be UX-only and size claims would be false. If T0 keeps only digests, relationship why cannot live at T0."
+  },
+  "optionalVariants": [
+    {
+      "id": "T1-partition",
+      "meaning": "T1-proof plus pinned fact-partition bodies for relations named by the Plan's required Coverage",
+      "when": "agent workflows that re-query the same Run's graph without T2",
+      "default": false,
+      "privacyNote": "Larger; must appear in inventory with size"
+    }
+  ],
+  "immutability": {
+    "closes": "B-RT-03",
+    "sealedTier": "Immutable field of the sealed Run manifest. Never rewritten.",
+    "retentionState": "NOT a second mutable tier field on the Run. The store tracks which proof/bytes objects remain reachable (GC/retention state). Projections may report effectiveExplainability ∈ {full-at-sealed-tier, degraded, unavailable} derived from reachability, without mutating the sealed manifest.",
+    "degradation": "One-way loss of reachable objects. Reporting is honest: if FindingProof bytes were GC'd, effectiveExplainability becomes degraded/unavailable even though sealedTier remains T1-proof.",
+    "rejects": "RT-2 as previously written if it meant rewriting currentTier on the sealed Run. Replace RT-2 with sealedTier + effectiveExplainability projection."
+  },
+  "requirements": [
+    {
+      "id": "RT-1",
+      "requirement": "sealedTier is a field of the sealed Run manifest, never ambient-only configuration",
+      "status": "retained"
+    },
+    {
+      "id": "RT-2",
+      "requirement": "Sealed tier is immutable; effective explainability is a projection of object reachability and may degrade one-way; never silently claim sealed power after GC",
+      "status": "amended (closes B-RT-03)"
+    },
+    {
+      "id": "RT-3",
+      "requirement": "Tier configuration per-project, visible, forward-only",
+      "status": "retained"
+    },
+    {
+      "id": "RT-4",
+      "requirement": "Every tier and FindingProof is privacy-classed and appears in data inventory with size",
+      "status": "retained and strengthened for proof objects"
+    },
+    {
+      "id": "RT-5",
+      "requirement": "Policy requiring T2 or T1-proof fails loud against insufficient effective explainability",
+      "status": "retained; check effective, not only sealed"
+    },
+    {
+      "id": "RT-6",
+      "requirement": "Default sealedTier is T1-proof; rules that cannot emit FindingProof cannot ship as default-gate rules",
+      "status": "new"
+    },
+    {
+      "id": "RT-7",
+      "requirement": "Proof budgets: max edges per path proof, max members per SCC witness, max excerpt bytes per finding — exhaustion is Coverage/diagnostic, not silent truncation of proof",
+      "status": "new; addresses A1-RT-04 size/privacy"
+    }
+  ],
+  "bounds": {
+    "pathMaxEdges": "product-configurable; default proposal 64",
+    "sccWitnessMaxMembers": "default proposal 32 with digest of full member set if truncated",
+    "excerptMaxBytesPerFinding": "default proposal 4KiB",
+    "onBudgetExhaustion": "FindingProof records truncation=true and residualDigest; consumer must not treat truncated proof as complete path"
+  },
+  "defaultAndDisclosure": {
+    "default": "T1-proof",
+    "firstRun": "Disclose sealedTier, what T1-proof retains (proof objects may include identifiers and bounded excerpts), storage location (TM V2), how to choose T0 or T2",
+    "interactionWithTM": [
+      "V10 residual must stop advertising T1-excerpt as default",
+      "V4 excerpt-off-by-default applies to display materialisation into reports/export; FindingProof may still retain bounded display excerpts at T1 under privacy class — materialisation to support bundles remains explicit",
+      "R4 source bytes only when required: T1-proof is not full source; T2 is"
+    ]
+  },
+  "conformanceTests": [
+    {
+      "id": "RT-T01",
+      "assert": "A cycle finding sealed at T1-proof carries a path or SCC witness; a golden with only a package-name span fails."
+    },
+    {
+      "id": "RT-T02",
+      "assert": "A dead-code finding at T1-proof carries absence proof (coverageDigest + relation + scope roots); subject excerpt alone fails."
+    },
+    {
+      "id": "RT-T03",
+      "assert": "A local lint finding at T1-proof may use kind=local with subjectAnchors only."
+    },
+    {
+      "id": "RT-T04",
+      "assert": "Two Runs with identical EvidenceDigest must have identical sealedTier; effectiveExplainability may differ only if object reachability differs and is reported."
+    },
+    {
+      "id": "RT-T05",
+      "assert": "GC that deletes FindingProof objects cannot leave sealedTier claiming T1 while effectiveExplainability reports full."
+    },
+    {
+      "id": "RT-T06",
+      "assert": "Attestation policy requiring T2 rejects a T1-proof Run loudly."
+    },
+    {
+      "id": "RT-T07",
+      "assert": "Path proof exceeding pathMaxEdges sets truncation=true and does not silently drop edges without residualDigest."
+    }
+  ],
+  "coordinatorDecisionsRequested": [
+    {
+      "id": "CD-RT-1",
+      "question": "Accept T1-proof (this artifact) as the default sealed tier, replacing T1-excerpt?",
+      "options": ["accept-as-default", "accept-but-default-T0-until-proof-schema-shipped", "reject"],
+      "recommendation": "accept-as-default"
+    },
+    {
+      "id": "CD-RT-2",
+      "question": "Is T1-partition an optional project upgrade or postponed entirely?",
+      "recommendation": "optional; not default"
+    },
+    {
+      "id": "CD-RT-3",
+      "question": "Amend RT-2 to sealedTier + effectiveExplainability (immutability fix)?",
+      "recommendation": "yes"
+    }
+  ],
+  "amends": [
+    "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute — replace T1-excerpt row and default justification; amend RT-2",
+    "artifacts/threat-model.v2.json V10.proposedResolution — replace T1-excerpt default with T1-proof; mark prior default withdrawn",
+    "claim-register ARCH.RETENTION-TIERS — bind this artifact; remain REOPENED or CANDIDATE until second-party review"
+  ],
+  "knownLimitations": [
+    "Field-level FindingProof binary encoding not specified — schema is logical.",
+    "Budget defaults (64 edges, 4KiB) are judgment, not measurement.",
+    "Does not implement GC or inventory — contracts only.",
+    "Authored by Reviewer A who filed A1-RT-01; requires independent review (especially B or coordinator) before any seal.",
+    "Clean-sheet comparison not yet run; this is a repair of the incumbent tier design, not a clean-sheet derivation."
+  ],
+  "sealedPropertiesCovered": [
+    "durable explainability is tiered and declared",
+    "minimise retained source by default (T1-proof << T2)",
+    "graph/relationship findings remain explainable without T2"
+  ],
+  "confidence": "medium-high",
+  "whatWouldChangeMyMind": [
+    "Product decision that relationship rules need not be durably explainable (would require amending 04 wedge — unlikely)",
+    "Evidence that FindingProof sizes approach T2 on representative monorepos even with budgets"
+  ]
+}

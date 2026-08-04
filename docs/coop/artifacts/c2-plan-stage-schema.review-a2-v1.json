@@ -1,0 +1,99 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.review",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/c2-plan-stage-schema.v1.json",
+  "status": "reject-seal-require-v2",
+  "method": "Enumerated boundaries for admission/configuration, snapshot acquisition, analysis DAG execution, mutation, query, and finalization; then attempted to represent mixed-language P-4 runs and to implement PS-07 without exposing private operators in a public Plan.",
+  "resolves": {
+    "A2-C2-V1-01": "BLOCKER: the canonical flow says Snapshotter precedes Planner, while the serialised Plan contains a snapshot stage. Define an outer invocation/admission/snapshot protocol and a snapshot-bound execution Plan, or define a two-level plan. The five-kind exhaustiveness claim has no stable boundary until this is resolved.",
+    "A2-C2-V1-02": "BLOCKER: Coverage cannot be only per relation. It must be keyed at least by relation × language/semantic universe × subject/scope, with per-rule consumption status, or a mixed TS/Go run cannot express resolved-complete for TS and unavailable for Go.",
+    "A2-C2-V1-03": "BLOCKER: PS-07 asks for two public Plans differing only in private operators, contradicting the rule that private operators do not appear in the public Plan. Use one public Plan and a test-only physical planner harness; state equality preconditions and compare Coverage before digest.",
+    "A2-C2-V1-04": "BLOCKER: PS-01's enum cannot prove that effectful work is unrepresentable as a Rule. A mislabeled rule-evaluation stage could still obtain process/network/filesystem authority. Add a capability-denial conformance test.",
+    "A2-C2-V1-05": "BLOCKER: required rule faults/budget exhaustion must become Coverage and force policy indeterminate; 'rule fault is isolated and does not fail the plan' currently permits a false pass unless requiredness is made explicit."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "C-2",
+      "source": "architecture/05-rules-and-extensions.md#there-are-not-four-analysis-products",
+      "property": "One analysis mechanism exposes typed logical stages while private physical materialisation remains non-contractual."
+    },
+    {
+      "id": "C-1",
+      "source": "architecture/04-fact-plane.md#fact-sufficiency-is-predicate-relative",
+      "property": "Coverage expresses whether the facts required by a predicate exist at the required assurance."
+    },
+    {
+      "id": "P-4",
+      "source": "artifacts/claim-register.v1.json#P-4",
+      "property": "TS and Rust have semantic providers while other languages may lack resolved/type relations; this difference must be representable loudly."
+    },
+    {
+      "id": "METHOD.RULE-2",
+      "source": "architecture/10-method.md#2-no-in-language-signature-is-a-capability-boundary",
+      "property": "Stage labels alone do not prevent a Rule from obtaining effectful authority."
+    }
+  ],
+  "stageKindExhaustiveness": {
+    "currentKinds": [
+      "snapshot",
+      "fact-derivation",
+      "rule-evaluation",
+      "policy-evaluation",
+      "probe"
+    ],
+    "verdict": "plausibly exhaustive only for a precisely bounded analysis-execution DAG; not presently proven exhaustive for the declared Plan",
+    "boundaryCases": [
+      {
+        "activity": "configuration, extension admission, contribution resolution, and PlanId allocation",
+        "disposition": "pre-plan host work, not a sixth stage, but the artifact must say so"
+      },
+      {
+        "activity": "snapshot capture",
+        "disposition": "ambiguous: architecture/03 places it before planning while C-2 places it in the Plan"
+      },
+      {
+        "activity": "query over a stored view",
+        "disposition": "outside the analysis Plan and creates no Run"
+      },
+      {
+        "activity": "repair mutation",
+        "disposition": "outside the analysis Plan; its verification is a new analysis invocation"
+      },
+      {
+        "activity": "seal/publication/projection",
+        "disposition": "host finalization outside the analysis DAG"
+      }
+    ],
+    "versioningConsequence": "Once closed with unknown-stage rejection, a sixth public kind is a Plan schema major-version change. That is acceptable only after the boundary is explicit and conformance demonstrates the five kinds cover it."
+  },
+  "coverageGranularity": {
+    "perRelationNecessary": true,
+    "perRelationSufficient": false,
+    "minimumKey": [
+      "relation",
+      "language or semanticUniverseId",
+      "subject/scope partition"
+    ],
+    "consumerState": "Each rule/query records evaluated, skipped-requirements-unmet, budget-exceeded, or faulted against the exact Coverage entries it consumed.",
+    "counterexample": "One Plan analyzes TypeScript and Go. resolved-reference facts may be complete for TypeScript and unavailable for Go while syntax facts are complete for both. A single resolved relation record cannot truthfully describe both."
+  },
+  "ps07": {
+    "currentlyTestable": false,
+    "contradiction": "If operators are private, two serialized Plans cannot differ in operator selection. If they can differ, operator choice has leaked into the public contract.",
+    "testableRewrite": "Feed one schema-identical public Plan to a test-only physical planner forced to two operator strategies. Under identical deterministic inputs and sufficient budgets, assert exact Coverage first and then EvidenceDigest equality. If resource use causes different Coverage, report that difference rather than asserting digest equality.",
+    "whyPreconditionsMatter": "Alternative operators may exhaust different budgets. Digest equality is promised only when exact Coverage is identical."
+  },
+  "confidence": {
+    "boundary": "high that it is contradictory; medium on whether two-level planning or moving snapshot outside is the better repair",
+    "coverage": "high",
+    "PS-07": "high",
+    "fiveKinds": "medium pending the boundary definition"
+  },
+  "whatWouldChangeMyMind": "A successor artifact that defines the public Plan boundary, schemas Coverage with the minimum compound key, supplies a one-Plan/two-private-plans PS-07 harness, and mechanically denies effectful capabilities to Rule stages.",
+  "knownLimitations": [
+    "This review does not choose the field-level schema for each stage.",
+    "It does not decide whether snapshot acquisition belongs in an outer InvocationPlan or precedes the analysis Plan; it requires one coherent choice."
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/r1-lifetime-neutrality.conformance.v1.2.json",
+  "verdict": "reject-require-v1.3",
+  "method": "Traced every authority in CoreDeps through both its interface and production implementation side, then tested the suite against retry identity, provider/scanner/Probe execution, cancellation, storage contention, and process supervision. Distinguished direct ambient access from use of an explicit injected capability port.",
+  "priorClosureAssessment": {
+    "A2-R1-V11-01": "NOT CLOSED: the boundary is listed, but filesystem/store/provider/supervisor placement is internally inconsistent and full Plan execution is not representable by the API.",
+    "A2-R1-V11-02": "PARTIAL: LN-02 no longer overclaims listed-field completeness, but LN-11/LN-12 still overclaim global exhaustiveness from a static closure plus representative runtime path.",
+    "A2-R1-V11-03": "CLOSED AT SPECIFICATION LEVEL: LN-06 now holds authoritative inputs equal and varies only disposable acceleration.",
+    "A2-R1-V11-04": "CLOSED AT SPECIFICATION LEVEL: LN-09 now permits typed bounded contention rather than asserting both writers succeed.",
+    "A2-R1-06.signatureDefect": "CLOSED NARROWLY: StoreHandle has one parameter path; this does not close the authority/closure problem."
+  },
+  "resolves": {
+    "B-R1V12-01": "OPEN-BLOCKER: LN-13 requires identical ExecutionId for identical inputs although ExecutionId is per-attempt, allocated outside the core, and must distinguish retries/concurrency.",
+    "B-R1V12-02": "OPEN-BLOCKER: explicit absence of all filesystem access conflicts with injected snapshotAccess/storeHandle and LN-11 cannot both traverse production implementations and find no filesystem.",
+    "B-R1V12-03": "OPEN-BLOCKER: the API cannot execute a validated Plan containing scanner/provider/probe work because supervision is outside, observations are not an input, and no supervisor capability exists.",
+    "B-R1V12-04": "OPEN-BLOCKER: LN-07's orphan-process assertion is vacuous in a core forbidden from spawning/supervising child processes; LN-09 tests storage protocol, not lifetime neutrality.",
+    "B-R1V12-05": "OPEN-BLOCKER: LN-11 plus one representative LN-12 run cannot conclude exhaustive absence of dynamic, native, transitive, injected, or unexecuted ambient paths.",
+    "B-R1V12-06": "OPEN-BLOCKER: analyze(...)->SealedRun has no typed failure/cancel/indeterminate/publication result and lets the core seal despite host-owned finalization.",
+    "B-R1V12-07": "OPEN-BLOCKER: PO-01 unconditionally mandates one-shot deployment while R-1 says only item (1) is closable without measurement."
+  },
+  "findings": [
+    {
+      "id": "B-R1V12-01",
+      "severity": "critical",
+      "category": "identity-contradiction",
+      "evidence": [
+        "architecture/02 defines ExecutionId as per-attempt",
+        "C-2 v2 allocates ExecutionId during outer admission work",
+        "executionCoreBoundary says admission is outside the core",
+        "LN-13 says the core produces identical RunId/ExecutionId for identical inputs"
+      ],
+      "impact": "Retries and concurrent identical requests collide, and the core mints an identity owned by admission.",
+      "requiredChange": "Inject an already allocated unique ExecutionId as attempt metadata and prove it does not affect EvidenceDigest. If a content-derived Run/Evidence identity is needed, define it separately. LN-13 should vary unique ExecutionIds over identical semantic inputs and assert equal EvidenceDigest, not equal attempt IDs.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-02",
+      "severity": "critical",
+      "category": "capability-boundary-contradiction",
+      "evidence": [
+        "coreDeps includes snapshotAccess and storeHandle",
+        "coreApi.explicitlyAbsent forbids filesystem access of any kind",
+        "production snapshot/CAS/SQLite implementations necessarily access filesystem",
+        "LN-11 import/call closure forbids any reachable filesystem API",
+        "knownLimitations admits the StoreHandle boundary is unresolved"
+      ],
+      "impact": "Either every real core fails LN-11/LN-12 or the analysis stops at an interface and no longer proves the production authority claim.",
+      "requiredChange": "Define boundary-aware capability rules: direct ambient imports/calls are forbidden; calls through explicit snapshot/store ports are allowed and semantically scoped. Analyze the core package to the port boundary, then separately conformance-test each production adapter's authority. Do not claim 'no filesystem access of any kind.'",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-03",
+      "severity": "high",
+      "category": "incomplete-core-api",
+      "evidence": [
+        "ValidatedPlan can contain fact derivation, scanners/providers, and Probe stages",
+        "external process supervision is outside the core",
+        "the core receives Probe observations as inputs according to prose, but analyze(snapshot, plan, deps) has no observations input or supervisor",
+        "providerRegistry is inside deps, potentially pulling provider ambient/process authority back into core closure"
+      ],
+      "impact": "The core either cannot execute the full Plan or secretly relies on an unlisted callback/orchestration authority, invalidating lifetime-neutrality tests.",
+      "requiredChange": "Choose a factoring: an orchestration host executes effectful/provider stages and passes a sealed StageInput/ObservationSet into a pure evaluation core, or the execution core receives a typed supervisor port and includes its behavior in the boundary. Specify sequencing, identities, Coverage, and cancellation for that choice.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-04",
+      "severity": "high",
+      "category": "suite-scope-vacuity",
+      "evidence": [
+        "LN-07 requires no orphan child process",
+        "the core is forbidden from process spawn and supervision",
+        "LN-09 exercises multi-process ledger/CAS behavior owned by storage/host protocol rather than core lifetime discrimination"
+      ],
+      "impact": "The suite can pass lifetime-neutral core code without testing the host behavior it claims, while unrelated storage failures can fail the core decision.",
+      "requiredChange": "Split suites: core re-entrancy/ambient-authority, host lifecycle/cancellation/supervision, and storage multi-process integrity. Keep cross-suite composition acceptance but do not use vacuous assertions to close R-1(1).",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-05",
+      "severity": "high",
+      "category": "exhaustiveness-overclaim",
+      "evidence": [
+        "LN-11 covers the statically modeled import/call graph",
+        "LN-12 executes one representative Plan",
+        "dynamic loading, FFI/native libraries, reflection, generated code, injected implementations, and unexecuted branches can evade one or both",
+        "the history explicitly warns against deriving a global claim from local form"
+      ],
+      "impact": "The artifact again calls the dependency set exhaustive when its instruments provide bounded evidence only.",
+      "requiredChange": "State the analysis boundary and completeness limits. Combine dependency-policy enforcement, binary/link inspection where applicable, restricted runtime tests across capability-specific Plans, and negative mutations. Treat unmodeled dynamic/native paths as TCB or deny them by construction.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-06",
+      "severity": "high",
+      "category": "return-contract-incompleteness",
+      "evidence": [
+        "coreApi returns SealedRun only",
+        "D9 requires operational, interrupted, indeterminate, and request-rejected outcomes",
+        "architecture/07 gives host finalizer sole termination construction and authoritative publication can fail after semantic completion"
+      ],
+      "impact": "Cancellation, provider faults, missing Coverage, busy timeout, and commit failure have no truthful return value, or the core oversteps host-owned seal/publication.",
+      "requiredChange": "Return a typed CoreCompletion/DraftRunContribution union with findings, exact Coverage, diagnostics references, and typed faults/cancellation. Let the host publication/finalization layer seal the authoritative Run and map termination.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-R1V12-07",
+      "severity": "high",
+      "category": "topology-status-inflation",
+      "evidence": [
+        "R-1 says only core lifetime-neutrality is closable now",
+        "PO-01 says a full-capability one-shot host must exist",
+        "CI/offline/recovery are requirements but do not logically select process-per-command topology"
+      ],
+      "impact": "A product/deployment choice is preserved as an obligation outside the suite, bypassing the reopened status rather than resolving it.",
+      "requiredChange": "Remove PO-01 from this conformance artifact or mark it as a separate candidate requiring R-1 measurement/product adjudication. State topology-neutral CI/offline/recovery requirements instead.",
+      "confidence": "high on status mismatch; medium on eventual product choice"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "id": "R-1(1)",
+      "source": "architecture/08-surfaces-and-topology.md#the-decomposition",
+      "assessment": "Not closed; the boundary and identity model remain contradictory."
+    },
+    {
+      "id": "ARCH.STORAGE.MULTIPROCESS",
+      "source": "architecture/03-execution-model.md#concurrency",
+      "assessment": "LN-09 is directionally corrected but belongs to a storage protocol suite."
+    },
+    {
+      "id": "ARCH.WARM-STATE",
+      "source": "architecture/08-surfaces-and-topology.md#what-is-not-in-doubt",
+      "assessment": "LN-06 now tests the right cache-only variation at specification level."
+    },
+    {
+      "id": "ARCH.DETERMINISM",
+      "source": "architecture/02-domain-model.md#determinism-stated-precisely",
+      "assessment": "LN-05/LN-06 preconditions are aligned; LN-13 contradicts per-attempt identity."
+    },
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "assessment": "Static closure plus representative runtime does not prove global absence across injected/production adapters."
+    }
+  ],
+  "knownLimitations": [
+    "No concrete host/core module graph exists, so the review cannot select exact static-analysis boundaries; it demonstrates why the present universal boundary cannot work.",
+    "LN-06 and LN-09 are accepted only as conformance specifications, not demonstrated tests.",
+    "This review does not settle R-1 items (2)-(4) or choose a one-shot/resident product topology."
+  ],
+  "confidence": {
+    "overall": "high",
+    "identityContradiction": "high",
+    "filesystemBoundary": "high",
+    "eventualCoreFactoring": "medium"
+  },
+  "whatWouldChangeOverallVerdict": "A v1.3 that keeps ExecutionId unique and outside the core, defines allowed injected ports versus forbidden ambient access, can represent the full Plan or narrows the core honestly, splits host/storage tests from core neutrality, bounds closure claims, returns a typed non-sealed completion, and removes the unadjudicated one-shot obligation."
+}

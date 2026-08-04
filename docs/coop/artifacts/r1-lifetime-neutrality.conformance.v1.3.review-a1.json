@@ -1,0 +1,114 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "reviewOf": "opensip.r1-lifetime-neutrality.conformance v1.3 (CANDIDATE-UNREVIEWED)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "medium-high",
+  "method": [
+    "Checked B-R1V12-01 repair by re-deriving attempt vs content identity without author's correctedFrom as premise.",
+    "Cross-read injectedNotAmbient ID paragraph vs LN-13 for residual contradiction (same-document consistency).",
+    "Re-checked A1-R1-DEPS-01/02 (rng; rule registry) against coreApi.coreDeps and explicitlyAbsent.",
+    "LN-11/LN-12: ask whether StoreHandle+providerRegistry can satisfy 'no filesystem/spawn in closure' without drawing the boundary at the interface (author peerReview tension).",
+    "Stale dependency audit (D9 v1.4 cite while v1.5 is live).",
+    "Did not treat suite as implemented; evaluated as a conformance specification only."
+  ],
+  "whatCouldHaveFailed": [
+    "LN-13 still equates ExecutionIds (B-R1V12-01 open)",
+    "idSource text already consistent with LN-13",
+    "CoreDeps still missing rng/registry (A1 open)",
+    "LN-11 claims achievable as stated with linked sqlite",
+    "Author falsely claims B-R1V12-02..07 closed"
+  ],
+  "priorFindingsDisposition": {
+    "A1-R1-DEPS-01": {
+      "status": "CLOSED",
+      "detail": "idSource in CoreDeps; ambient entropy forbidden in explicitlyAbsent / LN-11/12."
+    },
+    "A1-R1-DEPS-02": {
+      "status": "CLOSED",
+      "detail": "ruleRegistry listed in CoreDeps; rule/contribution resolver injected as immutable map."
+    },
+    "A2-R1-V11-01..04": {
+      "status": "SHAPE-CLOSED in this artifact",
+      "detail": "Boundary table, LN-06 authoritative-identical stores, LN-09 busy-timeout allowed, StoreHandle single path — agree with prior A2 intent. Implementation suite still absent."
+    },
+    "B-R1V12-01": {
+      "status": "CLOSED in LN-13 assert",
+      "detail": "ExecutionIds must DIFFER; digests match. Correct."
+    },
+    "B-R1V12-02..07": {
+      "status": "OPEN as author states",
+      "detail": "knownLimitations honestly leave them outstanding."
+    }
+  },
+  "findings": [
+    {
+      "id": "A1-R1V13-01",
+      "severity": "high",
+      "title": "Same-document contradiction: injectedNotAmbient still says ExecutionId is content-derived",
+      "detail": "executionCoreBoundary.injectedNotAmbient[ID source].resolution: 'RunId/ExecutionId are content-derived or supplied.' LN-13: ExecutionId is attempt-unique and must differ for identical inputs; only RunId/EvidenceDigest are content-derived. The repair fixed the test and left the boundary prose wrong — next implementer will re-break LN-13 by reading the boundary table.",
+      "requiredFix": "Rewrite ID injection note: ExecutionId = unique attempt id from injected source; RunId/EvidenceDigest = content-derived (or host policy). Never 'ExecutionId content-derived'.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-R1V13-02",
+      "severity": "high",
+      "title": "LN-11 closure-at-link-graph is not achievable as written with StoreHandle; boundary must be interface-scoped",
+      "detail": "Author peerReviewRequired already asks this. Independent view: a core that links a sqlite/CAS implementation has filesystem symbols in the import graph. LN-11 as 'import/call closure reaches no filesystem API' fails for any real store. Without scoping closure to 'core package + deps except behind StoreHandle/provider ports', LN-11 is either vacuous (exclude everything) or impossible (include store). LN-12 runtime denial is the load-bearing half; LN-11 needs a port-boundary definition to be non-vacuous.",
+      "requiredFix": "Define LN-11 allowlist: only StoreHandle, snapshotAccess, providerRegistry, scheduler ports may touch FS/net/spawn; core modules' static closure excluding those adapters must be clean. Document how providers that spawn rustc are outside the core (supervisor) vs inside (forbidden).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-R1V13-03",
+      "severity": "medium-high",
+      "title": "providerRegistry vs explicitlyAbsent process-spawn tension under semantic providers",
+      "detail": "Core does fact derivation and holds providerRegistry, yet explicitlyAbsent bans process spawn. Real TS/Rust semantic providers often require process or in-process compiler APIs (TCB). If providers run in-process linked, spawn/FS may appear in closure. If providers are host-supervised outside the core, fact-derivation is not fully 'inside' the core — the boundary definition ('fact derivation inside') conflicts. Same class as Error 2 if we pretend registry injection is a capability boundary.",
+      "requiredFix": "State: providers execute only through scheduler/supervisor ports; core never links compiler FS; or accept providers as TCB-inside and narrow LN-11/explicitlyAbsent accordingly with honesty.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-R1V13-04",
+      "severity": "medium",
+      "title": "decisionDependencies still cite d9-exit-contract.v1.4",
+      "detail": "Live binding is v1.5. Stale cites train readers onto superseded contracts (same class as threat-model.v1 cites).",
+      "requiredFix": "Point at v1.5 (or versionless artifact id + min version).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-R1V13-05",
+      "severity": "medium",
+      "title": "Conformance suite still unimplemented — R-1(1) cannot seal on spec alone",
+      "detail": "knownLimitations correct. Exhaustiveness-as-conclusion-of-LN-11/12 only holds when those tests run on real code. Until then R-1(1) remains REOPENED with a better candidate spec.",
+      "requiredFix": "Implement LN-01..13 against a vertical slice before any seal of R-1(1).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-R1V13-06",
+      "severity": "low",
+      "title": "LN-08 numbering gap",
+      "detail": "Cosmetic; confirm no lost test from v1 history.",
+      "requiredFix": "Note intentional skip or restore LN-08.",
+      "confidence": "high"
+    }
+  ],
+  "ln13Verdict": {
+    "acceptFix": true,
+    "detail": "Attempt anchors must be unique per admission. Content-derived ExecutionId was a design error; B-R1V12-01 and LN-13 correction are right.",
+    "whatWouldChangeMyMind": "A model where ExecutionId is purely a content hash and orphans are tracked by a different attempt id — then rename fields rather than overload ExecutionId."
+  },
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal R-1(1). Close A1-R1V13-01/02 (and ideally 03) in the next patch; implement suite; leave R-1(2)-(4) measurement-gated.",
+  "whatWouldChangeMyMind": "Consistent ID prose, interface-scoped LN-11, provider supervision story, green suite on a toy core.",
+  "knownLimitations": [
+    "Did not implement or run any LN test.",
+    "Did not re-litigate B-R1V12-02..07 in full; accepted author's outstanding list plus my new residual defects."
+  ],
+  "sealedPropertiesCovered": [
+    "warm state acceleration-only (LN-06 intent)",
+    "multi-process integrity not liveness (LN-09 intent)",
+    "ExecutionId attempt uniqueness (LN-13)"
+  ]
+}

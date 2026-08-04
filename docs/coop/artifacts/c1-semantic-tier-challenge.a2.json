@@ -1,0 +1,127 @@
+{
+  "artifact": "opensip.c1-semantic-tier-challenge",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "challenge-with-replacement-candidate",
+  "reviews": "artifacts/c1-semantic-tier-challenge.a1.json",
+  "decisionDependencies": [
+    {
+      "id": "METHOD.ERROR-4",
+      "source": "architecture/10-method.md#Error-4",
+      "role": "The existing corpus cannot size a greenfield semantic tier."
+    },
+    {
+      "id": "ARCH.PRODUCT.POLYGLOT_TS",
+      "source": "architecture/01-product-boundary.md#Hard-constraints",
+      "role": "The product is polyglot but strategically deep in TypeScript."
+    },
+    {
+      "id": "AGREEMENT.33",
+      "source": "architecture/11-traceability.md#33",
+      "role": "Predicates about reachability, authority, and capability require resolved-reference facts."
+    },
+    {
+      "id": "ARCH.FACT_QUALITY",
+      "source": "architecture/04-fact-plane.md#Fact-layers-and-fact-quality",
+      "role": "Rules declare the fact quality they require and shortfall becomes Coverage."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "METHOD.ERROR-4",
+      "claim": "No existing-corpus frequency appears in the recommendation.",
+      "evidenceIds": [
+        "A2-C1-ACCEPT-1"
+      ]
+    },
+    {
+      "decisionId": "AGREEMENT.33",
+      "claim": "Resolved-reference or stronger facts are mandatory for predicates whose soundness depends on them.",
+      "evidenceIds": [
+        "A2-C1-RULE-2",
+        "A2-C1-RULE-3"
+      ]
+    }
+  ],
+  "question": "C-1 — Did the semantic-tier inversion overcorrect?",
+  "accepted": [
+    {
+      "id": "A2-C1-ACCEPT-1",
+      "claim": "The 1-of-141 measurement is invalid for greenfield sizing and remains steering evidence only."
+    },
+    {
+      "id": "A2-C1-ACCEPT-2",
+      "claim": "Semantic extraction must be a first-class maintained capability, not a rare per-rule compiler-session escape hatch."
+    },
+    {
+      "id": "A2-C1-ACCEPT-3",
+      "claim": "Provider-owned semantic universes and batch fact emission are the right state boundary."
+    }
+  ],
+  "rejected": {
+    "claim": "Semantic facts are globally primary for every language with a usable compiler, and syntax-only is globally degraded.",
+    "reason": "Fact sufficiency is predicate-relative, not a single total order. A syntax fact can be exact and complete for a local structural predicate; compiler semantics add no truth to it. Conversely, a reachability predicate is unsound without resolved references. A temporarily non-compiling or partially restored worktree can also have authoritative syntax while semantic Coverage is unavailable. Calling all syntax degraded confuses capability breadth with evidence quality."
+  },
+  "positiveDerivation": {
+    "name": "predicate-required fact-quality lattice",
+    "principles": [
+      {
+        "id": "A2-C1-RULE-1",
+        "rule": "Each rule/query declares the minimum fact relations, resolution method, confidence, and completeness it needs."
+      },
+      {
+        "id": "A2-C1-RULE-2",
+        "rule": "Local-syntactic predicates may be authoritative on syntax facts; semantics is not materialized merely because a compiler exists."
+      },
+      {
+        "id": "A2-C1-RULE-3",
+        "rule": "Cross-symbol reachability, authority, type, dispatch, and capability predicates require semantic-quality facts and may not silently fall back."
+      },
+      {
+        "id": "A2-C1-RULE-4",
+        "rule": "The planner derives the least sufficient fact view for the selected workload. A profile aggregates requirements and may strengthen them; it cannot weaken a selected rule's minimum."
+      },
+      {
+        "id": "A2-C1-RULE-5",
+        "rule": "Provider failure or an unbuildable semantic universe becomes relation-specific Coverage with reasons. Independent syntax-authoritative work may still complete when policy permits."
+      }
+    ],
+    "whyThisIsPositive": "It follows from soundness per predicate and least-work/least-failure-coupling principles, not from inverting a biased corpus statistic. Semantics becomes normal wherever the product's valuable predicates require it, without taxing or coupling predicates it cannot improve."
+  },
+  "reviewOfAgent1Alternatives": {
+    "ALT-A": "reject",
+    "ALT-B": "accept as the mechanism",
+    "ALT-C": "partially accept, but profile defaults must be derived from selected predicates rather than hard-coded full/CI/agent-fast labels",
+    "agent2Choice": "ALT-B plus requirement-aggregating profiles"
+  },
+  "costsAndFailureModes": [
+    "Cold and invalidated semantic-universe construction can dominate interactive latency and memory.",
+    "Compiler availability does not imply a stable embeddable provider API or a correctly configured repository.",
+    "Dynamic-language type information may be partial and must not be marketed as categorically superior to exact syntax facts.",
+    "An always-primary provider turns an unrelated compiler/config failure into a global analysis outage.",
+    "Every maintained provider creates toolchain, distribution, compatibility, and false-resolution obligations."
+  ],
+  "p4SemanticProviderDecision": {
+    "status": "candidate-for-product-signoff",
+    "dayOneProviders": [
+      "typescript"
+    ],
+    "rationale": "TypeScript is the only language positively justified by the sealed product boundary: polyglot breadth with strategically deep TypeScript. The existence of current adapters or of a compiler is not greenfield product evidence for adding another permanent provider.",
+    "otherLanguagesDayOne": "Inventory and syntax/reference capabilities with explicit relation-level Coverage; never labelled globally degraded.",
+    "admissionCriteriaForAnotherSemanticProvider": [
+      "A product-owned target-language commitment or measured user workload, not incumbent adapter parity.",
+      "Representative-corpus evidence that the provider materially improves false-positive/false-negative or impact quality for named predicates.",
+      "A maintainable compiler/language-service API and named ownership for compatibility.",
+      "Cold, warm, rebuild, RSS, and partial-project behavior within published workload budgets.",
+      "Offline, licensing, signing, and multi-platform distribution feasibility.",
+      "Coverage semantics for unresolved, generated, dependency-missing, and non-compiling states."
+    ],
+    "reopeningEvidence": "A second language with product commitment plus a provider prototype satisfying all admission criteria."
+  },
+  "replacementWording": "Semantic extraction is a first-class fact capability for languages with a maintained provider. Rules and queries declare predicate-specific fact-quality requirements; the planner materializes the least sufficient fact view and never silently substitutes weaker resolution. Syntax facts can be authoritative for local-syntactic predicates. Resolved-reference, type, reachability, authority, and capability predicates require semantic-quality facts. Profiles aggregate and may strengthen those requirements but cannot weaken them. Provider shortfall is explicit relation-level Coverage, not a global shame label.",
+  "agent2Recommendation": {
+    "decision": "Replace primary/degraded wording with the predicate-required fact-quality lattice; select TypeScript alone for day-one semantic depth pending product sign-off.",
+    "confidence": "high on mechanism; medium on TypeScript-only product scope because no product-demand data beyond the stated boundary is present"
+  }
+}

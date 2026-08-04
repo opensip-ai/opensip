@@ -1,0 +1,82 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance",
+  "version": "1.1",
+  "status": "candidate-agent-3",
+  "supersedes": "1.0",
+  "purpose": "Close R-1 item (1) — is the execution core lifetime-neutral and re-entrant — as a structural property provable by conformance tests, with no dependency on whether a resident host ever ships.",
+  "scope": {
+    "closes": "R-1(1) core lifetime-neutrality",
+    "doesNotClose": ["R-1(2) does a resident host ship", "R-1(3) autostart or default", "R-1(4) per-project or multi-project residency"],
+    "why": "Items (2)-(4) are deployment decisions gated on target-workload measurement. (1) is an API property testable today. Conflating them is what stalled R-1."
+  },
+  "resolves": {
+    "A2-R1-01": "LN-04 no longer claims one-shot and resident hosts differ only in process lifetime and cache policy. The claim is inverted: the CORE is identical; a host adds transport, lifecycle, admission and scheduling ON TOP, and none of those may reach into core semantics.",
+    "A2-R1-02": "All tests are executable against a single in-process instantiation. No test requires a resident host to exist. LN-04 is restated as a negative property of the core, not a comparison between two hosts.",
+    "A2-R1-03": "New LN-09 covers the contested case: concurrent Plans for the SAME ProjectId and storage authority. The previous different-ProjectId test proved isolation, not contention.",
+    "A2-R1-04": "Digest-equality obligations are now explicitly limited to producers declared deterministic under identical Snapshot, Plan, toolchain and environment identities, matching the sealed determinism statement.",
+    "A2-R1-05": "cachePolicy: cold|warm is REMOVED from the core API. A lifetime discriminator in the core invites semantic branches. Cache state is a property of the store handed to the core, never a parameter the core reads.",
+    "A2-R1-06": "The dependency enumeration is now explicit and marked exhaustive-for-v1.1, including cancellation, snapshot/VFS access, environment and toolchain identity, progress sink, and scoped storage.",
+    "A2-R1-07": "decisionDependencies carry resolvable source paths.",
+    "A2-R1-08": "The one-shot availability obligation is moved OUT of this suite into a separate product-obligation section, so every LN test discharges exactly one decision."
+  },
+  "decisionDependencies": [
+    {"id": "R-1", "source": "architecture/08-surfaces-and-topology.md#topology-reopened", "claim": "topology decomposes into four separable decisions; only (1) is closable now"},
+    {"id": "ARCH.STORAGE.MULTIPROCESS", "source": "architecture/03-execution-model.md#concurrency", "claim": "any evidence-writing host is multi-process safe; the obligation is on the storage protocol"},
+    {"id": "ARCH.DETERMINISM", "source": "architecture/02-domain-model.md#determinism-stated-precisely", "claim": "cross-run digest equality holds only for deterministic producers under identical identities and exact Coverage"},
+    {"id": "ARCH.WARM-STATE", "source": "architecture/08-surfaces-and-topology.md#what-is-not-in-doubt", "claim": "warm state is an acceleration, never an evidence authority"},
+    {"id": "CLAIM.R-1", "source": "artifacts/claim-register.v1.json", "claim": "R-1 status is REOPENED; this artifact closes item (1) only"}
+  ],
+  "coreApi": {
+    "principle": "The core receives everything it needs as explicit arguments. It reads no ambient process state and no lifetime discriminator.",
+    "signature": "analyze(snapshot: SnapshotHandle, plan: Plan, store: StoreHandle, deps: CoreDeps) -> SealedRun",
+    "explicitlyAbsent": [
+      "cachePolicy / cold / warm — removed per A2-R1-05; warmth is a property of the StoreHandle, invisible to the core",
+      "isResident / lifetime / hostKind — no lifetime discriminator in any form",
+      "process-global singletons, ambient scope, or thread-local context"
+    ],
+    "coreDeps": {
+      "exhaustiveForV1_1": true,
+      "members": [
+        {"name": "clock", "why": "execution metadata only; never enters the digest"},
+        {"name": "cancellation", "why": "one cancellation tree per ExecutionId; the core must accept a token, never install a signal handler"},
+        {"name": "snapshotAccess", "why": "read-only immutable VFS/blob access; the core never opens arbitrary live paths"},
+        {"name": "environmentIdentity", "why": "toolchain and environment identities that participate in PlanId and in determinism preconditions"},
+        {"name": "progressSink", "why": "structured events; a no-op sink must be valid and must not change results"},
+        {"name": "storeHandle", "why": "scoped transactional + CAS access; carries its own warmth, which the core cannot observe"},
+        {"name": "providerRegistry", "why": "resolved provider identities and grants, fixed at plan time"},
+        {"name": "budgets", "why": "resource limits; exhaustion is a Coverage edge, not a silent truncation"}
+      ]
+    }
+  },
+  "conformanceTests": [
+    {"id": "LN-01", "name": "no ambient state", "assert": "Two instantiations of the core in one process, given disjoint deps, produce results with no observable interference. No module-level mutable state is reachable from the core.", "requiresResidentHost": false},
+    {"id": "LN-02", "name": "explicit dependency completeness", "assert": "The core compiles and runs with every CoreDeps member supplied by a test double. Removing any member is a compile-time or construction-time error, never a silent fallback to an ambient default.", "requiresResidentHost": false},
+    {"id": "LN-03", "name": "cross-project isolation", "assert": "Concurrent Plans for different ProjectIds with distinct storage authorities produce independent SealedRuns and no shared mutable state.", "requiresResidentHost": false},
+    {"id": "LN-04", "name": "no lifetime discriminator", "assert": "The core's public surface contains no parameter, field, or environment read whose value distinguishes a one-shot from a resident host. Restated as a NEGATIVE property of the core, provable without any resident host existing (A2-R1-01, A2-R1-02).", "requiresResidentHost": false},
+    {"id": "LN-05", "name": "repeat-invocation digest stability", "assert": "For a producer set declared deterministic, two sequential invocations in ONE process, with identical Snapshot, Plan, toolchain and environment identities and identical exact Coverage, yield byte-identical EvidenceDigests.", "preconditions": ["all producers declared deterministic", "identical Snapshot/Plan/toolchain/environment identities", "identical exact Coverage manifest"], "requiresResidentHost": false},
+    {"id": "LN-06", "name": "warm-store digest stability", "assert": "Under the same preconditions as LN-05, an invocation against a populated StoreHandle and one against an empty StoreHandle yield byte-identical EvidenceDigests. This is the executable form of 'warm state is an acceleration, never an evidence authority'.", "preconditions": ["as LN-05"], "requiresResidentHost": false, "note": "Populated vs empty store replaces the removed cold|warm parameter (A2-R1-05)."},
+    {"id": "LN-07", "name": "cancellation propagation", "assert": "Cancelling the supplied token terminates the attempt with an honest terminal or abandoned state, never a sealed passing empty Run, and never leaves an orphaned child process.", "requiresResidentHost": false},
+    {"id": "LN-09", "name": "same-project concurrent contention", "assert": "Two concurrent Plans for the SAME ProjectId and the SAME storage authority both complete with valid SealedRuns, no lost writes, and no ledger corruption. Contention resolves by the storage protocol (busy-timeout, idempotent insert, write-then-link), not by an external coordinator.", "requiresResidentHost": false, "note": "New in v1.1 per A2-R1-03. This is the contested case; cross-project isolation (LN-03) never exercised it."},
+    {"id": "LN-10", "name": "no-op progress equivalence", "assert": "Results and EvidenceDigest are identical whether a recording progress sink or a no-op sink is supplied. Telemetry cannot influence evidence.", "requiresResidentHost": false}
+  ],
+  "productObligationsNotClosedHere": [
+    {"id": "PO-01", "obligation": "A full-capability one-shot host must exist for CI, offline use, and recovery, whatever else ships.", "why_separate": "This is a product/deployment obligation, not evidence of core re-entrancy. Mixing it into the LN suite obscured which decision each test discharged (A2-R1-08).", "verifiedBy": "product acceptance, not this suite"}
+  ],
+  "sealedPropertiesCovered": [
+    {"property": "warm state is an acceleration, never an evidence authority", "dischargedBy": ["LN-06"]},
+    {"property": "any evidence-writing host is multi-process safe", "dischargedBy": ["LN-09"]},
+    {"property": "cross-run equality only for deterministic producers under identical identities", "dischargedBy": ["LN-05", "LN-06"]},
+    {"property": "crash/cancel never yields a passing empty Run", "dischargedBy": ["LN-07"]},
+    {"property": "telemetry is never evidence", "dischargedBy": ["LN-10"]}
+  ],
+  "peerReviewRequired": [
+    "Confirm CoreDeps is exhaustive; a missing member becomes an ambient dependency and silently defeats LN-02.",
+    "Confirm LN-06's populated-vs-empty store is an adequate substitute for the removed cold|warm parameter.",
+    "Confirm LN-09's contention expectations match the sealed storage protocol rather than assuming an external coordinator."
+  ],
+  "knownLimitations": [
+    "This is a conformance specification, not an implementation. It fixes what must be true, not that anything is.",
+    "LN-05/LN-06 assume a determinism declaration mechanism that is specified in the architecture but not yet given its own artifact.",
+    "Nothing here measures performance. R-1 items (2)-(4) remain gated on target-workload measurement and are untouched by a passing LN suite."
+  ]
+}

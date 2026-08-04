@@ -1,0 +1,196 @@
+{
+  "artifact": "opensip.fact-identity-policy.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/fact-identity-policy.v1.json",
+  "verdict": "reject-require-v2",
+  "method": "Treated normalization as a versioned user-custody state transition, not a hash function. Worked forward from an old committed baseline through a default change, skipped releases, source-retention expiry, group split/merge, and cross-language normalization. Separately traced all ambient authority and fingerprint influence paths of an imperative rule.",
+  "resolves": {
+    "B-FI-01": "OPEN-BLOCKER: adding a level is additive, but changing the default still makes old baseline levels a typed mismatch; the ladder has not made the user transition reversible.",
+    "B-FI-02": "OPEN-BLOCKER: old hashes/groups cannot generally be migrated from committed fingerprints after source/proof bytes expire, and duplicate groups split/merge many-to-many.",
+    "B-FI-03": "OPEN-BLOCKER: L1/L2/L3 semantics are not language-independent; whitespace, comments/directives, and identifier binding can affect semantics and availability.",
+    "B-FI-04": "OPEN-BLOCKER: BH-6/FI-05 always retain retrievable L0 source, contradicting T0 retention and threat-model minimization.",
+    "B-FI-05": "OPEN-BLOCKER: linked first-party TCB rules cannot be proven to have no reachable ambient filesystem/network/spawn authority by the declared interface or representative runtime test.",
+    "B-FI-06": "OPEN-BLOCKER: a rule controls typed subjects and anchors and therefore influences the fingerprint even though the host computes it.",
+    "B-FI-07": "OPEN-BLOCKER: wall-clock budgets and unspecified handling of already-emitted findings make exhaustion nondeterministic and potentially authorize a partial prefix.",
+    "B-FI-08": "OPEN-BLOCKER: ARCH.BODYHASH is not present at its cited source, TM.F3 cites superseded v1, and C-2 v2 is unreviewed/non-binding.",
+    "B-FI-09": "OPEN-BLOCKER: no canonical body boundary, token serialization, hash/domain separation, collision policy, or per-language fixture corpus makes the identity levels executable."
+  },
+  "findings": [
+    {
+      "id": "B-FI-01",
+      "severity": "critical",
+      "category": "false-reversibility",
+      "evidence": [
+        "BH-3 says a baseline pins a level and cross-level comparison is a typed mismatch",
+        "escapeFromTheOneWayDoor says a wrong default is corrected by adding a level and migrating the default",
+        "a new default therefore produces a different level from the pinned baseline and comparison stops rather than continuing"
+      ],
+      "impact": "The architecture avoids silent false net-new findings but does not preserve the user's ratchet. The hard transition is merely deferred to baseline upgrade/re-capture.",
+      "requiredChange": "State the narrower truth: level addition is schema-additive, not custody-reversible. Define a baseline transition protocol that continues old-level evaluation for the supported window, previews new grouping, and requires explicit user acceptance before changing policy identity.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A worked old-baseline/new-default case that preserves matching without source re-capture, perpetual old-level execution, or user rebaseline."
+    },
+    {
+      "id": "B-FI-02",
+      "severity": "critical",
+      "category": "unimplementable-migration",
+      "evidence": [
+        "A committed baseline may retain only fingerprints/level version, not old body bytes or normalized token streams",
+        "T0/T1 retention can delete most source bytes before a skipped-version user upgrades",
+        "changing normalization can split or merge duplicate equivalence classes, so one old finding does not map one-to-one to one new finding",
+        "dual emit helps only while both algorithms execute; it does not reconstruct dormant historical baselines"
+      ],
+      "impact": "BH-5's required migrator may have no information from which to compute the new identity or obtain user-equivalent group mapping.",
+      "requiredChange": "Specify the minimal migration witness retained in user custody, or admit that algorithm changes require re-analysis/rebaseline with an indeterminate comparison. Model duplicate group transitions as many-to-many and version the rule/fingerprint result universe, not only the body-hash fact.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A lossless migration algorithm over the actual committed baseline schema, demonstrated on split/merge cases after source retention expires."
+    },
+    {
+      "id": "B-FI-03",
+      "severity": "high",
+      "category": "cross-language-semantic-overclaim",
+      "evidence": [
+        "Whitespace/newlines are significant in Python and in some JavaScript/TypeScript token boundaries; raw/multiline strings can preserve line endings",
+        "comments include TypeScript suppression directives, Go build constraints, Python type/noqa directives, Rust doc tests/attributes-by-convention, and tool pragmas",
+        "consistent local-identifier renaming requires binding/shadowing/capture knowledge and is not a purely lexical operation",
+        "syntax-tier languages may not have the semantic facts required for sound L3 alpha-equivalence"
+      ],
+      "impact": "A rule requiring nominal L1/L2/L3 can receive different semantics or false equivalence across languages while the artifact calls the level language-independent.",
+      "requiredChange": "Define per-language/version capability matrices and canonical token/binding semantics. Classify semantic directives separately from removable comments; report unavailable Coverage where a language cannot implement the promised level; never normalize string/token contents or significant layout accidentally.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Language-specific executable normalization specifications and adversarial corpora proving the common level semantics."
+    },
+    {
+      "id": "B-FI-04",
+      "severity": "high",
+      "category": "retention-privacy-contradiction",
+      "evidence": [
+        "BH-6 says the L0 span is always retained alongside every matched level",
+        "FI-05 requires actual source retrievability for any finding",
+        "ARCH.RETENTION-TIERS allows T0 without source explanation and threat V1/V4 minimize/default-off source excerpts",
+        "a duplicate finding can involve many large bodies"
+      ],
+      "impact": "One duplicate rule silently upgrades a T0 Run into a source archive and can make T1 approach read-set size.",
+      "requiredChange": "Separate original-span identity from retained bytes. At T0 keep location/hash commitments; at T1 retain the minimum proof authorized by the proof tier; report source unavailable after degradation. Never make byte retention an unconditional fact-identity property.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A definition of L0 span as identity-only, plus correction of FI-05's retrievability requirement."
+    },
+    {
+      "id": "B-FI-05",
+      "severity": "critical",
+      "category": "ambient-authority-overclaim",
+      "evidence": [
+        "imperativeEscapeHatch.contract.absent lists filesystem/network/spawn/etc.",
+        "FI-07 claims no reachable authority by closure analysis",
+        "tierPlacement puts first-party imperative rules in linked TCB",
+        "architecture/05 explicitly says a signature is not a boundary and linked TCB is the honest answer"
+      ],
+      "impact": "The artifact repeats Error 2: a narrow handle is used to claim a global absence that linked code can bypass through imports, dependencies, globals, native calls, or injected collaborators.",
+      "requiredChange": "For linked TCB, say capabilities are not provided by the Rule API and audit direct dependency closure without claiming security denial. If runtime denial is required, execute all imperative rules in a named capability-restricted process/component runtime and test direct/transitive/dynamic paths there.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A restricted module/link graph plus runtime/OS enforcement that makes the ambient paths genuinely unavailable."
+    },
+    {
+      "id": "B-FI-06",
+      "severity": "high",
+      "category": "fingerprint-influence-overclaim",
+      "evidence": [
+        "the host recipe hashes rule id, typed subject, and canonical proof anchor",
+        "the rule emits the subject and anchor",
+        "FI-09 says the rule cannot compute or influence a fingerprint"
+      ],
+      "impact": "A buggy/malicious rule can destabilize or collide its identities by choosing different or false anchors even though it cannot choose the hash algorithm.",
+      "requiredChange": "Use the accurate claim: the rule cannot mint the final fingerprint. The host must resolve and validate typed anchor references against retained facts/snapshot provenance, canonicalize them, enforce rule-family anchor schemas, and reject fabricated/out-of-scope anchors.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A host API where rules return only opaque fact IDs and cannot select or construct anchor content beyond validated subjects."
+    },
+    {
+      "id": "B-FI-07",
+      "severity": "medium-high",
+      "category": "budget-semantics",
+      "evidence": [
+        "wallClock varies with load and architecture/02 calls budget exhaustion a nondeterministic edge",
+        "onExhaustion says findings are never silently truncated but does not say whether already emitted findings are discarded or authoritative",
+        "optional faults are isolated and may not force indeterminate"
+      ],
+      "impact": "Different scheduling can authorize different partial prefixes, especially for optional rules, while all outcomes appear valid.",
+      "requiredChange": "Buffer rule output transactionally and discard/quarantine the entire rule partition on exhaustion unless a rule contract explicitly supports complete pages with continuation. Prefer deterministic row/fuel/memory limits for semantics and use wall-clock only as a host safety backstop recorded in Coverage.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A sealed-output protocol elsewhere that already makes partial rule partitions non-authoritative."
+    },
+    {
+      "id": "B-FI-08",
+      "severity": "high",
+      "category": "dependency-integrity",
+      "evidence": [
+        "architecture/04 mentions body_hash only as a duplicate query and does not contain the cited 'hardest decision' claim",
+        "TM.F3 points to superseded threat-model.v1",
+        "C-2 v2 is CANDIDATE-UNREVIEWED while the claim register still binds v1"
+      ],
+      "impact": "The candidate's rationale and conformance obligations rest on claims with no authoritative current source.",
+      "requiredChange": "Make the body-identity hazard an explicit candidate claim here; replace TM.F3 with current privacy/volume properties; depend on C-2 only after v2 adjudication or state a minimal plan-independent contract.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Resolvable authoritative sources with matching statuses."
+    },
+    {
+      "id": "B-FI-09",
+      "severity": "high",
+      "category": "non-executable-identity-contract",
+      "evidence": [
+        "No definition exists for function/body boundaries across expression bodies, macros, generated code, overloads, or nested declarations",
+        "No canonical token serialization, Unicode handling, hash algorithm/domain tag, collision response, or versioned test vectors are specified",
+        "FI-01..05 are prose assertions with no normalizer fixtures or validator"
+      ],
+      "impact": "Independent producers can implement different hashes while all claim conformance, destroying cross-version and cross-platform identity stability.",
+      "requiredChange": "Publish a byte-level canonicalization schema and per-language golden corpus, including adversarial significant-whitespace/directive/binding cases, hash domain separation, collision handling, and version-transition fixtures.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A referenced normative schema and executable corpus."
+    }
+  ],
+  "reversibilityVerdict": {
+    "schemaAdditivity": "accepted: a new named level can be introduced without redefining old level bytes",
+    "custodyReversibility": "rejected: changing defaults or algorithms still strands baseline comparisons and may require deleted source",
+    "groupSemantics": "unaddressed: duplicate findings can split/merge many-to-many across levels/versions"
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "ARCH.FINGERPRINT.HOST-OWNED",
+      "source": "architecture/02-domain-model.md#fingerprints",
+      "assessment": "Host computation is retained; the stronger 'rule cannot influence' claim is rejected."
+    },
+    {
+      "id": "ARCH.RETENTION-TIERS",
+      "source": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute",
+      "assessment": "BH-6/FI-05 contradict T0 and privacy minimization."
+    },
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "assessment": "The linked-TCB capability absence claim violates it."
+    },
+    {
+      "id": "ARCH.BASELINE.PRODUCER-DERIVED",
+      "source": "architecture/06-evidence-and-persistence.md#baselines-and-the-fingerprint-recipe",
+      "assessment": "Correctly identifies the custody hazard; the ladder does not yet solve it."
+    },
+    {
+      "id": "C-1/C-2",
+      "source": "artifacts/claim-register.v1.json",
+      "assessment": "C-1 does not rescue normalization semantics; C-2 remains an explicit downstream blocker."
+    }
+  ],
+  "knownLimitations": [
+    "This review does not choose a replacement duplicate-detection algorithm or similarity metric.",
+    "Some comment/directive examples live outside function bodies in some languages; the required conclusion is still that a language-aware schema must classify them rather than globally erase 'comments'.",
+    "No implemented normalizer exists to run a blind corpus against, so the absence of an executable spec is itself a blocker."
+  ],
+  "confidence": {
+    "overall": "high",
+    "reversibilityRejection": "high",
+    "languageSemantics": "high",
+    "eventualDefaultLevel": "low until a representative corpus exists"
+  },
+  "whatWouldChangeOverallVerdict": "A v2 that withdraws the reversibility overclaim, defines a supported old-baseline transition with retained migration inputs and split/merge semantics, supplies executable per-language canonicalization, aligns byte retention with declared tiers, uses an honest TCB/capability model, validates anchors host-side, and makes budget output transactional."
+}

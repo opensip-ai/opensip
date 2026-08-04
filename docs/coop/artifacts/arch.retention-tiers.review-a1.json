@@ -1,0 +1,119 @@
+{
+  "artifact": "opensip.arch.retention-tiers.review",
+  "reviewOf": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute (ARCH.RETENTION-TIERS) and threat-model.v2.json#V10.proposedResolution",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "reject-require-vN",
+  "confidence": "high",
+  "method": [
+    "Asked what document is for: durable explainability under privacy minimisation, not cache policy.",
+    "Blind re-derivation of 'what answers why' for three finding shapes from architecture/04 fact plane: (1) local lint/pattern, (2) path/relationship (cycle, blast radius), (3) negative/absence (dead code).",
+    "Compared each shape to T0/T1/T2 retained sets WITHOUT assuming lint-shaped SARIF regions.",
+    "Cross-checked product thesis that graph/blast-radius is the wedge (04) against T1 default justification in 06/V10.",
+    "Did not use author's 'cited span is what users need to act' as a premise — re-tested it."
+  ],
+  "whatCouldHaveFailed": [
+    "T1 sufficient for all finding classes → accept default",
+    "T1 only wrong for rare rules → accept-with-carveout",
+    "T0 already retains enough facts for relationship/negative why → reject thin-T1 concern"
+  ],
+  "authorDoubt": {
+    "question": "Does T1 answer why for relationship findings (cycles, blast radius, dead code) that may have no citable span the way a lint finding does?",
+    "authorPosition": "T1 default because spans answer why; T0 cannot; T2 is a source archive."
+  },
+  "independentAnalysis": {
+    "findingShapes": [
+      {
+        "shape": "local-predicate",
+        "examples": ["pattern over spans", "large function", "forbidden API"],
+        "whyRequires": "primary subject span + optional local AST context",
+        "T1PrimarySpans": "SUFFICIENT for why-in-source-terms",
+        "T0": "identifies what fired; not source text"
+      },
+      {
+        "shape": "path-relationship",
+        "examples": ["package cycle", "blast radius / impact membership", "who-calls path"],
+        "whyRequires": "an ordered proof path (or SCC member set) of edges with enough endpoint identity to re-trace; optionally a span per hop for display",
+        "T1PrimarySpans": "INSUFFICIENT if 'spans cited' means primary locations only — showing three package roots does not explain the cycle circuit",
+        "T0": "SUFFICIENT only if retained 'facts' include the edge set (or a sealed path certificate) used in the proof, not merely digests of fact chunks"
+      },
+      {
+        "shape": "negative-absence",
+        "examples": ["dead code", "unused export", "no inbound references"],
+        "whyRequires": "closed-world claim: Coverage of the reference relation over declared scope + the subject identity; there is often no positive reference span to cite",
+        "T1PrimarySpans": "Shows WHAT is dead; does not prove WHY (exhaustive absence). Excerpt of the dead symbol is display, not proof.",
+        "T0": "Answers why only if Coverage certificates and relation roots remain; that is structural, not excerpt"
+      }
+    ],
+    "ambiguityInT0": "The T0 row lists 'facts' without saying whether full fact bodies for the Run's required relations are pinned or only content digests. If digests only, T0 cannot re-answer path or absence either. If full facts, relationship why lives in T0 and T1's unique value is source text for human display — which is not the same as proof.",
+    "productFit": "architecture/04 states call graphs, dead-code, blast radius, package cycles are the same query engine and that agent workflow / blast-radius trust are the wedge. A default explainability tier sized for lint spans is therefore misaligned with the product's own center of gravity."
+  },
+  "findings": [
+    {
+      "id": "A1-RT-01",
+      "severity": "critical",
+      "title": "T1-as-cited-spans is lint-shaped; quietly too thin for relationship and negative findings",
+      "detail": "V10 insight 'you need the spans it cited' is true for local predicates and false as a general theory of explainability. Cycles and blast-radius membership are explained by paths/edge sets; dead code is explained by Coverage-complete absence. If T1 retains only primary source excerpts, the default cannot answer why for the wedge capabilities. That is not a residual edge case — it is the default being wrong for the product thesis.",
+      "requiredFix": "Redefine T1 as a sealed finding-local evidence payload: for each finding, the proof object the rule emitted (path certificates, SCC member lists, negative-query Coverage digests + relation roots) PLUS optional display excerpts. Do not equate 'excerpt' with 'why'.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RT-02",
+      "severity": "high",
+      "title": "Default tier cannot be justified until T1's retained set is proof-complete for all shipped rule classes",
+      "detail": "RT residual correctly says the default carries almost all the weight because loosening is impossible. Shipping T1=excerpts as default freezes a lint-shaped floor. Options: (a) redefine T1 as above and keep it default; (b) keep excerpt-T1 but set default to a higher tier for path/negative rules; (c) require rules to declare minExplainTier and refuse seal below it. (a) is preferred — one default, proof-complete.",
+      "requiredFix": "Either expand T1 retention definition before seal, or make default rule-class-relative with loud disclosure. Do not seal ARCH.RETENTION-TIERS with excerpt-T1 as universal default.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RT-03",
+      "severity": "medium-high",
+      "title": "T0 'facts' is under-specified; underdetermination collapses the ladder",
+      "detail": "If T0 pins full required-relation fact bodies, path/absence why is largely T0 and T1 is mostly UX. If T0 pins only hashes/digests, neither T0 nor excerpt-T1 answers relationship why — only T2 or a missing T1.5. The ladder needs an explicit statement of what 'facts' means at T0.",
+      "requiredFix": "Specify T0 fact retention: which relations, whether bodies or digests, and whether proof objects are first-class evidence pins separate from snapshot blobs.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RT-04",
+      "severity": "medium",
+      "title": "Privacy accounting for path proofs may exceed 'small' T1",
+      "detail": "A blast-radius path can cite many files; an SCC can be large. Expanding T1 to proof objects reintroduces source-adjacent data (identifiers, paths, possibly snippets per hop). Size and privacy class must be bounded (link to v1-F3/v2 bandwidth finding) or T1 becomes a stealth T2 for graph rules.",
+      "requiredFix": "Bound path-certificate cardinality; privacy-class path proofs; inventory must show T1 cost for graph-heavy Runs.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "A1-RT-05",
+      "severity": "low-medium",
+      "title": "Amendment authority vs design correctness correctly split in register; prose could still be read as settled",
+      "detail": "06 marks the section candidate inline — good (method rule 8). The star-default table still presents T1 as product-default with high confidence language. Readers may treat presentation strength as seal.",
+      "requiredFix": "Mark the default row itself as candidate hypothesis pending A1-RT-01 resolution.",
+      "confidence": "medium"
+    }
+  ],
+  "verdictOnAuthorDoubt": {
+    "answer": "No — excerpt-T1 does not answer why for relationship or negative findings.",
+    "therefore": "T1 as currently defined is quietly too thin; the default is wrong until T1 means proof payload, not only spans."
+  },
+  "verdict": "reject-require-vN",
+  "sealRecommendation": "Do not seal ARCH.RETENTION-TIERS. The amendment direction (tiered, declared, honest degradation) is right; the T1 definition and default are not yet merited.",
+  "whatWouldChangeMyMind": [
+    "A T1 schema showing path certificates and negative Coverage objects as required fields for those finding kinds, with golden explainability tests.",
+    "Or product decision that graph relationship rules are non-goals for durable explainability (contradicts 04 wedge — would need 04 amended too)."
+  ],
+  "positiveObservations": [
+    "Recognising the V1 vs absolute-explainability contradiction was necessary and correctly framed as amendment not mitigation.",
+    "RT-1..RT-5 (manifest field, one-way degradation, forward-only config, inventory, fail-loud T2 requirement) are sound independent of the T1 content bug.",
+    "T2 read-set-bounded not repo-bounded is correct."
+  ],
+  "knownLimitations": [
+    "Did not implement a proof-object schema; only stated requirements.",
+    "Did not measure byte sizes of real cycle/blast findings from the existing product (steering may not constrain design; sizes would be illustrative only)."
+  ],
+  "sealedPropertiesCovered": [
+    "ARCH.RETENTION-TIERS (candidate content under review)",
+    "METHOD.RULE-8 (status on claims)",
+    "product explainability obligation"
+  ]
+}

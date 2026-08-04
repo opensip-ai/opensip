@@ -1,0 +1,152 @@
+{
+  "artifact": "opensip.threat-model.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/threat-model.v3.json",
+  "date": "2026-07-31",
+  "method": [
+    "The model was first checked against its purpose—protecting the user from the tool—rather than only for internal consistency.",
+    "V1/V2 mechanism, prevalence, and severity were separated and checked against primary platform documentation.",
+    "The model schema was compared mechanically with every finding and requiredProperty instance.",
+    "Required properties were traced to operability gates and reopened architecture dependencies.",
+    "Temporary invalid mutations were used to test what check-threat-claims.py actually binds."
+  ],
+  "centerAdjudication": {
+    "decision": "CORRECT",
+    "reason": "The primary question is what the local binary reads, derives, retains, exposes, and causes other software to copy. Conditional hostile repositories/extensions remain relevant, but they must not displace the user's confidentiality, host integrity, compliance, and ability to know and undo.",
+    "whatWouldChangeMyMind": "Evidence that the primary deployment is a multi-tenant service or untrusted-extension marketplace rather than a user-run local binary. That would add a platform-defense center, not erase this one."
+  },
+  "severityAdjudication": {
+    "V1": {
+      "decision": "SEVERE_BUT_CONDITIONAL",
+      "recommendedSeverity": "high by default; critical when source bytes/secrets/regulated PII are durably copied without informed choice or into an exposed root",
+      "reason": "Creating a second unmanaged copy is directly caused by the tool and can create irreversible confidentiality/compliance harm. A blanket critical label is too coarse if only bounded structural facts are retained under explicit disclosure."
+    },
+    "V2": {
+      "decision": "MECHANISM_REAL_PREVALENCE_AND_CATEGORY_OVERCLAIMED",
+      "recommendedSeverity": "high; critical for a detected third-party-sync or cross-tenant-upload root",
+      "reason": "A synced root can cause third-party upload, but generic home/XDG cache paths are not generally children of Dropbox, iCloud Desktop/Documents, or OneDrive Known Folder Move. Local/enterprise backup, cloud sync, world readability, and CI cache upload are different mechanisms with different remedies."
+    },
+    "primarySources": [
+      "https://specifications.freedesktop.org/basedir-spec/latest/",
+      "https://help.dropbox.com/installs/locate-dropbox-folder",
+      "https://support.apple.com/en-ie/109344",
+      "https://learn.microsoft.com/en-us/windows/win32/shell/working-with-known-folders",
+      "https://support.apple.com/guide/mac-help/back-up-files-mh35860/mac"
+    ]
+  },
+  "checkerMutationAudit": [
+    {"mutation": "Set a finding severity to banana", "result": "ESCAPED"},
+    {"mutation": "Set a required-property gate category to banana", "result": "ESCAPED"},
+    {"mutation": "Falsely set shipGate.currentState to every property qualified", "result": "ESCAPED"},
+    {"mutation": "Delete Finding and RequiredProperty schemas", "result": "ESCAPED"},
+    {"mutation": "Erase V10 unresolved status and claim it solved", "result": "ESCAPED"},
+    {"mutation": "Upgrade V2 evidenceGrade to MEASURED without evidence", "result": "ESCAPED"}
+  ],
+  "findings": [
+    {
+      "id": "R2-TM-01",
+      "severity": "HIGH",
+      "evidence": "The artifact violates its own closed schema: V6, V7, and V8 use severity=medium-high although allowed values are critical/high/medium/low; R8 uses gate=product and R9 gate=release although allowed values are primary/secondary. check-threat-claims.py accepts these and also accepts arbitrary replacements and deletion of the schemas.",
+      "impact": "Five other contracts are told to consume a typed threat model that is not actually type-valid. Consumers must invent whether gate denotes priority, owning plane, or a concrete gate class.",
+      "requiredChange": "Make schema validation real and reject unknown values. Either add and define medium-high/product/release intentionally or normalize instances to the declared enums. Prefer replacing gate categories with exact operability gate IDs or a typed requirement class plus explicit gate mapping.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A normative schema version elsewhere that includes these values and supersedes modelSchema in this artifact."
+    },
+    {
+      "id": "R2-TM-02",
+      "severity": "CRITICAL",
+      "evidence": "V10's title/detail say the retention conflict is resolved and both explainability and privacy hold. proposedResolution embeds the rejected T0/T1/T2 ladder while marking T1 withdrawn and the default unset. residualRisks explicitly says V10 remains unresolved. The EVIDENCE blind/adversarial review also found that the proposed no-match subject-set root does not commit universal predicate outcomes, so it cannot carry the claimed proof.",
+      "impact": "A rejected retention design and incomplete proof construction are promoted into the threat model as a solved privacy/explainability guarantee. Builders can implement the wrong default and permanently discard evidence users later need.",
+      "requiredChange": "Mark V10 unresolved throughout, remove 'resolved' and 'both hold' language, and reference retention/EVIDENCE candidates only as alternatives. Resolve it only after an independently checked evaluation proof and a selected retention disposition cover relational findings, no-match, degradation, purge, and current-vs-sealed capability.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A sealed retention contract and EVIDENCE construction whose independent negative controls prove the claimed explanations without retained source bytes."
+    },
+    {
+      "id": "R2-TM-03",
+      "severity": "HIGH",
+      "evidence": "V2 continues to state that home/XDG cache paths 'routinely' sit inside Dropbox, iCloud Drive, OneDrive, Time Machine, and corporate backup scopes, while its evidenceGrade admits prevalence is unmeasured. XDG defaults to $HOME/.cache; Dropbox commonly uses a distinct Dropbox folder; iCloud and OneDrive documentation describes selected Desktop/Documents-style folders. Time Machine/enterprise backup is not the same as third-party cloud sync. R2 combines sync, backup, and world-readable roots under one refusal.",
+      "impact": "An unsupported prevalence claim can force unusable blanket refusals and erode trust, while conflating mechanisms prevents proportionate mitigation. A detector that misses a client may also be mistaken for a guarantee.",
+      "requiredChange": "Split V2 into detected cloud-sync/CI-upload, backup-managed storage, and permission exposure findings. Remove 'commonly/routinely' until measured. For each, specify detector catalog/version, confidence, false-positive handling, disclosure, override semantics, and platform fixtures; never imply exhaustive detection.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Representative cross-platform measurement showing the selected default store lies inside those upload roots at the claimed prevalence, plus detector validation against real clients."
+    },
+    {
+      "id": "R2-TM-04",
+      "severity": "HIGH",
+      "evidence": "shipGate says no privacy/offline claim may publish unless its requiredProperty has a QUALIFIED gate, but requiredProperties.gate contains categories rather than operability gate identities and no join is defined. currentState is mutable prose; falsely declaring all properties qualified passes the checker, which never reads operability.v2.",
+      "impact": "The central publication safeguard is not computable. A claim can be published or blocked by editorial assertion rather than evidence, and the threat model can drift from the release gate inventory.",
+      "requiredChange": "Give every required property exact gate IDs and expected subject; load the operability artifact; derive qualification from retained gate evidence; emit a closed PublicationDecision per claim. Reject absent, stale, wrong-subject, or unqualified mappings.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding cross-artifact mapping and runner outside this checker that computes the same decision and is referenced here."
+    },
+    {
+      "id": "R2-TM-05",
+      "severity": "HIGH",
+      "evidence": "V5/R5 correctly names real deletion under content-addressed dedup as unsolved, but R5 remains absolute—enumerate everything and delete it for real—without an ownership/refcount, shared-blob, cryptographic-erasure, compaction, crash, or verification protocol. Operability G5 is unqualified and uses the same unsolved case as a negative control.",
+      "impact": "The user-facing right to know and undo, central to this threat model, has no buildable semantics. A purge may remove a reference while bytes remain, or delete shared content still required by another project.",
+      "requiredChange": "Keep V5 open and R5 unqualified, but add the missing architecture decision: per-project logical ownership, physical-sharing/refcount rules, tombstone/compaction or encryption-key destruction, crash-safe purge, shared-object behavior, and post-purge verification. Define exactly which residual copies outside tool control are disclosed rather than claimed deleted.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A referenced storage/deletion contract with executable shared-dedup and crash-recovery goldens."
+    },
+    {
+      "id": "R2-TM-06",
+      "severity": "MEDIUM",
+      "evidence": "R11 says 'A secret value never' reaches any diagnostic or support bundle, but V11's actual scope is a secret supplied by configuration. Source and external-scanner diagnostics can contain secret-like values the tool was asked to analyze, and the architecture intentionally does not promise reliable PII/secret detection. The absolute rationale only proves handle propagation for resolved configuration.",
+      "impact": "The published absolute cannot be implemented for arbitrary source-derived text and may create false assurance about support bundles and diagnostics.",
+      "requiredChange": "Scope R11 to values obtained through the resolved-configuration secret channel. Add separate class-based projection rules for source/scanner text: no raw excerpts by default, bounded explicit materialization, and manifest disclosure. Do not claim pattern redaction is complete.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A design in which diagnostics and support bundles structurally cannot contain any producer/source string, only opaque typed handles."
+    },
+    {
+      "id": "R2-TM-07",
+      "severity": "HIGH",
+      "evidence": "The model has no finding for active output injection. Repository-controlled filenames, identifiers, snippets, and provider diagnostics reach terminal, HTML, JSON/SARIF, and agent projections. ANSI/OSC control sequences can alter terminal state or clipboard; unescaped HTML can execute active content; structured-output fields can attack downstream consumers. architecture/08 contains some HTML escaping/CSP prose, but no threat-model property or cross-surface gate roots it.",
+      "impact": "The tool can harm the user merely by rendering analyzed content, even with zero network and no durable source store. This is directly in the corrected 'protect the user from the tool' center.",
+      "requiredChange": "Add a primary finding and required property for projection safety: context-specific escaping, terminal control-character neutralization, strict offline CSP/no remote assets, no contribution HTML/JS, safe URI/path handling, and typed machine fields. Add adversarial goldens for ANSI/OSC, HTML/script, malformed Unicode, path/URI, and oversized diagnostic payloads on every surface.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding projection-safety contract and release gate already covering every source-derived string across all surfaces."
+    },
+    {
+      "id": "R2-TM-08",
+      "severity": "MEDIUM",
+      "evidence": "R6 combines 'no source-derived content in shared temp' with 'cleanup guaranteed on every exit path'. Its absolute rationale justifies choosing a private location but does not make cleanup after SIGKILL, power loss, or host crash possible. V6 itself says a crash must not leave source in temp.",
+      "impact": "An impossible guarantee hides the residual lifetime of private temporary material after abnormal termination.",
+      "requiredChange": "Keep the absolute prohibition on shared temp. Replace cleanup-guaranteed with crash-resilient ownership, restrictive creation permissions, bounded retention, startup scavenging, and inventory/purge visibility; state that instantaneous deletion after power loss cannot be guaranteed.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A platform primitive guaranteeing destruction of the storage content across process and machine failure, with supported-platform evidence."
+    }
+  ],
+  "adjudication": {
+    "V5": "Correctly remains unsolved. That does not make the threat-model framing wrong; it makes the overall storage architecture incomplete until R5 has buildable semantics.",
+    "shipGate": "Blocking unsupported privacy/offline claims is the correct posture, not paralysis. The defect is that qualification is self-attested and unmapped, not that zero gates are qualified before implementation.",
+    "hostileRepository": "Keep it secondary as an adversary framing, but do not infer safety from repository ownership. V15 is correctly critical because the tool's choice to execute build scripts/macros/hooks harms the user even in a repository they believe they own."
+  },
+  "resolves": {
+    "R2-TM-01": "OPEN",
+    "R2-TM-02": "OPEN",
+    "R2-TM-03": "OPEN",
+    "R2-TM-04": "OPEN",
+    "R2-TM-05": "OPEN",
+    "R2-TM-06": "OPEN",
+    "R2-TM-07": "OPEN",
+    "R2-TM-08": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "the threat model protects the user from opensip-cli",
+    "source-derived storage is minimized, disclosed, inventoried, and purgeable",
+    "storage-root exposure and third-party copying are detected and bounded honestly",
+    "privacy/offline claims require qualified evidence",
+    "retention and explainability do not make incompatible promises",
+    "all projections safely render repository-controlled data"
+  ],
+  "knownLimitations": [
+    "The V2 prevalence judgment uses public default-location documentation, not representative telemetry; the review therefore rejects prevalence rather than estimating a replacement percentage.",
+    "Severity depends on data sensitivity and destination. The recommended conditional severities require a formal rubric in the next artifact.",
+    "No claim-register status was changed: TM is already CANDIDATE."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "V10 simultaneously claims resolved and unresolved, the artifact violates its own schema, and its claim-publication gate is not linked to operability evidence."
+  }
+}

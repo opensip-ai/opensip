@@ -1,0 +1,79 @@
+{
+  "artifact": "opensip.c2-storage.review-response",
+  "version": 2,
+  "date": "2026-07-31",
+  "responder": "admission-storage parallel lane",
+  "sourceReviews": [
+    "artifacts/c2-storage.review-reviewer7.json",
+    "artifacts/c2-storage.rereview-reviewer7.json"
+  ],
+  "status": "REREVIEW-RESIDUALS-REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+  "priorFindings": {
+    "resolvedByReviewer7": [
+      "R7-C2-01",
+      "R7-C2-02",
+      "R7-C2-03",
+      "R7-C2-04",
+      "R7-SN-01",
+      "R7-SN-02"
+    ],
+    "supersededPartial": "R7-SN-03 now receives the exact missing QUARANTINED recovery branch",
+    "integrationOwner": "R7-INTEGRATION-01 remains coordinator-owned"
+  },
+  "residualDispositions": [
+    {
+      "findingId": "R7R-C2-01",
+      "disposition": "REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+      "bindingChanges": [
+        "Both stored-read contextual envelope fields are typed as live operability.v2.json#requestIdContract REQUEST-ID-V1",
+        "Positive/default value is canonical req1_<32 lowercase hex> and explicitly host-minted-reserved at first ingress",
+        "Malformed string, object, caller-supplied and unequal RequestId fixtures reject; C-2 checker cross-validates the live OPERABILITY pattern and ownership"
+      ]
+    },
+    {
+      "findingId": "R7R-C2-02",
+      "disposition": "REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+      "bindingChanges": [
+        "Scalar types are guarded before collection, sorting, tuple and set operations",
+        "The public PlanIntent validator is total over parsed JSON and converts any missed wrong-type traversal into typed C2I-02 pre-attempt rejection",
+        "A retained 4x4 matrix applies object, array, boolean and null to all four formerly exception-prone scalar collection keys; four explicit fixtures and six mutation controls keep the boundary load-bearing"
+      ]
+    },
+    {
+      "findingId": "R7R-SN-01",
+      "aliases": [
+        "R7-SN-03 rereview residual"
+      ],
+      "disposition": "REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+      "bindingChanges": [
+        "Added QUARANTINED|canonical-absent|quarantine-present -> persist-delete-in-progress-and-resume-delete -> DELETE_IN_PROGRESS",
+        "Added the matching crash fixture",
+        "Declared exact reachable durable nonterminal purge states and checker equality against recovery-table state prefixes",
+        "Added a mutation that removes both row and fixture; reachable-state coverage still rejects it"
+      ]
+    }
+  ],
+  "changedArtifacts": [
+    "artifacts/c2-plan-stage-schema.v3.json",
+    "artifacts/check-c2.py",
+    "artifacts/threat-model.v3.json",
+    "artifacts/check-threat-claims.py",
+    "artifacts/c2-storage.review-reviewer7.response-admission-storage.v1.json"
+  ],
+  "verification": {
+    "c2Normal": "PASS: 35 PlanIntent, 14 analysis-binding, 13 stored-binding fixtures",
+    "c2MutationSuite": "28/28 rejected",
+    "threatNormal": "PASS: T1..T13 clean",
+    "threatMutationSuite": "29/29 rejected",
+    "operabilityNormalAndSelftest": "PASS: normal clean; 26/26 mutations rejected",
+    "resolvedInputsNormalAndSelftest": "PASS: normal clean; 41/41 mutations rejected",
+    "deliveryNormalAndSelftest": "PASS: normal clean; 62/62 mutations rejected",
+    "independentReplay": "PENDING",
+    "productEvidence": "ABSENT"
+  },
+  "assurance": {
+    "architectureState": "IMPLEMENTABLE_UNEXECUTED / SPECIFIED as applicable",
+    "releaseState": "NOT-DEMONSTRATED",
+    "noOverclaim": "Checker success is design-integrity evidence only. These residuals are repaired candidates, not independently closed or product-demonstrated."
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "artifact": "opensip.to-ec-invariants.review",
+  "reviewOf": "artifacts/scope-correction-a3.v2.json#invariants (TO-1..TO-11, EC-1..EC-8)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "date": "2026-07-30",
+  "status": "review-complete",
+  "question": "Are TO-1..TO-11 and EC-1..EC-8 correct?",
+  "method": [
+    "Ground each invariant against architecture/07 (termination), architecture/08 (topology), d9-exit-contract.v1.5 exitClasses+invariants, r1 v1.3 executionCoreBoundary, sealed ARCH.STORAGE.MULTIPROCESS / ARCH.RUN-MULTIAXIS, and prior A1/B findings.",
+    "For each: (a) is the claim true as architecture? (b) is falsifiedBy adequate? (c) is anything load-bearing missing or overclaimed?",
+    "Did not use author 'RESTORED' labels as evidence of completeness."
+  ],
+  "summary": {
+    "answer": "Mostly directionally correct; several are incomplete or mis-falsified; the set is not yet a complete architecture for D9 or R-1.",
+    "counts": {
+      "correct": 8,
+      "correctButIncompleteOrWeakFalsifier": 8,
+      "incorrectOrMisplaced": 1,
+      "correctOwnershipNote": 2
+    },
+    "headline": "TO-1..8 and EC-2..6, EC-8 are sound cores. TO-9 is under-specified (totality without naming the partition). TO-5/TO-10/TO-11 and EC-3/EC-7 are right but incomplete. EC-1 is the main incorrect formulation: surface neutrality ≠ semantic lifetime neutrality."
+  },
+  "terminationOutcome": [
+    {
+      "id": "TO-1",
+      "verdict": "correct",
+      "claim": "Termination is one total union over every command kind.",
+      "assessment": "True and load-bearing. architecture/07 and the multi-axis model require one HostTermination family for run/query/mutation/serve/pre-admission, not per-kind private exits.",
+      "falsifiedBy": "adequate",
+      "caveat": "Totality of the *union shape* is not the same as a fixed *semantic partition* of remedy meanings — that is TO-9's job and is currently weak."
+    },
+    {
+      "id": "TO-2",
+      "verdict": "correct",
+      "claim": "Exactly one host-owned derivation and one process-boundary write site.",
+      "assessment": "Matches invariant-one-mapper and the product thesis that exit authority must not fork. Correct.",
+      "falsifiedBy": "adequate",
+      "caveat": "Does not state envelope/process parity (CommandEnvelope.termination equals process exit when serialization succeeds). That is a related architectural obligation still missing from the TO set."
+    },
+    {
+      "id": "TO-3",
+      "verdict": "correct",
+      "claim": "No producer, rule, or error type maps to an exit.",
+      "assessment": "Correct. Producers return domain results / Coverage / typed faults; host maps. Sealed multi-axis separation depends on this.",
+      "falsifiedBy": "adequate",
+      "caveat": "Host interpretation may still be wrong; TO-3 only forbids producer-owned exits."
+    },
+    {
+      "id": "TO-4",
+      "verdict": "correct",
+      "claim": "Verdict and termination are distinct and render distinctly.",
+      "assessment": "Correct and essential. Policy pass + delivery/durability failure must not collapse into policy-failed. Aligns with invariant-verdict-vs-termination and ARCH.RUN-MULTIAXIS.",
+      "falsifiedBy": "good (policy-pass-with-operational-failure vs policy-fail)",
+      "caveat": "Also need operational-failed vs indeterminate distinction (not only vs policy). Covered partly by TO-9..11 if those are completed."
+    },
+    {
+      "id": "TO-5",
+      "verdict": "correct-but-incomplete",
+      "claim": "Required partial coverage cannot yield pass; durability failure cannot report success; export failure cannot alter a local verdict.",
+      "assessment": "Each clause is correct (coverage gate, durability, optional egress). Bundling three into one invariant is fine if each is independently falsifiable.",
+      "falsifiedBy": "weak — 'green outcome in one of those three states' does not define green (exit 0? success class? policy pass?). Prefer three explicit falsifiers.",
+      "missingRelated": [
+        "exit 0 alone is never durable attestation (authority is a postcondition) — related but not implied by TO-5",
+        "required delivery failure is operational-failed (architecture/07 settled case) — not stated"
+      ]
+    },
+    {
+      "id": "TO-6",
+      "verdict": "correct",
+      "claim": "A signal after finalisation cannot reclassify a settled outcome.",
+      "assessment": "Correct. Matches finalization commit invariant and serve-stop vs interrupt distinctions.",
+      "falsifiedBy": "adequate",
+      "caveat": "Does not define where finalisation sits (host finalizer after HostTermination settled + required postconditions) — acceptable at this altitude if handoff requires it."
+    },
+    {
+      "id": "TO-7",
+      "verdict": "correct",
+      "claim": "A code is a remedy class; two remedies behind one code is a defect; two codes for one remedy is a smell.",
+      "assessment": "Correct design principle for consumers deciding next action. Matches closed vocabulary intent in demoted D9.",
+      "falsifiedBy": "adequate for the defect half; 'smell' is intentionally weaker",
+      "caveat": "Does not list the remedy classes. Harmless only if TO-9 names them."
+    },
+    {
+      "id": "TO-8",
+      "verdict": "correct-with-ownership-note",
+      "claim": "Exit-class set is additive-only permanently; owned by VERSIONING.",
+      "assessment": "Correct as a public consumer-custody compatibility rule. Ownership by VERSIONING is right (B-SC-05 / A1-SC-07). Additive-only forbids renumber/repurpose; it does not alone define how old consumers treat unknown new classes (forward-compat policy is VERSIONING's job).",
+      "falsifiedBy": "adequate for renumber/repurpose",
+      "dependsOn": "VERSIONING candidate — D9 architecture must declare dependsOn VERSIONING when binding TO-8"
+    },
+    {
+      "id": "TO-9",
+      "verdict": "incorrect-as-stated / under-specified",
+      "claim": "Semantic remedy partition is total — every terminal state maps to exactly one remedy class, no residual 'other'.",
+      "assessment": "The *intent* is correct and necessary for CI. The *statement is incomplete*: it asserts totality without binding what the classes are or that they are the six CI-distinct meanings in architecture/07. Without naming them, TO-9 is satisfied by any singleton {failed} partition. That was the core of A1-SC-01 / B-SC-04.",
+      "falsifiedBy": "too weak — does not catch collapsing policy-failed into operational-failed",
+      "requiredRepair": "Bind the named partition: success | policy-failed | request-rejected | indeterminate | operational-failed | interrupted, with non-collapsible meanings (as in architecture/07 table). Totality + exclusivity + semantic distinctness for CI action."
+    },
+    {
+      "id": "TO-10",
+      "verdict": "correct-but-incomplete",
+      "claim": "Unavailable or indeterminate must never be represented as a successful empty result.",
+      "assessment": "Correct and high-value (false empty query/run success). Aligns with coverage-required and retention RA-9 spirit.",
+      "falsifiedBy": "good for insufficient-coverage success",
+      "missingRelated": [
+        "addressed identity missing → request-rejected not success (architecture/07)",
+        "unsupported baseline recipe → indeterminate never mass net-new (baseline safety) — related product of false 'success with findings'",
+        "empty set-valued query with complete coverage IS success — TO-10 must not be read to forbid that; falsifiedBy correctly scopes to insufficient coverage"
+      ],
+      "note": "Correct if 'successful empty' means 'success claiming completeness without evidence', not 'success with zero matches under complete coverage'."
+    },
+    {
+      "id": "TO-11",
+      "verdict": "correct",
+      "claim": "Integrity failure fails closed; ledger/storage integrity fault never yields a policy verdict.",
+      "assessment": "Correct. Integrity → operational-failed (or equivalent operational outcome), never pass/fail policy. Matches fail-closed storage posture.",
+      "falsifiedBy": "adequate",
+      "caveat": "Should also cover 'never yields success' explicitly; currently says never policy verdict — good. Busy-timeout is operational not integrity — keep distinct (EC-5 / D9 ledger-busy case)."
+    }
+  ],
+  "executionCore": [
+    {
+      "id": "EC-1",
+      "verdict": "incorrect-formulation",
+      "claim": "Lifetime-neutral: nothing in its surface distinguishes one-shot from resident.",
+      "assessment": "The *goal* (lifetime neutrality) is correct and matches architecture/08 R-1(1). The *formulation is wrong*: absence of surface flags is neither necessary nor sufficient. A core can have no isResident field and still behave differently when warm provider state, ambient process caches, or publication paths differ. Conversely, a host may pass a lifetime enum for logging without branching semantics.",
+      "falsifiedBy": "inadequate — only catches surface branching",
+      "requiredRepair": "Semantic EC-1: for identical sealed Snapshot, validated Plan, toolchain/environment identities, and exact Coverage, cold and resident instantiations produce identical evaluation outcomes and EvidenceDigest (deterministic producers). FalsifiedBy any semantic divergence attributable to host lifetime or warm state used as authority.",
+      "relationToEC-3": "EC-3 is the evidence-authority half; EC-1 should be the full semantic re-entrancy property. Today EC-1 is weaker than architecture/08's 're-entrant / no ambient process state' intent."
+    },
+    {
+      "id": "EC-2",
+      "verdict": "correct",
+      "claim": "Residency ship / autostart / per-project are three separate decisions; EC-1 settles none.",
+      "assessment": "Correct decomposition (architecture/08). Prevents sealing deployment under core neutrality.",
+      "falsifiedBy": "adequate"
+    },
+    {
+      "id": "EC-3",
+      "verdict": "correct",
+      "claim": "Warm state is an acceleration, never an evidence authority.",
+      "assessment": "Correct and sealed-adjacent in architecture/08. FalsifiedBy cold/resident Run identity difference is the right test.",
+      "falsifiedBy": "adequate (and stronger than EC-1's current falsifier)",
+      "caveat": "Requires identical Plan/Snapshot/Coverage preconditions (parity rules in 08)."
+    },
+    {
+      "id": "EC-4",
+      "verdict": "correct",
+      "claim": "Multi-process safety is on the storage protocol for any evidence-writing host.",
+      "assessment": "Correct. Matches ARCH.STORAGE.MULTIPROCESS SEALED and architecture/08.",
+      "falsifiedBy": "adequate",
+      "caveat": "Overlaps ARCH.STORAGE.MULTIPROCESS — should reference it as already sealed, not re-derive ownership of storage as R-1-only."
+    },
+    {
+      "id": "EC-5",
+      "verdict": "correct",
+      "claim": "Storage guarantees integrity not liveness; busy allowed; never corrupt/partial/lost.",
+      "assessment": "Correct. Matches multiproc storage protocol and D9 busy vs corrupt distinction.",
+      "falsifiedBy": "adequate for over-claiming liveness",
+      "caveat": "Does not itself place storage *outside* the core — EC-8 does."
+    },
+    {
+      "id": "EC-6",
+      "verdict": "correct",
+      "claim": "ExecutionId is attempt-unique; content identity is sealed result.",
+      "assessment": "Correct. Matches B-R1V12-01 / LN-13 and architecture/02 attempt vs content. Essential for orphan recovery.",
+      "falsifiedBy": "adequate",
+      "caveat": "Does not assign *who allocates* ExecutionId (host admission vs core idSource). Ownership conflict A1-R1V13-01 / B-R1V13-01 remains open and is architectural relative to EC-8."
+    },
+    {
+      "id": "EC-7",
+      "verdict": "correct-but-incomplete",
+      "claim": "Direct core modules cannot reach ambient authority; adapters/providers are explicit TCB or OS-confined with declared authority; not proved by field lists.",
+      "assessment": "Correct narrowing of the absolute claim. Aligns with Error-2 (signature≠capability) and A1-R1V13-02 interface scope.",
+      "falsifiedBy": "good for direct ambient reach and undeclared adapter authority",
+      "incomplete": [
+        "Does not define the static/runtime closure boundary (which packages are 'core' vs adapter)",
+        "Does not reference ARCH.PROBE-CONTRACT REOPENED — effectful stages and linked TCB still undermine absolute confidence",
+        "Dynamic load/FFI/native paths need stated coverage limits (prior B-R1V12-02/05)"
+      ]
+    },
+    {
+      "id": "EC-8",
+      "verdict": "correct-but-incomplete",
+      "claim": "Explicit core/host/provider/storage boundary; admission, grants, resolution, process supervision outside core.",
+      "assessment": "Correct restoration of the architectural boundary (B-SC-06). Matches r1 v1.3 definition (core: Snapshot+Plan→SealedRun; no admission/resolution/supervision).",
+      "falsifiedBy": "adequate for grant/resolve/spawn inside core",
+      "incomplete": [
+        "Does not place fact derivation vs provider execution when providers run compilers (observation-in vs spawn-in-core) — still open product of A1-R1V13-03",
+        "Does not place publication/CAS write ownership (host evidence authority vs core)",
+        "Does not list inside authorities (fact/rule/policy/budget) affirmatively — only outside examples"
+      ],
+      "suggestedAffirmativeInside": "fact derivation, rule evaluation, policy evaluation, budget accounting over injected deps — no admission, resolution, transport, or process supervision"
+    }
+  ],
+  "setLevelAssessment": {
+    "asD9Architecture": {
+      "sufficient": false,
+      "reason": "Missing named six-class partition (TO-9 under-specified) and several architecture/07 + d9 v1.5 safety invariants: envelope parity, pre-admission FailureResult, orphan recovery, exit0≠attestation, tombstone expiry, baseline no-mass-net-new, policy-not-Error/operational-not-Finding as explicit (only partly via TO-4/TO-11)."
+    },
+    "asR1Architecture": {
+      "sufficient": false,
+      "reason": "EC-1 mis-formulated; EC-7/8 incomplete on provider/probe placement and closure boundary; ExecutionId allocator ownership open; EC-4/5 partly duplicate sealed storage claim without clear R-1 vs storage ownership split."
+    },
+    "whatIsStrong": "Host exit monopoly (TO-2/3), multi-axis non-conflation (TO-4/5), finalization (TO-6), remedy discipline (TO-7), versioning ownership of additive classes (TO-8), integrity fail-closed (TO-11), residency decomposition (EC-2), warm-not-authority (EC-3), integrity-not-liveness (EC-5), attempt identity (EC-6), ambient narrowing (EC-7), boundary restore (EC-8)."
+  },
+  "recommendedEdits": [
+    {
+      "id": "EDIT-TO-9",
+      "action": "Replace TO-9 with named six-class exclusive total partition + CI-distinct meanings from architecture/07"
+    },
+    {
+      "id": "EDIT-TO-12+",
+      "action": "Add invariants (or rehome): envelope/process parity; pre-admission FailureResult; orphan never sealed success; exit0 not attestation; tombstone expiry; baseline no-mass-net-new; policy never Error / operational never Finding"
+    },
+    {
+      "id": "EDIT-EC-1",
+      "action": "Semantic re-entrancy / cold≡warm EvidenceDigest+outcomes under identical Plan/Snapshot/Coverage"
+    },
+    {
+      "id": "EDIT-EC-6b",
+      "action": "Host allocates ExecutionId at admission; core receives immutable attempt context (closes ownership hole)"
+    },
+    {
+      "id": "EDIT-EC-8",
+      "action": "Affirmative inside list + provider/probe placement + publication ownership; dependsOn or limit vs ARCH.PROBE"
+    },
+    {
+      "id": "EDIT-TO-5",
+      "action": "Split or strengthen falsifiedBy for the three clauses independently"
+    }
+  ],
+  "resolves": {
+    "user-question-are-TO-EC-correct": "PARTIAL — mostly correct cores; TO-9 and EC-1 fail correctness-as-stated; set incomplete for D9/R-1 binding",
+    "A1-SCV2-01": "CONFIRMED by per-invariant audit",
+    "A1-SCV2-02": "CONFIRMED (EC-1)",
+    "A1-SC-01": "CONFIRMED still open on completeness"
+  },
+  "confidence": "high",
+  "whatWouldChangeMyMind": [
+    "A mapping showing every architecture/07 settled case and every d9 v1.5 invariant is implied by some TO (including TO-9 naming)",
+    "Evidence that surface-only EC-1 is intentional and semantic parity is solely EC-3 — still insufficient for cancellation/progress ambient state"
+  ],
+  "knownLimitations": [
+    "Did not re-prove each settled case in architecture/07 against a formal model.",
+    "Steering empirical cost notes not used as greenfield design grounds (METHOD.EVIDENCE-PROMOTION)."
+  ],
+  "candidatePropertiesCovered": [
+    "D9 termination architecture (partial TO set)",
+    "R-1 core lifetime neutrality (partial EC set)"
+  ],
+  "sealedPropertiesCovered": [
+    "ARCH.STORAGE.MULTIPROCESS (referenced by EC-4)",
+    "ARCH.RUN-MULTIAXIS (referenced by TO-4/TO-5)"
+  ]
+}

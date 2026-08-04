@@ -1,0 +1,112 @@
+{
+  "artifact": "opensip.c2-plan-intent.finding-adjudication",
+  "version": 2,
+  "date": "2026-07-31",
+  "adjudicator": "admission-storage parallel lane",
+  "sourceReviews": [
+    "artifacts/implementer-package.review-reviewer4.json",
+    "artifacts/c2-storage.review-reviewer7.json",
+    "artifacts/c2-storage.rereview-reviewer7.json"
+  ],
+  "findingIds": [
+    "IP-R4-04",
+    "R7-C2-01",
+    "R7-C2-02",
+    "R7-C2-04",
+    "R7R-C2-01",
+    "R7R-C2-02"
+  ],
+  "findingDisposition": "REREVIEW-RESIDUALS-REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+  "claim": "C-2",
+  "contractDisposition": "REPAIRED-WITH-BINDING-CHANGES; NOT YET CLOSED BY REREVIEW",
+  "decision": "Request validation freezes one closed tagged PlanIntent before attempt admission. The analysis branch contains a complete AdmissionDescriptorV1; the stored-view branch contains the exact sealed target/query/result/retention request. Domain-tagged commitment and full-record equality prevent post-admission or prepared-read substitution.",
+  "bindingRecipe": {
+    "field": "planIntentCommitment",
+    "domainTagUtf8": "opensip.plan-intent.v1",
+    "preimage": "UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent)",
+    "digest": "SHA-256",
+    "textEncoding": "sha256:<64 lowercase hexadecimal digits>",
+    "analysisCustody": [
+      "AttemptRecord.admittedPlanIntent equals frozen PlanIntent",
+      "AttemptRecord.admissionDescriptor equals PlanIntent.analysis.admissionDescriptor",
+      "AttemptRecord.planIntentCommitment equals recomputed commitment",
+      "ExecutionPlan and all 13 planIdentityInputs fields equal their admitted/post-admission owners"
+    ],
+    "storedViewCustody": [
+      "RequestContext.admittedPlanIntent and commitment",
+      "PreparedStoredRead requestId/commitment/projectId/target/query/resultSelector/retentionSelector exact equality",
+      "RequestId only; no ExecutionId, AttemptRecord, SnapshotId, PlanId, ExecutionPlan or new Run"
+    ]
+  },
+  "taggedBranches": {
+    "analysis": {
+      "path": "PlanIntent.analysis",
+      "descriptorPath": "PlanIntent.analysis.admissionDescriptor",
+      "descriptorFields": [
+        "schemaVersion",
+        "release",
+        "invocationProfile",
+        "resolvedConfiguration",
+        "scope",
+        "changeSpec",
+        "contributions",
+        "capabilityGrants",
+        "workflow",
+        "budgets"
+      ]
+    },
+    "storedView": {
+      "path": "PlanIntent.storedView",
+      "fields": [
+        "projectId",
+        "target",
+        "query",
+        "resultSelector",
+        "retentionSelector"
+      ],
+      "operations": [
+        "show-run",
+        "list-artifacts",
+        "read-artifact",
+        "read-fact-view"
+      ]
+    }
+  },
+  "valueGrammarControls": [
+    "canonical non-null identifiers and exact tagged/record shapes",
+    "exact semantic versions and SHA-256/PROJECT-ID-V1/Run/artifact/fact-view identifiers",
+    "bounded no-float parameter maps and positive unit-bearing budgets",
+    "non-empty sorted relation/rule/dependency/grant reference sets",
+    "required|optional requiredness; earlier-stage dependencies; admitted grant references",
+    "complete versioned contribution and capability-grant records"
+  ],
+  "changedArtifacts": [
+    "artifacts/c2-plan-stage-schema.v3.json",
+    "artifacts/check-c2.py",
+    "v1-slice.md"
+  ],
+  "retainedFixtures": {
+    "planIntent": 35,
+    "analysisBinding": 14,
+    "storedViewBinding": 13,
+    "exactCommitmentVectors": 7,
+    "mutationControls": 28,
+    "providerOracle": {
+      "fixtureId": "valid-full-profile-semantic-providers",
+      "commitment": "sha256:7bf426120cfde097fece271d63b99793b1332ba358016b98f71266ec74fdd6de"
+    }
+  },
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "productDemonstration": "ABSENT",
+    "why": "Normal checker and mutation suite are design-integrity controls authored in this repair lane. They are neither independent rereview nor execution evidence from a Rust host."
+  },
+  "scopeLimits": [
+    "C-2 is the general request schema; DELIVERY owns the total v1 allow/deny overlay (R7-C2-03).",
+    "Representation/schema rejection does not provide runtime capability confinement; ARCH.PROBE-CONTRACT remains parked.",
+    "SnapshotId, PlanId and semanticUniverses are post-admission identity inputs owned by RI, but may not alter the admitted descriptor."
+  ],
+  "result": "The reviewer7 rereview residuals now have binding REQUEST-ID-V1 and parsed-JSON-totality repairs. Do not mark them CLOSED/SEALED until independent replay and coordinator integration."
+}

@@ -1,0 +1,497 @@
+{
+ "artifact": "retention-tiers.v23.review-independent",
+ "version": 1,
+ "date": "2026-08-03",
+ "status": "REVIEW-COMPLETE",
+ "reviewer": "independent adversarial reviewer; did not author retention-tiers.v23.json or check-retention-custody-v23.py and did not participate in their construction",
+ "reviewPosture": "Adversarial. The working assumption throughout was that the artifact is wrong and that the task is to find where. Every central claim was re-derived from the pinned contract text by an implementation written for this review, not by executing the subject's own instrument and reporting its banner.",
+
+ "verdict": {
+  "overall": "SPLIT: PART B PASS, PART A REJECT",
+  "partB": {
+   "decision": "PASS",
+   "blockingFindingCount": 0
+  },
+  "partA": {
+   "decision": "REJECT",
+   "blockingFindingCount": 1,
+   "blockingFindingIds": ["IR-RT23-01-NINTH-PLANID-INJECTION-POSITION"]
+  },
+  "totalBlockingFindingCount": 1,
+  "whySplitIsLegitimate": "Separability was tested rather than accepted. --part a and --part b each exit 0 independently; every Part B defect probe produced zero Part A findings; and Part B's derivation reads only v22's sealed closure bytes, evidence.v10 and the D9 v1.14 reference, never the policy object, the ask tables or the PlanId exclusion. The single blocker is confined to Part A's PlanId-exclusion enumeration and has no path into Part B's evidence.",
+  "sealRecommendation": "DO-NOT-SEAL",
+  "statusChangesMadeByThisReview": "NONE. CD-RT-5 remains BLOCKED_ON_PHASE_1A. No artifact was signed, sealed, frozen or restatused. This review wrote exactly one file: itself."
+ },
+
+ "v10Item3Adjudication": {
+  "item": 3,
+  "obligationVerbatim": "State how purge changes current evidence availability without rewriting the sealed Run",
+  "obligationReadLiveFrom": "threat-model.v3.json@sha256:56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+  "priorMeasuredStatus": "NOT DISCHARGED (v10-disposition.v1.json@sha256:acc74326c7c6cf999ad3c6efbccba31dcac8662e8b43cff4b3e733b42451caab)",
+  "ruling": "DISCHARGES on these bytes.",
+  "scopeOfTheDischarge": "Item 3 discharges as an architecture-candidate obligation at evidenceGrade IMPLEMENTABLE_UNEXECUTED. It does NOT discharge V10 as a whole (items 1 and 2 are untouched), does not unblock CD-RT-5, does not constitute a product decision, and does not assert that any implementation exists.",
+
+  "whyThePriorStatusWasCorrect": [
+   "Verified live: check-evidence-v10.py contains 0 occurrences of the string effectiveCapability.",
+   "Verified live: check-retention-custody-v22.py contains 0 occurrences of effectiveCapability, and its single occurrence of expectedEffectiveCapability is a hardcoded string literal \"replayable\" in the construction of its availability fixture. v22 asserted the availability outcomes; it computed none of them.",
+   "The disposition lane's ground -- that the property was stated in reviewed-PASS bytes but nothing computed it -- is factually correct on the live bytes."
+  ],
+
+  "evidenceOnWhichItDischarges": [
+   {
+    "id": "EV-1-INDEPENDENT-REIMPLEMENTATION",
+    "statement": "The reviewer wrote an independent implementation of UNIT-ID-V3 and effective_capability from retention-tiers.v22.json's declared semanticClosureGrammar plus evaluation-proof.v5.json's componentFrame/blobFrame definitions, without reading check-retention-custody-v23.py's derivation code. All results below come from that implementation.",
+    "probeFile": "scratchpad/mypartb.py (reviewer-authored, outside the repository)"
+   },
+   {
+    "id": "EV-2-SEALED-UNIT-IDS-RECOMPUTE-BYTE-EXACTLY",
+    "statement": "Both sealed unitIds recompute byte-exactly from v22's own sealed closure bytes.",
+    "measured": {
+     "unit3:sha256:5c6c613a74f68e39a5052a06274fa612888a63c327f0a1c8ae03c86ede1b9adc": "MATCH",
+     "unit3:sha256:22311dbe7dd9fd958d1946e6795a2add39298a41fa6eb82f918ee61c312054ed": "MATCH"
+    },
+    "unitSetCommitmentRecomputed": "sha256:923ce680f710107d3175fcf0e29c698dbf3866637bf19fb011785e5b1d2c3eb9",
+    "agreesWithV23Declared": true
+   },
+   {
+    "id": "EV-3-TWO-SIDED-CONTROL-HOLDS",
+    "statement": "Availability mutation leaves the unitId unchanged (the property purge relies on); objectRef mutation moves it (which is what stops the first half being vacuous). Both directions confirmed independently.",
+    "vacuityRisk": "ADDRESSED"
+   },
+   {
+    "id": "EV-4-ALL-FOUR-V22-FIXTURES-DERIVE-AND-AGREE",
+    "statement": "This is the specific gap the disposition lane named. All four of v22's previously ASSERTED availability fixtures were derived from v22's own sealed closure by the reviewer's implementation and agree with v22's declared values.",
+    "measured": {
+     "AF-01-ALL-AVAILABLE": {"v22Declared": "replayable", "reviewerDerived": "replayable", "agrees": true},
+     "AF-02-REPLAY-MISSING": {"v22Declared": "verifiable", "reviewerDerived": "verifiable", "agrees": true},
+     "AF-03-VERIFY-PURGED": {"v22Declared": "recorded", "reviewerDerived": "recorded", "agrees": true},
+     "AF-04-VERIFY-OUTAGE": {"v22Declared": "recorded", "reviewerDerived": "recorded", "agrees": true}
+    },
+    "note": "AF-03-VERIFY-PURGED is the exact fixture the lane cited as asserted-not-computed. It now derives."
+   },
+   {
+    "id": "EV-5-PROPERTIES-VERIFIED-AND-STRONGER-THAN-CLAIMED",
+    "statement": "P1, P2, P4 and P5 reproduced exactly over the claimed space; P1, P2, P3 and P5 additionally survive 40000 randomised MULTI-position trials, which is outside the space v23 claims.",
+    "measured": {
+     "P1-CEILING": "276/276",
+     "P2-FLOOR": "276/276",
+     "P4-SEAL-ENTERS-ONLY-AS-CEILING": "276/276 (result == min(sealed, best_achievable) at every point; the sealed value influences the result only as an upper bound, never the satisfied() computation)",
+     "P5-CAUSE-BLIND": "46/46",
+     "multiPositionRandomTrials": 40000,
+     "P1violations": 0,
+     "P2violations": 0,
+     "P3violationsPurgeRaisesCapability": 0,
+     "P5violations": 0
+    },
+    "attackResult": "No input was found in which purging raises capability, and none in which the sealed value influences the result other than as a ceiling."
+   },
+   {
+    "id": "EV-6-WITHOUT-REWRITING-THE-SEALED-RUN-IS-BYTE-LEVEL",
+    "statement": "The second half of the obligation is established structurally, not by assertion: the UNIT-ID-V3 preimage the reviewer recomputed is precisely the grammar that excludes objectStates and effectiveCapability, so the mutable side cannot enter the sealed bytes. The unit-set commitment is invariant under every declared purge vector. 16 named sealed surfaces are declared unmutated and 2 mutated."
+   },
+   {
+    "id": "EV-7-EVIDENCE-V10-DIFFERENTIAL-GENUINELY-EVALUATED",
+    "statement": "evidence.v10.json#/availabilityDifferential exists live; its changesOnly and invariant lists match what v23 declares, element for element. v23 reads them from the pinned bytes and evaluates them (recomputing each named invariant over the sealed bytes and requiring at least one changesOnly item to differ) rather than byte-comparing them. Inverting the lists upstream would change what is checked rather than pass silently.",
+    "priorState": "declared in evidence.v10 and never evaluated -- confirmed by the 0-occurrence measurement above"
+   },
+   {
+    "id": "EV-8-APPEND-ONLY-ATTACKED-AND-HELD",
+    "statement": "Hostile ledgers constructed by the reviewer. AVAILABLE, OUTAGE and MISSING-DEPENDENCY after PURGED are each refused; sequence break (1,3), sequence restart (1,1), sequence starting at 2 and descending sequence are each refused; repeated PURGED is idempotent. Project scoping and recordKind scoping are correct: an identical digest under a different ProjectId or recordKind is a distinct key and is unaffected by a purge, matching the declared projectScope rule.",
+    "attackResult": "No path found that reverses a terminal loss or hides one."
+   },
+   {
+    "id": "EV-9-SECOND-READER-CLAIM-HOLDS",
+    "statement": "The second-reader claim is exactly what the reviewer's own independent implementation performed: it re-hashed v22's sealed bytes, recomputed identical unitIds and an identical unit-set commitment, folded an advanced ledger and derived a lower capability. Nothing re-hashed moved. The claim is not merely consistent -- it was executed by a second reader."
+   },
+   {
+    "id": "EV-10-D9-ROWS-DERIVED-NOT-AUTHORED",
+    "statement": "All 4 purged-run inspection rows and all 8 Part A rows carrying d9Axes were re-derived through the pinned D9 v1.14 reference derivation by the reviewer. Zero mismatches. The three forbidden mappings each derive indeterminate and disagree with their declared class, exactly as recorded."
+   }
+  ],
+
+  "whyTheD9GapDoesNotBlockItem3": "Item 3's obligation is a statement of how purge changes current evidence availability under a preserved seal. That is a semantic obligation about the availability derivation, and it is discharged. The D9 reason-code gap concerns how that state is reported at PROCESS TERMINATION, which the obligation text does not reach. The gap is a genuine defect in the product's operability surface, it is owned by D9 rather than by this artifact, and it is published with measured values as RT23-B-RES-01. It should block any future claim that purged-Run inspection is operable -- which this artifact does not make, keeping G5 unclaimed and G19 BLOCKED.",
+
+  "whyThePartABlockerDoesNotBlockItem3": "The blocker is an incompleteness in Part A's enumeration of PLAN-ID-V1 injection positions. Item 3 is discharged entirely by Part B, whose evidence chain (v22 sealed bytes -> UNIT-ID-V3 -> effective_capability -> availability fixtures -> D9 rows) never reads the retention policy object, the ask decision table or the PlanId exclusion. Verified empirically: every Part B defect probe produced 0 Part A findings, and --part b exits 0 independently.",
+
+  "whatWouldHaveMadeMeRuleOtherwise": [
+   "Any one of AF-01..AF-04 failing to derive, or deriving a value that disagreed with v22.",
+   "Either sealed unitId failing to recompute from the declared grammar, or the two-sided control's second half failing (which would have made the recomputation vacuous).",
+   "Any input in which purging raises capability, or in which the sealed value entered the result other than as a ceiling.",
+   "The empty reason-code list being an authored value rather than the reference derivation's own output for deficiency=none.",
+   "A silent change to any v22 surface that v22's PASS covered."
+  ],
+
+  "plainStatement": "On these bytes, V10 requiredResolution item 3 discharges. The property is no longer prose: it is a computed function whose outputs an independent reimplementation reproduced, over the head candidate's own sealed closure bytes, including the one fixture the disposition lane named as asserted rather than computed. The author's refusal to self-certify was correct procedure, and the condition the author set -- that the item becomes dischargeable when these bytes pass an independent review -- is met by this review for Part B."
+ },
+
+ "v22InheritanceAdjudication": {
+  "question": "Is the inheritance genuinely BY-REFERENCE, or does v23 silently change something v22's PASS covered?",
+  "answer": "GENUINELY BY-REFERENCE. No silent change found.",
+  "checksPerformed": [
+   {
+    "check": "predecessor bytes unmoved",
+    "result": "retention-tiers.v22.json hashes to 52aa540d... on disk, equal to the digest pinned in v23's inheritance record and to the digest the v22 review recorded at both start and end."
+   },
+   {
+    "check": "predecessor PASS re-read live",
+    "result": "retention-tiers.v22.review-independent-prefreeze.json carries decision PASS, blockingFindingCount 0, blockingFindingIds [], reviewedCandidateState CANDIDATE-NOT-APPLIED/AWAITING-INDEPENDENT-REVIEW. Digest a30e84cb... matches the pin."
+   },
+   {
+    "check": "carried fragments equal live v22 canonically",
+    "result": "7 of 7 pointers resolve against live v22 and compare equal under canonical JSON. NOTE: the dispatch brief said six fragments; the artifact declares and carries SEVEN (carriedFragmentCount 7, pointer list length 7, fragment map size 7, all three agreeing). The brief understated; the artifact is correct."
+   },
+   {
+    "check": "root-key shadowing",
+    "result": "v23 and v22 share exactly 9 root keys, and that set equals sharedMetadataRootKeys exactly. All 11 of v22's semantic roots (semanticBasisProjection, semanticLeaseProtocolV3, operationalCustodyProjectionContract, storageAndLineage, custodyPolicy, semanticOwnershipBoundary, invariants, assurance, rawPhysicalIdentityContract, verifiedSemanticRtApiContract, dependencies) are absent from v23. shadowedPredecessorSemanticRootKeys: [] is correct."
+   },
+   {
+    "check": "declared predecessor root key list matches live",
+    "result": "predecessorRootKeys equals the live v22 root key set and predecessorRootKeyCount equals 20."
+   },
+   {
+    "check": "repairedSurfaces",
+    "result": "[] -- and consistent: v23 defines none of v22's semantic surfaces, so there is nothing it could have repaired."
+   },
+   {
+    "check": "on-disk footprint",
+    "result": "git status over docs/coop shows only the pre-existing untracked directory entry. Removing v23's two files from a probe copy leaves check-threat-claims.py and check-completeness.py output BYTE-IDENTICAL, and check-claims.py byte-identical, confirming v23 edited nothing else."
+   }
+  ],
+  "consequence": "v22's PASS continues to apply to v22's bytes, and v23 does not borrow it for anything v23 adds. The two added surfaces stand or fall on their own evidence, which is how this review treated them."
+ },
+
+ "emptyReasonCodeAdjudication": {
+  "question": "Is an empty reason-code list acceptable, or is a class with no remedy a defect that blocks item 3?",
+  "ruling": "ACCEPTABLE. It is honesty, not a cop-out. It does not block item 3. The class-with-no-remedy is a real defect, correctly located outside this artifact's authority, and correctly published rather than papered over.",
+  "reasoning": [
+   "The empty list is DERIVED, not chosen. The reviewer called the pinned D9 v1.14 reference derivation directly on the declared axes: deficiency=none returns class 'indeterminate' with codes {}. v23 is reporting what the reference derivation produces, not authoring a convenient value.",
+   "The gap is MEASURED, not asserted. Live recomputation confirms 9 deficiency members (the declared list equals the live list element for element), 9 reason codes, 19 error codes, and 0 of any of them matching the retention token predicate. The measurement is recomputed on every run from the pinned D9 bytes.",
+   "Every in-vocabulary alternative misattributes, and v23 enumerates why for nine spellings. The reviewer checked the sharpest one: CAS.LINK_FAILED would attribute an AUTHORIZED DELETION to a storage fault and emit the remedy 'run store repair'. Emitting that would be worse than silence -- it would send an operator to repair a store that is working correctly.",
+   "Picking a code would be the exact failure this corpus exists to catch. v23's authority record sets mayAmendD9Vocabulary: false. D9 owns its closed vocabulary. An architecture candidate inventing a termination code for a contract it does not own is the same shape as the fabricated sign-off recorded in freeze 4.4.",
+   "The cause is not lost, only relocated. It is carried in the typed refusal inside the inspection payload (RETENTION_EVIDENCE_PURGED). v23 states plainly that this is not on the termination, and states the cost in its own words rather than hiding it.",
+   "The successor is REQUESTED-NOT-ADDED with a complete proposal -- deficiency id, reason code, remedy text -- and a justification measured against D9's own rule that two remedies behind one code is a defect. That is the correct disposition for a vocabulary one does not own.",
+   "The three forbidden mappings are refused by DISAGREEMENT WITH THE LIVE DERIVATION, not by a hardcoded denylist. The reviewer confirmed all three derive indeterminate/3 against their declared operational-failed/4, success/0 and request-rejected/2."
+  ],
+  "whatTheGapDoesBlock": "It should block any release-qualification claim that purged-Run inspection is operable, and it should be carried forward as an open D9 successor request. A caller reading only the termination gets exit 3 and no remedy, which is a real operability defect. v23 makes no operability claim: G5 remains IMPLEMENTABLE and unclaimed, G19 remains BLOCKED.",
+  "contraryViewConsidered": "The strongest case for blocking is that a terminal class with no distinguishing code is indistinguishable from any other indeterminate, so the purge cause is invisible at the process boundary. That is true and is why RT23-B-RES-01 exists. It is an operability defect in the product, not a failure of item 3's obligation, whose text concerns availability semantics under a preserved seal."
+ },
+
+ "centralClaimAdjudications": [
+  {
+   "id": "A1-CI-NON-INTERACTIVE",
+   "claim": "CI never prompts, never writes and never infers a policy; absent+ephemeral proceeds with G4 disclosure, absent+durable-authoritative is refused at request-validation as request-rejected / REQUEST.UNSATISFIABLE / exit 2; and reading an already-persisted policy is not resolving layer 4 because the policy is host-owned project state, not a configuration layer.",
+   "adjudication": "SOUND, with a named residual hazard the artifact does not record.",
+   "attackAndResult": "The distinction was attacked directly against the live definition of layer 4. resolved-inputs.v2.json#configuration.precedence defines layer 4 as 'untracked local override', custody 'user machine', affectsPlanId 'local-interactive only', productDecision CI_IGNORES_LAYER_4. ProjectRetentionPolicyV1 is structurally not that object: it is not in the precedence chain, it overrides no configuration key, it decides no analysis-affecting field value, it lives outside the worktree and outside the analysis snapshot root, and it does not enter PlanId (verified below). So it does not smuggle a configuration input into CI in the sense layer 4 means. The refusal derivation was independently confirmed: the declared axes return request-rejected at exit 2 through the pinned D9 reference.",
+   "residualHazardNotRecordedByTheArtifact": "A1-RI-04's own stated rationale reads: 'an unreviewed file that flips CI when present is still a trust problem: the laptop passes and CI fails, or worse the reverse.' Cell 2 (ci / ABSENT / DURABLE_AUTHORITATIVE) refuses at exit 2 while cell 6 (ci / PRESENT-DURABLE_RETAINED / DURABLE_AUTHORITATIVE) proceeds durable. An out-of-worktree, unreviewed, host-owned file therefore flips a CI outcome by its presence -- in the permissive direction the freeze text calls 'worse'. The formal distinction from layer 4 holds; the HAZARD that motivated CI_IGNORES_LAYER_4 is reproduced and is not named as a residual.",
+   "verdict": "The distinction is sound and does not smuggle a configuration input into CI. Recorded as a non-blocking observation that the reproduced hazard is unlisted."
+  },
+  {
+   "id": "A2-TRIGGERING-RUN-REFUSE-UNTIL-ANSWERED",
+   "claim": "The 'evidence already in memory' premise is created by asking too late; relocating the ask to request-validation means at ask time there is no ExecutionId, AttemptRecord, SnapshotId, PlanId or Run, so there is nothing to buffer and nothing to discard.",
+   "adjudication": "VERIFIED AGAINST SOURCE, not accepted. This is the strongest decision in Part A.",
+   "attackAndResult": "The ordering claim was checked against c2-plan-stage-schema.v4.json@sha256:48762847... directly. It is confirmed in near-verbatim language: theAdmissionBoundary.levels[0] is request-validation and levels[1] is attempt-admission; planIntent.lifecycle.onInvalidOrExcluded reads 'Reject at request-validation. No ExecutionId, AttemptRecord, SnapshotId, PlanId or Run exists.'; planIntent.validationTotality.boundary reads 'Invalid returns during request-validation before ExecutionId, AttemptRecord, SnapshotId, PlanId, ExecutionPlan or Run allocation.'; resolves.B-C2V2-01 confirms ExecutionId is allocated BEFORE snapshot work. resolved-inputs.v2.json#planIdContract.ownerAndLifecycle.allocationPoint independently confirms PlanId is allocated 'after attempt admission, after the Snapshot is sealed'. Freeze law 6 confirms ExecutionId allocation at attempt admission. The ordering request-validation < attempt-admission < snapshot-binding < PlanId is established from three independent sources.",
+   "invariantCheck": "RT23-A-INV-04 is enforced per cell, not globally: the checker requires lifecyclePhase == request-validation and executionIdAllocatedAtThisPoint == false on every one of the 12 cells, plus four askProtocol flags (executionIdAllocatedWhileTheQuestionIsOpen, attemptRecordExistsWhileTheQuestionIsOpen, snapshotCapturedWhileTheQuestionIsOpen, evidenceInMemoryWhileTheQuestionIsOpen) all false. Confirmed: all 12 cells declare request-validation and no ExecutionId, and the selftest case PA-CX-11-ASK-AFTER-ADMISSION mutates exactly that field and is caught by RT23-A-INV-04 naming the position.",
+   "rejectedAlternatives": "Both rejections are sound. Buffering does hold user-derived evidence under no policy and does reach swap, which freeze section 7 records DeletionProtocol cannot erase, so a later 'no' could not be honoured. Discard-and-re-run does make a real partial execution unrecorded. Relocating the ask is the only option that removes the premise rather than managing it.",
+   "verdict": "SOUND. The premise the design attacks is genuinely an artifact of ask timing, and the ordering that makes the repair work is confirmed in C-2 v4's own text."
+  },
+  {
+   "id": "A3-DISMISSAL",
+   "claim": "Timeout, EOF, exhausted re-prompts and SIGINT all yield request-rejected / REQUEST.UNSATISFIABLE / exit 2; no dismissal persists a policy; dismissal does not suppress the next ask; non-TTY stdout and piped stdin are profile classifications, not dismissal states; a bare newline is malformed, not an answer.",
+   "adjudication": "SOUND on the consent-by-silence attack; the stated rationale for the channel closure OVERCLAIMS.",
+   "attackAndResult": "The reviewer tried to construct a path where silence, timeout or a pipe becomes consent and FAILED on every one. All four dismissal outcomes carry policyPersisted false, persistedPosture NONE and terminatesTheRequest true. Critically, a dismissal does NOT fall back to the ephemeral path: it terminates at exit 2. The explicit 'no' (PA-INT-02) also refuses rather than silently demoting to ephemeral, so there is no path in which failing to answer produces a proceeding run. dismissalSuppressesTheNextAsk is false, closing consent-by-exhaustion. answerChannelEnum is exactly ['controlling-tty'] and stdinIsNeverAnAnswerChannel is true, so a pipe cannot supply the token. The SIGINT derivation was independently confirmed: exit 130 requires admission=admitted, which is false pre-admission, so exit 2 is derived and not chosen.",
+   "overclaim": "whyChannelIsClosed argues stdin is excluded because 'consent could be forged by the same automation the CI rule exists to keep out.' Closing the channel to the controlling terminal does not achieve that objective. A harness that allocates a pseudo-terminal (script, expect, unbuffer, docker -t) satisfies answerChannel: controlling-tty and can type the token. The artifact contains zero mentions of pseudo-terminals. Compounding this, nonTtyStdoutAndPipedStdin ties profile classification to TTY-ness ('a non-TTY stdout or a piped stdin is profile ci'), so under a pty the invocation is not forced to ci and the ask path opens -- meaning an automated harness could cause a durable retention policy to be persisted with no human present. v23 specifies no procedure for classifying invocationProfile; it cites only the enum's authority.",
+   "mitigating": "PLAN-ID-V1 tag 4 describes invocationProfile as a 'host composition profile', which admits a reading in which the profile is declared at composition time rather than sniffed from isatty. Under that reading a pty wrapper does not change the profile and CI stays CI. The artifact does not say which reading governs.",
+   "verdict": "The consent-by-silence attack fails: no path found where silence, timeout or a pipe becomes consent. The channel-closure rationale overclaims and the pty vector is unrecorded. Non-blocking."
+  },
+  {
+   "id": "A4-PLANID-EXCLUSION",
+   "claim": "The persisted policy appears at no position of the PLAN-ID-V1 preimage; of 8 injection positions 6 are refused by PLAN-ID-V1's own closed-schema rules and 2 are not, both closed only by RT23-A-INV-08.",
+   "adjudication": "The core exclusion is TRUE and the anchoring is excellent. The ENUMERATION IS INCOMPLETE, and that incompleteness is the one blocking finding of this review.",
+   "goldensReproducedIndependently": {
+    "method": "The reviewer wrote a PLAN-ID-V1 implementation (CVE1 encoder, 13-field preimage, framing) from resolved-inputs.v2.json#planIdContract prose alone, not from the checker's code.",
+    "planid-v1-ci-minimal": {"reviewerComputed": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4", "preimageByteLength": 2500, "matchesPinnedGolden": true},
+    "planid-v1-budget-changes-identity": {"reviewerComputed": "plan1:sha256:ce413a1752b7ebc29fce10e6c24a70fe24c830fdb1490420d9292d3adcf24b9a", "matchesPinnedGolden": true, "differsFromAnchor": true},
+    "planid-v1-local-layer4-keyed": {"reviewerComputed": "plan1:sha256:1820fb587ce3d0a3f19d5bfb1737af9e8b8705948cbb39d4f38050684fee7c8b", "matchesPinnedGolden": true, "differsFromAnchor": true},
+    "assessment": "The instrument is genuinely anchored and genuinely moves when a declared analysis input changes. The sensitivity pair does make the invariance claim falsifiable, and RT23-A-RES-04's admission that the invariance vectors are 'deliberately close to trivial' is accurate and honest."
+   },
+   "coreExclusionVerified": "0 of the 13 live PLAN-ID-V1 preimage field names is a retention field, and the checker re-reads the live field name list rather than trusting the artifact's copy. PlanId is byte-identical under DURABLE_RETAINED, EPHEMERAL_ONLY and ABSENT, necessarily, because the policy is not a preimage field.",
+   "ninthPositionFound": "YES -- see blocker IR-RT23-01.",
+   "verdict": "Blocking on Part A."
+  },
+  {
+   "id": "B-EFFECTIVE-CAPABILITY-DERIVATION",
+   "claim": "P1 ceiling 276/276, P2 floor 276/276, P3 antitone, P4 seal-blind, P5 cause-blind 46/46, all exhaustively checked.",
+   "adjudication": "VERIFIED, and the exhaustiveness is over the space it claims.",
+   "spaceAudit": "276 = 23 raw object positions x 3 sealed capability values x 4 availability states, at SINGLE positions. 46 = 23 positions x 2 cause comparisons. RT23-B-RES-02 states this scope explicitly ('exhaustively crossed at single positions') and declares multiRunCases 0 and crossProjectCases 0. The claim does not overreach its space.",
+   "attackOnP3": "40000 randomised multi-position configurations were tested for a case in which degrading an additional AVAILABLE position RAISES the derived capability. Zero found. The property holds well outside the claimed space.",
+   "attackOnP4": "Tested in the strong form: for all 276 points, result == min(sealed, best_achievable), where best_achievable is computed with the sealed ceiling removed. The sealed value therefore enters only as an upper bound and never influences the satisfied() computation. No input was found in which any other sealed field affects the result.",
+   "verdict": "PASS. The properties are stronger than claimed and the claim is scoped honestly."
+  },
+  {
+   "id": "B-PREDECESSOR-FIXTURE-REPRODUCTION",
+   "claim": "All four of v22's previously asserted fixtures, including AF-03-VERIFY-PURGED, are now derived and agree.",
+   "adjudication": "VERIFIED INDEPENDENTLY. 4/4 derive from v22's own sealed bytes and agree. This is the single most load-bearing claim in the artifact and it holds.",
+   "verdict": "PASS"
+  },
+  {
+   "id": "B-UNIT-ID-RECOMPUTATION",
+   "claim": "Both sealed unitIds recomputed byte-exactly from v22's declared grammar with a two-sided control.",
+   "adjudication": "VERIFIED INDEPENDENTLY. Both match; the unit-set commitment matches; both halves of the two-sided control hold, so the recomputation is not vacuous.",
+   "verdict": "PASS"
+  },
+  {
+   "id": "B-PURGE-MUTATION-BOUNDARY-AND-APPEND-ONLY",
+   "claim": "Purge mutates exactly two things and 16 named things it does not; terminal loss is append-only; a second reader re-hashes identical sealed bytes and derives a lower capability.",
+   "adjudication": "VERIFIED under hostile construction. See EV-8 and EV-9.",
+   "onlyGap": "fold_ledger does not validate toState against the closed 4-state lattice. An undeclared toState with no prior purge is accepted and folded. It fails safe -- an unknown state is not AVAILABLE, so capability can only fall, and terminal reversal is still refused regardless of the spelling -- and lattice closedness IS enforced against the artifact's declared data elsewhere in the checker. Non-blocking.",
+   "verdict": "PASS with one non-blocking observation."
+  },
+  {
+   "id": "B-D9-VOCABULARY-GAP",
+   "claim": "0 of 9 deficiency members, 0 of 9 reason codes and 0 of 19 error codes name retention-driven read-time unavailability; the interim is indeterminate/exit 3 with an empty reason-code list plus a typed refusal in the payload.",
+   "adjudication": "VERIFIED. Counts confirmed live; declared deficiency member list equals the live list element for element; 0 matches for the retention predicate; the empty list is what the reference derivation returns for deficiency=none. See emptyReasonCodeAdjudication.",
+   "verdict": "PASS. Honesty, not a cop-out."
+  },
+  {
+   "id": "X-NO-PAPER-SEALS",
+   "claim": "mayConstituteAProductDecision is false; the artifact designs against the shape of the recorded intent and constitutes nothing.",
+   "adjudication": "VERIFIED SEMANTICALLY, not just structurally.",
+   "evidence": [
+    "check-product-dispositions.py exits 0 and attributes all 3 unbacked assertions to 1 historical artifact -- retention-tiers.v5.json, the REJECTED one. v23 is not among them.",
+    "The decisive test: running that scanner with and without v23 present. v23 adds 1 scanned artifact, 13 disposition sites, 12 semantically classified clauses and 2 packet cross-checks, and moves LIVE from 250 to 251 -- while the unbacked-assertion count stays at exactly 3 in exactly 1 historical artifact. v23 therefore introduces 13 disposition-shaped statements and NONE of them is an assertion the binding packet does not carry.",
+    "check_authority reads CD-RT-5 live from product-dispositions.v1.json, pins 15 authority values including sealRecommendation DO-NOT-SEAL and status CANDIDATE-NOT-APPLIED, requires mayConstituteAProductDecision to be false, requires citedIntent.kind to be RECORDED-PRODUCT-INTENT-NOT-A-SIGNATURE, and walks the entire document refusing the forbidden key aliases resolves / productDecision / productAcceptance / signOff / signedOff / approval / acceptedBy.",
+    "check-package-coherence.py records 'retention-tiers: documents name v22, disk has v23 -- successor review state NONE; head correctly unchanged'. The package head is still v22. v23 is not applied."
+   ],
+   "verdict": "PASS. No paper seal. CD-RT-5 remains BLOCKED_ON_PHASE_1A everywhere it is stated, and this review changed nothing."
+  },
+  {
+   "id": "X-SEPARABILITY",
+   "claim": "--part a and --part b adjudicate independently; rejecting one does not require rejecting the other.",
+   "adjudication": "VERIFIED EMPIRICALLY.",
+   "measured": "Both parts exit 0 independently. Every Part B defect probe (AF-03 value flipped, PURGED made reversible, unitId corrupted) produced 1 Part B finding and 0 Part A findings. Part A defect probes produced Part A findings; one probe additionally produced 2 findings under --part b, and both name Part A paths (RT23-MEASURED on Part A residual askingCells/nonAskingCells) because the shared-base residual recomputation runs in both modes by design. That is shared-base bookkeeping, not a Part B semantic dependency. crossPartInvariantReferenceCount 0 confirmed: 0 occurrences of RT23-B-INV- inside Part A and 0 of RT23-A-INV- inside Part B.",
+   "verdict": "PASS. The split verdict this review issues is legitimate."
+  }
+ ],
+
+ "blockers": [
+  {
+   "id": "IR-RT23-01-NINTH-PLANID-INJECTION-POSITION",
+   "scope": "Part A only. Does not affect Part B or the item 3 discharge.",
+   "severity": "BLOCKING for Part A",
+   "statement": "A ninth PLAN-ID-V1 injection position exists that v23 does not enumerate and that RT23-A-INV-08 does not close: capabilityGrants[].parameters, inside PLAN-ID-V1 preimage field tag 10.",
+   "howFound": "The reviewer enumerated every open sub-structure inside the 13 declared preimage fields and tested each against both the checker's plan_admit and the reviewer's own independent PLAN-ID-V1 implementation.",
+   "measured": {
+    "injectionShape": "capabilityGrants: [{grantId: 'grant-exec', grantVersion: '1.0.0', projectId: <scope.projectId>, capability: 'repository-execution', parameters: {retentionposture: 1}}]",
+    "usesTheFullClosedCapabilityGrantShape": "yes -- all 5 keys of planDescriptorSchema.nestedClosure.capabilityGrant are present, so this is not refused as an unknown-field violation",
+    "checkerPlanAdmit": "ADMITTED, no violation code",
+    "reviewerIndependentImplementation": "ADMITTED, plan1:sha256:2689242e8829cf84b93301daa0d2ce9803b0756558d4a605910fb647eb7b5c1c",
+    "bothImplementationsAgree": true,
+    "differsFromAnchor": true,
+    "twoSidedControl": "the identical grant with parameters {} mints plan1:sha256:7b2850c36894d87c941e900af1fe30d006095bf0126a263ca5025c7a2ad4c221, so the policy value alone changes the PlanId"
+   },
+   "whyItIsNotClosed": [
+    "RT23-A-INV-08 states: 'The host never passes the policy object, its posture or its identity to a contribution, a provider, a budget or a stage.' A capability grant is none of those four. It is its own preimage field (tag 10), and preimageFields tag 10 names 'execution/provider/contribution capability grants' -- so at minimum the EXECUTION grant case is outside every sink INV-08 enumerates.",
+    "RT23-A-INV-08 further states 'This is the only closure for the two injection positions PLAN-ID-V1 cannot refuse', asserting the open set has size 2. It has at least size 3.",
+    "RT23-A-RES-01's measuredBoundary states the exposure is 'confined to the two open sub-structures inside declared fields 8 and 12' (contributions and budgets). Field 10 (capabilityGrants) carries a structurally identical open parameters map and is not mentioned. That sentence is falsified on these bytes.",
+    "The checker's plan_admit performs no validation of capabilityGrants entries at all -- no closed-key check, no parameters constraint -- so the instrument cannot detect this position even in principle."
+   ],
+   "whyThisIsBlockingRatherThanAResidual": "v23 does not merely under-enumerate; it publishes a positive closure claim ('the only closure', 'confined to fields 8 and 12', injectionsNotRefusableByPlanIdV1: 2) that is false on its own subject bytes. The constraint being protected is stated by the artifact itself as: 'If it did, identical code would produce different PlanIds depending on a UX answer.' There exists a position where exactly that can happen and where neither the instrument nor any wiring rule in this artifact forbids it. In a corpus whose governing concern is claims that outrun their measurement, a stated-complete closure with a hole in it is the failure mode, not an oversight.",
+   "narrowestRepair": "Extend RT23-A-INV-08's sink list to include capability grants (and state it as a closed rule over PLAN-ID-V1 preimage positions rather than an enumeration of sinks), add the position to injectionVectors, and correct RT23-A-RES-01's measuredBoundary. No change to Part B and no amendment to RESOLVED-INPUTS is required. The reviewer notes v23 correctly identifies that narrowing PLAN-ID-V1 itself belongs to RESOLVED-INPUTS and is not this artifact's to do.",
+   "additionalPositionsFoundButNotSeparatelyBlocking": "Eight further positions were found that the checker's plan_admit admits and that mint a differing PlanId: semanticUniverses[].universe.resolvedInputs.cfg, scope.requestedPaths, contributions[].verificationEvidenceId, a pattern-conformant budgets key (retention.posture.items), a renamed resolvedConfiguration row, workflow.stages[].capabilityGrants, changeSpec.vcsAdapterId and release.profileId. Several of these are closed in substance by the real contract's joins to verified manifests or by input class, and several fall inside INV-08's 'provider' or 'stage' sinks. They are recorded here because collectively they show the 8-position enumeration is illustrative rather than closed, and because they make the direction of RT23-A-RES-01's conclusion MORE true, not less: the PlanId exclusion rests on host wiring that no instrument enforces."
+  }
+ ],
+
+ "nonBlockingObservations": [
+  {
+   "id": "IR-RT23-N01-RESIDUAL-BOUNDARY-PROSE-NOT-SEMANTICALLY-BOUND",
+   "statement": "A residual's measuredBoundary can be made to state something false while staying green, provided the recomputed digits still appear somewhere in the text. check_residual_measurements requires each recomputed metric to equal its declared value AND to appear in the boundary text under a digit-boundary regex, but does not bind the prose's meaning.",
+   "demonstrated": "The reviewer replaced RT23-A-RES-01's measuredBoundary with '8 of 6 positions are refused by the instrument and 0 are not; 13 of the 2 PLAN-ID-V1 preimage field names is a retention field.' -- self-contradictory and false -- and the checker STAYED GREEN. All other residual attacks were caught: wrong measuredValues (3 variants), emptied measuredValues, unknown metric name, and a boundary with a digit removed, plus residual deletion caught by the root retainedResiduals cross-check.",
+   "assessment": "The mechanism is sound against DRIFT, which is its stated purpose per freeze section 7 -- if the measurement changes, the required digits change and stale prose fails. It is not sound against deliberate re-wording. Worth recording because this artifact's residual ledger is the main thing a reader trusts.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N02-INPUT-CLASS-REFUSAL-IS-NAME-BASED",
+   "statement": "plan_admit refuses resolvedConfiguration rows via POLICY_INPUT_MARKERS string matching on 'retention.', 'retentionPolicy' and 'retentionPosture'. A row with path 'storage.mode' and value 'DURABLE_RETAINED' is admitted and mints a differing PlanId. Under the real contract this position is closed by input class (CFG-9: every non-allowlisted key is FORBIDDEN from analysis resolution), which the instrument cannot measure. PA-CX-02's 'refusedByPlanIdV1: true' is therefore instrument-relative and name-dependent.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N03-PA-CX-08-VECTOR-UNDERSTATES-PLANID-CLOSURE",
+   "statement": "PA-CX-08 injects the budget key 'retention.posture', and its stated reason is that PLAN-ID-V1 'enumerates no registry'. In fact planDescriptorSchema.budgetKeyPattern is ^[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*\\.(?:work-units|milliseconds|bytes|items)$, which 'retention.posture' does NOT match; plan_admit does not enforce the pattern. Under the full contract that exact vector would be refused.",
+   "assessment": "This works AGAINST v23's own interest -- it over-reports its own leak. The residual is nevertheless real: 'retention.posture.items' with an unsigned integer value matches the pattern, encodes cleanly, and mints a differing PlanId. Verified.",
+   "severity": "non-blocking; a conservatism error, not an overclaim"
+  },
+  {
+   "id": "IR-RT23-N04-CONSENT-CHANNEL-RATIONALE-OVERCLAIMS",
+   "statement": "See A3 adjudication. The stated threat (automation forging consent) is not closed by the stated control (answerChannel = controlling terminal), because a pseudo-terminal satisfies the control. The artifact has zero mentions of pseudo-terminals, and specifies no procedure for classifying invocationProfile despite tying CI safety to that classification.",
+   "assessment": "Probably unsolvable in general -- no software distinguishes a human at a terminal from a pty-driving harness. The defect is that it is unrecorded, in an artifact that records every other limit it has with measured values.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N05-A1-RI-04-HAZARD-REPRODUCED-BUT-UNLISTED",
+   "statement": "See A1 adjudication. An out-of-worktree, unreviewed, host-owned file flips a CI outcome by its presence (cell 2 refuses, cell 6 proceeds durable) -- the hazard A1-RI-04's own text names, in the direction it calls 'worse'. The formal layer-4 distinction holds; the hazard is not listed as a residual.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N06-FOLD-LEDGER-DOES-NOT-VALIDATE-TOSTATE",
+   "statement": "fold_ledger accepts an undeclared toState when no prior purge exists on that key. Fails safe (unknown is not AVAILABLE, so capability can only fall; terminal reversal is still refused regardless of spelling), and the closed lattice IS enforced against the artifact's declared data elsewhere, but not at the fold.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N07-PREDECESSOR-SWEEP-IS-AUTHOR-REPORTED",
+   "statement": "measuredSweep.predecessorSweepReproduction carries recomputedByThisChecker: false. It is the one measurement in the artifact that no instrument reproduces on any run, and it includes a third arm (intFromBool) that no previously published sweep ran.",
+   "reviewerVerification": "The reviewer reproduced it independently, driving the live check-retention-custody-v22.py as a subprocess against one-leaf-at-a-time mutations of a disposable copy of v22, restoring the bytes after every run. Results: float 271 swept / 0 admitted / 0 by-position / 271 categorical-ban / 0 collateral; boolFromZeroOrOneInt 47 / 0 / 47 / 0 / 0; intFromBool 52 / 0 / 52 / 0 / 0. The probe copy hashed to 52aa540d... before and after. This matches v23's reported numbers EXACTLY on all three arms, and confirms v23's characterisation that v22's float rejection is a categorical parser-level ban at exit 2 naming no position, recorded as a property of that instrument rather than a defect.",
+   "assessment": "The claim is true and the honesty label is correct. Recorded because the artifact's own standard is that a number no instrument recomputes is weaker evidence, and this is the only such number.",
+   "severity": "non-blocking; independently confirmed true"
+  },
+  {
+   "id": "IR-RT23-N08-V22-RESIDUALS-3-AND-4-NOT-RESTATED",
+   "statement": "retainedResiduals is a shared root key. v22's value is five prose paragraphs; v23's is thirteen of its own residual IDs. inheritedResidualsRestated carries three items, two of which are the v22 REVIEW's non-blocking findings (RT22-RF-01, RT22-RF-02) rather than v22's own retainedResiduals. v22's residuals 3 ('any downstream consumer must pin exact reviewed bytes and receive its own fresh integration review') and 4 ('no production byte store, liveness, fencing, persistence, transaction, durability, recovery, crash, concurrency or atomicity implementation is demonstrated') are not restated in v23.",
+   "assessment": "Defensible under BY-REFERENCE inheritance -- v22's bytes are untouched and still carry them, and v23's own RT23-B-RES-03 covers the same ground for Part B. But a reader of v23 alone does not see them, and this is the one place where the sharedMetadataRootKeyRule claim that 'sharing a name here is not shadowing a semantic surface' is weakest, because v22's retainedResiduals is substantive rather than identity metadata.",
+   "severity": "non-blocking"
+  },
+  {
+   "id": "IR-RT23-N09-FREEZE-GATED-ON-ANCHORS-NOT-DIGEST",
+   "statement": "IMPLEMENTATION-FREEZE.md is gated by 6 content anchors rather than a whole-file digest, with the reasoning that the file is under concurrent edit and a whole-file pin would manufacture false refusals. The reviewer confirms the trade-off is correctly reasoned and correctly labelled (citedNotGated, gate CONTENT-ANCHOR-PREDICATE), that all 6 anchors are present in the live file, and that removal of the cited text still fails closed. It remains a weaker gate than a digest: the file could be edited around the anchors without refusal. The recorded digest ebd68267... matches live disk at review time.",
+   "severity": "non-blocking; correctly disclosed"
+  },
+  {
+   "id": "IR-RT23-N10-BRIEF-UNDERSTATED-THE-FRAGMENT-COUNT",
+   "statement": "The dispatch brief described 'six fragments carried and compared canonically against live v22'. The artifact declares and carries SEVEN, with carriedFragmentPointers, carriedFragmentCount and the carriedFragments map all agreeing at 7, and all 7 comparing equal to live v22. The brief understated; the artifact is correct. Recorded per the instruction to note anything over- or understated.",
+   "severity": "non-blocking; not a defect in the subject"
+  }
+ ],
+
+ "dependentCheckerResults": {
+  "requiredExitZero": [
+   {"checker": "check-retention-custody-v22.py", "exit": 0},
+   {"checker": "check-d9-v1.14.py", "exit": 0},
+   {"checker": "check-evidence-v10.py", "exit": 0},
+   {"checker": "check-package-coherence.py", "exit": 0, "note": "records 'retention-tiers: documents name v22, disk has v23 -- successor review state NONE; head correctly unchanged'"},
+   {"checker": "check-product-dispositions.py", "exit": 0, "note": "3 unbacked assertions remain in 1 historical artifact (retention-tiers.v5.json, rejected); v23 not among them"},
+   {"checker": "check-claims.py", "exit": 0},
+   {"checker": "check-evaluation-proof-v13.py", "exit": 0},
+   {"checker": "check-c2-v8.py", "exit": 0}
+  ],
+  "allEightExitZero": true,
+  "expectedExitOne": [
+   {"checker": "check-completeness.py", "exit": 1, "cause": "IR-C2V4-01 / R2-FINAL-03 as declared", "outputByteIdenticalToBaselineWithoutV23": true},
+   {"checker": "check-rust-provider-protocol-v4.py", "exit": 1, "cause": "FileNotFoundError: 'rg' not present on this host, as declared"},
+   {"checker": "check-threat-claims.py", "exit": 1, "cause": "1 finding: T1 07-outcomes-and-failure.md unqualified confinement claim", "outputByteIdenticalToBaselineWithoutV23": true}
+  ],
+  "baselineMethod": "Baseline was ESTABLISHED rather than assumed: docs/coop was copied to a scratchpad probe, v23's two files were deleted from the copy, and each checker was run in both trees and the outputs diffed. check-threat-claims.py and check-completeness.py are byte-identical, confirming the pre-existing findings are unrelated to v23. check-claims.py is byte-identical. check-product-dispositions.py and check-package-coherence.py differ only by v23's own presence in their census counts, with the unbacked-assertion count unchanged at 3 in 1 artifact.",
+  "v23CheckerItself": {
+   "clean": 0,
+   "selftest": "37/37 mutations caught by their own named check, SELFTEST-PASS, exit 0",
+   "partA": 0,
+   "partB": 0,
+   "exitMatrixVerified": {"clean": 0, "findings": 1, "badInvocationOrPinMismatch": 2, "selftestRefusedOnDirtyBase": 3, "distinct": true},
+   "pinRefusalVerified": "Corrupting a pinned input in the probe tree produces 'RT23-PIN-REFUSED: the verified execution closure did not match its pinned digests, so nothing was parsed or executed: threat-model.v3.json: <actual> != <expected>' at exit 2, before any parsing. Non-isolated invocation (without -I) also exits 2 with RT23-UNSUPPORTED-INVOCATION.",
+   "pinTableIndependentlyVerified": "All 35 pinned digests re-parsed from the checker source by the reviewer and recomputed against disk: 35/35 match, 0 duplicates, 0 missing.",
+   "selftestAssertionStrength": "Confirmed strong: each case requires findings matching BOTH the expected finding id prefix AND the mutated JSON path (hits = [f for f in findings if f.startswith(finding_id) and position in f]). A non-zero exit alone is never accepted.",
+   "fixtureExerciseCheck": "Bidirectional and confirmed: every declared structural counterexample must name exercisedBy in {selftest-mutation, normal-run-construction}, its id must be in the corresponding checker-side registry, and its expectedFindingId must start with RT23-; conversely every id the checker exercises must be declared. 0 counterexamples missing exercisedBy."
+  }
+ },
+
+ "reviewerSweep": {
+  "method": "The reviewer ran an INDEPENDENT three-arm sweep, classified against the FULL run_all rather than against type_findings alone. The subject's own hostile_sweep evaluates mutations only against the exact-type admission layer; the reviewer's evaluates them against every check the instrument performs, which is a strictly stronger test.",
+  "leafCensusIndependentlyConfirmed": {"scalarLeaves": 2166, "intOrBoolLeaves": 337, "agreesWithArtifact": true},
+  "arms": [
+   {"arm": "float (int -> float)", "swept": 168, "ADMITTED": 0, "REJECTED-BY-POSITION": 168, "REJECTED-COLLATERAL": 0},
+   {"arm": "bool <- 0|1 int", "swept": 55, "ADMITTED": 0, "REJECTED-BY-POSITION": 55, "REJECTED-COLLATERAL": 0},
+   {"arm": "int <- bool", "swept": 169, "ADMITTED": 0, "REJECTED-BY-POSITION": 169, "REJECTED-COLLATERAL": 0}
+  ],
+  "totalMutations": 392,
+  "totalAdmitted": 0,
+  "totalCollateral": 0,
+  "agreesWithArtifactDeclaredSweep": true,
+  "assessment": "Every one of 392 type mutations is rejected by a finding that names its own JSON path. Zero collateral, so the corpus hazard the brief cites -- a collateral-rejected bool reaching green with three edits -- does not arise here. The 'unruled 0' claim is consistent: every non-string scalar leaf carries an exact-type rule, and the checker treats an unruled non-string leaf as a finding in its own right.",
+  "predecessorNonRegression": {
+   "subject": "retention-tiers.v22.json@sha256:52aa540d...",
+   "checker": "check-retention-custody-v22.py@sha256:497909c2...",
+   "method": "reviewer-driven subprocess sweep in a disposable probe copy; original bytes restored after every run; probe hashed identical before and after",
+   "v22LeafCensus": {"scalarLeaves": 3513, "intLeaves": 271, "boolLeaves": 52},
+   "arms": [
+    {"arm": "float", "swept": 271, "ADMITTED": 0, "REJECTED-BY-POSITION": 0, "REJECTED-BY-CATEGORICAL-TYPE-BAN": 271, "REJECTED-COLLATERAL": 0},
+    {"arm": "boolFromZeroOrOneInt", "swept": 47, "ADMITTED": 0, "REJECTED-BY-POSITION": 47, "REJECTED-BY-CATEGORICAL-TYPE-BAN": 0, "REJECTED-COLLATERAL": 0},
+    {"arm": "intFromBool", "swept": 52, "ADMITTED": 0, "REJECTED-BY-POSITION": 52, "REJECTED-BY-CATEGORICAL-TYPE-BAN": 0, "REJECTED-COLLATERAL": 0}
+   ],
+   "nonRegressionConfirmed": true,
+   "matchesV23ReportedNumbersExactly": true,
+   "categoricalBanCharacterisationConfirmed": "v22's float rejection is indeed a categorical parser-level ban at exit 2 that names no position, so a future auditor grepping finding text will not find those 271 leaves named. v23 reports this as a property of that instrument rather than as a defect, which the reviewer agrees is the correct characterisation."
+  }
+ },
+
+ "verifiedInputs": {
+  "recordingRule": "IMPLEMENTATION-FREEZE section 7.2: filename and SHA-256 for every input this verdict depends on. A count is not a record. Every digest below was recomputed by this reviewer against live disk during this review.",
+  "subjectsUnderReview": [
+   {"path": "artifacts/retention-tiers.v23.json", "sha256AtStart": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "sha256AtEnd": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "bytes": 147456, "movedDuringReview": false},
+   {"path": "artifacts/check-retention-custody-v23.py", "sha256AtStart": "18e94f7603869e8fdf295664f8d7eb46d9075ea8fc1791769045fb194b4a96a8", "sha256AtEnd": "18e94f7603869e8fdf295664f8d7eb46d9075ea8fc1791769045fb194b4a96a8", "bytes": 143445, "lines": 2610, "movedDuringReview": false}
+  ],
+  "reBaselineStatement": "Both subjects were re-hashed immediately before finalising this review and both are byte-identical to the digests recorded in the dispatch. No re-baselining was required; the claim register did not drift under this review.",
+  "inheritanceChain": [
+   {"path": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "predecessor candidate; source of all Part B sealed bytes"},
+   {"path": "artifacts/check-retention-custody-v22.py", "sha256": "497909c21118b656d222346d9498b7a9cac34ef3dd3bb0f29ef59c0db90e1c5c", "role": "predecessor checker; 0-occurrence measurement and non-regression sweep subject"},
+   {"path": "artifacts/retention-tiers.v22.review-independent-prefreeze.json", "sha256": "a30e84cbc67e25a2da231d0204202755c9ee2e3baf3bd0dc48039f4a8bc38600", "role": "predecessor PASS, re-read live: PASS / 0 blockers"}
+  ],
+  "derivationAuthorities": [
+   {"path": "artifacts/resolved-inputs.v2.json", "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43", "role": "PLAN-ID-V1 recipe, CVE1, goldens, configuration precedence / layer-4 definition; reviewer reimplemented PLAN-ID-V1 from this"},
+   {"path": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "closed termination vocabulary; gap counts recomputed from these bytes"},
+   {"path": "artifacts/check-d9-v1.14.py", "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e", "role": "reference derivation; reviewer called derive_class/derive_codes directly"},
+   {"path": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4", "role": "availabilityDifferential changesOnly/invariant lists, verified live"},
+   {"path": "artifacts/check-evidence-v10.py", "sha256": "0379bb9b9006558be9546774b177ed2a1e8c23d8000d16cc4a2cff9d8ed12bbd", "role": "0-occurrence measurement of effectiveCapability (confirmed 0)"},
+   {"path": "artifacts/c2-plan-stage-schema.v4.json", "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39", "role": "admission boundary; A2's ordering claim verified against this"},
+   {"path": "artifacts/evaluation-proof.v5.json", "sha256": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b", "role": "componentFrame/blobFrame definitions used by the reviewer's independent UNIT-ID-V3 implementation"},
+   {"path": "artifacts/threat-model.v3.json", "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499", "role": "V10 requiredResolution item 3 obligation text"},
+   {"path": "artifacts/operability.v10.json", "sha256": "9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be", "role": "G4/G5/G19 rows"},
+   {"path": "artifacts/product-dispositions.v1.json", "sha256": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c", "role": "binding product packet; CD-RT-5 BLOCKED_ON_PHASE_1A read live"},
+   {"path": "artifacts/v10-disposition.v1.json", "sha256": "acc74326c7c6cf999ad3c6efbccba31dcac8662e8b43cff4b3e733b42451caab", "role": "the lane that measured item 3 NOT DISCHARGED"},
+   {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "ebd6826798181829ed504d736c581821fc7749897e6e0715f1dc686c08197dca", "role": "section 4.5 recorded intent, section 5 dispositions, section 6 laws; all 6 cited anchors confirmed present"},
+   {"path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "role": "observed only; NOT TOUCHED by this review"}
+  ],
+  "dependentCheckersExecuted": [
+   {"path": "artifacts/check-package-coherence.py", "sha256": "f2c85958250a10296214e56fe799d0ff7e47f6cf23894dc2423f118e8e1eb52a"},
+   {"path": "artifacts/check-product-dispositions.py", "sha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4"},
+   {"path": "artifacts/check-claims.py", "sha256": "0226cfb5ab720e4e8b4696b2df4377cf17a143d84692001a6bc72fa53caaff4b"},
+   {"path": "artifacts/check-evaluation-proof-v13.py", "sha256": "0de5b5bfe16dcee539abcfd9f10de74062c90582fb0eeaebb92b52e33f3e04a1"},
+   {"path": "artifacts/check-c2-v8.py", "sha256": "b1470e788cad17fef4f4526a50f026d1a0402a9b485d108ca1f444c2d1360d11"},
+   {"path": "artifacts/check-completeness.py", "sha256": "f6760454683bed11c5306846edd8a2bb8e2f1c74e2c2582c87f1c777dd854d02"},
+   {"path": "artifacts/check-threat-claims.py", "sha256": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221"},
+   {"path": "artifacts/check-rust-provider-protocol-v4.py", "sha256": "85e022c8e2470dab7c1fc42e45b9a36b10ee436f5d5198ed7750a30cb3ae642f"}
+  ],
+  "checkerPinTable": "All 35 digests in check-retention-custody-v23.py's PINS table were independently re-parsed from source and recomputed against disk by this reviewer: 35/35 match, 0 duplicate names, 0 unreadable. The 6 citedNotGated digests recorded in the artifact were also recomputed and all 6 match live disk.",
+  "interpreter": "Python 3.14.6; every execution used python3 -I -B as required."
+ },
+
+ "workspaceMutations": {
+  "filesWrittenUnderDocsCoop": ["artifacts/retention-tiers.v23.review-independent.json"],
+  "count": 1,
+  "everyOtherFileUnderDocsCoop": "UNMODIFIED. All probes and mutations were performed on a disposable copy of docs/coop under the session scratchpad. ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was not touched. No status, seal, freeze or signature was changed anywhere. CD-RT-5 remains BLOCKED_ON_PHASE_1A.",
+  "verification": "git status over docs/coop shows only the pre-existing untracked directory entry; both subjects re-hash to their dispatch digests after all probing."
+ },
+
+ "whatIDidNotCheck": [
+  "v22's own surfaces. v22 is independently PASSED at 0 blockers over its own bytes and this review consumed it by reference, exactly as v23 does. I verified that v22's bytes are unmoved and that v23 changes nothing v22's PASS covered; I did not re-adjudicate v22's semantics, its lease protocol, its custody projection contract or its RT API contract.",
+  "The correctness of the D9 v1.14 reference derivation itself. I executed it as an oracle and verified that v23's rows agree with it. If derive_class is wrong, every derived row in v23 is wrong in the same way and this review would not have caught it. check-d9-v1.14.py exits 0 on its own contract.",
+  "The correctness of PLAN-ID-V1 as a design. I reimplemented it from its contract text and reproduced its pinned goldens, which establishes that v23's PlanId claims are computed correctly under that contract. Whether the contract's open parameters maps and unenumerated budget registry are the right design belongs to RESOLVED-INPUTS.",
+  "Any execution against a real store, terminal, signal handler, timeout, filesystem or process. Nothing in Part A or Part B was executed against anything real. The artifact says so (RT23-A-RES-02: 0 of 19 executed against a real terminal or store; RT23-B-RES-03: 0 of 2 mutation-boundary members executed) and I confirm I did not close that gap.",
+  "Multi-Run, multi-project and cross-closure behaviour of effective_capability. Exercised over exactly one closure -- v22's -- as RT23-B-RES-02 declares. My 40000-trial multi-position brute force was still within that single closure.",
+  "v22's published closureCommitment. I recomputed both unitIds and the unit-set commitment; I did not recompute the published closureCommitment, whose Merkle preimage reaches into the EP5 namespace. RT23-B-RES-04 declares this and I did not close it.",
+  "Whether the eight additional PLAN-ID-V1 positions listed under the blocker are each genuinely open under the FULL contract as opposed to merely admitted by the checker's simplified plan_admit. I established that capabilityGrants[].parameters is open under both, which is what the blocker rests on; for the others I did not adjudicate each join to a verified manifest individually.",
+  "The negative purge fixtures PN-01..PN-04, which v22's own review recorded as not recomputable and which v23 does not carry.",
+  "check-rust-provider-protocol-v4.py's actual findings, since ripgrep is absent on this host and it cannot run past its dependency check.",
+  "Items 1 and 2 of V10.requiredResolution. Untouched by this artifact and untouched by this review; V10 as a whole remains UNRESOLVED.",
+  "Whether the pty vector under IR-RT23-N04 is exploitable in any concrete host implementation, since no host implementation exists."
+ ],
+
+ "authorityBoundary": {
+  "whatThisReviewIs": "An independent adversarial review of two files. It discharges V10 requiredResolution item 3 on the bytes named above and rejects Part A on one blocking finding.",
+  "whatThisReviewIsNot": [
+   "It is not a seal, a freeze, an application, or an integration approval.",
+   "It is not a product decision and does not touch CD-RT-5, which remains BLOCKED_ON_PHASE_1A.",
+   "It does not change retention-tiers.v23.json's status, which remains CANDIDATE-NOT-APPLIED/AWAITING-INDEPENDENT-REVIEW as written by its author.",
+   "It does not make retention-tiers.v23.json the package head. check-package-coherence.py correctly records the head as v22.",
+   "It grants no authority to amend D9's vocabulary, RESOLVED-INPUTS, the threat model or the operability gates."
+  ],
+  "ifPartAIsRepaired": "The blocker names its narrowest repair. A repaired Part A requires its own fresh independent review; this review's Part A verdict does not carry forward to changed bytes. The Part B verdict and the item 3 discharge are bound to the exact digests recorded above and to nothing else."
+ }
+}

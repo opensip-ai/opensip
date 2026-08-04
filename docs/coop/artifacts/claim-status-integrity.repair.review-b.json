@@ -1,0 +1,155 @@
+{
+  "artifact": "opensip.review.claim-status-integrity-repair",
+  "version": "1.0",
+  "subject": "Agent-3 turn-3 repairs to artifacts/check-claims.py, claim-register.v1.json, and status restatements",
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "independence": {
+    "method": "Called the repaired check() directly with live and synthetic corpora. Used denominator reconciliation, Markdown section-scope counterexamples, an unregistered non-signature claim occurrence, and an unrelated-history-word mutation. Reviewer A's repair review JSON was not inspected or used.",
+    "differentInstrument": "The author demonstrated resolvable fragments and direct stale-version rejection. This review tested excluded location classes and whether nearby but semantically unrelated text could satisfy or suppress a check."
+  },
+  "verdict": "reject-require-v2",
+  "repairAssessment": {
+    "B-CSI-01": "PARTIAL. Missing/unresolvable Markdown fragments are no longer silent, the 55 Markdown locations are counted, and removing the live D9 inline marker is caught. Six artifact homes and one artifact restatement remain outside both the denominator and status check.",
+    "B-CSI-02": "PARTIAL. The self-test now proves one unresolved Markdown location is reported and reconciles its internal Markdown count. It cannot detect location classes omitted before stats accounting and still does not exercise CHK-3 or CHK-5.",
+    "B-CSI-03": "PARTIAL. CHK-5 catches a direct stale versioned filename, but its free-text historical exemption is overbroad, it is absent from the self-test, and the success banner still reports only CHK-0..CHK-4. CHK-3 remains a three-signature allowlist."
+  },
+  "resolves": {
+    "B-CSIR2-01": "OPEN-BLOCKER: the 24+31 coverage denominator silently excludes seven registered artifact/JSON locations.",
+    "B-CSIR2-02": "OPEN-BLOCKER: nearest-preceding-marker and broad-window logic do not model Markdown container scope; two status-placement counterexamples pass.",
+    "B-CSIR2-03": "OPEN-BLOCKER: CHK-3's universal enumeration claim remains false; an unregistered D9 restatement passes while the C-1 signature control is caught.",
+    "B-CSIR2-04": "OPEN-BLOCKER: an unrelated historical-context word suppresses CHK-5, which is also omitted from self-test and the success banner.",
+    "B-CSIR2-05": "OPEN-BLOCKER: register limitations, validator status, traceability prose, and the latest log disagree with the repaired implementation and authoritative D9/R1 blockers."
+  },
+  "findings": [
+    {
+      "id": "B-CSIR2-01",
+      "severity": "critical",
+      "category": "false-coverage-denominator",
+      "evidence": [
+        "The register contains 30 homes and 32 restatements: 62 registered locations.",
+        "The checker reports 24/24 homes and 31/31 restatements: 55 locations.",
+        "TM, VERSIONING, RESOLVED-INPUTS, OPERABILITY, DELIVERY, and FACT-IDENTITY have artifact-JSON homes; check() increments home_total only when docs() supplied Markdown text, so all six disappear before coverage accounting.",
+        "ARCH.RETENTION-TIERS restates into artifacts/threat-model.v2.json#V10.proposedResolution; the non-Markdown branch checks only file existence, does not increment rest_total, and does not inspect status at the target.",
+        "The canonical command exits 0 while describing the reduced denominator as complete."
+      ],
+      "impact": "The exact failure class just repaired survives at a type boundary: seven registered locations are silently omitted rather than unresolved. Binding JSON can present a candidate claim under stronger artifact-local language without affecting coverage or verdict.",
+      "requiredChange": "Define a typed locator for every home/restatement, including JSON field paths, load the supported artifact formats, validate the target and its local status, and count all 30 homes plus all 32 restatements. Unsupported locator kinds must be CHK-0 findings, not exclusions. Print both registered and checked totals by locator kind.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative scope limiting METHOD.CLAIM-STATUS-INTEGRITY to Markdown only, with the seven artifact locations removed from its registered location set and a separate checker enforcing artifact-local status."
+    },
+    {
+      "id": "B-CSIR2-02",
+      "severity": "high",
+      "category": "container-scope-misclassification",
+      "evidence": [
+        "status_at returns the nearest preceding status token without considering Markdown heading hierarchy or whether that token belongs to a closed sibling section.",
+        "A synthetic SEALED document with a CANDIDATE marker under `## Prior` and an unmarked candidate claim under sibling `## Target` exits with no finding: the prior sibling's marker bleeds into Target.",
+        "inline_marked searches 400 characters before and 600 after the target heading.",
+        "A synthetic unmarked candidate claim under SEALED passes when the same claim ID and the word candidate occur only in a later, different subsection.",
+        "Positive control: removing the real inline D9 candidate marks from architecture/02 produces the expected CHK-1 finding."
+      ],
+      "impact": "A correctly located claim can still inherit an unrelated weaker status or borrow an inline mark from another section. Location coverage is complete in the counterexamples, yet the status conclusion is false.",
+      "requiredChange": "Parse Markdown into heading-bounded sections and define status inheritance over that tree. Require a claim-specific marker at the exact claim occurrence or in a structured section header; do not use an unbounded nearest-token state or a cross-subsection character window. Mutation-test sibling, parent, child, preceding, and following markers.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A documented prose convention that status markers intentionally flow across sibling headings and that a later subsection may retroactively classify an earlier claim; that convention would conflict with method rule 8's container language."
+    },
+    {
+      "id": "B-CSIR2-03",
+      "severity": "high",
+      "category": "universal-claim-from-allowlist",
+      "evidence": [
+        "claim-register.checks.CHK-3 asserts every occurrence of every registered claim is enumerated.",
+        "check-claims.py SIGNATURES contains only ARCH.BASELINE.PRODUCER-DERIVED, ARCH.IDENTITY.LATEST, and C-1.",
+        "A synthetic second document stating `D9 is the total exit contract` while D9 has no registered restatement produces no finding.",
+        "Control: an otherwise identical unregistered C-1 `primary fact tier` phrase is caught by CHK-3."
+      ],
+      "impact": "The checker can prove enumeration for three lexical signatures only while reporting CHK-3 globally clean for all thirty claims. New restatements of the other twenty-seven claims can recreate the circular-status error outside the register.",
+      "requiredChange": "Either require explicit machine-readable claim references at every authoritative restatement and validate those references, or narrow CHK-3's declared property and output to the three signatures it actually scans. Add a non-signature claim negative control.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A separate mandatory inventory mechanism that detects the synthetic D9 occurrence and feeds CHK-3 before check() returns."
+    },
+    {
+      "id": "B-CSIR2-04",
+      "severity": "high",
+      "category": "unscoped-history-exemption",
+      "evidence": [
+        "CHK-5 suppresses a mismatch if any of `superseded`, `earlier`, `prior`, or `historical` occurs within a broad context window around the citation.",
+        "A direct foo.v1.json citation against binding foo.v2.json is caught by the control.",
+        "Adding only `Earlier, an unrelated benchmark was discussed` before the same current binding citation makes the finding disappear.",
+        "The self-test contains no CHK-5 mutation and the canonical success banner says CHK-0..CHK-4 clean even though CHK-5 ran."
+      ],
+      "impact": "Ordinary prose can accidentally whitelist a stale binding reference, and the command's observable claim does not say whether CHK-5 passed. The version repair can regress without its stated negative control noticing.",
+      "requiredChange": "Use a structured historical-reference marker tied to the exact citation, or require the context to grammatically classify that citation rather than scanning for free words. Add direct-current, direct-stale, explicitly historical-stale, and unrelated-history-word cases to self-test; report CHK-0..CHK-5 accurately.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A bounded grammar showing the unrelated sentence cannot occur in the accepted context; the executed counterexample demonstrates that it can."
+    },
+    {
+      "id": "B-CSIR2-05",
+      "severity": "medium",
+      "category": "repair-state-inconsistency",
+      "evidence": [
+        "claim-register.knownLimitations still says CHK-1 requires _probe, no claim supplies one, and an unmarked C-2 restatement passes; that describes the superseded implementation.",
+        "validator.liveStatus says register.checks lists only CHK-1..4 although the array now lists CHK-0..5.",
+        "architecture/11 still describes the checker as CHK-1..CHK-4.",
+        "architecture/11 says D9 axes determine code and cites old `v1.3 required` / R1 `v1.1 required` review states, while the authoritative register records D9 v1.5 only partially closing underdetermination and R1 v1.3 needing further revisions.",
+        "Agent-3's latest log calls D9 v1.5 and R1 v1.3 fixed after the register accepted the round-two blockers."
+      ],
+      "impact": "A reader cannot tell which properties the repair actually closed. The binding register is more cautious than its own metadata and narrative summaries, recreating cross-document status drift immediately after the repair.",
+      "requiredChange": "Update limitations, liveStatus, traceability, and the next log disposition from the authoritative blocker set. Do not describe D9/R1 as fixed until a new reviewed artifact closes the recorded findings. Prefer generated checker-version/coverage text over hand-maintained summaries.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "An explicit convention that these fields are immutable historical snapshots with dates; they are currently phrased in the present tense."
+    }
+  ],
+  "positiveControls": [
+    {
+      "mutation": "remove the live inline D9 candidate marks from architecture/02 in memory",
+      "observed": "CHK-1 D9 finding"
+    },
+    {
+      "mutation": "unresolvable Markdown fragment",
+      "observed": "CHK-0 finding and self-test coverage reconciliation"
+    },
+    {
+      "mutation": "direct stale versioned filename without history wording",
+      "observed": "CHK-5 finding"
+    },
+    {
+      "mutation": "unregistered C-1 signature phrase",
+      "observed": "CHK-3 finding"
+    }
+  ],
+  "negativeControls": [
+    {
+      "mutation": "candidate marker in a preceding sibling section only",
+      "observed": "no finding"
+    },
+    {
+      "mutation": "claim-specific candidate marker in a later subsection only",
+      "observed": "no finding"
+    },
+    {
+      "mutation": "unregistered D9 restatement outside its registered files",
+      "observed": "no finding"
+    },
+    {
+      "mutation": "direct stale filename preceded by an unrelated sentence containing `Earlier`",
+      "observed": "no finding"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    "architecture/10-method.md rule 7 — do not seal what remains under review",
+    "architecture/10-method.md rule 8 — status attaches to exact claims and containers, not incidental nearby prose",
+    "claim-register.v1.json CHK-0 — every registered home/restatement location must resolve",
+    "claim-register.v1.json CHK-1 — no restatement may exceed authoritative status",
+    "claim-register.v1.json CHK-3 — every claim occurrence is enumerated",
+    "claim-register.v1.json CHK-5 — current prose does not silently cite superseded binding artifacts"
+  ],
+  "knownLimitations": [
+    "Synthetic counterexamples invoke the same check() function in memory; no repository files were mutated to run them.",
+    "This review did not compare resolve_anchor against a rendered GitHub/CommonMark slug implementation or test duplicate-heading suffixes; those remain additional risks.",
+    "It did not inspect Reviewer A's repair review JSON. Prior Reviewer-A finding IDs already present in the authoritative register were visible before this pass, so overlapping denominator findings are confirmation by a different method, not blind discovery.",
+    "No new D9 or R1 subject version was available to review; their authoritative register entries now correctly retain the round-two blockers despite stale narrative claims."
+  ],
+  "confidence": "high"
+}

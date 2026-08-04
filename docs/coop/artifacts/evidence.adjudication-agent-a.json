@@ -1,0 +1,108 @@
+{
+  "artifact": "opensip.evidence.adjudication",
+  "adjudicator": "agent-a",
+  "adjudicates": [
+    "artifacts/evidence.v1.review-reviewer2.json",
+    "artifacts/d9-evidence.blind-reauthor.reviewer1.json"
+  ],
+  "method": [
+    "Reproduced R2 mutation escapes on clean-pass: duplicate members with matching count, missing universeCommitment, garbage verdictDerivation, boolean-only replayClosure \u2014 all escaped pre-repair.",
+    "Read validate() in check-evidence.py: E1 used only len(evals)!=declaredCount.",
+    "Reviewer-1 Phase-1 mustRejectBy agreed 10/10 with authored mapping; agreement is necessary but was insufficient for exact-activation depth.",
+    "Repaired evidence.v1.json and check-evidence.py; added RA-CE-10..12; 15 mutations."
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "R2-EVIDENCE-01",
+      "decision": "ACCEPT",
+      "evidence": "validate() compared only counts; same-cardinality substitution and duplicate member identities passed; universeCommitment unread.",
+      "reasoning": "Exact activation is a set-identity property. Count equality is a local form promoted to a global guarantee \u2014 Error class from the exercise history.",
+      "requiredChange": "memberIds + recomputed universeCommitment; unique members; RA-CE-10/11.",
+      "verification": "RA-CE-10/11 rejected by E1; mutation dropping RA-CE-10 rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A \u2014 defect reproduced and repaired."
+    },
+    {
+      "findingId": "R2-EVIDENCE-02",
+      "decision": "ACCEPT",
+      "evidence": "bundleSchema required verdictDerivation.verdict etc.; fixtures omitted verdict; garbage objects and schema deletion escaped.",
+      "reasoning": "Schema and validator contradicted; implementers cannot know which is binding.",
+      "requiredChange": "Schema validation before semantics; fix fixtures; mutation on schema deletion.",
+      "verification": "E-SCHEMA enforced; delete bundleSchema mutation rejected; accepting fixtures include verdict.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A."
+    },
+    {
+      "findingId": "R2-EVIDENCE-03",
+      "decision": "ACCEPT",
+      "evidence": "E2/E8 discharged by regenerationClosureRetained/offlineAvailable booleans; empty object sets accepted.",
+      "reasoning": "Verifiable/replayable must be checkable capabilities, not producer assertions.",
+      "requiredChange": "Typed content-addressed closures with non-empty objects + locallyResolvable.",
+      "verification": "Boolean-only replayClosure mutation rejected; RA-CE-12 empty regen rejected by E2.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A."
+    },
+    {
+      "findingId": "R2-EVIDENCE-04",
+      "decision": "ACCEPT",
+      "evidence": "noMatchConstruction committed subject set only; cost argument excluded fact custody; no verificationRequirement.",
+      "reasoning": "Universal negative requires predicate results over facts, not only set membership commitment. A1-RTV4-02 correctly stays open as measurement.",
+      "requiredChange": "verificationRequirement naming fact partition + predicate semantics; costArgumentLimitation; predicateSemanticsRef on verifiable no-match.",
+      "verification": "Dropping verificationRequirement fails E0; property classified as measurement gap not architecture fork.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A measured verification transcript from bundle-only inputs establishing every subject under P without re-exec \u2014 would change construction choice, not the requirement to state it."
+    },
+    {
+      "findingId": "R2-EVIDENCE-05",
+      "decision": "ACCEPT",
+      "evidence": "failing-run-with-witness and replayable-with-closure lacked what; clean-pass what was non-falsifiable.",
+      "reasoning": "Blind reauthor of accepting half requires human input.",
+      "requiredChange": "Falsifiable what on every accepting fixture; checker rejects missing what.",
+      "verification": "All five have what; strip-what mutation rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A."
+    },
+    {
+      "findingId": "R1-EVIDENCE-BLIND",
+      "decision": "ACCEPT-WITH-MODIFICATION",
+      "evidence": "Reviewer-1 10/10 mustRejectBy agreement; reviewer-2 same for assignment but found execution gaps under E1/E2/E8.",
+      "reasoning": "Invariant *assignment* was right; *implementation* of E1/E2/E8 was shallow. Agreement on labels is not seal evidence.",
+      "requiredChange": "Deepen validators (done).",
+      "verification": "Post-repair selftest 15/15.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Second-author blind of accepting fixtures after what prose (still desirable, not blocking architecture)."
+    }
+  ],
+  "resolves": {
+    "R2-EVIDENCE-01": "RESOLVED",
+    "R2-EVIDENCE-02": "RESOLVED",
+    "R2-EVIDENCE-03": "RESOLVED",
+    "R2-EVIDENCE-04": "RESOLVED-AS-SPEC-MEASUREMENT-OPEN",
+    "R2-EVIDENCE-05": "RESOLVED",
+    "R1-EVIDENCE-BLIND": "RESOLVED"
+  },
+  "sealedPropertiesCovered": [
+    "RA-1/E1 non-vacuity and exact member-set activation",
+    "RA-2/E2 no-match durability via content-addressed material",
+    "RA-3/E3 host-owned proof obligation",
+    "RA-4/E4 absence completeness",
+    "RA-6/E6 storage admission",
+    "RA-7/E7 evidence retention",
+    "RA-8/E8 typed replay closure",
+    "RA-9/E9 total verdict fold"
+  ],
+  "knownLimitations": [
+    "A1-RTV4-02 fold/reverification cost including fact custody is STRUCTURAL_ONLY \u2014 legitimate pre-implementation measurement gap.",
+    "Closure locallyResolvable is still a host projection flag; production must bind it to actual CAS resolution.",
+    "No second independent blind of accepting fixtures post-repair yet."
+  ],
+  "undischargedPropertyClassification": {
+    "A1-RTV4-02 no-match cost/measurement": "acceptable measurement question with a normative fallback (construction + verificationRequirement specified; measure before claiming orders-of-magnitude savings)"
+  },
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Architecture of evidence obligations is buildable. Do not claim measured cost advantage until A1-RTV4-02 is measured.",
+    "consumerB": "Yes for wire/evidence obligations; implement member-set activation and typed closures; treat cost numbers as non-normative until measured."
+  }
+}

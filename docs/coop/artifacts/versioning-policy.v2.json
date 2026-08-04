@@ -1,0 +1,614 @@
+{
+  "artifact": "opensip.versioning-policy",
+  "version": 2,
+  "status": "CANDIDATE-UNREVIEWED (v2 resolves all 8 v1 findings; binding under consumer B)",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO, NOT REVIEWED. Fixtures and validator share one author.",
+  "purpose": "Define how each public contract evolves. Without this, a small contract set is a promise with no mechanism \u2014 and the one contract whose artifacts live in user repositories has no upgrade path.",
+  "decisionDependencies": [
+    {
+      "id": "ARCH.CONTRACT-COUNT",
+      "source": "architecture/02-domain-model.md#kernel-sizing",
+      "claim": "structure is governed by a small set of public versioned contracts, not a package count"
+    },
+    {
+      "id": "ARCH.FINGERPRINT-RECIPE",
+      "source": "architecture/06-evidence-and-persistence.md#baselines-and-the-fingerprint-recipe",
+      "claim": "the recipe is versioned independently of the fact schema; skipped releases must not mass-invalidate"
+    },
+    {
+      "id": "ARCH.ENVELOPE",
+      "source": "architecture/07-outcomes-and-failure.md#public-output-is-a-discriminated-envelope",
+      "claim": "consumers pin a schema major and receive a typed refusal rather than a reshaped document"
+    },
+    {
+      "id": "ARCH.QUERY-BOUNDED",
+      "source": "architecture/04-fact-plane.md#fact-access-contracts",
+      "claim": "physical storage schema is private and freely migratable"
+    },
+    {
+      "id": "D9",
+      "source": "artifacts/d9-exit-contract.v1.6.json",
+      "claim": "exit classes are a public contract with executable goldens",
+      "direction": "VERSIONING depends on D9 for the additive-only exit-class rule (V4). D9 does NOT depend on VERSIONING.",
+      "note": "B-SCV2-06: v1 cited D9 v1.4 while scope-correction v2 asserted D9 depends on VERSIONING, making ownership circular or hidden. The direction is now declared and VER-DEP checks the citation resolves to the live binding artifact."
+    }
+  ],
+  "principle": {
+    "core": "A contract's evolution policy is determined by WHO HOLDS ITS ARTIFACTS, not by how important it feels.",
+    "rationale": "If the artifacts live only in our release, a breaking change costs a version bump. If they live in user repositories, a breaking change costs every user a migration they did not ask for \u2014 and if it happens silently, it costs their trust in the gate. These are different problems and cannot share one policy.",
+    "consequence": "Contracts are classified by artifact custody, and the custody class dictates the mechanism."
+  },
+  "custodyClasses": [
+    {
+      "class": "USER-CUSTODY",
+      "meaning": "Artifacts are created by the tool and stored in the user's repository, under their version control, outliving any release.",
+      "members": [
+        "fingerprint recipe / baselines",
+        "tracked project configuration",
+        "waivers",
+        "lockfile"
+      ],
+      "policy": {
+        "breakingChange": "Requires a migrator, not a major bump alone.",
+        "support": "Last K majors readable, K >= 2, published as a number not a vibe.",
+        "negotiation": "Every artifact self-declares the version it was written under. The host reads the declaration; it never infers from shape.",
+        "unsupportedVersion": "INDETERMINATE with repair instructions. NEVER a silent re-interpretation and never a mass net-new diff.",
+        "migration": "Explicit, previewable, and idempotent. `--check` shows the diff without writing.",
+        "dualEmit": "Where two identities can be computed, emit both during the transition window so a mid-upgrade fleet matches on either."
+      },
+      "why": "This is the class that can destroy trust. A user who skipped three releases and comes back to a flood of false net-new findings concludes the gate is unreliable \u2014 and they are right to."
+    },
+    {
+      "class": "CONSUMER-CUSTODY",
+      "meaning": "No stored artifact, but an external consumer's code depends on the shape at runtime \u2014 CI scripts, agents, dashboards.",
+      "members": [
+        "command envelope schema",
+        "exit classes and codes",
+        "typed query operations",
+        "agent protocol surface"
+      ],
+      "policy": {
+        "breakingChange": "New major, offered alongside the old for a published window.",
+        "negotiation": "The consumer requests a major explicitly. An unsupported request is a typed refusal, never a best-effort reshape.",
+        "unsupportedVersion": "REQUEST-REJECTED naming the supported range.",
+        "additive": "New optional fields are minor. A consumer that rejects unknown fields is non-conforming; this must be stated so additive change stays cheap.",
+        "exitCodesSpecial": "Exit classes may only be ADDED, never renumbered or repurposed. A build script cannot negotiate."
+      },
+      "why": "The failure mode is silent: a reshaped document parses, produces a different meaning, and CI does the wrong thing without erroring."
+    },
+    {
+      "class": "AUTHOR-CUSTODY",
+      "meaning": "Third-party authors compile or validate against it.",
+      "members": [
+        "fact query / rule IR vocabulary",
+        "provider protocol",
+        "contribution manifest",
+        "test kit"
+      ],
+      "policy": {
+        "breakingChange": "New major with an overlap window; contributions declare a supported range and the host refuses outside it at admission, not at first use.",
+        "negotiation": "Handshake at admission: host advertises supported ranges, contribution declares its requirement, mismatch is an admission rejection with both ranges named.",
+        "deprecation": "Announce, then warn on use, then refuse. Each stage is a release, not a day."
+      },
+      "why": "Cheaper than user-custody because authors can respond to a release; more expensive than internal because they are not us."
+    },
+    {
+      "class": "INTERNAL",
+      "meaning": "No external party depends on the shape.",
+      "members": [
+        "physical storage schema",
+        "cache and index layouts",
+        "private plan operators",
+        "internal worker protocols"
+      ],
+      "policy": {
+        "breakingChange": "Free. No version, no window.",
+        "requirement": "Anything derived must be REBUILDABLE from retained inputs, or it is not internal \u2014 it is evidence, and evidence is user-custody.",
+        "test": "If deleting it loses information a retained Run needs, it was misclassified."
+      },
+      "why": "The whole point of keeping storage private is to be able to change it. If internal layouts acquire external dependents, that freedom is lost silently."
+    }
+  ],
+  "versionedIdentities": [
+    {
+      "identity": "hostVersion",
+      "class": "release",
+      "note": "Not itself a contract; the vehicle."
+    },
+    {
+      "identity": "envelopeSchema",
+      "class": "CONSUMER-CUSTODY",
+      "form": "family + major",
+      "note": "Family distinguishes this contract from any predecessor with a colliding version number."
+    },
+    {
+      "identity": "exitClassSet",
+      "class": "CONSUMER-CUSTODY",
+      "form": "additive-only"
+    },
+    {
+      "identity": "fingerprintRecipe",
+      "class": "USER-CUSTODY",
+      "form": "major",
+      "note": "Independent of the fact schema \u2014 that independence is the whole reason it exists."
+    },
+    {
+      "identity": "factSchema",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major + relation-level minors",
+      "note": "Relation-level granularity so adding a relation does not break rules that never used it."
+    },
+    {
+      "identity": "ruleIR",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major"
+    },
+    {
+      "identity": "providerProtocol",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major"
+    },
+    {
+      "identity": "storageSchema",
+      "class": "INTERNAL",
+      "form": "unversioned"
+    },
+    {
+      "identity": "runManifestSchema",
+      "class": "USER-CUSTODY",
+      "form": "major",
+      "why": "A1-VER-06. Reachable from a retained Run, therefore USER-CUSTODY by V7 whatever it was labelled.",
+      "migratorStatus": "NOT-YET-ENFORCEABLE"
+    }
+  ],
+  "rules": [
+    {
+      "id": "V1",
+      "rule": "Every public contract declares exactly one custody class. Unclassified means unshippable."
+    },
+    {
+      "id": "V2",
+      "rule": "A USER-CUSTODY breaking change without a migrator is prohibited, regardless of how the version is numbered."
+    },
+    {
+      "id": "V3",
+      "rule": "No consumer-facing document is reshaped in place. Either the consumer's requested major is served, or the request is refused with the supported range named."
+    },
+    {
+      "id": "V4",
+      "rule": "Exit classes are additive-only, forever. Renumbering silently changes the meaning of every CI configuration in existence."
+    },
+    {
+      "id": "V5",
+      "rule": "Compatibility is negotiated at admission, not discovered at first use. A contribution incompatible with the host fails to load with both ranges reported."
+    },
+    {
+      "id": "V6",
+      "rule": "Support windows are published as concrete counts and dates. 'We support recent versions' is not a policy."
+    },
+    {
+      "id": "V7",
+      "rule": "Anything reachable from a retained Run is USER-CUSTODY by definition, whatever it was labelled. Custody follows reachability, not intent."
+    },
+    {
+      "id": "V8",
+      "rule": "A version identity that participates in PlanId cannot change without changing derived identity \u2014 so bumping it invalidates caches by construction. This is a feature; do not add compatibility shims that hide it."
+    },
+    {
+      "id": "V9",
+      "rule": "Any change that makes a byte sequence reachable from a retained Run is a VERSIONING REVIEW EVENT. Reachability is checked mechanically: the evidence reachability graph must never point at a path the inventory labels INTERNAL.",
+      "why": "V7 says custody follows reachability, which means custody can change SILENTLY \u2014 a refactor that starts embedding an internal structure in a Run has just made it USER-CUSTODY without anyone deciding to. A1-VER-03."
+    }
+  ],
+  "supportWindows": {
+    "fingerprintRecipe": {
+      "majorsSupported": 2,
+      "note": "Plus an explicit previewable upgrade path. Beyond the window: INDETERMINATE, never a reinterpretation.",
+      "evidenceGrade": "GUESSED \u2014 chosen for coherence, no adoption data"
+    },
+    "envelopeSchema": {
+      "majorsSupported": 2,
+      "overlapReleases": 2,
+      "evidenceGrade": "GUESSED \u2014 chosen for coherence, no adoption data"
+    },
+    "factSchema": {
+      "majorsSupported": 1,
+      "note": "Narrower because authors can respond to releases; widen only if a real ecosystem exists (P-1).",
+      "evidenceGrade": "GUESSED \u2014 chosen for coherence, no adoption data"
+    },
+    "providerProtocol": {
+      "majorsSupported": 1,
+      "evidenceGrade": "GUESSED \u2014 chosen for coherence, no adoption data"
+    },
+    "exitClassSet": {
+      "majorsSupported": "n/a \u2014 additive only",
+      "evidenceGrade": "GUESSED \u2014 chosen for coherence, no adoption data"
+    },
+    "caveat": "These numbers are chosen for coherence, not from adoption data. They are the most guessed part of this artifact and should be revisited when real usage exists (A19).",
+    "sealRule": "No support window may be SEALED while its evidenceGrade is GUESSED without a recorded product disposition. VER-EG enforces this.",
+    "consumerFacingRule": "Any consumer-facing support matrix MUST display evidenceGrade (or the word provisional) next to each window. GUESSED numbers must not be presented as SLAs (R1-VER-02). VER-EG continues to forbid sealing windows while GUESSED without product disposition."
+  },
+  "conformanceTests": [
+    {
+      "id": "VT-01",
+      "implementable": true,
+      "assert": "Every public contract declares exactly one custody class; an unclassified contract fails the release gate."
+    },
+    {
+      "id": "VT-02",
+      "implementable": true,
+      "assert": "A USER-CUSTODY breaking change without a SPECIFIED migrator is refused by the release gate.",
+      "note": "A1-VER-01: this was vacuous in v1 because no migrator existed for any member. Four are now specified; run-manifest is NOT-YET-ENFORCEABLE and is excluded from discharge."
+    },
+    {
+      "id": "VT-03",
+      "implementable": true,
+      "assert": "A consumer requesting an unsupported major receives a typed refusal naming the supported range, never a reshaped document."
+    },
+    {
+      "id": "VT-04",
+      "implementable": true,
+      "assert": "Exit classes can be added but never renumbered or repurposed."
+    },
+    {
+      "id": "VT-05",
+      "implementable": true,
+      "assert": "A contribution incompatible with the host fails to load at admission with both ranges reported."
+    },
+    {
+      "id": "VT-06",
+      "implementable": true,
+      "assert": "Every migrator runs offline from in-release code and fetches nothing."
+    },
+    {
+      "id": "VT-07",
+      "implementable": true,
+      "assert": "`--check` previews a migration without writing, and running a migrator twice is a no-op."
+    },
+    {
+      "id": "VT-08",
+      "implementable": true,
+      "assert": "A baseline comparison across a detector change classifies each difference as CODE-NET-NEW, DETECTION-DELTA, or CODE-FIXED using the detector pivot."
+    },
+    {
+      "id": "VT-09",
+      "implementable": true,
+      "assert": "When the pivot detector is unavailable the comparison reports INDETERMINATE for it and never attributes the delta to code."
+    },
+    {
+      "id": "VT-10",
+      "implementable": true,
+      "assert": "A waiver whose target identity changes under migration is reported individually, never summarised."
+    },
+    {
+      "id": "VT-11",
+      "implementable": true,
+      "assert": "The evidence reachability graph never points at a path the inventory labels INTERNAL."
+    },
+    {
+      "id": "VT-12",
+      "implementable": false,
+      "requiresHarness": "adoption telemetry that does not exist and that the threat model may forbid",
+      "assert": "Support windows match observed user upgrade behaviour.",
+      "note": "A1-VER-05: the numbers are GUESSED. Marking this unimplementable is the honest state \u2014 and note the harness may be unbuildable by design, since the threat model's zero-egress posture forbids the telemetry that would inform it."
+    }
+  ],
+  "peerReviewRequired": [
+    "Is the detector pivot affordable? It requires running the OLD detector over new code on every comparison that crosses a detector version \u2014 potentially doubling analysis cost during a transition window.",
+    "Blind re-authoring of the seven comparison fixtures.",
+    "A1-VER-05 needs a PRODUCT owner. Every support window is a guess and may stay one."
+  ],
+  "knownLimitations": [
+    "Every support window is GUESSED and the corresponding property is NOT DISCHARGED. VT-12's harness may be unbuildable by design.",
+    "The detector pivot doubles work during a transition window; no measurement supports the claim that this is affordable.",
+    "The run-manifest migrator is NOT-YET-ENFORCEABLE, so evidence bundles are USER-CUSTODY by V7 with no migration path.",
+    "Migrators are specified, not written.",
+    "Authored solo."
+  ],
+  "supersedes": 1,
+  "migrators": {
+    "why": "A1-VER-01: V2 forbids a USER-CUSTODY breaking change without a migrator, and v1 specified no migrator for any member. A prohibition with no named mechanism is vacuous, and it was discharging a sealed property.",
+    "airGap": {
+      "finding": "A1-VER-02",
+      "rule": "A migrator SHIPS IN THE RELEASE. It may not fetch anything.",
+      "consequence": "If a transition genuinely needs data not present locally, it is NOT a migrator \u2014 it is a re-analysis, and it must be reported as such rather than disguised as an upgrade.",
+      "why": "The air-gap posture and the migrator obligation collide the moment a migrator needs the network. Resolving it in favour of in-release packaging keeps both promises; resolving it the other way would quietly break air-gap for exactly the users who care most."
+    },
+    "members": [
+      {
+        "artifact": "fingerprint recipe / baselines",
+        "migratorId": "baseline-recipe-migrator",
+        "preview": "--check prints the full identity diff and writes nothing",
+        "idempotent": true,
+        "witness": "the recipe version declared in the baseline file",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "tracked project configuration",
+        "migratorId": "config-schema-migrator",
+        "preview": "--check prints the rewritten document",
+        "idempotent": true,
+        "witness": "the schema version declared in the document",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "waivers",
+        "migratorId": "waiver-migrator",
+        "preview": "--check lists waivers whose target identity changes",
+        "idempotent": true,
+        "witness": "the waiver's declared recipe version and its anchor set",
+        "status": "SPECIFIED",
+        "hazard": "A waiver whose target identity changes is a waiver that silently stops waiving. It must be reported per-waiver, never summarised."
+      },
+      {
+        "artifact": "lockfile",
+        "migratorId": "lockfile-migrator",
+        "preview": "--check prints the resolved set diff",
+        "idempotent": true,
+        "witness": "the lockfile format version",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "run manifest / evidence",
+        "migratorId": null,
+        "status": "NOT-YET-ENFORCEABLE",
+        "why": "A1-VER-06 added runManifestSchema to the identity list. Evidence bundles are reachable from a retained Run and are therefore USER-CUSTODY by V7, but no migrator is specified and the EVIDENCE contract's own custody transition is still unreviewed. Declared as a gap rather than discharged."
+      }
+    ],
+    "rule": "A USER-CUSTODY member with no SPECIFIED migrator may not undergo a breaking change, whatever the version number says."
+  },
+  "detectorSemanticDelta": {
+    "why": "B-CSG-04 / CS-04. Exact artifact identity detects that a baseline comparison changed; it CANNOT say whether the change is new code, a changed detector, or the user adopting a new level. All three look like net-new findings, and treating a detector improvement as a regression is how a guardrail loses its users.",
+    "theProblem": "A two-way diff compares (code0, detector0) against (code1, detector1) and attributes the whole difference to code. Two variables moved; one difference was measured.",
+    "theFix": {
+      "name": "three-way comparison with a detector pivot",
+      "pivot": "Run detector0 over code1. Call the result P.",
+      "decomposition": [
+        {
+          "set": "P \\ baseline",
+          "classification": "CODE-NET-NEW",
+          "meaning": "the same detector, applied to new code, finds something new. This is a real regression."
+        },
+        {
+          "set": "(code1,detector1) \\ P",
+          "classification": "DETECTION-DELTA",
+          "meaning": "the detector changed its mind about unchanged code. Not a regression."
+        },
+        {
+          "set": "baseline \\ P",
+          "classification": "CODE-FIXED",
+          "meaning": "the same detector no longer fires \u2014 genuine improvement."
+        }
+      ],
+      "requires": "detector0 must still be RUNNABLE. That is exactly what the dual-emit window in the custody policy provides, which is the real reason dual-emit exists: not merely to soften churn, but to make this classification computable at all.",
+      "ifPivotUnavailable": {
+        "outcome": "INDETERMINATE for that detector",
+        "rule": "The comparison reports which detectors could not be pivoted and why. It NEVER falls back to attributing the whole delta to code.",
+        "why": "Silently attributing a detection delta to the user's code is a false net-new finding presented as a regression \u2014 the trust-destroying failure the custody class exists to prevent."
+      },
+      "adoption": "A user opting into a new normalisation level or a new rule set is a THIRD case, and it is not inferred: it is an explicit acceptance recorded in the transition, so it never enters the diff as either of the two above."
+    },
+    "relationToFactIdentity": "fact-identity-policy's custody transition protocol supplies the dual-emit window and the many-to-many group mapping this comparison consumes. The two contracts are the same mechanism seen from the baseline side and the identity side.",
+    "shipGate": {
+      "id": "VER-PIVOT-COST-GATE",
+      "rule": "Dual-emit / detector-pivot path MUST NOT ship as the default gate-compare behaviour without either: (a) product acceptance of a documented cost bound (including potential ~2\u00d7 analysis during multi-major support), or (b) an optimization that keeps pivot off the hot path (cache pivot results; pivot only on detector major change when baseline compare is requested \u2014 not on every analysis). Affordability is UNMEASURED; silence is not acceptance (R1-VER-01).",
+      "defaultUntilDisposition": "Pivot runs only when: detector major changes AND a baseline/gate-compare is explicitly requested. Ordinary analysis without compare does not invoke the pivot.",
+      "costStatus": "UNMEASURED",
+      "forbids": "Claiming the pivot is cheap or free; skipping pivot silently and attributing DETECTION-DELTA as CODE-NET-NEW"
+    },
+    "costHonesty": "knownLimitations: pivot doubles work during transition. Do not claim affordability without measurement. Correct classification is necessary; unbounded CI cost without disposition makes operators skip pivot and reintroduce false regressions (R1-VER-01)."
+  },
+  "agentProtocolNote": {
+    "finding": "A1-VER-04",
+    "position": "The agent protocol surface is CONSUMER-CUSTODY for shape, but its negotiation is SESSION-SCOPED: a client advertises the major it wants at connect and is refused if unsupported.",
+    "consequence": "No multi-release dual-serve obligation is incurred for agents alone. A durable agent runtime that outlives a session would change this, and none exists.",
+    "why": "Dual-serving every major for a surface whose consumers reconnect every session is cost with no beneficiary."
+  },
+  "dischargeStatus": {
+    "rule": "A property may be SPECIFIED by an implementable test declaration. It may be DISCHARGED only at the canonical DEMONSTRATED state: retained evidence that the test ran against its required domain and its negative controls failed. implementable:true alone is NOT discharge (R2-FINAL-02).",
+    "testReferenceSemantics": "The legacy dischargedBy key names tests that specify or exercise the property. It is not demonstration evidence and never changes assurance state by itself.",
+    "properties": [
+      {
+        "property": "contract evolution is keyed by artifact custody",
+        "dischargedBy": [
+          "VT-01"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED"
+      },
+      {
+        "property": "a user's committed baseline is never silently re-identified",
+        "dischargedBy": [
+          "VT-02",
+          "VT-07",
+          "VT-08",
+          "VT-09"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED"
+      },
+      {
+        "property": "consumers receive a typed refusal, never a reshaped document",
+        "dischargedBy": [
+          "VT-03",
+          "VT-04"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED"
+      },
+      {
+        "property": "migration works air-gapped",
+        "dischargedBy": [
+          "VT-06"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED"
+      },
+      {
+        "property": "custody cannot change silently",
+        "dischargedBy": [
+          "VT-11"
+        ],
+        "status": "SPECIFIED",
+        "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED"
+      },
+      {
+        "property": "support windows are evidence-based",
+        "dischargedBy": [],
+        "status": "NOT DISCHARGED",
+        "note": "A1-VER-05. Every window is GUESSED. VT-12 is unimplementable and may stay so: the telemetry that would ground it is the telemetry the threat model refuses to collect. A1-VER-05/R1-VER-02 confirmed: mark not fix; VT-12 may stay unbuildable under zero-egress."
+      }
+    ]
+  },
+  "comparisonFixtures": [
+    {
+      "id": "same-detector-new-finding",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": true,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW"
+    },
+    {
+      "id": "detector-changed-its-mind",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": false,
+      "inCurrent": true,
+      "expect": "DETECTION-DELTA"
+    },
+    {
+      "id": "genuinely-fixed",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": true,
+      "inPivot": false,
+      "inCurrent": false,
+      "expect": "CODE-FIXED"
+    },
+    {
+      "id": "unchanged",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": true,
+      "inPivot": true,
+      "inCurrent": true,
+      "expect": "UNCHANGED"
+    },
+    {
+      "id": "pivot-unavailable-is-indeterminate",
+      "valid": true,
+      "pivotAvailable": false,
+      "inBaseline": false,
+      "inPivot": null,
+      "inCurrent": true,
+      "expect": "INDETERMINATE"
+    },
+    {
+      "id": "reject-blaming-code-without-pivot",
+      "valid": false,
+      "violates": "VER-CMP",
+      "pivotAvailable": false,
+      "inBaseline": false,
+      "inPivot": null,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW",
+      "why": "attributing a possible detection delta to the user's code is a false net-new finding presented as a regression"
+    },
+    {
+      "id": "reject-detection-delta-as-regression",
+      "valid": false,
+      "violates": "VER-CMP",
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": false,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW"
+    }
+  ],
+  "resolves": {
+    "A1-VER-01": "RESOLVED \u2014 four USER-CUSTODY migrators specified with migratorId, preview surface, idempotence and witness. Run-manifest is declared NOT-YET-ENFORCEABLE and excluded from the legacy test-reference lists, so VT-02's specification is no longer vacuous. This is not demonstration evidence.",
+    "A1-VER-02": "RESOLVED \u2014 migrators ship in-release and fetch nothing; a transition needing absent data is a RE-ANALYSIS, reported as such, not a disguised upgrade.",
+    "A1-VER-03": "RESOLVED \u2014 V9 makes reachability change a versioning review event, and VT-11 checks the evidence reachability graph never points at INTERNAL paths.",
+    "A1-VER-04": "RESOLVED \u2014 agent protocol negotiation is session-scoped; no multi-release dual-serve obligation without a durable agent runtime.",
+    "A1-VER-05": "RESOLVED BY MARKING, NOT BY FIXING \u2014 every window carries evidenceGrade GUESSED, the seal rule forbids sealing on a guess, and the corresponding property is NOT DISCHARGED. VT-12 may be permanently unimplementable because the grounding telemetry is what the threat model refuses to collect.",
+    "A1-VER-06": "RESOLVED \u2014 runManifestSchema added to versionedIdentities as USER-CUSTODY via V7.",
+    "B-SCV2-06": "RESOLVED \u2014 the D9 citation retargets to the live v1.6 artifact and the dependency DIRECTION is declared: VERSIONING depends on D9, not the reverse.",
+    "B-CSG-04 / CS-04": "RESOLVED \u2014 the three-way detector-pivot comparison classifies every difference as CODE-NET-NEW, DETECTION-DELTA or CODE-FIXED, with INDETERMINATE when the pivot detector is unavailable. This is also the real justification for the dual-emit window."
+  },
+  "comparisonSchema": {
+    "why": "The classification results and the migrator declaration were referenced throughout and never typed. Two implementations could emit different vocabularies and both claim conformance \u2014 the same defect B-FI-09 raised against the normalisation ladder.",
+    "ComparisonResult": {
+      "required": [
+        "classification",
+        "fingerprint",
+        "detectorId",
+        "detectorVersion"
+      ],
+      "optional": [
+        "pivotDetectorVersion",
+        "indeterminateReason"
+      ],
+      "classification": {
+        "closed": true,
+        "values": [
+          "CODE-NET-NEW",
+          "DETECTION-DELTA",
+          "CODE-FIXED",
+          "UNCHANGED",
+          "INDETERMINATE"
+        ],
+        "rule": "Closed. An unknown classification is rejected, not passed through as advisory."
+      },
+      "indeterminateReason": {
+        "closed": true,
+        "values": [
+          "pivot-detector-unavailable",
+          "pivot-detector-nondeterministic",
+          "baseline-recipe-unsupported"
+        ],
+        "rule": "REQUIRED when classification is INDETERMINATE. An unexplained indeterminate is indistinguishable from a bug."
+      }
+    },
+    "MigratorDeclaration": {
+      "required": [
+        "migratorId",
+        "artifact",
+        "preview",
+        "idempotent",
+        "witness",
+        "status"
+      ],
+      "status": {
+        "closed": true,
+        "values": [
+          "SPECIFIED",
+          "NOT-YET-ENFORCEABLE"
+        ]
+      },
+      "rule": "A migrator with status SPECIFIED and any missing field is a release-gate failure, not a warning."
+    },
+    "gateRule": "Only CODE-NET-NEW may fail a ratchet gate. DETECTION-DELTA and INDETERMINATE are reported and never gate, because neither is evidence the user regressed."
+  },
+  "adjudicationRevision": {
+    "by": "agent-a-as-c",
+    "date": "2026-07-31",
+    "resolves": [
+      "R1-VER-01",
+      "R1-VER-02",
+      "R1-VER-03",
+      "A1-VER-05-confirm"
+    ],
+    "note": "Pivot cost ship-gate; support windows consumer-facing evidenceGrade; run-manifest backlog."
+  },
+  "implementationBacklog": [
+    {
+      "id": "run-manifest-migrator",
+      "status": "NOT-YET-ENFORCEABLE",
+      "note": "R1-VER-03: USER-CUSTODY evidence bundles without migrator get typed refusal only under V3 \u2014 correct, operationally painful. Track when EVIDENCE seals."
+    }
+  ]
+}

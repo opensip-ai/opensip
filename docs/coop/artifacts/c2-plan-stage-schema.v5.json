@@ -1,0 +1,592 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.v5",
+  "version": 5,
+  "supersedes": 4,
+  "date": "2026-08-03",
+  "status": "CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW",
+  "author": "repair lane; not review, not qualification, not a seal",
+  "purpose": "Repair the BLOCKING defect IR-C2V4-01 in check-c2-v4.py's self-measurement of its own published counters, without touching the C-2 admission surface, which the adjudication confirms by execution is sound.",
+  "resolves": {
+    "IR-C2V4-01": "REPAIRED. The three ungated census comparisons are replaced by a type-exact comparator that gates BOTH operands; the 48 wire-sourced integer positions they read are registered against the live measurement in both directions; the scan that could not see the defect is inverted so that it can, and is demonstrated seeing it on the pinned predecessor's own bytes; and a behavioural layer that reads no source, plus a differential against the pinned defective predecessor, stand behind the comparator. Discharge is claimed at DEMONSTRATED-BY-EXECUTION for the repair and REQUIRES INDEPENDENT REVIEW for the verdict. implementable: true is not DISCHARGED and nothing here is sealed."
+  },
+  "notResolved": {
+    "note": "This candidate closes no other finding, disturbs no other disposition, and changes no status. CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+  },
+  "theDefect": {
+    "findingId": "IR-C2V4-01",
+    "disposition": "BLOCKING",
+    "summary": "check-c2-v4.py compares its published census counters against COMPUTED integers with a bare `!=`. `2538.0 != 2538` is False in the host language, so a JSON float or a JSON boolean at any of 48 published counter positions is admitted, and the checker prints a full green banner containing the phrase '0 type-distinct constant admissions' over a document that publishes a type-distinct spelling of exactly such a constant.",
+    "minimalReproduction": {
+      "predecessor": "check-c2-v4.py",
+      "predecessorSha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+      "input": "c2-plan-stage-schema.v4.json",
+      "inputSha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+      "edit": "hostileScalarLeafTotality.contractRoot.scalarLeafPaths: the JSON integer 2538 -> the JSON number 2538.0",
+      "sourceModification": "NONE",
+      "compensationRequired": "NONE",
+      "predecessorExitCode": 0,
+      "predecessorBanner": "C-2 v4 contract OK \u2014 ... 0 type-distinct constant admissions",
+      "reproducedByThisLane": true,
+      "reproducedByThisLaneNote": "Reproduced personally before any repair was written, against the predecessor at its pinned digest, in a disposable copy. The nine-position combined mutation (three surfaces publishing typeDistinctConstantAdmissions: false, admitThenRaise: false, unguardedEscapes: 0.0) was also reproduced: exit 0 with the full green banner in normal mode and exit 0 with SELFTEST-PASS over all 68 retained cases in --selftest, after republishing the two contract-root counters that drift, which is ordinary authoring bookkeeping and evades no guard.",
+      "theTrap": "The adjudication records that its first 48 mutations exited 1 and looked like a clean defence, but the rejections came from unrelated self-referential path-census arithmetic while the boolean passed the `!=` silently. This lane hit the same wall: the uncompensated nine-position mutation exits 1 with two contractRoot arithmetic findings and nothing about the booleans. A NON-ZERO EXIT IS NOT EVIDENCE A GUARD FIRED. Every assertion in check-c2-v5.py is on a specific finding id AND on the finding naming the position under test, never on an exit code."
+    },
+    "rootCauseOfTheMiss": "check-c2-v4.py _numeric_literal requires isinstance(node, ast.Constant). A wire value compared against a computed integer contains no numeric literal, so the site is invisible to the instrument. The independent pre-freeze review widened that model only to module-level names bound to numeric constants and defined its exhaustive sweep as every ast.Compare with a numeric-LITERAL operand, so the audit inherited the narrowing of the instrument it was auditing and reached the same wrong conclusion.",
+    "repairedComparisonSites": [
+      {
+        "line": 2487,
+        "function": "_census_findings",
+        "source": "if row.get(key) != value:",
+        "farOperand": "value, a for-target bound to a COMPUTED Python int",
+        "wireIntegerPositionsRead": 24,
+        "repair": "replaced by census_comparison_findings, whose single acceptance path is wire_int_equal(published, measured)"
+      },
+      {
+        "line": 2493,
+        "function": "_census_findings",
+        "source": "if row.get(key) != measured['stats'][key]:",
+        "farOperand": "an ast.Subscript into the measurement",
+        "wireIntegerPositionsRead": 15,
+        "repair": "replaced by census_comparison_findings"
+      },
+      {
+        "line": 2517,
+        "function": "_census_findings",
+        "source": "if root_row.get(key) != value:",
+        "farOperand": "value, a for-target bound to a COMPUTED Python int",
+        "wireIntegerPositionsRead": 9,
+        "repair": "replaced by census_comparison_findings"
+      }
+    ],
+    "enumeratedComparisonSiteCount": 3,
+    "wholeDocumentSweep": {
+      "why": "The brief and the adjudication both name three comparison sites. Three was NOT assumed to be the complete set. Before the repair was scoped, a float was substituted at EVERY integer leaf of the verified predecessor document, one at a time, and each mutant was driven through check-c2-v4.py to completion.",
+      "method": "136 single-leaf float substitutions, each followed by a full check-c2-v4.py check() over the pinned Authority; the predecessor's bytes unmodified at 54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+      "integerLeavesInjected": 136,
+      "admittedByPredecessorToAFullGreenRun": 57,
+      "rejectedByPredecessor": 79,
+      "ofWhichCensusCounters": 32,
+      "ofWhichOutsideTheCensusBlock": 25,
+      "whyOnly32OfThe48CensusPositionsAppearHere": "The other 16 census positions currently hold 0 or 1, and substituting 0.0 for 0 shifts the self-referential contract-root no-op census by one, which produces unrelated arithmetic findings. That is the adjudication's trap: the run exits 1 while the float passes the `!=` silently. Those 16 are the positions the adjudication independently counted as boolean-exploitable, and this lane reaches them with compensation, exactly as evasion attempt C did.",
+      "examplesOutsideTheCensusBlock": [
+        "planIntent/wireTypes/stageBudgetV1/limit/maximum",
+        "planIntent/wireTypes/boundedParameterValue/limits/maxDepth",
+        "planIntent/admissionDescriptorV1/budgets/maxEntries",
+        "planIntent/admissionDescriptorV1/planDescriptorMapping/workflow",
+        "planIntent/integerConstantFields/fields/4/range/1",
+        "planIntentFixtures/18/mutation/value",
+        "coverageFixtures/12/entry/resolution"
+      ],
+      "consequence": "A repair scoped to the three census sites would have closed 32 of 57 reachable positions and shipped the remaining 25 for the next reviewer to rediscover. check-c2-v5.py therefore type-locks EVERY integer leaf of the document against the verified predecessor in both directions, which is total over the class instead of enumerated over its known members. The most pointed of the 25 is planIntent/integerConstantFields/fields/4/range/1: the upper bound inside the predecessor's own integer-constant register -- the register whose stated purpose is that a fifth site cannot be added silently -- is itself float-admissible.",
+      "reproducedPerRun": "SAMPLED",
+      "reproducedPerRunDetail": "check-c2-v5.py reproduces the REPAIR exhaustively on every invocation: all 136+ locked leaves are float-probed through the live type lock and each must be named. It reproduces the PREDECESSOR side as a 3-vector sample (DOCUMENT_DIFFERENTIAL_VECTORS), because 136 full check-c2-v4.py runs cost about seventy seconds. The 57 figure above is an authoring-time measurement, is labelled as one, and the gap is retained as RES-C2V5-07 rather than absorbed."
+    },
+    "howTheSetWasEnumeratedNotAssumed": "Not taken on the adjudication's word. check-c2-v5.py's inverted scan was run over the pinned predecessor's whole syntax tree -- every FunctionDef, AsyncFunctionDef, nested def, method and lambda, with a fixpoint taint model and no reachability restriction -- asking of every equality, ordering and literal-container membership test whether a wire-sourced operand is routed through a declared type gate. It reports 69 ungated (comparison, wire operand) pairs of which 68 have a COMPUTED far operand, and lines 2487, 2493 and 2517 are among them. check-c2-v5.py refuses to report clean if that scan ever stops naming those three lines, so the enumeration is retained rather than recorded.",
+    "wireIntegerPositionsReadThroughThoseSites": 48,
+    "threeWasNotTheCompleteSet": "The three census comparisons are the sites the adjudication names and they are repaired. They are not the whole class: see wholeDocumentSweep, which measured 25 further reachable positions outside the census block entirely.",
+    "positionsBooleanExploitable": 16,
+    "whyThisIsBlockingAndNotAdvisory": "IMPLEMENTATION-FREEZE section 7: the test is reachability on the actual bytes. The seven advisory residuals were advisory because the blind spot was EMPTY and an evasion required editing the source. Here the blind spot was OCCUPIED: the ungated comparison was already written, already reached on every ordinary invocation, and the evasion required editing only the input document."
+  },
+  "derivedFrom": {
+    "artifact": "c2-plan-stage-schema.v4.json",
+    "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+    "rule": "The effective v5 contract is the VERIFIED predecessor document with the operations below applied in order, and nothing else. No byte of the predecessor is transcribed into this file. Every `set` operation restates, type-exactly, the value it replaces, and check-c2-v5.py refuses the derivation if the verified predecessor does not actually hold that value -- so the delta cannot silently describe bytes that no longer exist.",
+    "whyADeltaAndNotARestatement": "The adjudication puts the C-2 admission surface, the leaf-inclusive measurement and the seven pinned planIntentCommitment vectors beyond dispute and instructs that they be preserved, not rebuilt. A restatement would put 174KB of reviewed content back into the review queue and would risk exactly the silent renumbering the brief forbids. A delta plus an executed oracle preserves them by construction: the seven vectors are recomputed on every run by check-c2-v4.py, which in turn recomputes them under the pinned v3 encoder check-c2.py, and both must agree or the run fails.",
+    "operations": [
+      {
+        "op": "set",
+        "path": "version",
+        "from": 4,
+        "value": 5,
+        "why": "successor identity"
+      },
+      {
+        "op": "set",
+        "path": "supersedes",
+        "from": 3,
+        "value": 4,
+        "why": "successor identity"
+      },
+      {
+        "op": "set",
+        "path": "checkerModeContract.checker",
+        "from": "check-c2-v4.py",
+        "value": "check-c2-v5.py",
+        "why": "the retained instrument for this candidate"
+      },
+      {
+        "op": "add",
+        "path": "planIntent.integerConstantRegisterV5",
+        "value": {
+          "why": "IR-C2V4-01. c2-plan-stage-schema.v4.json planIntent.integerConstantFields enumerates eight fields and says plainly that it exists 'so a fifth site cannot be added silently'. It omits the entire hostileScalarLeafTotality counter block. That block is 48 wire-sourced integer positions, read by check-c2-v4.py through three comparisons that gate neither operand, and it was the fifth site. Changing one of those 48 from the JSON integer 2538 to the JSON number 2538.0 produced exit 0 and a full green banner from the frozen predecessor with no source modification and no compensation.",
+          "rule": "Every position below is compared by exact JSON type first and content second, at BOTH operands: the published value must be a JSON integer and the value the instrument computed must be a Python integer, and the type is rejected before the content is compared. This is IMPLEMENTATION-FREEZE section 6 law 18 applied to the checker's own self-measurement, which is where the predecessor did not apply it.",
+          "howTheSilentAdditionIsNowPrevented": "check-c2-v5.py does not read this list to decide what to compare. It derives the position set from the LIVE measurement and then requires the two sets to be equal in both directions: a measured position missing from this register is a finding, and a registered position the measurement does not reach is a finding. A register that is merely declared can be quietly narrowed; a register that must equal a measurement cannot.",
+          "inheritedFromV4": [
+            "admission-descriptor-schema-version",
+            "coverage-schema-version",
+            "descriptor-budget-limit",
+            "plan-descriptor-schema-major",
+            "plan-intent-schema-version",
+            "resolved-configuration-deciding-layer",
+            "stage-budget-limit",
+            "totality-matrix-case-count"
+          ],
+          "inheritedFromV4Note": "Read out of check-c2-v4.py DECLARED_INTEGER_CONSTANT_IDS by executing the verified snapshot, never transcribed. The v4 register is unchanged and unnarrowed; v5 adds to it and may not restate it.",
+          "censusCounterPositions": [
+            "contractRoot.containerPaths",
+            "contractRoot.dictPaths",
+            "contractRoot.enumeratedCases",
+            "contractRoot.enumeratedPaths",
+            "contractRoot.executedCases",
+            "contractRoot.injectionValues",
+            "contractRoot.noOpInjections",
+            "contractRoot.pathsNotRoundTripping",
+            "contractRoot.scalarLeafPaths",
+            "surfaces[coverage].admitThenRaise",
+            "surfaces[coverage].containerPaths",
+            "surfaces[coverage].dictPaths",
+            "surfaces[coverage].enumeratedCases",
+            "surfaces[coverage].enumeratedPaths",
+            "surfaces[coverage].executedCases",
+            "surfaces[coverage].guardedEscapes",
+            "surfaces[coverage].noOpInjections",
+            "surfaces[coverage].pathsNotRoundTripping",
+            "surfaces[coverage].scalarLeafPaths",
+            "surfaces[coverage].silentAccepts",
+            "surfaces[coverage].typeDistinctConstantAdmissions",
+            "surfaces[coverage].unguardedEscapes",
+            "surfaces[plan-intent].admitThenRaise",
+            "surfaces[plan-intent].containerPaths",
+            "surfaces[plan-intent].dictPaths",
+            "surfaces[plan-intent].enumeratedCases",
+            "surfaces[plan-intent].enumeratedPaths",
+            "surfaces[plan-intent].executedCases",
+            "surfaces[plan-intent].guardedEscapes",
+            "surfaces[plan-intent].noOpInjections",
+            "surfaces[plan-intent].pathsNotRoundTripping",
+            "surfaces[plan-intent].scalarLeafPaths",
+            "surfaces[plan-intent].silentAccepts",
+            "surfaces[plan-intent].typeDistinctConstantAdmissions",
+            "surfaces[plan-intent].unguardedEscapes",
+            "surfaces[stage-plan].admitThenRaise",
+            "surfaces[stage-plan].containerPaths",
+            "surfaces[stage-plan].dictPaths",
+            "surfaces[stage-plan].enumeratedCases",
+            "surfaces[stage-plan].enumeratedPaths",
+            "surfaces[stage-plan].executedCases",
+            "surfaces[stage-plan].guardedEscapes",
+            "surfaces[stage-plan].noOpInjections",
+            "surfaces[stage-plan].pathsNotRoundTripping",
+            "surfaces[stage-plan].scalarLeafPaths",
+            "surfaces[stage-plan].silentAccepts",
+            "surfaces[stage-plan].typeDistinctConstantAdmissions",
+            "surfaces[stage-plan].unguardedEscapes"
+          ],
+          "censusCounterPositionCount": 48
+        },
+        "why": "IR-C2V4-01 requiredRepair: register the census counters so the 'a fifth site cannot be added silently' guarantee covers them"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedPaths",
+        "from": 3332,
+        "value": 3396,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.containerPaths",
+        "from": 794,
+        "value": 797,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.scalarLeafPaths",
+        "from": 2538,
+        "value": 2599,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.dictPaths",
+        "from": 569,
+        "value": 570,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.pathsNotRoundTripping",
+        "from": 3,
+        "value": 3,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.injectionValues",
+        "from": 7,
+        "value": 7,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedCases",
+        "from": 23893,
+        "value": 24342,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.noOpInjections",
+        "from": 170,
+        "value": 170,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.executedCases",
+        "from": 23723,
+        "value": 24172,
+        "why": "republished at the value measured over the EFFECTIVE v5 document; the v4 figure was measured over the v4 document and the derivation adds a block to it"
+      }
+    ]
+  },
+  "v4InheritanceProjection": {
+    "rule": "check-c2-v4.py is pinned to a document declaring version 4, supersedes 3 and checker check-c2-v4.py. To execute it as an oracle over the effective v5 contract those three identity bytes are restored, and NOTHING else is. check-c2-v5.py admits exactly this field set, and additionally recomputes the full type-exact diff between the effective contract and the projection and refuses the run if it is not exactly these three paths.",
+    "whyThisIsSafe": "The three restored values are not read by any measurement. The contract-root path census is a function of document STRUCTURE and of which leaf values collide with the seven hostile injection values; none of 4, 3, 5 or the two checker filenames collides with null, 0, 1.0, true, \"hostile\", [] or {}. The census over the projection is therefore identical to the census over the effective contract, and check-c2-v5.py measures over the EFFECTIVE contract regardless.",
+    "fields": {
+      "version": 4,
+      "supersedes": 3,
+      "checkerModeContract.checker": "check-c2-v4.py"
+    }
+  },
+  "whatIsNotInDisputeAndIsPreservedByExecution": {
+    "method": "check-c2-v4.py at its pinned digest is executed over the v4-identity projection on every invocation of check-c2-v5.py; its findings are surfaced verbatim under the C2V5-INHERITED prefix. A regression in any of the following is a v5 finding.",
+    "lbC201AtTheWireSurface": "REPAIRED and unchanged. true / 1.0 / \"1\" / 0 / 2 rejected at both schemaVersion positions; control 1 admitted.",
+    "sevenPinnedCommitmentVectors": "recomputed on every run under BOTH this checker's inherited oracle and the pinned v3 encoder check-c2.py, and required to be unmoved; they are neither renumbered nor restated in this file.",
+    "leafInclusiveMeasurement": "5693 executed cases over 562 enumerated fixture paths of which 404 are scalar leaves, measured live, not copied.",
+    "theFourExactTypeGuardsAndSevenGuardHelpers": "untouched. The adjudication is explicit that the repair must not touch them."
+  },
+  "guardInventory": {
+    "principle": "Every guard has a blind spot. An inventory claiming total coverage is refused by check-c2-v5.py, which requires a non-empty blindSpots list on every declared layer.",
+    "layers": [
+      {
+        "id": "L0",
+        "name": "hash-before-execution",
+        "what": "13 pinned transitive inputs read once as inert bytes, verified, then parsed or executed from the verified snapshot; the pin table is additionally required to agree digit-for-digit with the predecessor's own PINS at every shared name.",
+        "blindSpots": [
+          "cannot verify its own bytes; check-c2-v5.py's digest is REPORTED in the banner, never verified (RES-C2V5-04)",
+          "an input the predecessor reads that this table does not list would be caught only by the PINS cross-check, which compares names, not the predecessor's actual file opens"
+        ]
+      },
+      {
+        "id": "L1",
+        "name": "inherited oracle",
+        "what": "check-c2-v4.py executed over the v4-identity projection.",
+        "blindSpots": [
+          "it is the DEFECTIVE instrument; it can only add findings, never subtract them, and it still admits every vector in retainedFalseAcceptVectors -- which is precisely what L6 measures",
+          "does not re-run the predecessor's ~24k-case contract-root execution matrix (RES-C2V5-03)"
+        ]
+      },
+      {
+        "id": "L2",
+        "name": "type-exact census comparator (the repair)",
+        "what": "48 published counters compared with BOTH operands gated, type before content, through a single acceptance path.",
+        "blindSpots": [
+          "covers the published-counter surface only; it says nothing about any other integer in the document",
+          "it trusts the measurement functions, which are the predecessor's; if those measured the wrong thing consistently, L2 would agree with them (RES-C2V5-05)"
+        ]
+      },
+      {
+        "id": "L2b",
+        "name": "document-wide integer type lock",
+        "what": "every integer leaf of the effective contract is type-locked against the verified predecessor in both directions, and each is float-probed through the live lock on every run.",
+        "blindSpots": [
+          "it locks JSON TYPE, not value or meaning: a leaf retyped from integer to integer with a wrong value is L2's business, not this layer's",
+          "a leaf that is a non-integer in BOTH documents is outside the lock entirely; the class it closes is integer-valued positions only",
+          "the predecessor-side evidence that these positions are reachable is sampled at three vectors per run, not 136 (RES-C2V5-07)"
+        ]
+      },
+      {
+        "id": "L3",
+        "name": "register totality",
+        "what": "the compared position set is derived from the live measurement and must equal the declared register in both directions; the inherited half must equal the predecessor's executed DECLARED_INTEGER_CONSTANT_IDS.",
+        "blindSpots": [
+          "a counter that is published but NEITHER measured nor registered is invisible; the symmetry closes the silent-addition path only for positions the measurement reaches",
+          "it registers positions, not semantics: a position registered under a misleading name is still registered"
+        ]
+      },
+      {
+        "id": "L4",
+        "name": "inverted wire-comparison scan",
+        "what": "whole function universe including lambdas and nested defs, fixpoint taint, and the inverted predicate that makes a COMPUTED operand visible.",
+        "blindSpots": [
+          "STILL SYNTACTIC. Its excusal test is textual: a gate call with the same unparsed argument earlier in the same statement, in an enclosing if/while test, or in an immediately preceding early-return guard. Textual identity is not a dominance proof (RES-C2V5-01)",
+          "cannot follow a comparison built at run time; it counts eval, exec and getattr-dispatch instead and requires eval and getattr-dispatch to be zero and exec to be exactly the two declared verified-snapshot loaders",
+          "In/NotIn is narrowed to LITERAL containers on purpose; `key in row` is not the evasion shape and flagging it would drown the scan",
+          "the declared type gates are excluded from their own scan, because scanning is_wire_int for the absence of a type gate is circular; that exclusion is paid for by L7, which breaks each gate in turn"
+        ]
+      },
+      {
+        "id": "L5",
+        "name": "behavioural type-fault injection",
+        "what": "reads NO source. Every registered position spelled in every declared hostile JSON type and driven through the live comparator; each case must produce a C2V5-TYPE finding NAMING the position. Plus instrument probes that corrupt the MEASURED side to a float and require the computed-side gate to fire.",
+        "blindSpots": [
+          "exhaustive over REGISTERED positions only; it inherits L3's coverage exactly",
+          "it drives the comparator, not the whole check(); an end-to-end regression outside the comparator would be caught by L6 and L7, not here",
+          "the hostile spelling set is eight JSON types; a spelling outside that set is untested (RES-C2V5-02)"
+        ]
+      },
+      {
+        "id": "L6",
+        "name": "predecessor differential",
+        "what": "the adjudication's retained false-accept vectors executed against BOTH checkers on the PINNED predecessor document. The predecessor must still admit them; this checker must reject each by name. A collapse of the differential to zero is a finding.",
+        "blindSpots": [
+          "only proves the repair differs from the predecessor where the predecessor is known-defective; a defect introduced at a position the predecessor handled correctly is invisible here, and is L5's responsibility",
+          "six vectors, not all 48 positions; the claim that all 48 are float-exploitable is structural and is separately exercised by L5"
+        ]
+      },
+      {
+        "id": "L7",
+        "name": "self-mutation",
+        "what": "breaks L2, L3, L4 and L5 in copies of this file's own syntax tree, plus 14 contract mutations, and requires each to be detected BY ITS NAMED FINDING.",
+        "blindSpots": [
+          "TERMINAL. A mutation battery cannot falsify itself; nothing stands behind it but independent review",
+          "the mutation set is finite and authored by the same lane that authored the repair, which is the structural reason an independent verdict is REQUIRED and is not replaced by a green run"
+        ]
+      }
+    ],
+    "whatStandsBehindTheBackstop": "The adjudication's structural point was that in v4 the census layer WAS the behavioural backstop and nothing stood behind it, which is why IR-C2V4-01 is BLOCKING rather than the NON-BLOCKING-REQUIRED-HARDENING grading EV10-IR-01 received. In v5 the repair L2 has three independent things behind it with three different failure modes. L5 is behavioural and reads no source, so a source-level evasion of L4 does not reach it. L6 is anchored to EXTERNAL PINNED BYTES that are known to fail: it does not ask whether this checker believes it is correct, it asks whether this checker still differs from a predecessor that demonstrably admits the defect, and if the repair ever regresses to its predecessor the differential collapses and that is itself a named finding. L7 then breaks L2, L3, L4 and L5 in turn and requires each break to surface under its own finding id. The layers fail independently: L4 is blind to run-time indirection, L5 is blind to unregistered positions, L6 is blind to defects the predecessor did not have, and no single evasion satisfies all three.",
+    "terminalLayerAndWhatStandsBehindIt": "L7 is terminal and NOTHING stands behind it except independent review. That is stated plainly because the predecessor's terminal layer had nothing behind it either and did not say so, and the omission is what the adjudication graded BLOCKING. L7 is kept small and every one of its rows is printed on every --selftest run precisely so that a human reviewer can be the thing behind it."
+  },
+  "behaviouralLayer": {
+    "readsSource": false,
+    "why": "The root cause of IR-C2V4-01 surviving review is that a source-reading instrument and a source-reading audit shared a numeric model. v5 inverts that model, but a layer that does not read source at all is carried as well, so that a future narrowing of the model cannot take the whole defence with it.",
+    "method": "Every registered census position is spelled as JSON true, JSON false, a JSON float equal to the measured value, JSON 1.0, the numeric string, JSON null, an empty array and an empty object, and each mutant is driven through the live comparator. A case passes only when a C2V5-TYPE finding NAMES the position. A rejection by any other finding id is counted separately as rejectedWithoutNamingThePosition and is a finding in its own right, because the adjudication's trap was a rejection that came from unrelated arithmetic.",
+    "instrumentProbes": "The COMPUTED operand is the one nobody was gating, so the measured side is separately corrupted to a float at every registered position and the computed-side gate is required to fire by name. Without this the computed half of wire_int_equal would be unfalsifiable on real data.",
+    "catchesTheMinimalRepro": "Yes, and it is retained as a named vector rather than left to the exhaustive sweep: FA-1-minimal-single-edit injects the float at contractRoot.scalarLeafPaths of the PINNED v4 document, requires check-c2-v4.py to still return zero findings over it, and requires this checker to name it.",
+    "runsIn": "every invocation, normal mode and --selftest alike; it is not a selftest-only layer."
+  },
+  "predecessorDifferential": {
+    "why": "This is what stands behind the behavioural backstop without trusting anything this file believes about itself. It is anchored to external bytes -- check-c2-v4.py at 54ff764d... -- that are known to admit the defect.",
+    "failsClosed": "If the predecessor ever stops admitting the vectors, or this checker stops rejecting them by name, or no vector reproduces a FULLY GREEN predecessor run, the run fails. A repair that quietly regressed to its predecessor's behaviour would show up as a collapsed differential.",
+    "vectors": [
+      {
+        "id": "FA-1-minimal-single-edit",
+        "position": "contractRoot.scalarLeafPaths",
+        "spelling": "float-equal",
+        "note": "the adjudication's record: ONE JSON edit, zero bytes of Python, exit 0"
+      },
+      {
+        "id": "FA-1-replicated-enumerated-paths",
+        "position": "contractRoot.enumeratedPaths",
+        "spelling": "float-equal",
+        "note": "replicated position from the adjudication"
+      },
+      {
+        "id": "FA-1-replicated-surface-paths",
+        "position": "surfaces[plan-intent].enumeratedPaths",
+        "spelling": "float-equal",
+        "note": "replicated position from the adjudication"
+      },
+      {
+        "id": "FA-2-boolean-at-the-self-referential-counter",
+        "position": "surfaces[coverage].typeDistinctConstantAdmissions",
+        "spelling": "boolean-false",
+        "note": "the counter admitted in a type-distinct spelling IS the counter whose declared meaning is that no type-distinct spelling may be admitted"
+      },
+      {
+        "id": "FA-3-admit-then-raise-as-boolean",
+        "position": "surfaces[stage-plan].admitThenRaise",
+        "spelling": "boolean-false",
+        "note": "one of the nine positions of the combined mutation"
+      },
+      {
+        "id": "FA-3-unguarded-escapes-as-float",
+        "position": "surfaces[plan-intent].unguardedEscapes",
+        "spelling": "float-one",
+        "note": "one of the nine positions of the combined mutation"
+      }
+    ]
+  },
+  "retainedFalseAcceptVectors": {
+    "note": "Retained as executable cases, not as prose. Each runs on every invocation through L6 and is printed row by row under --selftest.",
+    "sourceOfTheVectors": "c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json demonstratedFalseAccepts FA-1, FA-2 and FA-3, reproduced independently by this lane before the repair was written.",
+    "measuredThisRun": {
+      "predecessorAdmittedThePosition": 6,
+      "predecessorFullyGreenRuns": 3,
+      "successorRejectedByName": 6
+    }
+  },
+  "v5MeasuredCounters": {
+    "registeredCensusPositions": 48,
+    "behaviouralExecutedCases": 384,
+    "behaviouralNamedTypeRejections": 384,
+    "behaviouralAdmissions": 0,
+    "behaviouralInstrumentProbes": 48,
+    "behaviouralInstrumentProbesNamed": 48,
+    "scanSelfUngatedWireComparisons": 0,
+    "scanSelfFunctionLikeNodes": 99,
+    "scanPredecessorUngatedWireComparisons": 69,
+    "scanPredecessorUngatedComputedOperandComparisons": 68,
+    "scanPredecessorFunctionLikeNodes": 162,
+    "differentialVectors": 6,
+    "differentialPredecessorAdmitted": 6,
+    "differentialSuccessorRejectedByName": 6,
+    "documentIntegerLeavesTypeLocked": 137,
+    "documentTypeProbeCases": 137,
+    "documentTypeProbeNamedRejections": 137,
+    "documentTypeProbeAdmissions": 0,
+    "documentDifferentialVectors": 3,
+    "documentDifferentialPredecessorFullyGreen": 3,
+    "documentDifferentialSuccessorRejectedByName": 3
+  },
+  "v5MeasuredCountersRule": "This checker's OWN published counters are held to law 18 by the same comparator it applies to the predecessor's, and the set of them is required to equal the set this run measures, in both directions. A successor that exempted its own numbers from the rule it enforces would be repeating the defect one level up.",
+  "residuals": [
+    {
+      "id": "RES-C2V5-01",
+      "title": "L4 is inverted but still syntactic; its excusal test is textual",
+      "status": "RETAINED",
+      "severity": "MAJOR-NON-BLOCKING",
+      "detail": "A type gate excuses a comparison when a gate call with the same unparsed argument text appears earlier in the same statement, in an enclosing if/while test, or in an immediately preceding early-return guard. That is a textual proxy for dominance, not a dominance proof. A comparison whose operand is rebound between the gate and the test would be wrongly excused.",
+      "whyNotClosed": "A sound dominance analysis over Python needs a CFG and an alias model, which is a larger instrument than this checker and would itself need review. Carrying it unbuilt would be a paper seal, so it is retained open and L5 and L6 are carried specifically because of it.",
+      "whatStandsInFrontOfIt": "L5 reads no source at all and L6 is anchored to external pinned bytes; neither can be evaded by a source-level trick that fools L4."
+    },
+    {
+      "id": "RES-C2V5-02",
+      "title": "L5's hostile spelling set is eight JSON types, not the whole JSON value space",
+      "status": "RETAINED",
+      "severity": "MINOR",
+      "detail": "true, false, float-equal-to-measured, 1.0, the numeric string, null, [] and {} are injected. Exotic spellings -- a nested object that stringifies to the integer, a very large float, a negative zero -- are not.",
+      "whyNotClosed": "The comparator's single acceptance path is is_wire_int(published) and is_wire_int(measured) and equality, which admits nothing outside the JSON integer type by construction; widening the injection set would add cases without adding reachable behaviour. It is retained rather than absorbed because that argument is structural, and structural arguments are exactly what IR-C2V4-01 shows can be wrong.",
+      "whatStandsInFrontOfIt": "L7 breaks is_wire_int in two directions (boolean-is-an-integer, float-is-an-integer) and requires both breaks to be detected."
+    },
+    {
+      "id": "RES-C2V5-03",
+      "title": "v5 does not re-run the predecessor's contract-root execution matrix",
+      "status": "RETAINED",
+      "severity": "MINOR",
+      "detail": "check-c2-v4.py --selftest drives check() over roughly 24000 mutated copies of the whole document and takes on the order of ten minutes. check-c2-v5.py measures the contract-root CENSUS but does not execute that matrix.",
+      "whyNotClosed": "That matrix is the pinned predecessor's retained evidence at its own reviewed digest and re-running it here would duplicate rather than extend it, at a cost that would push this checker out of routine use. Naming it is not closing it: a reviewer who wants that evidence must run check-c2-v4.py --selftest, which is unchanged and still exits 0.",
+      "whatStandsInFrontOfIt": "nothing in v5; this is a genuine coverage gap relative to the predecessor and is recorded as one."
+    },
+    {
+      "id": "RES-C2V5-04",
+      "title": "a checker cannot hash-pin itself",
+      "status": "RETAINED",
+      "severity": "MINOR",
+      "detail": "check-c2-v5.py reads its own bytes once for the L4 self-scan and reports their sha256 in the banner. It cannot verify them against a digest it also carries.",
+      "whyNotClosed": "Self-verification is circular. The digest is REPORTED so a reviewer can bind the verdict to bytes, which is what freeze section 7.2 actually requires.",
+      "whatStandsInFrontOfIt": "the reviewer, and the recording obligation."
+    },
+    {
+      "id": "RES-C2V5-05",
+      "title": "L2 trusts the predecessor's measurement functions",
+      "status": "RETAINED",
+      "severity": "MAJOR-NON-BLOCKING",
+      "detail": "v5 authors the COMPARISON and inherits the MEASUREMENT from check-c2-v4.py measure_surfaces / measure_contract_root / node_census. If those measured the wrong space consistently, L2 would compare a published number to a wrong number and agree with it.",
+      "whyNotClosed": "An independent second measurement would be a second instrument needing its own review, and the adjudication explicitly confirms the leaf-inclusive measurement is sound and instructs that it be preserved, not rebuilt. The separation is deliberate -- comparison and measurement live in different, separately reviewed bytes -- but it is a trust relationship and is named as one.",
+      "whatStandsInFrontOfIt": "the predecessor's own independent review and the adjudication's execution-based confirmation of the measurement; not v5."
+    },
+    {
+      "id": "RES-C2V5-07",
+      "title": "the 57-of-136 predecessor sweep is reproduced per run only as a 3-vector sample",
+      "status": "RETAINED",
+      "severity": "MINOR",
+      "detail": "The measured claim that 57 of the predecessor's 136 integer leaves admit a float to a full green run was established at authoring time by 136 complete check-c2-v4.py runs. Every invocation of check-c2-v5.py reproduces the successor side exhaustively, and the predecessor side at three named non-census vectors.",
+      "whyNotClosed": "136 full predecessor runs cost roughly seventy seconds and would push this checker out of routine use for a figure that is evidence about the predecessor rather than a property of the repair. The three sampled vectors fail the run if the predecessor ever stops admitting them, so the claim degrades to a finding rather than to silence.",
+      "whatStandsInFrontOfIt": "L2b, which is exhaustive over the successor side on every run and does not depend on the predecessor's behaviour at all."
+    },
+    {
+      "id": "RES-C2V5-06",
+      "title": "the same computed-integer comparison shape is not swept across the rest of the corpus",
+      "status": "RETAINED",
+      "severity": "MAJOR-NON-BLOCKING",
+      "detail": "The adjudication records under whatIDidNotCheck that it did not verify whether check-evidence-v10.py, the evaluation-proof checkers or the retention-custody checkers carry the same ast.Constant narrowing, and notes that EV10-IR-01 is explicitly the same class. This candidate did not run that sweep either.",
+      "whyNotClosed": "It is outside this candidate's authority: those are other surfaces with their own pinned verdicts, and a repair lane may not re-grade them. The instrument to do it now exists and is reusable -- wire_comparison_scan takes any tree -- so the sweep is cheap for whoever holds that authority.",
+      "whatStandsInFrontOfIt": "nothing; this is carried forward as an open corpus-level residual, not absorbed."
+    }
+  ],
+  "knownLimitations": {
+    "thisIsNotAVerdict": "A green run of check-c2-v5.py is authored by the same lane that authored the repair. It is checker-scope evidence. Independent re-review is REQUIRED.",
+    "implementableIsNotDischarged": "No property here is marked DISCHARGED or DEMONSTRATED on the strength of implementable: true.",
+    "noStatusChanged": "No seal, freeze, integration or product acceptance is declared. CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+  },
+  "checkerModeContract": {
+    "checker": "check-c2-v5.py",
+    "exitCodes": {
+      "0": "clean, or a green --selftest",
+      "1": "findings",
+      "2": "unsupported invocation, or a pinned input that does not hash to its declared digest, or a softened adjudication",
+      "3": "--selftest REFUSED over a dirty base, which can never be absorbed into a pass"
+    }
+  },
+  "recordedInputs": [
+    {
+      "filename": "c2-plan-stage-schema.v3.json",
+      "sha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+      "role": "predecessor contract; source of the seven v3 commitment vectors"
+    },
+    {
+      "filename": "c2-plan-stage-schema.v3.review-independent-livebytes.json",
+      "sha256": "0f297bed7d8c83e6bd96e54fe40bcda14281b3e4bcedf96e1173d14fbe60a3a3",
+      "role": "the REJECT of v3 carrying LB-C2-01 and LB-C2-02; the anchor of the whole repair chain, verified at load"
+    },
+    {
+      "filename": "c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json",
+      "sha256": "211a7798a621341191b296c1e7c5308ca2e87657b72b7295261ce0d5cac49851",
+      "role": "the BLOCKING disposition this successor exists to discharge; refused at load if softened, and the source of the adjudicated comparison line numbers the scan must be shown to see"
+    },
+    {
+      "filename": "c2-plan-stage-schema.v4.json",
+      "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+      "role": "the predecessor contract; the effective v5 contract is these verified bytes with the derivedFrom operations applied, and the retained false-accept vectors are injected into it"
+    },
+    {
+      "filename": "c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+      "sha256": "c74612ef4519750aa529db543c2f0cc81fce50d57c3d636486fd2f0ddc0c41f3",
+      "role": "the review that raised IR-C2V4-01 as MAJOR non-blocking and whose 'no false accept is reachable' conclusion the adjudication falsified"
+    },
+    {
+      "filename": "check-c2-v4.py",
+      "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+      "role": "the subject of IR-C2V4-01 and the INHERITED ORACLE: executed from its verified snapshot over the v4-identity projection, so everything the adjudication puts beyond dispute is re-established by execution rather than restated"
+    },
+    {
+      "filename": "check-c2.py",
+      "sha256": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3",
+      "role": "the pinned independent v3 encoder, executed from its verified snapshot by the inherited oracle to reproduce the seven planIntentCommitment vectors"
+    },
+    {
+      "filename": "d9-exit-contract.v1.6.json",
+      "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046",
+      "role": "pinned input required by the inherited oracle"
+    },
+    {
+      "filename": "delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "role": "pinned input required by the inherited oracle"
+    },
+    {
+      "filename": "fact-plane.v1.json",
+      "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+      "role": "source of the 12-relation set passed to validate_plan_intent"
+    },
+    {
+      "filename": "operability.v2.json",
+      "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+      "role": "pinned input required by the inherited oracle"
+    },
+    {
+      "filename": "resolved-inputs.v2.json",
+      "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+      "role": "pinned input required by the inherited oracle"
+    },
+    {
+      "filename": "threat-model.v3.json",
+      "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+      "role": "pinned input required by the inherited oracle"
+    }
+  ],
+  "recordingObligation": "IMPLEMENTATION-FREEZE section 7.2: filename AND sha256 for every input this artifact depends on. A count is not a record. check-c2-v5.py recomputes this table from the digests it actually verified and fails if any pinned input is unrecorded, misrecorded or recorded without a role.",
+  "scope": "checker-scope evidence only; SPECIFIED / IMPLEMENTABLE_UNEXECUTED; CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW; independent re-review REQUIRED; no seal, freeze, integration or product acceptance is declared."
+}

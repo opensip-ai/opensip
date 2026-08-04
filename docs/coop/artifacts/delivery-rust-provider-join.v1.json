@@ -1,0 +1,255 @@
+{
+  "artifact": "opensip.delivery-rust-provider-join",
+  "version": 1,
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "purpose": "Narrow DELIVERY successor for the bundled Rust semantic-provider child: exact cardinality, lifecycle, launch, supervision and conditional D9 v1.13 fate. It does not edit or silently amend delivery.v2.json.",
+  "authority": {
+    "architectureContractOnly": true,
+    "appliedToDeliveryV2": false,
+    "integrationAuthority": "NONE",
+    "productAuthority": "NONE",
+    "freezeAuthority": "NONE",
+    "demonstrationAuthority": "NONE",
+    "releaseAuthority": "NONE",
+    "independentReviewRequired": true
+  },
+  "dependencyPins": [
+    {
+      "path": "delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "use": "existing sidecar, offline-bundle, platform and termination-integration authority"
+    },
+    {
+      "path": "d9-exit-contract.v1.13.json",
+      "sha256": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+      "use": "exact proposed D9 successor vocabulary and derivation"
+    },
+    {
+      "path": "d9-exit-contract.v1.13.review-independent-prefreeze.json",
+      "sha256": "88ab60efb21f603213ebff722f62f310b422f03981895e3f6779f2febe734c5b",
+      "use": "independent pre-freeze review of the exact D9 v1.13 candidate bytes"
+    }
+  ],
+  "protocolReference": {
+    "path": "rust-provider-protocol.v1.json",
+    "artifact": "opensip.rust-provider-protocol",
+    "version": 1,
+    "applicationRule": "This join becomes usable only when the protocol artifact, this join, the resolved-inputs join and their retained checker are independently reviewed and formally applied together. A filename or matching field is not application authority."
+  },
+  "processModel": {
+    "decision": "bundled-pinned-rustc-driver-sidecar",
+    "workerCardinality": {
+      "closed": true,
+      "keyFields": [
+        "ExecutionId",
+        "SnapshotId",
+        "complete closed resolved-inputs rust-v1 semantic-universe value"
+      ],
+      "workersPerDistinctKey": 1,
+      "shareAcrossRustStagesInSameExactKey": true,
+      "multiplexDifferentUniverseValues": false,
+      "reuseAcrossExecutionIds": false,
+      "reuseAcrossSnapshotIds": false,
+      "reuseAcrossAttempts": false,
+      "retainAfterTerminal": false,
+      "residentWorker": false,
+      "keyComparison": "Exact recursive value equality after the host validates the closed rust-v1 record; no digest-only comparison, prefix, providerVersion-only comparison or implementation-local cache key may replace it."
+    },
+    "start": "After the AttemptRecord, sealed Snapshot, verified PlanId, selected rust-v1 universe, exact repository-resolution projection and admitted Rust semantic stages exist, start exactly one child immediately before the first admitted rust-semantic stage for the key. Starting during request validation, PlanIntent construction, snapshot capture or PlanId construction is forbidden.",
+    "stageSharing": "One Analyze carries all and only admitted C-2 fact-derivation stages with operator=semantic-provider and providerId=rust-semantic for this exact key, in verified ExecutionPlan stage order. No stage from another key or provider is sent.",
+    "end": "After any valid terminal plus required process fate, user cancellation, protocol fault, process fault or delivery failure, close pipes, terminate the child process group/job if still live, reap every descendant owned by the child, delete private scratch and forget all compiler/provider state before returning from the supervisor.",
+    "tcbPosture": "The provider, pinned compiler and any explicitly granted pre-Plan repository-resolution tools are TCB-accepted. Process separation contains crashes and compiler instability; it is not a security sandbox and grants no capability-confinement claim.",
+    "pureCoreExclusion": "The child and supervisor remain outside the lifetime-neutral pure core."
+  },
+  "ownership": {
+    "host": [
+      "verified artifact selection",
+      "absolute-path launch",
+      "stdin write",
+      "stdout frame read",
+      "bounded stderr capture",
+      "private scratch",
+      "cancellation",
+      "deadline and hard kill",
+      "child and descendant reap",
+      "handshake and identity validation",
+      "protocol and schema validation",
+      "candidate spool and validation",
+      "Coverage-domain validation",
+      "host FACT-ID minting",
+      "durable admission",
+      "Run seal",
+      "D9 finalization",
+      "process exit"
+    ],
+    "semanticChild": [
+      "one-key rustc_driver compiler state",
+      "sealed-VFS reads only",
+      "candidate fact construction",
+      "candidate Coverage construction"
+    ],
+    "semanticChildMayExecuteRepositoryCode": false,
+    "semanticChildMayMintHostIdentity": false,
+    "semanticChildMayWriteDurableState": false,
+    "semanticChildMayDerivePolicyRunTerminationOrExit": false,
+    "repositoryExecutionOwner": "The host resolved-inputs adapter, after snapshot seal and before PlanId construction, owns any explicitly granted build-script/procedural-macro execution. It seals outputs and logical tool-path descriptors into PlanId inputs, terminates that preparation activity, and only then may the semantic child start."
+  },
+  "launch": {
+    "executable": "Absolute digest-verified path of the signed rust-provider artifact selected by the release manifest; no PATH lookup or shell.",
+    "commandArray": [
+      "<verified-rust-provider-absolute-path>",
+      "--protocol-stdio-v1",
+      "--toolchain-root",
+      "<verified-rust-toolchain-bundle-absolute-root>",
+      "--scratch-root",
+      "<host-private-child-scratch-absolute-path>"
+    ],
+    "argvRule": "The six command-array elements above are exact and ordered. Placeholder values are host-resolved absolute paths; no additional argument, response file, shell expansion or project-controlled argument is allowed.",
+    "stdio": {
+      "stdin": "new inherited unidirectional pipe, host writes protocol frames only",
+      "stdout": "new inherited unidirectional pipe, protocol frames only from process start through EOF",
+      "stderr": "new inherited byte pipe, diagnostic-only and never parsed as authority"
+    },
+    "environment": {
+      "inheritParent": false,
+      "setExactly": {
+        "LANG": "C",
+        "LC_ALL": "C",
+        "TZ": "UTC"
+      },
+      "projectValuesAllowed": false,
+      "networkCredentialsAllowed": false,
+      "pathLookupAllowed": false
+    },
+    "roots": {
+      "toolchainRoot": "Read-only verified extraction of rust-toolchain-bundle; every selected component stays beneath this root and matches the signed artifact bytes.",
+      "scratchRoot": "Fresh private host-owned directory for this child only, bounded by protocol limits, never evidence or cache authority, removed at end.",
+      "snapshot": "Transferred only by the protocol sealed-VFS frames; no live worktree or repository root is passed."
+    },
+    "preSpawnChecks": [
+      "selected profile contains rust-provider and rust-toolchain-bundle",
+      "artifact digests and dependency edges match the signed release",
+      "platformId is one of DELIVERY's five supported rows",
+      "provider executable and toolchain root are absolute and contained in their verified installations",
+      "private scratch exists with restrictive host-selected permissions",
+      "no system rustc, Cargo, sysroot, loader, linker or PATH substitution is selected"
+    ]
+  },
+  "diagnosticsAndScratchBounds": {
+    "maxStderrBytes": 262144,
+    "stderrOverflow": "Capture the first maxStderrBytes, append a host-owned truncation marker outside provider bytes, and continue protocol validation; stderr alone never changes semantic or D9 fate.",
+    "maxScratchBytes": 2147483648,
+    "scratchOverflow": "Terminate and reap the child, discard candidates and map provider-protocol / PROVIDER.PROTOCOL_VIOLATION.",
+    "cancellationGraceMilliseconds": 5000,
+    "normalExitGraceMilliseconds": 5000
+  },
+  "d9Reference": {
+    "candidatePath": "d9-exit-contract.v1.13.json",
+    "candidateSha256": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+    "independentReviewPath": "d9-exit-contract.v1.13.review-independent-prefreeze.json",
+    "independentReviewSha256": "88ab60efb21f603213ebff722f62f310b422f03981895e3f6779f2febe734c5b",
+    "reviewDecision": "PASS",
+    "reviewCandidateState": "CANDIDATE-NOT-APPLIED",
+    "joinState": "CONDITIONAL-NOT-APPLIED",
+    "rule": "The mappings below use only values present in the exact D9 v1.13 candidate. The independent review makes those candidate bytes acceptable for pre-freeze reference; it does not apply v1.13 to DELIVERY, this join or any product. Until formal application, current DELIVERY's v1.6 reference remains current and no implementation may silently substitute v1.13."
+  },
+  "supervisorEventMap": [
+    {
+      "event": "verified-complete-zero-exit-eof",
+      "candidateDisposition": "ADMIT_ALL_AFTER_ALL_VALIDATION",
+      "coverageDisposition": "ADMIT_COMPLETE_COVERAGE_AFTER_ALL_VALIDATION",
+      "d9Projection": "No provider deficiency or fault is introduced; final D9 class remains derived from the complete host finalization state."
+    },
+    {
+      "event": "verified-unavailable-zero-exit-eof",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_EXHAUSTIVE_UNKNOWN_COVERAGE_AFTER_ALL_VALIDATION",
+      "d9Projection": "deficiency=provider-unavailable; reasonCode=COVERAGE.PROVIDER_UNAVAILABLE"
+    },
+    {
+      "event": "verified-budget-exhausted-zero-exit-eof",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_EXHAUSTIVE_UNKNOWN_COVERAGE_AFTER_ALL_VALIDATION",
+      "d9Projection": "deficiency=budget-exhausted; reasonCode=COVERAGE.BUDGET_EXHAUSTED"
+    },
+    {
+      "event": "host-user-signal-valid-cancelled-zero-exit-eof",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "class=interrupted; exitCode=130; no reasonCode or errorCode"
+    },
+    {
+      "event": "host-user-signal-cancel-grace-expired-or-child-died-during-cleanup",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "class=interrupted; exitCode=130; the user signal is not overwritten by provider-protocol"
+    },
+    {
+      "event": "promised-artifact-missing-digest-mismatched-or-unspawnable",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=delivery-required; errorCode=DELIVERY.REQUIRED_FAILED"
+    },
+    {
+      "event": "handshake-identity-or-capability-mismatch",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "provider-declared-fault-terminal",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "malformed-noncanonical-oversize-digest-mismatch-unknown-duplicate-skipped-decreasing-or-overflow-frame",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "schema-attribution-order-commitment-candidate-or-coverage-bijection-violation",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "nonzero-exit-or-signal-death-not-caused-by-host-user-cancellation",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "eof-before-terminal-or-before-required-zero-exit-observation",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "supervisor-deadline-or-hang-hard-kill-without-user-signal",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION; never manufacture BudgetExhausted"
+    },
+    {
+      "event": "byte-frame-or-process-output-after-any-terminal",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    },
+    {
+      "event": "cancelled-without-the-one-host-user-cancel-transition",
+      "candidateDisposition": "DISCARD_ALL",
+      "coverageDisposition": "ADMIT_NONE",
+      "d9Projection": "faultCause=provider-protocol; errorCode=PROVIDER.PROTOCOL_VIOLATION"
+    }
+  ],
+  "exhaustivenessRule": "Every child outcome is classified by exactly one row after applying D9 interruption precedence. An implementation-local exit status, private provider error spelling, partial Coverage seal or timeout-as-budget rule is forbidden.",
+  "residuals": [
+    "Formal application to DELIVERY and formal application of D9 v1.13 are outside this candidate.",
+    "Independent review must replay every event row and dependency hash before application.",
+    "Product implementation, descendant-process behavior, network-disabled repository preparation, platform qualification and release evidence remain unexecuted."
+  ]
+}

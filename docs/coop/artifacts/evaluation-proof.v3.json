@@ -1,0 +1,1931 @@
+{
+  "artifact": "opensip.evaluation-proof",
+  "version": 3,
+  "status": "CANDIDATE-AWAITING-INDEPENDENT-REREVIEW",
+  "author": "phase1a-v3-rereview-repair-lane",
+  "date": "2026-07-31",
+  "claimId": "EVIDENCE",
+  "role": "Closed proof records validated against a separately supplied immutable Run-sealed C2 activation authority; pure policy-ir-2 applies exact waiver suppression before baseline classification.",
+  "supersedesProofObligationsOf": "artifacts/evaluation-proof.v2.json (preserved accepted predecessor with RR residuals)",
+  "repairs": [
+    {
+      "finding": "R8-P1A-RR-01",
+      "state": "REPAIRED-AWAITING-INDEPENDENT-REREVIEW",
+      "mechanism": "SealedEvaluationAuthorityV1 + ActivationManifestV1 + fixed-authority substitution rejection"
+    },
+    {
+      "finding": "R8-P1A-RR-02",
+      "state": "REPAIRED-AWAITING-INDEPENDENT-REREVIEW",
+      "mechanism": "policy-ir-2 waiver-before-baseline order + overlap golden + inverse mutation"
+    },
+    {
+      "predecessor": "evaluation-proof.v2.json",
+      "state": "PRESERVED-BYTE-IDENTICAL"
+    }
+  ],
+  "canonicalCommitmentGrammar": {
+    "version": "typed-component-merkle-v3-compatible-v2",
+    "namespace": "opensip.evaluation-proof.v2",
+    "component": "uint8(typeTag) || uint32be(len(utf8)) || utf8",
+    "records": "0x10 member; 0x11 outcome; 0x12 waiver; 0x13 subject; 0x18 activation manifest; 0x19 activation member; every component separately framed",
+    "leaf": "sha256(0x00 || uint64be(len(record)) || record)",
+    "internal": "sha256(0x01 || left || right)",
+    "oddNode": "promote unchanged",
+    "emptySet": "sha256(0x02 || frameBlob(0x30, namespace))",
+    "outer": "sha256(0x30 || frameBlob(0x31,namespace) || frameBlob(0x32,domain) || frameBlob(0x33,merkleRoot))",
+    "ordering": "deduplicate exact record bytes then sort unsigned bytewise ascending",
+    "truncation": "FORBIDDEN",
+    "domains": [
+      "universe",
+      "subject-set",
+      "outcome-set",
+      "waiver-set",
+      "verdict-input",
+      "capability-closure",
+      "activation-manifest-v1"
+    ]
+  },
+  "wireGrammars": {
+    "evaluationId": {
+      "jsonType": "string",
+      "pattern": "^eval1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$",
+      "controlCharacters": "FORBIDDEN"
+    },
+    "predicateId": {
+      "jsonType": "string",
+      "pattern": "^predicate1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$",
+      "controlCharacters": "FORBIDDEN"
+    },
+    "projectId": {
+      "jsonType": "string",
+      "pattern": "^prj1-[0-9a-f]{64}$",
+      "source": "resolved-inputs.v2.json#projectIdContract/PROJECT-ID-V1"
+    },
+    "runId": {
+      "jsonType": "string",
+      "pattern": "^run1:[0-9a-f]{64}$",
+      "source": "c2-plan-stage-schema.v3.json#planIntent.wireTypes.runId"
+    },
+    "contentRef": {
+      "jsonType": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "closedEnum": [
+        "match",
+        "no-match",
+        "indeterminate",
+        "error"
+      ]
+    },
+    "claimShape": {
+      "closedEnum": [
+        "local-match",
+        "relationship-match",
+        "aggregate-match",
+        "no-match",
+        "indeterminate",
+        "error"
+      ]
+    },
+    "verdict": {
+      "closedEnum": [
+        "pass",
+        "fail",
+        "advisory",
+        "indeterminate"
+      ]
+    },
+    "dependencyRole": {
+      "closedEnum": [
+        "coverage-fact-partition",
+        "coverage-predicate-semantics",
+        "fact-anchor",
+        "partition-fact",
+        "policy-verifier",
+        "predicate-verifier",
+        "replay-input",
+        "verifier-signature"
+      ]
+    },
+    "planId": {
+      "jsonType": "string",
+      "pattern": "^plan1:sha256:[0-9a-f]{64}$",
+      "source": "resolved-inputs.v2.json#planIdContract"
+    },
+    "activationId": {
+      "jsonType": "string",
+      "pattern": "^act1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*$",
+      "controlCharacters": "FORBIDDEN"
+    }
+  },
+  "persistedSchemaRegistry": [
+    {
+      "name": "EvaluationProofBundleV3",
+      "closed": true,
+      "required": [
+        "evaluations",
+        "objectStore",
+        "partitionContents",
+        "projectId",
+        "replayClosureRefs",
+        "requiredUniverse",
+        "runId",
+        "schemaVersion",
+        "verdictProof"
+      ],
+      "optional": []
+    },
+    {
+      "name": "ActivationManifestV1",
+      "closed": true,
+      "required": [
+        "executionPlanCommitment",
+        "members",
+        "planId",
+        "planIntentCommitment",
+        "projectId",
+        "resolvedActivationGraphRef",
+        "schemaVersion"
+      ],
+      "optional": []
+    },
+    {
+      "name": "ActivationMemberV1",
+      "closed": true,
+      "required": [
+        "claimShape",
+        "coverageRef",
+        "evaluationId",
+        "policyActivationId",
+        "predicateActivationId",
+        "predicateId",
+        "ruleActivationId"
+      ],
+      "optional": []
+    },
+    {
+      "name": "SealedEvaluationAuthorityV1",
+      "closed": true,
+      "required": [
+        "activationManifest",
+        "activationManifestRef",
+        "executionPlanCommitment",
+        "planId",
+        "planIntentCommitment",
+        "projectId",
+        "runId",
+        "runSealRef",
+        "schemaVersion",
+        "source"
+      ],
+      "optional": []
+    },
+    {
+      "name": "AuthoritySourceV1",
+      "closed": true,
+      "required": [
+        "implementerChosenActivation",
+        "kind",
+        "manifestDerivation",
+        "manifestRefSealedIntoRun"
+      ],
+      "optional": []
+    },
+    {
+      "name": "ObjectRecordV2",
+      "closed": true,
+      "required": [
+        "dependencies",
+        "kind",
+        "projectId",
+        "ref"
+      ],
+      "optional": []
+    },
+    {
+      "name": "ObjectDependencyV1",
+      "closed": true,
+      "required": [
+        "projectId",
+        "ref",
+        "role"
+      ],
+      "optional": []
+    },
+    {
+      "name": "DependencyEdgeV1",
+      "closed": true,
+      "required": [
+        "fromRef",
+        "projectId",
+        "role",
+        "toRef"
+      ],
+      "optional": []
+    },
+    {
+      "name": "PartitionRecordV2",
+      "closed": true,
+      "required": [
+        "members",
+        "partitionRef",
+        "projectId"
+      ],
+      "optional": []
+    },
+    {
+      "name": "RequiredUniverseV2",
+      "closed": true,
+      "required": [
+        "declaredCount",
+        "memberIds",
+        "universeCommitment"
+      ],
+      "optional": []
+    },
+    {
+      "name": "MemberIdV2",
+      "closed": true,
+      "required": [
+        "evaluationId",
+        "predicateId"
+      ],
+      "optional": []
+    },
+    {
+      "name": "EvaluationV2",
+      "closed": true,
+      "required": [
+        "claimShape",
+        "coverageRef",
+        "evaluationId",
+        "outcome",
+        "predicateId",
+        "predicateSemanticsRef",
+        "proof"
+      ],
+      "optional": []
+    },
+    {
+      "name": "LocalMatchProofV2",
+      "closed": true,
+      "required": [
+        "factRefs",
+        "kind",
+        "subjectId"
+      ],
+      "optional": [
+        "spanAnchor"
+      ]
+    },
+    {
+      "name": "RelationshipMatchProofV2",
+      "closed": true,
+      "required": [
+        "factRefs",
+        "kind",
+        "relationSemanticsRef",
+        "witnessEdges"
+      ],
+      "optional": []
+    },
+    {
+      "name": "WitnessEdgeV1",
+      "closed": true,
+      "required": [
+        "factRef",
+        "fromSubjectId",
+        "relationKind",
+        "toSubjectId"
+      ],
+      "optional": []
+    },
+    {
+      "name": "AggregateMatchProofV2",
+      "closed": true,
+      "required": [
+        "factPartitionRef",
+        "factRefs",
+        "foldSpec",
+        "kind",
+        "memberCount",
+        "memberSetCommitment"
+      ],
+      "optional": []
+    },
+    {
+      "name": "NoMatchProofV2",
+      "closed": true,
+      "required": [
+        "factPartitionRef",
+        "kind",
+        "subjectCount",
+        "subjectSetCommitment"
+      ],
+      "optional": []
+    },
+    {
+      "name": "ReasonProofV2",
+      "closed": true,
+      "required": [
+        "kind",
+        "reasonRef"
+      ],
+      "optional": [
+        "factRefs",
+        "partialSubjectCount"
+      ]
+    },
+    {
+      "name": "ReplayClosureRefV1",
+      "closed": true,
+      "required": [
+        "projectId",
+        "ref"
+      ],
+      "optional": []
+    },
+    {
+      "name": "VerdictProofV2",
+      "closed": true,
+      "required": [
+        "baseline",
+        "coverage",
+        "derivationCommitment",
+        "outcomeSetCommitment",
+        "policy",
+        "verdict",
+        "waiverSetCommitment",
+        "waivers"
+      ],
+      "optional": []
+    },
+    {
+      "name": "CoverageInputV1",
+      "closed": true,
+      "required": [
+        "coverageRef",
+        "projectId",
+        "status"
+      ],
+      "optional": []
+    },
+    {
+      "name": "BaselineNoneV1",
+      "closed": true,
+      "required": [
+        "kind"
+      ],
+      "optional": []
+    },
+    {
+      "name": "BaselineComparisonV1",
+      "closed": true,
+      "required": [
+        "baselineRef",
+        "kind",
+        "matchedMembers",
+        "projectId"
+      ],
+      "optional": []
+    },
+    {
+      "name": "WaiverV1",
+      "closed": true,
+      "required": [
+        "disposition",
+        "projectId",
+        "target",
+        "waiverId",
+        "waiverRef"
+      ],
+      "optional": []
+    },
+    {
+      "name": "PolicyInputV2",
+      "closed": true,
+      "required": [
+        "baselineDisposition",
+        "evaluationOrder",
+        "incompleteDisposition",
+        "matchDisposition",
+        "noMatchDisposition",
+        "policyRef",
+        "projectId",
+        "semanticsVersion",
+        "waivedDisposition"
+      ],
+      "optional": []
+    },
+    {
+      "name": "SpanAnchorV1",
+      "closed": true,
+      "required": [
+        "column",
+        "line"
+      ],
+      "optional": []
+    }
+  ],
+  "proofObligationsByClaimShape": {
+    "local-match": "typed subject plus at least one retained factRef",
+    "relationship-match": "typed relation semantics plus at least one retraceable witness edge and factRef",
+    "aggregate-match": "typed exact member-set commitment/count, retained partition, fold and facts",
+    "no-match": "typed exact subject-set commitment/count and retained fact partition",
+    "indeterminate": "typed resolvable reason; never absorbed into pass",
+    "error": "typed resolvable reason; never absorbed into pass"
+  },
+  "invariants": [
+    {
+      "id": "EP-1",
+      "assert": "Local and other retained claims carry concrete content references; booleans cannot stand for material."
+    },
+    {
+      "id": "EP-2",
+      "assert": "Outcome, claimShape and proof tag form one exact closed union."
+    },
+    {
+      "id": "EP-3",
+      "assert": "Every evaluation retains typed historical predicate semantics."
+    },
+    {
+      "id": "EP-4",
+      "assert": "Subject/member sets and counts independently recompute from retained partitions."
+    },
+    {
+      "id": "EP-5",
+      "assert": "The outcome commitment covers every exact activated tuple."
+    },
+    {
+      "id": "EP-6",
+      "assert": "Coverage, baseline, waiver and policy inputs are typed, closed and content-addressed."
+    },
+    {
+      "id": "EP-7",
+      "assert": "policy-ir-2 deterministically derives the persisted verdict; labels and coordinated policy edits are not trusted."
+    },
+    {
+      "id": "EP-8",
+      "assert": "Typed component frames make tuple bytes injective; exact grammars reject control characters before persistence."
+    },
+    {
+      "id": "EP-9",
+      "assert": "Every direct/transitive reference resolves once in one ProjectId graph; cycles, injection and unused objects reject."
+    },
+    {
+      "id": "EP-10",
+      "assert": "requiredUniverse.memberIds exactly equals the sorted activated member set and its commitment."
+    },
+    {
+      "id": "EP-11",
+      "assert": "Every persisted proof record and enum is recursively closed and type checked."
+    },
+    {
+      "id": "EP-12",
+      "assert": "The exact activated universe comes only from a separately supplied immutable Run-sealed SealedEvaluationAuthorityV1 whose closed manifest bytes/ref and C2 commitment join independently recompute."
+    },
+    {
+      "id": "EP-13",
+      "assert": "policy-ir-2 has one committed order: indeterminate dominates, exact waivers suppress current matches, then only effective matches are classified against baseline."
+    }
+  ],
+  "positiveVectors": [
+    {
+      "id": "EP3-POS-RELATIONSHIP-FAIL",
+      "why": "relationship witness; unbaselined match derives fail",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "relation-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:relationship",
+              "predicateId": "predicate1:forbidden-dependency"
+            }
+          ],
+          "universeCommitment": "sha256:564da5e9edf337f3cc184d7830931f442dec9f1aadd8596793df8315b64bd430"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:relationship",
+            "predicateId": "predicate1:forbidden-dependency",
+            "outcome": "match",
+            "claimShape": "relationship-match",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "relationship-match-proof",
+              "relationSemanticsRef": "sha256:e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0",
+              "witnessEdges": [
+                {
+                  "fromSubjectId": "pkg:a",
+                  "toSubjectId": "pkg:b",
+                  "relationKind": "depends-on",
+                  "factRef": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+                }
+              ],
+              "factRefs": [
+                "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+              ]
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "fail",
+          "outcomeSetCommitment": "sha256:da2cb70d1b802aae84c1b046cd5fc9d3db995a15c5765311436777e335b18437",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:54203ed5c28f7e2249a1a6ec798172ad87e1a996b05cc4ea33d55c63707751a2"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6161616161616161616161616161616161616161616161616161616161616161",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:44f3e33f87ac9e41520fc44a90b3b4d0e0b9b2f1f36e3f41baec2a26e4a04362",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8181818181818181818181818181818181818181818181818181818181818181",
+          "members": [
+            {
+              "evaluationId": "eval1:relationship",
+              "predicateId": "predicate1:forbidden-dependency",
+              "claimShape": "relationship-match",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-LOCAL-ADVISORY",
+      "why": "baseline identity and exact match set remain load-bearing; baselined match derives advisory",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "baseline",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:local",
+              "predicateId": "predicate1:forbidden-api"
+            }
+          ],
+          "universeCommitment": "sha256:b1607027ec20c3e3b8e16b20d4a50f05e7da51e8cef78cf5df2e364130974c02"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:local",
+            "predicateId": "predicate1:forbidden-api",
+            "outcome": "match",
+            "claimShape": "local-match",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "local-match-proof",
+              "subjectId": "src/a.ts#f",
+              "spanAnchor": {
+                "line": 12,
+                "column": 3
+              },
+              "factRefs": [
+                "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+              ]
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "advisory",
+          "outcomeSetCommitment": "sha256:63b44e5c2799e3761b770f1476d0a2022ce7cf5efee51c16be345e1334a23737",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "comparison",
+            "baselineRef": "sha256:d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "matchedMembers": [
+              {
+                "evaluationId": "eval1:local",
+                "predicateId": "predicate1:forbidden-api"
+              }
+            ]
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:b79401488b2edf9ad0debac68e48a1140204c9ac60b6540f44bc159c62e507ba"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6262626262626262626262626262626262626262626262626262626262626262",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:6baa649c3c43dd44528a5037100928e12a72ef5b99f7f76591f902f2e720900c",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8282828282828282828282828282828282828282828282828282828282828282",
+          "members": [
+            {
+              "evaluationId": "eval1:local",
+              "predicateId": "predicate1:forbidden-api",
+              "claimShape": "local-match",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-AGGREGATE-WAIVED-PASS",
+      "why": "aggregate set recomputes and a typed exact waiver suppresses the only match",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact-partition",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "waiver",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [
+          {
+            "partitionRef": "sha256:f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "members": [
+              "sym:0",
+              "sym:1",
+              "sym:2",
+              "sym:3"
+            ]
+          }
+        ],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:aggregate",
+              "predicateId": "predicate1:blast-radius"
+            }
+          ],
+          "universeCommitment": "sha256:6e876668679f2b08c9d18c0ea3255df6a28d663ff2b9a317df631cb1a4e68756"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:aggregate",
+            "predicateId": "predicate1:blast-radius",
+            "outcome": "match",
+            "claimShape": "aggregate-match",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "aggregate-match-proof",
+              "memberSetCommitment": "sha256:5d223c269cf3fddfcb14d0154a21c9784d3a2de6649c52d40da3605dbdd9d15a",
+              "memberCount": 4,
+              "factPartitionRef": "sha256:f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2",
+              "foldSpec": "typed-merkle-set-v2",
+              "factRefs": [
+                "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+              ]
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "pass",
+          "outcomeSetCommitment": "sha256:bdba719c61e5c6617c180017e7c7890d3f370a9453e2aabf1f12dd779a1cc15d",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [
+            {
+              "waiverId": "waiver1:aggregate-approved",
+              "waiverRef": "sha256:a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+              "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "target": {
+                "evaluationId": "eval1:aggregate",
+                "predicateId": "predicate1:blast-radius"
+              },
+              "disposition": "suppress-match"
+            }
+          ],
+          "waiverSetCommitment": "sha256:56bacef0d6540725cd46684ce3b3b4a7a4db650b1e0c98b9597b9ab51bcd5d1a",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:2d59f4d881c59b20137c8d8f1ee6ec649c35a48e7ed4ef341640add8b27a2592"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6363636363636363636363636363636363636363636363636363636363636363",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:e2ba9bf3a9e4e10b36e9f5a321e5a36afca5ce5feb6801849b072826e32b0bbc",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8383838383838383838383838383838383838383838383838383838383838383",
+          "members": [
+            {
+              "evaluationId": "eval1:aggregate",
+              "predicateId": "predicate1:blast-radius",
+              "claimShape": "aggregate-match",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-NOMATCH-PASS",
+      "why": "concrete retention seed: complete no-match with verifiable and replayable transitive dependency closure",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": [
+              {
+                "ref": "sha256:9191919191919191919191919191919191919191919191919191919191919191",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "predicate-verifier"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": [
+              {
+                "ref": "sha256:f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "coverage-fact-partition"
+              },
+              {
+                "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "coverage-predicate-semantics"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact-partition",
+            "dependencies": [
+              {
+                "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "partition-fact"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": [
+              {
+                "ref": "sha256:9393939393939393939393939393939393939393939393939393939393939393",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "fact-anchor"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:9393939393939393939393939393939393939393939393939393939393939393",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": [
+              {
+                "ref": "sha256:9191919191919191919191919191919191919191919191919191919191919191",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "policy-verifier"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:9191919191919191919191919191919191919191919191919191919191919191",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "replay-closure",
+            "dependencies": [
+              {
+                "ref": "sha256:9292929292929292929292929292929292929292929292929292929292929292",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "verifier-signature"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:9292929292929292929292929292929292929292929292929292929292929292",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "replay-closure",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "replay-closure",
+            "dependencies": [
+              {
+                "ref": "sha256:e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6",
+                "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "role": "replay-input"
+              }
+            ]
+          },
+          {
+            "ref": "sha256:e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "replay-closure",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [
+          {
+            "partitionRef": "sha256:f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "members": [
+              "src/a.ts",
+              "src/b.ts",
+              "src/c.ts"
+            ]
+          }
+        ],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:no-secret",
+              "predicateId": "predicate1:no-secret"
+            }
+          ],
+          "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:no-secret",
+            "predicateId": "predicate1:no-secret",
+            "outcome": "no-match",
+            "claimShape": "no-match",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "no-match-proof",
+              "subjectSetCommitment": "sha256:65e3d109be185540e70c61c72cf072243f12cf9a37883b6797a9014255dab1c7",
+              "subjectCount": 3,
+              "factPartitionRef": "sha256:f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1"
+            }
+          }
+        ],
+        "replayClosureRefs": [
+          {
+            "ref": "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "verdictProof": {
+          "verdict": "pass",
+          "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:f2d88bcc256644ed41b2f23f9b14109169c32188a444a68036ad34b9b2b22e83"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6464646464646464646464646464646464646464646464646464646464646464",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:62033398da77955311c084b0e2ea07912f72745cdbc22f61047d2c0cbd3adfd1",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8484848484848484848484848484848484848484848484848484848484848484",
+          "members": [
+            {
+              "evaluationId": "eval1:no-secret",
+              "predicateId": "predicate1:no-secret",
+              "claimShape": "no-match",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-INDETERMINATE",
+      "why": "typed indeterminate outcome forces indeterminate policy outcome",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "reason",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:provider",
+              "predicateId": "predicate1:provider-required"
+            }
+          ],
+          "universeCommitment": "sha256:4a76318f4cfdd8184923c4a79464b9e2777d193113e93f5c6173bc57e280b838"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:provider",
+            "predicateId": "predicate1:provider-required",
+            "outcome": "indeterminate",
+            "claimShape": "indeterminate",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "indeterminate-proof",
+              "reasonRef": "sha256:c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+              "partialSubjectCount": 1,
+              "factRefs": [
+                "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+              ]
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "indeterminate",
+          "outcomeSetCommitment": "sha256:dc07a30a2590233b2c48aba4eaf841d7cb8899cd5d38e97fd3a215b431becd83",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:346c1fca7f60b9d95f09eefca10fc2a77bd913728c911f7d92617d57014737a6"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6565656565656565656565656565656565656565656565656565656565656565",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:add825f0f8b30d041f2d5fa933d220a9c9c4c68442764567371a70adc8d7597f",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8585858585858585858585858585858585858585858585858585858585858585",
+          "members": [
+            {
+              "evaluationId": "eval1:provider",
+              "predicateId": "predicate1:provider-required",
+              "claimShape": "indeterminate",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-ERROR",
+      "why": "typed error outcome forces indeterminate policy outcome",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "reason",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:error",
+              "predicateId": "predicate1:rule-error"
+            }
+          ],
+          "universeCommitment": "sha256:b88d842ce2ef2727e6e0e9bf2ee93d24faa9d3d2f6792535e9a38df08eb00911"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:error",
+            "predicateId": "predicate1:rule-error",
+            "outcome": "error",
+            "claimShape": "error",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "error-proof",
+              "reasonRef": "sha256:c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2"
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "indeterminate",
+          "outcomeSetCommitment": "sha256:a737bdf90a26b1aa27f9f9ef62970625a6ce973907ffc3de49894afed0ae817d",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "none"
+          },
+          "waivers": [],
+          "waiverSetCommitment": "sha256:9b34fcd27e8ceba9cd4ddef022328c0e11925bb2999bdd72ca5323f69c19eccd",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:f1535bdbc3432c596d41264d2e54c4e6d19019bb0a9763cc08d63a1efed4c186"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:da89891c57e6e3786fbba362f46fdd1fdf3ae50e8369efcf022e02c9cc968f70",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8686868686868686868686868686868686868686868686868686868686868686",
+          "members": [
+            {
+              "evaluationId": "eval1:error",
+              "predicateId": "predicate1:rule-error",
+              "claimShape": "error",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "EP3-POS-BASELINE-WAIVER-PASS",
+      "why": "baseline-plus-waiver overlap golden: exact waiver suppression happens before baseline classification, leaving no effective match and therefore pass",
+      "bundle": {
+        "schemaVersion": 3,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "objectStore": [
+          {
+            "ref": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "predicate-semantics",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "coverage",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "policy",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "fact",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "baseline",
+            "dependencies": []
+          },
+          {
+            "ref": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "waiver",
+            "dependencies": []
+          }
+        ],
+        "partitionContents": [],
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "memberIds": [
+            {
+              "evaluationId": "eval1:local",
+              "predicateId": "predicate1:forbidden-api"
+            }
+          ],
+          "universeCommitment": "sha256:b1607027ec20c3e3b8e16b20d4a50f05e7da51e8cef78cf5df2e364130974c02"
+        },
+        "evaluations": [
+          {
+            "evaluationId": "eval1:local",
+            "predicateId": "predicate1:forbidden-api",
+            "outcome": "match",
+            "claimShape": "local-match",
+            "predicateSemanticsRef": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "proof": {
+              "kind": "local-match-proof",
+              "subjectId": "src/a.ts#f",
+              "spanAnchor": {
+                "line": 12,
+                "column": 3
+              },
+              "factRefs": [
+                "sha256:f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+              ]
+            }
+          }
+        ],
+        "replayClosureRefs": [],
+        "verdictProof": {
+          "verdict": "pass",
+          "outcomeSetCommitment": "sha256:63b44e5c2799e3761b770f1476d0a2022ce7cf5efee51c16be345e1334a23737",
+          "coverage": {
+            "status": "complete",
+            "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "baseline": {
+            "kind": "comparison",
+            "baselineRef": "sha256:d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "matchedMembers": [
+              {
+                "evaluationId": "eval1:local",
+                "predicateId": "predicate1:forbidden-api"
+              }
+            ]
+          },
+          "waivers": [
+            {
+              "waiverId": "waiver1:baseline-overlap",
+              "waiverRef": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+              "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "target": {
+                "evaluationId": "eval1:local",
+                "predicateId": "predicate1:forbidden-api"
+              },
+              "disposition": "suppress-match"
+            }
+          ],
+          "waiverSetCommitment": "sha256:463d8320ce067f0f3b849d89862a1c00c256b97c33f7d7499d32dd942b3de53c",
+          "policy": {
+            "policyRef": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+            "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "semanticsVersion": "policy-ir-2",
+            "matchDisposition": "effective-new-match-fail",
+            "baselineDisposition": "effective-baseline-match-advisory",
+            "waivedDisposition": "suppress-before-baseline",
+            "noMatchDisposition": "pass",
+            "incompleteDisposition": "indeterminate",
+            "evaluationOrder": [
+              "indeterminate-or-error-dominates",
+              "validate-exact-waivers",
+              "suppress-waived-current-matches",
+              "classify-effective-new-match-as-fail",
+              "classify-effective-baseline-match-as-advisory",
+              "classify-no-effective-match-as-pass"
+            ]
+          },
+          "derivationCommitment": "sha256:13473b4ce4acf3275fe386d617dccafeac5a1535a956e01332e44bc5954aae92"
+        }
+      },
+      "authority": {
+        "schemaVersion": 1,
+        "source": {
+          "kind": "IMMUTABLE_RUN_SEAL",
+          "manifestDerivation": "HOST_FROM_ADMITTED_C2_EXECUTION_PLAN_AND_RESOLVED_RULE_POLICY_GRAPH",
+          "manifestRefSealedIntoRun": true,
+          "implementerChosenActivation": false
+        },
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:1111111111111111111111111111111111111111111111111111111111111111",
+        "runSealRef": "sha256:6767676767676767676767676767676767676767676767676767676767676767",
+        "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+        "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "activationManifestRef": "sha256:92d02e7b643da03b6456bc2429330499060776a6033878e1f880d7daab257ce8",
+        "activationManifest": {
+          "schemaVersion": 1,
+          "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+          "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+          "resolvedActivationGraphRef": "sha256:8787878787878787878787878787878787878787878787878787878787878787",
+          "members": [
+            {
+              "evaluationId": "eval1:local",
+              "predicateId": "predicate1:forbidden-api",
+              "claimShape": "local-match",
+              "coverageRef": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "ruleActivationId": "act1:rule.1",
+              "predicateActivationId": "act1:predicate.1",
+              "policyActivationId": "act1:policy.main"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "adversarialNegatives": [
+    {
+      "id": "EP3-NEG-01",
+      "why": "empty local proof refs",
+      "violates": "EP-1",
+      "baseVectorId": "EP3-POS-LOCAL-ADVISORY",
+      "mutation": {
+        "kind": "local-fact-refs-empty"
+      }
+    },
+    {
+      "id": "EP3-NEG-02",
+      "why": "relationship proof changed to another union tag",
+      "violates": "EP-2",
+      "baseVectorId": "EP3-POS-RELATIONSHIP-FAIL",
+      "mutation": {
+        "kind": "relationship-proof-tag-substitution"
+      }
+    },
+    {
+      "id": "EP3-NEG-03",
+      "why": "predicate semantics object removed",
+      "violates": "EP-3",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "predicate-semantics-object-removed"
+      }
+    },
+    {
+      "id": "EP3-NEG-04",
+      "why": "same count but wrong subject-set commitment",
+      "violates": "EP-4",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "subject-set-commitment-substitution"
+      }
+    },
+    {
+      "id": "EP3-NEG-05",
+      "why": "arbitrary outcome digest",
+      "violates": "EP-5",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "outcome-set-commitment-substitution"
+      }
+    },
+    {
+      "id": "EP3-NEG-06",
+      "why": "baseline union omitted",
+      "violates": "EP-6",
+      "baseVectorId": "EP3-POS-LOCAL-ADVISORY",
+      "mutation": {
+        "kind": "baseline-field-omitted"
+      }
+    },
+    {
+      "id": "EP3-NEG-07",
+      "why": "R8-P1A-P02 match relabeled pass",
+      "violates": "EP-7",
+      "baseVectorId": "EP3-POS-RELATIONSHIP-FAIL",
+      "mutation": {
+        "kind": "match-relabeled-pass"
+      }
+    },
+    {
+      "id": "EP3-NEG-08-MEMBER-COLLISION",
+      "why": "R8 member delimiter tuple is rejected before persistence; collision control proves v2 bytes also differ",
+      "violates": "EP-8",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "member-delimiter-injection"
+      }
+    },
+    {
+      "id": "EP3-NEG-09",
+      "why": "resolved partition object removed",
+      "violates": "EP-9",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "referenced-object-removed"
+      }
+    },
+    {
+      "id": "EP3-NEG-10",
+      "why": "R8-P1A-P04 exact memberIds omitted",
+      "violates": "EP-10",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "required-member-ids-omitted"
+      }
+    },
+    {
+      "id": "EP3-NEG-11",
+      "why": "unknown nested proof field",
+      "violates": "EP-11",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "unknown-proof-field"
+      }
+    },
+    {
+      "id": "EP3-NEG-12-OUTCOME-COLLISION",
+      "why": "R8 outcome delimiter component is rejected; collision control proves framed bytes differ",
+      "violates": "EP-8",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "outcome-delimiter-injection"
+      }
+    },
+    {
+      "id": "EP3-NEG-13",
+      "why": "R8-P1A-P03 unknown outcome/shape/proof cannot bypass dispatch",
+      "violates": "EP-11",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "unknown-outcome-shape"
+      }
+    },
+    {
+      "id": "EP3-NEG-14",
+      "why": "coordinated arbitrary policy and pass label",
+      "violates": "EP-7",
+      "baseVectorId": "EP3-POS-RELATIONSHIP-FAIL",
+      "mutation": {
+        "kind": "arbitrary-policy-and-verdict"
+      }
+    },
+    {
+      "id": "EP3-NEG-15",
+      "why": "truncated content reference",
+      "violates": "EP-8",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "truncated-reference"
+      }
+    },
+    {
+      "id": "EP3-NEG-16-WHOLE-UNIVERSE-SUBSTITUTION",
+      "why": "coordinated local substitution and recomputation cannot replace immutable Run-sealed activation authority",
+      "violates": "EP-12",
+      "baseVectorId": "EP3-POS-NOMATCH-PASS",
+      "mutation": {
+        "kind": "whole-universe-substitution"
+      }
+    },
+    {
+      "id": "EP3-NEG-17-INVERSE-PRECEDENCE",
+      "why": "baseline-before-waiver classification contradicts the only normative ordered policy program",
+      "violates": "EP-13",
+      "baseVectorId": "EP3-POS-BASELINE-WAIVER-PASS",
+      "mutation": {
+        "kind": "inverse-baseline-waiver-order"
+      }
+    }
+  ],
+  "crossLanguageGoldens": [
+    {
+      "id": "EP2-GOLDEN-MEMBER-01",
+      "kind": "member",
+      "components": [
+        "eval1:alpha",
+        "predicate1:beta"
+      ],
+      "encodedHex": "10010000000b6576616c313a616c706861020000000f707265646963617465313a62657461",
+      "domain": "universe",
+      "commitment": "sha256:3c892df16229693c4d0915057b7ad9e785711aa53b0c2a7e2a98820829414968"
+    },
+    {
+      "id": "EP2-GOLDEN-OUTCOME-01",
+      "kind": "outcome",
+      "components": [
+        "eval1:alpha",
+        "predicate1:beta",
+        "no-match"
+      ],
+      "encodedHex": "11010000000b6576616c313a616c706861020000000f707265646963617465313a6265746103000000086e6f2d6d61746368",
+      "domain": "outcome-set",
+      "commitment": "sha256:4bfce5e152afeba268260292de385d4b303a2f2b829b7767e25b1d3507020538"
+    },
+    {
+      "id": "EP2-GOLDEN-SUBJECT-01",
+      "kind": "subject",
+      "components": [
+        "src/a.ts"
+      ],
+      "encodedHex": "1305000000087372632f612e7473",
+      "domain": "subject-set",
+      "commitment": "sha256:8a896c51affad3ac49ef0752fbad28bf9a5ab94c102753a5f5666417a4831cc4"
+    }
+  ],
+  "collisionControls": [
+    {
+      "id": "EP2-COLLISION-MEMBER",
+      "kind": "member",
+      "logicalA": [
+        "a",
+        "b\u001fc"
+      ],
+      "logicalB": [
+        "a\u001fb",
+        "c"
+      ],
+      "encodedHexA": "100100000001610200000003621f63",
+      "encodedHexB": "100100000003611f62020000000163",
+      "commitmentA": "sha256:e609d50d28a26b14171fa4a1eedc2241c234601c6dafb43b6784cdc8e295c055",
+      "commitmentB": "sha256:2b073c5b758e333989aad54ec6e46627bca95e6adbabe4960ec7a8c9ce8e8858",
+      "persistedGrammarAccepts": false
+    },
+    {
+      "id": "EP2-COLLISION-OUTCOME",
+      "kind": "outcome",
+      "logicalA": [
+        "a",
+        "b",
+        "c\u001fd"
+      ],
+      "logicalB": [
+        "a\u001fb",
+        "c",
+        "d"
+      ],
+      "encodedHexA": "110100000001610200000001620300000003631f64",
+      "encodedHexB": "110100000003611f62020000000163030000000164",
+      "commitmentA": "sha256:59a14e9d2f7ea31ae1fc76147ba90a5ea72afad386df04443eb92217276f5d64",
+      "commitmentB": "sha256:c626ab5bd8f93cbc818435cb33547e59defe80714c85b78fd34e8c2e072e06d0",
+      "persistedGrammarAccepts": false
+    }
+  ],
+  "decisionDependencies": [
+    {
+      "claim": "C-2",
+      "supplies": "exact activation and Coverage identity; policy-evaluation remains a no-effect pure-core stage"
+    },
+    {
+      "claim": "R-1",
+      "supplies": "CoreCompletion.policyOutcome ownership and deterministic pure-core boundary"
+    },
+    {
+      "claim": "RESOLVED-INPUTS",
+      "supplies": "PROJECT-ID-V1"
+    },
+    {
+      "claim": "ARCH.RETENTION-TIERS",
+      "supplies": "transitive dependency custody and capability availability"
+    }
+  ],
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "runtimeDemonstrated": false,
+    "why": "Closed artifacts and mutation tests are design-integrity evidence only. They do not qualify a product implementation or storage engine."
+  },
+  "knownLimitations": [
+    "Activation manifest construction and immutable Run sealing are specified and executable as pure validation but not demonstrated in a production host.",
+    "A1-RTV4-02 runtime overhead and scale remain unmeasured.",
+    "Independent rereview is required; this authoring candidate cannot accept itself or apply integration state."
+  ],
+  "sealRecommendation": "DO NOT SEAL. RR-01/RR-02 repairs require independent rereview; runtime authority construction remains IMPLEMENTABLE_UNEXECUTED.",
+  "policySemanticsV2": {
+    "id": "policy-ir-2",
+    "owner": "pure evaluation core",
+    "inputs": [
+      "complete outcome set",
+      "coverage status",
+      "baseline match set",
+      "waiver target set",
+      "policy semantics identity"
+    ],
+    "precedence": [
+      "indeterminate-or-error-dominates",
+      "validate-exact-waivers",
+      "suppress-waived-current-matches",
+      "classify-effective-new-match-as-fail",
+      "classify-effective-baseline-match-as-advisory",
+      "classify-no-effective-match-as-pass"
+    ],
+    "hostRule": "The host seals the core-returned policyOutcome and MUST NOT rederive a different verdict. Independent readers replay these same pure semantics to verify it.",
+    "baselineRule": "Classify only effective matches remaining after exact waiver suppression; an effective baseline match is advisory.",
+    "waiverRule": "Validate exact content-addressed waivers, then suppress each targeted current match before any baseline classification."
+  },
+  "activationAuthority": {
+    "authorityType": "SealedEvaluationAuthorityV1",
+    "manifestType": "ActivationManifestV1",
+    "trustedInputRule": "authority is supplied separately from EvidenceBundle and producer-controlled fields",
+    "hostDerivation": "host derives the manifest from the admitted C2 ExecutionPlan plus resolved rule/predicate/policy activation graph",
+    "runSealBinding": "activationManifestRef is sealed into the immutable Run before EvidenceBundle validation",
+    "producerAuthority": "NONE; no implementer-selected activation or bundle-local universe can become authority"
+  },
+  "c2AuthorityJoin": {
+    "sourceArtifact": "c2-plan-stage-schema.v3.json",
+    "sourceSha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+    "planIntentFixtureId": "valid-minimal-analysis-intent",
+    "intentBindingFixtureId": "valid-frozen-intent-execution-plan",
+    "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+    "expectedPlanIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+    "executionPlanCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+    "authorityVectorIds": [
+      "EP3-POS-RELATIONSHIP-FAIL",
+      "EP3-POS-LOCAL-ADVISORY",
+      "EP3-POS-AGGREGATE-WAIVED-PASS",
+      "EP3-POS-NOMATCH-PASS",
+      "EP3-POS-INDETERMINATE",
+      "EP3-POS-ERROR",
+      "EP3-POS-BASELINE-WAIVER-PASS"
+    ]
+  }
+}

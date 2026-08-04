@@ -1,0 +1,111 @@
+{
+  "artifact": "opensip.d9-exit-contract.adjudication",
+  "adjudicator": "agent-a",
+  "adjudicates": [
+    "artifacts/d9-exit-contract.v1.6.review-reviewer2.json",
+    "artifacts/d9-evidence.blind-reauthor.reviewer1.json"
+  ],
+  "method": [
+    "Reproduced reviewer-2 mutation escapes: delete causeModel, reverse precedence, delete crossAxisInvariants, desync commandKind \u2014 all previously escaped.",
+    "Compared reviewer-1 blind axes (22 cases) and reviewer-2 full 43-case reauthor against binding goldens.",
+    "Independently confirmed A1-D9-V15-03 rejection (X9) is correct.",
+    "Repaired binding artifact and extended check-d9.py with D14\u2013D16 + concurrentConditionGoldens + 5 new mutations."
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "R2-D9-01",
+      "decision": "ACCEPT",
+      "evidence": "Golden user-interrupt-post-finalization-commit scenario originally stated only non-reclassification; axes asserted pass/satisfied/committed/success without human entailment. finalizationTransitions table covers all classes but does not make that sentence self-sufficient.",
+      "reasoning": "Independent re-derivation cannot recover success without prose naming the pre-signal settlement. This is the v1.5 same-author trap class.",
+      "requiredChange": "Rewrite scenario to state successful pass was already settled; retain finalizationTransitions; mutation flips a transition.",
+      "verification": "Scenario rewritten; _mut_finalization_flip rejected by D9.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Evidence that axes for this case are mechanically derived from words already in the original sentence alone."
+    },
+    {
+      "findingId": "R2-D9-02",
+      "decision": "ACCEPT",
+      "evidence": "ledger-busy-timeout-exceeded and machine-output-serialization-failed used commandKind=any with admission=admitted and lifecycle=not-applicable without locating the fault relative to Run publication.",
+      "reasoning": "A single concrete lifecycle tuple cannot be universal across pre-Run and post-commit phases. Implementers would lose Run identity or invent a false no-Run claim.",
+      "requiredChange": "Define host-finalization-only projectionScope; state preservesSettledRun; rewrite scenarios.",
+      "verification": "Both goldens carry projectionScope=host-finalization-only and hostFinalizationProjection; checker enforces the flags.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding proof that lifecycle/durability on these goldens never describe Run state by construction in all host code paths."
+    },
+    {
+      "findingId": "R2-D9-03",
+      "decision": "ACCEPT",
+      "evidence": "Eight scenarios asserted lifecycle/Coverage/durability values not present in human prose (reviewer-2 list).",
+      "reasoning": "Same-author axis/derivation consistency is not independent evidence. Prose must state load-bearing axes.",
+      "requiredChange": "Rewrite each listed scenario so every load-bearing axis is human-stated.",
+      "verification": "All eight scenarios rewritten with explicit lifecycle/coverage/durability/fault framing.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A mechanical derivation rule from original prose alone that recovers the axes without case-specific assumptions."
+    },
+    {
+      "findingId": "R2-D9-04",
+      "decision": "ACCEPT",
+      "evidence": "causeModel.precedence claimed fault>rejection>deficiency but scenarioAxes forbids multi-family input; deleting causeModel or reversing precedence left check-d9 green.",
+      "reasoning": "Advertised executable precedence was prose-only. Builders could implement the opposite order.",
+      "requiredChange": "concurrentConditionReducer + concurrentConditionGoldens; checker D14/D15; mutations on delete/reverse.",
+      "verification": "5 concurrent goldens; delete causeModel and reverse precedence mutations rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A \u2014 defect reproduced and repaired."
+    },
+    {
+      "findingId": "R2-D9-05",
+      "decision": "ACCEPT",
+      "evidence": "crossAxisInvariants could be deleted; top-level commandKind could desync from scenarioAxes.commandKind without findings.",
+      "reasoning": "Declared contract fields must be load-bearing or they become local forms for global claims.",
+      "requiredChange": "D12 declaration presence; D16 commandKind equality; mutations.",
+      "verification": "Both mutations now rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "N/A \u2014 defect reproduced and repaired."
+    },
+    {
+      "findingId": "A1-D9-V15-03",
+      "decision": "REJECT",
+      "evidence": "Reviewer-1 CONFIRM_ACCEPT_X9; reviewer-2 CONFIRM_AGENT_3_REJECTION. serve-graceful-signal-stop observes SIGINT/SIGTERM before shutdown; interruption=none would encode a falsehood.",
+      "reasoning": "Success remains correct because the signal is a stop trigger, not the terminating cause. X9 is the order-independent rule.",
+      "requiredChange": "None \u2014 prior rejection stands.",
+      "verification": "X9 still enforced; serve interrupted mutation rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A serve model where graceful stop is not a signal-before-finalization event."
+    },
+    {
+      "findingId": "R1-D9-BLIND-SAMPLE",
+      "decision": "ACCEPT-WITH-MODIFICATION",
+      "evidence": "Reviewer-1: 22/22 class match; 6 axis disagreements resolved ARTIFACT_CORRECT. Reviewer-2: 42/43 concrete class match; post-finalization was the real prose defect.",
+      "reasoning": "Blind reauthor largely corroborates class derivation; residual defects were prose/precedence/checker gaps, not a wrong class table.",
+      "requiredChange": "Addressed via R2-D9-01..05 repairs.",
+      "verification": "D0..D16 clean; 13/13 mutations rejected.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A new independent blind sample finding a class mismatch after prose repairs."
+    }
+  ],
+  "resolves": {
+    "R2-D9-01": "RESOLVED",
+    "R2-D9-02": "RESOLVED",
+    "R2-D9-03": "RESOLVED",
+    "R2-D9-04": "RESOLVED",
+    "R2-D9-05": "RESOLVED",
+    "A1-D9-V15-03": "CONFIRMED-PRIOR-REJECTION",
+    "R1-D9-BLIND-SAMPLE": "RESOLVED"
+  },
+  "sealedPropertiesCovered": [
+    "D9 termination is a single host-owned projection",
+    "fault > rejection > deficiency cause precedence (now executable)",
+    "post-finalization signals do not reclassify settled termination",
+    "finite, query, mutation, serve, rejection, deficiency, and fault termination families"
+  ],
+  "knownLimitations": [
+    "Goldens and derive_class still share maintenance ownership; independent blind reauthor remains the only check against co-consistency traps for NEW goldens.",
+    "commandKind=any host-finalization projection relies on implementers honouring preservesSettledRun outside the pure axes tuple."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Load-bearing R2 findings repaired and mutation-guarded. Residual risk is process (future goldens need blind reauthor), not an open architecture fork.",
+    "consumerB": "Yes \u2014 implement HostTermination mapper from axes + concurrentConditionReducer; do not invent multi-cause wire payloads."
+  }
+}

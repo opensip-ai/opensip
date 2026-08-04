@@ -1,0 +1,846 @@
+[
+  {
+    "id": "D01",
+    "area": "foundations",
+    "decision": "Analysis is a pure function of (computation identity, input digests, config digest). The persistent local cache only memoises; deleting it changes nothing but latency. A --no-cache mode recomputes and asserts output-digest equality.",
+    "forcing": "FORCED",
+    "forcedBy": "W-agent (warm residency, sub-second overlapping queries) x W-ci (no residency, reproducible) x R4. No way found to serve both without either two engines that disagree or one pure engine with an inert cache.",
+    "rejected": [
+      "Separate fast-path heuristics for interactive use - creates a second truth; agents are lied to at the highest query volume in the system",
+      "Cache with best-effort correctness ('re-run if suspicious') - shifts the suspicion judgment onto a caller that is an automated agent with no basis for it"
+    ],
+    "falsifiedBy": "A measured --no-cache parity test that cannot pass without sacrificing interactive latency; then purity or latency must be renegotiated explicitly rather than silently."
+  },
+  {
+    "id": "D02",
+    "area": "foundations",
+    "decision": "Every query pins an input snapshot (ordered path -> content digest) and its answer is about that snapshot. Reading a file whose content no longer matches its pinned digest fails with inputs-mutated rather than producing a result about a state that never existed.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 ('against what inputs'). A resident process reads a tree being edited concurrently; without pinning, results describe a superposition of states.",
+    "rejected": [
+      "Ignore the race as a small window - for W-agent the window is the expected condition, not an edge case",
+      "Copy/stage inputs per query - copy cost dominates analysis at 100k files; digest verification gives the same guarantee at read cost"
+    ],
+    "falsifiedBy": "If inputs-mutated fires often enough in real agent sessions to obstruct rather than safeguard, the fix is finer-grained snapshots (per project or dependency cone), not abandoning pinning."
+  },
+  {
+    "id": "D03",
+    "area": "foundations",
+    "decision": "Hard two-layer split: extractors turn source bytes into typed facts; rules are queries over facts. Rules never see source bytes and never touch the filesystem.",
+    "forcing": "FORCED",
+    "forcedBy": "Three-way convergence: W-agent incrementality (facts are per-file and content-keyed, so a five-file edit re-extracts five files); R4 evidence ('why' has a real answer only if satisfying tuples can be named and traced to spans); R6 authority limits (a query has no authority by construction).",
+    "rejected": [
+      "Imperative rules over a recording fact accessor (build-system / Salsa-shaped) - a read log says what the rule looked at, not what made it fire, which is materially weaker for R4; also grants general computational authority, reopening D51",
+      "Tree-pattern matchers directly over syntax trees with no fact layer - cross-file and cross-language rules have no home, and evidence can cite nothing but syntax"
+    ],
+    "falsifiedBy": "An important class of declared rules proving inexpressible as queries over any reasonable fact schema; the response would be the sandboxed imperative escape hatch (D55), not abandoning the split."
+  },
+  {
+    "id": "D04",
+    "area": "foundations",
+    "decision": "Facts are tiered by depth: tier 0 universal (file identity, spans, VCS metadata) for every file including unsupported languages; tier 1 syntactic (tokens, declarations, imports as written) for every language with a grammar; tier 2 resolved (name resolution, module/call graph, inheritance) for the two deep languages only. Each predicate declares its tier; each rule declares required predicates and hence minimum tier.",
+    "forcing": "FORCED",
+    "forcedBy": "R3 (many languages, deep in two) x R4. Without tiers, a resolution-dependent rule runs against a language with no resolver, finds nothing, and reports clean - a silent false negative presented as a pass. Tiers make 'this rule could not be evaluated here' computable rather than documented.",
+    "rejected": [
+      "One uniform schema with absent columns for unsupported languages - absence and not-applicable become indistinguishable at query time, so the rule silently succeeds",
+      "Per-language schemas with no common core - no cross-language rules, and genuinely universal tier-0 facts get reimplemented per language"
+    ],
+    "falsifiedBy": "Tier-1 facts proving too shallow to express useful rules in non-deep languages; the honest response would be narrowing the language claim, not pretending tier-1 rules are meaningful."
+  },
+  {
+    "id": "D05",
+    "area": "foundations",
+    "decision": "The result type is (Finding[], Coverage, Unknown[], Verdict), not Finding[]. Coverage records per (file x tier) and per (rule x scope) whether evaluation was complete, partial, or not performed, with a reason. Human output leads with coverage and unknowns, not counts.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 applied to negative claims ('no violations' is a claim) plus W-ci 'fail the build correctly' - a build that passes because analysis silently did not run has failed incorrectly.",
+    "rejected": [
+      "Coverage as a separate optional report - optional means absent in CI, where it matters most, and lets the verdict be computed without it",
+      "Warnings on stderr for skipped files - stderr is not part of the result, is not stored, is not diffable, and cannot be gated on"
+    ],
+    "falsifiedBy": "Coverage metrics proving so noisy that teams universally disable the gate would falsify the metric's granularity, not the presence of coverage in the result type."
+  },
+  {
+    "id": "D06",
+    "area": "foundations",
+    "decision": "An unknown is material iff it intersects the declared fact-dependency cone of an enabled rule. CI can gate with --fail-on-unknown=material.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 x W-ci. Without materiality, unknowns are either ignorable noise (so R4's qualification is decorative) or an unusable gate (any 100k-file repo has thousands of immaterial unknowns). Computable rather than heuristic only because of D03.",
+    "rejected": [
+      "Extractor-author-assigned severity on unknowns - the extractor cannot know which rules the team enabled, so it cannot know what matters here",
+      "Threshold on total unknown count - a threshold on an uninterpretable number is one teams raise until it stops firing"
+    ],
+    "falsifiedBy": "Rules whose declared dependencies are systematically wider than their actual dependencies would make everything material; mechanically checkable by comparing declared against observed dependencies during evaluation."
+  },
+  {
+    "id": "D07",
+    "area": "domain-model",
+    "decision": "Occurrence identity (this span in this snapshot), persistent identity (the same violation across revisions, location-independent), and class identity (the rule) are three distinct identities, never conflated.",
+    "forcing": "FORCED",
+    "forcedBy": "R5. A single file:line:rule key makes baselines rot on line drift: a formatting commit floods CI with 'new' violations, the team stops trusting the gate, and R5's trustworthiness fails within weeks of adoption.",
+    "rejected": [
+      "One Diagnostic type with location as identity (classic linter model) - baseline rot",
+      "Location identity plus fuzzy matching at compare time - the gate's behaviour then depends on a similarity threshold nobody can audit, and R4 requires the matching decision itself be explainable"
+    ],
+    "falsifiedBy": "Measured baseline churn. If content-derived identity churns more than location-derived identity on real repositories (e.g. a repo-wide formatter change alters normalised content everywhere while line numbers stay stable), the scheme is wrong even if the three-way split is right."
+  },
+  {
+    "id": "D08",
+    "area": "domain-model",
+    "decision": "Persistent identity = (ruleId, ruleVersion, scopeKey, unitDigest, ordinal) + schemeVersion. scopeKey is module+symbol path for tier-2 languages and file path otherwise; unitDigest is a normalised digest of the smallest implicated syntactic unit; ordinal disambiguates identical unitDigests within a scope under canonical ordering.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. The need for a location-independent persistent key is FORCED by D07/R5, but this particular tuple is one of several defensible constructions.",
+    "rejected": [
+      "Content fingerprint alone - collapses n identical violations in one scope into one identity, so removing one of three looks like no change and adding a fourth looks like nothing new: a real silent gating failure",
+      "Fingerprint over a window of surrounding lines - sensitive to unrelated nearby edits, reintroducing drift",
+      "Identity assigned by a database or service - violates R1 and makes identity depend on when the tool historically ran rather than on inputs"
+    ],
+    "falsifiedBy": "Measured re-key rate on refactor-heavy histories. If ordinary refactoring re-keys a large fraction of baselined findings, the scheme is not carrying its weight and line-diff gating (D43) becomes comparatively more attractive."
+  },
+  {
+    "id": "D09",
+    "area": "domain-model",
+    "decision": "Policy-assigned severity, enablement, and gating status are excluded from persistent identity. Rule parameters are included in effective identity for baseline purposes, recorded as named parameters rather than folded opaquely into the rule id.",
+    "forcing": "FORCED",
+    "forcedBy": "R5. Including severity means promoting warn->error re-keys every baselined finding for that rule (a pure policy edit silently invalidates suppression state). Excluding parameters lets old entries suppress findings the old configuration could never produce - a silent widening of suppression, R5's worst failure mode.",
+    "rejected": [
+      "Treat the whole resolved policy as part of identity - too coarse; any policy edit invalidates everything, so teams stop editing policy"
+    ],
+    "falsifiedBy": "A parameter that provably cannot affect the finding set (a message template) would be miscategorised; the fix is per-parameter declaration of finding-affecting-ness, not abandoning the split."
+  },
+  {
+    "id": "D10",
+    "area": "domain-model",
+    "decision": "Evidence is exactly one deterministically-selected minimal proof: derived tuple, rule instance, body tuples recursively down to base facts carrying source spans. Negated conditions are justified by an exhausted-domain summary (the searched space, found empty).",
+    "forcing": "PREFERRED",
+    "forcedBy": "That evidence exists is FORCED by R4 and W-human; that proof selection is deterministic is FORCED by R4 (otherwise reproductions agree on findings but disagree on explanations). Proof-trees as the form are PREFERRED - they fall out of D13, and a different evaluator would need a different construction.",
+    "rejected": [
+      "Store all proofs - exponential",
+      "Store no proof and re-derive on demand - re-derivation needs the original inputs and tool version, so an archived record fails R4 as soon as either is gone",
+      "Natural-language explanation generated at report time - anything needing a model is excluded by R2; template rendering over the proof is fine"
+    ],
+    "falsifiedBy": "Minimal proofs proving routinely uninformative to human reviewers (the least proof being a degenerate path); then 'minimal' is the wrong selection criterion. This is a usability claim masquerading as an architectural one and should be tested early."
+  },
+  {
+    "id": "D11",
+    "area": "domain-model",
+    "decision": "A workspace contains one or more projects; a project is an explicit resolution/compilation boundary at which tier-2 extraction is scoped and cached.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. Nothing stated requires multi-project support. Adopted because R8's upper end is characteristic of monorepos, tier-2 resolution has no meaning without a unit boundary, and retrofitting one into an established fact schema is very expensive. Cost of being wrong is asymmetric.",
+    "rejected": [
+      "Workspace = single implicit project - rejected on the asymmetry argument"
+    ],
+    "falsifiedBy": "Overwhelmingly single-project real usage would make this unjustified extra structure (falsified as unnecessary, not as wrong)."
+  },
+  {
+    "id": "D12",
+    "area": "rule-surface",
+    "decision": "Rules are declarative queries over facts; imperative rule code is not the primary extension surface.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R4 x R6 (that a zero-authority rule surface must exist and be the default). The declarative form specifically is PREFERRED; see D03 rejected alternatives.",
+    "rejected": [
+      "Arbitrary rule code as the primary surface - unbounded authority, unenforceable determinism, and evidence reduced to 'the code decided'"
+    ],
+    "falsifiedBy": "Same as D03: an important rule class inexpressible as queries."
+  },
+  {
+    "id": "D13",
+    "area": "rule-surface",
+    "decision": "The evaluator supports recursion to a fixpoint with stratified negation and aggregation, and no general computation (Datalog-shaped, semi-naive, set-at-a-time).",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment resting on an unverified assumption that declared rules include transitive/reachability constraints (layering, allowed-dependency graphs). If that assumption holds, recursion is forced, since a layering rule is transitive closure. Since the assumption is unverified, the decision is PREFERRED and the assumption is stated. Given recursion is needed, this shape supplies termination guarantees (which make untrusted rules safe per D51) and provenance (D10) for free.",
+    "rejected": [
+      "Expression languages (CEL-shaped) - no recursion, so reachability rules are inexpressible",
+      "Full logic programming with negation-as-failure and unrestricted terms - loses termination guarantees and stratified semantics, the two properties that make untrusted rules safe",
+      "Graph query languages - genuinely live; good reachability ergonomics and path-returning semantics map neatly onto evidence; rejected on negation provenance and the cost of a second data model alongside relations",
+      "Embedding an off-the-shelf engine permanently - reasonable for prototyping expressiveness, but off-the-shelf engines expose neither deterministic budgets (D25) nor provenance (D10) well, and both are requirements here"
+    ],
+    "falsifiedBy": "A rule corpus that is >=90% non-recursive. Then a non-recursive matcher is correct, much faster, much cheaper, and D70's rejection of SQL weakens too."
+  },
+  {
+    "id": "D14",
+    "area": "rule-surface",
+    "decision": "Every rule ships a semantic version, a computed behaviour digest (over body, parameter schema, declared dependencies), and an executable conformance corpus re-run at load time. A rule failing its corpus is refused, not degraded or warned about.",
+    "forcing": "FORCED",
+    "forcedBy": "R5 ('trustworthy across tool upgrades') forces that some mechanism detect semantic drift. Digests detect change but not whether it matters; versions rest on discipline, which decays. So at least one of {replay against history (D39), conformance corpus} is forced. The specific triad is PREFERRED.",
+    "rejected": [
+      "Trust semver - an obligation enforced only by convention is not a mechanism; R5 asks for trustworthiness, not intention",
+      "Detect drift only by replay at the baseline revision - requires history availability, which shallow CI clones break, so it fails exactly where CI needs it"
+    ],
+    "falsifiedBy": "Corpus maintenance burden causing authors to write trivially-passing corpora would make the mechanism theatre. Countermeasure: mutation-style coverage - a rule whose body can be perturbed without any corpus example changing verdict has an inadequate corpus, and that is mechanically checkable."
+  },
+  {
+    "id": "D15",
+    "area": "rule-surface",
+    "decision": "Policy (which rules, severity, gating, parameters, scope) is a separate artifact from rule definitions. Both live in-repo, are version-controlled, and contribute to ConfigDigest.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 (reproducing a result needs the rules that produced it, so they must be pinned and retrievable) plus R5 (a policy edit changes what is gated and must be reviewable as a diff). Separation is forced by usage asymmetry: policy churns, rule logic does not, and most teams import packs rather than authoring rules.",
+    "rejected": [
+      "Configuration in a hosted service or user-level config outside the repo - violates R1 and makes results depend on invisible per-machine state, a determinism failure that is very hard to diagnose"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D16",
+    "area": "rule-surface",
+    "decision": "Third-party rule packs resolve to content digests, are recorded in a lockfile, are cached locally, and can be vendored on request.",
+    "forcing": "FORCED",
+    "forcedBy": "R1 x R4 x R6. Reproduction requiring a re-fetch would require network, contradicting R1; a pack referenced by mutable name means the same configuration means different things at different times, contradicting R4.",
+    "rejected": [
+      "Version-range dependencies resolved at run time - makes the analysis result depend on when it ran"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D17",
+    "area": "rule-surface",
+    "decision": "Policy is expressed in TOML; rule bodies use a purpose-built declarative language.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, and close to arbitrary. The one substantive argument is that YAML's implicit typing (Norway problem, version numbers parsing as floats) is a determinism hazard in a tool whose product is determinism; JSON lacks comments, which matters for policy files that record why a rule is off.",
+    "rejected": [
+      "YAML - implicit typing hazards",
+      "JSON - no comments",
+      "Rules embedded in a general-purpose language - reopens D03/D51"
+    ],
+    "falsifiedBy": "Team preference. Hold loosely; if it ever becomes expensive to change, that is itself a design smell."
+  },
+  {
+    "id": "D18",
+    "area": "rule-surface",
+    "decision": "Inline suppressions are supported but constrained: must name a specific rule, must carry a reason, usage is tracked so unused ones are reported as rot, and a suppressed finding still appears in the result and record with status suppressed. Suppression removes gating, never visibility.",
+    "forcing": "PREFERRED",
+    "forcedBy": "That suppressions exist at all is PREFERRED - nothing in the brief requires them; adopted because bulk baselines and point exceptions solve different problems (temporal debt vs a permanent justified exception). Given they exist, 'recorded not hidden' is FORCED by R4: a mechanism that deletes claims from the record makes the record unable to answer why something was not reported.",
+    "rejected": [
+      "Blanket file-level or line-level suppression with no rule named - silently absorbs future rules, the same silent-widening failure as D09",
+      "Suppressions that remove the finding entirely - destroys the audit trail and hides suppression pressure, the signal reviewers and a consuming product most want"
+    ],
+    "falsifiedBy": "If suppression comments become the dominant adoption mechanism and baselines go unused, the baseline machinery is over-built - worth measuring after adoption."
+  },
+  {
+    "id": "D19",
+    "area": "execution",
+    "decision": "Cache keys compose (computation identity, input digests, config digest) - including extractor version, rule body digest, and every parameter binding.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R4, as a consequence of D01. Recorded separately because key composition is where purity is usually broken: omitting any component produces a cache that silently serves stale answers, invisible until someone reproduces a run and gets a different result.",
+    "rejected": [
+      "Coarse keys with manual invalidation - manual invalidation is exactly the discipline that decays"
+    ],
+    "falsifiedBy": "The --no-cache parity test in CI. It is not optional; it is the only thing standing between D01 and wishful thinking."
+  },
+  {
+    "id": "D20",
+    "area": "execution",
+    "decision": "Six pure, independently cached phases: (0) resolve config -> ConfigDigest; (1) enumerate/select files -> FileSet + digests; (2) extract tier-0/1 facts per file; (3) build project graph and resolve tier-2 per project; (4) evaluate rules to fixpoint -> findings + proofs; (5) identity, baseline diff, suppressions, coverage, unknowns, materiality; (6) verdict and emit.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. Boundaries are chosen for cache granularity rather than conceptual tidiness: phase 2 is per-file because that is what W-agent invalidates; phase 3 is per-project because resolution has no smaller sound unit; phase 4 is whole-fact-base because recursive rules are global.",
+    "rejected": [
+      "A single fused pass - nothing is cacheable, so W-agent is unservable at 100k files"
+    ],
+    "falsifiedBy": "If phase 3's key (a digest over dependency symbol indexes) causes cascading invalidation - one edit in a widely-depended-upon project invalidating everything downstream - the boundary needs per-symbol rather than per-project granularity. This is the likeliest place for the phase structure to fail."
+  },
+  {
+    "id": "D21",
+    "area": "execution",
+    "decision": "Incrementalise extraction (phases 2 and 3, content-keyed) from day one; re-run phase 4 completely over the warm in-memory fact base on every query. Add incremental view maintenance only if measurement shows phase 4 misses latency targets.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - deliberate judgment against habit. The expensive part is parsing and resolution, not relational evaluation; a warm fact base may evaluate in milliseconds at these scales. Delete-and-rederive is also the hardest correctness surface in the design, and getting it subtly wrong produces wrong answers, which is worse than slow ones in a tool whose product is credibility.",
+    "rejected": [
+      "Full incremental view maintenance from the start - high correctness risk against unmeasured benefit",
+      "Demand-driven top-down evaluation (magic sets) as the interactive path - better cold, worse warm, and W-agent is a warm workload; remains the right answer if the resident fact base cannot fit in memory"
+    ],
+    "falsifiedBy": "Warm phase-4 evaluation of a realistic ruleset at 100k files exceeding ~300ms p50 or ~1s p95 makes incremental view maintenance FORCED and inverts this decision. That threshold is invented (see D65) and should be replaced with a real one."
+  },
+  {
+    "id": "D22",
+    "area": "execution",
+    "decision": "The agent-facing answer is a finding delta (appeared / disappeared / persisted / re-keyed / ambiguous) against a reference state, plus coverage and unknowns for the snapshot - not a list of findings located in the changed files.",
+    "forcing": "FORCED",
+    "forcedBy": "W-agent ('did I break anything?') under the D13 assumption. An edit to file A can create a violation reported in file B, so returning 'findings in A' answers a different question and answers it wrongly. The literal question is about change in the finding set, so the answer must be a set difference.",
+    "rejected": [
+      "Return findings whose span lies in the changed set - D43's failure mode relocated into the interactive path, where it does the most damage because it is the highest-volume query"
+    ],
+    "falsifiedBy": "Same as D13: a purely local rule corpus would make span-filtered answers correct."
+  },
+  {
+    "id": "D23",
+    "area": "execution",
+    "decision": "Queries are cancellable at safe points and latest-wins-coalesced per workspace; cache entries produced by cancelled work are retained.",
+    "forcing": "FORCED",
+    "forcedBy": "W-agent explicitly describes overlapping queries. Without cancellation an agent editing quickly queues work whose answers are already worthless, degrading latency under exactly the load pattern that matters most. The coalescing policy specifically is PREFERRED.",
+    "rejected": [
+      "Queue and answer all queries - unbounded queue growth under the dominant workload"
+    ],
+    "falsifiedBy": "Coalescing dropping answers an agent actually needed (different scope) means the coalescing key is too coarse; refine rather than remove. Note retention of cancelled work's cache is sound only because of D01's purity - a concrete dividend of purity beyond reproducibility."
+  },
+  {
+    "id": "D24",
+    "area": "execution",
+    "decision": "Two trust tiers. Interactive queries may validate cache entries with cheap unsound hints (mtime+size+inode) and are labelled provisional, carrying an explicit unknown for hint-validated files. Any durable record or CI verdict re-validates by content hashing and is labelled attested. The label is part of the result, not a flag.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment resting on an unverified assumption that content-hashing 100k files per query is too slow for W-agent while stat-ing them is not. If that assumption is wrong, the tier distinction is unnecessary complexity and should be deleted. The mandatory label is what makes an unsound fast path acceptable under R2: the dominant consumer is an automated agent with no other way to know the difference.",
+    "rejected": [
+      "Content-hash always - rejected on the latency assumption, but it is the strictly simpler fallback if that assumption fails",
+      "Hint-based always - makes CI verdicts and durable records unsound, which is disqualifying"
+    ],
+    "falsifiedBy": "Measurement. If full content hashing of a 100k-file tree fits inside the interactive budget with parallel I/O and a fast hash, delete this decision."
+  },
+  {
+    "id": "D25",
+    "area": "execution",
+    "decision": "All limits that can affect results are counted in deterministic units (steps, derived tuples, depth). A wall-clock limit may exist as a safety valve, but tripping it yields status aborted and a run that is explicitly not a verdict; it never yields a partial pass.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 and W-ci. A wall-clock timeout makes the result depend on machine speed and load, so identical inputs produce different verdicts on different machines. A time-truncated run that still reports a verdict is the worst case: a green build caused by a busy CI agent.",
+    "rejected": [
+      "Per-rule wall-clock timeouts with a warning - the industry-standard behaviour and exactly the silent-false-negative pattern R4 forbids",
+      "No limits at all - a pathological rule or input can hang the tool, and D51 needs budgets to make untrusted rules safe"
+    ],
+    "falsifiedBy": "Nothing identified. This is the decision most likely to be quietly violated during implementation under schedule pressure."
+  },
+  {
+    "id": "D26",
+    "area": "execution",
+    "decision": "Parallelism must not affect output: relations are sets canonically sorted before hashing or emission; truncation applies after canonical ordering, never in arrival order; error aggregation is sorted. CI asserts identical output digests at parallelism 1 and N.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R8. Parallel extraction is mandatory at 100k files, and nondeterministic output under parallelism silently destroys R2. The parity test converts the invariant from an intention into a property.",
+    "rejected": [
+      "Rely on code review to catch order dependence - order dependence is invisible in review and intermittent in testing, precisely the class of bug needing a mechanical check"
+    ],
+    "falsifiedBy": "Nothing; the test either passes or the invariant is broken."
+  },
+  {
+    "id": "D27",
+    "area": "storage",
+    "decision": "A run emits a self-contained versioned run record: input set as (path -> digest), resolved configuration with rule ids/versions/behaviour digests/parameters, tool and extractor versions, schema and identity-scheme versions, environment attestation, findings with identities and evidence, coverage, unknowns, verdict, and a recordDigest over semantic fields only. Timings and machine metadata live in a non-semantic envelope outside the digest.",
+    "forcing": "FORCED",
+    "forcedBy": "R4's three clauses map one-to-one: why -> evidence; against what inputs -> input digests; reproduce -> versions and configuration. Excluding non-semantic fields from the digest is forced by wanting to compare two runs at all.",
+    "rejected": [
+      "Store the report and re-derive details on demand - the record must stay checkable after the tool has moved on and the inputs are gone",
+      "Store the analysis database - the record must be readable by parties without our code (R7), and an internal database is neither versioned as a contract nor stable"
+    ],
+    "falsifiedBy": "Records too large to retain per CI run at 100k files would tier evidence detail (full for gating findings, references-only for baselined ones), changing the record's shape but not this decision."
+  },
+  {
+    "id": "D28",
+    "area": "storage",
+    "decision": "Record input digests, not input contents, relying on version control for the bytes; optionally archive inputs not covered by version control (generated, vendored, untracked).",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, and the weakest link in R4's reproduction chain: a record whose inputs have been garbage-collected from history is no longer reproducible. Counterweighted by size and by the non-goal of replacing version control.",
+    "rejected": [
+      "Always archive contents - size, and it duplicates version control's job",
+      "Never archive - generated inputs are common and would make records covering them unreproducible with no remedy"
+    ],
+    "falsifiedBy": "If most analysed inputs turn out to be untracked (heavy code generation), the default should invert."
+  },
+  {
+    "id": "D29",
+    "area": "storage",
+    "decision": "Interned columnar in-memory relations for evaluation; a content-addressed blob store for facts and proofs plus an embedded relational database (SQLite) as index and third-party query surface for durability.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. Motivated by two genuinely different access patterns (millisecond fixpoint evaluation vs durable portable ad-hoc query) and the incidental benefit that a third party can inspect results with none of our tooling, which serves R4 and R7.",
+    "rejected": [
+      "A single relational store used for evaluation too - per-query round-trips and planner variability defeat W-agent latency; see also D70",
+      "Bespoke binary format only - worse for third-party checkability, which is a stated requirement rather than a nicety"
+    ],
+    "falsifiedBy": "If nobody queries the index and exports serve every need, drop it and keep blobs plus an export."
+  },
+  {
+    "id": "D30",
+    "area": "storage",
+    "decision": "Reproduction is a first-class command returning a graded verdict: identical | equivalent (findings and identities match, evidence or ordering differ) | divergent (with a diff) | not-reproducible (version mismatch; refuses to guess) | inputs-unavailable.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 ('reproduce it'). A reproduction facility that silently produces a different answer and calls it success is worse than none because it manufactures false confidence. The grading is what makes not-reproducible a reportable outcome rather than a hidden divergence.",
+    "rejected": [
+      "Reproduction as 'run it again and eyeball the diff' - no defined notion of success, so the requirement is unmet in practice while appearing met"
+    ],
+    "falsifiedBy": "If identical is essentially never achievable in practice, equivalent is the real contract and the record's digest scope is drawn wrongly."
+  },
+  {
+    "id": "D31",
+    "area": "storage",
+    "decision": "Environmental inputs are enumerated and neutralised: locale/collation, time zone, clock, randomness, hash seeds, path separators, filesystem case sensitivity, Unicode normalisation form, filesystem iteration order, environment variables, CPU-feature-dependent arithmetic, thread count. What cannot be neutralised (notably case sensitivity) is recorded in the environment attestation.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 and R4. This is where 'deterministic' tools actually fail. Two concrete instances: case-differing filenames coexist on Linux and collide on macOS (must be detected and reported, never silently collapsed); and macOS filesystems may return NFD path forms where Linux returns NFC, and paths participate in identity (D08 scopeKey), so unnormalised paths make baselines platform-dependent.",
+    "rejected": [
+      "Assume a uniform environment - adopting teams run macOS laptops and Linux CI, so cross-platform divergence is the normal condition"
+    ],
+    "falsifiedBy": "Each item is independently verifiable by test; a failing test falsifies that item, not the list."
+  },
+  {
+    "id": "D32",
+    "area": "storage",
+    "decision": "The run record and result document schemas are published, versioned, compatibility-governed contracts. The cache and index formats are private and may change freely (a version bump discards the cache).",
+    "forcing": "FORCED",
+    "forcedBy": "R7. A hosted product consuming results must depend on a stable contract, and that contract must not be the internal store, or the store can never change and the service becomes coupled to internals. Naming which artifacts are contracts is the whole decision.",
+    "rejected": [
+      "Let the service read the local database - couples the service to internals and quietly lets the service's needs govern local storage evolution"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D33",
+    "area": "storage",
+    "decision": "Every record carries its own content digest. Cryptographic signing is an optional external-signer hook. Verifying reproducibility never requires a signature.",
+    "forcing": "FORCED",
+    "forcedBy": "That signing is not required is FORCED by R1 (keys imply infrastructure) and R7 (no service required). The digest-plus-optional-signer shape is PREFERRED, and is where the open question 'engineering-grade vs audit-grade proof' bites: if audit-grade, this is under-built.",
+    "rejected": [
+      "Built-in key management - strains R1 and expands scope into a domain the brief does not ask for"
+    ],
+    "falsifiedBy": "A stated requirement for tamper evidence against a motivated insider; then signing and an append-only anchored log become mandatory."
+  },
+  {
+    "id": "D34",
+    "area": "storage",
+    "decision": "SARIF is an export format, not the native result format.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. SARIF cannot faithfully carry coverage, materiality-tagged unknowns, proof trees, or baseline attestation, and its partialFingerprints are too weak for D08. Making it native would shrink the domain model to what SARIF can say, silently deleting D05 and D06 - the two most valuable decisions here. Export anyway because CI ecosystems consume it and interoperation is cheap.",
+    "rejected": [
+      "SARIF as the native format - would force the model to shrink to SARIF's expressiveness"
+    ],
+    "falsifiedBy": "If ecosystem integration proves the dominant adoption path, SARIF fidelity becomes a first-class constraint pulling against D05 - worth knowing early."
+  },
+  {
+    "id": "D35",
+    "area": "storage",
+    "decision": "The result document is emitted in an incrementally producible and consumable form (record-per-line findings with header and trailer).",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment resting on an assumption about output volume at 100k files. If a whole-document form fits comfortably in memory for realistic repositories, this is unnecessary.",
+    "rejected": [
+      "Whole-document buffered output - rejected only on the volume assumption"
+    ],
+    "falsifiedBy": "Measured output size on a large repository with a substantial pre-existing violation set - precisely the adoption condition R5 describes."
+  },
+  {
+    "id": "D36",
+    "area": "baseline",
+    "decision": "A baseline records: the set of FindingIdentity values, the ConfigDigest, the rule ids with versions and behaviour digests it was taken against, the identity scheme version, the adoption revision, and per-entry adoption metadata.",
+    "forcing": "FORCED",
+    "forcedBy": "R5. Every field is load-bearing: without ruleset versions you cannot detect semantics drift; without the scheme version you cannot detect silent re-keying; without the revision you cannot replay (D39); without the config digest you cannot detect a parameter change (D09).",
+    "rejected": [
+      "A list of file:line:rule entries - immediate line-drift rot, and eventual silent widening and zombie suppression"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D37",
+    "area": "baseline",
+    "decision": "A baseline entry suppresses a finding only when it provably corresponds to it. Ambiguous match, multiple candidates, scheme mismatch, or digest drift all resolve to reporting the finding.",
+    "forcing": "FORCED",
+    "forcedBy": "R5's 'trustworthy'. The asymmetry is non-negotiable: a false 'new violation' is a visible annoyance resolved in minutes; a false suppression is an invisible loss of the tool's entire purpose. An uncertain gate must fail closed.",
+    "rejected": [
+      "Fuzzy matching with a similarity threshold - makes the gate's power depend on a tunable that will be tuned toward quiet, and makes the matching decision unexplainable, violating R4"
+    ],
+    "falsifiedBy": "If fail-closed produces so much noise at adoption that teams cannot reach green, the identity scheme (D08) is too brittle; the resolution is a better scheme, not a looser gate."
+  },
+  {
+    "id": "D38",
+    "area": "baseline",
+    "decision": "A rule absent from the baseline's recorded ruleset is pending-adoption: a third state distinct from 'found nothing then'. Its findings are reported, do not fail the build by default, are always enumerated in a mandatory output section, and carry a distinct exit class. --strict-new-rules makes them gate immediately.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. Closing the 'upgrade adds a rule, CI breaks on pre-existing debt' failure requires some third state (that much is forced), but the default policy is a judgment call and a genuine tension: gate-neutral-by-default means a newly added rule does not protect you until adopted, which is a widening. Acceptable only because it is loud (enumerated in output, distinguished in exit status); a silent version would not be.",
+    "rejected": [
+      "New rules gate immediately - breaks CI on every upgrade for pre-existing debt, so teams stop upgrading and R5's 'across tool upgrades' fails by never upgrading",
+      "Auto-baseline new rules on first sight - silently accepts unexamined violations and defeats the point of adding the rule"
+    ],
+    "falsifiedBy": "Observed adoption behaviour. If teams routinely ignore the pending section and rules sit unadopted indefinitely, this should invert to strict with an explicit grace mechanism."
+  },
+  {
+    "id": "D39",
+    "area": "baseline",
+    "decision": "When a rule's behaviour digest changes without an adopted version bump: replay the rule at the baseline revision with the new implementation; if the finding set matches what the baseline recorded, auto re-key and re-attest; if not, surface the difference for explicit adoption; if the revision cannot be obtained, mark affected entries needs-review (reported, not suppressed).",
+    "forcing": "PREFERRED",
+    "forcedBy": "none as a mechanism - but the requirement that drift not silently re-map baseline entries is FORCED by R5. Replay is the strongest available check because it tests the change against this codebase rather than against the author's intent; it depends on history availability, which is why D14's conformance corpus exists as the independent check.",
+    "rejected": [
+      "Invalidate all baseline entries on any digest change - too aggressive; any internal refactor of the tool would invalidate every baseline, making upgrades painful enough that teams stop upgrading",
+      "Trust the version bump - silent widening"
+    ],
+    "falsifiedBy": "Replay proving too slow at 100k files would put the whole burden on the conformance corpus, making D14's mutation-coverage check essential rather than nice-to-have."
+  },
+  {
+    "id": "D40",
+    "area": "baseline",
+    "decision": "A baseline entry whose scope no longer exists is stale: reported, suppresses nothing, and prunable by explicit command. Baselines are expected to shrink.",
+    "forcing": "FORCED",
+    "forcedBy": "R5. A retained entry over deleted code is a landmine - reintroducing that code later is silently suppressed. A monotonically growing suppression set is also not a debt-reduction mechanism.",
+    "rejected": [
+      "Retain entries indefinitely for safety - accumulates invisible suppression authority, the opposite of safety"
+    ],
+    "falsifiedBy": "Churn making entries flip between stale and live (a file moving in and out of scope) would need hysteresis or scope-aware matching; the reporting requirement stands regardless."
+  },
+  {
+    "id": "D41",
+    "area": "baseline",
+    "decision": "Identity-scheme or format-version changes require an explicit migration command producing a reviewable diff (re-keyed, dropped, needs-review). The tool refuses to read a baseline of an unknown version rather than interpreting it optimistically.",
+    "forcing": "FORCED",
+    "forcedBy": "R5 and R4. If re-keying happens implicitly, nobody can answer 'what is currently suppressed and why', which fails R4 as applied to the gate itself.",
+    "rejected": [
+      "Best-effort implicit migration - makes the gate's state unauditable, the exact opposite of the requirement"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D42",
+    "area": "baseline",
+    "decision": "One diff(currentFindingSet, referenceFindingSet) -> FindingDelta operation serves all three uses: baseline gating (reference = attested baseline), interactive 'did I break anything' (reference = session's last-known state), and PR gating (reference = merge-base run).",
+    "forcing": "PREFERRED",
+    "forcedBy": "none as a factoring, though strongly indicated: D22 and D36 both need set difference over identities, and two implementations would be a place for them to disagree. Payoff: the CI-critical path and the highest-volume interactive path exercise the same comparison logic, so interactive use continuously tests what CI depends on.",
+    "rejected": [
+      "Separate implementations tuned per use - divergence risk in the most credibility-sensitive logic in the system"
+    ],
+    "falsifiedBy": "If the interactive path needs a materially different comparison (approximate matching for speed), the unification breaks - and that must then be an explicit labelled difference, not a quiet one."
+  },
+  {
+    "id": "D43",
+    "area": "rejected-architecture",
+    "decision": "Reject line-diff / blame-based gating as the only-new mechanism; offer 'findings attributable to changed lines' only as a view over the finding delta.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, and this rejection deserves scepticism because the rejected option is genuinely attractive: it satisfies R5's letter at near-zero cost and is immune to the entire class of baseline-rot failures that D36-D42 exist to manage.",
+    "rejected": [
+      "Line-diff gating as the gate - under the D13 assumption, a change in A produces a violation reported at B, so line-diff gating hides exactly the violations the change introduced (for layering rules this is the normal case, not a corner case)",
+      "Line-diff gating as the gate - cannot express 'we have consciously accepted this specific known violation'",
+      "Line-diff gating as the gate - couples the verdict to VCS history shape (squash, rebase, rewrite), making it depend on something outside the analysed content: a determinism hazard under R2 and a lean on version control the non-goal discourages"
+    ],
+    "falsifiedBy": "An overwhelmingly local rule corpus (D13 assumption wrong) makes line-diff gating the correct design and the baseline machinery waste."
+  },
+  {
+    "id": "D44",
+    "area": "unknowns",
+    "decision": "A closed, versioned set of typed unknown kinds, each carrying scope, cause, and materiality: unsupported-language, parse-failure, resolution-failure, tier-unavailable, budget-exhausted, baseline-ambiguous, baseline-needs-review, baseline-stale, extension-faulted, hint-validated, inputs-mutated, case-collision/path-normalisation.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 x R3 x W-ci. Typed rather than free-text because CI must gate on them and a consuming product must aggregate them; free-text unknowns are unreportable and ungatable.",
+    "rejected": [
+      "Free-form warnings - ungatable, unaggregatable, ignored"
+    ],
+    "falsifiedBy": "A cause fitting no kind indicates an incomplete taxonomy - expected, and the reason the set is versioned with the result schema."
+  },
+  {
+    "id": "D45",
+    "area": "unknowns",
+    "decision": "Where an extractor must guess, it either emits a resolution-failure unknown or applies a named, versioned heuristic recorded on the resulting facts. Findings whose evidence includes heuristic facts are marked as such.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 and R4. Silent guessing is indistinguishable from knowledge in the output, so a reviewer cannot assess a claim's strength - exactly what R4 asks them to do. This is a determinism-preserving allowance for imprecision: a heuristic may be wrong, but must be repeatably and visibly wrong.",
+    "rejected": [
+      "Best-effort resolution with no marking - produces confident-looking findings resting on guesses, damaging credibility more than an honest unknown"
+    ],
+    "falsifiedBy": "If nearly every fact ends up heuristic, the marking loses signal and the tier model (D04) is drawn in the wrong place."
+  },
+  {
+    "id": "D46",
+    "area": "process-shape",
+    "decision": "One self-contained binary with three drivers: one-shot (cold store, exit) for CI; resident daemon holding the warm fact base and serving clients over a local socket for agents; and a thin stdio adapter that connects to the daemon if present or runs embedded if not.",
+    "forcing": "PREFERRED",
+    "forcedBy": "That residency must exist is FORCED (W-agent at 100k files cannot pay cold start per query). The three-driver shape is PREFERRED: stdio-only is simpler but cannot share a warm fact base between two agents on the same repository, which is judged likely enough to design for.",
+    "rejected": [
+      "Spawn the CLI per query - cold start at 100k files is fatal to W-agent",
+      "Daemon only - W-ci explicitly forbids residency and should not depend on lifecycle management"
+    ],
+    "falsifiedBy": "If concurrent multi-agent use does not occur, the daemon is unnecessary complexity and the stdio adapter alone suffices."
+  },
+  {
+    "id": "D47",
+    "area": "process-shape",
+    "decision": "The daemon is never required and never authoritative: --no-daemon must answer identically; daemon identity includes tool version and ConfigDigest, and a mismatched client refuses it and falls back; the daemon holds no state that cannot be recomputed.",
+    "forcing": "FORCED",
+    "forcedBy": "R1 (no service dependency for any result - a local daemon is still a service) and R4 (a result must not depend on which process answered). This is D01's 'cache cannot change results' applied to residency, and it is what keeps the interactive path verifiable.",
+    "rejected": [
+      "Daemon-owned authoritative state - creates a second truth and a correctness dependency on process lifetime"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D48",
+    "area": "process-shape",
+    "decision": "Local socket or named pipe only, with filesystem permissions as access control. No TCP listener. No network I/O anywhere in the analysis path; pack fetching is a separate explicit non-analysis operation.",
+    "forcing": "FORCED",
+    "forcedBy": "R1 plus the multi-tenant non-goal. Also, no network in analysis makes determinism testable by sandboxing rather than by inspection.",
+    "rejected": [
+      "Loopback TCP for convenience - adds an authentication problem the non-goals exclude, and invites exposure"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D49",
+    "area": "process-shape",
+    "decision": "No filesystem watcher in the first version. Validity is established per query from the caller-supplied changed set when provided, and from validity hints otherwise.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. Watchers cut latency but add platform-specific bugs and event-loss modes, each of which manifests as a stale wrong answer - the worst failure for this tool. W-agent's callers also know what they changed and can say so, removing most of the motivation.",
+    "rejected": [
+      "Watcher from the start - risk against unmeasured benefit"
+    ],
+    "falsifiedBy": "If per-query revalidation cannot meet the interactive budget even with hints and caller-supplied change sets, a watcher becomes forced - and must then be paired with periodic full reconciliation to bound event-loss damage."
+  },
+  {
+    "id": "D50",
+    "area": "process-shape",
+    "decision": "Version control is reached through a narrow, optional, read-only adapter (current revision, revision content, merge base, changed files between revisions). The tool never writes to it. Revision-dependent features report unavailable when it is absent; everything else works without it. Baselines are ordinary committed files.",
+    "forcing": "FORCED",
+    "forcedBy": "The 'not replacing version control' non-goal plus R1 plus R5 (baselines reference revisions). Version control supplies history and review for baselines for free rather than being reimplemented.",
+    "rejected": [
+      "Require a git repository - R1 says offline on a laptop, not 'in a repository'; analysing an unpacked archive is legitimate",
+      "Deep integration via hooks, notes, or refs for storing baselines - crosses the non-goal and couples results to history shape (see D43)"
+    ],
+    "falsifiedBy": "Nothing identified. Note one coupling: honouring ignore files couples the analysed set to VCS configuration, acceptable only because the resolved file set with digests is recorded in the run record (D27), making selection auditable."
+  },
+  {
+    "id": "D51",
+    "area": "extension",
+    "decision": "A four-rung authority ladder, with the zero-authority rung as the primary surface: (0) rules as declarative queries - no I/O, no general computation, deterministic budget, guaranteed termination, loadable untrusted; (1) declarative extractors (grammar + tree-pattern-to-fact mappings) - reads the analysed file, pure, loadable with review; (2) impure extractors invoking a real toolchain - explicit opt-in; (3) reporters - sandboxed to output.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R4 x R6. If the only extension surface required arbitrary code, either third-party logic is disallowed (contradicting R6) or determinism becomes unenforceable (contradicting R2). The zero-authority rung is what makes third-party contribution compatible with the determinism guarantee, so it must exist and be the default.",
+    "rejected": [
+      "A single plugin surface with uniform trust - forces trust to the level of the most demanding extension, so a grammar contribution carries the same authority as a compiler integration"
+    ],
+    "falsifiedBy": "Rung 0 proving insufficient for most useful third-party logic would mean the ladder is right but rung 0 is drawn too narrowly, making D55's sandboxed imperative rung necessary rather than optional. Note guaranteed termination at rung 0 is a substantive argument for D13 independent of expressiveness."
+  },
+  {
+    "id": "D52",
+    "area": "extension",
+    "decision": "Tier-2 extractors for the deep languages are first-party, in-tree, and versioned with the tool. The number two is a current fact, not an architectural constant.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment about trust and maintenance capacity, though strongly indicated: R3 makes deep analysis a core competency, and tier-2 is where a subtle error produces confidently wrong findings, which is a credibility failure under R2.",
+    "rejected": [
+      "Tier-2 as a plugin surface - the credibility argument, plus tier-2 needs the deepest access to internal fact schemas, which would freeze those schemas as public contracts prematurely"
+    ],
+    "falsifiedBy": "A high-quality external tier-2 contribution for a third language would make this a bottleneck rather than a safeguard."
+  },
+  {
+    "id": "D53",
+    "area": "extension",
+    "decision": "Extractors that must invoke an external toolchain are permitted but: enabled only by explicit workspace configuration; their inputs and outputs recorded verbatim in the run record; the run marked externally-dependent with reproduction using the recorded outputs; and their version and invocation part of ConfigDigest.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R4 versus reality. Real dependency resolution often requires the ecosystem's own tooling. The options are forbid it (losing accuracy), allow it silently (losing determinism), or allow it with capture. Capture is the only one that keeps R4 intact: the impurity is not prevented, it is recorded, converting an unreproducible run into a reproducible one.",
+    "rejected": [
+      "Forbid external toolchains entirely - would cripple tier-2 where resolution is build-system-dependent",
+      "Allow without capture - silently breaks reproducibility, and the breakage is invisible in the output"
+    ],
+    "falsifiedBy": "Captured outputs proving too large or too machine-specific to support reproduction would make capture theatre; the honest response is then to forbid impure extraction and accept reduced accuracy."
+  },
+  {
+    "id": "D54",
+    "area": "extension",
+    "decision": "Every loaded extension - rule pack, grammar, mapping, reporter - contributes its content digest to ConfigDigest.",
+    "forcing": "FORCED",
+    "forcedBy": "R4 (reproduction needs to know exactly what ran) and R5 (a third-party rule change must invalidate caches and trigger the D39 re-attestation path rather than silently altering what is gated).",
+    "rejected": [
+      "Digest only first-party components - makes third-party rule churn invisible, which is silent widening arriving from outside"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D55",
+    "area": "extension",
+    "decision": "No native dynamic-library plugin ABI. If imperative extension logic proves necessary, the mechanism is WebAssembly with no host imports beyond a fact-query interface, no clock, no randomness, no threads, no floating-point nondeterminism, and fuel metering as the deterministic budget.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Rejecting native plugins is close to FORCED (unbounded authority defeats D51; reproduction would depend on binary artifacts, defeating R4; ABI versioning across upgrades defeats R5). Choosing WebAssembly as the reserve is PREFERRED, its notable fit being that fuel metering is exactly the deterministic budget D25 requires, which no native mechanism provides.",
+    "rejected": [
+      "Native plugins - unbounded authority, binary-dependent reproduction, ABI versioning across upgrades",
+      "An embedded general-purpose scripting runtime - most offer no deterministic budget and expose ambient authority by default"
+    ],
+    "falsifiedBy": "Rung 0 proving sufficient indefinitely leaves this unbuilt, which is the intended outcome."
+  },
+  {
+    "id": "D56",
+    "area": "extension",
+    "decision": "Findings imported from other analysers (via SARIF) are accepted into the result and record, tagged externally-produced with evidence: unverifiable, and do not gate by default. They may be baselined, with explicitly weaker labelled identity.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - nothing requires it. A cheap ecosystem accommodation that does not compromise the core, and it makes the D69 rejection a scoping decision rather than a refusal to interoperate.",
+    "rejected": [
+      "Treat imported findings as equal to native ones - their evidence cannot satisfy R4 and their identity cannot satisfy R5, so equal treatment silently dilutes both guarantees"
+    ],
+    "falsifiedBy": "If imported findings become the majority of what teams gate on, the tool has become D69 with extra steps and the whole architecture needs re-justification."
+  },
+  {
+    "id": "D57",
+    "area": "failure-exit",
+    "decision": "Distinguishable exit classes: 0 success; 1 policy-failure (the only code meaning 'your code violates a rule'); 2 usage/config; 3 undetermined (material unknowns beyond tolerance); 4 baseline-integrity; 5 aborted (budget or interruption); 70 internal-error.",
+    "forcing": "FORCED",
+    "forcedBy": "W-ci 'must fail the build correctly'. The requirement is not 'exit nonzero' but that a CI configuration can respond differently to different conditions. Collapsing to 0/1 makes 'the analyser is broken' indistinguishable from 'your code is bad', guaranteeing the wrong response.",
+    "rejected": [
+      "Binary 0/1 - cannot distinguish tool failure from policy failure",
+      "Rich status only in the output document - CI systems branch on exit codes, and requiring a JSON parse to determine build outcome is fragile and often unavailable in the failure path"
+    ],
+    "falsifiedBy": "If CI systems in practice cannot branch beyond zero/nonzero, the distinctions must additionally be surfaced in a form they consume - changing the surface, not the requirement to distinguish."
+  },
+  {
+    "id": "D58",
+    "area": "failure-exit",
+    "decision": "Fail closed: any condition preventing a sound gating decision yields a nonzero class (3, 4, or 5), never 0. There is no partial pass.",
+    "forcing": "FORCED",
+    "forcedBy": "W-ci correctness plus R4. A green build produced by analysis that did not run is the worst output this tool can produce, because it actively removes protection the team believes it has.",
+    "rejected": [
+      "Warn and pass on incomplete analysis - the common industry behaviour and precisely the failure R4/R5 exist to prevent"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D59",
+    "area": "failure-exit",
+    "decision": "Internal errors exit 70, never 1.",
+    "forcing": "FORCED",
+    "forcedBy": "W-ci correctness, for a human-behaviour reason that is nonetheless real: teams read 1 as 'my code is bad', so a crash reported as 1 gets worked around (suppressed, or the rule disabled) rather than reported. Miscoding defects as policy failures actively degrades the rule corpus over time.",
+    "rejected": [
+      "Any nonzero code for any failure - conflates defect with violation"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D60",
+    "area": "failure-exit",
+    "decision": "stdout (or a named file) carries machine-readable results; stderr carries human diagnostics and progress. The tool refuses to read an artifact whose format version it does not understand, except caches, which are discardable and are silently discarded on mismatch.",
+    "forcing": "FORCED",
+    "forcedBy": "W-ci (pipeable, parseable output) and R4 (an artifact interpreted optimistically produces a result of unknown meaning). The cache exception is safe precisely because of D01: a discarded cache cannot change an answer.",
+    "rejected": [
+      "Interleaved output - breaks piping",
+      "Best-effort forward compatibility on artifact versions - produces results of unknown meaning"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D61",
+    "area": "determinism",
+    "decision": "An explicit prohibition list for the analysis path, enforced by tests and sandboxing rather than convention: no clock or timers affecting results; no randomness or randomly-seeded iteration reaching output; no environment reads; no locale or locale-dependent collation/case folding; no network; no floating-point values in facts at all; canonical repo-relative forward-slash NFC paths with case collisions detected and reported; byte offsets as truth with line/column derived; unordered filesystem iteration sorted before use.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 directly. Each item is a way 'deterministic' tools actually turn out not to be; making the list explicit and testable is what distinguishes a determinism claim from a determinism aspiration.",
+    "rejected": [
+      "Treat determinism as an emergent property of careful coding - it is neither emergent nor observable in review; every item needs a test"
+    ],
+    "falsifiedBy": "Each item is independently testable; a failing test falsifies that item, not the list."
+  },
+  {
+    "id": "D62",
+    "area": "scale",
+    "decision": "Intern paths, identifiers, and symbol names to integer ids; relations are columnar over those ids; the fact store holds no source text, only spans referencing content digests. Source is re-read on demand for rendering.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment resting on a memory estimate rather than a stated requirement: at 100k files, tier-1 facts plausibly number in the tens of millions, and inline strings would dominate memory.",
+    "rejected": [
+      "Store text alongside facts for convenient rendering - rejected on the memory estimate; rendering is rare (W-human is explicitly occasional) and re-reading is cheap"
+    ],
+    "falsifiedBy": "Measured memory at 100k files. If facts are far fewer than estimated, interning is unjustified complexity."
+  },
+  {
+    "id": "D63",
+    "area": "scale",
+    "decision": "Tier-2 extraction is cached at project granularity, keyed by the project's unit digest and a digest over its dependencies' symbol indexes; cross-project references resolve through a persisted symbol index.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - follows from D11 and D20 rather than from a stated requirement.",
+    "rejected": [
+      "Whole-workspace tier-2 as one cache unit - any edit invalidates everything, so W-agent gets no benefit from caching the most expensive phase"
+    ],
+    "falsifiedBy": "The cascade risk in D20: if dependency-index digests change on nearly every edit, this granularity provides no benefit and per-symbol invalidation is required."
+  },
+  {
+    "id": "D64",
+    "area": "scale",
+    "decision": "The cache is bounded and pruned by an explicit garbage-collection command with a size or age policy; eviction is always safe.",
+    "forcing": "FORCED",
+    "forcedBy": "R1 (a laptop has finite disk); eviction safety is a property of D01's purity rather than a feature. Worth stating because content-addressed caches grow without bound across branches and worktrees.",
+    "rejected": [
+      "Unbounded cache growth - fails R1 on a laptop",
+      "Automatic silent eviction with no command - fine for correctness but leaves users unable to reclaim space deliberately"
+    ],
+    "falsifiedBy": "Nothing identified."
+  },
+  {
+    "id": "D65",
+    "area": "scale",
+    "decision": "Performance targets are written down as architectural falsifiers rather than requirements: cold full run 100k files tier-0/1 on 8 cores <=3 min; warm incremental 5 changed files <=1 s end to end; warm phase-4 evaluation alone <=300 ms p50 / 1 s p95; resident memory 100k files tier-1 <=4 GB; cold full run 1k files <=5 s.",
+    "forcing": "GUESSED",
+    "forcedBy": "none - insufficient information. No acceptable CI wall-clock budget was stated, so every number here is invented. The practice of writing them down is PREFERRED; the numbers themselves are GUESSED and should be replaced with real ones.",
+    "rejected": [
+      "Leaving performance unquantified - makes architectural decisions arguable rather than falsifiable"
+    ],
+    "falsifiedBy": "A stated real budget from the team, which should replace these outright."
+  },
+  {
+    "id": "D66",
+    "area": "language",
+    "decision": "Implement the core (file selection, extraction orchestration, fact store, evaluator, identity, baseline, records, CLI, daemon) in Rust.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - no stated requirement names a language. Supporting arguments in descending strength: single self-contained cross-platform binary with no runtime to install (R1); no GC pauses in a resident low-latency process holding a large long-lived object graph (W-agent); ecosystem alignment with D67 and D55. Explicitly NOT an argument: determinism of container iteration, since Rust's default hash map is randomly seeded and Go's map iteration is deliberately randomised - both need the same discipline (D61), so it is not a differentiator.",
+    "rejected": [
+      "Go - genuinely live; better build simplicity and lower contribution barrier, which would matter greatly for R6 if the primary extension surface were Go code, but it is not (D51), and that mostly dissolves the argument; cost is GC in the resident path",
+      "C++ - no advantage here and a worse safety and build story",
+      "A managed or interpreted language - fails the single-binary and 100k-file performance arguments together"
+    ],
+    "falsifiedBy": "If the core proves I/O-and-orchestration-bound rather than compute-bound, Rust's advantage largely evaporates and Go's contribution and build advantages dominate. Check against an early profile rather than assuming."
+  },
+  {
+    "id": "D67",
+    "area": "language",
+    "decision": "Tier-0/1 parsing uses a generic grammar-driven incremental parser framework (tree-sitter shaped) offering many existing grammars, error recovery, and incremental reparsing.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, with an unusually strong fit: many grammars serves R3's breadth and turns 'support a new language' into supplying data, which is what makes rung 1 of D51 viable; error recovery is required rather than optional because tier-1 facts must be extractable from files that do not fully parse (agents query mid-edit, CI meets unsupported dialects), otherwise a partial answer becomes an unknown; incremental reparsing maps directly onto W-agent.",
+    "rejected": [
+      "Hand-written parsers per language - does not scale to R3's breadth",
+      "Regex or line-based extraction - cannot support tier-1 structural facts, making most rules unexpressible"
+    ],
+    "falsifiedBy": "Grammar quality across the long tail proving too poor to yield reliable tier-1 facts would make breadth illusory; the honest response is narrowing the language claim."
+  },
+  {
+    "id": "D68",
+    "area": "language",
+    "decision": "Implement in-tool only the tier-2 resolution declared rules actually need - module and import resolution, symbol binding, call graph, inheritance and implementation relations - and not full type inference. Where a language's real semantics are unreachable without its own toolchain, offer that as an impure extractor (D53) whose outputs are captured.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, and the highest-cost, highest-risk decision in the design. Deep analysis has two honest options: embed the language's own compiler (accurate, imports impurity and version skew, pulls against R2/R4) or reimplement resolution (pure, deterministic, expensive and permanently behind). Scoping the reimplementation to what rules need is what makes the second option finite; faithful type inference for a structural, inference-heavy type system is not a finite project.",
+    "rejected": [
+      "Full semantic fidelity in-tool - effectively unbounded scope; the most likely way this design fails to ship",
+      "Compiler-backed only - R2's guarantee becomes contingent on toolchain pinning and would have to be advertised as such"
+    ],
+    "falsifiedBy": "A declared rule corpus needing type-level reasoning (assignability, generic instantiation) makes scoped resolution insufficient and the impure path primary, at which point the determinism claim must be honestly restated as 'deterministic given a pinned toolchain' - a weaker product."
+  },
+  {
+    "id": "D69",
+    "area": "rejected-architecture",
+    "decision": "Reject the 'linter aggregator' architecture (shell out to per-language linters, normalise output, add baseline and reporting) as the core.",
+    "forcing": "FORCED",
+    "forcedBy": "R2 x R4 x R5. Determinism is uncontrollable across subprocesses with their own config discovery, plugin resolution, environment sensitivity, and version drift; evidence is whatever the subprocess prints; 'rules they have declared' collapses into 'rules those tools happen to implement', making cross-file and cross-language rules unreachable; and baseline stability would depend on N third-party fingerprint schemes on independent upgrade cadences, making R5 untestable.",
+    "rejected": [
+      "Aggregation as the core - the reasons above",
+      "Refusing interoperation entirely - unnecessary; importing other tools' output as non-gating explicitly-unverifiable findings costs little (D56)"
+    ],
+    "falsifiedBy": "A real rule corpus proving >=90% expressible as configuration of existing linters would make this rejection over-engineering and the cheap design correct."
+  },
+  {
+    "id": "D70",
+    "area": "rejected-architecture",
+    "decision": "Reject SQL over a relational store as the rule language, while adopting a relational export for durability and third-party inspection.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment. The rejected option is attractive: no engine to build, and third parties can query results with no tooling at all, which serves R4 and R7 unusually well.",
+    "rejected": [
+      "SQL as the rule surface - recursive queries are awkward; provenance (which rows justified this row) is unavailable without hand-rolling it and R4 needs it; planner variability makes latency unpredictable, hurting W-agent; and SQL semantics invite nondeterminism (unordered result sets, three-valued logic) exactly where R2 needs none"
+    ],
+    "falsifiedBy": "A prototype showing recursive CTEs plus a hand-rolled provenance table meeting both latency and evidence needs would make the engine build unjustified and should reverse this."
+  },
+  {
+    "id": "D71",
+    "area": "rejected-architecture",
+    "decision": "Reject implementing analysis as a plugin inside each language's own compiler.",
+    "forcing": "FORCED",
+    "forcedBy": "R1 x R2 x R3. It imports the compiler's impurity wholesale (build scripts, macros, code generation, network-fetching package managers, environment-dependent feature resolution), making results depend on a toolchain the tool does not control - defeating R4 reproducibility and R2 determinism. It also makes broad tier-0/1 coverage architecturally impossible, since the mechanism exists only where a plugin API exists.",
+    "rejected": [
+      "Compiler plugins as the core mechanism - the reasons above",
+      "Refusing compiler-derived facts entirely - unnecessary; permitted as an opt-in explicitly impure enrichment whose outputs are captured (D53)"
+    ],
+    "falsifiedBy": "If accurate results in the deep languages prove unattainable without the real compiler's resolution, the impure path becomes primary and R2's guarantee must be honestly downgraded to 'deterministic given a pinned toolchain'."
+  },
+  {
+    "id": "D72",
+    "area": "rejected-architecture",
+    "decision": "A workspace is a single analysis root; rules cannot span repositories in the first version.",
+    "forcing": "GUESSED",
+    "forcedBy": "none - insufficient information. The brief neither asks for nor excludes cross-repository rules, and there is no information about whether teams declare them.",
+    "rejected": [
+      "Designing for cross-repository analysis speculatively - would inflate the domain model with no evidence of need, the failure mode this exercise is meant to avoid"
+    ],
+    "falsifiedBy": "Any stated rule that references a symbol or module in another repository. This is the assumption most expensive to be wrong about: it would change the identity of a workspace, make the input snapshot (D02) span multiple version-control roots, and make offline operation (R1) substantially harder."
+  },
+  {
+    "id": "D73",
+    "area": "language",
+    "decision": "The host implementation language is decoupled from the deep languages; implementing the tool in one of them is not treated as an advantage worth optimising for.",
+    "forcing": "PREFERRED",
+    "forcedBy": "none - judgment, recorded because it is a tempting trap. Writing the tool in a deep language allows calling that language's real compiler in-process, buying accuracy for one language and paying in performance at 100k files, single-binary distribution, resident-process latency, and determinism. Since tier-2 needs a purity boundary anyway (D53), it may as well be a process or embedding boundary, which frees the host choice.",
+    "rejected": [
+      "Choose the host language to match a deep language for in-process compiler access - buys accuracy for one language at the cost of every other requirement"
+    ],
+    "falsifiedBy": "If in-process access to a real compiler proves the only viable route to useful tier-2 for both deep languages, host choice becomes entangled and D66 must be revisited."
+  }
+]

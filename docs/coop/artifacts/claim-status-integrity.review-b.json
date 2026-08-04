@@ -1,0 +1,100 @@
+{
+  "artifact": "opensip.review.claim-status-integrity",
+  "version": "1.0",
+  "subject": "artifacts/check-claims.py and METHOD.CLAIM-STATUS-INTEGRITY",
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "independence": {
+    "method": "Reproduced the live false negative, measured probe coverage, then injected only the missing location probe in memory to isolate whether the engine or its coverage was responsible.",
+    "differentInstrument": "This is a negative-control and coverage test against the live corpus, not a review of prior repair citations."
+  },
+  "verdict": "reject-require-v2",
+  "priorFindingDisposition": {
+    "B-ARCH-01": "CONFIRMED. The candidate completeness claim is presented under architecture/10's SEALED method-rules container, and the normal checker reports clean.",
+    "B-ARCH-02": "CONFIRMED. The normal checker also reports clean while architecture/07, /09, and /11 name superseded D9/R1 binding versions."
+  },
+  "resolves": {
+    "B-CSI-01": "OPEN-BLOCKER: CHK-1 silently skips home and restatement locations without _probe; 29 of 30 registered claims currently lack one.",
+    "B-CSI-02": "OPEN-BLOCKER: the self-test proves engine behavior only after supplying a probe and cannot fail when live coverage is absent.",
+    "B-CSI-03": "OPEN-BLOCKER: CHK-3 is a three-claim signature allowlist and no check compares prose artifact/version references with current bindingArtifact values."
+  },
+  "findings": [
+    {
+      "id": "B-CSI-01",
+      "severity": "critical",
+      "category": "silent-coverage-gap",
+      "evidence": [
+        "METHOD.CLAIM-STATUS-INTEGRITY is CANDIDATE in the register",
+        "its home and remedy restatement are under architecture/10 line 16's SEALED marker with no inline candidate mark",
+        "the claim has no _probe, so CHK-1a uses offset -1 and CHK-1 uses offset None, then silently continues",
+        "the live register has 30 claims but only ARCH.RETENTION-TIERS has _probe",
+        "the normal checker exits 0",
+        "adding only a METHOD.CLAIM-STATUS-INTEGRITY probe in memory makes the same checker emit two CHK-1 findings"
+      ],
+      "impact": "The mechanism advertised as preventing local prose from creating unauthorized global status claims is blind to almost the entire registered inventory, including its own completeness claim.",
+      "requiredChange": "Make location coverage mandatory: every markdown home and restatement must resolve through a stable explicit claim marker or exact registered anchor. Missing/ambiguous anchors must be findings, never skips. Then repair the live METHOD clause inline or weaken its container.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A clean checker run after deleting every _probe would have to fail with explicit coverage findings for the unresolved homes/restatements."
+    },
+    {
+      "id": "B-CSI-02",
+      "severity": "high",
+      "category": "non-representative-self-test",
+      "evidence": [
+        "self_test hardcodes _probe for its synthetic C-X restatement",
+        "it does not include a claim whose home/restatement lacks a probe",
+        "it checks only that three expected prefixes appear, not that every registered location was examined",
+        "both self-test and live check pass while the live METHOD false negative remains"
+      ],
+      "impact": "The regression suite proves a supported happy path but not the dominant live failure mode: omitted coverage. Passing it creates stronger confidence than the tested property warrants.",
+      "requiredChange": "Add negative controls for absent, stale, duplicate, and wrong-location anchors; assert checked-location count equals required-location count; make the self-test fail if any target is skipped.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A coverage assertion outside the displayed checker that is mandatory in the canonical command and fails on the current 29 unprobed claims."
+    },
+    {
+      "id": "B-CSI-03",
+      "severity": "high",
+      "category": "version-and-restatement-blindness",
+      "evidence": [
+        "SIGNATURES contains patterns for only ARCH.BASELINE.PRODUCER-DERIVED, ARCH.IDENTITY.LATEST, and C-1",
+        "D9's current bindingArtifact is v1.5",
+        "architecture/07 still calls v1.1 binding and v1.2 schema-complete; architecture/09 names v1.4; architecture/11 inventories v1.2",
+        "R-1's current bindingArtifact is v1.3 while architecture/11 inventories v1",
+        "the live checker exits 0"
+      ],
+      "impact": "Status can be correct in the register while readers are directed to superseded binding objects and obsolete review states. The checker does not enforce its advertised document-set consistency.",
+      "requiredChange": "Represent artifact references as structured claim metadata or machine-readable claim tags in prose, then verify every current-binding restatement names the register's bindingArtifact and status. Replace the hand-picked signature allowlist with inventory-derived coverage.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A separate mandatory checker that rejects the cited live stale references and is part of the canonical four-check command set."
+    }
+  ],
+  "negativeControls": [
+    {
+      "test": "canonical live run",
+      "observed": "claim register OK — 30 claims, CHK-1..CHK-4 clean",
+      "meaning": "false negative remains"
+    },
+    {
+      "test": "canonical --self-test",
+      "observed": "PASS",
+      "meaning": "does not represent missing live coverage"
+    },
+    {
+      "test": "same live register with only METHOD home probe injected in memory",
+      "observed": "two CHK-1 findings for METHOD.CLAIM-STATUS-INTEGRITY",
+      "meaning": "the status engine can see the defect; missing mandatory location coverage hides it"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    "architecture/10-method.md rule 7 — do not seal what is flagged for review",
+    "architecture/10-method.md rule 8 — status attaches to claims, not containers",
+    "METHOD.CLAIM-STATUS-INTEGRITY — checker completeness across the document set",
+    "claim-register.v1.json CHK-1..CHK-4 intent — contradictory statuses and stale restatements must be mechanically discoverable"
+  ],
+  "knownLimitations": [
+    "This review demonstrates coverage and version false negatives; it does not design the final stable claim-marker syntax.",
+    "It does not assert that every one of the 29 unprobed claims is currently mis-presented, only that the checker cannot establish that they are not.",
+    "The in-memory probe test used the checker's own public check/docs functions and made no repository mutation."
+  ],
+  "confidence": "high"
+}

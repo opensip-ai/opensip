@@ -1,0 +1,137 @@
+{
+  "artifact": "opensip.versioning-policy",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review. See threat-model.v1.json#reviewStatus for why that materially lowers confidence.",
+  "purpose": "Define how each public contract evolves. Without this, a small contract set is a promise with no mechanism — and the one contract whose artifacts live in user repositories has no upgrade path.",
+
+  "decisionDependencies": [
+    {"id": "ARCH.CONTRACT-COUNT", "source": "architecture/02-domain-model.md#kernel-sizing", "claim": "structure is governed by a small set of public versioned contracts, not a package count"},
+    {"id": "ARCH.FINGERPRINT-RECIPE", "source": "architecture/06-evidence-and-persistence.md#baselines-and-the-fingerprint-recipe", "claim": "the recipe is versioned independently of the fact schema; skipped releases must not mass-invalidate"},
+    {"id": "ARCH.ENVELOPE", "source": "architecture/07-outcomes-and-failure.md#public-output-is-a-discriminated-envelope", "claim": "consumers pin a schema major and receive a typed refusal rather than a reshaped document"},
+    {"id": "ARCH.QUERY-BOUNDED", "source": "architecture/04-fact-plane.md#fact-access-contracts", "claim": "physical storage schema is private and freely migratable"},
+    {"id": "D9", "source": "artifacts/d9-exit-contract.v1.4.json", "claim": "exit classes are a public contract with golden tests"}
+  ],
+
+  "principle": {
+    "core": "A contract's evolution policy is determined by WHO HOLDS ITS ARTIFACTS, not by how important it feels.",
+    "rationale": "If the artifacts live only in our release, a breaking change costs a version bump. If they live in user repositories, a breaking change costs every user a migration they did not ask for — and if it happens silently, it costs their trust in the gate. These are different problems and cannot share one policy.",
+    "consequence": "Contracts are classified by artifact custody, and the custody class dictates the mechanism."
+  },
+
+  "custodyClasses": [
+    {
+      "class": "USER-CUSTODY",
+      "meaning": "Artifacts are created by the tool and stored in the user's repository, under their version control, outliving any release.",
+      "members": ["fingerprint recipe / baselines", "tracked project configuration", "waivers", "lockfile"],
+      "policy": {
+        "breakingChange": "Requires a migrator, not a major bump alone.",
+        "support": "Last K majors readable, K >= 2, published as a number not a vibe.",
+        "negotiation": "Every artifact self-declares the version it was written under. The host reads the declaration; it never infers from shape.",
+        "unsupportedVersion": "INDETERMINATE with repair instructions. NEVER a silent re-interpretation and never a mass net-new diff.",
+        "migration": "Explicit, previewable, and idempotent. `--check` shows the diff without writing.",
+        "dualEmit": "Where two identities can be computed, emit both during the transition window so a mid-upgrade fleet matches on either."
+      },
+      "why": "This is the class that can destroy trust. A user who skipped three releases and comes back to a flood of false net-new findings concludes the gate is unreliable — and they are right to."
+    },
+    {
+      "class": "CONSUMER-CUSTODY",
+      "meaning": "No stored artifact, but an external consumer's code depends on the shape at runtime — CI scripts, agents, dashboards.",
+      "members": ["command envelope schema", "exit classes and codes", "typed query operations", "agent protocol surface"],
+      "policy": {
+        "breakingChange": "New major, offered alongside the old for a published window.",
+        "negotiation": "The consumer requests a major explicitly. An unsupported request is a typed refusal, never a best-effort reshape.",
+        "unsupportedVersion": "REQUEST-REJECTED naming the supported range.",
+        "additive": "New optional fields are minor. A consumer that rejects unknown fields is non-conforming; this must be stated so additive change stays cheap.",
+        "exitCodesSpecial": "Exit classes may only be ADDED, never renumbered or repurposed. A build script cannot negotiate."
+      },
+      "why": "The failure mode is silent: a reshaped document parses, produces a different meaning, and CI does the wrong thing without erroring."
+    },
+    {
+      "class": "AUTHOR-CUSTODY",
+      "meaning": "Third-party authors compile or validate against it.",
+      "members": ["fact query / rule IR vocabulary", "provider protocol", "contribution manifest", "test kit"],
+      "policy": {
+        "breakingChange": "New major with an overlap window; contributions declare a supported range and the host refuses outside it at admission, not at first use.",
+        "negotiation": "Handshake at admission: host advertises supported ranges, contribution declares its requirement, mismatch is an admission rejection with both ranges named.",
+        "deprecation": "Announce, then warn on use, then refuse. Each stage is a release, not a day."
+      },
+      "why": "Cheaper than user-custody because authors can respond to a release; more expensive than internal because they are not us."
+    },
+    {
+      "class": "INTERNAL",
+      "meaning": "No external party depends on the shape.",
+      "members": ["physical storage schema", "cache and index layouts", "private plan operators", "internal worker protocols"],
+      "policy": {
+        "breakingChange": "Free. No version, no window.",
+        "requirement": "Anything derived must be REBUILDABLE from retained inputs, or it is not internal — it is evidence, and evidence is user-custody.",
+        "test": "If deleting it loses information a retained Run needs, it was misclassified."
+      },
+      "why": "The whole point of keeping storage private is to be able to change it. If internal layouts acquire external dependents, that freedom is lost silently."
+    }
+  ],
+
+  "versionedIdentities": [
+    {"identity": "hostVersion", "class": "release", "note": "Not itself a contract; the vehicle."},
+    {"identity": "envelopeSchema", "class": "CONSUMER-CUSTODY", "form": "family + major", "note": "Family distinguishes this contract from any predecessor with a colliding version number."},
+    {"identity": "exitClassSet", "class": "CONSUMER-CUSTODY", "form": "additive-only"},
+    {"identity": "fingerprintRecipe", "class": "USER-CUSTODY", "form": "major", "note": "Independent of the fact schema — that independence is the whole reason it exists."},
+    {"identity": "factSchema", "class": "AUTHOR-CUSTODY", "form": "major + relation-level minors", "note": "Relation-level granularity so adding a relation does not break rules that never used it."},
+    {"identity": "ruleIR", "class": "AUTHOR-CUSTODY", "form": "major"},
+    {"identity": "providerProtocol", "class": "AUTHOR-CUSTODY", "form": "major"},
+    {"identity": "storageSchema", "class": "INTERNAL", "form": "unversioned"}
+  ],
+
+  "rules": [
+    {"id": "V1", "rule": "Every public contract declares exactly one custody class. Unclassified means unshippable."},
+    {"id": "V2", "rule": "A USER-CUSTODY breaking change without a migrator is prohibited, regardless of how the version is numbered."},
+    {"id": "V3", "rule": "No consumer-facing document is reshaped in place. Either the consumer's requested major is served, or the request is refused with the supported range named."},
+    {"id": "V4", "rule": "Exit classes are additive-only, forever. Renumbering silently changes the meaning of every CI configuration in existence."},
+    {"id": "V5", "rule": "Compatibility is negotiated at admission, not discovered at first use. A contribution incompatible with the host fails to load with both ranges reported."},
+    {"id": "V6", "rule": "Support windows are published as concrete counts and dates. 'We support recent versions' is not a policy."},
+    {"id": "V7", "rule": "Anything reachable from a retained Run is USER-CUSTODY by definition, whatever it was labelled. Custody follows reachability, not intent."},
+    {"id": "V8", "rule": "A version identity that participates in PlanId cannot change without changing derived identity — so bumping it invalidates caches by construction. This is a feature; do not add compatibility shims that hide it."}
+  ],
+
+  "supportWindows": {
+    "fingerprintRecipe": {"majorsSupported": 2, "note": "Plus an explicit previewable upgrade path. Beyond the window: INDETERMINATE, never a reinterpretation."},
+    "envelopeSchema": {"majorsSupported": 2, "overlapReleases": 2},
+    "factSchema": {"majorsSupported": 1, "note": "Narrower because authors can respond to releases; widen only if a real ecosystem exists (P-1)."},
+    "providerProtocol": {"majorsSupported": 1},
+    "exitClassSet": {"majorsSupported": "n/a — additive only"},
+    "caveat": "These numbers are chosen for coherence, not from adoption data. They are the most guessed part of this artifact and should be revisited when real usage exists (A19)."
+  },
+
+  "conformanceTests": [
+    {"id": "VT-01", "assert": "Every entry in versionedIdentities has a custody class present in custodyClasses."},
+    {"id": "VT-02", "assert": "No USER-CUSTODY contract lacks a declared migrator path."},
+    {"id": "VT-03", "assert": "Reading a USER-CUSTODY artifact one major outside the window yields INDETERMINATE with repair instructions — never a diff and never a pass."},
+    {"id": "VT-04", "assert": "Requesting an unsupported envelope major yields REQUEST-REJECTED naming the supported range."},
+    {"id": "VT-05", "assert": "Adding an optional envelope field does not break a conforming consumer; a consumer rejecting unknown fields is non-conforming by contract."},
+    {"id": "VT-06", "assert": "Exit class set is a superset of every prior release's set, with no code reassigned. Enforced against the D9 contract history."},
+    {"id": "VT-07", "assert": "Admitting a contribution whose declared range excludes the host version fails at admission and reports both ranges."},
+    {"id": "VT-08", "assert": "No artifact reachable from a retained Run is labelled INTERNAL (V7)."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "skipped releases are never mass-invalidated", "dischargedBy": ["USER-CUSTODY policy", "VT-03"]},
+    {"property": "consumers pin a major and get a typed refusal", "dischargedBy": ["V3", "VT-04"]},
+    {"property": "physical storage schema stays private and migratable", "dischargedBy": ["INTERNAL class", "V7", "VT-08"]},
+    {"property": "fingerprint recipe versions independently of the fact schema", "dischargedBy": ["versionedIdentities"]},
+    {"property": "unsupported recipe yields indeterminate, never net-new findings", "dischargedBy": ["VT-03"]}
+  ],
+
+  "peerReviewRequired": [
+    "Is custody-by-artifact-holder the right classifying axis, or does it break down for the agent protocol surface, which is consumer-custody but whose consumers are ephemeral?",
+    "Are the support-window numbers defensible, or should they be marked GUESSED until adoption data exists?",
+    "V7 (custody follows reachability) reclassifies things silently as the design evolves. Is that safe, or does it need an explicit review trigger?"
+  ],
+
+  "knownLimitations": [
+    "Support-window counts are judgment, not evidence. Flagged in supportWindows.caveat.",
+    "No migrator is actually specified for any USER-CUSTODY contract — this artifact requires them to exist without designing one.",
+    "The interaction with the not-yet-designed distribution story (signing, air-gap) is unexamined: an air-gapped user cannot fetch a migrator.",
+    "Authored solo; the custody framing is novel to this artifact and has had no adversarial test."
+  ]
+}

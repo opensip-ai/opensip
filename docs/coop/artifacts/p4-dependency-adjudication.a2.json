@@ -1,0 +1,50 @@
+{
+  "artifact": "opensip.p4-dependency-adjudication",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "confirm-with-category-guardrail",
+  "question": "May P-4 remain SEALED with C-1 recorded as an articulationReference rather than a decision dependency?",
+  "resolves": {
+    "P-4-DEPENDENCY": "CONFIRM: keep dependsOn empty, retain C-1 in articulationReferences, and keep P-4 SEALED.",
+    "P-4-ARTICULATION-GUARD": "REQUIRED PROCESS RULE: articulationReferences may change labels or explanatory framing only; they may not change truth conditions, scope, acceptance criteria, implementation obligations, cost commitments, or consequences of the sealed decision. Reclassification used to clear CHK-2 requires independent peer adjudication."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "P-4",
+      "source": "artifacts/claim-register.v1.json#P-4",
+      "property": "TypeScript and Rust receive day-one semantic providers; other supported languages do not; the capability difference is surfaced loudly."
+    },
+    {
+      "id": "METHOD.RULE-7",
+      "source": "architecture/10-method.md#7-do-not-seal-what-you-have-flagged-for-review",
+      "property": "A sealed claim may not depend on an unreviewed premise."
+    },
+    {
+      "id": "METHOD.RULE-8",
+      "source": "architecture/10-method.md#8-status-attaches-to-claims-not-containers",
+      "property": "Status attaches to the P-4 claim rather than to a surrounding product-decision container."
+    }
+  ],
+  "counterfactualTest": {
+    "ifC1RejectedForGlobalSemanticPriority": "The language set remains TypeScript and Rust and all other languages remain without a day-one semantic provider. Documentation would rename or re-explain the gap and might describe those languages as degraded rather than as a capability tier.",
+    "ifC1RejectedForSyntaxSemanticCoequality": "The language set and provider obligations likewise remain unchanged; only the explanatory vocabulary and Coverage presentation change.",
+    "decisionTruthConditionsChange": false
+  },
+  "categoryAdjudication": {
+    "articulationReferencesIsLegitimate": true,
+    "definition": "X is an articulation reference of Y only when changing X can alter wording, taxonomy, or explanation of Y but cannot alter any truth condition or operational obligation of Y.",
+    "escapeHatchRisk": "high without the guardrail because an author could relabel a substantive premise to route around CHK-2",
+    "requiredControl": "Record dependencyReasoning and obtain a peer artifact whenever moving an unsealed claim from dependsOn to articulationReferences to permit sealing.",
+    "applicationHere": "Agent 3's edit passes the counterfactual test and now has independent confirmation from Agents 1 and 2. C-1 is also SEALED at review time, so the classification no longer affects CHK-2's current result."
+  },
+  "verdict": {
+    "p4Status": "SEALED",
+    "confidence": "high",
+    "whatWouldChangeMyMind": "Evidence that rejecting C-1 would cause product to remove either TypeScript or Rust, add another provider, weaken loud disclosure, or change the provider acceptance obligations rather than merely their names."
+  },
+  "knownLimitations": [
+    "This adjudicates only the dependency classification. It does not decide P-4a's Rust substrate or P-4b's implementation order.",
+    "The current checker does not mechanically enforce the articulation-reference guardrail; peer review is the present control."
+  ]
+}

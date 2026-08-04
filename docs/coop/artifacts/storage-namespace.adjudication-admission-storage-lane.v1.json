@@ -1,0 +1,96 @@
+{
+  "artifact": "opensip.storage-namespace.finding-adjudication",
+  "version": 2,
+  "date": "2026-07-31",
+  "adjudicator": "admission-storage parallel lane",
+  "sourceReviews": [
+    "artifacts/implementer-package.review-reviewer4.json",
+    "artifacts/c2-storage.review-reviewer7.json",
+    "artifacts/c2-storage.rereview-reviewer7.json"
+  ],
+  "findingIds": [
+    "IP-R4-06",
+    "R7-SN-02",
+    "R7-SN-03",
+    "R7R-SN-01"
+  ],
+  "coordinatedFinding": "R7-SN-01 is owned by the resolved-inputs lane; this contract consumes its live PROJECT-ID-V1 owner.",
+  "findingDisposition": "REREVIEW-RESIDUAL-REPAIRED-AWAITING-INDEPENDENT-REPLAY",
+  "claim": "TM/R15 plus evidence-persistence storage floor",
+  "contractDisposition": "REPAIRED-WITH-BINDING-CHANGES; NOT YET CLOSED BY REREVIEW",
+  "decision": "One authority-selection record names the active admitted root for PROJECT-ID-V1. Canonical per-project paths are lexical design guarantees. Physical non-aliasing is a separate product property requiring retained real-file observations. Full-project purge and cross-root migration use exact journal/quarantine/authority state machines with deterministic crash reconciliation.",
+  "identityJoin": {
+    "contractId": "PROJECT-ID-V1",
+    "source": "resolved-inputs.v2.json#projectIdContract",
+    "consumer": "threat-model.v3.json#storageNamespace.projectId",
+    "c2Wire": "c2-plan-stage-schema.v3.json#planIntent.wireTypes.projectId"
+  },
+  "lexicalLayout": {
+    "projectNamespace": "<admittedStorageRoot>/projects/<ProjectId>",
+    "ledger": "<projectNamespace>/ledger.sqlite",
+    "cas": "<projectNamespace>/objects/sha256/<digestHex>",
+    "guarantee": "Different canonical ProjectIds produce different path strings; fixtures make no claim about file identity."
+  },
+  "physicalIsolationConformance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "gate": "G14",
+    "requiredObservations": [
+      "regular file type at publish and reuse",
+      "different stable file identities for equal digest across ProjectIds",
+      "link count one after publish and reuse",
+      "no hardlink/reflink/clone/shared-lower-CAS primitive in traced host operations",
+      "complete supported platform/filesystem/operation qualification matrix"
+    ],
+    "demonstrationEvidenceIds": []
+  },
+  "fullProjectPurge": {
+    "journal": "<root>/control/purge/<ProjectId>/<purgeId>.v1.json",
+    "quarantine": "<root>/quarantine/purge/<ProjectId>/<purgeId>/namespace",
+    "commitPoint": "VERIFIED_ABSENT after canonical and quarantine paths are both absent and root inventory reconciles",
+    "crashVectors": 6,
+    "ambiguityRule": "Malformed/multiple/mismatched journals or moving markers refuse; they never recreate/open a namespace by guess."
+  },
+  "crossRootMigration": {
+    "authorityRecord": "<userStateRoot>/opensip/storage-authority-v1/<ProjectId>.json",
+    "journal": "<userStateRoot>/opensip/storage-operations/migrate/<migrationId>.v1.json",
+    "switch": "generation-checked atomic replace on one user-state filesystem after target inventory/objects and physical controls verify",
+    "beforeSwitch": "source remains authoritative and untouched; target rollback allowed",
+    "afterSwitch": "target is authoritative; source retirement recovers forward only",
+    "crashVectors": 10
+  },
+  "changedArtifacts": [
+    "artifacts/threat-model.v3.json",
+    "artifacts/check-threat-claims.py",
+    "architecture/06-evidence-and-persistence.md"
+  ],
+  "retainedControls": {
+    "namespaceFixtures": 9,
+    "purgeCrashFixtures": 6,
+    "migrationCrashFixtures": 10,
+    "mutationControls": 29,
+    "properties": [
+      "PROJECT-ID-V1 live owner and C-2 wire join",
+      "canonical path derivation without claiming physical evidence",
+      "regular-file/file-identity/link-count/transfer qualification",
+      "root-visible quarantine/journal inventory",
+      "single authority CAS, rollback boundary and forward recovery"
+    ]
+  },
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "blockedProductGates": [
+      "G5",
+      "G14"
+    ],
+    "why": "Contract vectors and mutation tests make the design load-bearing but are not filesystem execution evidence or a deletion/migration demonstration."
+  },
+  "scopeLimits": [
+    "The tool cannot promise control over filesystem/OS block dedup below distinct regular-file identities.",
+    "External backup, sync, journals, swap and user-created copies remain outside the deletion protection domain.",
+    "The user-state authority registry stores bounded control metadata only and is not a competing evidence backend."
+  ],
+  "result": "The reviewer7 durable-QUARANTINED residual now has an exact recovery transition, fixture and reachable-state coverage control. Do not mark it CLOSED/SEALED until independent replay and coordinator integration."
+}

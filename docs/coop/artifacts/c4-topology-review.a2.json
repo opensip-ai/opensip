@@ -1,0 +1,214 @@
+{
+  "artifact": "opensip.c4-topology-review",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "split-structural-candidate-from-deployment-measurement",
+  "reviews": "artifacts/c4-topology-measurement-plan.a1.json",
+  "decisionDependencies": [
+    {
+      "id": "AGREEMENT.25",
+      "source": "architecture/11-traceability.md#25",
+      "role": "Repeatability is conditional on exact Coverage and producer determinism."
+    },
+    {
+      "id": "AGREEMENT.27",
+      "source": "architecture/11-traceability.md#27",
+      "role": "Embedded-primary topology preference is reopened."
+    },
+    {
+      "id": "ARCH.LOCAL_OFFLINE",
+      "source": "architecture/01-product-boundary.md#Hard-constraints",
+      "role": "The product must remain fully useful locally and offline."
+    },
+    {
+      "id": "ARCH.MULTI_CLIENT",
+      "source": "architecture/03-execution-model.md#Concurrency",
+      "role": "Concurrent clients in one checkout are normal and storage integrity is mandatory."
+    },
+    {
+      "id": "C1.A2.REQUIREMENT_LATTICE",
+      "source": "artifacts/c1-semantic-tier-challenge.a2.json",
+      "role": "Semantic work is requirement-driven, so residency value depends on the actual workload rather than a universal semantic default."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "AGREEMENT.25",
+      "claim": "Parity requires exact equality only after Snapshot, Plan, toolchain/environment, producer determinism, and exact Coverage are held equal.",
+      "evidenceIds": [
+        "A2-C4-PARITY-1",
+        "A2-C4-PARITY-2"
+      ]
+    },
+    {
+      "decisionId": "ARCH.LOCAL_OFFLINE",
+      "claim": "One-shot operation never depends on a resident service for correctness or full declared capability.",
+      "evidenceIds": [
+        "A2-C4-STRUCT-2"
+      ]
+    },
+    {
+      "decisionId": "ARCH.MULTI_CLIENT",
+      "claim": "Both lifetimes use one storage protocol and are tested concurrently.",
+      "evidenceIds": [
+        "A2-C4-STRUCT-4",
+        "M-C4-A2-6"
+      ]
+    }
+  ],
+  "question": "C-4 / R-1 — execution topology",
+  "acceptedFromAgent1": [
+    "03 versus 08 is a live contradiction and 03 must be demoted immediately.",
+    "Determinism, performance target, and deployment default are separate axes.",
+    "No lifetime is a semantic correctness oracle; both execute the same contracts.",
+    "Resident lifecycle, skew, staleness, contention, memory, and security costs are unpriced.",
+    "A resident default or auto-start policy cannot seal without measurement."
+  ],
+  "alternatives": [
+    {
+      "id": "TOPO-A",
+      "name": "one-shot-only host",
+      "merit": "minimum lifecycle and attack surface",
+      "cost": "throws away warm inventory/semantic/index state between interactive requests",
+      "agent2Disposition": "valid fallback, too restrictive as the only host shape"
+    },
+    {
+      "id": "TOPO-B",
+      "name": "lifetime-neutral core, mandatory one-shot host, optional resident host",
+      "merit": "one semantics with explicit resource lifetimes; CI/offline simplicity and interactive warmth can coexist",
+      "cost": "requires lifecycle and parity conformance if resident host ships",
+      "agent2Disposition": "recommended structural candidate"
+    },
+    {
+      "id": "TOPO-C",
+      "name": "resident-primary or resident-required",
+      "merit": "best potential warm latency",
+      "cost": "availability, skew, memory, staleness, and multi-project complexity become mandatory product behavior",
+      "agent2Disposition": "reject without workload and operational evidence"
+    }
+  ],
+  "decisionSplit": [
+    {
+      "id": "R1-A",
+      "question": "Is the execution core reusable and lifetime-neutral?",
+      "agent2Position": "yes, candidate to seal by API/conformance artifact rather than latency measurement"
+    },
+    {
+      "id": "R1-B",
+      "question": "Does a resident host ship?",
+      "agent2Position": "open; prototype and measure"
+    },
+    {
+      "id": "R1-C",
+      "question": "Is residency the interactive default or auto-started?",
+      "agent2Position": "open product/operations decision gated by benefit, memory, reliability, and security data"
+    },
+    {
+      "id": "R1-D",
+      "question": "Is residency per-project or a multi-project service?",
+      "agent2Position": "open; must price isolation and aggregate RSS before choosing"
+    }
+  ],
+  "structuralCandidate": [
+    {
+      "id": "A2-C4-STRUCT-1",
+      "rule": "One reentrant execution core accepts explicit Snapshot, Plan, repositories, cancellation, clocks, and resource budgets; it owns no process-global project state."
+    },
+    {
+      "id": "A2-C4-STRUCT-2",
+      "rule": "A one-shot host is always supported for CI, offline use, recovery, and environments forbidding residency. It is a full capability path, not a degraded mode."
+    },
+    {
+      "id": "A2-C4-STRUCT-3",
+      "rule": "A resident host, if shipped, owns only explicitly scoped warm inventory journals, semantic universes, and derived indexes; those are invalidatable accelerators, never unrecorded evidence authority."
+    },
+    {
+      "id": "A2-C4-STRUCT-4",
+      "rule": "One-shot and resident hosts use the same storage transaction/CAS publication protocol. Resident presence cannot be required to prevent corruption."
+    },
+    {
+      "id": "A2-C4-STRUCT-5",
+      "rule": "Client/engine handshake carries protocol family+major, engine binary/provider identities, project identity, and supported features. Incompatibility causes controlled restart or one-shot fallback, never silent reuse."
+    },
+    {
+      "id": "A2-C4-STRUCT-6",
+      "rule": "Warm state has explicit invalidation roots, leases, memory budgets, eviction, and privacy teardown. No cache hit may bypass derivation identity or Coverage checks."
+    }
+  ],
+  "parityCorrection": [
+    {
+      "id": "A2-C4-PARITY-1",
+      "rule": "For deterministic producers with identical Snapshot, Plan, toolchain/environment, and exact Coverage, EvidenceDigest equality is Boolean and mandatory: every case matches, not an acceptable rate."
+    },
+    {
+      "id": "A2-C4-PARITY-2",
+      "rule": "When wall-time budgets cause Coverage to differ, the test first reports a Coverage divergence. It must not call unequal digests a lifetime-semantic failure or claim parity from equal summary enums."
+    },
+    {
+      "id": "A2-C4-PARITY-3",
+      "rule": "Parity corpus includes cold/warm transitions, config/dependency changes, journal loss, provider crash/restart, cache eviction, and concurrent writers."
+    }
+  ],
+  "reviewOfMeasurements": [
+    {
+      "id": "M-C4-1",
+      "verdict": "retain-but-reframe",
+      "correction": "Benchmark target Plan/workload classes, not incumbent fit/check-changed command names. Declare corpus shape, machine, toolchain, cache state, files read, facts required, and Coverage."
+    },
+    {
+      "id": "M-C4-2",
+      "verdict": "retain",
+      "correction": "Report semantic-universe rebuild causes and percentage, not only latency."
+    },
+    {
+      "id": "M-C4-3",
+      "verdict": "replace",
+      "correction": "No equality rate. Run a deterministic parity corpus with exact identity/Coverage preconditions and require zero mismatches."
+    },
+    {
+      "id": "M-C4-4",
+      "verdict": "retain",
+      "correction": "Add crash/restart and incompatible-engine fallback while writers are active."
+    },
+    {
+      "id": "M-C4-5",
+      "verdict": "retain",
+      "correction": "Measure idle and peak RSS, eviction effectiveness, and aggregate memory across multiple projects."
+    }
+  ],
+  "additionalMeasurements": [
+    {
+      "id": "M-C4-A2-6",
+      "metric": "Concurrent one-shot/resident write, crash, recovery, and CAS/ledger linearizability stress",
+      "blocks": "storage authority under dual lifetime"
+    },
+    {
+      "id": "M-C4-A2-7",
+      "metric": "Staleness corpus for source, compiler config, lock/dependency, generated-file, and toolchain changes",
+      "blocks": "warm semantic correctness"
+    },
+    {
+      "id": "M-C4-A2-8",
+      "metric": "Resident availability, startup/restart time, incompatible-version fallback success, and orphan cleanup",
+      "blocks": "auto-start/default policy"
+    },
+    {
+      "id": "M-C4-A2-9",
+      "metric": "Multi-project fairness, idle/peak aggregate RSS, eviction latency, and source-derived-state teardown",
+      "blocks": "per-user multi-project service decision"
+    },
+    {
+      "id": "M-C4-A2-10",
+      "metric": "Latency benefit by logical fact requirement class from C-1, including syntax-only, resolved-reference, and type-flow workloads",
+      "blocks": "claim that semantics makes residency load-bearing for the normal workload"
+    }
+  ],
+  "agent2Recommendation": {
+    "structure": "Adopt TOPO-B as a candidate: lifetime-neutral core plus mandatory one-shot host; resident host remains optional/open.",
+    "sealNow": false,
+    "immediateDocumentFix": "Remove embedded-primary seal from 03 and replace 08's proposed resident implication with the R1-A/B/C/D split.",
+    "measurementGate": "Measurements gate shipping/default/autostart/scope of residency, not reentrancy of the core.",
+    "confidence": "high on lifetime-neutral core and one-shot requirement; medium on whether a resident host earns its product cost"
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "version": 2,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "accept-semantics-require-v1.3-executable-contract",
+  "reviewOf": "artifacts/d9-exit-contract.v1.2.json",
+  "decisionDependencies": [
+    {
+      "id": "AGREEMENT.37",
+      "source": "architecture/11-traceability.md#37",
+      "role": "One host-owned total termination mapper and one process-boundary exit write site."
+    },
+    {
+      "id": "D9.REMAINING-WORK",
+      "source": "architecture/07-outcomes-and-failure.md#Remaining-work-before-seal",
+      "role": "v1.2 must provide schema-complete payloads, prohibited-effect assertions, executable mapper goldens, and traceable back-references."
+    },
+    {
+      "id": "D9.A2.V11-REVIEW",
+      "source": "artifacts/d9-exit-contract.review-a2-v1.1.json",
+      "role": "The prior review explicitly required a JSON Schema and executable derivation fixtures rather than class/code examples."
+    },
+    {
+      "id": "ARCH.BASELINE-SAFETY",
+      "source": "architecture/06-evidence-and-persistence.md#Required-properties",
+      "role": "Unsupported recipes produce no comparison and no comparison-derived findings."
+    },
+    {
+      "id": "ARCH.FINALIZATION",
+      "source": "architecture/07-outcomes-and-failure.md#Invariants",
+      "role": "Finalization is linearized and post-commit signals cannot race a settled outcome."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "D9.REMAINING-WORK",
+      "claim": "The review mechanically checks schema presence, union payloads, class/code mapping, duplicate IDs, and executable scenario inputs.",
+      "evidenceIds": [
+        "A2-D9-V12-MECH"
+      ]
+    },
+    {
+      "decisionId": "ARCH.BASELINE-SAFETY",
+      "claim": "The unsupported-recipe case is checked for the prohibited effects, not only termination class.",
+      "evidenceIds": [
+        "A2-D9-V12-ACCEPT-1"
+      ]
+    },
+    {
+      "decisionId": "ARCH.FINALIZATION",
+      "claim": "The finalization concept and the machine-testability of its cases are reviewed separately.",
+      "evidenceIds": [
+        "A2-D9-V12-ACCEPT-2",
+        "A2-D9-V12-03"
+      ]
+    }
+  ],
+  "mechanicalValidation": {
+    "id": "A2-D9-V12-MECH",
+    "jsonValid": true,
+    "goldenCaseCount": 38,
+    "duplicateGoldenIds": 0,
+    "classCodeMismatches": 0,
+    "missingVariantRequiredPayloads": 0,
+    "jsonSchemaPresent": false,
+    "unionFieldTypesSpecified": false,
+    "unionClosedAgainstUnknownFields": false,
+    "goldensWithScenarioAxes": 0,
+    "goldensExecutableAgainstDeriveHostTermination": 0,
+    "goldensWithExitCodeOutsideDeclaredUnionVariant": 38,
+    "effectCases": 3,
+    "verdict": "v1.2 repairs v1.1's twelve missing required payloads and class/code consistency remains sound. It still is not the schema-validated executable mapper contract required by 07 and the A2 v1.1 review."
+  },
+  "accepted": [
+    {
+      "id": "A2-D9-V12-ACCEPT-1",
+      "claim": "baseline-compare-unsupported-recipe now asserts comparisonPerformed=false, comparisonDerivedFindingCount=0, and repair actions."
+    },
+    {
+      "id": "A2-D9-V12-ACCEPT-2",
+      "claim": "A finalization commit point and post-commit signal classification are the correct semantic model."
+    },
+    {
+      "id": "A2-D9-V12-ACCEPT-3",
+      "claim": "IDENTITY.EXPIRED requires tombstone evidence; otherwise the resolver must return an unknown classification."
+    },
+    {
+      "id": "A2-D9-V12-ACCEPT-4",
+      "claim": "Cooperative serve stop is success and latest on an empty single-identity resolver is request-rejected."
+    },
+    {
+      "id": "A2-D9-V12-ACCEPT-5",
+      "claim": "The six termination classes and numeric mapping are accepted unchanged."
+    }
+  ],
+  "findings": [
+    {
+      "id": "A2-D9-V12-01",
+      "severity": "critical-schema",
+      "title": "v1.2 still has no JSON Schema and its expected termination objects are not members of its declared union",
+      "detail": "hostTerminationUnion lists required/optional field names but no types, nullability, reason-code vocabulary, or unknown-field policy. Every expectedTermination also contains exitCode, which no union variant permits. If unknown fields are allowed the union is not closed; if they are forbidden all 38 fixtures are invalid. This is exactly why the v1.1 review required an actual schema.",
+      "requiredFix": "Provide a JSON Schema with a closed oneOf HostTermination union and typed fields. Separate expectedHostTermination from expectedExitCode, or explicitly define a distinct ExpectedProcessOutcome schema containing both. Validate the artifact in CI."
+    },
+    {
+      "id": "A2-D9-V12-02",
+      "severity": "critical-executability",
+      "title": "There are no inputs from which deriveHostTermination can be tested",
+      "detail": "mapperTestInterface says each golden constructs scenarioAxes and asserts derive(scenarioAxes), but none of the 38 golden cases contains scenarioAxes or another machine-readable input. Case IDs and free-text rules cannot drive a mapper. The fixtures can test class-to-code lookup only, which 07 explicitly says is insufficient.",
+      "requiredFix": "Define a closed ScenarioAxes/input union per command kind and include one input object in every golden. Express precedence as a machine-readable decision table or executable reference mapper; assert derive(input) deep-equals expectedHostTermination, then map it to expectedExitCode."
+    },
+    {
+      "id": "A2-D9-V12-03",
+      "severity": "high-state-machine",
+      "title": "Finalization is semantically correct but not represented as a testable transition",
+      "detail": "The first analysis rule depends on finalizationCommitReached and HostTermination already settled, making the derivation function depend on its own prior output. The post-commit golden has only a prose note, not pre-state, signal event, settled termination, and expected post-state observables.",
+      "requiredFix": "Keep settlement in deriveHostTermination and model post-settlement signal handling as a separate state transition. Add machine fields such as preState, event, expectedState, expectedHostTerminationUnchanged, and transportShutdownRequested."
+    },
+    {
+      "id": "A2-D9-V12-04",
+      "severity": "high-traceability",
+      "title": "Back-references are named but not resolvable and conformance evidence is partly self-description",
+      "detail": "decisionDependencies carry IDs and roles but no source paths. Several conformanceClaims cite collection/key prose such as goldenCases or all golden expectedTermination.exitCode rather than stable evidence IDs. A reviewer cannot mechanically detect a renamed or dropped source property.",
+      "requiredFix": "Use structured {id, source, scopedObligation} dependencies. Give validators/tests stable IDs and make every conformance claim reference only those IDs; reject dangling IDs."
+    },
+    {
+      "id": "A2-D9-V12-05",
+      "severity": "high-provenance",
+      "title": "The expiry distinction remains a prose precondition rather than two executable cases",
+      "detail": "query-addressed-run-expired embeds a sentence saying otherwise emit IDENTITY.UNKNOWN, but there is no golden for no live record and no tombstone. An implementation could always emit EXPIRED and still pass all current fixtures.",
+      "requiredFix": "Add separate scenario inputs and goldens: absent live row plus retained tombstone -> IDENTITY.EXPIRED; absent live row plus no tombstone -> IDENTITY.UNKNOWN/appropriate request-rejected payload."
+    },
+    {
+      "id": "A2-D9-V12-06",
+      "severity": "medium-high-axis",
+      "title": "Cases that exist to prove axis separation do not assert the separated axes",
+      "detail": "required-delivery-failed does not assert that the sealed Run verdict remains pass while termination is operational-failed; optional-cloud-egress-failed does not assert the local verdict/Run is unchanged; verification mutations do not assert retention of the mutation receipt. The class alone cannot prove invariant-verdict-vs-termination or the mutation rule.",
+      "requiredFix": "Add structured expectedEffects/domainOutcome fields for local verdict, sealed Run identity, comparison/egress diagnostics, and mutation receipt retention where those properties are the reason for the case."
+    },
+    {
+      "id": "A2-D9-V12-07",
+      "severity": "medium-schema",
+      "title": "The interrupted fixture uses an ambiguous nullable placeholder",
+      "detail": "user-interrupt-finite supplies runId=$RUN_ID_OR_NULL while the pseudo-union only says runId is optional and defines no type or nullability. The fixture does not decide whether pre-admission interruption omits runId or includes null.",
+      "requiredFix": "With the JSON Schema, choose omission or explicit nullable semantics and add distinct pre-admission and post-admission interruption cases if both are supported."
+    }
+  ],
+  "requiredV13Changes": [
+    "Add a real closed JSON Schema for HostTermination, ScenarioAxes, ExpectedEffects, and the golden-case record.",
+    "Separate HostTermination payload from expected numeric exit code.",
+    "Supply machine-readable input axes for every golden and an executable reference mapper or decision table.",
+    "Represent finalization signal handling as a state transition with observable assertions.",
+    "Split tombstone-present and tombstone-absent identity cases.",
+    "Add domain/effect assertions for verdict-versus-termination, optional egress, required delivery, and mutation receipts.",
+    "Replace prose dependency/evidence references with resolvable source and test IDs.",
+    "Run schema validation, required-field/unknown-field checks, derivation deep equality, class-to-code mapping, duplicate-ID checks, and dangling-reference checks."
+  ],
+  "agent2Disposition": {
+    "semanticDirection": "APPROVE",
+    "v12Seal": "REJECT",
+    "next": "Publish v1.3 and an executable validator/harness. Do not update 07 to call v1.2 binding until those checks pass.",
+    "confidence": "high"
+  }
+}

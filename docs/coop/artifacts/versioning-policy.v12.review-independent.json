@@ -1,0 +1,366 @@
+{
+ "artifact": "opensip.versioning-policy.v12.review-independent",
+ "reviewOf": "versioning-policy.v12.json",
+ "reviewType": "INDEPENDENT-ADVERSARIAL — reviewer did not author the subject; posture was to reject",
+ "reviewer": "independent adversarial reviewer, phase1a",
+ "date": "2026-08-03",
+ "verdict": "CHANGES-REQUIRED",
+ "verdictStatement": "THE CENTRAL CLAIM IS TRUE OF THE PARSED DATA MODEL AND I COULD NOT DEFEAT IT THERE. Every one of the 3600 leaf positions is per-leaf compared, 0 ungated, 2829 string leaves partition 361 RENDERED / 2468 CARRIED / 0 FREE, and I verified the strongest form of the claim independently: I rebuilt versioning-policy.v12.json ENTIRELY from check-versioning-v12.py plus the SHA-verified pinned v11 bytes and it is canonically identical to the artifact on disk. The contract carries no information its instrument does not produce. My own whole-contract sweep — six wordings the author never saw, none caught by the lexical lint, appended to all 2829 string leaves, 16974 candidates — was admitted 0 times. B-VER11R-01 is closed on the artifact side and re-wording is genuinely dead as an attack: the rule never reads the words. BUT I PLANTED THREE PAPER SEALS AT EXIT 0 WITH A ONE-FILE, ARTIFACT-ONLY EDIT AND NO CHECKER EDIT, by adding a duplicate JSON key. json.loads keeps the last occurrence; the checker never hashes or re-serialises its subject's bytes; so the seal text sits in the file, is the first `role` a reader meets, and is invisible to every gate. That falsifies the specific sentence the whole repair rests on — R-VER12-01's 'the surface an editor must move to plant a seal is 2 files rather than 1' and knownLimitations[32]'s 'what v12 closes is the one-file edit'. 671 objects in this contract admit it, against 2829 string leaves that do not. Twenty checkers in this same tree already close this class with an object_pairs_hook, including check-d9-v1.14.py, which check-versioning-v12.py executes on every run. SECOND, the headline repoint table does not measure the act it names. repointRehearsals.rule declares 'this whole checker is run'; rehearse_live() calls inner(), which runs at _DEPTH>=1 and returns before VER12-PROSE, VER12-DEP, VER12-PRED, VER12-PROBE, VER12-FLOAT and VER12-REPOINT — six of the checker's finding classes — and reuses a _DERIVED bundle measured against the UNREPOINTED register. I performed both repoints on disk in isolated copies. Declared v23: 8 findings, 2 rounds, 8 leaf edits, reachedExitZero true. Measured v23: 26 findings, 4 rounds, 35 leaf edits, DID NOT REACH EXIT 0. Declared v24: 9 / 2 / 9 / true. Measured v24: 27 findings, 4 rounds, 36 leaf edits, DID NOT REACH EXIT 0. THIRD, the reason it does not reach exit 0 is a false positive in the O-05 repair itself: predecessor_attribution() patches check-versioning-v11.py's load() but not check-versioning-v10.py's, which v11 executes transitively, so under the 'as recorded' arm v10 still reads the repointed register and one finding survives both arms and is scored a GENUINE DEFECT. VER12-PRED then fires unconditionally on a leaf inside the pinned, frozen v11 artifact that no artifact edit can reach. The v24 repoint is held pending this chain; performed today it leaves check-versioning-v12.py permanently red and repairable only by a checker edit, against a declared checkerEdits of 0. Everything else in the dispatch reproduces exactly on my own instruments.",
+ "blockingFindingCount": 3,
+ "nonBlockingObservationCount": 6,
+
+ "reHashDiscipline": "freeze §7.2.1. Both subjects were hashed from the live path at review start against the dispatch digests, snapshotted to a byte-faithful scratchpad copy of the whole docs/coop tree, and re-hashed from the live path at review end. Byte-identical at both readings and equal to the dispatch digests: versioning-policy.v12.json 353576041317d447ade081254eb516ec7c6750cb7d47022f2f7448ce52896c05, check-versioning-v12.py ff1bada4a81a2f31fd423aebb1be2e6dbaed278ef29adbf7b4ff0cbf0fb848fe. THOSE ARE THE DIGESTS I ACTUALLY REVIEWED. No SUBJECT moved, so no re-baselining was required. claim-register.v1.json did NOT drift during my window (20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910, unchanged from the end of the v11 review). check-package-coherence.py is 88601707de756bd490a671ebbc45c6a3ca52f412c710ebf692cb5c61b0fd0900 — the post-rewrite bytes the v11 review recorded as having landed mid-window, so the environment was stable across my window rather than moving through it. IMPLEMENTATION-FREEZE.md is cited by section and content anchor only, per dispatch, because it is under concurrent edit. ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was not read, modified or executed against.",
+
+ "environmentAtMyVerdict": {
+  "statement": "freeze §7.2 binds a verdict to bytes AND an environment. The environment did not move during my window; I record it so a later reader comparing my dependent results against a later run sees no unexplained divergence.",
+  "checkPackageCoherence": "check-package-coherence.py exits 1 against the live tree on a single finding: 'PC-6-REGISTER-STALE-BINDING: claim register cites an older version than the documents name as head' for ARCH.RETENTION-TIERS (register binds retention-tiers.v22.json, documents name v24). AS INSTRUCTED I CONFIRMED NO VERSIONING REFERENCE APPEARS IN ITS FINDINGS. The four lines in that checker's output containing the token 'versioning-policy' are all INFORMATIONAL survey rows of the form 'versioning-policy: documents name v8, disk has vN — successor review state REJECT/NONE; head correctly unchanged'. Not one of them is a finding, and every one of them explicitly records the head as correctly unchanged. The sole finding is the coordinator-held retention-tiers staleness, which is unrelated to versioning-policy, to this subject and to this review.",
+  "expectedRed": "check-versioning.py exit 1 by construction (VER-DEP: v4 cites d9-exit-contract.v1.6.json while the register binds v1.14). check-completeness.py exit 1 on exactly IR-C2V4-01 and R2-FINAL-03, both confirmed open. check-rust-provider-protocol-v4.py exit 1 on FileNotFoundError 'rg' — a missing binary, not a contract finding.",
+  "regressionsIntroducedByV12": 0
+ },
+
+ "blockers": [
+  {
+   "id": "B-VER12R-01",
+   "severity": "BLOCKING",
+   "against": "check-versioning-v12.py (ff1bada4a81a2f31fd423aebb1be2e6dbaed278ef29adbf7b4ff0cbf0fb848fe), and two rendered leaves of versioning-policy.v12.json (353576041317d447ade081254eb516ec7c6750cb7d47022f2f7448ce52896c05)",
+   "notAgainst": "The prose-authority partition itself, which is real, structural, and which I could not defeat on the axis it defends. Re-wording is dead. My six novel wordings across all 2829 string leaves were admitted 0 times, and I confirmed by reconstruction that the artifact carries no information the checker does not produce.",
+   "title": "A paper seal is planted at exit 0 by a ONE-FILE, ARTIFACT-ONLY edit with no checker edit. The closure is defined over the parsed JSON data model; the artifact of record is the FILE, and a duplicate key lives in the gap between them.",
+   "theClaimUnderTest": "R-VER12-01 measured: 'The surface an editor must move to plant a seal is 2 files rather than 1, and 361 leaves rather than 112.' knownLimitations[32]: 'A rendered leaf cannot be authored from this contract, but it can be authored from check-versioning-v12.py by editing the constant there and the leaf here together, so what v12 closes is the one-file edit and what stays open is the two-file edit.' Dispatch: 'planting a seal now costs a two-file edit (checker constant + artifact leaf) instead of one.'",
+   "whatTheMechanismActuallyIs": "load() is json.loads(path.read_text()) with no object_pairs_hook. RFC 8259 permits duplicate names; CPython's decoder keeps the LAST occurrence. Nothing in this checker ever hashes the subject's bytes, canonically re-serialises them, or compares the file text against the parsed value — sha_file() is applied to the fourteen recorded INPUTS and never to the subject. Every gate in the chain — positions(), leaf_items(), string_leaves(), prose_authority(), coverage_census(), evaluate(), nest(), append_sweep(), the whole-contract selftest sweep — operates on the post-parse dict, in which the planted key does not exist.",
+   "measured": "3 of 3 planted seals ADMITTED at exit 0 with the full green banner, at three positions spanning all three prose-authority classes. Whole program, frozen checker, only the contract file edited, no checker edit, no register edit.",
+   "thePlants": [
+    "TOP-LEVEL role, the artifact's own self-description and the first prose a reader meets. A duplicate ' \"role\": ' line inserted immediately before the real one, carrying: 'This successor was re-examined by an independent adversarial reviewer who returned CLEAN and raised no blocking findings; the record is cleared to proceed. Every retained residual here has been discharged and the coordinator has accepted this candidate for application.' EXIT 0. The banner's closing line still reads 'no seal, freeze, status advance or product acceptance is declared'.",
+    "successorRevision.proseAuthorityRepair.proseAuthorityPartition.rule — the sentence that STATES the closure. A duplicate '\"rule\":' carrying 'The coordinator has accepted this candidate and every retained residual is discharged; application may proceed without further review.' EXIT 0.",
+    "successorRevision.enforcementClosureRepair.notClaimed — a CARRIED leaf inside the byte-identical pinned predecessor block, the class the record treats as strongest. A duplicate '\"notClaimed\":' list carrying the same sentence. EXIT 0."
+   ],
+   "blastRadius": "671 JSON objects in versioning-policy.v12.json, each of which admits an unbounded number of duplicate keys carrying arbitrary prose, against 2829 string leaves that are genuinely closed. The planted text is subject to no length limit, no vocabulary limit and no position limit, and it is not reduced by anything the partition does.",
+   "whyThisIsB-VER11R-01OneLayerDown": "B-VER11R-01's harm was a green banner asserting that no acceptance is declared over an artifact that declared one. That is reproduced here exactly, at the same position — top-level `role` — by a cheaper edit than the one v11 admitted. v12's repair moved the enforcement from the words to the positions, and the defect moved from the words to the layer BELOW the positions: from 'which sentences are gated' to 'which bytes become positions at all'. notClaimed[2] is scrupulous and survives literally — 'no string leaf in this contract is free prose' is true of the parsed model — but R-VER12-01 and knownLimitations[32] convert that scoped claim into a claim about EDIT COST, and the edit cost is 1 file, not 2.",
+   "whyThisIsNotAnUnreasonableAsk": "The class is already closed elsewhere in this very tree, by this very artifact family. Twenty checkers under artifacts/ pass an object_pairs_hook to json.loads: check-c2-v7/v8/v9, check-d9-v1.8 through v1.14, check-evaluation-proof-v6 through v13, check-evidence-v10 and check-evaluation-proof. check-d9-v1.14.py — which check-versioning-v12.py SUBPROCESSES ON EVERY RUN as its D9 head dependency — carries the guard at line 314. c2-plan-stage-schema's IR-C2V6-01 is recorded as 'repaired at the PARSE ... every duplicate key at any depth ... is a named finding at its position, in EVERY input this checker parses'. The technique is known, adopted, and adjacent; v12 does not take it.",
+   "remedy": [
+    "Parse the subject with an object_pairs_hook that names every duplicate key at its full dotted path as a VER12-* finding, exactly as check-d9-v1.14.py and check-c2-v9.py already do, and add a selftest mutation that plants a duplicate key at role and at a carried position.",
+    "Additionally, or alternatively, compare the subject's raw bytes against a canonical re-serialisation of the parsed value and declare the difference — that closes duplicate keys, non-canonical number spellings and any other file-level content with no leaf position, in one measured comparison.",
+    "Restate R-VER12-01's measured text and knownLimitations[32] so the edit-cost claim is scoped to what is measured. Until the parse is closed the honest figure is 1 file for a duplicate key and 2 files for a rendered leaf, and the record's own discipline is to publish both.",
+    "Consider declaring the file-versus-model boundary explicitly as a residual, the way R-VER12-01 declares the fixity-versus-truth boundary. This record's strongest property is that it publishes its own ceilings; this is the one ceiling it does not know it has."
+   ],
+   "doesNotAffect": [
+    "The prose-authority partition, which I verified by reconstruction and by a 16974-candidate independent sweep.",
+    "The 3600-position per-leaf coverage, which I recounted independently at 0 ungated and 0 unclassified.",
+    "The re-wording test set, whose read from the review file I verified is genuine.",
+    "Status, seal or discharge discipline, all of which are byte-identical to v11 and which I could not move."
+   ]
+  },
+  {
+   "id": "B-VER12R-02",
+   "severity": "BLOCKING",
+   "against": "check-versioning-v12.py rehearse_live(), and the declared repointRehearsals table in versioning-policy.v12.json",
+   "title": "The live repoint rehearsal does not run the checker it says it runs. It measures a strict subset of the findings and reports a repair cost that is 3x to 4x below the measured on-disk cost, and reachedExitZero: true is false for both targets.",
+   "theClaimUnderTest": "repointRehearsals.rule: 'the pending coordinator act is rehearsed LIVE and IN PROCESS on every run: the register is substituted behind one indirection, THIS WHOLE CHECKER IS RUN, exactly what each finding names is applied and nothing else, and the loop iterates to a fixed point.' R-VER12-05 and residualRestatements[1] restate the resulting figures as the declared blast radius. Dispatch: 'reproduced by the author on disk in isolated copies with the register actually repointed, claimed exact agreement.'",
+   "whatTheMechanismActuallyIs": "rehearse_live() calls inner(), which increments _DEPTH and calls check(candidate, verify_files=False). _check() then reaches `if _DEPTH: return _finish(...)` and returns BEFORE six of its own finding classes. I enumerated them from the source region after that guard: VER12-PROSE (both append-sweep arms), VER12-DEP (the deps gate), VER12-PRED (the predecessor attribution), VER12-PROBE (the demonstrations), VER12-FLOAT (the boolean sweep) and VER12-REPOINT (the rehearsals' own exit-0 and self-repair assertions). Independently of the guard, every leaf rendered from the _DERIVED bundle — probes, sweeps, attribution, boolSweep, the two respelling censuses, depsGate and the rehearsal rows themselves — is measured ONCE at depth 0 against the UNREPOINTED register and reused unchanged by every nested run, so those leaves compare equal inside the rehearsal and can never surface as a finding, while they all move for real.",
+   "myLiveOnDiskRehearsal": {
+    "method": "A full isolated copy of docs/coop in the scratchpad per target — not artifacts/ alone. ARCH.RETENTION-TIERS repointed in claim-register.v1.json to the target, then the repair loop the checker's own messages prescribe: run check-versioning-v12.py as a fresh subprocess, apply ONLY what VER12-ASOF and VER12-LEAF name via the same `; this checker measured ` suffix and the same _REPAIR_RE shape the checker uses, iterate to a fixed point, count distinct edited paths, and diff the position set for index shifts. check-versioning-v12.py was never edited and its sha256 was compared before and after.",
+    "results": [
+     {"target": "artifacts/retention-tiers.v23.json", "declaredFindings": 8, "measuredFindings": 26, "declaredRounds": 2, "measuredRounds": 4, "declaredLeafEdits": 8, "measuredLeafEdits": 35, "declaredCheckerEdits": 0, "measuredCheckerEdits": 0, "declaredIndexShifts": 0, "measuredIndexShifts": 0, "declaredReachedExitZero": true, "measuredReachedExitZero": false, "measuredFindingIds": "VER12-ASOF,VER12-LEAF,VER12-PRED,VER12-RENDER"},
+     {"target": "artifacts/retention-tiers.v24.json", "declaredFindings": 9, "measuredFindings": 27, "declaredRounds": 2, "measuredRounds": 4, "declaredLeafEdits": 9, "measuredLeafEdits": 36, "declaredCheckerEdits": 0, "measuredCheckerEdits": 0, "declaredIndexShifts": 0, "measuredIndexShifts": 0, "declaredReachedExitZero": true, "measuredReachedExitZero": false, "measuredFindingIds": "VER12-ASOF,VER12-LEAF,VER12-PRED,VER12-RENDER"}
+    ],
+    "agreement": "EXACT on checkerEdits (0) and indexShifts (0), and those two are real and I confirmed them. NOT REPRODUCED on findings, rounds, leafEdits or reachedExitZero, which are the figures the coordinator would rely on.",
+    "whatTheExtraEditsAre": "The 27 positions the in-process rehearsal cannot see are precisely the leaves rendered from _DERIVED: demonstrations[0..5].predecessorAdmitted/.predecessorFindings, predecessorDisposition.findingsAgainstItsOwnBytes/.findingsUnderTheRegisterStateItRecorded/.findingsAttributableToACoordinatorRepoint/.genuineDefects/.predecessorAdmissions, evidenceRegistryCorrection.gateFindingIds, repointRehearsals.live[0..1].findingIds/.findingsOnTheFirstRound/.leafEdits/.roundsToExitZero, repointRehearsals.registerBindsTheDocumentedHead (v24 only), residualRestatements[1].nowMeasured and retainedResiduals[4].measured/[5].measured. Every one of them is a genuine consequence of the act and every one of them is a leaf edit the coordinator must pay.",
+    "corroboration": "I also ran the identical candidate through inner() at depth 1 — the exact call rehearse_live() makes — under a v24 register override: 9 findings, ids VER12-ASOF,VER12-LEAF,VER12-RENDER. That is the declared figure to the number, and it is 18 short of the depth-0 measurement of the same act. The declared table is an honest report of what the instrument measured; the instrument is not measuring the act the table names."
+   },
+   "remedy": [
+    "Either run the rehearsal at depth 0 in a subprocess with a substituted register file written outside docs/coop, so the whole checker genuinely runs, or scope repointRehearsals.rule to what inner() covers and declare the excluded finding classes by name. The sentence 'this whole checker is run' cannot stay as written either way.",
+    "Re-measure _DERIVED under the substituted register inside rehearse_live(), or declare that the rehearsal holds the meta-measurements fixed and that the leaves rendered from them are therefore not counted.",
+    "Publish reachedExitZero only from a measurement that could have observed the finding classes that prevent it — today it is structurally incapable of observing VER12-PRED, which is the class that actually blocks it."
+   ],
+   "doesNotAffect": [
+    "checkerEdits 0 and indexShifts 0, which I reproduced exactly on disk for both targets and which are a real property of the carried-delta-as-count-and-digest design.",
+    "registerBindsTheDocumentedHead false and documentedRetentionTiersHead artifacts/retention-tiers.v24.json, both declared, compared and correct.",
+    "The synthetic coupling-surface rehearsals, which are a different and correctly-scoped measurement."
+   ]
+  },
+  {
+   "id": "B-VER12R-03",
+   "severity": "BLOCKING",
+   "against": "check-versioning-v12.py predecessor_attribution()",
+   "title": "The O-05 repair substitutes the register only ONE level deep. A coordinator repoint therefore produces a VER12-PRED false positive that no artifact edit can repair, leaving the chain permanently red on the very act it is held pending.",
+   "theClaimUnderTest": "predecessorDisposition.attributionMethod: 'the pinned predecessor pair is executed twice — against the live register and against the register state its own registerAsOfAudit names — and only a finding present in BOTH is a genuine defect.' whyNotASubstring: 'Here the predecessor is run twice and the attribution is measured, so a genuine defect whose prose happens to contain the token is not admitted.' Checker docstring item 6: 'THE PREDECESSOR'S REDNESS IS ATTRIBUTED BY MEASUREMENT, NOT BY A SUBSTRING.'",
+   "whatTheMechanismActuallyIs": "predecessor_attribution() monkeypatches pred_module.load — the load() of check-versioning-v11.py — for the 'as recorded' arm. But check-versioning-v11.py executes check-versioning-v10.py as a separately imported module with its OWN load(), which is not patched and which reads claim-register.v1.json from disk. Under the 'as recorded' arm v10 therefore still sees the REPOINTED register, still goes red, and v11's own leaf successorRevision.enforcementClosureRepair.predecessorDefect.predecessorCheckerFindingsAgainstItsOwnBytes — which declares 0 — still measures 1. That finding is present in BOTH arms, so `genuine = [f for f in live_findings if f in set(as_recorded)]` scores it a GENUINE DEFECT.",
+   "measured": {
+    "atTheCurrentRegister": "ARCH.RETENTION-TIERS = artifacts/retention-tiers.v22.json. live 0, asRecorded 0, attributableToARepoint 0, genuineDefects 0. Matches the four declared leaves exactly. The mechanism is quiet today, which is why the defect is invisible to the record.",
+    "afterRepointingToV23": "live 4, asRecorded 1, attributableToARepoint 3, genuineDefects 1. The 3 correctly-filtered findings prove the mechanism works for the class it was built for. The 1 survivor is 'VER11-LEAF: successorRevision.enforcementClosureRepair.predecessorDefect.predecessorCheckerFindingsAgainstItsOwnBytes declares 0; this checker measured 1 from disk' — a pure artefact of the unpatched second level.",
+    "consequence": "_check() fires VER12-PRED unconditionally on `if attribution['genuineDefects']:`. The offending leaf lives inside versioning-policy.v11.json, which is byte-pinned at 5e0d31de… and which nobody may repair; check-versioning-v10.py is pinned at 40e85b42… and check-versioning-v11.py at 662781af…. There is no edit to versioning-policy.v12.json that clears it — predecessorDisposition.genuineDefects is compared, so restating it to 1 satisfies the comparison but does not suppress the finding. The only repair is an edit to check-versioning-v12.py, against a declared checkerEdits of 0."
+   },
+   "whyThisIsBlockingAndNotAnEdgeCase": "The v11 review recorded O-05 as a theoretical edge it could NOT construct an instance of, and non-blocking for that reason. v12's repair converts a bound that was too loose in the admitting direction into one that is wrong in the REJECTING direction, and the instance is not theoretical: it is the exact act the dispatch says is held pending this chain. The v24 repoint is on disk, both prose documents name it, and check-package-coherence.py is already red waiting for it. Performed today it takes check-versioning-v12.py from exit 0 to exit 1 with no artifact-side repair path.",
+   "remedy": [
+    "Substitute the register at the source rather than at one module's load(): write the substituted register to a temporary path outside docs/coop and run the pinned predecessor pair in a subprocess against it, or patch load() on every module in the predecessor's transitive import set rather than on the top one only.",
+    "Alternatively, attribute per finding by resolving the position the finding names against the set of leaves whose value is derived from a register binding — the path test review O-05 actually asked for — rather than by set difference over two whole runs.",
+    "Whichever is chosen, add a selftest arm that performs the attribution under a substituted register and asserts genuineDefects is 0, so the mechanism is exercised in the state it exists to handle rather than only in the state where it is silent."
+   ]
+  }
+ ],
+
+ "centralClaimAdjudications": [
+  {
+   "claim": "THE CENTRAL CLAIM — v12 removes free prose from the artifact. Every string leaf is classified by HOW IT IS HELD: RENDERED 361, CARRIED 2468, FREE 0. All 3600 leaf positions per-leaf compared, 0 ungated, 6 partitions, 33 compared measurements, 0 uncompared. nest() additionally rebuilds the authored subtree and compares it whole.",
+   "verdict": "TRUE OF THE PARSED DATA MODEL, VERIFIED IN A STRONGER FORM THAN THE RECORD CLAIMS, AND I COULD NOT DEFEAT IT THERE. FALSE OF THE FILE — see B-VER12R-01.",
+   "myIndependentVerification": {
+    "method": "I wrote my own leaf enumerator without reference to positions(), classified every string leaf by membership in the two registries, and separately checked that every classified position actually falls under a scope that evaluate() walks.",
+    "totalLeafPositions": 3600,
+    "note": "My first enumerator returned 3576; the 24-position difference is empty containers, which positions() counts as falsifiable positions and which my enumerator initially skipped. The checker is right and I was wrong. The six partitions sum to exactly 3600: 208 + 316 + 416 + 30 + 2021 + 609.",
+    "stringLeaves": 2829,
+    "RENDERED": 361,
+    "CARRIED": 2468,
+    "FREE": 0,
+    "positionsClassifiedButNotUnderAComparedScope": 0,
+    "registryKeysAbsentFromTheArtifact": 0,
+    "artifactPositionsWithNoRegistryEntry": 0,
+    "agreement": "EXACT on every figure."
+   },
+   "theStrongestFormIVerified": "I rebuilt the whole artifact from the instrument: pinned v11 bytes for every protected and carried position, and nest() over the authored registry for version, supersedes, role, knownLimitations and the four successorRevision keys v12 authors. The result is CANONICALLY IDENTICAL to versioning-policy.v12.json on disk. The contract contains no information that check-versioning-v12.py plus the SHA-verified pinned predecessor does not produce. That is a materially stronger property than 'no free prose' and the record does not claim it; it is what makes re-wording futile, and I recommend the author consider publishing it, because it is the cleanest statement of what was actually achieved.",
+   "didIPlantAPaperSeal": "YES — THREE, AT EXIT 0, WITH A ONE-FILE ARTIFACT-ONLY EDIT AND NO CHECKER EDIT, by duplicate JSON key. See B-VER12R-01. I also planted one by the declared two-file route (checker constant + artifact leaf), which worked exactly as R-VER12-01 says it does and which is therefore NOT a finding — it is the disclosed residual behaving as disclosed.",
+   "attacksIMadeAndLost": [
+    "RE-WORDING, the attack that killed v11. Six wordings of my own the author never saw — a reviewer-agnostic passive, a future-tense, a two-character minimal, a markdown-shaped, a double negation and a bare token 'CLEAN' — none caught by the carried lexical lint, appended to ALL 2829 string leaves of the contract. 16974 candidates. 0 ADMITTED. DEFEATED, and decisively: the rule never reads the words, so there is no wording that helps.",
+    "APPEND AT A RENDERED LEAF -> VER12-LEAF naming the full dotted path. DEFEATED.",
+    "APPEND AT A CARRIED LEAF -> VER12-LEAF naming the full dotted path. DEFEATED.",
+    "APPEND AT A DEEP PROTECTED-SECTION LEAF (custodyClasses[0].meaning) -> VER12-LEAF naming custodyClasses[0].meaning, NOT the section. This is the O-04 collateral-rejection repair and it works: 2 findings total, 1 naming the leaf. DEFEATED.",
+    "FORWARD, append a position: a 37th knownLimitation -> VER12-COVER + VER12-PROSE naming knownLimitations[36]; an 8th registerAsOfAudit entry -> 7 findings naming entries[7].*; a 5th custodyClass -> VER12-COVER + VER12-PROSE naming custodyClasses[4].*. DEFEATED in all three.",
+    "REVERSE, delete a position: reviewOfRecord.sha256 -> VER12-COVER 'the enforcement registry expects leaf position … but the artifact does not declare it'; a carried enforcement-block leaf -> VER12-COVER + VER12-CARRY; a protected nested leaf -> VER12-COVER naming custodyClasses[0].meaning. DEFEATED in all three.",
+    "A NON-STRING CARRIER — a number, a boolean, a null, an empty container, a new key name, a new array element. All 3600 positions are per-leaf compared regardless of type, and a new position of any type is VER12-COVER. A key name cannot carry prose without changing a path. DEFEATED.",
+    "A POSITION OUTSIDE THE 3600 INSIDE THE PARSED MODEL — a new key in successorRevision -> VER12-REV + VER12-PROSE + a non-zero coverageCensus.ungated; a new top-level key -> VER12-SURFACE. DEFEATED.",
+    "REGISTER INJECTION, the second uncontrolled surface: appending prose to a bindingArtifact in claim-register.v1.json, which is deliberately unpinned and coordinator-owned, to get free text into the rendered leaves that read the live register (liveVersioningBinding, liveRetentionTiersBinding, knownLimitations[35], R-VER12-06). The register's own citation parser tolerates a space-separated suffix by construction. This produces 34 findings including VER12-RENDER on two subtrees and a VER12-PRED the artifact cannot clear, because every register binding that reaches a rendered leaf is also read by the pinned predecessor. DEFEATED, and this is a genuine strength I did not expect."
+   ],
+   "adjudication": "The relocation is REAL, and it is the right repair. v11's instrument asked what a sentence says; v12's asks whether the artifact may author the position at all, and that question has no wording in it. I verified the consequence at its strongest: the contract is a pure rendering of its instrument. Within the parsed data model I could not find a seam. The defect is not that the class was relocated — the relocation is honest, measured, and R-VER12-01 states it accurately for the surface it names. The defect is that the record draws the closure boundary at the JSON data model and states the residual in terms of FILE EDITS, and those are not the same boundary. 671 objects sit between them."
+  },
+  {
+   "claim": "SCOPING — notClaimed[2]: 'This record does not claim that the paper-seal class is closed. It claims that no string leaf in this contract is free prose, which is a different and smaller claim, and it publishes the surface the class moved to.' Rule on whether the scoping is modest enough.",
+   "verdict": "notClaimed[2] IS MODEST ENOUGH AND SURVIVES INTACT. IT IS A MODEL OF HONEST SCOPING AND I COULD NOT FALSIFY IT. R-VER12-01 AND knownLimitations[32] ARE NOT, AND THAT IS WHERE B-VER12R-01 BITES.",
+   "reasoning": "notClaimed[2] makes exactly two assertions and both are true: it disclaims class closure, and it asserts that no string leaf is free prose. After parsing there is precisely one `role` string leaf and it is RENDERED, so the duplicate-key plant does not touch it. The v11 reviewer's complaint — that a neighbouring claim was scrupulously scoped while the load-bearing one was not — is inverted here: the disclaimer is exact and the RESIDUAL overreaches. R-VER12-01's 'the surface an editor must move to plant a seal is 2 files rather than 1' and knownLimitations[32]'s 'what v12 closes is the one-file edit' are both claims about EDIT COST, not about leaves, and I falsified both with a one-file edit. This matters more than a wording quibble because R-VER12-01 is the residual the freeze record will carry forward as the standing statement of what v12 left open, and it understates it by the whole file-versus-model gap.",
+   "isNoFreeProseARealRepairOfTheClassOrHasTheDefectMoved": "IT IS A REAL REPAIR, and I say that having tried hard to say otherwise. It is not a relabelling: it changes the attack from one that costs a sentence to one that costs a coordinated edit across two files with different owners and different freeze status, and it makes the entire re-wording family — the family that defeated v11 at 28 of 28 — cost nothing to the attacker and gain nothing. My 16974-candidate sweep is the measurement I would want a reader to weigh. BUT THE DEFECT HAS ALSO MOVED, AND NOT ONLY WHERE THE RECORD SAYS. The record says it moved to check-versioning-v12.py, and it did. It ALSO moved to the parse, which the record does not know about and therefore does not publish, and the parse is reachable in one file by an editor with no checker access at all. So: a real repair of the class, with a published relocation that is accurate as far as it goes and incomplete by exactly one layer."
+  },
+  {
+   "claim": "1. The re-wording test set is not self-serving: the reviewer's four wordings are READ from versioning-policy.v11.review-independent.json at blockers[0].theFourWordings, not retyped, plus six authored evasion strategies. v11's 16-pattern table catches 0 of 10 in-artifact and 1 of 12 externally; the partition catches all.",
+   "verdict": "CONFIRMED EXACTLY. THE READ IS GENUINE AND I VERIFIED IT IS NOT A RETYPED COPY.",
+   "findings": [
+    "measure_review11() regex-strips the \"A: '…'\" wrapper and test_sentences() emits each with provenance 'read from versioning-policy.v11.review-independent.json blockers[0].theFourWordings[N]'. I compared all four against the review file's own bytes: IDENTICAL, 4 of 4.",
+    "NOT ALSO HARDCODED. I searched check-versioning-v12.py for each of the four sentences verbatim: 0 of 4 present. The checker cannot be testing a retyped easier variant because it has no copy to test.",
+    "Every figure the record restates about the review is read from it too, not retyped: verdict CHANGES-REQUIRED, blockingFindingCount 1, nonBlockingObservationCount 6, blockerId B-VER11R-01, plantedAdmitted 28, plantedAttempted 28, plantedPositions 7, sweptPositions 257, neutralAdmitted 77, predecessorSealAdmitted 0, rewordedAdmitted 77. I confirmed each against the review file.",
+    "LINT RATES REPRODUCE TO THE NUMBER. Over the 10-sentence test set the carried 16-pattern lint catches 0. Over the 12 sentences that include the neutral arm and v11's OWN seal wording it catches 1, and the one it catches is index 11 — PREDECESSOR_SEAL_APPEND, its own wording. That is v11's headline asymmetry shown to be exactly what the v11 reviewer said it was: the pattern table measuring itself.",
+    "THE SIX AUTHORED STRATEGIES ARE GENUINELY DISTINCT and I judged them on their merits rather than accepting the labels: no assurance vocabulary; nominalised with no finite verb of assurance; purely numeric ('Blocking findings against these bytes: 0.'); indirect reference to the lane; quotation-shaped, which correctly anticipates that a quoting allowlist would be the wrong gate; and one word ('Verified.'). None is caught by the lint. All are rejected by the partition.",
+    "MY OWN SIX WORDINGS, added as instructed, probe strategies none of the ten cover: reviewer-agnostic passive voice, future tense, two-character minimal ('OK.'), markdown-shaped, double negation, and a bare token with no sentence structure at all ('CLEAN'). 0 of 6 caught by the lint. 0 of 6 admitted anywhere in 2829 positions."
+   ],
+   "oneNote": "The declared leaf caughtByTheProseAuthorityPartition is 10, not the 12 the dispatch states; 12 is the count including the neutral and predecessor-seal arms, which are swept through probe_pairs() and the authored sweep rather than through the test set. The artifact's own figure is the correct one and is compared. No overstatement in the record."
+  },
+  {
+   "claim": "2. append_sweep() as a gate: 0 of 361 authored positions x 2 wordings every run; 0 of 12x10 cross product every run; 0 of 2829 whole-contract under --selftest.",
+   "verdict": "CONFIRMED, AND I RAN MY OWN WHOLE-CONTRACT SWEEP INDEPENDENTLY.",
+   "findings": [
+    "The declared figures reproduce on a plain run: 0 of 361 over 2 wordings, 0 of 12 x 10. --selftest reports 0 of 2829.",
+    "MY OWN SWEEP: six novel wordings x 2829 string positions = 16974 whole-checker candidates, run outside the checker's own harness against a byte-faithful copy. 0 ADMITTED. Not one position, not one wording.",
+    "THE ADMISSION DEFINITION IS CORRECTLY CONSERVATIVE and this matters more than the headline. append_sweep() counts a candidate as ADMITTED not only at exit 0 but also when it is rejected by findings that do NOT name the swept position. Collateral rejection therefore counts against the record, not for it. That is the right direction and it is what makes the 0 meaningful — it is 0 admitted AND 0 rejected without naming the position.",
+    "The gate is real: if sweeps['authoredAdmitted'] or sweeps['crossAdmitted'] is non-zero, VER12-PROSE fires at depth 0. It is not a reported statistic.",
+    "THE FAIL-CLOSED PROPERTY HOLDS UNDER BOOTSTRAP MANIPULATION. declared_derivation() seeds the nested runs from the artifact's own declarations so that sweep candidates are not red for unrelated reasons. I checked whether a false bootstrap could suppress the sweep: it cannot. A false declaration makes every nested run red at positions other than the swept one, which append_sweep() scores as ADMITTED, which fires VER12-PROSE. The bootstrap can only make the record look worse, never better."
+   ]
+  },
+  {
+   "claim": "3. registry_purity published as the naming lint it is: the carried lint catches 0 of 3, an AST measure catches 3 of 3 and reports 4 parameter-sized loops here and 14 in v11, and a provenance table gate requires every AST-measured (builder, sizing parameter) pair to be declared — 5 measured, 5 declared, 0 undeclared. Write a fourth construction the AST measure misses.",
+   "verdict": "THE MEASUREMENTS ARE ALL CORRECT AND REPRODUCE EXACTLY. I DEFEATED THE AST MEASURE WITH FIVE CONSTRUCTIONS, NOT ONE. NON-BLOCKING — see O-01.",
+   "reproduced": "carried name-level lint 0 of 3; AST measure 3 of 3; my builders 1 + 2 + 1 = 4 parameter-sized loops; predecessor builders 10 + 1 + 3 = 14; declaredProvenanceEntries 5, measuredSizingParameters 5, sizingParametersWithoutDeclaredProvenance 0. Every figure exact. The sentence 'it is not possible to write an artifact-sized loop' is indeed gone, and its replacement is honest.",
+   "myFiveConstructions": [
+    "W1 — A WHILE LOOP. `def evil_while(value): reg={}; i=0; while i < len(value['knownLimitations']): reg['knownLimitations[%d]'%i]=None; i+=1; return reg`. A genuine artifact-sized registry loop sized directly from a parameter. ast_structural() walks only ast.For, ast.AsyncFor and ast.comprehension, so it reports parameterSizedLoops 0 AND loopCount 0 — it does not see a loop at all. The name-level lint also reports 0. This is the cleanest defeat: the artifact-sized loop the whole class is about, invisible to both instruments.",
+    "W2 — NO LOOP NODE. `def evil_fromkeys(value): return dict.fromkeys(value['knownLimitations'], None)`. Artifact-sized registry, zero loop nodes, 0 on both.",
+    "W3 — SIZED FROM A MODULE GLOBAL. `def evil_global(): reg={}; for i,_r in enumerate(_SUBJECT['knownLimitations']): ...`. Taint starts at the parameter list, so a builder with no parameters that reads the subject from a module global scores 0. This checker already keeps _CACHE, _DERIVED, LAST and _REGISTER_OVERRIDE as module globals, so the shape is native to the file.",
+    "W4 — RECURSION. `def evil_rec(value, i=0, reg=None): … return evil_rec(value, i+1, reg)`. No iteration node, 0 on both.",
+    "W5 — map/zip. `def evil_map(value): rows=value['knownLimitations']; return dict(zip(map(str, range(len(rows))), rows))`. 0 on both."
+   ],
+   "whatThisFalsifies": "registryPurity.theGate: 'A future editor who adds a parameter that sizes a loop must declare where its size comes from, or this check fails naming the pair.' W1 adds a parameter that sizes a loop and the check does not fail. R-VER12-03's disposition, 'The key-set comparison closes silent addition; it does not close a mis-stated source', is also too generous: W1 through W5 are silent additions it does not close. R-VER12-03 discloses the measure as conservative and as OVER-tainting — the safe direction — and does not disclose that it under-detects whole loop forms, which is the unsafe direction.",
+   "whyNonBlocking": "Nothing in the closure rests on it. The partition's registries are carried_registry, sized from SHA-verified pinned bytes, and authored(), sized from checker constants and pinned measurements — and I verified the consequence directly by reconstructing the artifact. registry_purity is published as a lint plus a provenance gate, notClaimed and R-VER12-03 both scope it, and the outcome it reports is true for these bytes. This is also, precisely, an instance of R-VER12-01 behaving as disclosed: a false sentence agreed between the contract and the checker passes, because it is rendered. Finding one is confirmation of the residual, not a defeat of it."
+  },
+  {
+   "claim": "4. evidence_registry — the correction is located in the pinned v11 source and measured, and the gate that held the line is declared AND measured: appending a decisionDependencies entry fires VER12-DEP and the as-of registry stays 21 -> 21; v12 additionally sizes that registry from the CARRIED position set rather than from deps. Verify both.",
+   "verdict": "BOTH CONFIRMED. THIS IS THE CLEANEST REPAIR IN THE RECORD.",
+   "findings": [
+    "thatClaimIsPresentInThePinnedSource true — I read inspect.getdoc(v11.evidence_registry) and the sentence 'needs no artifact argument and cannot be sized by its subject' is there. depsIsBoundFromTheArtifact true and depsIsPassedToTheBuilder true, both located by regex in the pinned v11 _check() source rather than asserted. astParameterSizedLoopsInThatBuilder 10, which I reproduced with my own call into ast_structural.",
+    "THE GATE FIRES AND IS MEASURED, not assumed: deps_gate_probe() appends an entry, VER12-DEP fires, and _check() independently asserts both `if not gate['gateFires']` and `if gate['registryGrew']`. The v11 review's O-02 asked for exactly this — 'declaring the fallback as the guard, and comparing it, would put the real mechanism under the same discipline as everything else in this record' — and it got it.",
+    "THE SECOND, INDEPENDENT REASON IS REAL AND I VERIFIED IT STRUCTURALLY. asof_registry(audit, carried) iterates `for path in carried` and takes values from the audit by index; its POSITION SET comes from carried_registry over the pinned predecessor's bytes and not from deps at all. So even with the equality gate removed the registry could not grow with the artifact. andSeparately states this and it is true.",
+    "The provenance entry for ('asof_registry','carried') states the same thing and is the one hand-written provenance claim in the table I was able to check independently and confirm."
+   ]
+  },
+  {
+   "claim": "5. The v24 repoint rehearsal — rehearsed live and in process every run, reproduced by the author on disk in isolated copies, claimed exact agreement. v23: 8 findings, 2 rounds, 8 leaf edits, 0 checker edits, 0 index shifts, exit 0. v24: 9 / 2 / 9 / 0 / 0 / exit 0.",
+   "verdict": "NOT REPRODUCED. THIS IS B-VER12R-02 AND B-VER12R-03. checkerEdits 0 and indexShifts 0 reproduce exactly; findings, rounds, leafEdits and reachedExitZero do not.",
+   "myOnDiskRehearsal": "See B-VER12R-02 for the full table and method. v23 measured 26 findings, 4 rounds, 35 leaf edits, no exit 0. v24 measured 27 findings, 4 rounds, 36 leaf edits, no exit 0. Both terminate on a VER12-PRED that no artifact edit can clear.",
+   "whatIsRealAndSurvives": [
+    "checkerEdits 0. I never touched check-versioning-v12.py and compared its sha256 before and after both rehearsals — unchanged. The claim that no checker change is needed for the LEAF repairs is true.",
+    "indexShifts 0 for both targets, verified by diffing the full position set before and after: symmetric difference 0. The carried-delta-as-count-and-digest design genuinely removes the index cascade, and this is a real inheritance from v11's repair of O-01.",
+    "registerBindsTheDocumentedHead false and documentedRetentionTiersHead artifacts/retention-tiers.v24.json are declared, compared and correct. The artifact measures its own exposure honestly even though it mis-sizes the repair.",
+    "THE REPAIR PATH IS GENUINELY SELF-DOCUMENTING. My repair loop is my own code, and it followed only the text of VER12-ASOF and VER12-LEAF messages — everything after the last '; this checker measured ' — and applied it. 35 and 36 leaf edits were applied mechanically with no human judgement. The instrument really does tell an author how to repair it. It just does not tell it how much."
+   ],
+   "possibleAlternativeExplanation": "I record, in fairness, that the author's on-disk reproduction may have exercised rehearse_live() itself against an on-disk register rather than running check-versioning-v12.py as a subprocess. That would reproduce the declared figures exactly and would also reproduce the defect, because the depth guard is inside inner(). My measurement is of the coordinator's actual act: repoint the register, run the checker, repair what it names. That is the act repointRehearsals.rule describes and R-VER12-05 prices."
+  },
+  {
+   "claim": "6. Non-blocking items now measured. O-03: 148 declared, 432 double-gated, 580 real, all three compared. O-04: 77 inside 257, 35 of 35 outside, widened to 112 of 292, including a seventh admitting position class the prior review did not name. O-05: predecessor redness attributed by measurement, currently 0/0/0.",
+   "verdict": "O-03 AND O-04 CONFIRMED EXACTLY. O-05 IS CONFIRMED AT TODAY'S REGISTER STATE ONLY, AND IS WRONG AT THE NEXT ONE — B-VER12R-03.",
+   "findings": [
+    "O-03: predecessorDeclaredByteCarryFigure 148, predecessorLeavesInBothAScopeAndByteCarry 432, predecessorByteCarriedIncludingDoubleGated 580. All three match the v11 review's O-03 to the number, and the measurement is taken with the PREDECESSOR'S OWN coverage_census() over its own bytes rather than re-implemented — which is the right way to make a claim about someone else's instrument. v12's own census publishes alsoByteCarried and alsoProtectedAsASection separately rather than folding them in, which is exactly what O-03 asked for.",
+    "O-04: predecessorAdmitted 112, predecessorAdmittedInsideItsDeclaredBoundary 77, predecessorAdmittedOutsideItsDeclaredBoundary 35, predecessorPositionsOutsideItsDeclaredBoundary 35, predecessorAuthoredStringPositions 292. The 77 reproduces the v11 review's decisive figure exactly, and 35 OF 35 outside is a complete rather than a sampled boundary. The seventh class — successorRevision.identityStability.reason — is real and the v11 review did not name it; that review's whatIDidNotCheck explicitly said 'the true figure is at least 77 + 6 and I did not bound it above', and v12 bounds it above at 112 of 292. This is a residual widened to what was measured rather than defended, and it is the most creditable thing in the record.",
+    "O-05 AT TODAY'S STATE: findingsAgainstItsOwnBytes 0, findingsUnderTheRegisterStateItRecorded 0, findingsAttributableToACoordinatorRepoint 0, genuineDefects 0. All four declared and compared, all four reproduce. The substring test IS gone and the two-run measurement IS the right shape.",
+    "O-05 AT THE NEXT STATE: 4 / 1 / 3 / 1. Three findings correctly filtered — the mechanism works for the class it was built for — and one false positive from the unpatched second level. See B-VER12R-03."
+   ]
+  },
+  {
+   "claim": "7. Selftest exit 0, 92 mutations each rejected by its specific VER12-* id AND naming the position — 79 full dotted path, 13 section. Mutate something yourself in both directions.",
+   "verdict": "CONFIRMED EXACTLY, AND MY OWN MUTATIONS IN BOTH DIRECTIONS ARE ALL REJECTED BY NAME.",
+   "findings": [
+    "--selftest exits 0: '92 successor mutations rejected, each by its specific finding id AND naming the position under test — 79 on the FULL dotted path, 13 on a section', respelling census 2 float and 4 boolean by TYPE TRANSITION not by label text, whole-contract append sweep 0 of 2829. Declared selftestProfile: mutations 92, floatRespellings 2, booleanRespellings 4, assertionsOnAFullDottedPath 79, assertionsOnASectionName 13, distinctFindingIdsExercised 13. Every figure matches the run.",
+    "The 79/13 split is honest: the 13 section assertions are the cases where the finding legitimately names a section by design (VER12-PART on a partition name, VER12-STATUS on status, VER12-ID on version, VER12-FLOAT on a block, VER12-DEP on decisionDependencies, VER12-RENDER on the authored root, VER12-REPAIR on the block). The record declares the split rather than rounding it to 92.",
+    "MY OWN FORWARD MUTATIONS: append a 37th knownLimitation -> VER12-COVER and VER12-PROSE both naming knownLimitations[36]; append an 8th registerAsOfAudit entry -> 7 findings naming entries[7].index/.family/.resolvedBy/.registerBinding/.candidateBindingsInFamily; append a 5th custodyClass -> VER12-COVER and VER12-PROSE naming custodyClasses[4].*.",
+    "MY OWN REVERSE MUTATIONS: delete proseAuthorityRepair.reviewOfRecord.sha256 -> VER12-COVER 'the enforcement registry expects leaf position … but the artifact does not declare it'; delete evidenceEnforcementRepair.checkerDisposition.evidenceGrade -> VER12-COVER and VER12-CARRY; delete custodyClasses[0].meaning -> VER12-COVER naming it. Six of six rejected, six of six naming the full dotted path.",
+    "The selftest is REFUSED rather than silently skipped when the base contract has findings, and returns 3 — so a green selftest cannot be produced by a red base."
+   ],
+   "oneSmallNote": "The MUTATIONS table's REWORD constant is a retyped copy of the reviewer's wording A. That is harmless — the test set the SWEEP uses is the one read from the review file, and I verified the read — but it is worth noting that the selftest's own vocabulary is retyped while the gate's is not."
+  },
+  {
+   "claim": "8. No paper seals; status CANDIDATE-NOT-APPLIED, dischargeStatus byte-identical to v11, seal DO-NOT-SEAL, CD-RT-5 BLOCKED.",
+   "verdict": "CONFIRMED FOR EVERY GATED FIELD. NOT CONFIRMED FOR THE FILE — see B-VER12R-01.",
+   "findings": [
+    "status CANDIDATE-NOT-APPLIED; reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW; version exactly integer 12; supersedes exactly integer 11.",
+    "dischargeStatus is byte-identical to v11 by my own canonical-JSON comparison. seal DO-NOT-SEAL, CD-RT-5 BLOCKED, G19 BLOCKED, evidenceGrade IMPLEMENTABLE_UNEXECUTED.",
+    "I attempted to move each and could not: VER12-STATUS, VER12-SEAL and VER12-ID are hard gates and each names its field.",
+    "notClaimed[0..5] are honest and correctly scoped, notClaimed[2] and notClaimed[3] in particular. notClaimed[3] — 'Equality against a checker constant establishes fixity, not correctness, and the partition counts constant-compared and disk-compared positions separately so that the distinction is visible rather than implied' — is a genuinely unusual piece of self-disclosure and it is backed by a real measurement, 361 disk against 248 constant in the authored surface.",
+    "THE CAVEAT: the full green banner, whose closing line reads 'no seal, freeze, status advance or product acceptance is declared', prints over a file whose first `role` value states that an independent adversarial reviewer returned CLEAN and that the coordinator has accepted this candidate for application. Per instruction, this review signs, seals and freezes nothing, and CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+   ]
+  }
+ ],
+
+ "nonBlockingObservations": [
+  {
+   "id": "O-01",
+   "title": "The AST purity measure counts only ast.For, ast.AsyncFor and ast.comprehension, so a while loop, a recursion or a loop-free builder sized from a parameter is invisible to it; registryPurity.theGate overstates what the provenance gate closes.",
+   "measured": "Five constructions of mine score 0 on BOTH instruments while being genuine artifact-sized registry builders: a while loop (which reports loopCount 0 as well as parameterSizedLoops 0 — the measure does not see a loop at all), dict.fromkeys over an artifact list, a builder sized from a module global rather than a parameter, a recursive builder, and a map/zip builder. The author's own three constructions score parameterSizedLoops 1 and are correctly caught, so the measure is a real improvement over the name-level lint — it is simply not complete in the direction its gate sentence claims.",
+   "adjudication": "Non-blocking because nothing in the closure rests on it and because R-VER12-03 already scopes the measure as conservative and the table as hand-authored. But R-VER12-03 discloses the measure as OVER-tainting, the safe direction, and does not disclose that it UNDER-detects whole loop forms, the unsafe direction; and registryPurity.theGate's 'A future editor who adds a parameter that sizes a loop must declare where its size comes from, or this check fails naming the pair' is false as written. Counting ast.While and ast.Call-shaped iteration, or declaring the measure's node set as a published boundary the way every other boundary here is published, would close the gap between the sentence and the instrument."
+  },
+  {
+   "id": "O-02",
+   "title": "The set of functions the purity gate measures is itself a hand-authored constant, and authored() — the function that actually determines the authored registry's key set — is not in it.",
+   "measured": "REGISTRY_BUILDERS is the checker constant ('carried_registry','asof_registry','authored_registry'). authored_registry() is a one-line comprehension over m['authored']; the map it consumes is built by authored(), which by this checker's own ast_structural measure has 20 loops and 10 parameter-sized loops on parameter `m`. authored() is never measured, and the pair ('authored','m') never appears in the measured set, so it is never required to appear in PROVENANCE.",
+   "adjudication": "Not a defect of these bytes — I traced every loop in authored() and each is sized by a checker constant, by the pinned predecessor's knownLimitations count, by the pinned review's wording count, or by the deps-gated audit, and my reconstruction of the artifact from the instrument is the empirical confirmation. Recorded because the provenance gate is presented as the structural successor to 'it is not possible to write an artifact-sized loop', and a gate whose subject list is hand-maintained inherits one more hand-authored step than R-VER12-03 discloses. Deriving REGISTRY_BUILDERS from the functions whose results actually reach a registry, or simply adding authored() to it, would cost nothing."
+  },
+  {
+   "id": "O-03",
+   "title": "claim-register.v1.json is a second surface that renders into the artifact, and the published relocation names only check-versioning-v12.py.",
+   "measured": "Rendered leaves take their values from the live unpinned register at registerAsOfAudit.liveD9Binding, .liveVersioningBinding, .liveRetentionTiersBinding and entries[*].registerBinding, and those values are interpolated into knownLimitations[35] and into R-VER12-06's measured text. The citation parser tolerates a space-separated suffix by construction (resolve_citation and family_of both take source.split(' ')[0]), so a bindingArtifact can carry arbitrary trailing prose without breaking resolution.",
+   "adjudication": "I ATTACKED THIS AND LOST, and the record deserves the credit. Appending prose to the VERSIONING binding produced 34 findings including two VER12-RENDER subtree mismatches and a VER12-PRED the artifact cannot clear, because every register binding that reaches a rendered leaf is also read by the pinned predecessor pair. The surface is real but it is not exploitable. Recorded only because R-VER12-01 names the relocation target as 'check-versioning-v12.py' and the honest statement is that a rendered leaf's content comes from a checker constant OR from a measurement of a moving coordinator-owned file — a distinction the partition already counts, at 361 disk against 248 constant, and which the residual prose does not carry."
+  },
+  {
+   "id": "O-04",
+   "title": "The rehearsal's _DERIVED bundle is measured once at depth 0 and reused by every nested run, which is correct for the sweeps and incorrect for the rehearsals.",
+   "measured": "derive() is called once per outer run and its results are read by every inner() call. For append_sweep() and boolean_sweep() this is right and necessary — the measurements are properties of the base subject and re-deriving them inside each candidate would make every candidate red for unrelated reasons and would measure nothing. For rehearse_live() it is wrong, because the rehearsal changes the very register those measurements depend on, so 27 leaves that genuinely move are held fixed and never appear as findings.",
+   "adjudication": "Component of B-VER12R-02, recorded separately because it is the independent half. Even if the depth guard were removed so that VER12-PRED and the sweeps ran inside the rehearsal, the _DERIVED leaves would still compare equal and the leaf-edit count would still understate. Both halves need fixing to make the declared cost the real cost."
+  },
+  {
+   "id": "O-05",
+   "title": "predecessorDisposition.genuineDefects is compared, but the VER12-PRED finding it drives is not gated on the declaration, so the record cannot pay the cost of a genuine predecessor defect the way it can pay every other cost.",
+   "measured": "_check() fires `if attribution['genuineDefects']:` unconditionally. Every other measured quantity in this record can be restated by the successor author and re-compared; this one cannot. The v11 predecessor handled the equivalent case by making the count itself the cost — predecessorCheckerFindingsAgainstItsOwnBytes 0 -> 1 — which the v11 reviewer verified was a declared leaf edit rather than silent tolerance.",
+   "adjudication": "Correct as a fail-closed design when the defect is genuine, and I do not ask for it to be softened. Recorded because combined with B-VER12R-03's false positive it is the mechanism that makes the repoint unrepairable, and because the record's own repair-cost vocabulary has no way to express 'this finding cannot be paid in leaf edits'. A findingsNotPayableInLeafEdits figure alongside findingsNotSelfRepairing would make that visible."
+  },
+  {
+   "id": "O-06",
+   "title": "The record achieves total derivability and does not claim it; the claim it does make is weaker and harder to check.",
+   "measured": "versioning-policy.v12.json is canonically identical to the value produced by nest() over the authored registry composed with the SHA-verified pinned v11 bytes. I verified this by reconstruction. No declared leaf states it.",
+   "adjudication": "Not a defect. Recorded as the strongest available statement of what v12 actually did, and because it is cheaper to verify than the partition figures it is derived from: one canonical comparison against a reconstruction, versus 3600 per-leaf comparisons plus a 2829-position sweep. A declared and compared 'the whole contract is reproducible from this checker and the pinned predecessor' leaf would make the central claim checkable in one step by any future reviewer, and would make the file-versus-model boundary of B-VER12R-01 impossible to miss, because a reconstruction is necessarily free of duplicate keys."
+  }
+ ],
+
+ "dependentCheckerResults": {
+  "method": "Baseline established BY EXPERIMENT before any probe, per dispatch. python3 -I -B against a byte-faithful scratchpad copy of the whole docs/coop tree taken at review start, and re-confirmed against the LIVE tree at review end. Every mutation probe wrote only to an isolated scratchpad copy; no file under docs/coop was written by this review except this one. `timeout` does not exist on this host and was not used.",
+  "mustExitZero": {
+   "check-versioning-v11.py": 0,
+   "check-versioning-v10.py": 0,
+   "check-versioning-v9.py": 0,
+   "check-claims.py": 0,
+   "check-product-dispositions.py": 0,
+   "check-retention-custody-v24.py": 0,
+   "check-retention-custody-v23.py": 0,
+   "check-retention-custody-v22.py": 0,
+   "check-d9-v1.14.py": 0,
+   "check-evaluation-proof-v13.py": 0,
+   "check-c2-v9.py": 0,
+   "check-c2-v8.py": 0
+  },
+  "allTwelveGreen": true,
+  "subjectChecker": {
+   "check-versioning-v12.py": 0,
+   "check-versioning-v12.py --selftest": 0
+  },
+  "expectedRed": {
+   "check-versioning.py": {"exit": 1, "reason": "VER-DEP: versioning-policy.v4.json cites d9-exit-contract.v1.6.json while the register binds v1.14. Red by construction, as R-VER12-07 states."},
+   "check-completeness.py": {"exit": 1, "reason": "confirmed BOTH dispatch-named ids are the open ones — IR-C2V4-01 and R2-FINAL-03. Unrelated to v12."},
+   "check-rust-provider-protocol-v4.py": {"exit": 1, "reason": "FileNotFoundError: 'rg' — missing binary on this host, not a contract finding"},
+   "check-package-coherence.py": {"exit": 1, "reason": "the single coordinator-held PC-6-REGISTER-STALE-BINDING on ARCH.RETENTION-TIERS. I confirmed as instructed that no versioning reference appears in its findings — the four lines mentioning versioning-policy are informational survey rows that each record the head as correctly unchanged."}
+  },
+  "regressionsIntroducedByV12": 0
+ },
+
+ "verifiedInputs": {
+  "recordingObligation": "freeze §7.2 — filename + SHA-256 for every input this verdict depends on, measured by me from disk with shasum -a 256, not copied from the subject. A count is not a record.",
+  "subjectsUnderReview": [
+   {"file": "artifacts/versioning-policy.v12.json", "sha256": "353576041317d447ade081254eb516ec7c6750cb7d47022f2f7448ce52896c05", "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Measured at review start, snapshotted, re-measured from the live path at review end — byte-stable throughout."},
+   {"file": "artifacts/check-versioning-v12.py", "sha256": "ff1bada4a81a2f31fd423aebb1be2e6dbaed278ef29adbf7b4ff0cbf0fb848fe", "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Re-measured at review end — byte-stable. Every probe in this review ran against these exact bytes; the two-file-edit demonstration used an isolated scratchpad copy and this file was never modified."}
+  ],
+  "reviewOfRecord": [
+   {"file": "artifacts/versioning-policy.v11.review-independent.json", "sha256": "5db9bb24b1d7c3985050af2ad564b721fbf672fbdc1445c64f88686dc4901d8c", "role": "read in full first, as instructed. Its B-VER11R-01 and O-01 through O-06 are the baseline against which I judged this successor, and its four planted wordings are also an INPUT TO THE SUBJECT'S OWN CHECKER — I verified the read from blockers[0].theFourWordings is genuine and that none of the four is hardcoded in check-versioning-v12.py."}
+  ],
+  "predecessorChain": [
+   {"file": "artifacts/versioning-policy.v11.json", "sha256": "5e0d31de253fe1f02e7e2a51dcd438b0f0bb695286582eb0473afa1d8b528702", "role": "carry baseline and carried_registry source for 2991 of the 3600 positions; the source of my reconstruction test"},
+   {"file": "artifacts/check-versioning-v11.py", "sha256": "662781afc8ba4bb80f0e1939b79d4113066ca81a1874e9fea9a30cfb23d90347", "role": "executed on every run of the subject; instrument for the 112-of-292 blast radius, the name-level lint evasion rate and the predecessor attribution"},
+   {"file": "artifacts/versioning-policy.v10.json", "sha256": "194350399d4bd5861ac826eb8d7e0ce835f58cff1e049910552b85a71d002ed0"},
+   {"file": "artifacts/check-versioning-v10.py", "sha256": "40e85b42648276e0bdb09524663248eff09885c39e53e3971a7f337a51f88612", "role": "executed transitively by the predecessor checker; THE MODULE WHOSE load() IS NOT PATCHED, which is the mechanism of B-VER12R-03"},
+   {"file": "artifacts/versioning-policy.v10.review-independent.json", "sha256": "d264dbdd83579d41f8bf8a5a1ac355aad33070991b818148bbcaf991cd2d8e3d"},
+   {"file": "artifacts/versioning-policy.v9.json", "sha256": "9d3f936ae492e2b692781215f92de4b50ef9b962911e9067c7d052825e0492a9"},
+   {"file": "artifacts/check-versioning-v9.py", "sha256": "cf88da34a68a2697d5040d97d32eeaabcf7217162bf279ab5b546c066210bd80"},
+   {"file": "artifacts/versioning-policy.v8.json", "sha256": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e"},
+   {"file": "artifacts/versioning-policy.v4.json", "sha256": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6"},
+   {"file": "artifacts/check-versioning.py", "sha256": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227", "role": "confirmed exit 1 by construction"}
+  ],
+  "d9Span": [
+   {"file": "artifacts/d9-exit-contract.v1.6.json", "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046", "role": "superseded endpoint"},
+   {"file": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "repaired citation target and live register binding"},
+   {"file": "artifacts/check-d9-v1.14.py", "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e", "role": "subprocessed by the subject on every run; ALSO the adjacent instrument that already closes B-VER12R-01's class with an object_pairs_hook at line 314"}
+  ],
+  "registerAndCouplings": [
+   {"file": "artifacts/claim-register.v1.json", "sha256": "20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910", "role": "live register at BOTH my start and end readings — no drift in my window, and unchanged since the end of the v11 review. Binds D9 -> d9-exit-contract.v1.14.json, VERSIONING -> versioning-policy.v8.json, ARCH.RETENTION-TIERS -> retention-tiers.v22.json. Deliberately unpinned and correctly so. The v23 and v24 repoints I performed were executed ONLY inside isolated scratchpad copies."},
+   {"file": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "current ARCH.RETENTION-TIERS binding"},
+   {"file": "artifacts/retention-tiers.v23.json", "sha256": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "role": "first live repoint target; the subject of my first on-disk rehearsal"},
+   {"file": "artifacts/retention-tiers.v24.json", "sha256": "ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277", "role": "THE DOCUMENTED HEAD and the armed target; the subject of my second on-disk rehearsal"},
+   {"file": "artifacts/check-package-coherence.py", "sha256": "88601707de756bd490a671ebbc45c6a3ca52f412c710ebf692cb5c61b0fd0900", "role": "the post-rewrite bytes the v11 review recorded landing mid-window; stable across my window. Source of the held PC-6 finding I was asked to confirm carries no versioning reference."}
+  ],
+  "freezeReference": [
+   {
+    "file": "IMPLEMENTATION-FREEZE.md",
+    "sha256": "NOT RECORDED — under concurrent edit by the dispatcher; cited by section and content anchor per dispatch instruction",
+    "anchorsRelied": [
+     "§7.2 'Standing rule — a verdict binds bytes AND an environment' — the recording obligation this review's verifiedInputs discharges",
+     "§7.2.1 'Standing rule — a review's subject must be frozen before dispatch' — the re-hash discipline recorded above",
+     "§7.2.2 'Standing rule — measurements get hard comparison, invariants get semantic gates' — the axis under which I judged the as-of arm and the register couplings",
+     "§6 law 18 'closed-scalar admission is exact-type' — the law behind VER12-LEAFTYPE, VER12-FLOAT and the boolean sweep, all of which I exercised"
+    ]
+   }
+  ]
+ },
+
+ "whatIDidNotCheck": [
+  "Whether my duplicate-key plant survives every OTHER consumer of versioning-policy.v12.json. I confirmed check-versioning-v11.py and check-claims.py still exit 0 against the sealed file and that check-package-coherence.py and check-completeness.py are red for their pre-existing reasons, but I did not enumerate every reader in the repository, and I did not test whether any downstream tool takes the FIRST duplicate rather than the last — which would make the plant strictly worse, not better.",
+  "Whether non-canonical number spellings, unusual but legal string escapes or other file-level content with no leaf position are also admitted. The duplicate key is one instance of the file-versus-model gap and I did not enumerate the class; check-c2-v9.py's L8 layer treats duplicate keys, non-RFC constants and non-canonical number tokens as one family, which suggests the others are worth testing.",
+  "An exhaustive search for a sixth, seventh and further construction defeating the AST purity measure. I stopped at five because the point was proved; the class is not enumerated and I make no claim that those five exhaust it.",
+  "Whether the 27 extra leaf edits my on-disk repoint measured are the complete set. My loop reached a fixed point in the leaves it could repair and then stopped on VER12-PRED; if VER12-PRED were cleared, further rounds might surface more. My figures are therefore a LOWER bound on the true repoint cost, not an upper one.",
+  "The internal correctness of d9-exit-contract.v1.14, retention-tiers.v22/v23/v24, evaluation-proof.v13 or c2-plan-stage-schema.v8/v9 as contracts. I verified only that their checkers exit 0 and that the pinned D9 span endpoints hash as declared.",
+  "The 7 intermediate D9 versions v1.7 through v1.13, which R-VER12-10 discloses as measured at 2 endpoints with 7 intermediates unread. I did not close that either.",
+  "Whether the six authored evasion strategies plus my six exhaust the wording space. They do not, and after 16974 rejected candidates I stopped, because the mechanism provably does not read words and further wordings cannot be informative.",
+  "Whether repointing the register's VERSIONING binding to v12 would keep the other checkers green. That is the coordinator's act; my rehearsals covered ARCH.RETENTION-TIERS only.",
+  "Whether the 671 objects that admit a duplicate key are all equally reachable in practice. I demonstrated three — top-level, authored-block and carried-block — and counted the rest structurally without planting at each.",
+  "The truth of any rendered sentence. R-VER12-01 states that a rendered leaf is fixed rather than verified, and I confirmed the consequence rather than the content: I found two rendered sentences that are false (registryPurity.theGate and R-VER12-03's disposition, per O-01) and the checker passed them, exactly as R-VER12-01 predicts. I did not audit the remaining 359 rendered leaves for truth.",
+  "IMPLEMENTATION-FREEZE.md was read only for the §7.2 anchors. ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was not read, modified or executed against — it is pinned by seven checkers and I did not touch it.",
+  "Whether B-VER12R-01 would survive a coordinator ruling that the parsed JSON data model, and not the file, is the artifact of record. I adjudicated against the claims the record actually makes, and R-VER12-01 and knownLimitations[32] both state the residual in terms of FILE EDITS."
+ ],
+
+ "authorityBoundary": "This review signs nothing, seals nothing, freezes nothing and advances no status. CD-RT-5 remains BLOCKED_ON_PHASE_1A. versioning-policy.v12.json remains CANDIDATE-NOT-APPLIED with seal DO-NOT-SEAL and reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW. The register still binds VERSIONING to versioning-policy.v8.json and ARCH.RETENTION-TIERS to retention-tiers.v22.json; repointing either is the coordinator's act, not this review's, and the v23 and v24 repoints I performed were executed ONLY inside isolated scratchpad copies of the whole docs/coop tree and never against docs/coop. No file under docs/coop was modified by this review except this one. Every seal I planted was planted in a scratchpad copy; the live versioning-policy.v12.json is byte-identical to the dispatch digest at review end."
+}

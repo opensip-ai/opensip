@@ -1,0 +1,627 @@
+{
+  "artifact": "opensip.retention-proof-contract-exploration",
+  "version": 3,
+  "status": "CANDIDATE-UNREVIEWED",
+  "standing": "NONBINDING-DETAILED-DESIGN-EXPLORATION",
+  "supersededAsArchitectureBy": "artifacts/retention-tiers.v4.json",
+  "author": "agent-b",
+  "reviewerRole": "REVIEWER-B",
+  "date": "2026-07-30",
+  "supersedesAsCandidate": [
+    "artifacts/retention-tiers.v2.json",
+    "artifacts/retention-tiers.reframe-a3.json"
+  ],
+  "purpose": "Explore one concrete evaluation/verdict proof contract, wire shape, canonicalisation choice, reason vocabulary, and conformance matrix. This object may inform feasibility work but does not constrain the architecture or production contract.",
+  "reviewPosture": {
+    "statement": "This object is a non-binding detailed-design exploration written by the reviewer who rejected v2. It closes no architectural claim, is not the register's binding artifact, and may be replaced wholesale.",
+    "independence": "Agent-b did not author v2 or the agent-3 reframe. Agent-b did author both this schema and its initial goldens, so the executable examples prove internal consistency, not architectural correctness.",
+    "authorshipCorrection": "Agent-1 authored retention-tiers.v2; agent-b reviewed it. The contrary process note in retention-tiers.reframe-a3.json is false and is not used as a premise here."
+  },
+  "sourceDispositions": {
+    "retention-tiers.v2": "REJECT as a default or closure object. Its finding-only proof unit, commitment-only fields, producer-declared shape, truncation semantics, privacy admission, availability, taxonomy, replay claim, and prose-only tests are replaced below.",
+    "reframe-a3.evaluation-unit": "ACCEPT. Every activated evaluation, including no-match, baseline, waiver, and policy evaluation, has a receipt.",
+    "reframe-a3.negative-is-hard": "ACCEPT. No-match requires an exact subject universe, predicate, Coverage, and a checkable closed-set derivation; an empty finding set proves nothing by itself.",
+    "reframe-a3.tier-by-recomputability": "AMEND. Recomputability is a useful custody mode, not the assurance tier. It does not dissolve V1/V10 because fact bodies and identifiers remain source-derived user data, and it is not frozen evidence.",
+    "response-a1.dual-mode": "ACCEPT with terminology tightened: frozen and regenerable are selectable per proof obligation within C1; source-level replay is C2; signatures and trust are a separate attestation profile."
+  },
+  "model": {
+    "principle": "A Run makes two load-bearing semantic claims: each activated evaluation had the recorded outcome, and the recorded policy verdict followed from all evaluation outcomes, Coverage gates, baselines, and waivers. Proof obligations attach to those claims, never merely to emitted findings.",
+    "orthogonalAxes": [
+      {
+        "axis": "sealedCapability",
+        "values": ["C0-recorded", "C1-verifiable", "C2-replayable"],
+        "meaning": "Immutable assurance promised by the sealed Run and covered by EvidenceDigest."
+      },
+      {
+        "axis": "custodyMode",
+        "values": ["frozen", "regenerable"],
+        "meaning": "Per EvaluationReceipt and VerdictReceipt: retain the canonical proof body, or retain the exact derivation closure that must regenerate the seal-time proofRoot. A Run may mix modes."
+      },
+      {
+        "axis": "availability",
+        "values": [
+          "available-frozen",
+          "available-regenerable",
+          "temporarily-unavailable",
+          "dependency-missing",
+          "generator-missing",
+          "expired",
+          "purged",
+          "corrupt"
+        ],
+        "meaning": "Current per-object state in an append-only retention ledger. It is resolved at read time and never rewrites the historical Run or EvidenceDigest."
+      }
+    ],
+    "whyNotOneLadder": "Content type, verifiability, replayability, storage strategy, and current reachability vary independently. Combining them let v1/v2 promote a local storage form into a global assurance claim."
+  },
+  "capabilities": [
+    {
+      "id": "C0-recorded",
+      "requires": [
+        "sealed Run manifest with SnapshotId, PlanId, exact Coverage identities, evaluation outcome commitments, verdict, and EvidenceDigest",
+        "no claim that retained objects can independently establish why an evaluation or verdict was correct"
+      ],
+      "permits": "Explicit ephemeral or advisory analysis and durable outcome recording when the consumer does not require later verification.",
+      "forbids": "Authoritative CI gates, baseline creation, waiver decisions, compliance assertions, or any projection labelled verified, replayable, or attested.",
+      "privacyDefault": "When no project retention policy is available, run ephemerally at C0 with no managed durable user-derived evidence write. User-directed stdout or an explicit export remains the user's chosen destination."
+    },
+    {
+      "id": "C1-verifiable",
+      "requires": [
+        "one valid EvaluationReceipt for every activated evaluation, including match, no-match, indeterminate, error, baseline, waiver, and policy-input evaluations",
+        "one valid VerdictReceipt deriving the Run verdict from the complete ordered/committed evaluation set and policy inputs",
+        "host-owned ProofObligationId and deterministic VerifierId/version for every receipt",
+        "a seal-time proofRoot for every receipt plus either a retained canonical proof body or a retained complete regeneration closure",
+        "exact Coverage and subject-universe material sufficient for the claim; a root digest without its verification material is insufficient",
+        "all required proof dependencies pinned for the declared retention period"
+      ],
+      "answers": "Why the recorded outcomes and verdict followed from the sealed fact/Coverage view, policy, baselines, and waivers.",
+      "assuranceBoundary": "C1 verifies the decision relative to the sealed derived facts and Coverage. Unless the proof obligation retains a source witness, it does not independently prove that a fact extractor represented the lost source correctly.",
+      "minimumFor": "Any durable authoritative Run, including CI gates and baseline mutation, after a project storage/retention policy has passed admission."
+    },
+    {
+      "id": "C2-replayable",
+      "requires": [
+        "all C1 requirements",
+        "exact snapshot/read-set bytes required by every activated producer",
+        "offline-retrievable producer/provider executables, rule IR, schemas, compiler/sysroot/package/database inputs, environment realization, and replay executor for the declared period",
+        "a deterministic replay protocol that compares regenerated Coverage, receipts, verdict, and EvidenceDigest"
+      ],
+      "answers": "Whether the full source-to-verdict derivation can be re-executed under the sealed environment closure.",
+      "doesNotImply": "Attestation. Signer identity, key trust, time, transparency, and custody testimony are a separate attestation profile layered over C1 or C2.",
+      "privacyPosture": "Explicit opt-in only because this is source and executable-environment custody, not a small explanation tier."
+    }
+  ],
+  "admissionContract": {
+    "rule": "No managed persistent user-derived fact, proof, source, report, or receipt write occurs until storage admission succeeds. Admission itself may persist only non-user-derived installation policy and a user-approved project-to-root binding.",
+    "requiredBeforeFirstDurableWrite": [
+      "resolve and display the exact canonical storage root and storage domain",
+      "check owner-only permissions at open time",
+      "classify the root as safe-local, known-sync-or-backup-managed, world-or-group-readable, unsupported-network-filesystem, or unknown",
+      "refuse known-sync-or-backup-managed, world-or-group-readable, and unsupported-network-filesystem roots; unknown requires an explicit recorded user override and never becomes an invisible default",
+      "inventory projected object classes, whether source bytes or identifiers may occur, and a bounded size estimate before writing",
+      "resolve an explicit project policy naming requested capability, allowed privacy classes, retention/expiry, purge behavior, and storage root"
+    ],
+    "nonInteractiveRule": "CI and agents may proceed durably only from an already versioned or administratively provisioned project policy. They never answer an interactive prompt implicitly.",
+    "missingPolicy": "Operate only as explicit ephemeral/advisory C0 or reject a durable/authoritative request with STORAGE.POLICY_REQUIRED.",
+    "safeDefault": "No implicit durable retention period exists. In the absence of policy, the safe default is no managed durable user-derived copy, not an arbitrary number of days.",
+    "residual": "Sync/backup detection is heuristic. An explicit root choice and visible inventory remain necessary even after detection passes."
+  },
+  "privacyAndMinimisation": {
+    "classificationRule": "Facts, Coverage bodies, proof bodies, receipts, identifiers, source witnesses, executable closures, projections, and exports are classified at creation. Derived structure and identifiers remain user-derived data and may contain PII; content addressing does not anonymise them.",
+    "sourceWitnessRule": "Source display bytes are off by default. A proof obligation may request the smallest irreducible source witness only when canonical facts cannot establish its claim. The project policy must grant that class before execution; without the grant the evaluation is indeterminate with PRIVACY.SOURCE_RETENTION_NOT_GRANTED, never silently weakened.",
+    "secretRule": "Known secret values are never embedded in receipts, proof manifests, diagnostics, or EvidenceDigest. A rule whose semantic proof would require retaining a secret value must use a classed confidential witness object under an approved secure-custody profile or return indeterminate.",
+    "inventoryRule": "Inventory reports class, project, root, bytes, age, receipt references, pins, and expiry without materialising source content.",
+    "purgeRule": "Purge targets project and privacy class, physically deletes unshared bytes, reports deduplicated objects still pinned by other authorised roots, and appends tombstones for historical references. Real deletion under deduplication remains a separate required design."
+  },
+  "proofContract": {
+    "schemaId": "opensip.proof-graph.v1",
+    "custodyUnion": {
+      "discriminator": "mode",
+      "variants": [
+        {
+          "mode": "frozen",
+          "required": ["mode", "proofBodyRef"],
+          "forbidden": ["regenerationClosureRef"],
+          "invariant": "proofBodyRef resolves to canonical bytes whose domain-separated root equals the receipt proofRoot"
+        },
+        {
+          "mode": "regenerable",
+          "required": ["mode", "regenerationClosureRef"],
+          "forbidden": ["proofBodyRef"],
+          "invariant": "regenerationClosureRef resolves to the exact fact/Coverage/generator/verifier dependency closure whose regenerated canonical bytes equal the seal-time proofRoot"
+        }
+      ]
+    },
+    "manifest": {
+      "type": "RunProofManifest",
+      "required": [
+        "schemaId",
+        "runId",
+        "snapshotId",
+        "planId",
+        "requestedCapability",
+        "proofPolicyId",
+        "evaluationSetRoot",
+        "evaluationReceiptRefs",
+        "verdictReceiptRef",
+        "proofManifestRoot"
+      ],
+      "invariants": [
+        "evaluationReceiptRefs has exactly one entry for every activated evaluation in the sealed Plan, including evaluations yielding no finding",
+        "evaluationSetRoot commits to the canonical ordered set of activated evaluation identities; findings=[] never changes the cardinality obligation",
+        "proofManifestRoot covers every required field and receipt proofRoot, but excludes mutable availability and retention events",
+        "requestedCapability and proofPolicyId are Plan inputs; proofManifestRoot enters the canonical sealed Run and EvidenceDigest"
+      ]
+    },
+    "evaluationReceipt": {
+      "type": "EvaluationReceipt",
+      "required": [
+        "schemaId",
+        "evaluationId",
+        "planNodeId",
+        "evaluationKind",
+        "evaluatorIdentity",
+        "evaluatorVersion",
+        "predicateOrOperationDigest",
+        "inputFactViewRefs",
+        "coverageRefs",
+        "subjectUniverseRef",
+        "dependencyReceiptIds",
+        "proofObligationId",
+        "proofObligationVersion",
+        "verifierId",
+        "verifierVersion",
+        "outcome",
+        "resultRefs",
+        "proofRoot",
+        "custody",
+        "privacyClassRefs"
+      ],
+      "enums": {
+        "evaluationKind": ["rule", "query", "baseline", "waiver", "policy-input", "external-observation"],
+        "outcome": ["match", "no-match", "indeterminate", "error"],
+        "custody.mode": ["frozen", "regenerable"]
+      },
+      "invariants": [
+        "proofObligationId is selected from a host-owned versioned evaluator-to-obligation mapping admitted into PlanId; producer output cannot select or relax it",
+        "the named verifier accepts the canonical proof body and receipt context or the receipt is invalid",
+        "frozen custody references a retained canonical proof body whose root equals proofRoot",
+        "regenerable custody references an exact derivation closure; regeneration must produce canonical bytes whose root equals the seal-time proofRoot",
+        "a no-match outcome includes a checkable closed-set derivation over exact Coverage and the committed subject universe; an empty resultRefs array is not evidence",
+        "an indeterminate or error outcome may be validly proved, but cannot be relabelled match/no-match and feeds policy under the D9/Coverage contract"
+      ]
+    },
+    "verdictReceipt": {
+      "type": "VerdictReceipt",
+      "required": [
+        "schemaId",
+        "policyIdentity",
+        "policyVersion",
+        "policyConfigDigest",
+        "evaluationSetRoot",
+        "evaluationReceiptRoot",
+        "coverageGateRefs",
+        "baselineReceiptRefs",
+        "waiverReceiptRefs",
+        "verdict",
+        "proofObligationId",
+        "proofObligationVersion",
+        "verifierId",
+        "verifierVersion",
+        "proofRoot",
+        "custody"
+      ],
+      "invariants": [
+        "evaluationReceiptRoot covers the complete receipt set committed by evaluationSetRoot, not only findings",
+        "the deterministic policy derivation includes baseline, waiver, severity, Coverage, indeterminate/error, and threshold inputs",
+        "a pass is invalid if any required evaluation receipt or required Coverage proof is absent or insufficient",
+        "the verdict receipt uses the same frozen/regenerable root-matching contract as an evaluation receipt"
+      ]
+    }
+  },
+  "hostOwnedProofObligations": {
+    "mapping": "A versioned host registry maps admitted evaluator identity/version and evaluation kind to ProofObligationId/version, VerifierId/version, required proof payload kind, claim semantics, privacy classes, and budget behavior. Its digest enters PlanId.",
+    "admission": "A contribution cannot become gate-authoritative until an independent deterministic verifier and positive, negative, and mutation goldens for its obligation are admitted. An unknown mapping yields PROOF.OBLIGATION_UNTRUSTED.",
+    "requiredPayloadKinds": [
+      {
+        "kind": "predicate-match",
+        "claim": "A predicate matched one or more subjects.",
+        "minimumWitness": "canonical predicate inputs and matched subject facts or explicitly granted irreducible source witness"
+      },
+      {
+        "kind": "no-match-closed-set",
+        "claim": "No subject in the exact evaluated universe matched.",
+        "minimumWitness": "exact universe/Coverage body plus deterministic evaluation material, or an authenticated non-membership/complete-set proof supported by the verifier; a set root alone is insufficient"
+      },
+      {
+        "kind": "path-membership",
+        "claim": "A particular relationship path exists.",
+        "minimumWitness": "ordered edges with checkable endpoint and provenance bodies or authenticated membership proofs"
+      },
+      {
+        "kind": "complete-set-aggregate",
+        "claim": "A reachable/SCC/member set and any count or aggregate are complete.",
+        "minimumWitness": "closed universe, derivation operator, complete result set or authenticated set proof, and aggregate derivation"
+      },
+      {
+        "kind": "metric-derivation",
+        "claim": "A metric/threshold result follows from inputs.",
+        "minimumWitness": "canonical measured inputs, operation identity, computed value, threshold, and comparison derivation"
+      },
+      {
+        "kind": "policy-baseline",
+        "claim": "A policy, baseline difference, waiver, or verdict follows from prior receipts.",
+        "minimumWitness": "typed derivation DAG over complete input receipt roots and policy parameters"
+      },
+      {
+        "kind": "external-observation",
+        "claim": "An admitted scanner/probe reported an observation.",
+        "minimumWitness": "provider identity, exact request/input commitment, canonical raw observation or provider-authenticated response, parser identity, and transformation derivation; this proves the recorded observation, not the external world's truth"
+      },
+      {
+        "kind": "composite-derivation-dag",
+        "claim": "A compound result follows from typed subclaims.",
+        "minimumWitness": "acyclic typed operator graph with all leaf proof roots and deterministic combination semantics; an untyped list is invalid"
+      }
+    ]
+  },
+  "canonicalizationAndRoots": {
+    "canonicalEncodingId": "opensip.canonical-json.v1",
+    "encodingRules": [
+      "UTF-8 JSON; object keys sorted by Unicode code point; no insignificant whitespace",
+      "strings preserved exactly as JSON Unicode scalar sequences after rejecting invalid surrogate data; no case, path, or Unicode normalisation is implicit",
+      "integers encoded in minimal base-10 form; negative zero, floating-point numbers, NaN, and infinities are forbidden in proof semantics",
+      "arrays preserve schema-defined order; sets are arrays sorted by the canonical bytes of their typed elements with duplicates rejected",
+      "optional fields are omitted, never represented interchangeably as null; schema-major and canonicalEncodingId are mandatory"
+    ],
+    "rootRule": "root = SHA-256(domainTag || 0x00 || canonicalBytes), rendered as lowercase hex. domainTag is an ASCII value fixed by object type, for example opensip/proof/evaluation/v1, opensip/proof/verdict/v1, or opensip/proof/manifest/v1. Roots of different types are never interchangeable.",
+    "referenceRule": "References covered by the semantic manifest are typed deterministic roots/identities, never filesystem paths, random CAS locators, encryption nonces, or backend row ids. The retention ledger resolves semantic references to current physical or encrypted locators; those locators do not enter EvidenceDigest.",
+    "proofRootTiming": "The canonical proof body is constructed and verified before seal. Its root is sealed even when regenerable custody then discards the body.",
+    "evidenceDigestBoundary": "The canonical Run includes requestedCapability, proofPolicyId, proofManifestRoot, evaluationSetRoot, receipt identities, receipt proofRoots, and verdict proofRoot. It excludes current availability, storage paths, retention timestamps, ledger sequence numbers, and access events.",
+    "confidentialityWarning": "A digest is an integrity commitment, not anonymisation. Proof/fact/source object identities and roots are privacy-classed and are not exported by default. The secure locator/encryption construction for low-entropy confidential witness objects is intentionally not claimed complete by this artifact."
+  },
+  "verificationInterface": {
+    "operation": "verifyReceipt(receipt, proofBodyOrRegenerationClosure, sealedRunContext) -> VerificationResult",
+    "verificationResult": {
+      "valid": "The proof body is schema-valid, root-valid, semantically accepted by the host-named verifier, and all referenced Coverage/universe/dependency receipts resolve and verify.",
+      "invalid": "A body/root/semantic mismatch or forged/out-of-scope dependency. The historical receipt remains but cannot support C1.",
+      "unavailable": "Required bytes, generator, verifier, or dependency cannot currently be resolved; include typed availability reason.",
+      "indeterminate": "The receipt itself validly proves that the evaluation could not decide, including budget or privacy refusal. Policy must not treat this as no-match."
+    },
+    "closureRule": "Verification walks dependencyReceiptIds to a closed acyclic graph and then verifies VerdictReceipt. A leaf commitment without its retained body/authenticated proof or complete regeneration closure fails unavailable/invalid; it never passes by matching a digest alone.",
+    "separation": "The verifier is deterministic and host-selected. It may share pure schema/canonicalization libraries with a producer but cannot call the producer's 'trust me' validation path or accept a producer-selected weaker obligation."
+  },
+  "budgetSemantics": {
+    "rule": "No truncated or sampled payload may satisfy a proof obligation whose claim is complete.",
+    "onExhaustion": [
+      "emit a complete proof of an indeterminate outcome with PROOF.BUDGET_EXHAUSTED and feed that outcome into policy",
+      "or emit a separately typed narrower claim whose entire required witness fits the budget; never retain the broader claim with a residual digest standing in for omitted evidence"
+    ],
+    "examples": [
+      "One retained cycle path can prove that a cycle exists; it cannot prove the complete SCC member set or blast-radius cardinality.",
+      "A sampled subject set cannot prove no-match over the declared scope."
+    ]
+  },
+  "availabilityAndRetention": {
+    "sealedState": "The RunProofManifest and all proof roots are immutable. The requested capability never changes.",
+    "ledger": "An append-only retention ledger records per object and per receipt availability transitions, actor/policy cause, time, and optional replacement locator. Events and tombstones do not enter EvidenceDigest.",
+    "pinning": "Every object needed by a retained authoritative C1/C2 Run is reachable and pinned until the Run's explicit policy expiry or purge transition. Ordinary cache GC cannot delete or degrade it.",
+    "readProjection": "Readers report every unavailable receipt/object and reason, then derive highestCurrentlySatisfiedCapability. Temporary unavailability may recover; expiry, authorised purge, or verified physical deletion are irreversible for that copy. A single Run-wide word never hides which evaluation lost proof.",
+    "expiry": "Expiry first appends the authorised transition and removes the evidence pin, then collection deletes unreferenced bytes and appends completion/failure. A retained tombstone makes historical loss explicit without claiming the old proof remains available.",
+    "corruption": "Integrity failure is corrupt, not purged or expired. It is never repaired by silently substituting an object with a different root."
+  },
+  "policyDecision": {
+    "candidateDefault": "C1-verifiable is the minimum capability for durable authoritative analysis, but it is not an implicit write default. Storage admission and an explicit project retention policy are prerequisites. Missing policy yields ephemeral/advisory C0 or request rejection.",
+    "c0": "Explicit ephemeral/advisory only; never an authoritative gate fallback.",
+    "c2": "Explicit project opt-in only.",
+    "custodySelection": "The host proof policy chooses frozen or regenerable per obligation before execution and seals the choice through PlanId. Regenerable is allowed only when the exact derivation closure is retainable for the same promised lifetime; it is not presumed smaller or safer without measurement.",
+    "attestation": "A separate profile may require frozen receipts, signatures, trusted time/transparency, and/or C2. Neither C1 nor C2 alone is labelled attested.",
+    "openCoordinatorDecision": "Choose published convenience presets and numeric retention periods, if any. This artifact avoids an unsafe implicit duration by making no-policy durability impossible."
+  },
+  "goldenAxesSchema": {
+    "additionalProperties": false,
+    "required": [
+      "requestedCapability",
+      "authoritative",
+      "durable",
+      "storagePolicy",
+      "activatedEvaluations",
+      "evaluationReceipts",
+      "verdictReceipt",
+      "executableReplayClosure",
+      "policyVerdict"
+    ],
+    "properties": {
+      "requestedCapability": {"enum": ["C0-recorded", "C1-verifiable", "C2-replayable"]},
+      "authoritative": {"type": "boolean"},
+      "durable": {"type": "boolean"},
+      "storagePolicy": {"enum": ["missing", "unsafe-root", "configured-safe"]},
+      "activatedEvaluations": {"type": "non-negative-integer"},
+      "evaluationReceipts": {
+        "type": "array",
+        "itemAdditionalProperties": false,
+        "itemRequired": ["outcome", "obligation", "verifierAndRoot", "custody", "frozenBody", "claimMaterial", "derivationClosure", "truncated", "sourceWitness"],
+        "itemProperties": {
+          "outcome": {"enum": ["match", "no-match", "indeterminate", "error"]},
+          "obligation": {"enum": ["host-owned", "producer-declared"]},
+          "verifierAndRoot": {"enum": ["present", "missing"]},
+          "custody": {"enum": ["frozen", "regenerable"]},
+          "frozenBody": {"enum": ["present", "missing", "not-applicable"]},
+          "claimMaterial": {"enum": ["complete", "commitment-only"]},
+          "derivationClosure": {"enum": ["not-applicable", "complete", "missing"]},
+          "truncated": {"type": "boolean"},
+          "sourceWitness": {"enum": ["not-required", "required-granted", "required-not-granted"]}
+        }
+      },
+      "verdictReceipt": {"enum": ["present", "missing"]},
+      "executableReplayClosure": {"enum": ["not-required", "complete", "missing"]},
+      "policyVerdict": {"enum": ["pass", "fail"]}
+    },
+    "expected": {
+      "additionalProperties": false,
+      "required": ["classification", "reasonCode"],
+      "properties": {
+        "classification": {"enum": ["request-rejected", "ephemeral-advisory", "durable-advisory-recorded", "indeterminate", "durable-pass", "durable-policy-fail"]},
+        "reasonCode": {
+          "enum": [
+            null,
+            "PROOF.CAPABILITY_INSUFFICIENT",
+            "PROOF.DURABILITY_REQUIRED",
+            "STORAGE.POLICY_REQUIRED",
+            "STORAGE.ROOT_UNSAFE",
+            "PROOF.EVALUATION_RECEIPT_MISSING",
+            "PROOF.OBLIGATION_UNTRUSTED",
+            "PROOF.VERIFIER_OR_ROOT_MISSING",
+            "PROOF.FROZEN_BODY_MISSING",
+            "PROOF.WITNESS_INSUFFICIENT",
+            "PRIVACY.SOURCE_RETENTION_NOT_GRANTED",
+            "PROOF.BUDGET_EXHAUSTED",
+            "PROOF.REGENERATION_CLOSURE_MISSING",
+            "PROOF.VERDICT_RECEIPT_MISSING",
+            "REPLAY.CLOSURE_MISSING"
+          ]
+        }
+      }
+    }
+  },
+  "goldenDerivation": {
+    "derivationOrder": [
+      "If authoritative=true and requestedCapability=C0-recorded, classify request-rejected / PROOF.CAPABILITY_INSUFFICIENT.",
+      "If durable=true and storagePolicy is missing or unsafe, classify request-rejected with the storage reason.",
+      "If non-authoritative C0 is explicitly requested, classify ephemeral-advisory when non-durable or durable-advisory-recorded when admitted for durable storage.",
+      "If C1/C2 is requested without durability, reject because the later-verification promise cannot be met.",
+      "For C1/C2, require receipt count to equal activatedEvaluations and validate every receipt's host obligation, verifier/root, retained frozen body or regeneration closure, complete claim material, source grant, and non-truncation; first failure is indeterminate with its typed reason.",
+      "Require VerdictReceipt after evaluation receipts; absence is indeterminate.",
+      "For C2 require complete executableReplayClosure; absence is indeterminate.",
+      "Otherwise classify durable-pass or durable-policy-fail from policyVerdict."
+    ],
+    "scope": "These goldens exercise admission and proof-graph completeness. They do not demonstrate a cryptographic authenticated-set construction, extractor correctness, privacy-root detection, physical deletion, or a production implementation.",
+    "runner": "artifacts/check-retention-v3.py"
+  },
+  "goldenCases": [
+    {
+      "id": "RTV3-G01-clean-pass-has-negative-proofs",
+      "scenario": "Two activated forbidden-dependency evaluations find nothing; both closed-set proofs and the verdict proof are frozen.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable",
+        "authoritative": true,
+        "durable": true,
+        "storagePolicy": "configured-safe",
+        "activatedEvaluations": 2,
+        "evaluationReceipts": [
+          {"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"},
+          {"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}
+        ],
+        "verdictReceipt": "present",
+        "executableReplayClosure": "not-required",
+        "policyVerdict": "pass"
+      },
+      "expected": {"classification": "durable-pass", "reasonCode": null}
+    },
+    {
+      "id": "RTV3-G02-clean-pass-zero-receipts",
+      "scenario": "A clean pass activates two evaluations but retains no evaluation receipts.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 2, "evaluationReceipts": [], "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.EVALUATION_RECEIPT_MISSING"}
+    },
+    {
+      "id": "RTV3-G03-finding-proof-and-policy-fail",
+      "scenario": "A metric evaluation has a complete frozen witness and policy fails.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "fail"
+      },
+      "expected": {"classification": "durable-policy-fail", "reasonCode": null}
+    },
+    {
+      "id": "RTV3-G04-c0-cannot-gate",
+      "scenario": "An authoritative gate requests recorded-only capability.",
+      "scenarioAxes": {
+        "requestedCapability": "C0-recorded", "authoritative": true, "durable": false, "storagePolicy": "missing", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "request-rejected", "reasonCode": "PROOF.CAPABILITY_INSUFFICIENT"}
+    },
+    {
+      "id": "RTV3-G05-durable-policy-required",
+      "scenario": "A durable C1 request has no project storage policy.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "missing", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "request-rejected", "reasonCode": "STORAGE.POLICY_REQUIRED"}
+    },
+    {
+      "id": "RTV3-G06-unsafe-root-refused",
+      "scenario": "A durable C1 request resolves to a sync-managed root.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "unsafe-root", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "request-rejected", "reasonCode": "STORAGE.ROOT_UNSAFE"}
+    },
+    {
+      "id": "RTV3-G07-producer-cannot-choose-proof",
+      "scenario": "The evaluator self-declares an easier proof obligation.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "producer-declared", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.OBLIGATION_UNTRUSTED"}
+    },
+    {
+      "id": "RTV3-G08-regeneration-closure-missing",
+      "scenario": "A receipt is labelled regenerable but a producing dependency is not retained.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "regenerable", "frozenBody": "not-applicable", "claimMaterial": "complete", "derivationClosure": "missing", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.REGENERATION_CLOSURE_MISSING"}
+    },
+    {
+      "id": "RTV3-G09-truncation-is-not-proof",
+      "scenario": "A complete-set proof exceeds its budget and is truncated.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": true, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.BUDGET_EXHAUSTED"}
+    },
+    {
+      "id": "RTV3-G10-replay-needs-executable-closure",
+      "scenario": "C2 retains inputs and C1 receipts but not the historical executable closure.",
+      "scenarioAxes": {
+        "requestedCapability": "C2-replayable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "missing", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "REPLAY.CLOSURE_MISSING"}
+    },
+    {
+      "id": "RTV3-G11-source-grant-refused",
+      "scenario": "A local predicate needs an irreducible source witness but project policy did not grant source retention.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "required-not-granted"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "fail"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PRIVACY.SOURCE_RETENTION_NOT_GRANTED"}
+    },
+    {
+      "id": "RTV3-G12-explicit-ephemeral-advisory",
+      "scenario": "A human explicitly requests non-authoritative ephemeral analysis with no managed retained evidence.",
+      "scenarioAxes": {
+        "requestedCapability": "C0-recorded", "authoritative": false, "durable": false, "storagePolicy": "missing", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "ephemeral-advisory", "reasonCode": null}
+    },
+    {
+      "id": "RTV3-G13-verdict-receipt-required",
+      "scenario": "All evaluation receipts exist but no receipt derives the pass verdict.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.VERDICT_RECEIPT_MISSING"}
+    },
+    {
+      "id": "RTV3-G14-root-or-verifier-missing",
+      "scenario": "A host-owned obligation exists but its receipt has no usable verifier/root pair.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "match", "obligation": "host-owned", "verifierAndRoot": "missing", "custody": "frozen", "frozenBody": "present", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "fail"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.VERIFIER_OR_ROOT_MISSING"}
+    },
+    {
+      "id": "RTV3-G15-regenerable-clean-pass",
+      "scenario": "A clean pass uses a complete pinned fact/verifier closure and regenerates the seal-time proof root.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "regenerable", "frozenBody": "not-applicable", "claimMaterial": "complete", "derivationClosure": "complete", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "durable-pass", "reasonCode": null}
+    },
+    {
+      "id": "RTV3-G16-durable-c0-advisory",
+      "scenario": "A non-authoritative C0 result is durably recorded under an admitted project retention policy without being promoted to verified.",
+      "scenarioAxes": {
+        "requestedCapability": "C0-recorded", "authoritative": false, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "durable-advisory-recorded", "reasonCode": null}
+    },
+    {
+      "id": "RTV3-G17-c1-requires-durability",
+      "scenario": "A request labels an in-memory result C1 even though no proof custody will survive for later verification.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": false, "durable": false, "storagePolicy": "missing", "activatedEvaluations": 0, "evaluationReceipts": [], "verdictReceipt": "missing", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "request-rejected", "reasonCode": "PROOF.DURABILITY_REQUIRED"}
+    },
+    {
+      "id": "RTV3-G18-frozen-root-without-body",
+      "scenario": "A frozen receipt retains a verifier and root but discards the witness body the root commits to.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "missing", "claimMaterial": "complete", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "fail"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.FROZEN_BODY_MISSING"}
+    },
+    {
+      "id": "RTV3-G19-commitment-is-not-witness",
+      "scenario": "A no-match receipt retains only subject/Coverage roots and no material capable of checking the closed-set claim.",
+      "scenarioAxes": {
+        "requestedCapability": "C1-verifiable", "authoritative": true, "durable": true, "storagePolicy": "configured-safe", "activatedEvaluations": 1,
+        "evaluationReceipts": [{"outcome": "no-match", "obligation": "host-owned", "verifierAndRoot": "present", "custody": "frozen", "frozenBody": "present", "claimMaterial": "commitment-only", "derivationClosure": "not-applicable", "truncated": false, "sourceWitness": "not-required"}],
+        "verdictReceipt": "present", "executableReplayClosure": "not-required", "policyVerdict": "pass"
+      },
+      "expected": {"classification": "indeterminate", "reasonCode": "PROOF.WITNESS_INSUFFICIENT"}
+    }
+  ],
+  "resolves": {
+    "B-RTV2-01": "ADDRESSED IN CANDIDATE: EvaluationReceipt covers every activated evaluation including no-match, and VerdictReceipt covers the complete policy derivation. G01/G02/G13 exercise the clean-pass and missing-verdict cases.",
+    "B-RTV2-02": "ADDRESSED IN CANDIDATE: C1 requires a retained canonical proof body or exact regeneration closure plus verifier; roots alone are explicitly insufficient. Payload obligations name the minimum checkable material.",
+    "B-RTV2-03": "ADDRESSED IN CANDIDATE: the host-owned evaluator-to-obligation/verifier mapping enters PlanId and producer-selected obligations fail. G07 exercises this boundary.",
+    "B-RTV2-04": "ADDRESSED IN CANDIDATE: truncation cannot prove a complete claim; exhaustion yields indeterminate or a separately typed narrower claim. G09 exercises indeterminate.",
+    "B-RTV2-05": "PARTLY ADDRESSED IN CANDIDATE: pre-write safe-root admission, inventory, explicit project policy, and no-durable-copy fallback are specified. Numeric presets, representative measurement, sync-client validation, and deduplicated deletion remain open.",
+    "B-RTV2-06": "ADDRESSED IN CANDIDATE: immutable manifest plus granular append-only availability/tombstones and retained-Run pins replace Run-wide mutable tier/ordinary-GC degradation.",
+    "B-RTV2-07": "ADDRESSED IN CANDIDATE: required payload kinds include metric, complete-set/aggregate, policy/baseline, external observation, and typed composite DAG.",
+    "B-RTV2-08": "ADDRESSED IN CANDIDATE: C2 requires the complete offline executable derivation closure and replay protocol; attestation is separate. G10 rejects missing closure.",
+    "B-RTV2-09": "PARTLY ADDRESSED IN CANDIDATE: concrete required fields, canonical root rules, verification interface, structured positive/negative goldens, and a retained runner are supplied. The author wrote the first runner/goldens, and production wire JSON Schemas plus independent semantic verifier fixtures remain open.",
+    "A1-RTR-01": "ADDRESSED: fact/identifier PII is explicit; recomputability no longer claims to dissolve V10.",
+    "A1-RTR-02": "ADDRESSED: frozen custody is distinct from regenerable custody; C2 replay and separate attestation profile are explicit.",
+    "A1-RTR-03": "ADDRESSED AS CONTRACT, NOT MEASUREMENT: regeneration dependencies are pinned, inventoried, disclosed, and purge-visible; their actual size remains open.",
+    "A1-RTR-04": "ADDRESSED: RunProofManifest seals the evaluation set and receipt/proof roots even when proof bodies are regenerable."
+  },
+  "sealedPropertiesCovered": [
+    "architecture/01 product constraint — results must be checkable later against declared inputs",
+    "architecture/02 identity model — PlanId inputs and canonical EvidenceDigest are immutable and deterministic under exact Coverage",
+    "architecture/02 fingerprints — proof anchors and final identities are host-owned rather than producer-minted",
+    "architecture/04 Coverage — no-match/pass depends on exact Coverage rather than a summary",
+    "architecture/06 evidence reachability — retained authoritative Runs pin required evidence objects",
+    "architecture/06 explicit ephemeral analysis is non-authoritative",
+    "threat-model.v2 V1/V2/V4/V5/V10 — minimise copies, refuse unsafe roots, class derived PII, make retention/deletion visible, and state the explainability/privacy trade honestly"
+  ],
+  "knownLimitations": [
+    "Independent review found two critical semantic defects in the green runner: it permits authoritative durable-pass with zero activated evaluations (A1-RTV3-01), and its derivation ignores indeterminate/error outcomes (A1-RTV3-02/04). These are intentionally not repaired here because v3 is retained as non-binding detailed-design history, not the architecture contract.",
+    "The author wrote the contract, runner, and first cases. Agent-1 subsequently reviewed them and found A1-RTV3-01..04; the object remains unsuitable for closure or binding.",
+    "No representative workload measurement exists for frozen proofs, retained fact closures, source witnesses, or C2 executable closures. No claim that regenerable is smaller is sealed.",
+    "The authenticated set/non-membership construction is an interface requirement, not a chosen cryptographic construction.",
+    "The secure locator/encryption scheme for low-entropy confidential witness objects is not designed here; plain content hashes are explicitly not treated as anonymisation.",
+    "Real physical deletion under deduplicated CAS and recovery/backup copies remains unsolved in threat-model V5.",
+    "Sync and backup root detection remains heuristic and unverified against representative clients.",
+    "Numeric retention presets and any interactive first-run UX require coordinator/product choice. This candidate instead specifies a safe no-policy behavior: no managed durable user-derived write.",
+    "The field tables are a concrete logical wire contract but not a standalone production JSON Schema for every receipt payload kind. The executable runner covers the admission/completeness decision matrix, not cryptographic proof semantics.",
+    "C1 proves decisions relative to retained facts/Coverage; extractor correctness against source requires an explicit source witness or C2 replay."
+  ],
+  "confidence": "medium-high: high on the evaluation/verdict unit, orthogonal-axis correction, and refusal semantics; medium on storage/privacy completeness and proof encodings because representative measurement, independent verifier fixtures, authenticated-set construction, and deletion design are absent.",
+  "sealRecommendation": "Do not bind or seal this object as architecture. Use retention-tiers.v4.json for architectural review; retain this only as a falsifiable detailed-design exploration for later contract work."
+}

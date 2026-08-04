@@ -1,0 +1,393 @@
+{
+  "artifact": "opensip.retention-custody",
+  "version": 5,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "architecture-closer",
+  "date": "2026-07-31",
+  "claimId": "ARCH.RETENTION-TIERS",
+  "supersedesAsArchitectureCandidate": "artifacts/retention-tiers.v4.json",
+  "role": "The retention/custody disposition that closes threat-model V10. v4 decided WHAT must be proved and WHO owns proof adequacy. evidence.v1 selected the proof construction. This artifact decides the remaining third: what happens to a sealed authoritative Run when its evidence stops being available, and how that changes typed outcomes without rewriting history.",
+
+  "purpose": "Resolve V10 by selecting (1) the per-Run custody policy, (2) the availability model for retained evidence, and (3) the mapping from evidence loss to typed host outcomes — using only the already-closed D9 vocabulary.",
+
+  "whyThisArtifactExists": {
+    "v10RequiredResolution": [
+      "Select and independently verify an evaluation proof that covers exact activation, every outcome, relational findings, no-match and verdict derivation",
+      "Select the retained verification/regeneration closure and a per-Run custody policy before durable authoritative Runs are enabled",
+      "State how purge changes current evidence availability without rewriting the sealed Run"
+    ],
+    "dischargeMap": {
+      "item1": {
+        "status": "DISCHARGED-ELSEWHERE",
+        "by": "artifacts/evidence.v1.json",
+        "detail": "E1 requires a non-empty required universe plus exact activation by member-set identity (unique evaluationId+predicateId with recomputed universeCommitment match; count equality explicitly insufficient). E9 forbids ignoring indeterminate/error outcomes. The no-match construction is a sorted-leaf Merkle subject-set commitment plus predicateId plus coverageId. verdictDerivation is itself an evaluation carrying its own proof. E10 binds subjectScopeCommitment, the field C-2 declared and left unspecified.",
+        "independentVerification": [
+          "artifacts/evidence.v1.review-reviewer2.json",
+          "artifacts/d9-evidence.blind-reauthor.reviewer1.json",
+          "artifacts/evidence.adjudication-agent-a.json"
+        ],
+        "executable": "artifacts/check-evidence.py — 13 counterexamples each rejected BY THEIR NAMED INVARIANT; --selftest rejects 15 mutations",
+        "note": "This item was resolved by the EVIDENCE surface and never written back to TM. Recording it here is bookkeeping, not new design."
+      },
+      "item2Closure": {
+        "status": "DISCHARGED-ELSEWHERE",
+        "by": "artifacts/evidence.v1.json",
+        "detail": "E2 requires the fact partition pinned by content-addressed ref OR a complete regeneration closure of non-empty locally resolvable objects; a bare digest or true boolean is insufficient. E8 requires an offline-executable derivation closure for replayable."
+      },
+      "item2CustodyPolicy": {
+        "status": "DECIDED-HERE",
+        "detail": "custodyPolicy below."
+      },
+      "item3PurgeSemantics": {
+        "status": "DECIDED-HERE",
+        "detail": "availabilityModel + capabilityDerivation + outcomeMapping below."
+      }
+    }
+  },
+
+  "decision": {
+    "sealedVersusEffective": {
+      "choice": "capability demotion with unit-granular reasons",
+      "rule": "A Run seals exactly one assurance capability and one evidence inventory. Both are immutable in the Run's semantic identity. Current availability lives in a separate append-only retention ledger at evidence-unit granularity. A reader DERIVES an effective capability from the sealed capability and live unit states. The effective capability is never stored in the sealed Run and can never exceed it.",
+      "why": "The sealed capability is a historical fact about what was promised and proved at seal time; it cannot become false later. What changes is whether the retained material can still establish it. Making that a derived read-time value satisfies RA-5/E5 without either rewriting history or pretending nothing was lost.",
+      "rejectedAlternatives": [
+        {
+          "alternative": "read-time indeterminate for every read of a degraded Run",
+          "disposition": "rejected",
+          "reason": "Forces every consumer, including plain inspection, to handle indeterminate. Making 'show me last quarter's Run' hard-fail because the Run is merely old destroys the historical record's usefulness without protecting anything: inspection asserts no authority."
+        },
+        {
+          "alternative": "Run-atomic purge collapsing to IDENTITY.EXPIRED",
+          "disposition": "rejected",
+          "reason": "Needs no new machinery, but directly contradicts v4 immutabilityAndRetention.reporting ('one Run-wide degradation word is insufficient') and would escalate a targeted privacy purge into destroying whole unrelated Runs. Would require amending v4 rather than completing it."
+        },
+        {
+          "alternative": "availability projection with no outcome change",
+          "disposition": "rejected",
+          "reason": "Lets a Run whose proof is gone still present as a clean authoritative pass. That is RA-CE-2 (a no-match accepted after its subject material is gone) reached by a different route, and it is the exact failure the architecture exists to reject."
+        }
+      ]
+    },
+
+    "capabilityLattice": {
+      "order": ["recorded", "verifiable", "replayable"],
+      "ranks": {"recorded": 0, "verifiable": 1, "replayable": 2},
+      "note": "Labels are inherited unchanged from retention-tiers.v4 and evidence.v1 and remain deliberately unbound to the v3 C0/C1/C2 identities (A1-RTV4-04).",
+      "authorityFloor": "An authoritative gate, baseline mutation, waiver decision, or compliance assertion requires effective capability >= verifiable. 'recorded' is advisory only — that authority text is already normative in both v4 and evidence.v1; this artifact makes it operative at read time."
+    },
+
+    "capabilityDerivation": {
+      "unitRequirement": "Every retained evidence unit declares requiredForCapability: the LOWEST lattice level that needs it. A unit is needed for level L iff rank(unit.requiredForCapability) <= rank(L).",
+      "supportable": "Level L is supportable iff every unit needed for L is AVAILABLE.",
+      "downwardClosure": "Supportability is downward closed: a lower level requires a subset of the units, so if L is supportable every level below L is supportable. The maximum is therefore well defined.",
+      "function": "effectiveCapability = max { L : rank(L) <= rank(sealedCapability) AND L is supportable }",
+      "floor": "recorded is supportable whenever the Run manifest itself resolves. If the manifest does not resolve, the Run is not degraded — it is absent, and the identity outcomes below apply instead.",
+      "neverStored": "effectiveCapability is computed on read. Writing it into the sealed Run is a contract violation (RC-2)."
+    },
+
+    "availabilityModel": {
+      "granularity": "evidence unit",
+      "ledger": "append-only; never rewrites the sealed Run",
+      "unitStates": [
+        {"state": "AVAILABLE", "terminal": false, "meaning": "the unit resolves and passes integrity"},
+        {"state": "OUTAGE", "terminal": false, "meaning": "temporarily unresolvable — removable media, unmounted store, transient IO. May recover."},
+        {"state": "PURGED", "terminal": true, "meaning": "deleted by an explicit policy purge action"},
+        {"state": "EXPIRED", "terminal": true, "meaning": "deleted by explicit policy retention expiry"},
+        {"state": "CORRUPT", "terminal": true, "meaning": "resolves but fails integrity"},
+        {"state": "MISSING-DEPENDENCY", "terminal": true, "meaning": "a required producer/environment object of a replay closure is not obtainable offline"}
+      ],
+      "terminalMonotonicity": "The set of terminally lost units is append-only. A terminal state never returns to AVAILABLE. OUTAGE may return to AVAILABLE, so effective capability may dip and recover under transient loss — but the CEILING implied by terminal losses is non-increasing.",
+      "whyNotStrictMonotone": "v4 explicitly requires that temporary outage stay distinguishable from expiry, purge, corruption, and missing dependencies. Collapsing recoverable outage into permanent loss would make an unmounted volume indistinguishable from a deletion and would encourage spurious re-analysis.",
+      "reporting": "A degradation report names each unavailable unit and its cause. A single Run-wide degradation word is a contract violation (RC-6, carrying v4 immutabilityAndRetention.reporting)."
+    },
+
+    "custodyPolicy": {
+      "perObligation": "Custody strategy — retain frozen evidence, or retain an exact deterministic regeneration closure — is selected per proof obligation, never promoted into a universal tier. This is inherited unchanged from v4 orthogonalDimensions.",
+      "resolvedBy": "the host admission boundary, from the project storage and retention policy",
+      "producersMayNotSelect": "A producer/extension may not choose its own custody strategy or declare its output adequate. Proof adequacy is host-owned (RA-3/E3).",
+      "defaultPosture": {
+        "rule": "No managed durable user-derived write occurs without an explicit project storage and retention policy.",
+        "whenPolicyMissing": "The request is either explicitly advisory/ephemeral, or rejected if durable or authoritative evidence was requested.",
+        "status": "PRODUCT-SIGNED-OFF",
+        "signOff": "CD-RT-5 accepted 2026-07-31 by product owner: zero implicit durable retention for greenfield. First-run UX documented separately and is not an architecture concern.",
+        "nonInteractiveClients": "Agents and CI use a pre-provisioned or versioned policy; they never answer an interactive consent question implicitly."
+      }
+    },
+
+    "admissionTimePinning": {
+      "rule": "For every declared authoritative input, the host resolves effective capability ONCE at admission and pins the units that capability depends on for the duration of the Run.",
+      "why": "Without this, a purge landing between admission and use produces a Run that consumed evidence it can no longer justify — a time-of-check/time-of-use hole that would silently reintroduce RA-CE-2.",
+      "interactionWithPins": "This composes with RA-7/E7: a retained authoritative Run already pins its own evidence. This clause extends the same pin to evidence a NEW Run consumes as an authoritative input.",
+      "oneShotFit": "In the one-shot topology that is the sealed architecture floor (R-1), admission and use are separated by a single process lifetime, so the pin is a process-scoped lease rather than a distributed lock."
+    },
+
+    "purgeSemantics": {
+      "explicitAction": "Purge is an explicit, recorded policy action with a stated scope and cause. Cache GC is not purge and may never remove a unit pinned by a retained authoritative Run (RA-7/E7, RA-CE-4).",
+      "neverRewritesHistory": "Purge appends unit state transitions to the retention ledger. It never edits the sealed Run, its capability, or its evidence inventory.",
+      "neverSilentlyTrusts": "A purged no-match becomes UNVERIFIABLE. It never degrades to trusted, assumed, or still-passing. That is RA-CE-2 and it is the single most important thing this artifact must not permit.",
+      "targetedPurgeIsSupported": "Purging material derived from a specific path or subject affects exactly the units that contain it. Unrelated Runs are untouched; affected Runs demote to the capability their surviving units support.",
+      "deletionResidual": "Real deletion behaviour for deduplicated and backup-held objects remains a storage-architecture question — see threat-model deletionProtocol. This artifact requires that purge be honest about what it does and does not promise; it does not claim forensic erasure."
+    },
+
+    "outcomeMapping": {
+      "principle": "Every typed outcome in this model maps onto the ALREADY-CLOSED D9 vocabulary. This artifact introduces no reason code and no error code.",
+      "whyThatMatters": "D9 codeVocabulary is closed:true and its codes are DERIVED from closed cause enums, not authored. A retention model that needed a new code would reopen a contract-complete surface with 44 goldens and a 13-mutation suite. It does not need one — the demoted-input case is structurally the request-rejected/unsatisfiable case D9 already carries.",
+      "map": [
+        {
+          "situation": "inspect a degraded Run (runs show)",
+          "class": "success",
+          "code": null,
+          "ration": "Inspection asserts no authority. The command answered the question asked. Per-unit availability is envelope content, distinct from HostTermination (invariant-verdict-vs-termination)."
+        },
+        {
+          "situation": "authoritative use (gate, baseline mutation, waiver, compliance assertion) of a Run whose effective capability is below verifiable",
+          "class": "request-rejected",
+          "code": "REQUEST.UNSATISFIABLE",
+          "rejectionCause": "unsatisfiable",
+          "precedent": "d9 golden analysis-ephemeral-when-authoritative-required — caller declares an authoritative postcondition the resolved input cannot meet. Same remedy class: restate the request or produce a fresh authoritative Run. No new remedy behind the code."
+        },
+        {
+          "situation": "durable or authoritative evidence requested with no explicit retention policy",
+          "class": "request-rejected",
+          "code": "REQUEST.UNSATISFIABLE",
+          "rejectionCause": "unsatisfiable",
+          "rationale": "custodyPolicy.defaultPosture.whenPolicyMissing, refused before any durable write (RA-6/E6)."
+        },
+        {
+          "situation": "RunId fully retention-collected, tombstone retained",
+          "class": "request-rejected",
+          "code": "IDENTITY.EXPIRED",
+          "precedent": "d9 golden query-addressed-run-expired; invariant-identity-expiry requires the tombstone."
+        },
+        {
+          "situation": "RunId collected with no tombstone",
+          "class": "request-rejected",
+          "code": "IDENTITY.UNKNOWN",
+          "precedent": "d9 invariant-identity-expiry — absence of tombstone is exactly the distinction."
+        },
+        {
+          "situation": "evidence unit resolves but fails integrity",
+          "class": "operational-failed",
+          "code": "LEDGER.CORRUPT",
+          "rationale": "Integrity failure is a fault, not an authorised loss. It is repairable, not restated — a different remedy class from purge, which is why it must not share REQUEST.UNSATISFIABLE."
+        },
+        {
+          "situation": "content-addressed object cannot be linked or materialised",
+          "class": "operational-failed",
+          "code": "CAS.LINK_FAILED",
+          "rationale": "Existing code with an existing remedy ('run store repair')."
+        }
+      ],
+      "noNewCodes": true
+    }
+  },
+
+  "invariants": [
+    {
+      "id": "RC-1",
+      "assert": "The sealed assurance capability and the sealed evidence inventory are immutable. No availability event, purge, expiry, or corruption rewrites them."
+    },
+    {
+      "id": "RC-2",
+      "assert": "Effective capability is DERIVED at read time from the sealed capability and live unit states. It is never persisted into the sealed Run."
+    },
+    {
+      "id": "RC-3",
+      "assert": "Effective capability never exceeds sealed capability, and the set of terminally lost units is append-only — a terminal loss never returns to AVAILABLE."
+    },
+    {
+      "id": "RC-4",
+      "assert": "A Run whose effective capability is below verifiable is never accepted as an authoritative input; the attempt terminates request-rejected/REQUEST.UNSATISFIABLE."
+    },
+    {
+      "id": "RC-5",
+      "assert": "Effective capability for every declared authoritative input is resolved at admission and its supporting units pinned for the Run's duration."
+    },
+    {
+      "id": "RC-6",
+      "assert": "A degradation report identifies each unavailable unit and its cause. One Run-wide degradation word is insufficient."
+    },
+    {
+      "id": "RC-7",
+      "assert": "Inspecting a degraded Run succeeds and reports honestly. Loss of proof restricts authority, never readability of history."
+    },
+    {
+      "id": "RC-8",
+      "assert": "Purge is explicit, recorded, and never converts an unverifiable claim into a trusted or still-passing one."
+    },
+    {
+      "id": "RC-9",
+      "assert": "No managed durable user-derived write occurs without an explicit storage and retention policy."
+    },
+    {
+      "id": "RC-10",
+      "assert": "Every outcome in this model uses the existing closed D9 vocabulary. Introducing a new reason or error code here is a contract violation requiring a D9 revision."
+    }
+  ],
+
+  "counterexampleFixtures": {
+    "why": "Same discipline v4 imposed on evidence.v1 (A1-RTV4-01): the architecture is incomplete until each counterexample is executable and rejected BY ITS NAMED INVARIANT.",
+    "fixtures": [
+      {
+        "id": "RC-CE-1",
+        "violates": "RC-4",
+        "scenario": "a Run with a PURGED fact partition is accepted as an authoritative baseline",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "authoritative-baseline", "accepted": true}
+      },
+      {
+        "id": "RC-CE-2",
+        "violates": "RC-2",
+        "scenario": "effective capability is written into the sealed Run manifest",
+        "case": {"sealedCapability": "verifiable", "sealedRunStoresEffectiveCapability": true, "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE"}], "usedAs": "inspect", "accepted": true}
+      },
+      {
+        "id": "RC-CE-3",
+        "violates": "RC-3",
+        "scenario": "a Run sealed as recorded is read as verifiable because its units happen to be present",
+        "case": {"sealedCapability": "recorded", "claimedEffectiveCapability": "verifiable", "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE"}], "usedAs": "inspect", "accepted": true}
+      },
+      {
+        "id": "RC-CE-4",
+        "violates": "RC-3",
+        "scenario": "a PURGED unit transitions back to AVAILABLE",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE", "priorTerminalState": "PURGED"}], "usedAs": "inspect", "accepted": true}
+      },
+      {
+        "id": "RC-CE-5",
+        "violates": "RC-6",
+        "scenario": "degradation is reported as a single Run-wide word with no unit detail",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "inspect", "accepted": true, "degradationReport": "degraded"}
+      },
+      {
+        "id": "RC-CE-6",
+        "violates": "RC-7",
+        "scenario": "inspecting a degraded Run is rejected instead of reported",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "inspect", "accepted": false, "terminationClass": "request-rejected", "code": "REQUEST.UNSATISFIABLE"}
+      },
+      {
+        "id": "RC-CE-7",
+        "violates": "RC-8",
+        "scenario": "a purged no-match is reported as still passing on trust",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "authoritative-gate", "accepted": true, "noMatchTreatedAs": "trusted"}
+      },
+      {
+        "id": "RC-CE-8",
+        "violates": "RC-9",
+        "scenario": "a durable authoritative write proceeds with no resolved retention policy",
+        "case": {"sealedCapability": "verifiable", "retentionPolicyResolved": false, "durableWriteRequested": true, "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE"}], "usedAs": "authoritative-gate", "accepted": true}
+      },
+      {
+        "id": "RC-CE-9",
+        "violates": "RC-10",
+        "scenario": "the model introduces a bespoke error code for evidence loss",
+        "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "authoritative-gate", "accepted": false, "terminationClass": "request-rejected", "code": "EVIDENCE.UNIT_UNAVAILABLE"}
+      },
+      {
+        "id": "RC-CE-10",
+        "violates": "RC-5",
+        "scenario": "effective capability is resolved after admission, so a mid-Run purge is not caught",
+        "case": {"sealedCapability": "verifiable", "resolvedAtAdmission": false, "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "authoritative-gate", "accepted": true}
+      }
+    ]
+  },
+
+  "acceptingFixtures": [
+    {
+      "id": "fully-available-verifiable-gate",
+      "scenario": "all units available; sealed verifiable; used as an authoritative gate",
+      "case": {"sealedCapability": "verifiable", "retentionPolicyResolved": true, "resolvedAtAdmission": true, "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE"}], "usedAs": "authoritative-gate", "accepted": true},
+      "expectedEffectiveCapability": "verifiable"
+    },
+    {
+      "id": "degraded-run-inspected-honestly",
+      "scenario": "one purged unit; inspection succeeds with per-unit reasons",
+      "case": {"sealedCapability": "verifiable", "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "inspect", "accepted": true, "degradationReport": [{"unit": "E37.facts", "cause": "PURGED"}]},
+      "expectedEffectiveCapability": "recorded"
+    },
+    {
+      "id": "degraded-run-refused-as-gate",
+      "scenario": "the same degraded Run refused for authoritative use with the existing code",
+      "case": {"sealedCapability": "verifiable", "resolvedAtAdmission": true, "units": [{"id": "E37.facts", "requiredForCapability": "verifiable", "state": "PURGED"}], "usedAs": "authoritative-gate", "accepted": false, "terminationClass": "request-rejected", "code": "REQUEST.UNSATISFIABLE"},
+      "expectedEffectiveCapability": "recorded"
+    },
+    {
+      "id": "transient-outage-recovers",
+      "scenario": "an unmounted store returns; effective capability recovers because OUTAGE is not terminal",
+      "case": {"sealedCapability": "verifiable", "resolvedAtAdmission": true, "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE", "priorNonTerminalState": "OUTAGE"}], "usedAs": "authoritative-gate", "accepted": true},
+      "expectedEffectiveCapability": "verifiable"
+    },
+    {
+      "id": "replay-closure-lost-still-verifiable",
+      "scenario": "a replayable Run loses an environment object; it demotes to verifiable and remains a valid gate",
+      "case": {"sealedCapability": "replayable", "resolvedAtAdmission": true, "units": [{"id": "E1.facts", "requiredForCapability": "verifiable", "state": "AVAILABLE"}, {"id": "E1.env", "requiredForCapability": "replayable", "state": "MISSING-DEPENDENCY"}], "usedAs": "authoritative-gate", "accepted": true},
+      "expectedEffectiveCapability": "verifiable"
+    }
+  ],
+
+  "responsibilityBoundaries": [
+    {
+      "component": "retention authority",
+      "owns": "the append-only unit availability ledger, policy expiry, purge execution, inventory, deletion reporting",
+      "mustNot": "rewrite a sealed Run, or allow cache GC to remove a pinned unit"
+    },
+    {
+      "component": "host admission",
+      "owns": "resolving effective capability for declared authoritative inputs, pinning them, and refusing before any durable write",
+      "mustNot": "admit an authoritative use whose resolved input is below verifiable"
+    },
+    {
+      "component": "projection/export surfaces",
+      "owns": "presenting sealed capability and effective capability as distinct fields with per-unit causes",
+      "mustNot": "collapse them into one word, or present sealed capability alone as current assurance"
+    }
+  ],
+
+  "resolves": {
+    "V10": "RESOLVED-BY-DISPOSITION. Item 1 and the item-2 closure are discharged by evidence.v1 (independently reviewed and adjudicated). Item 2's custody policy and item 3's purge/availability semantics are decided here. The measurement residual is retained and named below — it is not part of the contradiction.",
+    "CD-RT-3": "CARRIED — sealedTier immutable plus availability projection is exactly sealedVersusEffective.",
+    "CD-RT-5": "SIGNED OFF — zero implicit durable retention accepted by product 2026-07-31.",
+    "A1-RTV4-03": "CLOSED by the CD-RT-5 sign-off; defaultPosture is now product-accepted rather than candidate posture.",
+    "B-RT-04": "CLOSED — the immutable/mutable split is now a derivation function plus an append-only ledger, not a mutable field in a sealed manifest.",
+    "B-RT-07": "CLOSED — nothing is retained by default; source witness retention requires explicit policy grant (inherited from v4 privacyBoundary and now gated by a signed-off default posture)."
+  },
+
+  "retainedResiduals": [
+    {
+      "id": "A1-RTV4-02",
+      "class": "MEASUREMENT",
+      "statement": "Measure the no-match Merkle fold plus reverification cost INCLUDING retained fact custody on representative repositories.",
+      "blocks": "cost-advantage claims only — no constant-size or orders-of-magnitude claim is authorized until measured",
+      "doesNotBlock": "implementing the evidence obligations or this custody model"
+    },
+    {
+      "id": "TM.storage-detector-coverage",
+      "class": "MEASUREMENT",
+      "statement": "Qualify storage exposure detector catalogs against real sync/backup clients on supported platforms.",
+      "fallback": "DETECTED/NOT-DETECTED/UNKNOWN remains the honest fallback"
+    },
+    {
+      "id": "TM.deletion-dedup",
+      "class": "STORAGE-ARCHITECTURE",
+      "statement": "Real deletion behaviour for deduplicated and backup-held objects.",
+      "note": "Purge here promises an honest recorded transition and pin release, explicitly not forensic erasure."
+    },
+    {
+      "id": "RC.independent-review",
+      "class": "PROCESS",
+      "statement": "This artifact is authored, not yet independently reviewed. Seal requires a second author for the RC-CE fixtures, matching the independence rule v4 imposed on evidence.v1.",
+      "note": "implementable:true is not DISCHARGED. This artifact is a candidate."
+    }
+  ],
+
+  "knownLimitations": [
+    "Authored by the agent closing the phase, not independently reviewed. The RC-CE fixtures and the checker share one author — the exact condition A1-RTV4-01 called out for evidence.v1.",
+    "The unit-granularity choice assumes evidence units are individually addressable and individually purgeable. A storage layout that only supports whole-Run deletion would force the rejected Run-atomic model; that constraint belongs to the storage architecture and is not yet fixed.",
+    "Effective-capability derivation is specified as a pure function over unit states. It says nothing about how expensive it is to determine those states for a Run with many thousands of units; that is a measurement question adjacent to A1-RTV4-02.",
+    "The admission-time pin is specified for the one-shot topology that is the architecture floor. A resident host would need a real lease protocol, which is parked with R-1 residency.",
+    "Fact tuples remain user-derived and privacy-classed. Removing source custody does not make the retained evidence non-sensitive (inherited from evidence.v1)."
+  ],
+
+  "confidence": "high on the sealed/effective split, the D9 mapping reusing only closed vocabulary, and terminal monotonicity; medium-high on unit granularity, which depends on a storage layout not yet fixed; medium on cost, which is A1-RTV4-02 and deliberately unresolved.",
+
+  "sealRecommendation": "SEAL-WITH-CHANGES once independently reviewed. The V10 architecture fork is closed: the proof construction was already selected and verified elsewhere, the custody policy and default posture are now decided and product-signed, and evidence loss maps onto typed outcomes without reopening D9. Remaining items are measurement, storage-architecture, and the process requirement for a second reviewer — none of them architecture forks."
+}

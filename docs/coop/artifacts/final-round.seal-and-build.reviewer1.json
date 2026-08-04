@@ -1,0 +1,133 @@
+{
+  "artifact": "opensip.final-round.seal-and-build.reviewer1",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "role": "Reviewer 1 — Phase 1 shared (D9, EVIDENCE) + Phase 2 (FACT-PLANE, C-2, RESOLVED-INPUTS, VERSIONING, TM)",
+  "suiteReproduction": {
+    "allCheckers": "OK",
+    "allSelftests": "all mutations rejected (110-class suite as described)",
+    "completeness": "11/11 surfaces 100% contract-complete criteria; review column pending",
+    "firstFindingOnSuite": null
+  },
+  "phase1": {
+    "artifact": "d9-evidence.blind-reauthor.reviewer1.json",
+    "d9": {
+      "sample": 22,
+      "classDisagreements": 0,
+      "axisDisagreements": 6,
+      "axisDisagreementGoldens": ["user-interrupt-finite", "analysis-cas-link-failed"],
+      "resolution": "both ARTIFACT_CORRECT on second look — informative first-instinct errors, no false golden in sample",
+      "a1D9V15_03": "CONFIRM_ACCEPT_X9 — interruption=none would encode falsehood; X9 closes order-dependency"
+    },
+    "evidence": {
+      "counterexamples": 10,
+      "mustRejectByMatches": 10,
+      "disagreements": 0
+    }
+  },
+  "sealRecommendations": {
+    "D9": {
+      "verdict": "SEAL",
+      "blocker": null,
+      "note": "Second-author sample 22 goldens, 0 class miss; axis misses were reviewer error. X9 disposition confirmed. Residual: Reviewer 2 independent sample should concur before coordinator hard-seal."
+    },
+    "EVIDENCE": {
+      "verdict": "SEAL",
+      "blocker": null,
+      "residuals": [
+        "A1-RTV4-02 stays open narrowed to MEASURE sorted-leaf Merkle fold cost before treating ~100B/eval as settled",
+        "commitment structure choice (Merkle vs accumulator) acceptable with residual; not re-opened as design fork for week one"
+      ],
+      "note": "10/10 independent invariant assignment. Second-author goldens supplied by this Phase 1 for rejection mapping."
+    },
+    "FACT-PLANE": {
+      "verdict": "SEAL-WITH-CHANGES",
+      "blocker": "R1-FP-01 confidence→required-relation-missing wrong remedy",
+      "artifact": "fact-plane.v1.review-reviewer1.json"
+    },
+    "C-2": {
+      "verdict": "SEAL",
+      "blocker": null,
+      "note": "18/18 fixtures; admission boundary right; CONDITIONAL effect confinement is honest. Do not seal runtime confinement product claim.",
+      "artifact": "c2-plan-stage-schema.v3.review-reviewer1.json"
+    },
+    "RESOLVED-INPUTS": {
+      "verdict": "SEAL-WITH-CHANGES",
+      "blocker": "R1-RI-01 A1-RI-04 product disposition or provisional CI/layer-4 ship rule",
+      "artifact": "resolved-inputs.v2.review-reviewer1.json"
+    },
+    "VERSIONING": {
+      "verdict": "SEAL-WITH-CHANGES",
+      "blocker": "R1-VER-01 pivot cost ship-gate note; support windows stay NOT DISCHARGED",
+      "artifact": "versioning-policy.v2.review-reviewer1.json"
+    },
+    "TM": {
+      "verdict": "SEAL-WITH-CHANGES",
+      "blocker": "R1-TM-01 V5 real-deletion design or language narrowing before R5 implementability",
+      "artifact": "threat-model.v3.review-reviewer1.json"
+    },
+    "notAssignedToReviewer1": {
+      "FACT-IDENTITY": "Reviewer 2",
+      "OPERABILITY": "Reviewer 2",
+      "DELIVERY": "Reviewer 2",
+      "R-1": "Reviewer 2 (REOPENED)"
+    }
+  },
+  "rejectedFixesConfirmOrContest": {
+    "A1-D9-V15-03": {
+      "disposition": "CONFIRM_ACCEPT",
+      "detail": "X9 over interruption=none"
+    },
+    "B-DL-08": {
+      "disposition": "CONFIRM_UNRESOLVABLE_HERE",
+      "detail": "Platform matrix + P-4a substrate are not architecture decisions; NOT DISCHARGED is honest. Not my Phase 2 surface but agree with marking."
+    },
+    "A1-VER-05": {
+      "disposition": "CONFIRM_MARK_NOT_FIX",
+      "detail": "GUESSED windows + NOT DISCHARGED correct; telemetry ban may make VT-12 permanent — surface evidenceGrade to consumers."
+    }
+  },
+  "undischargedHonestyJudgment": {
+    "question": "Nine properties NOT DISCHARGED/PARTIAL + PROBE REOPENED — honesty or defeatism?",
+    "answer": "HONESTY. The alternative was paper seals (caught multiple times: C-2 v2 effectful DISCHARGED, completeness instrument inflation). Marking runtime authority, support windows, platform matrix, and product-implements-architecture as undischarged is the only non-corrupt posture when the substrate or measurement does not exist.",
+    "risk": "Consumer B may misread 11/11 contract-complete as build-complete. Completeness measures the *stated* criterion (invariants+schema+goldens+checker+no open findings), not discharge of every sealed property and not independent review. That is not instrument inflation of its own metric; it is a dangerous adjacent reading.",
+    "contestCompleteness": {
+      "inflationOfStatedMetric": false,
+      "dangerousAdjacentReading": true,
+      "requiredClarification": "check-completeness.py output should continue to print that review is unscored; coordinator should not treat 100% as seal or as build-ready."
+    }
+  },
+  "buildFromJudgment": {
+    "question": "Is this architecture complete enough to build from (consumer B)?",
+    "answer": "YES — build from with an explicit track split. Not 'architecture finished'.",
+    "buildNowTracks": [
+      "D9 termination implementation from v1.6 goldens",
+      "FACT-PLANE sufficiency + relation ladders (after R1-FP-01 fix)",
+      "C-2 plan/stage schema validation (shape only)",
+      "RESOLVED-INPUTS PlanId composition + ambient neutralise/key/forbid (policy layer)",
+      "VERSIONING custody classes + three-way compare skeleton",
+      "TM mitigations that are pure host policy: ingestion allowlist shape, no ungranted egress default, storage-root refuse skeleton, secret handles not values"
+    ],
+    "blockedOrParallelTracks": [
+      "ARCH.PROBE-CONTRACT / runtime capability denial (blocks R-1 runtime, C-2 PS-12c, RI-18, fact-identity ambient authority)",
+      "V5 real deletion under CAS",
+      "EVIDENCE subject-set commitment fold + measured cost",
+      "Support window evidence / product owner",
+      "A1-RI-04 CI layer-4 product owner",
+      "Platform matrix (B-DL-08)",
+      "Operability QUALIFIED gates (blocks published privacy/offline claims)"
+    ],
+    "weekOneForksAvoided": "Request-validation vs attempt-admission, createsRun from admission mode, effect taxonomy three classes, detector pivot classification, F8 one-rung authority, protect-user-from-tool threat center — these are decided enough to implement without redesign.",
+    "wouldChangeToNo": "If Reviewer 2 finds a second-author false golden in D9/EVIDENCE of the B-D9V15-05 class, or if FACT-PLANE F8 is contested successfully — then stop and re-derive."
+  },
+  "artifactsWritten": [
+    "artifacts/d9-evidence.blind-reauthor.reviewer1.json (enriched with phase1Diffs + a1D9V15_03)",
+    "artifacts/fact-plane.v1.review-reviewer1.json",
+    "artifacts/c2-plan-stage-schema.v3.review-reviewer1.json",
+    "artifacts/resolved-inputs.v2.review-reviewer1.json",
+    "artifacts/versioning-policy.v2.review-reviewer1.json",
+    "artifacts/threat-model.v3.review-reviewer1.json",
+    "artifacts/final-round.seal-and-build.reviewer1.json",
+    "agentlog3.md"
+  ]
+}

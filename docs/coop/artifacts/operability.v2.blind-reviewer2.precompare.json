@@ -1,0 +1,108 @@
+{
+  "artifact": "opensip.operability.blind-precomparison",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/operability.v2.json",
+  "date": "2026-07-31",
+  "phase": "PRECOMMITTED BEFORE READING projectionParity.surfaces[].permittedLoss, qualificationFixtures[].valid, or checker source",
+  "method": "Read the seven canonical semantic fields, the five surface names/notes, and qualification fixture inputs. Independently decided which semantic information each surface may lose and each fixture's validity.",
+  "projectionParity": [
+    {
+      "surface": "machine envelope (JSON)",
+      "mustPreserve": [
+        "verdict",
+        "termination class and code",
+        "finding set and count",
+        "severity distribution",
+        "Coverage state and truncation",
+        "artifact availability",
+        "RunId and Finding identities"
+      ],
+      "permittedLoss": [],
+      "reason": "This is the canonical machine projection; human rendering is not one of the seven semantic fields."
+    },
+    {
+      "surface": "exit code",
+      "mustPreserve": [
+        "termination class through its total numeric mapping"
+      ],
+      "permittedLoss": [
+        "verdict detail",
+        "error/reason code detail beyond the process code",
+        "finding set and count",
+        "severity distribution",
+        "Coverage state and truncation",
+        "artifact availability",
+        "RunId and Finding identities"
+      ],
+      "reason": "A scalar process status is intentionally lossy; it must never be treated as an attestation."
+    },
+    {
+      "surface": "human terminal",
+      "mustPreserve": [
+        "verdict",
+        "termination class and actionable reason",
+        "finding count and an explicit bounded/full distinction",
+        "severity distribution",
+        "Coverage state and truncation",
+        "artifact availability",
+        "RunId and a retrievable route to every Finding identity"
+      ],
+      "permittedLoss": [
+        "inline display of every finding body and identity when a bounded summary states the omitted count and exact retrieval command"
+      ],
+      "reason": "Screen space may be bounded; semantic omission may not be silent."
+    },
+    {
+      "surface": "SARIF-style export",
+      "mustPreserve": [
+        "all seven semantic fields, using namespaced properties where SARIF has no native slot"
+      ],
+      "permittedLoss": [],
+      "reason": "A machine interchange format can carry extension properties; format inconvenience is not a reason to erase semantics."
+    },
+    {
+      "surface": "agent/MCP surface",
+      "mustPreserve": [
+        "all seven semantic fields across bounded pages with explicit continuation/truncation metadata"
+      ],
+      "permittedLoss": [],
+      "reason": "Pagination is permitted; semantic loss is not."
+    }
+  ],
+  "qualificationFixtureOutcomes": [
+    {
+      "id": "fully-qualified-gate",
+      "decision": "VALID"
+    },
+    {
+      "id": "design-gate-qualified",
+      "decision": "VALID"
+    },
+    {
+      "id": "unqualified-missing-observation",
+      "decision": "VALID_AS_UNQUALIFIED"
+    },
+    {
+      "id": "no-target-gate",
+      "decision": "VALID_AS_UNQUALIFIED_NO_TARGET"
+    },
+    {
+      "id": "reject-qualified-without-observation",
+      "decision": "INVALID"
+    },
+    {
+      "id": "reject-qualified-without-negative-control",
+      "decision": "INVALID"
+    },
+    {
+      "id": "reject-unknown-status",
+      "decision": "INVALID"
+    }
+  ],
+  "knownLimitations": [
+    "This derives semantic loss, not exact presentation layout.",
+    "Whether standard SARIF consumers display extension properties is a UX/interoperability measurement; retaining them in the artifact is still feasible.",
+    "The qualification outcomes do not establish that the named negative controls actually target production behavior."
+  ],
+  "confidence": "HIGH"
+}

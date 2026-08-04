@@ -1,0 +1,136 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/d9-exit-contract.v1.3.json",
+  "status": "reject-seal-require-v1.4",
+  "method": "Before inspecting v1.3 scenarioAxes, independently authored axes for 18 cases using only id, commandKind, scenario, and expectedTermination. The timestamped review evidence is artifacts/d9-exit-contract.blind-axes.a2-v1.3.json. After freezing it, compared author axes, audited declared fields and vocabularies as sets, and read the ordered derivation for information flow rather than re-running the author's claimed checker.",
+  "resolves": {
+    "A2-D9-V13-01": "BLOCKER: analysis-required-coverage-missing says verdict=pass in the author axes; the blind model says indeterminate. Coverage short-circuiting makes both derive indeterminate, exposing the co-consistency trap.",
+    "A2-D9-V13-02": "BLOCKER: baseline recipe incompatibility is encoded as requiredCoverageSatisfied=false. Baseline-format negotiation is not analysis Coverage and has a different remedy.",
+    "A2-D9-V13-03": "BLOCKER: 38 of 39 scenarios are null, so reviewers cannot verify that axes describe the intended situation rather than merely reverse-engineering IDs.",
+    "A2-D9-V13-04": "BLOCKER: the alleged closed wire contract is internally non-conforming: 38 expected terminations contain forbidden exitCode, two axes contain null, three used axes fields are undeclared, and emitted reason codes do not belong to reasonCodeVocabulary.",
+    "A2-D9-V13-05": "BLOCKER: no executable D9 derivation/checker is retained in artifacts; referenceDerivation is English pseudocode. The claimed 39/39 execution is not independently reproducible from the binding object.",
+    "A2-D9-V13-06": "BLOCKER: reason/error classification is not remedy-complete. Provider absence, unsupported language/relation, budget exhaustion, baseline incompatibility, snapshot convergence, and protocol fault require distinct actions and cannot be overloaded onto Coverage false.",
+    "A2-D9-V13-07": "BLOCKER: finalizationCommitReached is syntactically an input, so the derivation is narrowly non-circular, but it is not a sufficient state-transition contract. It suppresses interruption and then re-derives instead of proving that an already-settled termination remains byte-identical.",
+    "A2-D9-V13-08": "BLOCKER: required-delivery and optional-egress cases do not assert preservation of Run/verdict/durability or the exact delivery effect; repair verification does not assert receipt retention. expectedEffects is null for these load-bearing cases."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "D9.TOTAL-UNION",
+      "source": "architecture/07-outcomes-and-failure.md#the-termination-contract",
+      "property": "Every command maps to exactly one typed HostTermination and one boundary mapper derives process exit status."
+    },
+    {
+      "id": "D9.REMEDY-CODES",
+      "source": "architecture/07-outcomes-and-failure.md#reason-codes-distinguish-remedies",
+      "property": "Reason and error codes distinguish materially different remedies."
+    },
+    {
+      "id": "D9.FINALIZATION",
+      "source": "architecture/07-outcomes-and-failure.md#signal-and-finalization-precedence",
+      "property": "A signal after finalization cannot reclassify an already-settled termination."
+    },
+    {
+      "id": "METHOD.RULE-3",
+      "source": "architecture/10-method.md#3-decisions-close-by-artifact-not-prose",
+      "property": "The executable mapper and goldens must be retained as a checkable binding object."
+    },
+    {
+      "id": "METHOD.RULE-5",
+      "source": "architecture/10-method.md#5-agreement-between-reviewers-using-the-same-instrument-is-not-corroboration",
+      "property": "Scenario semantics are checked with independently authored axes, not with the author's derivation."
+    }
+  ],
+  "blindComparison": {
+    "evidenceArtifact": "artifacts/d9-exit-contract.blind-axes.a2-v1.3.json",
+    "sampleSize": 18,
+    "coverage": [
+      "run",
+      "query",
+      "mutation",
+      "serve",
+      "pre-admission",
+      "interruption",
+      "delivery",
+      "baseline"
+    ],
+    "materialMismatches": [
+      {
+        "id": "analysis-required-coverage-missing",
+        "independent": "verdict=indeterminate",
+        "author": "verdict=pass",
+        "why39Of39MissesIt": "requiredCoverageSatisfied=false takes precedence over verdict, so the same output class is obtained from a semantically false input."
+      },
+      {
+        "id": "baseline-compare-unsupported-recipe",
+        "independent": "required Coverage remains satisfied; comparison is unavailable because the fingerprint recipe is unsupported",
+        "author": "requiredCoverageSatisfied=false",
+        "why39Of39MissesIt": "both paths produce indeterminate, but only the independent model preserves the distinct upgrade/compatibility remedy."
+      },
+      {
+        "id": "analysis-snapshot-invalidated",
+        "independent": "coverage is unknown because a stable snapshot was not obtained",
+        "author": "requiredCoverageSatisfied=true",
+        "disposition": "cannot adjudicate from prose because scenario is null; v1.4 must state whether facts were derived before convergence exhaustion."
+      }
+    ],
+    "matchesThatCouldHaveFailed": [
+      "pre-admission rejection",
+      "provider protocol failure",
+      "durability failure",
+      "empty set query success",
+      "tombstone expiry",
+      "repair verification policy fail",
+      "finite pre-finalization interruption",
+      "post-finalization interruption suppression",
+      "optional delivery failure",
+      "required delivery failure",
+      "graceful serve shutdown"
+    ]
+  },
+  "mechanicalAudit": {
+    "goldenCount": 39,
+    "nullScenarioCount": 38,
+    "forbiddenExitCodeCount": 38,
+    "explicitNullAxisCount": 2,
+    "usedButUndeclaredAxisFields": [
+      "errorCode",
+      "reason",
+      "signal"
+    ],
+    "expectedReasonCodesOutsideDeclaredClosedVocabulary": [
+      "convergence-exhausted",
+      "fingerprint-recipe-unsupported",
+      "required-coverage-missing",
+      "required-provider-unavailable",
+      "verdict-indeterminate"
+    ],
+    "retainedExecutableCheckerFound": false
+  },
+  "focusedAnswers": {
+    "derivationNonCircular": "PASS narrowly: finalizationCommitReached is an input, not an output. FAIL as a complete finalization proof because no settledTermination input is preserved across an interrupt event.",
+    "reasonVocabularyComplete": "FAIL. It is neither closed in the goldens nor sufficiently separated by remedy.",
+    "absenceNotNullPolicy": "APPROVE for the wire envelope because it prevents three-state ambiguity and maps cleanly to JSON omission. FAIL the candidate fixtures because they violate the policy."
+  },
+  "requiredV1_4Shape": [
+    "Real JSON Schema for scenario axes and HostTermination, with additionalProperties=false and no explicit null values.",
+    "A retained executable pure derivation plus a test that validates every input and output against the schemas.",
+    "One non-null falsifiable scenario sentence per golden, independently reviewable before axes.",
+    "One canonical reason/error vocabulary or an explicit pure mapping table, with remedy categories represented directly.",
+    "A finalization transition table whose input includes settledTermination, event, and expected unchanged termination, covering every termination class.",
+    "Effect assertions for optional and required delivery and repair receipt preservation."
+  ],
+  "confidence": {
+    "blindSemanticFindings": "high for two definite mismatches; medium for snapshot-invalidated because prose is absent",
+    "mechanicalFindings": "high; obtained by set/count checks",
+    "overall": "high that D9 must remain CANDIDATE"
+  },
+  "whatWouldChangeMyMind": "A v1.4 artifact that supplies schema-validated scenario prose and axes, retains an executable pure mapper, passes an independent axis review, and closes every listed contract contradiction without deriving semantics from expected classes.",
+  "knownLimitations": [
+    "Only 18 of 39 cases received blind independent axes.",
+    "The review does not choose the final names of reason/error codes; it checks their remedy partition and closure.",
+    "No production implementation exists to test; this is a candidate-contract review."
+  ]
+}

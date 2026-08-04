@@ -1,0 +1,465 @@
+{
+  "artifact": "opensip.threat-model.v3.storage-namespace.review-independent",
+  "version": 1,
+  "date": "2026-08-04",
+  "reviewer": "independent replay lane (storage namespace)",
+  "role": "INDEPENDENT REVIEWER — adversarial; instructed to attempt rejection",
+  "subject": {
+    "file": "artifacts/threat-model.v3.json",
+    "jsonPointer": "$.storageNamespace",
+    "description": "physical ProjectId namespace design",
+    "mandate": "IMPLEMENTATION-FREEZE.md §3 TM row, condition 1 of 3: 'independently re-review physical ProjectId namespace'",
+    "priorReplayState": "threat-model.v3.json#reviewStatus records the repairs 'AWAIT INDEPENDENT REPLAY'. TM was adjudicated DO-NOT-SEAL on the V10 choice alone, so the namespace question has never had an independent replay."
+  },
+
+  "subjectHashDeclaration": {
+    "expectedByTasking": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+    "measuredWholeFileSha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+    "match": true,
+    "note": "The value supplied as the expected hash of $.storageNamespace is in fact the SHA-256 of the whole artifacts/threat-model.v3.json byte stream. It matched exactly, so review proceeded. To avoid ambiguity for later replays, the subtree itself is hashed below under three explicit serialisations.",
+    "subtreeSerialisations": [
+      {
+        "serialisation": "json.dumps(sort_keys=True, separators=(',',':'), ensure_ascii=False)",
+        "bytes": 24955,
+        "sha256": "4e1a9c8847d0e685196d65379fe13f52520b435efb539ba98989b5982e2ab2c6"
+      },
+      {
+        "serialisation": "json.dumps(separators=(',',':'), ensure_ascii=False) — document key order",
+        "bytes": 24955,
+        "sha256": "c097bc58af6204996382b1b23bc92784d6fc5b06382e0afeb29b6b75c3b6dee1"
+      },
+      {
+        "serialisation": "json.dumps(ensure_ascii=False) — default separators; this is the one the prior ~25,625-byte measurement used",
+        "bytes": 25625,
+        "sha256": "817c4b180b8c6671cd1ec88e5d8d93bd0aaeb1a131112ad2e8594b33e114e59c"
+      }
+    ]
+  },
+
+  "separabilityClaimVerification": {
+    "claimUnderTest": "$.storageNamespace is ~25,625 bytes containing 0 occurrences of V10, CD-RT-5, retention or tier — i.e. the namespace question is separable from the Phase-1A/V10 block.",
+    "held": true,
+    "method": "Independently re-serialised the subtree and counted substrings over all three serialisations above, case-sensitively and case-insensitively.",
+    "measuredBytes": 25625,
+    "byteMatchExact": true,
+    "occurrenceCounts": {
+      "V10": 0,
+      "CD-RT-5": 0,
+      "retention": 0,
+      "tier": 0
+    },
+    "caseInsensitiveOccurrenceCounts": {
+      "v10": 0,
+      "cd-rt-5": 0,
+      "retention": 0,
+      "tier": 0
+    },
+    "conclusion": "The separability basis for reviewing the namespace now is sound. Nothing in this review touches, depends on, or has any opinion about V10, CD-RT-5, retention or tiering."
+  },
+
+  "verdict": "REJECT",
+  "verdictScope": "This verdict is about $.storageNamespace ONLY. It is one input to TM's disposition, not the disposition. No TM status, disposition, verdict or seal was set, changed or implied by this review. CD-RT-5 remains BLOCKED_ON_PHASE_1A. No [UNSET] was touched.",
+  "verdictSummary": "The lexical half of the namespace design is strong, honest about its own limits, and mechanically enforced. The physical namespace is the pair (admitted root, ProjectId). The ProjectId half is total, injective and collision-free by construction, including on this case-insensitive host. The ROOT half is not bound by any specified rule: the authority record that is supposed to name the active root is specified only as a migration artifact, its activeRootId field has zero specified consumers corpus-wide, and no rule validates a presented root's identity at ordinary admission. Consequently 'exact projects/<ProjectId> ledger/CAS isolation' is delivered lexically but not established as a physical mapping property by this specification.",
+  "blockerCount": 3,
+
+  "blockers": [
+    {
+      "id": "SN-IR-01",
+      "severity": "BLOCKING",
+      "title": "The authority record is specified only as a migration artifact; ordinary storage resolution has no stated root-identity validation, and the record has no specified creation.",
+      "defectClass": "THE-ARTIFACT-DOES-NOT-SAY",
+      "defectClassRationale": "This is an omission, not a false statement. Nothing in $.storageNamespace is wrong about the authority record; the lifecycle is simply half-specified. The repair is to add a binding rule, not to correct one.",
+      "whatTheArtifactSays": [
+        {
+          "pointer": "$.storageNamespace.authority",
+          "quote": "Exactly one authority-selection record names the active admitted root for a canonical ProjectId. projects/<ProjectId> is a tenant namespace inside that authority, not a profile-selected backend. A migration may stage bytes at another root, but staged bytes are non-authoritative until the single authority-record compare-and-swap commits."
+        },
+        {
+          "pointer": "$.storageNamespace.admittedStorageRoot.role",
+          "quote": "A user- or policy-selected canonical absolute base directory that may contain multiple project namespaces and bounded host operation metadata."
+        },
+        {
+          "pointer": "$.storageNamespace.admittedStorageRoot.admission",
+          "quote": "Canonicalise and open the root; validate storage-root.v1.json; run exposure detectors and filesystem support checks before user-derived writes; retain the root handle for root-confined operations."
+        },
+        {
+          "pointer": "$.storageNamespace.inventoryPurgeMigration.migration.authorityRecordRule",
+          "quote": "Storage resolution trusts only this record after PROJECT-ID-V1 verification. Compare-and-swap requires the expected generation/source root; atomically replace and fsync on the single user-state filesystem. If atomic replace/fsync or the registry lease is unavailable, migration is refused."
+        },
+        {
+          "pointer": "$.storageNamespace.inventoryPurgeMigration.migration.authorityRecordExactFields",
+          "quote": "[\"schemaVersion\",\"projectId\",\"generation\",\"activeRootId\",\"activeRootCanonicalPath\",\"pendingMigrationId\"]"
+        }
+      ],
+      "theGap": [
+        "admittedStorageRoot.role says the root is USER- OR POLICY-SELECTED. authority says the record NAMES the active root. The artifact never reconciles these two selectors. There is no stated behaviour when a user selects an admitted root that is not the one the authority record names.",
+        "admittedStorageRoot.admission validates storage-root.v1.json for SHAPE only. No rule requires the opened root's rootId to equal the authority record's activeRootId.",
+        "Every normative sentence about the authority record lives under $.storageNamespace.inventoryPurgeMigration.migration. Creation of the first authority record (generation 1, no prior CAS baseline) is specified nowhere. The record that resolution 'trusts only' has no specified birth.",
+        "The sentence 'Storage resolution trusts only this record after PROJECT-ID-V1 verification' is a GLOBAL resolution rule stated inside the MIGRATION subtree, and its remaining clauses are all about compare-and-swap. Ordinary (non-migration) resolution is left with a trust assertion and no validation procedure."
+      ],
+      "mechanicalEvidence": {
+        "probe": "grep -rn 'activeRootId' over the whole docs/coop corpus",
+        "result": "Exactly 2 occurrences, both of which are field-list DECLARATIONS, never a comparison or a consumer.",
+        "occurrences": [
+          "artifacts/threat-model.v3.json:873 — inside authorityRecordExactFields",
+          "artifacts/check-threat-claims.py:584 — inside the checker's exact-field-set assertion for that same list"
+        ],
+        "inference": "activeRootId is a durable field with zero specified readers. A field that resolution never compares cannot be enforcing an isolation boundary."
+      },
+      "corroboration": {
+        "source": "artifacts/consumer-b-implementer-litmus.v2.json",
+        "pointer": "$.areaFindings[5].preFirstDurableWriteIsBuildable.sequence[1]",
+        "quote": "Validate storage-root.v1.json — exactly {schemaVersion, rootId}, rootId matching ^root1-[0-9a-f]{32}$, allocated as 16 CSPRNG bytes with create-new + fsync, never derived from path or ProjectId.",
+        "why": "The corpus's own implementer's-eye buildability test reproduces the admission sequence and stops at shape validation — it never compares rootId to the authority record. An independent reader of this spec does not implement the binding, which is the definition of the week-one design fork this contract exists to remove."
+      },
+      "consequence": "The physical namespace is the pair (admitted root, ProjectId). ProjectId -> path component is injective and total. The root component is unbound at resolution time, so the composite physical mapping is not established as injective by the specification. A logical project can be bound to a root that does not hold its durable evidence; projects/<ProjectId> is then created fresh there and the project is split across two physical namespaces with no specified corruption signal. This is exactly the 'one project must never split across two' failure.",
+      "alsoDefeatsItsOwnStatedPurpose": {
+        "pointer": "$.storageNamespace.assurance.why",
+        "quote": "The contract removes week-one design forks without promoting checker success to product isolation, deletion or migration evidence. G5/G14 remain undemonstrated.",
+        "note": "The root-selection/root-identity question is precisely a week-one design fork, and it is not removed."
+      },
+      "proposedRepairAsProperty": {
+        "style": "structural property, not an enumeration of call sites",
+        "property": "For a verified ProjectId, the admitted root is NOT an independent input. Storage resolution MUST obtain the root locator from that ProjectId's single authority record and MUST refuse unless the opened root's storage-root.v1.json rootId is byte-equal to the record's activeRootId. activeRootId is dispositive; activeRootCanonicalPath is a non-authoritative locator hint only. A root supplied by any other selector (caller, config, profile, policy) is never admitted for that ProjectId.",
+        "corollaries": [
+          "Record creation becomes a create-new + fsync at generation 1 under the authority lease, at first durable write, mirroring the marker publication rule already used by PROJECT-ID-V1.",
+          "Making rootId dispositive and path advisory makes a MOVED storage root re-bindable by identity rather than unresolvable, which closes the mutable-path exposure noted in observation NB-06 without adding a second mechanism.",
+          "This mirrors the identity owner's existing shape (suppliedAuthority: false; 'A raw caller/config ProjectId never becomes authority'), so the namespace layer would then agree with resolved-inputs.v2 structurally rather than only by naming it."
+        ]
+      }
+    },
+    {
+      "id": "SN-IR-02",
+      "severity": "BLOCKING",
+      "title": "rootId uniqueness is asserted only at allocation. Duplication of a storage root by copy is unhandled, and the namespace design lacks the live-conflict rule its own identity owner has.",
+      "defectClass": "THE-ARTIFACT-DOES-NOT-SAY",
+      "whatTheArtifactSays": [
+        {
+          "pointer": "$.storageNamespace.admittedStorageRoot.rootMarker.allocation",
+          "quote": "Host-generated 16-byte CSPRNG allocation, create-new and fsync; never derived from the root path or ProjectId."
+        }
+      ],
+      "theGap": [
+        "create-new + CSPRNG establishes uniqueness AT THE MOMENT OF CREATION. It says nothing about uniqueness under copying. Copying an admitted storage root — backup restore, cp -r, disk image, container layer, cloud-sync duplicate — reproduces rootId byte-for-byte at a second path.",
+        "The token 'unique' occurs 0 times in the whole of artifacts/threat-model.v3.json. rootId uniqueness is never stated as a property, only as an allocation procedure.",
+        "The artifact therefore has no analogue of the collision rule its own identity owner carries for exactly this scenario."
+      ],
+      "disagreementWithTheIdentityOwner": {
+        "note": "The tasking asked whether the namespace design AGREES with resolved-inputs.v2 rather than restating it. On this point it does not agree — it restates the owner's allocation style for rootId but omits the owner's corresponding collision semantics.",
+        "ownerHasIt": [
+          {
+            "pointer": "resolved-inputs.v2.json#projectIdContract.moveCloneAndCollision.copiedMarker",
+            "quote": "A copied tree that includes the marker and resolves while the same ProjectId is bound to another live root is PROJECT_ID_COLLISION. Neither root is selected implicitly and no shared project ledger/CAS tenant is opened."
+          },
+          {
+            "pointer": "resolved-inputs.v2.json#projectIdContract.moveCloneAndCollision.rootMove",
+            "quote": "A supported root move preserves ProjectId because the no-follow marker moves with the project. Under the registry lease, OLD_ROOT_ABSENT plus the identical marker at one newly opened canonical root permits one atomic old-to-new locator rebind; two live roots or non-identical marker bytes are refused."
+          }
+        ],
+        "namespaceLacksIt": "There is no ROOT_COLLISION outcome, no 'two live roots with equal rootId are refused' rule, and no storage-root move/rebind protocol anywhere in $.storageNamespace. Cross-root MIGRATION exists, but it requires both roots present and the source authoritative, so it does not cover a moved, restored or duplicated root."
+      },
+      "consequence": "Even after SN-IR-01 is repaired by making activeRootId dispositive, a duplicated root defeats the repair: two physically distinct roots present the same activeRootId, and the identity check passes at whichever copy is presented. Without a live-conflict rule, rootId equality is necessary but not sufficient to bind one project to one physical namespace.",
+      "proposedRepairAsProperty": {
+        "style": "structural property mirroring the identity owner",
+        "property": "rootId identifies a root INSTANCE, not root CONTENT. Resolving a ProjectId against a root whose rootId equals activeRootId but whose canonical path differs from activeRootCanonicalPath is a typed conflict, not an implicit rebind. Resolve it exactly as PROJECT-ID-V1 resolves its analogue: refuse implicitly, and require either (a) an explicit move/adopt after proving the old root is ABSENT, permitting one atomic locator rebind at unchanged generation, or (b) an explicit fork that re-allocates a fresh rootId into the copy. Two live roots bearing one rootId are refused and neither is selected.",
+        "note": "Stating it this way means the namespace layer inherits a rule the corpus has already reviewed and converged on, rather than inventing a second, differently-shaped mechanism."
+      }
+    },
+    {
+      "id": "SN-IR-03",
+      "severity": "BLOCKING",
+      "title": "The purge commit path depends on an intra-root atomic rename, but the artifact never requires an admitted root to be a single filesystem — while it explicitly requires exactly that for the authority record.",
+      "defectClass": "THE-ARTIFACT-DOES-NOT-SAY",
+      "whatTheArtifactSays": [
+        {
+          "pointer": "$.storageNamespace.inventoryPurgeMigration.purge.operationOrdering[1]",
+          "quote": "Write/fsync the exact moving marker inside the canonical namespace; atomically rename the whole namespace to the exact purge quarantine path; fsync both parent directories; then persist QUARANTINED."
+        },
+        {
+          "pointer": "$.storageNamespace.pathSafety.resolution",
+          "quote": "Open descendants relative to retained root/project handles. Reject symlinks/reparse points and non-directory intermediates; use no-follow/create-new and atomically rename only within one admitted root."
+        },
+        {
+          "pointer": "$.storageNamespace.pathSafety.unsupported",
+          "quote": "Refuse a filesystem lacking the handle-relative no-follow, file identity, link-count, atomic rename, locking, fsync or SQLite semantics required by the operation being admitted."
+        },
+        {
+          "pointer": "$.storageNamespace.inventoryPurgeMigration.migration.authorityRecordRule",
+          "quote": "Storage resolution trusts only this record after PROJECT-ID-V1 verification. Compare-and-swap requires the expected generation/source root; atomically replace and fsync on the single user-state filesystem. If atomic replace/fsync or the registry lease is unavailable, migration is refused."
+        }
+      ],
+      "theGap": [
+        "The purge rename moves <admittedStorageRoot>/projects/<ProjectId> to <admittedStorageRoot>/quarantine/purge/<ProjectId>/<purgeId>/namespace. Both are inside one admitted root, so 'atomically rename only within one admitted root' is satisfied lexically — but 'within one admitted root' is a PATH-CONTAINMENT constraint, not a DEVICE constraint.",
+        "A nested mount at or beneath projects/<ProjectId> (a common, entirely legitimate layout: project data on a dedicated volume, an external disk, or a network mount beneath a shared root) makes that rename cross-device. rename(2) returns EXDEV. It is not atomic and it does not succeed.",
+        "pathSafety.unsupported is an ENUMERATION of seven capability predicates. 'The root is one filesystem' is a scope property of the root, not a capability of a filesystem, so it is not expressible in that list and is not in it.",
+        "The asymmetry is the strongest evidence this is a genuine omission rather than a misreading: the artifact explicitly writes 'on the single user-state filesystem' for the authority-record replace, and writes no analogous phrase for the root-internal purge rename, which is the more safety-critical of the two."
+      ],
+      "consequence": "QUARANTINED is the state that makes the deletion commit point reachable; the purge state machine has five states, six recovery rows and six crash fixtures, and NONE of them has a transition for a rename that cannot be performed at all. The failure is not a crash — it is a deterministic refusal partway through a durable state machine whose recovery table is declared closed and exact. This lands directly on G5, the deletion gate.",
+      "proposedRepairAsProperty": {
+        "style": "structural property, admitted once, not checked per-operation",
+        "property": "An admitted storage root is admitted only if projects/, control/ and quarantine/ and everything beneath them resolve to one filesystem/device identity, captured from the retained root handle at admission and revalidated whenever the root is re-admitted. A root spanning more than one device is refused at admission with a typed outcome, before any user-derived durable write — not discovered mid-purge.",
+        "why": "Admitting this once as a root property is strictly stronger than adding an EXDEV branch to each state machine, and it keeps the purge and migration recovery tables closed and exact, which is a property the artifact and its checker both already rely on."
+      }
+    }
+  ],
+
+  "nonBlockingObservations": [
+    {
+      "id": "NB-01",
+      "title": "Path length is untreated corpus-wide, and the quarantine layouts roughly double path depth precisely during the recovery-critical operations.",
+      "measurement": "Searched artifacts/threat-model.v3.json for MAX_PATH, PATH_MAX, NAME_MAX, 'path length', 'long path', 'component length', '260', '\\\\?\\', 'too long', 'depth'. All 0 occurrences, in the subtree and in the whole artifact.",
+      "computedWorstCaseRelativePathLengths": {
+        "projectIdPathComponent": 69,
+        "canonicalCasObject": 158,
+        "purgeQuarantinedCasObject": 216,
+        "migrationStagedCasObject": 220,
+        "migrationRetiredCasObject": 228
+      },
+      "windowsExposure": "Against a 260-character MAX_PATH, the canonical CAS path exceeds it once the root prefix reaches 101 characters; the migration-retired path exceeds it at a root prefix of only 31 characters. The design explicitly targets Windows — it names 'reparse points' and 'Windows (volume serial,file index)' — so this is not a hypothetical platform.",
+      "whyNonBlocking": "The artifact carries a general refusal posture ('unsupported/unknown filesystems are refused, not inferred safe') and a PI-SUPPORTED-FILESYSTEM-MATRIX that would plausibly surface this at qualification. I judged that sufficient to keep it out of the blocking set, but it is the closest of the observations to being a fourth blocker.",
+      "suggestedProperty": "Add maximum supported path length to the admission-time root properties alongside the device-identity property proposed in SN-IR-03, bounded by the deepest layout the artifact defines (migrationRetirement), so the limit is derived from the layout rather than enumerated per platform."
+    },
+    {
+      "id": "NB-02",
+      "title": "The subject's own checker exits non-zero, but not for any reason inside the subject.",
+      "measurement": "python3 -I -B artifacts/check-threat-claims.py exits 1 with exactly 2 findings: 'T1 07-outcomes-and-failure.md: unqualified confinement claim' and 'T1 08-surfaces-and-topology.md: unqualified confinement claim'.",
+      "assertion": "Zero T13 findings. T13 is the section that validates $.storageNamespace. I am asserting the specific absence of the relevant findings, not merely reporting an exit code — and conversely, I am not treating the non-zero exit as evidence of any namespace defect.",
+      "note": "Both findings are against architecture markdown prose, outside this review's subject and outside its scope. Recorded so a later replay is not surprised by a red checker, and so this is not mistaken for a namespace regression."
+    },
+    {
+      "id": "NB-03",
+      "title": "The checker asserts declared fixture violations are a SUBSET of computed violations, not equal to them.",
+      "location": "artifacts/check-threat-claims.py:526 — 'elif expected not in violations:'",
+      "consequence": "A negative fixture that additionally triggers unintended violations still passes. This does not affect any current fixture, but it weakens the negative fixtures as a regression instrument.",
+      "suggestedProperty": "Assert set equality between the declared violation set and the computed set, so a negative fixture pins exactly one reason for rejection."
+    },
+    {
+      "id": "NB-04",
+      "title": "SN-01..SN-04 are cited by five fixtures but defined only inside the checker, not in the artifact.",
+      "measurement": "The only occurrences of SN-0x in artifacts/threat-model.v3.json are the five fixture 'violates' values. The identifiers are minted in artifacts/check-threat-claims.py (SN-01..SN-07).",
+      "consequence": "A reader of the artifact alone cannot tell what SN-01 means. The binding is live and mechanically enforced, so this is traceability rather than correctness.",
+      "note": "Distinct from the reviewer finding IDs R7-SN-01/02/03, which are a different namespace and should not be conflated with these."
+    },
+    {
+      "id": "NB-05",
+      "title": "Durable NAMES are clean of paths, hostnames and user identifiers. Durable CONTENT is not, and no redaction rule is stated.",
+      "namesAreClean": "Every durable path component is an opaque CSPRNG allocation or a fixed lowercase literal: ProjectId (prj1- + 32 random bytes), rootId (root1- + 16 random bytes, 'never derived from the root path or ProjectId'), purgeId, migrationId, and SHA-256 digest hex. No path, hostname or user identifier is derivable from any durable name. On the blueprint §8.1 'secrets represented by handles only' requirement, the namespace layer is clean.",
+      "contentCaveat": "The durable authority record and migration journal carry activeRootCanonicalPath, sourceRootCanonicalPath and targetRootCanonicalPath — absolute host filesystem paths, which on this host take the form /Users/<username>/... and therefore embed a user identifier. This is intentional and bounded by design ($.storageNamespace.inventoryPurgeMigration.migration.userStateRootRole: 'Host-owned user-scoped control plane containing ProjectId/root locators and operation metadata only; it is not an evidence backend and stores no source, fact, finding or artifact bytes').",
+      "theGapIsNarrow": "The artifact does not state whether these control-plane records are excluded from support bundles or diagnostics. TM's R11 governs only values obtained through the resolved-configuration secret channel, which these are not. Non-blocking because they are locators the feature genuinely needs and they live in the user's own state directory.",
+      "interactionWithSN-IR-01": "If activeRootCanonicalPath is demoted to a non-authoritative hint as SN-IR-01 proposes, this exposure shrinks to a diagnostic convenience field and becomes trivially droppable."
+    },
+    {
+      "id": "NB-06",
+      "title": "Confirmed positive — ProjectId is NOT derived from mutable state, and a renamed project directory does not orphan durable artifacts.",
+      "finding": "This was one of the tasked attack lines and the design defeats it cleanly. ProjectId is a persisted 32-byte CSPRNG allocation ('identityKind: persisted opaque allocation, not a path/content/VCS hash') with dual marker+registry custody, and resolved-inputs.v2 rootMove states 'A supported root move preserves ProjectId because the no-follow marker moves with the project.' Renaming or moving a project directory therefore changes no durable name.",
+      "residual": "The exposure to mutable state is one level up and is captured by SN-IR-01/SN-IR-02: the STORAGE ROOT path is mutable and the record binds to it, with no storage-root move protocol. The project half is sound; the root half is not."
+    },
+    {
+      "id": "NB-07",
+      "title": "Confirmed positive — the case-insensitivity and Unicode-normalisation attacks are defeated by construction, and I verified the host actually folds case.",
+      "hostProbe": "Created 'Foo' and tested for 'foo' on this macOS host filesystem. Result: the filesystem IS case-insensitive, so the attack precondition is real here and not assumed.",
+      "whyItFails": "Every durable path component is drawn from a lowercase-ASCII alphabet on which case folding is the identity function: prj1-/root1-/purge1-/migrate1- prefixes, [0-9a-f] hex bodies, and the fixed literals projects, control, quarantine, objects, sha256, cache, ephemeral, namespace, ledger.sqlite, storage-root.v1.json. Two distinct valid identifiers therefore cannot case-fold together, and no identifier can fold onto a fixed literal because the ID prefixes are disjoint from all of them. ASCII-only also makes NFC and NFD identical, so Unicode normalisation cannot alias two components.",
+      "artifactSupport": "$.storageNamespace.projectId.pathComponent: 'Use the verified text byte-for-byte as one path component. Reject uppercase, alternate prefixes, separators, dot segments, percent escapes, Unicode lookalikes and normalization-on-read.' This is the correct shape — a closed alphabet rather than a list of rejected lookalikes — and it is the strongest single element of the design.",
+      "note": "Recorded explicitly because these were named attack lines that I could not turn into findings. The design deserves the credit."
+    },
+    {
+      "id": "NB-08",
+      "title": "Confirmed positive — the lexical/physical assurance boundary is drawn honestly and is mechanically defended.",
+      "finding": "The artifact repeatedly refuses to let path inequality stand in for file identity, and its checker enforces that refusal rather than merely restating it. $.storageNamespace.objectId.lexicalNamespaceRule: 'This is a lexical guarantee only and is what contract vectors can establish before implementation.' $.storageNamespace.physicalIsolationConformance.paperSealRule: 'Empty or partial evidence leaves state SPECIFIED/IMPLEMENTABLE_UNEXECUTED. Fixture declarations and a green checker are not observations from a built storage engine.'",
+      "why": "This is the corpus's dominant failure mode named in freeze §7 — claiming a region no instrument can observe — and on this axis the artifact is exemplary. The checker independently re-derives every fixture path from the patterns rather than trusting the declared strings, and closes the fixture set by exact equality.",
+      "note": "This observation is a large part of why the verdict is REJECT on three specific omissions rather than a broad rejection. The parts of the design that are specified are specified well."
+    },
+    {
+      "id": "NB-09",
+      "title": "Precision note on the tasking's citation of blueprint §1.1.",
+      "finding": "The requirement 'requested read-set allowlist, exact projects/<ProjectId> ledger/CAS isolation, secrets represented by handles only | resolver + snapshot + store | G14' is at IMPLEMENTER-BLUEPRINT.md:1627, which is §8.1 'Build into the v1 spine', not §1.1. What §1.1 ('Normative byte set — the only versions you may build against', line 85) contains is the TM row at line 173 recording 'Storage/namespace/read-set surfaces are buildable; durable-authoritative retention is not'.",
+      "whyItMatters": "Both statements are real and both were cross-checked; they just live in different sections. Recording this so a later replay looking for the isolation requirement in §1.1 does not conclude it is missing."
+    }
+  ],
+
+  "crossCheckOfFreezeAndBlueprintClaims": {
+    "claimUnderTest": "IMPLEMENTER-BLUEPRINT.md §1.1 TM row: 'Storage/namespace/read-set surfaces are buildable; durable-authoritative retention is not'.",
+    "verdictOnThatClaim": "PARTIALLY CONTRADICTED — stated plainly as the tasking requires.",
+    "detail": [
+      "READ-SET / SECRETS-AS-HANDLES: buildable, and the namespace layer is clean on it. Every durable name is an opaque allocation. No finding.",
+      "NAMESPACE, lexical: buildable. Patterns, layout, tenancy, path safety and fixtures are exact, closed and independently re-derived by the checker. No finding.",
+      "NAMESPACE, physical / 'exact projects/<ProjectId> ledger/CAS isolation' (blueprint §8.1): NOT buildable as written. An implementer cannot build root selection, root identity validation, first authority-record creation, duplicate-root conflict handling, or the purge rename's device precondition from this specification, because none of them is specified. These are not gated-on-evidence items that a build may defer — they are decisions the implementer must invent, which is the week-one design fork the contract claims to remove.",
+      "The distinction matters for the freeze: 'buildable' is a claim about the SPECIFICATION being sufficient, and it is separable from G5/G14 being undemonstrated. The gates being undemonstrated is correct and expected. The specification being insufficient on the root half is a different problem and is not currently recorded anywhere."
+    ],
+    "recommendationToTheCoordinator": "Blueprint §1.1's 'Storage/namespace/read-set surfaces are buildable' should be narrowed to the lexical namespace, read-set and secret-handle surfaces until SN-IR-01..03 are closed. I am NOT making that edit — this review writes exactly one file and changes no status, disposition or claim anywhere."
+  },
+
+  "scopeExcluded": {
+    "rule": "This review is of the SPECIFICATION only. The five PI-* runtime observations below are excluded and NO verdict of any kind is offered on them.",
+    "excludedItems": [
+      {
+        "id": "PI-REGULAR-FILE",
+        "property": "Both newly published and reused CAS handles are regular files, not symlinks, reparse points, devices or directories."
+      },
+      {
+        "id": "PI-DISTINCT-FILE-IDENTITY",
+        "property": "For equal digest and different ProjectId, the opened files have different stable file identities."
+      },
+      {
+        "id": "PI-LINK-COUNT-ONE",
+        "property": "Each cross-project object reports link count exactly one after publication and after revalidation/reuse."
+      },
+      {
+        "id": "PI-NO-LINK-OR-CLONE-PRIMITIVE",
+        "property": "Host publication/migration invokes no hardlink, reflink, clone-file or shared-lower-CAS primitive across ProjectIds."
+      },
+      {
+        "id": "PI-SUPPORTED-FILESYSTEM-MATRIX",
+        "property": "Every advertised platform/filesystem/operation tuple executes the other four observations, including create, collision-reuse, purge staging, migration staging and recovery."
+      }
+    ],
+    "whyExcluded": [
+      "Each requires a BUILT storage engine to observe. No storage engine exists in this corpus; $.storageNamespace.physicalIsolationConformance.demonstrationEvidenceIds is [] and $.storageNamespace.assurance.physicalIsolation states 'no built storage engine or supported-filesystem evidence exists.'",
+      "Each is release-gated under G14 with evidenceGrade IMPLEMENTABLE_UNEXECUTED and state SPECIFIED.",
+      "A verdict on them would be a claim about a region no instrument available here can observe — the dominant failure mode recorded in freeze §7 with 10+ instances. Declining is the correct result, not a coverage gap.",
+      "What I DID review, and consider in scope, is whether these five are correctly SPECIFIED as obligations: whether the observation set, qualification record fields, required operations and the paper-seal rule are exact and closed. They are, and the checker enforces each of those sets by exact equality. That is a statement about the specification, not about the runtime."
+    ]
+  },
+
+  "verifiedInputs": {
+    "note": "freeze §7.2 binds a verdict to bytes AND an environment. Every input the verdict depends on is listed with the SHA-256 measured at the END of the review.",
+    "files": [
+      {
+        "path": "artifacts/threat-model.v3.json",
+        "role": "SUBJECT",
+        "sha256AtStart": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+        "sha256AtEnd": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+        "stable": true
+      },
+      {
+        "path": "artifacts/resolved-inputs.v2.json",
+        "role": "identity owner PROJECT-ID-V1; the namespace design is checked for agreement with it",
+        "sha256AtStart": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+        "sha256AtEnd": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+        "stable": true
+      },
+      {
+        "path": "artifacts/check-threat-claims.py",
+        "role": "the mechanism that enforces the subject; read as data and executed",
+        "sha256AtStart": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221",
+        "sha256AtEnd": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221",
+        "stable": true
+      },
+      {
+        "path": "artifacts/storage-namespace.adjudication-admission-storage-lane.v1.json",
+        "role": "prior adjudication that produced the repairs awaiting this replay",
+        "sha256AtStart": "a9877d6de9efb6ca336b92f6da8a79296ebdc9fa981da88525bef2b727e885c0",
+        "sha256AtEnd": "a9877d6de9efb6ca336b92f6da8a79296ebdc9fa981da88525bef2b727e885c0",
+        "stable": true
+      },
+      {
+        "path": "artifacts/consumer-b-implementer-litmus.v2.json",
+        "role": "corroboration for SN-IR-01",
+        "sha256AtStart": "488c83e1c24dd67b4a169eaa9e6a444c0ce7ef04c064fad13bc7c6380e2c8cd6",
+        "sha256AtEnd": "488c83e1c24dd67b4a169eaa9e6a444c0ce7ef04c064fad13bc7c6380e2c8cd6",
+        "stable": true
+      },
+      {
+        "path": "IMPLEMENTER-BLUEPRINT.md",
+        "role": "§1.1 buildability record and §8.1 isolation requirement",
+        "sha256AtStart": "44f56b7350dbd61ea2588e32988e8369c2a16c33d2d808f76dc77b7780ea0c4a",
+        "sha256AtEnd": "44f56b7350dbd61ea2588e32988e8369c2a16c33d2d808f76dc77b7780ea0c4a",
+        "stable": true
+      },
+      {
+        "path": "IMPLEMENTATION-FREEZE.md",
+        "role": "§3 TM row — the mandate for this review",
+        "sha256AtStart": "49bc501fa8d49c293284c91d5e365e7e831c752b2d694f6e1d857f0b03ba04d3",
+        "sha256AtEnd": "863d5705054dab628946b7379838936757ae1799d46d0b13bd267952177e876a",
+        "stable": false,
+        "driftHandling": "This file MOVED under the review — another lane edited it mid-session, as the tasking warned was possible. I re-verified the only fact this review draws from it AFTER the change, against the new bytes: the §3 TM row at line 378 still reads disposition 'UNSET — BLOCKS FREEZE' with condition 1 of 3 'independently re-review physical ProjectId namespace', and still pins the subject digest 56734a40...c499. The mandate and the pinned subject digest are unchanged, so the drift does not affect this verdict."
+      },
+      {
+        "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+        "role": "pinned by SHA-256 in 40 files including 7 checkers; NOT an input to the verdict, verified untouched only",
+        "sha256AtStart": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+        "sha256AtEnd": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+        "stable": true,
+        "expectedPin": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+        "matchesExpectedPin": true
+      }
+    ],
+    "environment": {
+      "python": "3.14.6",
+      "invocation": "python3 -I -B",
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "machine": "arm64",
+      "hostFilesystemCaseSensitivity": "CASE-INSENSITIVE (probed directly: created 'Foo', 'foo' resolved to it)",
+      "stdlibOnly": true,
+      "networkUsed": false,
+      "note": "The case-insensitivity of this host is load-bearing for observation NB-07 and was measured, not assumed."
+    },
+    "jsonParsingDiscipline": {
+      "rule": "freeze §7.5",
+      "statement": "Every JSON file read in this review was parsed with json.loads under a duplicate-key-rejecting object_pairs_hook that raises on the first repeated key at any depth. I am stating this explicitly as required.",
+      "result": "No duplicate keys were found in any input, including the subject artifact at any depth.",
+      "hook": "def nodup(pairs): seen=set(); for k,_ in pairs: if k in seen: raise ValueError('DUPLICATE KEY: '+repr(k)); seen.add(k); return dict(pairs)"
+    }
+  },
+
+  "verificationOfRequiredCheckerStates": {
+    "note": "Run after this file was written, so these states include this artifact's presence on disk.",
+    "expectedExitZero": [
+      {"checker": "check-claims.py", "exit": 0},
+      {"checker": "check-product-dispositions.py", "exit": 0},
+      {"checker": "check-c2-v9.py", "exit": 0},
+      {"checker": "check-retention-custody-v24.py", "exit": 0},
+      {"checker": "check-d9-v1.14.py", "exit": 0}
+    ],
+    "checkThreatClaims": {
+      "checker": "check-threat-claims.py",
+      "exit": 1,
+      "findings": 2,
+      "assertion": "Exactly 2 findings, both 'T1 ... unqualified confinement claim' against architecture/07-outcomes-and-failure.md and architecture/08-surfaces-and-topology.md. ZERO T13 findings — T13 is the section validating $.storageNamespace. Asserted specifically; the non-zero exit is NOT being read as evidence of a namespace defect.",
+      "preExisting": true,
+      "unchangedByThisReview": true
+    },
+    "packageCoherence": {
+      "checker": "check-package-coherence.py",
+      "exit": 1,
+      "expectedByTasking": "exit 1 with exactly one finding (PC-7 on rust-provider-protocol.v2.json) and no dead link from this file",
+      "measuredFindings": 2,
+      "expectationNotMet": true,
+      "finding1": "PC-7-PINNED-ARTIFACT-IS-REJECTED on artifacts/rust-provider-protocol.v2.json — pre-existing, unrelated to this review, exactly as the tasking predicted.",
+      "finding2": "PC-7-PINNED-ARTIFACT-IS-REJECTED on artifacts/threat-model.v3.json — CAUSED BY THIS REVIEW, and disclosed rather than avoided. See checkerInteractionDisclosure below.",
+      "noDeadLink": {
+        "assertion": "pathsMissing is 0. This file introduces no dead link. Every path it references exists on disk.",
+        "verified": true
+      },
+      "noNewFindingClass": "The second finding is the same PC-7 class, correctly attributed. This review introduced no new finding class, no digest disagreement, no stale head and no missing path."
+    }
+  },
+
+  "checkerInteractionDisclosure": {
+    "why": "The tasking required check-package-coherence.py to end with exactly one finding. It ends with two. I am disclosing this rather than engineering around it, because engineering around it would have required suppressing findings, and that is the exact failure this corpus keeps recording.",
+    "mechanism": "check-package-coherence.py:561 review_state_of() attributes a review to an artifact by filename prefix. The mandated filename for this review, threat-model.v3.storage-namespace.review-independent.json, begins with 'threat-model.v3.' and is therefore read as a review of the whole pinned artifact. The checker then scores the review COUNTS BEFORE PROSE (its own comment at line 631): it reads blockingFindingCount, else len(blockers). Any non-empty blockers array scores REJECT, which trips PC-7 because threat-model.v3.json is pinned as normative in freeze §3 and blueprint §1.1.",
+    "measuredProof": "I verified this directly rather than assuming it. I removed the top-level `verdict` string entirely, keeping only the blockers array, and re-ran the checker: PC-7 still fired twice. The verdict WORD is not what trips it — the blocker COUNT is. I then restored this file byte-for-byte (sha256 99e9ac07962b55d35daf958a3242aba838851a77cd7b01df4e3708f79e257cab) before continuing.",
+    "consequence": "There is no way to file a non-zero number of honest blockers against this subject and still leave check-package-coherence.py at exactly one finding. The only configuration satisfying that constraint is a review reporting zero blockers. The tasking simultaneously instructed me to attempt rejection, to emit a `blockers` array, and to use a filename that couples this review to the pinned artifact.",
+    "whatIDidNotDo": [
+      "I did not delete, downgrade or merge any blocker to quiet the checker.",
+      "I did not rename the `blockers` field, nest it out of reach, or restructure the verdict object so review_state_of() would score UNCLEAR. That shape exists and I confirmed it would work; using it would have been gaming a guard, which check-package-coherence.py's own source calls out as 'how a guard becomes a rubber stamp'.",
+      "I did not move or rename this file away from the mandated path."
+    ],
+    "howToReadTheSecondPC-7": "It is directionally TRUE but over-scoped in attribution. This review rejects $.storageNamespace — 24,955 of 90,708 canonical bytes, roughly 28% of the artifact — and explicitly excludes five PI-* items. It does NOT reject the whole of threat-model.v3.json, and it does not set TM's disposition. The checker has no representation for a subtree-scoped review, so it necessarily promotes a scoped rejection to an artifact-level one.",
+    "suggestedRepairToTheCHECKER_notThisArtifact": "If the coordinator wants scoped reviews to stop over-triggering PC-7, the structural fix is for a review to declare its subject extent (e.g. a `subject.jsonPointer` plus the subtree digest, both of which this file already carries) and for review_state_of() to score an artifact-level state only from reviews whose declared extent is the whole file. That is a checker change and is explicitly NOT something this review is authorised to make — this review writes exactly one file and changes nothing else."
+  },
+
+  "whatIDidNotCheck": [
+    "The five PI-* runtime observations — deliberately excluded, see scopeExcluded. I offer no opinion on whether the product will actually publish independent regular files, and I could not have formed one.",
+    "I did not build, run, or simulate any storage engine, filesystem layout, purge, or migration. Every finding is derived from the specification text and from static cross-reference. The one filesystem operation I performed was the case-sensitivity probe on this host, which touched only scratch space.",
+    "I did not verify the crash-recovery tables are COMPLETE with respect to all physically reachable crash points. I verified only what the checker verifies — that every fixture maps to exactly one table row, that observation strings are unique, and that the declared state sets are closed. A crash state that nobody wrote a row for would not be caught by that method, nor by mine. SN-IR-03 is one instance I found by a different route (device precondition), and I do not claim it is the only one.",
+    "I did not attempt a full adversarial closure of the migration state machine's interaction with the purge state machine. Specifically: whether a non-COMPLETE purge journal on a source root can coexist with an in-flight migration of that same ProjectId. My reading is that purge's 'Storage admission for that ProjectId refuses while any non-COMPLETE journal exists' blocks migration from admitting the source, but I did not drive that to a conclusion and it should not be treated as cleared.",
+    "The asymmetry where purge journals live in the admitted root (<admittedStorageRoot>/control/purge/) while migration journals and the authority record live in the user state root — I noted it but did not establish whether an incomplete purge on a root that is later migrated away from becomes undiscoverable. Left open deliberately rather than guessed at.",
+    "I did not review $.storageNamespace's siblings — deletionProtocol, storageExposureDetectors, projectionSafety, trustBoundaries, findings, resolves, shipGate — except where I needed them to confirm a rule was absent rather than merely relocated. A rule I claim is missing could in principle live in a sibling I only searched by keyword.",
+    "I did not verify that the 40 files pinning ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md all agree on its digest. I verified only that the file itself still hashes to 47df412d...42e2e and I did not modify it.",
+    "The two pre-existing T1 findings in check-threat-claims.py (unqualified confinement claims in architecture/07-outcomes-and-failure.md and architecture/08-surfaces-and-topology.md) were recorded but not investigated. They are outside this subject and I did not determine whether they are new drift from another lane this session or long-standing.",
+    "I did not determine whether SN-IR-01/02/03 were previously raised and dispositioned by reviewer-1, reviewer-2, reviewer4 or reviewer7. I searched the reviewer7 storage reviews for root-identity and authority-record language and found the closest prior finding to be about quarantine path/identity/discovery rules, which was repaired. I found no prior finding on root selection or root identity, but my search was keyword-based and I cannot exclude that one exists under different wording."
+  ],
+
+  "reviewerStatement": "I was instructed to attempt rejection and I did. The design defeated several of the attacks I was pointed at — case-insensitive collision on this genuinely case-insensitive host, Unicode normalisation, path traversal, directory rename orphaning durable artifacts, and derivation of identity from mutable state — and it defeated them by construction rather than by enumeration, which is the right shape. The strongest attack I could not defeat is that the physical namespace is a PAIR, (admitted root, ProjectId), and only one half of that pair is bound by any rule. activeRootId exists as a durable field with zero specified consumers anywhere in the corpus, which is the cleanest single piece of evidence that the root half of the isolation boundary is named rather than enforced. That is what makes this REJECT rather than an accept-with-observations."
+}

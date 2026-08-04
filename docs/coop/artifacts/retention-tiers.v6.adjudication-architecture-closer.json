@@ -1,0 +1,314 @@
+{
+  "artifact": "opensip.retention-custody.finding-adjudication",
+  "version": 1,
+  "date": "2026-07-31",
+  "adjudicator": "architecture-closer (author of the rejected v5)",
+  "sourceReview": "artifacts/retention-tiers.v5.review-reviewer3.json",
+  "reviewVerdict": "DO-NOT-SEAL, seven OPEN findings",
+  "scope": "Phase 1A proof/retention/custody lane only. Shared TM/OPERABILITY/register integration is DEFERRED — see integrationPatch, which is specified but NOT applied.",
+  "independenceDisclosure": {
+    "statement": "This adjudication is written by the author of the rejected artifact. It is not an independent review and must not be read as one.",
+    "consequence": "Every repair below is SPECIFIED with checker coverage. None is DISCHARGED, QUALIFIED or DEMONSTRATED. Reviewer-3's core methodological point — a green authored checker is checker-scope evidence only — applies to this pass exactly as it applied to v5.",
+    "requiredNext": "Independent re-review by an agent that authored neither evaluation-proof.v1, retention-tiers.v6, nor any of the three checkers."
+  },
+  "producedArtifacts": [
+    {
+      "path": "artifacts/evaluation-proof.v1.json",
+      "role": "exact proof object graph (R3-RTV5-01)"
+    },
+    {
+      "path": "artifacts/check-evaluation-proof.py",
+      "role": "recomputes every commitment; 6 positive vectors, 15 adversarial negatives, 10 mutations"
+    },
+    {
+      "path": "artifacts/retention-tiers.v6.json",
+      "role": "closure, lease, lineage, D9 derivation, authority (R3-RTV5-02..07)"
+    },
+    {
+      "path": "artifacts/check-retention-custody.py",
+      "role": "imports live D9 derivation; 10 derived rows, 8 closure / 6 lease / 4 purge fixtures, 15 mutations"
+    },
+    {
+      "path": "artifacts/retention-tiers.v5.json",
+      "role": "RETAINED as rejected historical candidate; not deleted"
+    }
+  ],
+  "findings": {
+    "R3-RTV5-01": {
+      "decision": "ACCEPTED",
+      "severity": "CRITICAL",
+      "repair": "New versioned binding artifacts/evaluation-proof.v1.json rather than an overload of retention. Proof obligations are declared per claim shape. Relationship matches require an ordered edge witness with endpoints, relationKind and a resolvable factRef plus a relationSemanticsRef — subject/span metadata cannot satisfy them. Verdict derivation recomputes the complete outcome-set commitment over every activated evaluation. no-match and aggregate sets are recomputed from the retained fact partition, not asserted. One canonical commitment grammar replaces the two conflicting ones: domain-tagged, length-prefixed, deduplicated, sorted, full 64-hex, truncation FORBIDDEN.",
+      "closesProbes": {
+        "R3-PROBE-01": "EP-NEG-01 — span-only relationship rejected by EP-2",
+        "R3-PROBE-02": "EP-NEG-02 — arbitrary outcomeSetCommitment rejected by EP-5",
+        "R3-PROBE-03": "EP-NEG-03 — factPartitionPinned boolean rejected by EP-1"
+      },
+      "adversarialCoverage": [
+        "EP-NEG-04 same-cardinality subject substitution (count preserved, set changed)",
+        "EP-NEG-06 well-formed but unresolvable reference",
+        "EP-NEG-09 universe commitment that does not recompute",
+        "EP-NEG-10 truncated digest",
+        "EP-NEG-11 indeterminate absorbed into a pass"
+      ],
+      "checkerCoverage": "check-evaluation-proof.py — base clean, 10 mutations all rejected, including one that undoes the substitution to prove the recompute-and-compare path is load-bearing rather than a cardinality count.",
+      "residualEvidence": "Positive vectors and checker share one author. evidence.v1's own boolean-pin branch is NOT edited here; the deferred patch moves the EVIDENCE binding to this contract instead.",
+      "status": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED — independent goldens still required"
+    },
+    "R3-RTV5-02": {
+      "decision": "ACCEPTED",
+      "severity": "HIGH",
+      "repair": "retention-tiers.v6 capabilityClosure binds a host-owned capability-requirement closure mapping every reference in the proof graph to exactly one retention unit at the MINIMUM capability that needs it, with a recomputable closure commitment. RC-12 adds the rule v5 lacked entirely: a unit is available only if EVERY object it contains is available, so partial availability retains no authority.",
+      "closesCounterexample": "R3-RTV5-CE-03 — CL-NEG-01 (omitted predicate-semantics unit) and CL-NEG-03 (predicate unit downgraded to replayable while a verifiable no-match depends on it) both reject via RC-11.",
+      "checkerCoverage": "8 closure fixtures: 3 accepting (including replay-closure loss demoting replayable→verifiable), 5 rejecting (omission, alias, downgrade, non-recomputing commitment, partial availability).",
+      "residualEvidence": "The closure is derived from a proof graph the same author designed. Cost of recomputing it for a Run with many thousands of units is unmeasured.",
+      "status": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED"
+    },
+    "R3-RTV5-03": {
+      "decision": "ACCEPTED",
+      "severity": "HIGH",
+      "repair": "Boolean resolvedAtAdmission is replaced by resolve-and-pin: ONE ledger transaction that resolves effective capability and acquires a durable read lease. Read leases and purge leases share one lock domain ordered by ledger sequence, so a purge cannot miss a reader. Six transitions LP-1..LP-6 cover purge-vs-held-lease (rejected, retryable), purge-before-admission, PURGE-PREPARED tombstone, crash reclamation, expiry-during-use, and idempotent retry.",
+      "closesCounterexample": "R3-RTV5-CE-04 — LP-5 states expiry does not preempt a live lease and LP-1 states purge is rejected rather than racing, which is the actual TOCTOU closure.",
+      "checkerCoverage": "6 lease fixtures, each bound to a transition and to a D9 row that must DERIVE. Mutations prove the atomicity declaration, the durable lease record, and the contention outcome are all load-bearing.",
+      "residualEvidence": "Specification only. No crash-injection harness and no real ledger. v6 explicitly states it does not claim runtime atomicity from a document.",
+      "status": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED"
+    },
+    "R3-RTV5-04": {
+      "decision": "ACCEPTED — v5's promise is WITHDRAWN, not defended",
+      "severity": "HIGH",
+      "repair": "v5 promised targeted purge removes the selected material AND leaves unrelated Runs untouched AND never rewrites sealed identity. Reviewer-3 proved those three cannot all hold for a shared partition. The purge key is now the content-addressed OBJECT within one ProjectId namespace. Objects containing the selection are partitioned into UNBLOCKED (removed) and BLOCKED (retained and reported with blocking Run IDs), matching threat-model deletionProtocol.sharedObjectRule. Removing blocked material requires explicitly purging the blocking Runs — a separate stronger operation, consistent with architecture/06 'reports blocked pins and requires an explicit stronger operation to break them'.",
+      "closesCounterexample": "R3-RTV5-CE-05 — PF-02 asserts the shared partition is reported blocked, never removed; PF-03 asserts no out-of-scope Run is demoted.",
+      "honestNarrowing": "Subject-level isolation inside a shared partition is NOT provided. This is carried as residual RC-R-01 and must reach the product contract: a user asking to purge a subject may be told the subject survives in shared retained material.",
+      "checkerCoverage": "4 purge fixtures; the removed/blocked partition is RECOMPUTED from reachability rather than trusted. Mutations reject removing a blocked object and demoting an out-of-scope Run.",
+      "residualEvidence": "Joined against storage-namespace.adjudication-admission-storage-lane.v1 at a point in time. If that lane changes reference-count or purge semantics these rules must be re-derived.",
+      "status": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED"
+    },
+    "R3-RTV5-05": {
+      "decision": "ACCEPTED",
+      "severity": "HIGH",
+      "repair": "RC-10 no longer checks vocabulary membership. check-retention-custody.py imports check-d9.py — which d9-exit-contract.v1.6 names as referenceDerivation.implementation — and asserts each row's declared class and code are what derive_class/derive_codes DERIVE from complete axes. Ten rows now distinguish terminal authorized loss (REQUEST.UNSATISFIABLE) from transient outage (HOST.IO_FAILURE), ledger corruption (LEDGER.CORRUPT), object materialisation failure (CAS.LINK_FAILED), missing identity with and without a tombstone (IDENTITY.EXPIRED / IDENTITY.UNKNOWN), lease contention (LEDGER.BUSY_TIMEOUT) and the previously omitted admitted completeness query (QUERY.COMPLETENESS_UNMET → indeterminate).",
+      "closesProbe": "R3-PROBE-04 — a wrong class carrying an in-vocabulary code is now rejected by derivation.",
+      "closesCounterexample": "R3-RTV5-CE-06 — transient OUTAGE no longer shares a code with terminal purge; a dedicated check rejects that collapse.",
+      "d9NotReopened": "No new reason or error code. Every required distinction already existed in D9's closed maps, so d9-exit-contract.v1.6 is untouched and its 44 goldens are undisturbed.",
+      "checkerCoverage": "requiredDistinctions makes coverage itself checkable — dropping a row now fails rather than silently removing a remedy class.",
+      "residualEvidence": "The rows enumerate situations this contract knows about. Totality over all future operations is not proved.",
+      "status": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED"
+    },
+    "R3-RTV5-06": {
+      "decision": "ACCEPTED WITHOUT QUALIFICATION — this was an authority inversion",
+      "severity": "CRITICAL",
+      "repair": "Every PRODUCT-SIGNED-OFF claim is removed. v6 status is CANDIDATE-AWAITING-INDEPENDENT-REVIEW and the default posture is AWAITING-PRODUCT-DISPOSITION. The candidate RECOMMENDS zero implicit durable retention and states consequences both if accepted and if replaced; it records no acceptance. check-retention-custody.py now cross-reads product-dispositions.v1.json and fails if the candidate's reported CD-RT-5 state disagrees with the live product authority, or if any status-valued field asserts sign-off.",
+      "closesProbe": "R3-PROBE-06 — the checker no longer trusts the reviewed artifact's own status string.",
+      "processNote": "The v5 sign-off originated from an in-session product answer. Reviewer-3 is right that this is not the mechanism: product acceptance lives in product-dispositions.v1.json, written by product authority, not in an architecture candidate's status field. The repair prompt confirms CD-RT-5 remains BLOCKED_ON_PHASE_1A.",
+      "checkerCoverage": "Two mutations — restoring the self-signoff, and misreporting the live authority state — both rejected.",
+      "status": "REPAIRED; CD-RT-5 remains BLOCKED_ON_PHASE_1A and is not this lane's to close"
+    },
+    "R3-RTV5-07": {
+      "decision": "ACCEPTED",
+      "severity": "HIGH",
+      "repair": "v6 carries an integrationState block that holds threat-model V10, operability G19, product CD-RT-5, the claim register and the open-decisions narrative as explicitly PENDING, plus a forbiddenClaims list. The checker asserts sealRecommendation stays DO NOT SEAL, that no 'resolves' block exists, and that the three named cross-artifact targets are held pending.",
+      "liveDefectFound": {
+        "severity": "MUST-FIX-BEFORE-ANY-FREEZE",
+        "what": "threat-model.v3.json currently states V10.status=RESOLVED, kind=RESOLVED-BY-DISPOSITION, citing artifacts/retention-tiers.v5.json — the artifact reviewer-3 has now REJECTED. Its residualRisks line likewise says 'V10 resolved by disposition'.",
+        "howItHappened": "The v5 authoring pass applied cross-artifact integration before independent review returned. That is precisely the premature convergence R3-RTV5-07 names.",
+        "whyNotFixedHere": "threat-model.v3.json and check-threat-claims.py are on this lane's do-not-edit list. The exact revert is specified in integrationPatch.PATCH-01/02 and must be applied by whoever owns that file.",
+        "currentRisk": "check-threat-claims.py passes because the T12 guard verifies the cited disposition exists and is well formed — v5 still exists and still is. The guard cannot know v5 was rejected. Until PATCH-01 lands, a reader or completeness instrument can conclude V10 is closed."
+      },
+      "status": "REPAIRED IN THIS LANE; cross-artifact revert DEFERRED and specified"
+    }
+  },
+  "integrationPatch": {
+    "status": "SPECIFIED-NOT-APPLIED",
+    "rule": "None of these edits may be applied by this lane. They are serialized behind: (1) independent re-review of evaluation-proof.v1 and retention-tiers.v6, (2) product recording CD-RT-5, (3) the other repair lanes finishing, (4) one converged green suite run.",
+    "orderingConstraint": "PATCH-01 and PATCH-02 are a REVERT of premature state and should be applied as soon as the owning lane can, independently of the rest — leaving them unapplied is the only live incorrectness in the tree.",
+    "patches": [
+      {
+        "id": "PATCH-01",
+        "file": "artifacts/threat-model.v3.json",
+        "jsonPath": "findings[id=V10]",
+        "action": "REVERT to pre-v5 state",
+        "from": {
+          "status": "RESOLVED",
+          "kind": "RESOLVED-BY-DISPOSITION",
+          "resolution": "{dispositionArtifact: artifacts/retention-tiers.v5.json, ...}"
+        },
+        "to": {
+          "status": "UNRESOLVED",
+          "kind": "UNRESOLVED-CONTRADICTION",
+          "resolution": "REMOVE THE KEY ENTIRELY"
+        },
+        "alsoRestore": {
+          "title": "Durable explainability and minimal retention remain in unresolved tension",
+          "whyNoMitigation": "This is a load-bearing architecture choice, not a local mitigation. Candidate history is retained below but has no authority."
+        },
+        "why": "R3-RTV5-07. V10 must stay visibly unresolved until the repaired candidate passes independent review and product records CD-RT-5."
+      },
+      {
+        "id": "PATCH-02",
+        "file": "artifacts/threat-model.v3.json",
+        "jsonPath": "residualRisks",
+        "action": "REPLACE the V10 entry",
+        "from": "V10 resolved by disposition (retention-tiers.v5 plus evidence.v1). …",
+        "to": "V10 remains unresolved. retention-tiers.v6 plus evaluation-proof.v1 are the current architecture candidates awaiting independent re-review; retention-tiers.v5 was rejected by reviewer-3.",
+        "why": "check-threat-claims.py T12 requires the literal phrase 'V10 remains unresolved' in residualRisks whenever V10 is UNRESOLVED. PATCH-01 without PATCH-02 turns the suite red."
+      },
+      {
+        "id": "PATCH-03",
+        "file": "artifacts/check-threat-claims.py",
+        "action": "NO CHANGE REQUIRED",
+        "why": "The evidence-gated T12 guard already handles both branches correctly. Optional hardening once a rejection registry exists: require that a cited disposition is not listed as rejected by any review artifact. Not specified as binding here because no such registry exists yet."
+      },
+      {
+        "id": "PATCH-04",
+        "file": "artifacts/claim-register.v1.json",
+        "jsonPath": "claims[id=ARCH.RETENTION-TIERS]",
+        "action": "REVERT status and REPOINT binding",
+        "to": {
+          "status": "REOPENED",
+          "bindingArtifact": "artifacts/retention-tiers.v6.json",
+          "validator": "artifacts/check-retention-custody.py",
+          "invariants": [
+            "RC-1 … RC-14"
+          ],
+          "sealBlockers": [
+            "R3-RTV5-01..07 repaired but NOT independently re-reviewed; v5 was rejected DO-NOT-SEAL",
+            "CD-RT-5 remains BLOCKED_ON_PHASE_1A with the product authority",
+            "A1-RTV4-02 measurement open — no orders-of-magnitude retention claim authorized",
+            "RC-R-01 subject-level isolation inside shared partitions is not provided",
+            "RC-R-02 deduplicated/backup-held deletion remains storage-architecture work"
+          ],
+          "appendReviewArtifacts": [
+            "artifacts/retention-tiers.v5.review-reviewer3.json",
+            "artifacts/retention-tiers.v6.json",
+            "artifacts/evaluation-proof.v1.json",
+            "artifacts/retention-tiers.v6.adjudication-architecture-closer.json"
+          ]
+        },
+        "why": "The v5 pass moved this claim to CANDIDATE. Reviewer-3 rejected v5, so the register must return to REOPENED until re-review passes."
+      },
+      {
+        "id": "PATCH-05",
+        "file": "artifacts/claim-register.v1.json",
+        "jsonPath": "claims[id=TM]",
+        "action": "RESTORE the V10 seal blocker removed by the v5 pass",
+        "to": "V10 remains an unresolved evaluation-proof and retention-custody architecture choice; durable-authoritative Runs that require it are excluded until independently resolved",
+        "why": "Symmetric with PATCH-01."
+      },
+      {
+        "id": "PATCH-06",
+        "file": "artifacts/claim-register.v1.json",
+        "jsonPath": "claims[id=EVIDENCE]",
+        "action": "REPOINT proof obligations and add a blocker",
+        "to": {
+          "note": "append: proof-shape obligations are superseded by artifacts/evaluation-proof.v1.json, which makes commitments recomputable. R3-PROBE-01..03 reproduced accepted proof holes in evidence.v1 and check-evidence.py: a span-only relationship match, an unrecomputed verdict digest, and a boolean factPartitionPinned accepted in place of a content-addressed reference.",
+          "appendSealBlocker": "check-evidence.py retains a transitional boolean-pin branch and presence-only verdict validation (R3-PROBE-02/03). Either repoint EVIDENCE at evaluation-proof.v1 or remove those branches."
+        },
+        "why": "R3-RTV5-01. evidence.v1 is not edited by this lane; the defect must remain visible until its owner acts."
+      },
+      {
+        "id": "PATCH-07",
+        "file": "artifacts/operability.v2.json",
+        "jsonPath": "requiredPropertyRegistry G19",
+        "action": "NO CHANGE — remains BLOCKED-NO-MECHANISM",
+        "why": "R3-RTV5-07. Nothing in this lane qualifies or demonstrates a product property; AS-5 forbids a design-integrity checker unblocking a gate."
+      },
+      {
+        "id": "PATCH-08",
+        "file": "artifacts/product-dispositions.v1.json",
+        "jsonPath": "pendingDecisions.CD-RT-5",
+        "action": "PRODUCT AUTHORITY ONLY — not this lane",
+        "proposedWhenUnblocked": {
+          "recommendation": "accept zero implicit durable retention as specified in retention-tiers.v6 custodyPolicy.recommendedDefaultPosture",
+          "precondition": "independent re-review of evaluation-proof.v1 and retention-tiers.v6 passes first",
+          "consequenceToAcknowledge": "RC-R-01 — a targeted subject purge may report that the subject survives in shared retained material"
+        },
+        "why": "PD-5 keeps the row visibly blocked until Phase 1A supplies the missing architecture input. This lane supplies a candidate, not an acceptance."
+      },
+      {
+        "id": "PATCH-09",
+        "file": "artifacts/versioning-policy.v2.json",
+        "action": "JOIN REQUIRED — not applied",
+        "requiredFields": [
+          "whether a predicateSemanticsRef remains rehydratable across a rule-IR major, since evaluation-proof.v1 EP-3 requires historical predicate semantics to be resolvable for later verification",
+          "the support window during which a retained predicate/policy object must remain interpretable"
+        ],
+        "why": "evaluation-proof.v1 depends on historical predicate semantics being resolvable. If VERSIONING cannot promise that, verifiable degrades to recorded after a rule-IR major and the retention model must say so."
+      },
+      {
+        "id": "PATCH-10",
+        "files": [
+          "architecture/06-evidence-and-persistence.md",
+          "architecture/09-open-decisions.md",
+          "architecture/11-traceability.md"
+        ],
+        "action": "REVERT the v5-era prose written by the previous pass",
+        "to": {
+          "06": "ARCH.RETENTION-TIERS returns to REOPENED; remove the claim that the V10 fork is closed; cite retention-tiers.v6 + evaluation-proof.v1 as candidates awaiting re-review",
+          "09": "restore Threat model to DO-NOT-SEAL with V10 blocking; restore the retention row to REOPENED",
+          "11": "mark retention-tiers.v5 as REJECTED (reviewer-3) and add v6 + evaluation-proof.v1 as unreviewed candidates"
+        },
+        "why": "R3-RTV5-07. The prose currently asserts a closure that independent review rejected."
+      },
+      {
+        "id": "PATCH-11",
+        "file": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+        "action": "REVERT the Phase 1A 'EXIT MET' note and its change-log row",
+        "to": "Phase 1A remains OPEN. First authoring pass rejected by reviewer-3 (DO-NOT-SEAL, 7 findings). Second pass produced evaluation-proof.v1 + retention-tiers.v6, awaiting independent re-review and product CD-RT-5.",
+        "why": "R3-RTV5-07 and the exit condition: Phase 1A does not close because authored checkers pass."
+      },
+      {
+        "id": "PATCH-12",
+        "file": "artifacts/check-product-dispositions.py",
+        "action": "REPOINT + DECOUPLE FIXTURE — owning lane, not this one",
+        "observedNow": {
+          "mainCheck": "RED — 'PD-RT: retention candidate self-asserts CD-RT-5 product sign-off while the product authority still marks it BLOCKED_ON_PHASE_1A'",
+          "cause": "RETENTION_PATH hardcodes artifacts/retention-tiers.v5.json, which self-asserts PRODUCT-SIGNED-OFF",
+          "interpretation": "This red is CORRECT. It is R3-RTV5-06 being independently detected by the product lane. It is not a regression introduced by this repair pass — v5 has self-signed since it was authored."
+        },
+        "measured": {
+          "v5": "PD-RT fires = True",
+          "v6": "PD-RT fires = False"
+        },
+        "requiredChange": [
+          "repoint RETENTION_PATH to artifacts/retention-tiers.v6.json — the main check then goes green because v6 is AWAITING-PRODUCT-DISPOSITION and reports the live product state",
+          "BEFORE repointing, replace the selftest's known-bad fixture: selftest currently feeds the LIVE retention artifact through validate() and FAILS if PD-RT does not fire. Once the live candidate is repaired, that assertion inverts. Inline a small v5-shaped self-signing fixture instead of reading the live file."
+        ],
+        "whyNotAppliedHere": "check-product-dispositions.py belongs to the product-disposition lane. Repointing it without also decoupling its fixture would turn its selftest red, which is exactly the 'do not weaken either contract' case. Reported rather than edited.",
+        "doNotDo": "Do not delete or soften PD-RT. It is the check that caught the authority inversion."
+      }
+    ]
+  },
+  "verification": {
+    "changedOrNewCheckers": [
+      "python3 artifacts/check-evaluation-proof.py",
+      "python3 artifacts/check-evaluation-proof.py --selftest",
+      "python3 artifacts/check-retention-custody.py",
+      "python3 artifacts/check-retention-custody.py --selftest"
+    ],
+    "cleanBaseRefusal": "Both checkers refuse to run their mutation suite against a failing base, so a red base cannot mask a false all-green (the failure evidence.v1 recorded).",
+    "d9Untouched": "check-d9.py and d9-exit-contract.v1.6.json are read, never written. check-retention-custody.py imports the derivation rather than reimplementing it."
+  },
+  "assurance": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "independentRereview": "REQUIRED",
+    "productReleaseState": "NOT-RELEASE-QUALIFIED",
+    "explicitNonClaims": [
+      "V10 is NOT resolved",
+      "TM is NOT sealed",
+      "OPERABILITY G19 is NOT unblocked",
+      "CD-RT-5 is NOT signed",
+      "ARCH.RETENTION-TIERS is NOT sealed",
+      "Phase 1A is NOT complete",
+      "no property is QUALIFIED or DEMONSTRATED"
+    ]
+  },
+  "preservedConstraints": [
+    "C-1 predicate-relative sufficiency preserved; no global fact tier introduced",
+    "one-shot host + pure core preserved; the lease protocol is specified for cross-process one-shot execution rather than assuming residency",
+    "offline operation preserved; no network dependency introduced",
+    "v1 slice exclusions preserved; Probe and third-party imperative remain excluded",
+    "A1-RTV4-02 retained as a measurement residual and not used to reopen a decided proof shape",
+    "no product Rust code written"
+  ],
+  "result": "CANDIDATE READY FOR INDEPENDENT RE-REVIEW. Not accepted, not sealed, and not integrated."
+}

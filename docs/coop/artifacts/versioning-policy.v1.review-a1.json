@@ -1,0 +1,99 @@
+{
+  "artifact": "opensip.versioning-policy.review",
+  "reviewOf": "opensip.versioning-policy v1 (CANDIDATE-UNREVIEWED)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "medium-high",
+  "method": [
+    "Re-derived classification axes for contracts without reading custodyClasses first: asked 'who breaks if this shape changes?' for baselines, envelope, exit codes, storage, fact schema, agent protocol.",
+    "Compared independent classification to author's USER/CONSUMER/AUTHOR/INTERNAL custody.",
+    "Traced V7 (custody follows reachability) against INTERNAL freedom claim for silent reclassification risk.",
+    "Checked VT-* conformance tests for vacuity (assert text without a failing case or declared migrator artifact).",
+    "Cross-read delivery.v1 knownLimitation air-gap vs migrator (author already flags interaction unexamined).",
+    "Framing check: is custody-by-holder novel and load-bearing, or a rename of 'compatibility importance'?"
+  ],
+  "whatCouldHaveFailed": [
+    "Custody axis collapses under agent-protocol or evidence-query surfaces",
+    "USER-CUSTODY policy lacks migrator while VT-02 claims every such contract has one",
+    "Support windows presented as evidence",
+    "V7 silently moves INTERNAL layouts into USER-CUSTODY mid-design without a trigger",
+    "Exit-class additive rule conflicts with D9 history"
+  ],
+  "framingVerdict": {
+    "custodyAxisIsRight": true,
+    "detail": "Who holds the artifact is the correct primary axis. Baselines in git and envelope shape in CI scripts are different problems; importance-feeling would mis-order them. This is not a rename of severity — dualEmit and migrator-required only make sense for user-held identities.",
+    "whatWouldChangeMyMind": "A counterexample contract where holder and blast-radius diverge so hard that custody-based policy produces a silent gate failure."
+  },
+  "findings": [
+    {
+      "id": "A1-VER-01",
+      "severity": "high",
+      "title": "VT-02 is currently vacuous: USER-CUSTODY requires migrators that are not specified",
+      "detail": "Policy says breaking USER-CUSTODY change requires a migrator; VT-02 asserts every USER-CUSTODY contract has a declared migrator path. Members include fingerprint recipe/baselines, tracked config, waivers, lockfile — none have a migrator design in this artifact or a referenced schema. knownLimitations admits this. By the operability principle the author uses elsewhere, a gate with no failing case and no subject is unproven.",
+      "requiredFix": "For each USER-CUSTODY member, declare migratorId + preview surface + idempotence claim, or mark VT-02 as NOT-YET-ENFORCEABLE and remove it from sealedPropertiesCovered discharge lists until real.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-VER-02",
+      "severity": "high",
+      "title": "Air-gap vs migrator conflict is a first-class hole, not a side note",
+      "detail": "USER-CUSTODY breaking changes require migrators. Offline/air-gap (product hard constraint) means the user cannot fetch a migrator. delivery.v1 records this unsolved. A versioning policy that mandates migrators without an offline migrator distribution story will force either network dependency or stuck INDETERMINATE forever for air-gapped fleets.",
+      "requiredFix": "State offline migrator packaging: migrators ship in-release (same as grammars per TM V7), or breaking USER-CUSTODY changes are forbidden until an in-box migrator exists. Link explicitly to delivery air-gap decision; do not leave as knownLimitation only.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-VER-03",
+      "severity": "medium-high",
+      "title": "V7 silent reclassification needs an explicit review trigger",
+      "detail": "V7 correctly says anything reachable from a retained Run is USER-CUSTODY by definition. That can reclassify a layout previously labelled INTERNAL the moment a Run pins it — without a design review. Freedom of INTERNAL is then lost silently (the failure mode the INTERNAL class exists to prevent, inverted).",
+      "requiredFix": "Add rule: any change that makes a byte sequence reachable from a retained Run is a versioning review event; CI check that evidence reachability graph never points at paths labelled INTERNAL in the inventory.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-VER-04",
+      "severity": "medium",
+      "title": "Agent protocol surface may not fit pure CONSUMER-CUSTODY",
+      "detail": "peerReviewRequired already asks this. Independent view: CI scripts are durable consumers that pin majors; agents are ephemeral and often want 'latest host' with typed negotiation each session. One overlap window policy for both is workable but the failure modes differ (silent reshape vs session skew). Sub-class or note agents must re-handshake every session and never cache envelope majors across host upgrades without re-advertise.",
+      "requiredFix": "Split agent-protocol negotiation note: session-scoped advertise/refuse; no multi-release dual-serve obligation solely for agents unless a durable agent runtime exists.",
+      "confidence": "medium"
+    },
+    {
+      "id": "A1-VER-05",
+      "severity": "medium",
+      "title": "Support windows must be marked GUESSED in the binding object, not only in a caveat paragraph",
+      "detail": "supportWindows.caveat is honest. Consumers of the JSON may still read majorsSupported: 2 as a commitment. Seal blockers already say judgment not evidence — promote that into each numeric field as evidenceGrade: guessed.",
+      "requiredFix": "Add evidenceGrade per window; forbid SEAL while any window is guessed without product disposition.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-VER-06",
+      "severity": "low-medium",
+      "title": "Evidence/Run manifest schema custody is not listed in versionedIdentities",
+      "detail": "Consumers query Runs via typed operations (CONSUMER). Physical storage is INTERNAL. The sealed Run manifest shape is in between: user-held durable meaning, host-written. Missing identity risks treating Run manifest as free-to-break INTERNAL.",
+      "requiredFix": "Add runManifestSchema (USER-CUSTODY or CONSUMER-CUSTODY with V7 reachability) to versionedIdentities.",
+      "confidence": "medium-high"
+    }
+  ],
+  "positiveObservations": [
+    "Core principle is correct and non-obvious.",
+    "Exit classes additive-only forever is right for CI.",
+    "Fingerprint recipe independent of fact schema is correctly elevated.",
+    "Unsupported USER-CUSTODY version → INDETERMINATE never silent re-interpret is the load-bearing gate property.",
+    "Author correctly flags solo authorship and guessed windows."
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal. Custody framing is merited; migrator/air-gap and V7 trigger are seal blockers.",
+  "whatWouldChangeMyMind": "Concrete in-release migrator contract for baselines+config plus air-gap packaging rule, and a reachability≠INTERNAL checker sketch.",
+  "knownLimitations": [
+    "Did not design migrators.",
+    "Did not verify D9 exit class history superset property across v1–v1.4 files byte-for-byte (VT-06 intent only)."
+  ],
+  "sealedPropertiesCovered": [
+    "skipped releases never mass-invalidated (policy intent)",
+    "consumers pin major / typed refusal",
+    "storage schema private"
+  ]
+}

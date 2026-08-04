@@ -1,0 +1,265 @@
+{
+  "artifact": "opensip.review.to-ec-invariants",
+  "version": 1,
+  "reviewOf": "artifacts/scope-correction-a3.v3.json#invariants",
+  "reviewer": "agent-b",
+  "reviewerRole": "REVIEWER-B",
+  "date": "2026-07-30",
+  "status": "REVIEW-COMPLETE",
+  "method": [
+    "Treated each invariant as a universal proposition and separately asked whether its falsifiedBy sentence logically falsifies that proposition.",
+    "Built an interaction matrix across TO pairs and EC pairs instead of assessing each sentence in isolation. This found contradictions that a per-row source crosswalk misses.",
+    "Kept process termination class, policy verdict, reason/error diagnostics, evidence authority, and attempt identity as separate types while reviewing wording.",
+    "Grounded disputed interactions against architecture/02, /03, /05, /07, /08, versioning-policy.v1, and the retained D9 v1.5 semantic classes/invariants.",
+    "Did not treat RESTORED/NARROWED labels or author-provided falsifiers as evidence of correctness."
+  ],
+  "whatCouldHaveFailed": [
+    "A locally plausible invariant could contradict a different invariant in the same set.",
+    "A correct safety principle could be stated with the wrong scope and prohibit valid advisory or recovery behavior.",
+    "An exit class could be confused with a precise user remedy even though reason codes deliberately refine it.",
+    "A whole-Run parity assertion could be impossible because attempt identity must differ.",
+    "Fail-closed wording could collapse verdict and termination after the set explicitly separates them.",
+    "A falsifier could reject a valid stronger implementation or merely restate the invariant's negation."
+  ],
+  "summary": {
+    "overall": "The set is not correct as a whole. Five propositions are correct as stated, five are sound only with scope edits, four are partly correct but require substantive rewrite, four are incorrect as stated, and TO-8 is an unsettled compatibility policy rather than an established invariant.",
+    "correctAsStated": ["TO-4", "TO-6", "EC-2", "EC-5", "EC-6"],
+    "correctWithScopeOrPrecisionEdits": ["TO-1", "TO-2", "TO-3", "EC-3", "EC-4"],
+    "partlyCorrectRequiresRewrite": ["TO-5", "TO-10", "EC-7", "EC-8"],
+    "incorrectAsStated": ["TO-7", "TO-9", "TO-11", "EC-1"],
+    "unsettledPolicyNotEstablishedInvariant": ["TO-8"]
+  },
+  "perInvariant": [
+    {
+      "id": "TO-1",
+      "propositionVerdict": "CORRECT-WITH-SCOPE-EDIT",
+      "falsifierVerdict": "PARTIAL",
+      "assessment": "One total host termination algebra is the correct architecture. 'Every command kind' does not clearly include pre-admission failures, process-start failures, or the controlled stop of a long-lived server, and it does not exclude SIGKILL/runtime death outside host control.",
+      "requiredWording": "Every host-controlled termination of a finite invocation, including pre-admission and non-analysis commands, resolves to exactly one named HostTermination class. Long-lived commands acquire a termination only when they stop; uncontrollable process death is explicitly outside the contract."
+    },
+    {
+      "id": "TO-2",
+      "propositionVerdict": "CORRECT-WITH-SCOPE-EDIT",
+      "falsifierVerdict": "PARTIAL",
+      "assessment": "One logical policy owner and one boundary adapter per process invocation prevent split-brain exits. 'Exactly one write site' globally is too source-shape-specific when the product may have multiple process entrypoints; two sites in different binaries are not automatically a violation.",
+      "requiredWording": "For each process entrypoint, one host finalizer owns termination derivation and one boundary adapter applies it on every controllable path."
+    },
+    {
+      "id": "TO-3",
+      "propositionVerdict": "CORRECT-WITH-SCOPE-EDIT",
+      "falsifierVerdict": "VALID",
+      "assessment": "Lower layers must not choose a numeric code or final class. Their typed domain results necessarily influence host interpretation, so 'maps to an exit' must not be read as forbidding typed failure categories or external-tool status translation inside an adapter.",
+      "requiredWording": "Producers, rules, providers, and typed faults never select or carry a process exit/class; they return typed domain evidence for the host finalizer to interpret."
+    },
+    {
+      "id": "TO-4",
+      "propositionVerdict": "CORRECT",
+      "falsifierVerdict": "VALID",
+      "assessment": "Verdict and termination answer different questions. A verdict may be absent before Run admission, or may remain pass while termination is operational-failed; every applicable projection must preserve that distinction.",
+      "requiredWording": "No substantive change; add that verdict is optional where no policy evaluation occurred."
+    },
+    {
+      "id": "TO-5",
+      "propositionVerdict": "PARTLY-CORRECT-REWRITE",
+      "falsifierVerdict": "INVALID-AMBIGUOUS",
+      "assessment": "This combines three different rules and loses their qualifiers. 'Required partial coverage' is not a coherent condition: globally partial Coverage may still satisfy the predicate's required relations. A durability failure forbids termination success only when durability/authority was required; it does not erase a previously computed pass verdict. Export failure never changes the local verdict, although required delivery may change termination. 'Green outcome' collapses the axes TO-4 separated.",
+      "requiredWording": "Split into: (a) unmet required Coverage makes the authoritative verdict indeterminate, never pass; (b) failure of a required authoritative durability postcondition makes termination non-success while preserving any computed verdict as a distinct field; (c) export/delivery never changes the local verdict, while required delivery may make termination operational-failed."
+    },
+    {
+      "id": "TO-6",
+      "propositionVerdict": "CORRECT",
+      "falsifierVerdict": "NEEDS-PRECISION",
+      "assessment": "Finalization needs a linearization point and post-commit signals cannot reclassify it. The current falsifier's two runs may differ because one signal arrived before finalization, which is allowed; 'identical' also hides the event history.",
+      "requiredWording": "A signal observed after the finalization commit cannot alter the committed termination. Falsifier: inject the same signal immediately after the recorded commit and observe any class/code change."
+    },
+    {
+      "id": "TO-7",
+      "propositionVerdict": "INCORRECT",
+      "falsifierVerdict": "VALID-COUNTEREXAMPLE-TO-THE-INVARIANT",
+      "assessment": "The architecture deliberately places distinct remedies behind one coarse exit class. Exit 3 covers convergence exhaustion (retry) and missing required capability (widen scope/install provider); sealed diagnostics require separate reason codes because the remedies differ. Exit 2 likewise groups usage, configuration, compatibility, identity, and mutation-precondition failures. Therefore 'two remedies behind one code is a defect' contradicts architecture/07.",
+      "requiredWording": "An exit class is a stable automation/CI disposition. Reason/error codes distinguish precise operator remedies within that class. Different automation dispositions must not share a numeric code; diagnostics with different remedies must not share a reason code."
+    },
+    {
+      "id": "TO-8",
+      "propositionVerdict": "UNSETTLED-POLICY",
+      "falsifierVerdict": "PARTIAL",
+      "assessment": "Never renumbering or repurposing an externally held code is sound. 'Additive-only, permanently' is stronger than established evidence, omits removal from its falsifier, and does not specify how old strict consumers handle a newly added class or how schema-family/major negotiation interacts with additions. VERSIONING remains CANDIDATE and currently points back to stale D9 v1.4, so ownership is not closed.",
+      "requiredWording": "Within a contract family, an existing class/code meaning is never renumbered or repurposed. Removal, reservation, and addition behavior—including old-consumer handling—are owned by an explicitly one-way VERSIONING dependency."
+    },
+    {
+      "id": "TO-9",
+      "propositionVerdict": "INCORRECT-AS-STATED",
+      "falsifierVerdict": "EXPOSES-WRONG-MODEL",
+      "assessment": "Totality is correct only over a named primary automation partition. The text names no six classes and says a state requiring two remedies falsifies the model, although simultaneous faults can legitimately require several diagnostics/remedies. The finalizer needs deterministic primary-class precedence, not a claim that reality contains one remedy.",
+      "requiredWording": "Every controlled terminal state selects exactly one primary class from success, policy-failed, request-rejected, indeterminate, operational-failed, interrupted under defined precedence. Multiple underlying diagnostics/remedies may coexist but cannot change that single primary automation disposition."
+    },
+    {
+      "id": "TO-10",
+      "propositionVerdict": "PARTLY-CORRECT-REWRITE",
+      "falsifierVerdict": "MISMATCHES-LITERAL-PROPOSITION",
+      "assessment": "Unavailable evidence must not masquerade as a complete successful answer. Restricting the invariant to an empty payload misses false non-empty partial success; applying it absolutely would also forbid explicitly best-effort queries that return partial data with honest Coverage. Its falsifier is broader than the literal empty-only wording.",
+      "requiredWording": "A result that claims to satisfy a required/authoritative query or evaluation cannot terminate success when required Coverage is insufficient, regardless of result cardinality. A separately typed best-effort projection may return partial data only with explicit Coverage and no complete-answer claim."
+    },
+    {
+      "id": "TO-11",
+      "propositionVerdict": "INCORRECT-AS-STATED",
+      "falsifierVerdict": "INVALID-AXIS-CONFLATION",
+      "assessment": "Fail-closed means no authoritative sealed success from corrupted required state; it does not mean a policy verdict field can never exist. A verdict may have been computed before a durability/publication fault and must remain distinct from operational termination under TO-4. An unrelated corrupt cache may also be quarantined and recomputed. The falsifier incorrectly treats pass/fail verdict and operational termination as alternatives.",
+      "requiredWording": "An integrity fault affecting required inputs, evidence, ledger, or publication prevents authoritative sealing and forces operational-failed termination. Any already-computed verdict remains a distinct non-authoritative projection; unrelated corrupt acceleration state may be discarded and recomputed before proceeding."
+    },
+    {
+      "id": "EC-1",
+      "propositionVerdict": "INCORRECT",
+      "falsifierVerdict": "INSUFFICIENT",
+      "assessment": "Absence of a lifetime flag is local surface form, not semantic lifetime neutrality. Hidden module state, provider reuse, cancellation, cleanup, progress, or publication can vary by lifetime without a parameter/field/environment branch.",
+      "requiredWording": "The declared execution boundary is re-entrant and lifetime-independent: under identical resolved Snapshot, Plan, toolchain, environment, grants, budgets, and exact Coverage, one-shot and resident execution produce identical EvidenceDigest/evaluation outcomes and equivalent cancellation, cleanup, and progress semantics. Performance and attempt identity are excluded."
+    },
+    {
+      "id": "EC-2",
+      "propositionVerdict": "CORRECT",
+      "falsifierVerdict": "VALID",
+      "assessment": "Core semantic neutrality, whether a resident host ships, autostart/default policy, and project scope are separable decisions. The latter decisions are conditional on shipping residency and may impose requirements on the boundary without being entailed by EC-1.",
+      "requiredWording": "No substantive change; state that autostart and scope decisions are conditional on choosing to ship residency."
+    },
+    {
+      "id": "EC-3",
+      "propositionVerdict": "CORRECT-WITH-PRECISION-EDIT",
+      "falsifierVerdict": "INVALID-WHOLE-RUN-IDENTITY",
+      "assessment": "Warm state must never become evidence authority. Comparing an identical whole Run is impossible alongside EC-6 because ExecutionId differs per attempt; clocks and lifecycle also differ. The governing comparison is EvidenceDigest, evaluation outcomes, and exact Coverage under fully equal semantic inputs.",
+      "requiredWording": "Warm state may change only cost. Under identical Snapshot, Plan, toolchain, environment, grants, budgets, and exact Coverage, cold and resident executions yield identical EvidenceDigest and evaluation outcomes; attempt/lifecycle identities and timing are excluded."
+    },
+    {
+      "id": "EC-4",
+      "propositionVerdict": "CORRECT-WITH-SCOPE-EDIT",
+      "falsifierVerdict": "INVALID",
+      "assessment": "Every supported evidence-writing topology must preserve multi-process storage integrity through a shared protocol. A deployment-specific mechanism or argument is not itself a violation: an enforced single-writer service or OS lock may implement the protocol correctly. Unsupported topologies may be rejected at admission.",
+      "requiredWording": "The storage protocol states and enforces the concurrency preconditions for every supported evidence-writing topology; no host may assume absent concurrent writers unless admission enforces that assumption. Falsify with corruption, partial visibility, lost committed writes, or unenforced concurrency preconditions."
+    },
+    {
+      "id": "EC-5",
+      "propositionVerdict": "CORRECT",
+      "falsifierVerdict": "INVALID",
+      "assessment": "Integrity without guaranteed liveness for every contender is the right contract, and a typed bounded busy result is legitimate. A design promising both contenders complete does not violate it if transactions serialize and both actually complete.",
+      "requiredWording": "Keep the proposition. Replace the falsifier with any corrupt/partial/lost publication, unbounded wait beyond declared policy, or contention failure that is not typed and distinguishable."
+    },
+    {
+      "id": "EC-6",
+      "propositionVerdict": "CORRECT",
+      "falsifierVerdict": "VALID",
+      "assessment": "ExecutionId is allocated per admitted attempt, including retries and concurrent identical work; deterministic content identity belongs to Snapshot/Plan/FactView/EvidenceDigest. Allocation ownership should be assigned to host admission, outside the execution core.",
+      "requiredWording": "Add host-admission ownership and collision/uniqueness expectations; retain the attempt/content distinction."
+    },
+    {
+      "id": "EC-7",
+      "propositionVerdict": "PARTLY-CORRECT-REWRITE",
+      "falsifierVerdict": "PARTIAL",
+      "assessment": "Direct core modules should not import ambient authority, and named adapters/providers must be honest TCB or actually OS-confined. Static import/call closure proves only absence within the declared static boundary; it cannot establish absence across dynamic loading, FFI/native code, injected implementations, or unexecuted runtime paths. Declared authority is not confinement.",
+      "requiredWording": "Define the exact static/runtime core boundary. Static closure proves no direct ambient reach in covered modules; dynamic/native limits are disclosed. Named TCB adapters declare grants and are trusted, while untrusted adapters require an independently specified OS/runtime denial mechanism."
+    },
+    {
+      "id": "EC-8",
+      "propositionVerdict": "PARTLY-CORRECT-REWRITE",
+      "falsifierVerdict": "PARTIAL",
+      "assessment": "Admission, grants, contribution resolution, and process supervision correctly belong outside the core, but this is not yet an explicit four-way responsibility boundary. Provider execution, fact/rule/policy evaluation, budget accounting, storage reads/publication/finalization, cancellation, and telemetry are unassigned. The falsifier checks only three host responsibilities.",
+      "requiredWording": "Provide a complete inside/outside ownership table for core, host, provider, and storage; place effectful provider execution, publication/finalization, cancellation, telemetry, budgets, and policy. Derive falsifiers from every boundary crossing."
+    }
+  ],
+  "interactionFindings": [
+    {
+      "id": "B-TOEC-01",
+      "severity": "critical",
+      "title": "TO-7 contradicts the sealed diagnostic/remedy model",
+      "detail": "Architecture/07 requires convergence-exhausted and required-coverage-missing to share exit class 3 while carrying distinct reason codes because their remedies differ. TO-7 calls that a defect. Exit classes are automation dispositions; reason codes are remedy-specific.",
+      "requiredChange": "Replace TO-7 with separate class-level automation stability and reason-level remedy discrimination invariants.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-02",
+      "severity": "critical",
+      "title": "TO-11 and its falsifier collapse verdict back into termination",
+      "detail": "TO-4 makes verdict and termination orthogonal; architecture/02/07 allow pass verdict plus operational termination when a required postcondition fails. TO-11's 'no verdict of any kind' and pass/fail-rather-than-operational falsifier erase that distinction.",
+      "requiredChange": "Fail closed by preventing authoritative sealing/success, not by erasing a separately computed verdict.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-03",
+      "severity": "high",
+      "title": "EC-3 whole-Run identity contradicts EC-6 per-attempt identity",
+      "detail": "Two executions cannot produce an identical whole Run when ExecutionId must differ per attempt. The parity object must exclude attempt/lifecycle metadata and compare exact Coverage, EvidenceDigest, and evaluation outcomes.",
+      "requiredChange": "Rewrite EC-3 and the matching architecture/08 wording around a semantic projection with explicit equality preconditions.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-04",
+      "severity": "high",
+      "title": "TO-5/10 apply safety rules at the wrong scope",
+      "detail": "TO-5 omits authoritative/required qualifiers and combines Coverage, durability, and export; TO-10 is simultaneously too narrow (empty only) and too broad (all best-effort partial queries). Their falsifiers use an undefined green outcome.",
+      "requiredChange": "Split the axes and define authoritative versus explicitly best-effort claims.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-05",
+      "severity": "high",
+      "title": "TO-8/9 do not establish the public class contract",
+      "detail": "The six primary classes and precedence are unnamed; simultaneous diagnostics are mishandled; additive-only behavior is candidate, incomplete for old consumers, and has circular/stale ownership with VERSIONING.",
+      "requiredChange": "Bind named class semantics and primary precedence in D9, then assign evolution through one non-circular versioning owner.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-06",
+      "severity": "high",
+      "title": "EC-1/3/7/8 do not yet define a testable lifetime-neutral authority boundary",
+      "detail": "Surface form is substituted for semantic equivalence, whole-Run parity is impossible, closure analysis overclaims runtime absence, and the four-way boundary leaves effectful work and publication unallocated.",
+      "requiredChange": "Define semantic parity and a complete responsibility/authority table before deriving conformance tests.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-07",
+      "severity": "high",
+      "title": "The invariant set remains incomplete even after incorrect rows are rewritten",
+      "detail": "D9 still needs envelope/process parity, pre-admission FailureResult, policy-not-Error/operational-not-Finding, orphan recovery, exit0-not-attestation, tombstone-backed expiry, and baseline no-comparison/no-derived-findings. R-1 needs cancellation, cleanup, progress/telemetry, effectful-provider placement, and publication ownership.",
+      "requiredChange": "Add or explicitly rehome each property with a dependency and falsifier; absence cannot be repaired by broad totality language.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-TOEC-08",
+      "severity": "critical",
+      "title": "v3 was rebound before the requested invariant review and still carries the unchanged rejected set",
+      "detail": "scope-correction v3 says TO/EC are unchanged and unreviewed, yet the register binds D9 and R-1 to the whole v3 artifact. Architecture/07/08 still say there is no accepted binding. The same premature-rebind error has now occurred on v1, v2, and v3 while check-claims remains green.",
+      "requiredChange": "Keep D9/R-1 bindingArtifact null. Record v3 as an incomplete candidate and rebind only after a revised invariant set passes independent proposition, interaction, falsifier, and handoff review.",
+      "confidence": "high"
+    }
+  ],
+  "resolves": {
+    "B-TOEC-01": "OPEN-BLOCKER: TO-7 must be replaced; it contradicts architecture/07.",
+    "B-TOEC-02": "OPEN-BLOCKER: TO-11 must preserve verdict/termination orthogonality.",
+    "B-TOEC-03": "OPEN-BLOCKER: EC-3 parity object must exclude ExecutionId and lifecycle metadata.",
+    "B-TOEC-04": "OPEN-BLOCKER: TO-5/10 require authoritative/best-effort scoping and separation.",
+    "B-TOEC-05": "OPEN-BLOCKER: public class semantics, precedence, and versioning ownership remain incomplete.",
+    "B-TOEC-06": "OPEN-BLOCKER: lifetime-neutral authority/responsibility boundary is not testable yet.",
+    "B-TOEC-07": "OPEN-BLOCKER: required D9/R-1 architectural properties remain absent.",
+    "B-TOEC-08": "PRESENTATION-FIX-REQUIRED: v3 must not bind D9/R-1 before a corrected invariant set is accepted."
+  },
+  "sealedPropertiesCovered": [
+    "ARCH.RUN-MULTIAXIS — lifecycle, Coverage, verdict, and durability are orthogonal",
+    "ARCH.CONFINEMENT-HONESTY — process isolation is not a sandbox and signatures do not deny ambient authority",
+    "architecture/07 diagnostics — reason codes distinguish remedies within termination classes",
+    "architecture/03 concurrency — every evidence-writing host uses a multi-process-safe storage protocol",
+    "architecture/02 identity — ExecutionId is allocated per attempt while evidence identity is content-derived"
+  ],
+  "candidatePropertiesExamined": [
+    "D9 termination architecture",
+    "R-1 lifetime neutrality",
+    "VERSIONING exit-class evolution",
+    "ARCH.PROBE-CONTRACT effectful-provider boundary"
+  ],
+  "knownLimitations": [
+    "This review judges the current invariant text; it does not author the revised v4 invariant artifact or its executable handoff suite.",
+    "It does not adjudicate the unstable historical finding denominator in scope-correction v3; that is independently blocked by B-SCV2-01/02.",
+    "The exact long-term exit-class evolution policy remains product/versioning work, so TO-8 is classified unsettled rather than rejected categorically.",
+    "No shipping implementation source was inspected because the assignment is greenfield invariant correctness; load-bearing consistency claims were verified against the architecture and source artifacts that define them."
+  ],
+  "confidence": "high on the TO-7, TO-11, EC-3/6, EC-1, and authority-boundary contradictions; medium-high on final TO-8 evolution policy",
+  "verdict": "reject-require-v4",
+  "sealRecommendation": "Do not bind or seal D9 or R-1 on TO-1..11/EC-1..8 as written. Preserve the sound ownership principles, replace the four incorrect propositions, split/scoped composites, correct falsifiers, add the missing invariants, and require a mandatory design handoff."
+}

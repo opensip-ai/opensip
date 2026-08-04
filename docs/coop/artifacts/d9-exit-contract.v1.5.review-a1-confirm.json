@@ -1,0 +1,85 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1.5 + check-d9.py (post Agent-3 V14-01 claim; post B-D9V15)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "reject-require-v1.6",
+  "confidence": "high",
+  "method": [
+    "REPRODUCED B's deletion/ambiguity mutations myself (not by reading pass/fail from B's JSON as authority): del codeMaps; del used map entry; simultaneous faultCause; secondary reasonCode — all exit 0.",
+    "RECONFIRMED own open items: CAS.LINK outside vocab; completeness wrong deficiency; serve interruption; no-arg default path is v1.4; success banner D1..D9 omits D10.",
+    "Downgraded prior A1 disposition of V14-01 from CLOSED to PARTIAL — the discriminating axes help when maps exist; the invariant is optional in the checker.",
+    "Instrument differs from author's single code-flip control and from B only in also tying results to the A1 finding IDs and default-path version pin."
+  ],
+  "whatCouldHaveFailed": [
+    "del codeMaps now fails (B-D9V15-01 fixed)",
+    "maps ⊆ vocab enforced",
+    "completeness golden uses query-completeness-unmet",
+    "default path is v1.5"
+  ],
+  "repairDisposition": {
+    "A1-D9-V14-01": {
+      "priorA1": "CLOSED in review-a1-v1.5 after collision scan + expired code flip",
+      "revised": "PARTIAL — axes+maps determine primary code when present; checker allows maps to vanish; secondary payload undetermined",
+      "confidence": "high"
+    },
+    "B-D9V15-01": "CONFIRMED — del codeMaps exit 0; del required-relation-missing map entry exit 0",
+    "B-D9V15-02": "CONFIRMED — same as A1-D9-V15-01 CAS.LINK outside vocab",
+    "B-D9V15-03": "CONFIRMED — simultaneous ledger-busy + deficiency exit 0; second reason code exit 0",
+    "B-D9V15-04": "CONFIRMED — default pathlib … v1.4.json; banner D1..D9",
+    "B-D9V15-05": "CONFIRMED — same as A1-D9-V15-02 / V14-04",
+    "A1-D9-V15-03": "STILL OPEN — serve interruption=signal-before-finalization",
+    "A1-D9-V15-04": "STILL OPEN — LANGUAGE_TIER / BUDGET / QUERY.COMPLETENESS / CAS goldens absent"
+  },
+  "findings": [
+    {
+      "id": "A1-D9-V15C-01",
+      "severity": "critical",
+      "title": "D10 is optional metadata — A1-D9-V14-01 not actually closed",
+      "detail": "check-d9.py gates D10 on `if maps and ax` and skips comparison when expected is missing. Deleting codeMaps or a used entry leaves class-only D6 green. Author's resolve text and register notes that called V14-01 CLOSED overstated the repair. Same error class as CSI: silence without knowing what was examined.",
+      "requiredFix": "Require codeMaps structurally; fail if any non-none deficiency/rejection/fault lacks a map entry; fail if maps missing; mutation-test both deletions in self-test or retained negative controls.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15C-02",
+      "severity": "high",
+      "title": "No-arg checker and success banner still certify v1.4 / D1–D9",
+      "detail": "Default path is d9-exit-contract.v1.4.json. Success string is 'D1..D9 clean'. Running the prescribed no-arg command does not exercise D10 or v1.5 at all.",
+      "requiredFix": "Default to register binding (v1.5); print D1..D10; version-assert binding.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15C-03",
+      "severity": "high",
+      "title": "Prior A1 open items unrepaired (completeness, CAS.LINK vocab, serve interruption, owed goldens)",
+      "detail": "Unchanged from review-a1-v1.5: A1-D9-V15-01..04. B independently hit the same completeness and CAS.LINK issues — corroboration with different primary method (deletion vs maps⊆vocab audit).",
+      "requiredFix": "As previously filed; include in v1.6.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15C-04",
+      "severity": "medium",
+      "title": "Author/register disposition of V14-01 must be revised to PARTIAL",
+      "detail": "Claim-register note and Agent-3 log still describe V14-01 as fixed/closed. That is a status-integrity issue about a finding disposition, not about architecture claims — still trains the next agent to stop looking.",
+      "requiredFix": "Register + agents-log: V14-01 PARTIAL pending mandatory D10.",
+      "confidence": "high"
+    }
+  ],
+  "negativeControls": [
+    {"mutation": "del(.codeMaps)", "expected": "fail", "observed": "exit 0", "pass": false},
+    {"mutation": "del used deficiency map entry", "expected": "fail", "observed": "exit 0", "pass": false},
+    {"mutation": "faultCause=ledger-busy with deficiency set", "expected": "fail", "observed": "exit 0", "pass": false},
+    {"mutation": "append secondary reasonCode", "expected": "fail", "observed": "exit 0", "pass": false},
+    {"mutation": "flip IDENTITY.EXPIRED→UNKNOWN (prior A1 control)", "expected": "fail", "observed": "fail when maps present", "pass": true, "note": "proves D10 path exists, not that it is mandatory"}
+  ],
+  "verdict": "reject-require-v1.6",
+  "sealRecommendation": "Do not seal D9. v1.5 is not a closed repair of V14-01.",
+  "whatWouldChangeMyMind": "All four deletion/ambiguity mutations fail; default path v1.5; CAS.LINK in vocab or removed; completeness golden fixed; serve interruption fixed; owed goldens present.",
+  "knownLimitations": [
+    "Did not re-author all 39 axes for v1.5.",
+    "Corroboration with B on D10 optionality used the same mutation class B named — still independent execution of the mutations, not citation of B's exit codes as evidence."
+  ],
+  "sealedPropertiesCovered": ["D9 termination contract (candidate)"]
+}

@@ -1,0 +1,109 @@
+{
+  "artifact": "opensip.c1-wording-check.a2",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "approve-substance-block-seal-on-status-coherence",
+  "reviews": [
+    "artifacts/c1-semantic-tier-challenge.a2.json",
+    "artifacts/c1-wording-check.a1.json"
+  ],
+  "decisionDependencies": [
+    {
+      "id": "METHOD.ERROR-4",
+      "source": "architecture/10-method.md#Error-4",
+      "role": "The existing corpus cannot size a greenfield semantic tier."
+    },
+    {
+      "id": "METHOD.RULE-7",
+      "source": "architecture/10-method.md#7-Do-not-seal-what-you-have-flagged-for-review",
+      "role": "C-1 must remain candidate everywhere until peer review closes it."
+    },
+    {
+      "id": "C1.A2.REQUIREMENT-LATTICE",
+      "source": "artifacts/c1-semantic-tier-challenge.a2.json",
+      "role": "The accepted mechanism is predicate-relative sufficiency with least-sufficient materialisation and explicit Coverage."
+    },
+    {
+      "id": "ARCH.FACT-QUALITY",
+      "source": "architecture/04-fact-plane.md#Fact-layers-and-fact-quality",
+      "role": "Relation-specific quality requirements must remain auditable without reintroducing a global tier order."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "C1.A2.REQUIREMENT-LATTICE",
+      "claim": "The 04 candidate preserves all five mechanism rules from the Agent 2 challenge artifact.",
+      "evidenceIds": [
+        "A2-C1-W-01",
+        "A2-C1-W-02",
+        "A2-C1-W-03",
+        "A2-C1-W-04"
+      ]
+    },
+    {
+      "decisionId": "METHOD.RULE-7",
+      "claim": "Cross-document status was checked independently from semantic wording.",
+      "evidenceIds": [
+        "A2-C1-W-05"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "A2-C1-W-01",
+      "requirement": "No global fact-tier ordering; local syntax may be authoritative while semantic relations are mandatory for predicates that need them.",
+      "result": "PASS"
+    },
+    {
+      "id": "A2-C1-W-02",
+      "requirement": "Rules and queries declare relation, resolution, confidence, and completeness needs; planner builds the least sufficient view.",
+      "result": "PASS"
+    },
+    {
+      "id": "A2-C1-W-03",
+      "requirement": "Profiles may strengthen but not weaken requirements, and labels alone do not trigger unused materialisation.",
+      "result": "PASS"
+    },
+    {
+      "id": "A2-C1-W-04",
+      "requirement": "Provider shortfall is relation-level Coverage and does not globally invalidate independent syntax-authoritative work.",
+      "result": "PASS"
+    },
+    {
+      "id": "A2-C1-W-05",
+      "requirement": "C-1 remains CANDIDATE in every containing section until this review closes.",
+      "result": "FAIL",
+      "evidence": "architecture/04 marks C-1 CANDIDATE, but architecture/00 marks the entire thesis containing the same normative C-1 wording SEALED."
+    }
+  ],
+  "clarificationsBeforeSeal": [
+    {
+      "id": "A2-C1-CL-01",
+      "severity": "blocking-status",
+      "change": "Demote the full 00 thesis or mark the C-1 sentences inline CANDIDATE. Promote 00 and 04 atomically only after the binding decision is accepted."
+    },
+    {
+      "id": "A2-C1-CL-02",
+      "severity": "editorial-precision",
+      "change": "In 04 Fact layers and fact quality, call references.resolution a relation-specific requirement lattice/vector rather than a global quality tier, and define degraded only as below a declared predicate requirement."
+    },
+    {
+      "id": "A2-C1-CL-03",
+      "severity": "editorial-consistency",
+      "change": "Replace semantics-first correction in 05 with predicate-required semantic facts or fact-rich correction."
+    },
+    {
+      "id": "A2-C1-CL-04",
+      "severity": "separate-product-blocker",
+      "change": "Do not treat this architecture review as P-4 product sign-off. Resolve the SEALED TypeScript-provider statement in 01 against open P-4 in 09."
+    }
+  ],
+  "agent2Disposition": {
+    "substance": "APPROVE",
+    "readyToSeal": false,
+    "reason": "The decision text is sound, but Agent 1's W-8 status check is false because the SEALED thesis already contains the candidate. This is exactly Method Rule 7/Error 5.",
+    "sealAfter": "Apply A2-C1-CL-01 through CL-03, preserve P-4 as a separate product decision, then seal predicate-relative sufficiency without semantics-primary wording.",
+    "confidence": "high"
+  }
+}

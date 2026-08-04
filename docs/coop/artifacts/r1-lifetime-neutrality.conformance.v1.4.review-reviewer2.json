@@ -1,0 +1,119 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/r1-lifetime-neutrality.conformance.v1.4.json",
+  "date": "2026-07-31",
+  "method": [
+    "Execution boundary, API, completion union, factoring, capabilities, suite allocation, and discharge claims were compared as one contract.",
+    "Capability claims were evaluated by import/call/adapter closure reasoning rather than absence of forbidden words.",
+    "Temporary invalid mutations were used to audit check-r1.py.",
+    "The intended blind suite-assignment protocol was contaminated before a precomparison could be frozen; this review does not claim independent blind evidence for that subtask."
+  ],
+  "suiteAssignmentReview": {
+    "blindStatus": "NOT_BLIND",
+    "reason": "The authored suite value was exposed in the extraction used to identify test descriptions before a reviewer-owned assignment was frozen. This is recorded rather than laundered into independent corroboration.",
+    "adversarialResult": "LN-10 is not exclusively a host test. Comparing a resident host with a cold host while requiring byte-identical authoritative evidence crosses host lifecycle, core determinism, and storage authority; it belongs in an explicit composition/acceptance suite. Other assignments are plausible but need mechanical subject definitions.",
+    "whatWouldChangeMyMind": "A host-suite harness whose controlled boundary includes both storage implementations and the core while still making failures attributable to host orchestration alone."
+  },
+  "checkerMutationAudit": [
+    {"mutation": "Change executionCoreBoundary so the core seals, spawns, and uses the network", "result": "ESCAPED"},
+    {"mutation": "Change coreApi to accept filesystem/network/clock and return SealedRun", "result": "ESCAPED"},
+    {"mutation": "Empty capabilityBoundary parts", "result": "ESCAPED"},
+    {"mutation": "Remove every carried field from completed", "result": "ESCAPED"},
+    {"mutation": "Move LN-10 from host to storage", "result": "ESCAPED"},
+    {"mutation": "Remove executionId from the core completion attempt schema", "result": "ESCAPED"},
+    {"mutation": "Change unmodelled dynamic paths from TCB-accepted/denied to ignored", "result": "ESCAPED"}
+  ],
+  "findings": [
+    {
+      "id": "R2-R1-01",
+      "severity": "CRITICAL",
+      "evidence": "executionCoreBoundary.definition says the core takes a sealed Snapshot and validated Plan and produces a SealedRun; its inside list includes fact derivation. coreCompletionSchema says the core NEVER seals and returns CoreCompletion. factoring says the host executes fact derivation and passes a sealed StageInput/ObservationSet while the core performs only rule and policy evaluation.",
+      "impact": "Consumer B has two incompatible component boundaries and return types. The disagreement determines who owns providers, snapshot reads, sealing, D9 mapping, and evidence identity; implementation cannot begin without choosing one.",
+      "requiredChange": "Choose and state one boundary everywhere. If orchestration-host + pure evaluation core is retained, delete the SealedRun/fact-derivation definition, define SealedStageInput exactly, and show the host-to-core-to-publication dataflow. Make the checker reject either old sentence or any core sealing/fact-provider authority.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding type definition in which SealedRun is merely an alias for CoreCompletion and fact derivation is proven to mean rule-local derivation over already sealed observations; neither is stated now."
+    },
+    {
+      "id": "R2-R1-02",
+      "severity": "HIGH",
+      "evidence": "factoring says the core never calls back out, but capabilityBoundary permits SnapshotPort, StorePort, and ProviderPort calls, and executionCoreBoundary injects a scheduler/resource meter through which the core requests execution. CoreDeps is named but has no schema. StorePort and ProviderPort also conflict with host-owned storage/provider execution.",
+      "impact": "Ambient/effect authority can re-enter through collaborators while the core is called pure and lifetime-neutral. Static closure stopping at undefined ports proves only a syntactic boundary, not the claimed behavior.",
+      "requiredChange": "For the chosen pure core, replace effectful ports with immutable value inputs and a deterministic in-memory scheduler/resource meter contract. Define CoreDeps as a closed data-only schema. If callbacks remain, rename the boundary honestly and specify/test each adapter's authority rather than claiming the core never calls out.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Closed port interfaces proving that SnapshotPort, StorePort, ProviderPort, and scheduler are pure value accessors with no I/O, mutation, time, entropy, or process authority."
+    },
+    {
+      "id": "R2-R1-03",
+      "severity": "HIGH",
+      "evidence": "The core is assigned policy evaluation, but CoreCompletion.completed carries only findings, exactCoverage, and diagnosticsRef; no policy verdict, policy identity, or derivation is returned. incomplete likewise has no policy result. If the host derives the verdict, policy evaluation is not actually core-owned; if the core owns it, the result is lost.",
+      "impact": "The host cannot seal a truthful Run or derive D9 termination without inventing/repeating policy evaluation. Two implementations can disagree on verdict while sharing the same completion payload.",
+      "requiredChange": "Either add a typed policy outcome with policy/threshold identity and derivation to every applicable CoreCompletion variant, or move policy evaluation explicitly to the host and supply the exact inputs needed there. Add goldens where identical findings yield different verdicts under different policies.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding rule elsewhere proving verdict is a pure total derivation from fields already in CoreCompletion plus a Plan policy identity available to the sealing host."
+    },
+    {
+      "id": "R2-R1-04",
+      "severity": "HIGH",
+      "evidence": "priorFindingDispositions says A2-R1-01 and A2-R1-06 are CLOSED by LN-11 and LN-12, yet LN-12 is implementable:false and the runtime-authority property is NOT DISCHARGED. More generally, multiple properties are DISCHARGED because tests are marked implementable rather than demonstrated.",
+      "impact": "An explicitly absent runtime mechanism is simultaneously used as closure evidence. Finding-resolution status becomes stronger than the property and conformance evidence it cites.",
+      "requiredChange": "Reopen dispositions that depend on LN-12, distinguish static direct-authority analysis from runtime denial, and use SPECIFIED/IMPLEMENTABLE/QUALIFIED/DEMONSTRATED states. Do not close a finding with an unimplementable test.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Evidence that 'CLOSED' here means only 'the gap is now documented' and is never consumed as assurance; the prompt and discharge language use it more strongly."
+    },
+    {
+      "id": "R2-R1-05",
+      "severity": "MEDIUM",
+      "evidence": "LN-10 is assigned exclusively to the host suite but compares resident and cold hosts and asserts byte-identical Runs, which depends on core determinism and storage authority. The suite rule itself says cross-suite composition is an acceptance test. check-r1.py accepts arbitrary suite reassignment.",
+      "impact": "A failure can be incorrectly attributed to host lifecycle, while storage or core differences caused it; conversely a host suite can pass without exercising the complete neutrality claim.",
+      "requiredChange": "Create a composition/acceptance suite and move LN-10 there. Define each suite's controlled subject and dependencies, and make assignment rules/checker validation structural rather than a list written by the same author.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A harness boundary demonstrating LN-10 isolates host behavior while holding core and storage byte-identical by construction."
+    },
+    {
+      "id": "R2-R1-06",
+      "severity": "MEDIUM",
+      "evidence": "executionCoreBoundary injects an 'ID and entropy source' and says RunId/ExecutionId are content-derived or supplied, while identityOwnership says the host allocates distinct ExecutionIds and injects them, and the core never mints one. A pure deterministic evaluator has no stated use for entropy.",
+      "impact": "An entropy capability can become an accidental nondeterminism path or duplicate identity authority, undermining LN-13 and replay equivalence.",
+      "requiredChange": "Remove entropy and ExecutionId generation from core dependencies. Inject only AttemptMetadata.executionId allocated by the host; compute content-derived identities from canonical bytes at their named owner. If deterministic pseudo-randomness is required, name its semantic purpose and seed it in PlanId.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A closed CoreDeps schema showing an unavoidable deterministic entropy consumer and proving its seed cannot alter evidence unexpectedly."
+    },
+    {
+      "id": "R2-R1-07",
+      "severity": "HIGH",
+      "evidence": "R-1 remains REOPENED because the resident-host topology choices and their value are measurement-gated. Shrinking the subject to a pure function makes core lifetime neutrality plausible, but it does not choose whether a resident orchestration host ships, what it owns, or how one-shot and resident modes share state. Those are topology decisions a build team encounters.",
+      "impact": "The artifact proves, at most, a property of a small evaluator while leaving the product process topology unresolved. Calling the overall consumer-B architecture complete would convert a useful factoring into a scope trick.",
+      "requiredChange": "Keep the pure-core invariant, but separately choose a buildable initial topology (for example, one-shot host as the normative floor with an optional resident host prohibited from changing evidence). Define the host/storage/process boundaries now; leave only the product question of whether residency's measured benefits justify shipping it open.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A topology-neutral host contract detailed enough that one-shot and resident implementations have no divergent authority, lifecycle, storage, or wire decisions left to invent in week one."
+    }
+  ],
+  "resolves": {
+    "R2-R1-01": "OPEN",
+    "R2-R1-02": "OPEN",
+    "R2-R1-03": "OPEN",
+    "R2-R1-04": "OPEN",
+    "R2-R1-05": "OPEN",
+    "R2-R1-06": "OPEN",
+    "R2-R1-07": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "execution core lifetime-neutrality",
+    "warm state is never evidence authority",
+    "multi-process storage integrity",
+    "ExecutionId is attempt metadata excluded from evidence",
+    "the core does not seal or terminate",
+    "the core holds no ambient runtime authority"
+  ],
+  "knownLimitations": [
+    "Suite assignment was not blind; the contamination is explicit and no independent-pass claim is made.",
+    "No runtime implementation exists, so this review establishes contract contradictions and missing boundaries rather than measuring residency performance.",
+    "No claim-register status was changed: R-1 is already REOPENED."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "The artifact gives mutually exclusive definitions of the core, leaves its dependency authority undefined, and omits the core-owned policy result from CoreCompletion."
+  }
+}

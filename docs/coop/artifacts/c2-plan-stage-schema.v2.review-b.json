@@ -1,0 +1,136 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/c2-plan-stage-schema.v2.json",
+  "verdict": "reject-require-v3",
+  "method": "Executed each claimed v1 closure against the architecture's admission, snapshot-convergence, query, scanner/provider, Probe, and TCB boundaries. Used counterexamples that preserve the declared stage label while varying actual authority or whether new facts are materialized.",
+  "priorClosureAssessment": {
+    "A2-C2-V1-01": "PARTIAL: the two-level shape removes the literal snapshot-stage contradiction, but its pre-admission semantics now contradict snapshot-convergence/D9 and ExecutionId allocation.",
+    "A2-C2-V1-02": "PARTIAL: the requested minimum tuple and consumer state are present, but cross-universe relations and the opaque subjectScopePartition remain unschematized.",
+    "A2-C2-V1-03": "CLOSED AT SPECIFICATION LEVEL: PS-07 now uses one public Plan and two forced private strategies with exact-Coverage preconditions. Harness remains unimplemented.",
+    "A2-C2-V1-04": "NOT CLOSED: PS-09 states denial but supplies no enforcement mechanism and conflicts with linked TCB rules.",
+    "A2-C2-V1-05": "CLOSED AT MODEL LEVEL: requiredness and required fault/budget consequences are explicit; field-level schema/tests remain absent."
+  },
+  "resolves": {
+    "B-C2V2-01": "OPEN-BLOCKER: every InvocationPlan failure is called pre-admission, contradicting ExecutionId-before-work and snapshot-convergence indeterminate Runs.",
+    "B-C2V2-02": "OPEN-BLOCKER: PS-09 is an assertion without a capability-denial substrate; linked first-party TCB rules retain ambient authority.",
+    "B-C2V2-03": "OPEN-BLOCKER: PS-12 says all effectful work is Probe-only although semantic providers and scanners perform filesystem/process/toolchain effects during fact derivation.",
+    "B-C2V2-04": "OPEN-BLOCKER: domainResults makes Run creation depend on result kind, so stored rule/reduction reads create Runs while fact queries never do, even when analysis is required.",
+    "B-C2V2-05": "OPEN-BLOCKER: the minimum Coverage key cannot unambiguously represent cross-language/cross-universe edges without source/target universe and exact partition schemas.",
+    "B-C2V2-06": "OPEN-BLOCKER: no field-level stage or plan schema/validator exists, so closed-kind and unknown-field compatibility assertions are not executable."
+  },
+  "findings": [
+    {
+      "id": "B-C2V2-01",
+      "severity": "critical",
+      "category": "admission-boundary-contradiction",
+      "evidence": [
+        "InvocationPlan covers snapshot capture/sealing and allocation of PlanId and ExecutionId",
+        "failureBefore says any failure in that whole level is pre-admission and never a Run verdict",
+        "architecture/02 allocates ExecutionId at admission before work begins",
+        "architecture/03 and D9 classify exhausted snapshot convergence as indeterminate rather than request/operational failure",
+        "architecture/06 says every analysis attempt gets an identity and is recorded by default"
+      ],
+      "impact": "The same snapshot failure has incompatible identity and termination semantics depending on which artifact is followed.",
+      "requiredChange": "Separate request validation from attempt admission. Allocate ExecutionId before snapshot work; allow snapshot capture/convergence to produce an attempted-analysis terminal with no ExecutionPlan/Run if that is the chosen model, or define a pre-seal AttemptRecord distinct from Run. Do not label contribution-resolution host faults and unstable-input exhaustion with one pre-admission rule.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-C2V2-02",
+      "severity": "critical",
+      "category": "claimed-closure-without-mechanism",
+      "evidence": [
+        "PS-09 says runtime denies filesystem/network/spawn regardless of stage label",
+        "knownLimitations says no artifact designs that mechanism",
+        "architecture/05 places first-party imperative rules in linked TCB and says signatures/labels do not confine"
+      ],
+      "impact": "The revision claims to close the exact ambient-authority blocker while recording that the required boundary does not exist.",
+      "requiredChange": "Move the property to a capability-enforcement artifact and make C-2 depend on it. Either require a restricted runtime for all Rule code or weaken the sealed property for linked TCB code; a conformance sentence alone is not mechanical denial.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-C2V2-03",
+      "severity": "high",
+      "category": "effect-category-collapse",
+      "evidence": [
+        "PS-12 says effectful work is representable only as Probe",
+        "fact derivation includes semantic providers and external facts",
+        "architecture/05 semantic providers/scanners may read snapshot subsets, run compiler/toolchain processes, write ephemeral output, and under grants access network",
+        "Probe means an effectful scenario/observation, not every implementation side effect"
+      ],
+      "impact": "A valid scanner/provider either violates PS-12 or must be mislabeled Probe, erasing its distinct Coverage and failure semantics.",
+      "requiredChange": "Define the prohibited class precisely: project/external-world scenario effects and mutation/network authority are not ordinary Rule authority. Permit supervised implementation effects for declared provider/scanner operators under typed capabilities without calling them Probe stages.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-C2V2-04",
+      "severity": "high",
+      "category": "admission-result-conflation",
+      "evidence": [
+        "domainResults says fact/graph query createsRun false, rule findings and reduction candidates createRun true",
+        "architecture/05 and /08 say a query over stored facts never runs analysis, while explicit admission creates a Run",
+        "stored findings/reduction candidates can be queried without analysis; a fact query may explicitly admit missing derivation work"
+      ],
+      "impact": "Run creation becomes a property of the response noun instead of whether new authoritative analysis was admitted.",
+      "requiredChange": "Model query/read and analysis admission orthogonally to result contract. Any stored-view result creates no Run; any request that materializes required facts/rules must use explicit analysis admission, whatever domain result is later projected.",
+      "confidence": "high"
+    },
+    {
+      "id": "B-C2V2-05",
+      "severity": "medium-high",
+      "category": "coverage-key-under-specification",
+      "evidence": "The key has one languageOrSemanticUniverseId and an opaque subjectScopePartition, while imports/calls/package cycles can cross source and target universes and scopes.",
+      "impact": "Complete source-side extraction can be mistaken for complete target resolution, and independent implementations can partition exact Coverage differently.",
+      "requiredChange": "Schema relation domain/codomain, source and target universe where applicable, scope-set commitment, resolution method/quality, and producer/schema identity. Demonstrate a cross-language edge and a negative query, not only parallel TS/Go partitions.",
+      "confidence": "medium-high; subjectScopePartition could encode this, but the artifact does not say so"
+    },
+    {
+      "id": "B-C2V2-06",
+      "severity": "high",
+      "category": "non-checkable-contract",
+      "evidence": [
+        "knownLimitations admits stage field schemas are unspecified",
+        "PS-01/PS-02/PS-11 depend on a serialized schema with closed enums and private-field rejection",
+        "no validator or fixtures exist"
+      ],
+      "impact": "The binding object cannot distinguish a conforming Plan from one carrying private operators or missing required fields.",
+      "requiredChange": "Publish executable schemas for Invocation/Attempt/ExecutionPlan and all stages, plus positive/negative fixtures and a retained validator. Include unknown-major/kind behavior and canonicalization for PlanId.",
+      "confidence": "high"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "id": "C-2",
+      "source": "architecture/05-rules-and-extensions.md#there-are-not-four-analysis-products",
+      "assessment": "One mechanism/private physical strategy direction remains plausible; v2 does not yet define a coherent full boundary."
+    },
+    {
+      "id": "ARCH.RUN-MULTIAXIS/D9",
+      "source": "architecture/02-domain-model.md and artifacts/d9-exit-contract.v1.4.json",
+      "assessment": "Invocation failure semantics conflict with attempt identity and snapshot indeterminate classification."
+    },
+    {
+      "id": "ARCH.PROBE-CONTRACT",
+      "source": "architecture/05-rules-and-extensions.md#execution-tiers",
+      "assessment": "PS-09/PS-12 do not discharge capability denial and overgeneralize effectful work."
+    },
+    {
+      "id": "ARCH.COVERAGE-ARTIFACT",
+      "source": "architecture/04-fact-plane.md#coverage-is-an-artifact",
+      "assessment": "Compound key improvement accepted; exact cross-universe partition semantics remain incomplete."
+    }
+  ],
+  "knownLimitations": [
+    "I did not choose between an outer InvocationPlan and a non-Plan admission/attempt protocol; either can work if identity and termination boundaries are coherent.",
+    "PS-07's physical strategy test is accepted only as a specification because no harness exists.",
+    "The review does not enumerate every field required by each stage schema."
+  ],
+  "confidence": {
+    "overall": "high",
+    "priorClosureAssessment": "high except Coverage-key sufficiency, which is medium-high",
+    "eventualTwoLevelShape": "medium"
+  },
+  "whatWouldChangeOverallVerdict": "A v3 with a coherent request/admission/attempt boundary, an actual Rule capability-enforcement dependency, a precise definition of Probe-exclusive effects, admission-orthogonal domain results, cross-universe Coverage schema, and executable closed Plan/stage schemas."
+}

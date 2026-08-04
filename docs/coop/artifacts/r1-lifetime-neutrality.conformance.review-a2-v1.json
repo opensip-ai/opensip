@@ -1,0 +1,141 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "accept-decision-split-require-conformance-v1.1",
+  "reviewOf": "artifacts/r1-lifetime-neutrality.conformance.v1.json",
+  "decisionDependencies": [
+    {
+      "id": "AGREEMENT.25",
+      "source": "architecture/11-traceability.md#25",
+      "role": "Cross-run equality is conditional on deterministic producers, full identity equivalence, and exact Coverage."
+    },
+    {
+      "id": "R1.DECOMPOSITION",
+      "source": "architecture/08-surfaces-and-topology.md#The-decomposition",
+      "role": "Core lifetime-neutrality is independent from resident shipping, default, and scope decisions."
+    },
+    {
+      "id": "ARCH.MULTI-CLIENT",
+      "source": "architecture/03-execution-model.md#Concurrency",
+      "role": "Same-project concurrent writers are a normal case and all hosts share one storage protocol."
+    },
+    {
+      "id": "ARCH.LOCAL-OFFLINE",
+      "source": "architecture/01-product-boundary.md#Hard-constraints",
+      "role": "The full analysis path cannot require an available resident service."
+    },
+    {
+      "id": "C4.A2.STRUCTURE",
+      "source": "artifacts/c4-topology-review.a2.json",
+      "role": "Warm state is an injected accelerator rather than evidence authority or a semantic mode."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "R1.DECOMPOSITION",
+      "claim": "Review distinguishes tests of the core from tests that require a resident product host.",
+      "evidenceIds": [
+        "A2-R1-01",
+        "A2-R1-02"
+      ]
+    },
+    {
+      "decisionId": "AGREEMENT.25",
+      "claim": "Every proposed parity obligation carries the full determinism preconditions.",
+      "evidenceIds": [
+        "A2-R1-04"
+      ]
+    },
+    {
+      "decisionId": "ARCH.MULTI-CLIENT",
+      "claim": "Re-entrancy covers both cross-project isolation and same-project concurrency.",
+      "evidenceIds": [
+        "A2-R1-03"
+      ]
+    }
+  ],
+  "accepted": [
+    "R-1 is correctly decomposed into core lifetime-neutrality, resident shipping, default/autostart, and project scope.",
+    "Lifetime-neutrality is an API/conformance property and need not wait for latency evidence.",
+    "The full-capability one-shot path remains mandatory while residency is open.",
+    "Warm state may accelerate derivation but may not create evidence authority or a semantic fork.",
+    "Both lifetimes must use one storage publication protocol."
+  ],
+  "findings": [
+    {
+      "id": "A2-R1-01",
+      "severity": "high-scope",
+      "finding": "LN-04 says one-shot and resident hosts differ only in process lifetime and cache policy. A resident host, if it ever ships, necessarily also has RPC, lifecycle, admission, scheduling, authentication/local trust, leases, and teardown concerns. Lifetime-neutrality requires the same semantic core entrypoint, not identical host shells.",
+      "requiredFix": "Test that every host delegates admitted analysis to the same core contract and cannot override derivation/policy/storage semantics. Permit host-specific transport and lifecycle code outside the core."
+    },
+    {
+      "id": "A2-R1-02",
+      "severity": "high-coupling",
+      "finding": "LN-04 is written as though a resident host must exist, so the conformance suite for R-1(1) depends on the still-open R-1(2). Core lifetime-neutrality must be provable even if the product never ships residency.",
+      "requiredFix": "Use cold and retained-cache test harnesses over the same core API for the mandatory R-1(1) suite. Make resident-host adapter parity conditional only if R-1(2) later chooses to ship one."
+    },
+    {
+      "id": "A2-R1-03",
+      "severity": "high-concurrency",
+      "finding": "LN-03 tests different ProjectIds with isolated backends, which proves isolation but not the normal contested case: concurrent Plans for the same ProjectId and storage authority. It also does not state whether one Core instance may serve concurrent calls.",
+      "requiredFix": "Add separate tests for two core instances across projects, two instances sharing one canonical project backend, and concurrent calls through one instance if the API claims that support. Assert valid separate Runs, CAS/ledger integrity, cancellation isolation, and no warm-state cross-talk."
+    },
+    {
+      "id": "A2-R1-04",
+      "severity": "high-determinism",
+      "finding": "LN-05 and LN-06 require digest equality without limiting the obligation to deterministic producers or naming identical environment identities. That is stronger than the sealed determinism contract and will falsely fail for declared nondeterministic edges.",
+      "requiredFix": "Require deterministic producers plus identical Snapshot, Plan, producer/provider binaries, toolchain, environment, and exact Coverage. Report Coverage divergence before digest comparison."
+    },
+    {
+      "id": "A2-R1-05",
+      "severity": "high-design",
+      "finding": "The API sketch passes cachePolicy: cold|warm into the core. A lifetime discriminator invites semantic branches and makes host lifetime part of analysis behavior, contradicting the neutrality being proved.",
+      "requiredFix": "Inject scoped cache/journal/provider-state capabilities with explicit identities, budgets, invalidation, and teardown. The core sees available acceleration interfaces, not a cold/warm mode flag, and derives the same semantics whether they hit or miss."
+    },
+    {
+      "id": "A2-R1-06",
+      "severity": "medium-high-api",
+      "finding": "LN-02's purported dependency enumeration is neither clearly illustrative nor complete: cancellation, immutable snapshot/VFS access, environment/toolchain identity, progress, and scoped resource ownership are absent. Freezing concrete service names also over-specifies implementation rather than capability obligations.",
+      "requiredFix": "Define normative dependency categories and forbidden ambient authority; keep concrete constructor names illustrative. Include cancellation, clock/randomness policy, snapshot/VFS, identity/environment inputs, resource budgets, storage, providers, policy, and observability sinks."
+    },
+    {
+      "id": "A2-R1-07",
+      "severity": "medium-process",
+      "finding": "decisionDependencies are free-text labels without resolvable source paths, contrary to the back-reference rule this artifact is meant to satisfy.",
+      "requiredFix": "Use structured decision IDs, exact source paths/anchors, scoped obligations, and map each conformance test to them."
+    },
+    {
+      "id": "A2-R1-08",
+      "severity": "medium-scope",
+      "finding": "LN-08 is a valid product obligation but not evidence of core re-entrancy. Mixing it into closes R-1(1) obscures which decision each test discharges.",
+      "requiredFix": "Retain LN-08 under a separate local/offline/CI conformance claim or explicitly state that the artifact closes two independently sourced obligations."
+    }
+  ],
+  "requiredV11Shape": {
+    "mandatoryCoreTests": [
+      "no ambient mutable analysis authority",
+      "explicit capability dependencies and scoped teardown",
+      "cross-project isolation",
+      "same-project concurrent publication",
+      "cold versus retained-cache harness parity under full determinism preconditions",
+      "cache invalidation/drop parity",
+      "one storage protocol",
+      "cancellation and budget isolation"
+    ],
+    "conditionalIfResidentShips": [
+      "resident adapter invokes the same core semantic contract",
+      "client/host version negotiation and one-shot fallback",
+      "lifecycle, stale-state, privacy teardown, and multi-project tests"
+    ],
+    "forbiddenApiFeature": "A cold/warm lifetime discriminator that changes core semantics"
+  },
+  "agent2Disposition": {
+    "decisionSplit": "APPROVE",
+    "v1Artifact": "REVISE",
+    "readyForPeerAck": false,
+    "next": "Publish v1.1 with the corrected test boundaries and structured back-references. This does not wait for residency performance measurements.",
+    "confidence": "high"
+  }
+}

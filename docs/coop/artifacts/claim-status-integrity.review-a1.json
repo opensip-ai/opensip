@@ -1,0 +1,119 @@
+{
+  "artifact": "opensip.claim-status-integrity.review",
+  "reviewOf": "artifacts/check-claims.py + METHOD.CLAIM-STATUS-INTEGRITY after Agent-3 B-CSI repair",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "DIFFERENT FROM B's in-memory probe injection and FROM author's positive coverage print: (1) break a registered home fragment and require CHK-0; (2) monkey-patch resolve_anchor to always -1 and require ~55 CHK-0 findings with home_checked=0; (3) inject a non-historical stale binding filename into architecture prose and require CHK-5; (4) inject the same with 'earlier/superseded' context and require silence; (5) compare home_total to claim count to detect corpus-scope holes outside the printed fraction.",
+    "Did not treat '24/24 homes, 31/31 restatements' as complete inventory coverage without checking denominator membership."
+  ],
+  "whatCouldHaveFailed": [
+    "Broken fragment still skipped (B-CSI-01 unfixed)",
+    "Self-test still passes when resolve_anchor is always miss",
+    "CHK-5 absent or matches historical cites",
+    "Printed coverage equals claim inventory (no artifact-home hole)",
+    "register checks[] documents CHK-0/5"
+  ],
+  "repairDisposition": {
+    "B-CSI-01": {
+      "status": "CLOSED for architecture/steering markdown homes and restatements with resolvable #fragments",
+      "evidence": [
+        "Broken D9 home fragment → CHK-0",
+        "resolve_anchor always -1 → 55 findings, home_checked=0 (no silent skip inside corpus)",
+        "live run: home_checked=home_total=24, rest_checked=rest_total=31"
+      ],
+      "residual": "See A1-CSI-01 — six claims home in artifacts/*.json are outside the corpus and never enter the coverage denominator"
+    },
+    "B-CSI-02": {
+      "status": "CLOSED for the stated failure mode",
+      "evidence": "self-test includes U-X unresolvable home, expects CHK-0, asserts unexamined==reported CHK-0 count"
+    },
+    "B-CSI-03": {
+      "status": "PARTIAL",
+      "evidence": "CHK-5 catches non-historical stale versioned binding filenames (negative inject of d9-exit-contract.v1.1.json → CHK-5 D9). SIGNATURES allowlist for unregistered restatements still only three claims — inventory-derived CHK-3 not delivered."
+    }
+  },
+  "findings": [
+    {
+      "id": "A1-CSI-01",
+      "severity": "high",
+      "title": "Coverage denominator excludes artifact-homed claims — six claims never get home CHK-1",
+      "detail": "docs() loads only architecture/ and steering/*.md. Homes for TM, VERSIONING, RESOLVED-INPUTS, OPERABILITY, DELIVERY, FACT-IDENTITY are artifacts/*.json. Those paths are not in the corpus, so the home branch never runs: not counted in home_total, not CHK-0'd, not status-promoted-checked. The banner '24/24 homes' is true for markdown homes and false as a claim-register completeness claim (30 claims). ARCH.RETENTION-TIERS restatement into threat-model.v2.json is likewise outside corpus (1 restatement gap: 31 checked vs 32 registered).",
+      "requiredFix": "Either (a) include artifacts/*.json in the corpus with a JSON path/anchor strategy, or (b) require every claim home to be a markdown architecture/steering location and move artifact claims' homes to architecture sections that point at the binding artifact, or (c) fail CHK-0 when home path is outside the loaded corpus. Coverage print must be checked_locations/required_locations with required = all homes+restatements, not only those whose path loaded.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A run that lists all 30 homes as examined or emits explicit out-of-corpus findings for each artifact home."
+    },
+    {
+      "id": "A1-CSI-02",
+      "severity": "medium",
+      "title": "Register documents only CHK-1..4; validator.liveStatus is stale and contradictory",
+      "detail": "check-claims.py implements CHK-0 and CHK-5; register.checks lists only CHK-1..4. validator.liveStatus still says 'live C-2 promotion false negative and incomplete coverage' while the tool now prints clean 24/24 — wrong in both directions (understates current md coverage; overstates trust if read as full integrity).",
+      "requiredFix": "Register checks[] include CHK-0 and CHK-5 with asserts; rewrite liveStatus to name remaining holes (A1-CSI-01, SIGNATURES allowlist) without claiming the pre-repair false negative still exists unless re-demonstrated.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-CSI-03",
+      "severity": "medium",
+      "title": "CHK-3 remains a three-signature allowlist",
+      "detail": "B-CSI-03 asked for inventory-derived restatement coverage. CHK-5 covers versioned binding filename drift only. Unregistered prose restatements of other claims still require hand-written SIGNATURES. Known limitation of the repair, still a seal blocker for METHOD.CLAIM-STATUS-INTEGRITY.",
+      "requiredFix": "Inventory-derived markers or explicit claim-id tags in prose; drop or expand SIGNATURES.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-CSI-04",
+      "severity": "low-medium",
+      "title": "Heading-slug anchors will drift on renames (author-admitted)",
+      "detail": "Acceptable residual if CHK-0 fails on miss — which it does for in-corpus paths. Do not seal completeness claims that imply rename-proof identity without claim-id tags.",
+      "requiredFix": "Prefer explicit claim-id HTML comments or `<!-- claim:D9 -->` anchors long-term.",
+      "confidence": "high"
+    }
+  ],
+  "negativeControls": [
+    {
+      "test": "home fragment rewritten to #this-heading-does-not-exist",
+      "expected": "CHK-0",
+      "observed": "CHK-0 D9 … does not resolve",
+      "pass": true
+    },
+    {
+      "test": "resolve_anchor always returns -1",
+      "expected": "many CHK-0, home_checked=0",
+      "observed": "55 findings, home_checked=0",
+      "pass": true
+    },
+    {
+      "test": "inject d9-exit-contract.v1.1.json without historical words",
+      "expected": "CHK-5",
+      "observed": "CHK-5 D9 cites v1.1 but binds v1.5",
+      "pass": true
+    },
+    {
+      "test": "inject earlier/superseded v1.1 cite",
+      "expected": "no CHK-5",
+      "observed": "[]",
+      "pass": true
+    },
+    {
+      "test": "home_total == number of claims",
+      "expected": "30 or explicit out-of-corpus findings",
+      "observed": "home_total=24, 6 artifact homes invisible",
+      "pass": false,
+      "finding": "A1-CSI-01"
+    }
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal METHOD.CLAIM-STATUS-INTEGRITY. Md coverage repair is real and mutation-tested; artifact-home hole and CHK-3 allowlist remain.",
+  "whatWouldChangeMyMind": "All 30 homes + all restatements in the coverage denominator with zero silent skips; CHK-0/5 in register.checks; inventory-derived restatement scan or explicit claim tags.",
+  "knownLimitations": [
+    "Did not re-audit every SEALED container for residual unmarked candidates after Agent-3's seven mark fixes.",
+    "Did not design claim-id tag syntax."
+  ],
+  "sealedPropertiesCovered": [
+    "METHOD.RULE-8 status on claims",
+    "METHOD.CLAIM-STATUS-INTEGRITY (candidate; improved)"
+  ]
+}

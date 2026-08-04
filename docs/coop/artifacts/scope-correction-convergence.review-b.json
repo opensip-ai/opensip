@@ -1,0 +1,148 @@
+{
+  "artifact": "opensip.review.scope-correction-convergence",
+  "version": 1,
+  "reviewOf": [
+    "artifacts/scope-correction-a3.v1.review-a1.json",
+    "artifacts/scope-correction-a3.v1.review-b.json",
+    "artifacts/claim-register.v1.json",
+    "architecture/06-evidence-and-persistence.md",
+    "architecture/09-open-decisions.md",
+    "architecture/11-traceability.md"
+  ],
+  "reviewer": "agent-b",
+  "reviewerRole": "REVIEWER-B",
+  "date": "2026-07-30",
+  "status": "REVIEW-COMPLETE",
+  "method": [
+    "Treated A1's review as a new artifact to falsify, not as corroboration merely because its conclusions agree with B's independent review.",
+    "Checked the review against the user's required review-object shape: resolves map keyed by finding ID, sealedPropertiesCovered back-references, knownLimitations, and confidence.",
+    "Followed every status/authority claim changed by the convergence through architecture/06, architecture/09, architecture/11, and the authoritative register.",
+    "Compared artifact lifecycle status separately from claim status so CANDIDATE review state could not silently replace REOPENED claim state.",
+    "Asked whether the traceability document's graduation language constrains the greenfield design or leaks hypothetical decisions into product records."
+  ],
+  "whatCouldHaveFailed": [
+    "The second review could agree substantively while failing the machine-checkable review contract.",
+    "A partial D9 authority repair could leave another document elevating the demoted detailed contract.",
+    "Retention v4 could be reviewed in one place and still called unreviewed or merely CANDIDATE elsewhere.",
+    "The traceability document could simultaneously forbid and require graduation out of the local tree.",
+    "The canonical checker could remain green because these semantic conflicts are outside its syntactic coverage."
+  ],
+  "positiveAssessment": [
+    "A1 independently reconstructed the D9 invariant inventory and R-1 boundary before diffing the extraction; this is meaningfully different from B's authority/dependency crosswalk.",
+    "The two reviews converge on the missing D9 semantic partition, erased R-1 boundary, invalid percentage instrument, form-based altitude rule, finding laundering, and absent design handoff.",
+    "A1 correctly retained the scope correction's direction while rejecting it as binding."
+  ],
+  "findings": [
+    {
+      "id": "B-SCC-01",
+      "severity": "high",
+      "category": "review-artifact-contract",
+      "title": "A1's substantive review lacks the required resolves map and places a candidate rule under sealedPropertiesCovered",
+      "evidence": [
+        "scope-correction-a3.v1.review-a1.json defines A1-SC-01..08 but has no resolves member",
+        "the exercise explicitly requires every review JSON to carry a resolves map keyed to finding IDs",
+        "sealedPropertiesCovered includes 'architecture vs detailed design altitude (candidate rule)' even though METHOD.ALTITUDE remains CANDIDATE and unbound"
+      ],
+      "impact": "The review is persuasive human evidence but is not itself a compliant closure object. Treating it as ratification would repeat the prose-agreement failure the artifact rule was introduced to prevent.",
+      "requiredChange": "Agent 1 should author an amendment adding A1-SC-01..08 dispositions and move the candidate altitude item out of sealedPropertiesCovered into an explicitly candidate-properties field. B must not silently rewrite another reviewer's attestation.",
+      "disposition": "OPEN-BLOCKER",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A documented exception to the user's mandatory review schema or an A1-authored amendment satisfying it."
+    },
+    {
+      "id": "B-SCC-02",
+      "severity": "high",
+      "category": "residual-authority-drift",
+      "title": "Traceability still elevated demoted D9 and R-1 detailed contracts after the register made both unbound",
+      "evidence": [
+        "architecture/11 listed d9-exit-contract.v1.5 and r1-lifetime-neutrality.conformance.v1.3 as Candidate artifacts",
+        "the same section said checkable artifacts are the binding form of any CANDIDATE decision",
+        "the register has bindingArtifact null for D9 and R-1 and records both scope-correction extractions as rejected candidates",
+        "check-claims remained clean because its version check cannot relate differently named authority objects"
+      ],
+      "impact": "A reader following the traceability inventory would still treat detailed exploration as architecture authority despite both independent reviews rejecting that rebind.",
+      "requiredChange": "Mark v1.5/v1.3 non-binding, add the rejected scope extraction, and say the register—not the inventory—owns current status. Presentation repair applied in this turn.",
+      "disposition": "PRESENTATION-FIX-APPLIED",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A documented layer in which architecture/11's Candidate label referred only to artifact lifecycle and explicitly denied architecture authority; it did neither."
+    },
+    {
+      "id": "B-SCC-03",
+      "severity": "high",
+      "category": "retention-status-drift",
+      "title": "Retention v4 was simultaneously reviewed, unreviewed, CANDIDATE, and REOPENED across four authority surfaces",
+      "evidence": [
+        "retention-tiers.v4.review-a1.json completed an independent review with required changes",
+        "retention-tiers.v4.json still said CANDIDATE-UNREVIEWED",
+        "architecture/06 heading said 'not sealed or independently reviewed'",
+        "architecture/09 called the claim CANDIDATE and the design unreviewed while the register called ARCH.RETENTION-TIERS REOPENED and said A1 accepted v4",
+        "the register's v4 disposition still said CANDIDATE-UNREVIEWED and TM blockers called v4 unreviewed"
+      ],
+      "impact": "Artifact lifecycle and claim status were conflated. A reader could miss both the historical reopening and the specific A1 required changes while the checker reported clean.",
+      "requiredChange": "Keep the claim REOPENED; label v4 CANDIDATE-REVIEWED-REQUIRED-CHANGES; update 06/09/register/TM wording; register the 09 restatement. Presentation repair applied in this turn.",
+      "disposition": "PRESENTATION-FIX-APPLIED",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Evidence that A1's filed review had been withdrawn or did not review v4; neither is true."
+    },
+    {
+      "id": "B-SCC-04",
+      "severity": "high",
+      "category": "greenfield-graduation-contradiction",
+      "title": "Traceability both forbade and required sealed decisions to leave the local tree",
+      "evidence": [
+        "architecture/11 graduation table says sealed decisions stay here and must not enter the shipping product's ADR log",
+        "the final blockquote says 'Everything sealed should leave here'",
+        "the register scopeNote says the tree is a hypothetical greenfield design and earlier graduation instructions are withdrawn"
+      ],
+      "impact": "The last sentence can reintroduce the exact migration/product-record contamination the coordinator removed, or authorize an unspecified external write.",
+      "requiredChange": "State that impermanence is an accepted risk and that any future durable home requires an explicit coordinator decision; do not infer product-ADR graduation. Presentation repair applied in this turn.",
+      "disposition": "PRESENTATION-FIX-APPLIED",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "An explicit coordinator-approved durable destination outside this local exercise; none is recorded."
+    },
+    {
+      "id": "B-SCC-05",
+      "severity": "medium",
+      "category": "blanket-review-status",
+      "title": "Architecture/09's statement that every open-decision row is unreviewed is false",
+      "evidence": [
+        "the register links completed reviews for threat, operability, versioning, resolved inputs, delivery, fact identity, and retention",
+        "architecture/09 nevertheless says every row is authored but unreviewed",
+        "reviewed-with-blockers is materially different from unreviewed"
+      ],
+      "impact": "The blanket wording erases review evidence and the distinction between unknown defects and known unresolved blockers.",
+      "requiredChange": "Replace it with a mixed-review-state warning and direct readers to the register. Presentation repair applied in this turn.",
+      "disposition": "PRESENTATION-FIX-APPLIED",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "If 'unreviewed' were explicitly defined to mean 'not sealed'; it is not, and the method treats those states separately."
+    }
+  ],
+  "resolves": {
+    "B-SCC-01": "OPEN-BLOCKER: A1 must supply its own compliant amendment; B did not alter A1's attestation.",
+    "B-SCC-02": "PRESENTATION-FIX-APPLIED: architecture/11 now classifies D9 v1.5 and R-1 v1.3 as non-binding and the scope extraction as rejected.",
+    "B-SCC-03": "PRESENTATION-FIX-APPLIED: claim status remains REOPENED while v4 lifecycle is REVIEWED-REQUIRED-CHANGES across artifact, prose, and register.",
+    "B-SCC-04": "PRESENTATION-FIX-APPLIED: contradictory graduation instruction removed; no external/product write authorised.",
+    "B-SCC-05": "PRESENTATION-FIX-APPLIED: architecture/09 now states review status is mixed and register-owned."
+  },
+  "sealedPropertiesCovered": [
+    "architecture/10 method rule 4 — artifacts back-reference the decisions they encode",
+    "architecture/10 method rule 7 — unreviewed claims are not settled premises",
+    "architecture/10 method rule 8 — status attaches to claims rather than containers",
+    "register scopeNote — the hypothetical greenfield tree does not graduate into shipping-product ADRs"
+  ],
+  "candidatePropertiesExamined": [
+    "METHOD.ALTITUDE",
+    "D9 termination architecture",
+    "R-1 lifetime neutrality",
+    "ARCH.RETENTION-TIERS"
+  ],
+  "knownLimitations": [
+    "This audit does not author scope-correction v2, D9 architecture v2, or R-1 architecture v2.",
+    "It does not independently repeat A1's full D9/R-1 semantic diff; B's prior independent review already records that work.",
+    "The repairs make current authority honest but do not extend check-claims to detect semantic aliases, exact REOPENED-vs-CANDIDATE drift, or contradictory prose.",
+    "B cannot make A1's review artifact compliant without corrupting reviewer authorship; B-SCC-01 remains open."
+  ],
+  "confidence": "high on artifact-shape and cross-document contradictions; medium-high that all remaining authority aliases have been found because the checker does not enumerate semantic restatements",
+  "verdict": "accept-substantive-convergence-with-required-artifact-repair",
+  "sealRecommendation": "The two independent reviews justify rejecting scope-correction v1, not sealing a replacement. Do not count A1's review as a compliant closure artifact until A1 supplies its resolves amendment."
+}

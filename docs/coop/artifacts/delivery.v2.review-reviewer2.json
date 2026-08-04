@@ -1,0 +1,140 @@
+{
+  "artifact": "opensip.delivery.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/delivery.v2.json",
+  "date": "2026-07-31",
+  "method": [
+    "All eight delivery-fixture outcomes were frozen in artifacts/delivery.v2.blind-reviewer2.precompare.json before authored validity or checker logic was read.",
+    "Offline, migration, profile, provenance, and supply-chain promises were traced through their schemas and conformance declarations.",
+    "Temporary invalid mutations were used to test what check-delivery.py actually binds.",
+    "P-4a was evaluated as a greenfield architecture choice, without treating current implementation cost or compatibility as a constraint."
+  ],
+  "blindComparison": {
+    "aligned": [
+      "local-dev-grant-runs",
+      "reject-local-dev-as-blocking",
+      "reject-unsigned-skips-schema",
+      "reject-unverified-blocking",
+      "reject-rollback",
+      "forced-downgrade-recorded",
+      "reject-forced-downgrade-unrecorded"
+    ],
+    "disagreement": {
+      "id": "published-blocking-ok",
+      "reviewerOutcome": "UNDERDETERMINED_OR_INVALID",
+      "artifactOutcome": "VALID",
+      "reason": "The fixture supplies signed/schema-valid/capability-valid publication but omits verified=true. The policy says a blocking contribution needs independent verification; absence must not silently mean verified."
+    },
+    "whatWouldChangeMyMind": "A closed defaulting rule, stated before fixture evaluation, under which verified is required and demonstrably true for every published contribution. A missing field should still be rejected at the schema boundary."
+  },
+  "checkerMutationAudit": [
+    {"mutation": "Delete releaseManifestSchema", "result": "ESCAPED"},
+    {"mutation": "Delete every delivery fixture", "result": "ESCAPED"},
+    {"mutation": "Change offlineVerification to require fetching trust data from the network", "result": "ESCAPED"},
+    {"mutation": "Delete airGapMigration.contract.legacyInspector", "result": "ESCAPED"},
+    {"mutation": "Replace the core capabilityManifest with a meaningless string containing 'typescript rust'", "result": "ESCAPED"},
+    {"mutation": "Remove verificationBundle from ReleaseManifest optional fields", "result": "ESCAPED"}
+  ],
+  "findings": [
+    {
+      "id": "R2-DL-01",
+      "severity": "HIGH",
+      "evidence": "deliveryFixtures.published-blocking-ok is valid without a verified field. The checker rejects only verified=false, so missing silently behaves as verified. This contradicts policyEligibility and DL-10, which make verification independently load-bearing for blocking authority.",
+      "impact": "A merely signed contribution can acquire policy-blocking authority without calibration evidence, exactly the authority/admission conflation the artifact claims to prevent.",
+      "requiredChange": "Define a closed fixture/admission schema in which blocking eligibility requires verified===true plus a retained verification-evidence identity. Reject missing, null, unknown, or false. Add mutations for each state and separate provenance validity from policy eligibility in the derived outcome.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding schema elsewhere that makes verified=true structurally unavoidable before this validator runs."
+    },
+    {
+      "id": "R2-DL-02",
+      "severity": "HIGH",
+      "evidence": "dischargeStatus marks six properties DISCHARGED solely because future conformance tests are marked implementable:true. The supply-chain mechanism is explicitly unbuilt. DL-07 is a sentence asserting offline verification, not retained evidence that a signed bundle verified with network denied; DL-08 likewise does not demonstrate a migration path.",
+      "impact": "Architectural testability is mislabeled as achieved assurance. A builder or release process can rely on a property that has never survived its negative control.",
+      "requiredChange": "Use SPECIFIED/IMPLEMENTABLE for paper contracts and reserve DISCHARGED for qualified execution evidence. Keep architecture decisions separable from product-release qualification, but do not claim the latter has occurred.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Retained results for each named test and its negative control, or a globally binding redefinition of DISCHARGED that does not imply demonstrated truth."
+    },
+    {
+      "id": "R2-DL-03",
+      "severity": "HIGH",
+      "evidence": "B-DL-08 is called unresolvable here because the platform matrix membership and P-4a Rust substrate are said not to be architecture decisions. The register itself describes P-4a as an OPEN product+engineering decision whose alternatives determine stability, distribution, licensing, toolchain pinning, and packaging. The product promise requires deep Rust semantics and fully offline execution.",
+      "impact": "A build team reaches an undecided fork immediately: embed/pin compiler internals, supervise a language server, or choose another substrate. That choice changes component boundaries, process authority, deterministic inputs, shipped assets, supported platforms, and release manifests.",
+      "requiredChange": "Treat P-4a and the initial supported OS/architecture set as architecture/product-scope decisions and decide them before consumer-B sealing. Bind the selected substrate's process model, toolchain identity, offline assets, licensing/distribution constraints, and platform matrix into DELIVERY and PlanId.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A construction showing all P-4a alternatives use the same runtime boundary, capability manifest, artifact set, determinism inputs, and platform support, leaving only an internal implementation detail."
+    },
+    {
+      "id": "R2-DL-04",
+      "severity": "HIGH",
+      "evidence": "airGapMigration says an out-of-window artifact receives a typed refusal naming a signed intermediate release, but an air-gapped user does not thereby possess that release. legacyInspector is undefined in format range and packaging, and deleting it passes. Nevertheless 'offline usefulness and compatibility both hold' is marked DISCHARGED.",
+      "impact": "Evidence can be truthful yet unusable offline. A named bridge on an unreachable network does not preserve the user's ability to inspect or migrate it, while an unbounded legacy inspector may be impossible to implement safely forever.",
+      "requiredChange": "Scope compatibility promises explicitly. For each release, bundle the exact read/migrate formats it supports and a read-only inspector for a declared historical range; define offline bridge-bundle import with signed manifest verification. Outside that range, state that migration is unavailable rather than claiming both properties hold. Add skipped-release and no-network goldens using actual format fixtures.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding distribution rule proving the named intermediate and legacy inspector are already present in every relevant offline bundle, with a finite supported-format set."
+    },
+    {
+      "id": "R2-DL-05",
+      "severity": "HIGH",
+      "evidence": "ReleaseManifest requires only manifestId, rollbackCounter, expiry, versionSet, and signatures. versionSet does not normatively type artifact name, digest, size, platform, dependency, or media type; signatures do not define algorithms, key IDs, threshold semantics, or canonical signed bytes. verificationBundle and revocationList are optional despite offlineVerification and revocation rules requiring them. The checker ignores the schema entirely.",
+      "impact": "Independent installers can verify different byte sets or accept incompatible/expired/revoked releases while all claim conformance. Atomicity over an 'exact set' is not executable without exact identities.",
+      "requiredChange": "Publish a canonical signed-manifest byte schema with manifest domain/version, artifact digests and platform selectors, dependency closure, root/delegated key IDs and algorithms, threshold rules, expiry/counter semantics, canonical empty revocation state, and a conditionally required offline verification bundle. Derive fixtures through this schema and reject every missing load-bearing field.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A referenced binding supply-chain format that supplies these exact fields and canonicalization rules."
+    },
+    {
+      "id": "R2-DL-06",
+      "severity": "HIGH",
+      "evidence": "releaseManifestSchema.CapabilityManifest requires semanticProviders, relations, and coverageForAbsent, but installProfiles supplies capabilityManifest as prose strings rather than instances of that schema. A nonsense string containing language names passes the checker.",
+      "impact": "The install profile does not tell the resolver which exact fact-plane relations are available or which Coverage deficiency applies per absent relation. Consumer B must invent the central profile contract.",
+      "requiredChange": "Replace prose with typed capability-manifest objects keyed by provider and exact relation IDs, provider/toolchain versions, coverage behavior, and platform availability. Validate every profile against the relation vocabulary and P-4 commitments.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A mechanical resolver from the existing strings to a closed relation set, though no such grammar is declared."
+    },
+    {
+      "id": "R2-DL-07",
+      "severity": "MEDIUM",
+      "evidence": "The default profile is core, which deliberately omits both deep providers even though P-4's sealed product decision promises TypeScript and Rust semantic providers. Honesty about Coverage is necessary but does not make a syntax-only default fulfill the product's signature capability.",
+      "impact": "The ordinary install path presents the product as incapable of the two analyses that distinguish it, and users can reasonably read 'one install command produces a working tool' as fulfillment of the advertised product rather than a diagnostic shell.",
+      "requiredChange": "Make a platform-appropriate deep profile containing TypeScript and Rust the default once P-4a is decided; retain core as an explicit minimal/offline-size profile. If distribution constraints force a different default, state the product promise at install time and require affirmative profile selection rather than silently choosing syntax-only.",
+      "confidence": "MEDIUM",
+      "whatWouldChangeMyMind": "Representative user research showing that users prefer the small syntax-only default after being shown the resulting loud unsupported Coverage, or an unavoidable platform constraint captured in the supported matrix."
+    },
+    {
+      "id": "R2-DL-08",
+      "severity": "MEDIUM",
+      "evidence": "provenancePolicy says a local-development grant can never satisfy a blocking role. policyEligibility says an unverified contribution may not become blocking 'without an explicit, tracked override', implying that an override can confer blocking authority. The precedence between these rules is unstated.",
+      "impact": "Two valid implementations can disagree on whether a tracked override may promote local-development code into policy authority, a security- and governance-relevant difference.",
+      "requiredChange": "Define precedence explicitly: either local-development provenance is an absolute blocker that no eligibility override can waive, or define a separately named, audited promotion transition that changes provenance and requires verification. Add both fixture paths.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding rule elsewhere that scopes the override exclusively to published provenance."
+    }
+  ],
+  "resolves": {
+    "R2-DL-01": "OPEN",
+    "R2-DL-02": "OPEN",
+    "R2-DL-03": "OPEN",
+    "R2-DL-04": "OPEN",
+    "R2-DL-05": "OPEN",
+    "R2-DL-06": "OPEN",
+    "R2-DL-07": "OPEN",
+    "R2-DL-08": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "local authoring uses the same admission path without requiring publication",
+    "installation and policy authority are separate",
+    "signed releases are exact compatible sets verifiable offline",
+    "offline usefulness and compatibility coexist within a declared window",
+    "install profiles expose exact language capabilities",
+    "every supported platform installs and runs offline"
+  ],
+  "knownLimitations": [
+    "No platform was selected here; the finding is that the architecture must select and bind a support set, not that a particular OS/architecture list is uniquely correct.",
+    "The default-profile recommendation is medium-confidence because artifact-size and user-research measurements do not exist.",
+    "No claim-register status was changed: DELIVERY is already CANDIDATE and P-4a is already OPEN."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "The Rust substrate and supported platform domain are unresolved architecture forks, the manifest/profile schemas are non-executable, and a missing verification field grants blocking eligibility."
+  }
+}

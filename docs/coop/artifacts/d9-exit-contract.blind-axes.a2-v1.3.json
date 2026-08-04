@@ -1,0 +1,309 @@
+{
+  "artifact": "opensip.d9-exit-contract.blind-axes",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "blind-precomparison-evidence",
+  "reviewOf": "artifacts/d9-exit-contract.v1.3.json",
+  "method": {
+    "inspectedBeforeAuthoring": [
+      "goldenCases[].id",
+      "goldenCases[].commandKind",
+      "goldenCases[].scenario",
+      "goldenCases[].expectedTermination"
+    ],
+    "notInspectedBeforeAuthoring": [
+      "goldenCases[].scenarioAxes",
+      "derivation",
+      "schema",
+      "Agent 3's executable checker implementation"
+    ],
+    "selection": "18 cases spanning analysis, pre-admission, query, mutation, serve, interruption, delivery, and baseline compatibility",
+    "observation": "Only query-addressed-run-no-record-no-tombstone has non-null scenario prose; the other 17 selected cases rely on their IDs as the scenario description."
+  },
+  "resolves": {
+    "A2-D9-BLIND-METHOD": "Records independent semantic axes before Agent 3's axes are inspected; final disposition is in the companion v1.3 review artifact."
+  },
+  "sealedPropertiesCovered": [
+    {
+      "id": "D9.REMAINING-WORK",
+      "source": "architecture/07-outcomes-and-failure.md#Remaining-work-before-seal",
+      "property": "Goldens must test derivation from faithful scenario inputs, not merely class/code consistency."
+    },
+    {
+      "id": "METHOD.RULE-5",
+      "source": "architecture/10-method.md#5-Agreement-between-reviewers-using-the-same-instrument-is-not-corroboration",
+      "property": "The reviewer authors scenario semantics independently of the artifact author's axes and derivation."
+    }
+  ],
+  "axisSemantics": {
+    "admission": "whether the command reached its domain operation",
+    "lifecycle": "whether a coherent terminal domain result/Run exists",
+    "requiredCoverage": "satisfied, unsatisfied, unknown, or not-applicable",
+    "verdict": "host-resolved analysis/verification verdict where one exists",
+    "durability": "whether required authoritative publication succeeded",
+    "interruption": "none or a signal before/after finalization",
+    "requiredPostconditions": "only required postconditions affect termination; optional failures do not",
+    "finalizationCommitReached": "an input describing whether termination is already settled before a later signal",
+    "domainCondition": "the command-specific fact that disambiguates cases sharing analysis axes"
+  },
+  "cases": [
+    {
+      "id": "analysis-pass",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "analysis-complete"
+      }
+    },
+    {
+      "id": "analysis-required-coverage-missing",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "required-coverage-missing"
+      }
+    },
+    {
+      "id": "analysis-snapshot-invalidated",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unknown",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "snapshot-convergence-exhausted"
+      }
+    },
+    {
+      "id": "analysis-required-provider-unavailable",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "unsatisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "required-provider-unavailable"
+      }
+    },
+    {
+      "id": "analysis-provider-protocol-prevents-seal",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "cannot-seal-coherent-run",
+        "requiredCoverage": "unknown",
+        "verdict": "unavailable",
+        "durability": "not-committed",
+        "interruption": "none",
+        "requiredPostconditions": "not-reached",
+        "finalizationCommitReached": false,
+        "domainCondition": "provider-protocol-fault"
+      }
+    },
+    {
+      "id": "analysis-durability-failed",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "analysis-complete-publication-failed",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "failed",
+        "interruption": "none",
+        "requiredPostconditions": "failed",
+        "finalizationCommitReached": false,
+        "domainCondition": "ledger-durability-failure"
+      }
+    },
+    {
+      "id": "analysis-ephemeral-when-authoritative-required",
+      "authoredScenarioAxes": {
+        "admission": "rejected",
+        "lifecycle": "pre-run",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "finalizationCommitReached": false,
+        "domainCondition": "plan-authority-conflict"
+      }
+    },
+    {
+      "id": "baseline-compare-unsupported-recipe",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "indeterminate",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "fingerprint-recipe-unsupported-comparison-not-performed"
+      }
+    },
+    {
+      "id": "pre-admission-invalid-config",
+      "authoredScenarioAxes": {
+        "admission": "rejected",
+        "lifecycle": "pre-admission",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-applicable",
+        "interruption": "none",
+        "requiredPostconditions": "not-applicable",
+        "finalizationCommitReached": false,
+        "domainCondition": "config-invalid"
+      }
+    },
+    {
+      "id": "query-empty-search",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "query-complete",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-required",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "valid-set-query-empty"
+      }
+    },
+    {
+      "id": "query-addressed-run-expired",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "query-complete",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-required",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "no-live-record-tombstone-present"
+      }
+    },
+    {
+      "id": "query-addressed-run-no-record-no-tombstone",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "query-complete",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-required",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "no-live-record-no-tombstone"
+      }
+    },
+    {
+      "id": "repair-verification-policy-fail",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "verification-run-sealed",
+        "requiredCoverage": "satisfied",
+        "verdict": "fail",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "mutation-applied-receipt-retained"
+      }
+    },
+    {
+      "id": "user-interrupt-finite",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "cancelled-before-finalization",
+        "requiredCoverage": "unknown",
+        "verdict": "unavailable",
+        "durability": "not-committed",
+        "interruption": "user-sigint-before-finalization",
+        "requiredPostconditions": "not-reached",
+        "finalizationCommitReached": false,
+        "domainCondition": "finite-operation"
+      }
+    },
+    {
+      "id": "user-interrupt-post-finalization-commit",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "user-sigint-after-finalization",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": true,
+        "domainCondition": "settled-success-transport-stop-only"
+      }
+    },
+    {
+      "id": "optional-cloud-egress-failed",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "optional-egress-failed"
+      }
+    },
+    {
+      "id": "required-delivery-failed",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "coherent-terminal-run",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed",
+        "interruption": "none",
+        "requiredPostconditions": "failed",
+        "finalizationCommitReached": false,
+        "domainCondition": "required-delivery-failed"
+      }
+    },
+    {
+      "id": "serve-graceful-signal-stop",
+      "authoredScenarioAxes": {
+        "admission": "admitted",
+        "lifecycle": "serve-cooperative-stop-complete",
+        "requiredCoverage": "not-applicable",
+        "verdict": "not-applicable",
+        "durability": "not-required",
+        "interruption": "serve-stop-signal",
+        "requiredPostconditions": "satisfied",
+        "finalizationCommitReached": false,
+        "domainCondition": "cooperative-cleanup-complete"
+      }
+    }
+  ],
+  "knownLimitations": [
+    "The artifact's scenario prose is null for 38 of 39 goldens, so case IDs necessarily carry more semantic weight than the required blind-review method intended.",
+    "These are semantic axes authored without access to v1.3's exact enum spelling; comparison must normalize by meaning rather than treat spelling differences as findings.",
+    "Only 18 of 39 cases are sampled, intentionally spanning every command family and the load-bearing precedence boundaries."
+  ]
+}

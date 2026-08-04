@@ -1,0 +1,148 @@
+{
+  "artifact": "opensip.retention-tiers.v3.review",
+  "reviewOf": "artifacts/retention-tiers.v3.json + artifacts/check-retention-v3.py",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-30",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "DIFFERENT FROM AUTHOR: (1) Independent clean-pass axes authoring before reading golden list. (2) Vacuity probes: activatedEvaluations=0; all outcomes=indeterminate/error with policyVerdict=pass. (3) Mutate contract (empty goldens, drop C1, self-seal status, empty scenario, zero-eval golden still expected pass). (4) Confirm outcome is never read by derive(). (5) Diff prose invariants on VerdictReceipt vs executable derivation. Did not treat 19/19 green as scenario faithfulness."
+  ],
+  "whatCouldHaveFailed": [
+    "Clean-pass still zero proofs (B-RTV2-01 unfixed)",
+    "Commitment-only still durable-pass (B-RTV2-02 unfixed)",
+    "Producer-declared still accepted",
+    "derive allows durable-pass with zero evaluations or with indeterminate evaluations",
+    "Checker silent when goldens empty or status SEALED"
+  ],
+  "framingVerdict": {
+    "direction": "ACCEPT",
+    "detail": "v3 correctly replaces finding-shaped ladders with evaluation+verdict receipts, host-owned obligations, frozen vs regenerable custody, C0/C1/C2 capabilities, pre-write storage admission, and non-truncation. This is the right center after B-RTV2-01 and the A3 reframe. Author honesty (solo goldens = consistency only; do not seal) is correct.",
+    "authorship": "agent-b authored v3 after rejecting v2; agent-1 authored rejected v2 — good separation for this review."
+  },
+  "priorFindingDisposition": {
+    "B-RTV2-01": "ADDRESSED IN CANDIDATE SHAPE — G01 requires no-match receipts; G02 rejects zero receipts when activated>0. Residual vacuity when activated=0 (A1-RTV3-01).",
+    "B-RTV2-02": "ADDRESSED IN SHAPE — claimMaterial complete required; G19 rejects commitment-only. Executable axes still do not type-check witness kind vs outcome.",
+    "B-RTV2-03": "ADDRESSED IN SHAPE — G07 producer-declared → PROOF.OBLIGATION_UNTRUSTED.",
+    "B-RTV2-04": "ADDRESSED IN SHAPE — G09 truncation → PROOF.BUDGET_EXHAUSTED.",
+    "B-RTV2-05": "PARTIAL as author states — admission contract specified; measurement and sync validation still open.",
+    "B-RTV2-06..08": "ADDRESSED IN CANDIDATE PROSE — pinning/ledger/C2 closure; not implementation-proved.",
+    "B-RTV2-09": "PARTIAL — structured goldens+runner exist; author dual-wrote both; semantic verifier fixtures still open.",
+    "A1-RTR-01..04": "ACCEPT author dispositions as candidate text; dual frozen/regenerable and EvaluationManifest present."
+  },
+  "findings": [
+    {
+      "id": "A1-RTV3-01",
+      "severity": "critical",
+      "title": "C1 durable-pass allowed with activatedEvaluations=0 and empty receipts",
+      "detail": "derive() only checks len(receipts)!=activatedEvaluations. When both are 0, the check passes, and with verdictReceipt=present and policyVerdict=pass the result is durable-pass. Independent probe confirms. A golden with that shape would also pass RV4. This reintroduces a vacuous authoritative pass: no rule ran, yet C1 durable-pass is granted. G02 only covers activated=2 with zero receipts, not activated=0.",
+      "requiredFix": "For authoritative C1/C2, require activatedEvaluations>=1 OR an explicit sealed EmptyPlanProof / policy admitting empty evaluation set as a first-class decision (not silent durable-pass). Prefer: empty evaluation set → request-rejected PROOF.NO_ACTIVATED_EVALUATION or indeterminate unless Plan declares allowEmptyEvaluationSet with its own host-owned proof obligation.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative product rule that authoritative analysis with zero activated evaluations is a defined pass with a sealed empty-plan receipt that G0x already requires — currently no such receipt type or golden exists."
+    },
+    {
+      "id": "A1-RTV3-02",
+      "severity": "critical",
+      "title": "derive() never reads evaluation outcomes; indeterminate/error receipts still allow durable-pass",
+      "detail": "inspect.getsource(derive) contains no 'outcome' check. Independent probes: all outcomes=indeterminate + policyVerdict=pass → durable-pass; outcome=error + no-match + pass → durable-pass. Prose VerdictReceipt invariant says a pass is invalid if required evaluation is insufficient; the executable derivation and goldens do not enforce it. Same class as D9 axes underdetermining codes: structural completeness ≠ semantic fidelity of the load-bearing claim.",
+      "requiredFix": "First-failure rules: any evaluation outcome indeterminate/error forces classification indeterminate (or policy-fail only if policy explicitly consumes proved-indeterminate under host obligation) and forbids durable-pass. Add goldens G20 (all indeterminate→not durable-pass) and G21 (error present→not durable-pass unless explicit policy path).",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A documented rule that policyVerdict in the golden axes is already assumed consistent with outcomes and that outcome checking is out of scope for this runner — then RV4 must not claim to prove pass validity, only admission/graph completeness, and durable-pass goldens must be renamed to avoid overclaim."
+    },
+    {
+      "id": "A1-RTV3-03",
+      "severity": "medium-high",
+      "title": "Checker proves mutual consistency of author-written axes and expected results, not independent scenario faithfulness",
+      "detail": "Author correctly states this in reviewPosture and knownLimitations. RV4 green is necessary, not sufficient. Zero-eval durable-pass can be co-authored and pass. Independent mutation that zeros G01 activations while leaving expected=durable-pass still exit 0 if both sides updated together — the trap that bit D9.",
+      "requiredFix": "Add non-author-controlled negative cases as hard invariants in the runner (activated>=1 for authoritative C1; forbid durable-pass when any outcome∈{indeterminate,error}) so they cannot be co-edited away without failing RV structural rules. Prefer second-author golden set for load-bearing cases.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV3-04",
+      "severity": "medium",
+      "title": "Outcome field is present on receipts but unused — false completeness signal",
+      "detail": "Axes schema requires outcome on every receipt, goldens fill it, derive ignores it. Readers and future implementers may assume outcome is load-bearing because it is required.",
+      "requiredFix": "Either wire outcome into derive (preferred, with A1-RTV3-02) or remove outcome from golden axes until a second pure function policyFromOutcomes exists and is tested.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-RTV3-05",
+      "severity": "low-medium",
+      "title": "B-RTV2-05/09 measurement and crypto constructions correctly residual — do not seal over them",
+      "detail": "Author lists unmeasured custody sizes, unchosen authenticated-set construction, deletion unsolved, heuristic sync detection. Agree; these are seal blockers for ARCH.RETENTION-TIERS, not reasons to discard the v3 center.",
+      "requiredFix": "Keep as seal blockers; no new checker investment required for this class.",
+      "confidence": "high"
+    }
+  ],
+  "positiveControls": [
+    {
+      "test": "G01-style clean pass with two no-match frozen receipts",
+      "result": "durable-pass — addresses finding-only hole"
+    },
+    {
+      "test": "G02 activated=2 receipts=[]",
+      "result": "indeterminate EVALUATION_RECEIPT_MISSING"
+    },
+    {
+      "test": "G19 commitment-only claimMaterial",
+      "result": "indeterminate WITNESS_INSUFFICIENT"
+    },
+    {
+      "test": "G07 producer-declared obligation",
+      "result": "indeterminate OBLIGATION_UNTRUSTED"
+    },
+    {
+      "test": "status=SEALED mutation",
+      "result": "RV1 fails — good anti-self-seal"
+    },
+    {
+      "test": "empty goldenCases",
+      "result": "RV5 fails — good"
+    },
+    {
+      "test": "regen incomplete closure",
+      "result": "PROOF.REGENERATION_CLOSURE_MISSING"
+    }
+  ],
+  "negativeControls": [
+    {
+      "test": "activatedEvaluations=0, receipts=[], C1 authoritative durable, pass",
+      "expected": "reject or indeterminate",
+      "observed": "durable-pass",
+      "pass": false,
+      "finding": "A1-RTV3-01"
+    },
+    {
+      "test": "all outcomes indeterminate + policyVerdict pass",
+      "expected": "not durable-pass",
+      "observed": "durable-pass",
+      "pass": false,
+      "finding": "A1-RTV3-02"
+    },
+    {
+      "test": "error+no-match outcomes + policyVerdict pass",
+      "expected": "not durable-pass (absent explicit proved-indeterminate policy)",
+      "observed": "durable-pass",
+      "pass": false,
+      "finding": "A1-RTV3-02"
+    }
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal ARCH.RETENTION-TIERS or v3. Fix A1-RTV3-01 and A1-RTV3-02 in a v3.1 (or checker+golden patch) before any promotion. Framing is the first retention candidate worth building on.",
+  "whatWouldChangeMyMind": [
+    "Executable rules that forbid durable-pass when activatedEvaluations=0 or any evaluation outcome is indeterminate/error (unless a named host-owned path for proved-indeterminate is exercised by a golden)",
+    "Independent second author of a golden subset that still passes after those rules"
+  ],
+  "knownLimitations": [
+    "Did not design authenticated-set crypto or measure fact-partition sizes.",
+    "Did not re-litigate full threat-model V5 deletion.",
+    "Reviewer previously authored rejected v2; bias toward evaluation-unit framing is declared — vacuity probes still falsify the runner independently."
+  ],
+  "sealedPropertiesCovered": [
+    "clean pass must be checkable (candidate progress)",
+    "required insufficient evidence cannot yield pass (prose yes; executable partial — A1-RTV3-02)",
+    "minimise user content with admission (candidate)"
+  ]
+}

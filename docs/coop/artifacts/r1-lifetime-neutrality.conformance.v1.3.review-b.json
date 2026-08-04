@@ -1,0 +1,65 @@
+{
+  "artifact": "opensip.review.r1-lifetime-neutrality-conformance",
+  "version": "1.0",
+  "subject": "artifacts/r1-lifetime-neutrality.conformance.v1.3.json",
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "independence": {
+    "method": "Traced ownership of attempt identity across architecture/02, the execution-core boundary, CoreDeps, LN-13, and peerReviewRequired. Reviewer A's review artifact was not used as evidence.",
+    "differentInstrument": "This was an authority/ownership consistency trace rather than an assertion-only check of LN-13.",
+    "limitation": "The round began after prior finding IDs appeared in the authoritative register. An unfiltered repository search later surfaced short Reviewer-A excerpts after this ownership contradiction had already been derived; they were not used as evidence."
+  },
+  "verdict": "reject-require-v1.4",
+  "repairAssessment": {
+    "B-R1V12-01": "PARTIAL. LN-13 now correctly varies ExecutionId while holding semantic inputs fixed and requires equal EvidenceDigest. The surrounding boundary still leaves the core minting or accepting an ID source for an identity allocated by outside admission, so the artifact does not consistently close the finding.",
+    "B-R1V12-02..07": "UNCHANGED-OPEN. v1.3 accurately lists these as accepted and outstanding; it supplies no repair for them."
+  },
+  "resolves": {
+    "B-R1V13-01": "OPEN-BLOCKER: ExecutionId ownership is internally contradictory between outside admission, CoreDeps.idSource, injectedNotAmbient, and LN-13.",
+    "B-R1V13-02": "OPEN-BLOCKER: peerReviewRequired still presents the repaired ExecutionId question as unresolved, leaving the same artifact with both a resolution and an open question."
+  },
+  "findings": [
+    {
+      "id": "B-R1V13-01",
+      "severity": "high",
+      "category": "attempt-identity-ownership",
+      "evidence": [
+        "architecture/02 defines ExecutionId as a per-attempt anchor allocated at admission before work",
+        "executionCoreBoundary says admission is outside and the core performs no admission",
+        "coreApi supplies idSource to the core rather than an already allocated ExecutionId/attempt context",
+        "injectedNotAmbient says RunId/ExecutionId are content-derived or supplied and the source is deterministic",
+        "LN-13 says the core produces differing ExecutionIds while also saying ExecutionId is allocated at admission"
+      ],
+      "impact": "The corrected equality assertion can be implemented in two incompatible ways: host allocation preserving the boundary, or core allocation violating it. The latter restores the authority leak that the boundary is meant to exclude.",
+      "requiredChange": "Allocate a unique ExecutionId in host admission and inject the already allocated value as immutable attempt context. Make LN-13 run the core twice with distinct supplied ExecutionIds over identical semantic inputs, assert both IDs are preserved and EvidenceDigest is equal, and separate any deterministic content-ID/hash service from attempt-ID allocation.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A typed ValidatedPlan or other existing input that already carries the host-allocated ExecutionId, plus a normative statement that CoreDeps.idSource cannot allocate it."
+    },
+    {
+      "id": "B-R1V13-02",
+      "severity": "medium",
+      "category": "same-artifact-status-conflict",
+      "evidence": [
+        "resolves.B-R1V12-01 says the issue is accepted and corrected",
+        "LN-13 states the new per-attempt rule",
+        "peerReviewRequired still asks whether the ExecutionId assumption holds because allocation occurs at admission before content is known"
+      ],
+      "impact": "A reader cannot tell whether identity ownership is decided or explicitly awaiting review, repeating the exercise's circular-status failure at the question level.",
+      "requiredChange": "Replace the stale question with a recorded disposition and a narrower review question about how the already allocated attempt identity enters the core.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "An explicit convention that peerReviewRequired retains answered questions with their disposition; the current field contains no such status."
+    }
+  ],
+  "sealedPropertiesCovered": [
+    "architecture/02-domain-model.md#identity — ExecutionId is per attempt and allocated at admission",
+    "architecture/03-execution-model.md — cancellation and lifecycle are anchored to ExecutionId",
+    "architecture/08-surfaces-and-topology.md#topology-reopened — core lifetime neutrality is separable from host residency",
+    "R-1 item (1) — identical semantic inputs must not make core behavior depend on process lifetime or ambient entropy"
+  ],
+  "knownLimitations": [
+    "No executable R1 suite exists, so this review checks specification consistency rather than implementation conformance.",
+    "The six v1.2 blockers explicitly left outstanding were spot-checked for non-closure but not re-authored here.",
+    "This review does not choose the final content-derived RunId construction; it only separates it from attempt identity."
+  ],
+  "confidence": "high"
+}

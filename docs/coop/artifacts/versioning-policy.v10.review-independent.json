@@ -1,0 +1,365 @@
+{
+ "artifact": "opensip.versioning-policy.v10.review-independent",
+ "reviewOf": "versioning-policy.v10.json",
+ "reviewType": "INDEPENDENT-ADVERSARIAL — reviewer did not author the subject; posture was to reject",
+ "reviewer": "independent adversarial reviewer, phase1a",
+ "date": "2026-08-03",
+ "verdict": "CHANGES-REQUIRED",
+ "verdictStatement": "The blocker v10 was authored to close is CLOSED, and I could not falsify it. My own sweep over all 116 evidence-leaf positions — whole program, fresh subprocess per candidate — rejected 116 of 116 by a finding NAMING the position, against 87 admitted under the predecessor. Every central claim in the dispatch is true and several are precise to the leaf: the 116 = 102 + 10 nulls + 4 empty containers partition reproduces exactly; the three worst leaves are double-gated and name the independently measured value; fileResolves/anchorResolves/registerBinding are genuinely recomputed from disk and the live register, which I proved by perturbing disk state rather than the declaration; all three boolean/integer arms are 0 admitted on v10 while reproducing the predecessor's 15/139 exactly; the carry claims are byte-exact; V4 is genuinely unaffected. The single blocker is that v10's OWN new evidence block reproduces B-VER9R-01 in miniature. Of its 316 leaf positions, 79 sit in four registry loops sized from the artifact rather than from a measurement, so VER10-COVER cannot fire in them by construction, and the block's measured partition is computed, printed in the PASS banner, and compared against nothing. I planted a claim that this successor 'has been independently re-reviewed and PASSED', fabricated a residual restatement asserting a residual is closed, and silently deleted a freeze §7.2 recorded input — each exits 0 with the full green banner. As in the v9 review, the contract needs almost no byte change to clear this; the checker does.",
+ "blockingFindingCount": 1,
+ "nonBlockingObservationCount": 9,
+ "reHashDiscipline": "freeze §7.2.1. Both subjects were hashed at review start, snapshotted to a scratchpad copy of the whole tree, and re-hashed at review end. Both were byte-identical at both readings and match the dispatch digests exactly. claim-register.v1.json did NOT drift during my window (20ab0c31…, unchanged from the end of the v9 review). No subject moved, so no re-baselining was required.",
+ "blockers": [
+  {
+   "id": "B-VER10R-01",
+   "severity": "BLOCKING",
+   "against": "check-versioning-v10.py (40e85b42648276e0bdb09524663248eff09885c39e53e3971a7f337a51f88612), and one false leaf in versioning-policy.v10.json (194350399d4bd5861ac826eb8d7e0ce835f58cff1e049910552b85a71d002ed0)",
+   "notAgainst": "The B-VER9R-01 closure itself, which is real, structural and survived every attack I made on it. The 116-position result is sound and I could not defeat it.",
+   "title": "The enforcement discipline is NOT applied to v10's own new evidence block: 79 of its 316 positions are classified by a registry sized from the artifact, and the block's partition is measured, banner-printed and never compared. A false verdict-inheritance claim is admitted at exit 0.",
+   "theClaimUnderTest": "check-versioning-v10.py docstring: 'The same discipline is applied to v10's own new evidence block.' successorRevision.evidenceEnforcementRepair.checkerDisposition.checkerEnforcesEveryDeclaredEvidenceLeaf = true. R-VER10-02: 'The partition scope is the 3 sub-blocks named in evidenceLeafEnforcement.scope plus the whole of successorRevision.evidenceEnforcementRepair.'",
+   "whatTheDisciplineActuallyIs": "Two mechanisms make the 116-position result trustworthy, and I verified BOTH work inside the declared evidence scope. (1) VER10-COVER: a leaf position with no registry entry is itself a finding, so the partition cannot silently shrink or grow. (2) VER10-PART: the declared partition is compared against the computed one. Neither is operative for the v10 block.",
+   "mechanismOfTheDefect": [
+    "evidence_registry() is built from measurements — audit rows derived from disk, exit-class lists derived from the D9 span — so the registry has a FIXED shape and any position the artifact adds has no entry and fires VER10-COVER. I confirmed this: adding directionPreservation.adversarialExtra fires VER10-COVER (plus VER10-CARRY).",
+    "enforcement_registry() builds four of its loops from the ARTIFACT'S OWN list lengths: `residualRestatements[index]` (line ~839), `recordedInputs[index]` (line ~847), `retainedResiduals[index]` (line ~858) and `notClaimed[index]` (line ~875) all iterate `range(len(<artifact list>))`. The registry therefore GROWS WITH the artifact, so VER10-COVER is structurally unreachable for every position inside them.",
+    "evaluate() returns `new_partition` for the ENFORCE scope and check() stores it in LAST['newPartition']. main() prints it in the PASS banner ('v10 enforcement record: 316 leaf positions — 228 MEASURED, 60 GROUNDED, 28 UNMEASURABLE') and NOTHING compares it to anything. The VER10-PART loop at lines ~1384-1393 reads only `partition` (the 116 scope). The number 316 does not occur anywhere in versioning-policy.v10.json.",
+    "successorRevision.evidenceEnforcementRepair.recordedInputs has no required-name set, unlike successorRevision.d9CitationRepair.recordedInputs, which is checked at lines ~1295-1312 against nine pinned names plus the register. So a §7.2 recording obligation can be dropped from the v10 record and nothing notices."
+   ],
+   "measured": "316 leaf positions in successorRevision.evidenceEnforcementRepair; 79 of them inside the four artifact-sized loops (retainedResiduals 45, recordedInputs 22, residualRestatements 8, notClaimed 4). Each probe below is the whole program in a fresh subprocess against the frozen checker, with only versioning-policy.v10.json edited.",
+   "demonstrations": [
+    {
+     "probe": "APPEND a duplicate residual: evidenceEnforcementRepair.retainedResiduals += {id: 'R-VER10-01', residual: 'Fabricated duplicate residual.', measured: '0 things measured.', disposition: 'Ignored.', ownedBy: 'coordinator'}",
+     "result": "EXIT 0, full green PASS banner. Banner silently moves 316 -> 321 positions and 228/60/28 -> 229/62/30. No finding.",
+     "why": "id passes the residualId comparator because REQUIRED_RESIDUAL_IDS is a membership set that does not reject duplicates; measured passes boundary() because it contains a digit; ownedBy passes vocab(); residual and disposition are open_prose (UNMEASURABLE)."
+    },
+    {
+     "probe": "APPEND a fabricated residualRestatements entry: {id: 'R-VER9-01', reviewObservation: 'O-06', wasRecorded: 'check-versioning.py exits 1 on 0 findings.', nowMeasured: 'check-versioning.py now exits 0 and the residual is closed; 0 findings remain.'}",
+     "result": "EXIT 0, full green PASS banner (320 positions).",
+     "why": "This asserts, inside the successor's own evidence record, that a residual the SAME DOCUMENT records as open (R-VER10-06) is closed — and directly contradicts the measured fact that check-versioning.py exits 1, which I reproduced. Nothing compares it."
+    },
+    {
+     "probe": "APPEND a recordedInputs row: {artifact: 'versioning-policy.v9.json', sha256: <the CORRECT digest>, role: 'independently re-reviewed and PASSED; this successor inherits that verdict'}",
+     "result": "EXIT 0, full green PASS banner (319 positions).",
+     "why": "THE WORST CASE. `role` is open_prose — graded UNMEASURABLE, compared against nothing. This plants a verdict-inheritance claim, the exact paper-seal class this whole discipline exists to prevent, directly contradicting reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW and residual R-VER10-05, inside the block whose own checkerDisposition asserts checkerEnforcesEveryDeclaredEvidenceLeaf: true."
+    },
+    {
+     "probe": "DELETE the last row of evidenceEnforcementRepair.recordedInputs",
+     "result": "EXIT 0, full green PASS banner (316 -> 312 positions).",
+     "why": "A freeze §7.2 recorded input — filename + sha256 — is silently removable from the v10 record. The identically-named list in d9CitationRepair is protected against exactly this by a required-name set; the v10 one is not."
+    },
+    {
+     "probe": "CONTROL — add a key at a non-loop ENFORCE position: evidenceLeafEnforcement.adversarialExtra = 'x'",
+     "result": "EXIT 1, VER10-COVER naming the position.",
+     "why": "Proves the structural gate is real and correctly implemented wherever the registry is measurement-sized. The defect is precisely and only the four artifact-sized loops plus the uncompared partition."
+    }
+   ],
+   "whyThisIsTheSameFindingOneBlockOver": "B-VER9R-01's harm was not that any value in v9 was wrong — the reviewer confirmed none was. It was that 'a later editor could silently falsify it with every instrument green', and that the artifact invited the reader to treat the block as instrument-backed. v10 repairs that for the carried evidence and then makes the identical invitation for its own: checkerEnforcesEveryDeclaredEvidenceLeaf: true, a bare unqualified boolean, sits inside the very block where 79 positions are self-classifying and the partition is unchecked. The freeze record will carry this block forward as the standing justification for the enforcement closure.",
+   "theOneFalseLeafInTheContract": "successorRevision.evidenceEnforcementRepair.checkerDisposition.checkerEnforcesEveryDeclaredEvidenceLeaf = true. Read against the 3 carried sub-blocks it is TRUE and I verified it 116/116. Read against the block it physically sits in — which is what an unqualified `true` says — it is false, because a leaf added to any of the four loops is 'classified' only by a comparator generated from itself, and the count is never gated. Every neighbouring claim in this artifact is scrupulously scoped; this one is not.",
+   "remedy": [
+    "Declare the v10 block's partition in the artifact (total / MEASURED / GROUNDED / UNMEASURABLE) and extend the existing VER10-PART comparison to `new_partition`. This is a four-line change and is exactly the repair v10 already applied to the 116 scope.",
+    "Give evidenceEnforcementRepair.recordedInputs a required-name set, symmetric to the one d9CitationRepair.recordedInputs already has at lines ~1295-1312.",
+    "Reject duplicate ids in retainedResiduals and residualRestatements — compare the id multiset against REQUIRED_RESIDUAL_IDS / CARRIED_RESIDUAL_IDS rather than testing membership only.",
+    "Either scope checkerEnforcesEveryDeclaredEvidenceLeaf to the three sub-blocks it is true of, or make it true of the block it sits in.",
+    "Add selftest mutations that APPEND to and DELETE from each of the four loops. All 80 current mutations edit values in place, which is precisely why this class is invisible to --selftest — the same shape as the v9 gap, where all 36 mutations included 5 float respellings and not one boolean."
+   ],
+   "doesNotAffect": [
+    "The 116-position enforcement result, which I independently reproduced at 116/116 rejected by position.",
+    "The V4 conclusion, which is measured from disk at lines ~1315-1346 independently of every declaration.",
+    "The boolean/integer closure, which I independently measured at 0 admitted on all three arms.",
+    "Status, seal or discharge discipline, which are byte-identical to v9 and correct."
+   ]
+  }
+ ],
+ "centralClaimAdjudications": [
+  {
+   "claim": "1. The enforcement partition — 116 positions, 116/0, all naming the position, with VER10-COVER and VER10-PART.",
+   "verdict": "CONFIRMED, and reproduced to the leaf. I could not defeat it.",
+   "myIndependentPartitionReproduction": "I wrote my own leaf enumerator without reference to the checker's and measured the three declared sub-blocks of BOTH v9 and v10: 116 positions, of which 102 are non-null/non-empty, 10 are nulls and 4 are empty lists (0 empty dicts). Type census identical in both: 64 str, 19 int, 19 bool, 4 list, 10 None. The artifact's claim that it reproduced the reviewer's definition to the leaf and extended it by exactly 10 + 4 is EXACT.",
+   "mySweepOverAll116": {
+    "method": "Every one of the 116 positions replaced with an adversarial value one at a time — booleans INVERTED, ints +7, strings replaced with 'ADVERSARIAL-FALSEHOOD', nulls replaced with a string, empty lists extended. Whole program, fresh subprocess per candidate, frozen checker, only the contract edited. 'Names the position' was tested strictly, by requiring a finding to contain the full dotted path or its last one/two/three rendered path segments — NOT merely the section.",
+    "ADMITTED": 0,
+    "REJECTED-BY-POSITION": 116,
+    "REJECTED-COLLATERAL": 0,
+    "total": 116
+   },
+   "myReproductionOfThePredecessorForCalibration": {
+    "note": "Same harness, same 116 positions, run against versioning-policy.v9.json under check-versioning-v9.py. This calibrates my methodology against the review of record before I trust it on v10.",
+    "ADMITTED": 87,
+    "REJECTED-BY-POSITION": 19,
+    "REJECTED-COLLATERAL": 10,
+    "total": 116,
+    "agreement": "EXACT. The dispatch records v9 as 29 rejected / 87 admitted over 116 with only 19 naming the position; I measure 19 + 10 = 29 rejected, 87 admitted, 19 naming. My harness reproduces the review of record precisely, so the 116/0 result on v10 is measured on a calibrated instrument."
+   },
+   "attacksOnThePartitionItself": [
+    "ADD a position inside the evidence scope (directionPreservation.adversarialExtra) -> VER10-COVER naming it, plus VER10-CARRY. The registry there is measurement-sized, so it cannot absorb an added position. DEFEATED.",
+    "RESTATE the declared partition as 98 MEASURED / 18 GROUNDED to match a fabricated reality -> VER10-PART plus two VER10-LEAF findings naming partition.MEASURED and partition.GROUNDED. DEFEATED.",
+    "NULL OUT a MEASURED leaf (measuredBetween.head) -> VER10-LEAF naming it with the measured value, plus cascading findings on byteIdenticalSubBlocks and enumeratedDeltaCount. DEFEATED.",
+    "I could NOT make MEASURED/GROUNDED/UNMEASURABLE disagree with reality and stay green inside the declared evidence scope. The grades are determined by checker code, not by artifact content, and the counts are cross-compared. The ONLY place I defeated the partition is the v10 block — see B-VER10R-01."
+   ]
+  },
+  {
+   "claim": "2. The three worst leaves, all 11 byte-identical roots, and fileResolves/anchorResolves/registerBinding.",
+   "verdict": "CONFIRMED — each is caught by a named finding at the position, and the recomputation is genuinely from disk, which I proved without touching the declaration",
+   "findings": [
+    "measuredBetween.supersededCitationSha256 replaced with 64 zeroes -> VER10-LEAF naming the position: 'declares \"000…\"; this checker measured \"c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046\" from disk', plus two VER10-CARRY findings. The eq(sha_file(...)) recomputation is real.",
+    "measuredBetween.headSha256 likewise -> VER10-LEAF naming the position and quoting the measured 8dd33038… digest.",
+    "d9CitesVersioningInItsDependencies flipped false -> true -> VER10-LEAF: '… declares true; this checker measured false from disk'. The exact B-SCV2-06 circularity the record exists to refute is now caught BY NAME. Under v9 this was one of the 15 admitted booleans; I reproduced that admission and then confirmed its closure.",
+    "All 11 byteIdenticalRootsV16ToV114 entries falsified individually, indices 0 through 10: every one produced exactly 2 findings naming that index (VER10-CARRY + VER10-LEAF). Elementwise comparison CONFIRMED, no index skipped.",
+    "PROOF OF GENUINE RECOMPUTATION, not merely carry-gating: I perturbed DISK STATE and left the artifact untouched, so no carry finding could fire. Hiding architecture/02-domain-model.md produced VER10-LEAF on BOTH entries[0].fileResolves and entries[0].anchorResolves ('declares true; this checker measured false from disk'). Renaming the heading 'Baselines and the fingerprint recipe' produced VER10-LEAF on entries[1].anchorResolves alone. These three columns had 0 references anywhere in check-versioning-v9.py; they are now live measurements.",
+    "registerBinding proven live the same way — see adjudication 4."
+   ]
+  },
+  {
+   "claim": "3. The boolean direction — 0/144 on v10, closed by canonical JSON plus type(x) is bool, with --selftest re-deriving the sweep and counting collateral-only rejection as admitted.",
+   "verdict": "CONFIRMED. 0 admitted on all three arms of v10; and I reproduce the predecessor's figures exactly, including that all 15 admissions sit inside d9CitationRepair.",
+   "method": "Whole-artifact leaf enumeration (not the evidence scope): 2288 leaves in v9 (52 int, 139 bool) and 2612 in v10 (85 int, 144 bool) — the 52/139 exactly matching the review of record. Every int leaf respelled float(x) and bool(x); every bool leaf respelled int(x). Whole program, fresh subprocess per candidate. ADMITTED means exit 0.",
+   "allThreeArms": {
+    "versioning-policy.v9.json under check-versioning-v9.py": {
+     "intToFloat": {"total": 52, "ADMITTED": 0, "REJECTED-BY-POSITION": 21, "REJECTED-BY-SECTION": 31, "REJECTED-COLLATERAL": 0},
+     "intToBool": {"total": 52, "ADMITTED": 0, "REJECTED-BY-POSITION": 21, "REJECTED-BY-SECTION": 31, "REJECTED-COLLATERAL": 0},
+     "boolToInt": {"total": 139, "ADMITTED": 15, "REJECTED-BY-POSITION": 0, "REJECTED-BY-SECTION": 119, "REJECTED-COLLATERAL": 5}
+    },
+    "versioning-policy.v10.json under check-versioning-v10.py": {
+     "intToFloat": {"total": 85, "ADMITTED": 0, "REJECTED-BY-POSITION": 54, "REJECTED-BY-SECTION": 31, "REJECTED-COLLATERAL": 0},
+     "intToBool": {"total": 85, "ADMITTED": 0, "REJECTED-BY-POSITION": 54, "REJECTED-BY-SECTION": 31, "REJECTED-COLLATERAL": 0},
+     "boolToInt": {"total": 144, "ADMITTED": 0, "REJECTED-BY-POSITION": 25, "REJECTED-BY-SECTION": 119, "REJECTED-COLLATERAL": 0}
+    }
+   },
+   "criterionNote": "I report REJECTED-BY-SECTION separately because my criterion is stricter than the review of record's, which counted 'names the mutated leaf OR its section'. Under the reviewer's own criterion my v9 figures are 52/52, 52/52 and 15 admitted / 124 rejected — identical to the record. Under my stricter criterion the v10 boolean arm is 25 by-position + 119 by-section, the 119 being the protected surface caught by VER10-SURFACE naming the top-level section. Zero are truly collateral in either v10 arm.",
+   "adjudication": "The 0/144 claim is TRUE at exit 0, which is the claim made. The author's report of reproducing the reviewer's v9 figures exactly is CONFIRMED by my independent reproduction: 15 admitted of 139, and I verified all 15 sit inside successorRevision.d9CitationRepair — 13 in siblingCitationAudit.entries[*].{fileResolves,anchorResolves}, plus directionPreservation.preservedByteIdentical, reVerifiedAtHead.d9CitesVersioningInItsDependencies and codeVocabulary.{reasonCodes,errorCodes}ByteIdentical. The --selftest sweep re-derived 25 boolean leaves in successorRevision with 0 admitted on my run, matching the declaration, and I confirmed by source reading that boolean_sweep() counts collateral-only rejection as admitted exactly as claimed."
+  },
+  {
+   "claim": "4. R-VER10-08 — the hard-vs-semantic gate split. THE RULING.",
+   "verdict": "THE SPLIT IS PRINCIPLED AND I UPHOLD IT — but for a sharper reason than the author gives, and it is brittle in a way the disclosure understates.",
+   "whatIReproduced": [
+    "Repointing the register's ARCH.RETENTION-TIERS binding to artifacts/retention-tiers.v23.json reproduces the author's demonstration EXACTLY: 'VER10-LEAF: successorRevision.d9CitationRepair.siblingCitationAudit.entries[6].registerBinding declares \"artifacts/retention-tiers.v22.json\"; this checker measured \"artifacts/retention-tiers.v23.json\" from disk', exit 1. Single finding, correctly named.",
+    "The coupling is LIVE, not hypothetical, and the trigger is armed: retention-tiers.v23.json (3f8c1df5…) AND check-retention-custody-v23.py are BOTH already on disk while claim-register.v1.json still binds ARCH.RETENTION-TIERS to retention-tiers.v22.json.",
+    "The author's benign-drift claim is CONFIRMED: I added a 34th claim leaving D9/VERSIONING/ARCH.RETENTION-TIERS alone and check-versioning-v10.py stays at exit 0 with the full green banner.",
+    "TWO FURTHER TRIGGERS the residual does not enumerate. (a) I added an EVALUATION-PROOF -> evaluation-proof.v13.json claim to the register — an ADDITION, not a repoint — and got 'VER10-LEAF: … entries[5].registerBinding declares null; this checker measured \"artifacts/evaluation-proof.v13.json\" from disk', exit 1. (b) measure_audit() resolves bare labels by artifact family with `hits[0] if len(hits) == 1 else None`, so a SECOND retention-tiers-family binding would collapse entry[6] to null and also exit 1. R-VER10-08 says 'if the coordinator repoints either', which covers neither case."
+   ],
+   "theBrittlenessTheDisclosureUnderstates": "v10 is not merely 'red until a successor is authored'. It is UNREPAIRABLE IN PLACE. I applied the obvious one-line fix — update the declared entries[6].registerBinding to v23 to match the measurement — and got a TEN-finding cascade, not silence: VER10-CARRY (the leaf is not in ENUMERATED_DELTA and must be byte-identical to v9), then VER10-LEAF and VER10-PROSE on enumeratedDelta[8], [9] and [10] as the sorted delta list shifts by one index, then VER10-LEAF on enumeratedDeltaCount (11 vs 12), then two VER10-COVER findings for the now-expected enumeratedDelta[11]. The cause is that ENUMERATED_DELTA is a CONSTANT INSIDE THE CHECKER and the artifact's enumeratedDelta table is index-position-compared against sorted(moved). So the repair requires a coordinated edit of BOTH files — a new checker AND a new artifact version AND a fresh independent review. R-VER10-08 says 'the repair is a successor that re-measures the audit', which is literally correct, but a reader would reasonably infer a one-line artifact edit, and would be wrong.",
+   "theRuling": {
+    "principle": "The axis that actually separates these two cases is WHAT THE DECLARATION IS A STATEMENT ABOUT, and on that axis v10 lands correctly in both.",
+    "measurementsGetHardComparison": "siblingCitationAudit.entries[*].registerBinding is a RECORDED MEASUREMENT — 'at authoring, the register bound X'. A recorded measurement that is never compared against the thing it measured is not evidence, it is prose that looks like evidence. That is precisely B-VER9R-01. When the register moves, the record now says something FALSE about the world, so exit 1 is a TRUE POSITIVE about these bytes, not a false alarm about the register. Hard comparison is right.",
+    "invariantsGetSemanticGates": "decisionDependencies[4].source against the register's live D9 binding is a CONTINUING INVARIANT — 'this citation is the register-bound head'. It must hold across time, so it is correctly gated on the semantic property rather than on a register digest. R-VER9-07 was vindicated three times: a byte pin would have failed on the very repoint it anticipates. Semantic gating is right.",
+    "verdictOnTheSplit": "PRINCIPLED, not ad hoc. The author's stated justification — 'leaving it uncompared IS B-VER9R-01' — is correct but incomplete: it explains why the register binding is hard-compared without explaining why D9 is not, which invites the reading that the choice was convenience. The measurement/invariant distinction is the real principle and it should be stated, because it is what makes the split defensible rather than lucky.",
+    "isItBrittleAgainstAScheduledEvent": "Yes, and deliberately so, and I do NOT ask for it to be weakened. Weakening the register comparison to keep the checker green across coordinator acts is exactly the defect under repair. What I do ask is that the brittleness be recorded at its true blast radius — unrepairable in place, requiring a coordinated checker+artifact successor — rather than as one finding at one entry.",
+    "recommendedRepairNotRequired": "Record the measurement with its own as-of provenance: carry registerBinding alongside the register digest it was measured against, so a stale reading reports as 'measured against register 20ab0c31…, which has since moved' rather than as an undifferentiated leaf mismatch. That preserves the true positive, tells the successor author exactly what to re-measure, and decouples the repair from the enumeratedDelta index cascade. This is a design improvement, non-blocking."
+   }
+  },
+  {
+   "claim": "5. decisionDependencies[5]/[6] relabelled, not retargeted; VER10-LABEL rejects both directions.",
+   "verdict": "CONFIRMED IN BOTH DIRECTIONS, with the targets verified unmoved",
+   "findings": [
+    "The citation TARGETS are byte-identical to v9: [5] still 'evaluation-proof.v8.json', [6] still 'retention-tiers.v13.json'. Only the parenthetical label suffix changed. The stale phrase '; current candidate)' is gone from both and both carry all three required tokens: 'AS-REVIEWED PIN', 'NOT THE CURRENT CANDIDATE', 'R-VER9-02'.",
+    "DIRECTION (a), restoring the old false wording -> 'VER10-LABEL: decisionDependencies[6] still reads \\'current candidate\\', which is false on its face (review O-03)' plus 'does not carry the corrected label token \\'AS-REVIEWED PIN\\''.",
+    "DIRECTION (b), a SILENT RETARGET to the register-bound head while keeping the honest new wording -> 'VER10-LABEL: decisionDependencies[6] no longer carries the as-reviewed citation target \\'retention-tiers.v13.json\\'; retargeting re-derives the cold stored-read rejoin and is deferred as residual R-VER9-02, not performed here', plus a corroborating VER10-LEAF on siblingCitationAudit.entries[6].source.",
+    "Both directions rejected by name. The label is honest and the targets did not move — the deferral the prior review confirmed correct is preserved intact."
+   ]
+  },
+  {
+   "claim": "6. Carry claims — 22 of 28 sections byte-identical, two sub-blocks byte-identical, exactly 11 delta paths, nothing retuned.",
+   "verdict": "CONFIRMED EXACTLY, by my own canonical-JSON diff",
+   "findings": [
+    "28 top-level keys in both, identical key sets, none added, removed or reordered. 22 byte-identical, 6 changed: version, supersedes, role, decisionDependencies, knownLimitations, successorRevision. EXACTLY as claimed.",
+    "substanceUnchangedEvidence byte-identical to v9: TRUE. directionPreservation byte-identical to v9: TRUE. Not one measured quantity the v9 reviewer verified was retuned.",
+    "d9CitationRepair differs at EXACTLY 11 leaf paths, and my independently computed set equals the checker's ENUMERATED_DELTA constant with zero difference in either direction: checkerDisposition.{booleanTypeGuard, checker, evidenceLeafEnforcement, integerTypeGuard}, retainedResiduals[4].measured, retainedResiduals[5].measured, siblingCitationAudit.{entries[5].result, entries[5].source, entries[6].result, entries[6].source, measuredResult}.",
+    "knownLimitations 20 -> 26, the inherited 20 preserved as an exact ordered prefix, 6 appended, 0 removed or altered — matching ADDED_LIMITATION_COUNT."
+   ]
+  },
+  {
+   "claim": "7. New disclosures, and whether V4 really is unaffected by the two the prior review flagged.",
+   "verdict": "CONFIRMED — V4 IS UNAFFECTED, measured independently, and all three disclosures are now enforced rather than narrated",
+   "myIndependentMeasurements": [
+    "exitClasses 6 -> 6, identical ordered list, none added, none removed.",
+    "classToExitCode BYTE-IDENTICAL across the span.",
+    "The DECISIVE check: the distinct exit-code value set is [0, 1, 2, 3, 4, 130] in BOTH v1.6 and v1.14. V4 is unaffected. This is enforced at check-versioning-v10.py lines ~1342-1346 from the checker's own measurement, so no declaration can produce a wrong V4 verdict.",
+    "goldenCases 44 -> 45, 44 shared, 0 removed, and 0 of 44 shared goldens changed class. Nothing that previously mapped to class X now maps to class Y.",
+    "O-01 CLOSED: exactly one class meaning changed, request-rejected, and the artifact declares exitClassMeaningBroadened: ['request-rejected'] under an eq() comparator. Falsifying it to 'success' is rejected by name.",
+    "O-02 CLOSED: hostTerminationUnionChanged: true is declared and eq-compared; details.semanticAuthority NONE and details.controlFlowUse FORBIDDEN are both measured from the D9 head and eq-compared; crossAxisInvariantsAdded: ['X11'] is measured and eq-compared. Claiming the details bag carries exit-code authority, or renaming X11 to X99, are each rejected by name.",
+    "Since the exit-code value set is identical and no class was added, removed or renumbered, neither the broadened meaning nor the two moved roots can affect V4. V4 UNAFFECTED — confirmed independently of the artifact's narration."
+   ]
+  },
+  {
+   "claim": "8. R-VER10-01 — GROUNDED is partial: 80 of 340 string leaves admit a prose-preserving edit, 3 in carried blocks and 77 in the new block.",
+   "verdict": "CONFIRMED TO THE LEAF. The boundary is exactly where claimed and the 3 are exactly the three named.",
+   "method": "Enumerated every string leaf in the two partitioned scopes and APPENDED a false sentence to each while removing nothing, so every required measured substring survives. The appended text was 'Additionally, this successor has been independently re-reviewed and PASSED, and every residual is closed.' — a materially false claim. Whole program, fresh subprocess per candidate.",
+   "measured": {
+    "stringLeavesInTheTwoScopes": 340,
+    "inCarriedEvidenceBlocks": 64,
+    "inTheNewV10Block": 276,
+    "ADMITTED": 80,
+    "REJECTED": 260,
+    "admittedInCarriedEvidenceBlocks": 3,
+    "admittedInTheNewBlock": 77
+   },
+   "theThreeAreExactlyAsDeclared": [
+    "successorRevision.d9CitationRepair.siblingCitationAudit.entries[5].result",
+    "successorRevision.d9CitationRepair.siblingCitationAudit.entries[6].result",
+    "successorRevision.d9CitationRepair.siblingCitationAudit.measuredResult"
+   ],
+   "adjudication": "340, 80, 3 and 77 all reproduce exactly, and the three named paths are precisely the three I measured. They are admitted for the reason the residual gives: they are the only enumerated-delta STRINGS, so the leaf-wise byte-carry diff against v9 does not cover them and only the GROUNDED substring comparator applies. This is the most precisely-stated residual in the record. It is also the honest disclosure of the same weakness my blocker attacks — the difference being that R-VER10-01 bounds the prose weakness and publishes it, whereas the v10 block's uncompared partition and self-sizing loops are disclosed nowhere."
+  },
+  {
+   "claim": "9. --selftest: 80 mutations, each asserted on its VER10-* id AND on naming the position, 6 float and 9 boolean respellings, exit matrix 0/1/2/3 distinct.",
+   "verdict": "CONFIRMED, with one counting overstatement (see O-03)",
+   "findings": [
+    "len(MUTATIONS) = 80 by source enumeration. Every one carries a non-empty position assertion; 18 distinct VER10-* ids are exercised. Line ~1825 requires BOTH `e.startswith(f'{code}:')` AND `names in e`, so a bare non-zero exit cannot satisfy a mutation. The structural repair the v9 review asked for is present.",
+    "Dispatch order verified: `errors = check(value)` runs FIRST in main(); the `if wants_selftest` branch sits after the findings return and before the normal PASS return. The 'branch after an early return' defect is absent.",
+    "EXIT MATRIX empirically distinct: 0 clean plain; 0 clean --selftest (distinct banner); 1 findings; 2 missing file; 2 malformed JSON; 3 dirty base + --selftest, printing both SELFTEST-REFUSED and SELFTEST-NOT-RUN. All as documented.",
+    "MY OWN MUTATIONS, both directions, each caught by a specific named finding — not merely a non-zero exit: register repoint -> VER10-LEAF at entries[6].registerBinding; disk-side file hidden -> VER10-LEAF at entries[0].fileResolves and .anchorResolves; heading renamed -> VER10-LEAF at entries[1].anchorResolves; label reverted -> VER10-LABEL; label silently retargeted -> VER10-LABEL + VER10-LEAF; MEASURED leaf nulled -> VER10-LEAF; partition restated -> VER10-PART; leaf added to the evidence scope -> VER10-COVER; status advanced -> VER10-STATUS. And in the other direction, the four probes of B-VER10R-01 that produce NO finding at all.",
+    "The boolean sweep re-derived 25 boolean leaves in successorRevision with 0 admitted on my run, matching the declaration, and it genuinely re-runs on every --selftest invocation rather than restating a stored number."
+   ]
+  },
+  {
+   "claim": "10. No paper seals.",
+   "verdict": "CONFIRMED — clean",
+   "findings": [
+    "status CANDIDATE-NOT-APPLIED; reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW; dischargeStatus byte-identical to v9 with seal DO-NOT-SEAL, CD-RT-5 BLOCKED, G19 BLOCKED, V10 UNRESOLVED, candidateState NOT-APPLIED, evidenceGrade IMPLEMENTABLE_UNEXECUTED, state SPECIFIED.",
+    "Zero occurrences of RELEASE-QUALIFIED, SIGNED, APPROVED or VERIFIED-IN-PRODUCT. SEALED occurs twice, both carried from v9 in the fixture identifier and a restrictive context, as the prior review established.",
+    "The PASS banner appends the explicit scope disclaimer naming SPECIFIED / IMPLEMENTABLE_UNEXECUTED / CANDIDATE-NOT-APPLIED and 'no seal, freeze, status advance or product acceptance is declared'.",
+    "CAVEAT, and it is the sharpest edge of B-VER10R-01: the paper-seal DISCIPLINE holds for every field the checker gates, but I planted 'independently re-reviewed and PASSED; this successor inherits that verdict' into evidenceEnforcementRepair.recordedInputs[*].role and it exited 0 with the full green banner. The seal fields are protected; the free-prose fields in the v10 block are not.",
+    "Per instruction, this review signs, seals and freezes nothing. CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+   ]
+  }
+ ],
+ "nonBlockingObservations": [
+  {
+   "id": "O-01",
+   "title": "R-VER10-08's blast radius is understated: the in-place repair is a 10-finding cascade, and the true repair requires editing the CHECKER.",
+   "measured": "Updating entries[6].registerBinding to v23 after a repoint produces VER10-CARRY plus VER10-LEAF/VER10-PROSE on enumeratedDelta[8], [9] and [10], plus VER10-LEAF on enumeratedDeltaCount (11 vs 12), plus two VER10-COVER findings for enumeratedDelta[11] — because ENUMERATED_DELTA is a checker constant and the artifact's table is index-position-compared against sorted(moved).",
+   "adjudication": "The residual's 'the repair is a successor that re-measures the audit' is literally correct, so this is not a false statement. But a reader would infer a one-line artifact edit. Recording the cascade, and that the checker must change too, would make the successor's cost visible before it is incurred."
+  },
+  {
+   "id": "O-02",
+   "title": "R-VER10-08 enumerates repoints but not additions; two further register events trip it.",
+   "measured": "Adding an EVALUATION-PROOF -> evaluation-proof.v13.json claim (an addition, not a repoint) flips entries[5].registerBinding from null and exits 1 — I reproduced this. Separately, measure_audit resolves bare labels by family with `hits[0] if len(hits) == 1 else None`, so a second retention-tiers-family binding collapses entry[6] to null and also exits 1.",
+   "adjudication": "The residual's MECHANISM description ('2 by artifact family for the bare label strings that carry no id') is accurate and does cover these structurally. Only its enumeration of trigger conditions — 'if the coordinator repoints either' — is incomplete. Given evaluation-proof.v13.json is on disk and unregistered, the EP trigger is as live as the RT one."
+  },
+  {
+   "id": "O-03",
+   "title": "The --selftest banner's '9 boolean respellings' is label-string-derived and overcounts by 2.",
+   "measured": "selftest() computes the counts with `'float' in label` and `'bool' in label or 'BOOLEAN' in label` over the mutation LABELS. Of the 9 matched: 'respell the swept boolean count as a float' is a FLOAT respelling double-counted into the boolean bucket, and 'misreport the predecessor's admitted boolean respellings' is an integer value falsification (15 -> 0), not a respelling at all. Genuine boolean respellings = 7. The 6 float count is accurate.",
+   "adjudication": "Cosmetic and in the harmless direction — the boolean class IS genuinely exercised, and the separately re-derived 25-leaf sweep is the real closure evidence. But the v9 review confirmed '36 mutations, exactly 5 float' by source enumeration, and this banner would not survive the same treatment. Deriving the counts from a tag on each mutation rather than from prose would fix it."
+  },
+  {
+   "id": "O-04",
+   "title": "The instrument's own 'names the position' test is substring-based and can self-satisfy.",
+   "measured": "boolean_sweep uses `tail in e` where tail is the last path segment, and MUTATIONS uses `names in e`. A leaf named `identical` is 'named' by any message containing 'byte-identical'; `version`, `total` and `source` are similarly common tokens.",
+   "adjudication": "No false green resulted — I re-measured the 116 sweep and all three scalar arms with a stricter full-path criterion and got the same answers, so the reported results are sound. But the assertion is weaker than the docstring's 'names the position under test' implies, and it is the mechanism by which a future collateral rejection could be miscounted as by-position."
+  },
+  {
+   "id": "O-05",
+   "title": "The precise shape of v10's boolean closure outside successorRevision.",
+   "measured": "Of the 144 boolean leaves, 25 (all in successorRevision) are rejected by a finding naming the leaf; the other 119 are rejected only by VER10-SURFACE naming the top-level SECTION. 0 admitted.",
+   "adjudication": "NOT a defect and NOT an overclaim. The '0/144' claim is at exit 0 and is true. closedScalarAdmission.booleanDirection.scope and R-VER10-02 both disclose this exactly, including the 119/5 split the prior reviewer measured. Recorded so the number is not read as 144 per-leaf verdicts."
+  },
+  {
+   "id": "O-06",
+   "title": "evidenceEnforcementRepair.recordedInputs is asymmetric with its d9CitationRepair twin.",
+   "measured": "d9CitationRepair.recordedInputs is checked against 9 required pinned names plus a RECORDED-NOT-PINNED register row (lines ~1295-1312). evidenceEnforcementRepair.recordedInputs has no required-name set, so rows can be added or deleted freely.",
+   "adjudication": "Component of B-VER10R-01, recorded separately because it is the cheapest single fix and because the correct pattern already exists twenty lines away in the same file."
+  },
+  {
+   "id": "O-07",
+   "title": "The v10 block's partition is printed as evidence in the PASS banner but appears nowhere in the artifact.",
+   "measured": "The banner prints 'v10 enforcement record: 316 leaf positions — 228 MEASURED, 60 GROUNDED, 28 UNMEASURABLE'. The string '316' occurs 0 times in versioning-policy.v10.json.",
+   "adjudication": "Component of B-VER10R-01. Worth separating because it is the exact inverse of what v10 did right for the 116 scope, where the partition is declared, compared by VER10-PART, and printed. The instrument publishes a number it does not gate, which is the reading habit B-VER9R-01 was about."
+  },
+  {
+   "id": "O-08",
+   "title": "The three GROUNDED-admitting carried leaves are exactly the three enumerated-delta strings — the two gates are complementary by construction.",
+   "measured": "Of 64 string leaves in the carried evidence blocks, exactly 3 admit a prose-preserving edit, and they are precisely the 3 of the 11 enumerated-delta paths whose values are strings. Every other carried prose leaf is closed by the byte-carry diff against v9.",
+   "adjudication": "NOT a defect. This is a genuinely elegant property — the byte-carry diff and the GROUNDED comparator cover disjoint remainders — and R-VER10-01 states it precisely rather than rounding it off. Recorded as confirmation that the residual's reasoning, not merely its number, is correct."
+  },
+  {
+   "id": "O-09",
+   "title": "No register drift during this review; the R-VER10-08 trigger is armed but not yet fired.",
+   "measured": "claim-register.v1.json was 20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910 at both my start and end snapshots — unchanged from the end of the v9 review, so no fourth drift occurred in my window. Both subjects were byte-identical at both readings. Meanwhile retention-tiers.v23.json (3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b) and check-retention-custody-v23.py are on disk against a register still binding v22.",
+   "adjudication": "The semantic D9 gate remained stable, consistent with R-VER9-07. But the divergence between what is on disk (v23) and what the register binds (v22) is exactly the pending coordinator act that makes R-VER10-08 live. v10's green banner today is not evidence it will be green tomorrow, and the record should not be read as though it were."
+  }
+ ],
+ "dependentCheckerResults": {
+  "method": "python3 -I -B against a byte-faithful scratchpad copy of docs/coop taken at review start, so no file under docs/coop could be written by any probe. Every mutation probe edited only a temporary copy of the contract; the frozen checker and all pinned inputs were read from the snapshot unmodified.",
+  "mustExitZero": {
+   "check-versioning-v9.py": 0,
+   "check-package-coherence.py": 0,
+   "check-claims.py": 0,
+   "check-product-dispositions.py": 0,
+   "check-retention-custody-v22.py": 0,
+   "check-d9-v1.14.py": 0,
+   "check-evaluation-proof-v13.py": 0,
+   "check-c2-v8.py": 0,
+   "check-c2-v7.py": 0
+  },
+  "allNineGreen": true,
+  "subjectChecker": {
+   "check-versioning-v10.py": 0,
+   "check-versioning-v10.py --selftest": 0,
+   "note": "Also exits 0 under a simulated benign 34-claim register drift that leaves D9, VERSIONING and ARCH.RETENTION-TIERS alone."
+  },
+  "expectedRed": {
+   "check-versioning.py": {"exit": 1, "reason": "hardcoded to versioning-policy.v4.json; VER-DEP on the §7.2-frozen v1.6 citation. Red by construction, as R-VER10-06 states."},
+   "check-completeness.py": {"exit": 1, "reason": "pre-existing cross-cutting findings, unrelated to v10"},
+   "check-rust-provider-protocol-v4.py": {"exit": 1, "reason": "FileNotFoundError: 'rg' — missing binary on this host, not a contract finding"}
+  },
+  "regressionsIntroducedByV10": 0
+ },
+ "verifiedInputs": {
+  "recordingObligation": "freeze §7.2 — filename + SHA-256 for every input this verdict depends on, measured by me from disk, not copied from the subject. A count is not a record.",
+  "subjectsUnderReview": [
+   {
+    "file": "artifacts/versioning-policy.v10.json",
+    "sha256": "194350399d4bd5861ac826eb8d7e0ce835f58cff1e049910552b85a71d002ed0",
+    "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Measured at review start, snapshotted, and re-measured at review end per freeze §7.2.1 — byte-stable throughout. No re-baselining required."
+   },
+   {
+    "file": "artifacts/check-versioning-v10.py",
+    "sha256": "40e85b42648276e0bdb09524663248eff09885c39e53e3971a7f337a51f88612",
+    "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Re-measured at review end — byte-stable. Every probe in this review ran against these exact bytes."
+   }
+  ],
+  "reviewOfRecord": [
+   {
+    "file": "artifacts/versioning-policy.v9.review-independent.json",
+    "sha256": "59ba43425d3bd7a25838141ca2b417bf6ac9ecfba973c589cd520d627b27a360",
+    "role": "read in full first, as instructed; its 26/76/102 and 52/139/15 figures independently reproduced by me before I trusted my own harness"
+   }
+  ],
+  "predecessorChain": [
+   {"file": "artifacts/versioning-policy.v9.json", "sha256": "9d3f936ae492e2b692781215f92de4b50ef9b962911e9067c7d052825e0492a9", "role": "carry-diff baseline and calibration subject for the 116 sweep"},
+   {"file": "artifacts/check-versioning-v9.py", "sha256": "cf88da34a68a2697d5040d97d32eeaabcf7217162bf279ab5b546c066210bd80", "role": "instrument for reproducing the predecessor's 87-admitted and 15/139 figures"},
+   {"file": "artifacts/versioning-policy.v8.json", "sha256": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e"},
+   {"file": "artifacts/check-versioning-v8.py", "sha256": "82834720a8fd4ec8701dad2b43ad94d6ad9e52d21aeb077f4286fab5fb156844"},
+   {"file": "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json", "sha256": "2012c572be62a59d953fcbaf65d266abfb53aefa6eb98a6ff9656dbc923facb9"},
+   {"file": "artifacts/versioning-policy.v4.json", "sha256": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6"},
+   {"file": "artifacts/check-versioning.py", "sha256": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227", "role": "R-VER10-06; confirmed exit 1"}
+  ],
+  "d9Span": [
+   {"file": "artifacts/d9-exit-contract.v1.6.json", "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046", "role": "superseded endpoint; I measured the span from these bytes"},
+   {"file": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "repaired citation target"},
+   {"file": "artifacts/check-d9-v1.14.py", "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e"},
+   {"file": "artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json", "sha256": "345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2"}
+  ],
+  "registerAndCouplings": [
+   {"file": "artifacts/claim-register.v1.json", "sha256": "20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910", "role": "live register at BOTH my start and end readings; binds D9 -> d9-exit-contract.v1.14.json, VERSIONING -> versioning-policy.v8.json, ARCH.RETENTION-TIERS -> retention-tiers.v22.json"},
+   {"file": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "current ARCH.RETENTION-TIERS binding"},
+   {"file": "artifacts/retention-tiers.v23.json", "sha256": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "role": "R-VER10-08 — on disk and unbound; the armed trigger"},
+   {"file": "artifacts/retention-tiers.v13.json", "sha256": "3f79668a6d26b5ecc7fd843be71aef90e779ac024a1ac54bb5cc2c8fc3e0a349", "role": "decisionDependencies[6] as-reviewed pin target, verified unmoved"},
+   {"file": "artifacts/evaluation-proof.v8.json", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303", "role": "decisionDependencies[5] as-reviewed pin target, verified unmoved"},
+   {"file": "artifacts/evaluation-proof.v13.json", "sha256": "1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe", "role": "O-02 — highest on disk, unregistered; used in my simulated register addition"}
+  ]
+ },
+ "whatIDidNotCheck": [
+  "The internal correctness of d9-exit-contract.v1.14, retention-tiers.v22/v23, evaluation-proof.v13, c2-plan-stage-schema.v7/v8 or rust-provider-protocol.v4 as contracts. I verified only that their checkers exit 0 and, for D9, the specific span quantities V4 depends on.",
+  "The 7 intermediate D9 versions v1.7 through v1.13. Like the artifact, I measured the span at its two endpoints only. R-VER10-09 discloses this exact limitation and I did not close it: a class removed at v1.9 and reintroduced at v1.12 would be invisible to both of us.",
+  "Whether the D9 v1.14 review's own PASS is sound. I read it only to confirm 'v1.6' does not occur in it, which the checker also enforces at VER10-SPAN.",
+  "Any float/bool or falsification sweep over the nine dependent checkers' own contracts. My sweeps covered versioning-policy.v9.json and v10.json only.",
+  "Whether repointing the register's VERSIONING binding to v10 would keep the other checkers green. R-VER10-04 assigns that act to the coordinator and I did not simulate it.",
+  "The semantic correctness of the four architecture-prose anchors beyond file existence and heading-slug resolution — though unlike the v9 instrument, this checker does recompute both, which I proved.",
+  "Whether the 6 appended knownLimitations are substantively accurate. They are count-gated and prefix-gated only; their content is free prose outside both partitioned scopes.",
+  "The `role` field (205 chars, in CHANGED, gated only on two required substrings) beyond confirming those substrings are present. Like knownLimitations it sits outside both partitioned scopes, which R-VER10-02 discloses.",
+  "IMPLEMENTATION-FREEZE.md and ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md were not read, modified or executed against. The latter is pinned by seven checkers and I did not touch it.",
+  "Whether my blocker's four demonstrations would survive a coordinator deciding the v10 block is out of enforcement scope by policy. I adjudicated against the claims the artifact and checker actually make, which assert the opposite."
+ ],
+ "authorityBoundary": "This review signs nothing, seals nothing, freezes nothing and advances no status. CD-RT-5 remains BLOCKED_ON_PHASE_1A. versioning-policy.v10.json remains CANDIDATE-NOT-APPLIED with seal DO-NOT-SEAL and reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW. The register still binds VERSIONING to versioning-policy.v8.json; repointing it is the coordinator's act, not this review's. No file under docs/coop was modified by this review except this one; every probe ran against a scratchpad copy of the tree."
+}

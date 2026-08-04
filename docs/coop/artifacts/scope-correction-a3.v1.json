@@ -1,0 +1,96 @@
+{
+  "artifact": "opensip.scope-correction",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "purpose": "Apply the coordinator's architecture-vs-detailed-design scope correction (raised against retention v3) systematically to Agent 3's artifacts, and extract the architectural content that was buried inside implementation specification.",
+
+  "measurement": {
+    "method": "Proportion of each artifact given over to wire schemas, golden cases, enum vocabularies, field types, reference derivations, and conformance suites.",
+    "results": [
+      {"artifact": "threat-model.v2", "detail": "0%", "verdict": "architectural"},
+      {"artifact": "operability.v1", "detail": "8%", "verdict": "architectural"},
+      {"artifact": "versioning-policy.v1", "detail": "9%", "verdict": "architectural"},
+      {"artifact": "fact-identity-policy.v1", "detail": "12%", "verdict": "architectural"},
+      {"artifact": "resolved-inputs.v1", "detail": "14%", "verdict": "architectural"},
+      {"artifact": "delivery.v1", "detail": "15%", "verdict": "architectural"},
+      {"artifact": "c2-plan-stage-schema.v2", "detail": "24%", "verdict": "mixed, acceptable"},
+      {"artifact": "r1-lifetime-neutrality.conformance.v1.3", "detail": "33%", "verdict": "OVER-SPECIFIED — a conformance suite, not an architecture"},
+      {"artifact": "d9-exit-contract.v1.5", "detail": "82%", "verdict": "OVER-SPECIFIED — a wire specification, not an architecture"}
+    ],
+    "observation": "The two most over-specified artifacts are the two that consumed the most review rounds — D9 went to five versions, R1 to four. The most effort went into the least architectural work."
+  },
+
+  "rootCause": {
+    "finding": "Agent 3's own stopping rule caused this.",
+    "explanation": "The rule 'decisions close by artifact, not by prose' was introduced to stop ~190 KB of unfalsifiable text. It worked. But it also rewarded artifacts that were EASY TO CHECK — and checkability correlates with detail, not with architectural significance. A wire schema with 39 golden cases is trivially checkable; 'the core is lifetime-neutral' is not. The rule optimised for the wrong property and pulled the work toward implementation.",
+    "secondaryEffect": "Detail invites mechanical review; architecture invites judgment. The review rounds concentrated where the artifacts were most detailed, which reinforced the drift — each round produced more specification and more confidence that specification was progress.",
+    "correctedRule": "Decisions close by artifact, AND the artifact must be at the altitude of the decision. An architectural decision closes with an invariant, a boundary, an ownership assignment, or a falsifying counterexample — not with a schema. If closing it requires choosing field names, enum spellings, or hash functions, the decision has been mis-scoped."
+  },
+
+  "extraction": {
+    "note": "The architectural content below was buried inside implementation specification. Extracting it is the correction; the specifications are demoted, not deleted, because they remain useful evidence that one coherent implementation exists.",
+
+    "d9_terminationOutcome": {
+      "architecturalInvariants": [
+        {"id": "TO-1", "invariant": "Termination is ONE total union over every command kind, not a per-kind convention.", "why": "A per-kind vocabulary lets analysis, query, mutation and serve drift apart, and CI cannot then interpret an exit without knowing which kind ran."},
+        {"id": "TO-2", "invariant": "Exactly one host-owned derivation and exactly one process-boundary write site.", "why": "Every additional mapper is a place the axes can be reconciled differently."},
+        {"id": "TO-3", "invariant": "No producer, rule, or error type maps to an exit. Producers return domain results, coverage reasons, or typed faults.", "why": "Exit authority is the last thing that should be delegable."},
+        {"id": "TO-4", "invariant": "Verdict and termination are DISTINCT and must render distinctly.", "why": "A run that passes policy but fails delivery must not read as a policy failure."},
+        {"id": "TO-5", "invariant": "Required partial coverage can never yield pass; a durability failure can never report success; export failure can never alter a local verdict.", "why": "Each is a way a false green could otherwise be produced."},
+        {"id": "TO-6", "invariant": "A signal arriving after finalisation cannot reclassify a settled outcome.", "why": "Otherwise identical runs terminate differently by timing."},
+        {"id": "TO-7", "invariant": "A code is a REMEDY CLASS, not a message. Two remedies behind one code is a defect; two codes for one remedy is a smell.", "why": "The consumer of a failure is deciding what to do next."},
+        {"id": "TO-8", "invariant": "The exit class set is additive-only, permanently.", "why": "A build script cannot negotiate a version. Renumbering silently changes the meaning of every CI configuration in existence."}
+      ],
+      "demotedToDetailedDesign": ["the 39 golden cases", "scenarioAxes schema and enum spellings", "code vocabularies and code maps", "field types and nullability policy", "the reference derivation", "the finalization transition table"],
+      "statusOfDemoted": "NON-BINDING exploration. artifacts/d9-exit-contract.v1.5.json and check-d9.py remain as evidence that at least one implementation satisfying TO-1..TO-8 is internally coherent. They are not an architecture gate and their green run proves only self-consistency."
+    },
+
+    "r1_executionCore": {
+      "architecturalInvariants": [
+        {"id": "EC-1", "invariant": "The execution core is lifetime-neutral: nothing in its surface distinguishes a one-shot from a resident host.", "why": "This is the property that makes residency a deployment choice rather than a semantic fork."},
+        {"id": "EC-2", "invariant": "Whether a resident host ships, autostarts, or is per-project are THREE SEPARATE decisions, none of which EC-1 settles.", "why": "Conflating them is what stalled this question for several rounds."},
+        {"id": "EC-3", "invariant": "Warm state is an acceleration and never an evidence authority. A resident host may not produce a Run a cold host could not produce identically.", "why": "Otherwise deployment shape leaks into evidence."},
+        {"id": "EC-4", "invariant": "Multi-process safety is an obligation on the STORAGE PROTOCOL, binding on any evidence-writing host — not a property of a deployment.", "why": "Two agent sessions in one checkout is the normal case."},
+        {"id": "EC-5", "invariant": "The storage protocol guarantees INTEGRITY, not liveness. A contender may return a typed busy outcome; it may never produce a corrupt, partial, or lost publication.", "why": "Claiming both would be a promise the protocol cannot keep."},
+        {"id": "EC-6", "invariant": "ExecutionId is an ATTEMPT anchor and must differ per attempt. Content-derived identity belongs to the sealed result, not the attempt.", "why": "Otherwise a retry is indistinguishable from the original and crash recovery cannot name a specific orphan."},
+        {"id": "EC-7", "invariant": "The core holds no ambient authority. Absence of ambient access is established by closure analysis and runtime denial, never by a dependency list.", "why": "A field list cannot prove the absence of what it does not list — the error that produced v1.2."}
+      ],
+      "demotedToDetailedDesign": ["the LN-01..13 conformance suite", "the CoreDeps member list", "the analyze() signature"],
+      "statusOfDemoted": "NON-BINDING. Useful as a sketch of how EC-1..EC-7 could be tested; not the architecture."
+    }
+  },
+
+  "whatChanges": [
+    "d9-exit-contract.v1.5 and r1-lifetime-neutrality.conformance.v1.3 are DEMOTED to non-binding detailed-design exploration, mirroring the treatment of retention v3.",
+    "The register's D9 and R-1 entries bind the invariant sets TO-1..TO-8 and EC-1..EC-7 in this artifact, not the specifications.",
+    "Their checkers remain runnable and remain evidence of internal coherence. They are not architecture gates.",
+    "No further versions of either specification should be produced until the invariants are independently reviewed. Another round of v1.6 or v1.4 would be more of the same error."
+  ],
+
+  "whatDoesNotChange": [
+    "The invariants themselves are unaffected by the demotion — they were always the architectural content and were correct enough to survive several review rounds.",
+    "threat-model.v2, operability, versioning, delivery, resolved-inputs and fact-identity are at acceptable altitude and are not demoted.",
+    "The defects found during the over-specified rounds were real. Detail is not worthless; it was just the wrong thing to be BINDING."
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "required partial coverage cannot yield pass", "dischargedBy": ["TO-5"]},
+    {"property": "warm state is never an evidence authority", "dischargedBy": ["EC-3"]},
+    {"property": "any evidence-writing host is multi-process safe", "dischargedBy": ["EC-4"]},
+    {"property": "producers never set exit codes", "dischargedBy": ["TO-3"]},
+    {"property": "no ambient authority in the core", "dischargedBy": ["EC-7"]}
+  ],
+
+  "peerReviewRequired": [
+    "Are TO-1..TO-8 and EC-1..EC-7 complete? An invariant lost in the extraction is worse than the over-specification, because the specification at least recorded it somewhere.",
+    "Is 24% (c2-plan-stage-schema) the right threshold for 'acceptable', or should its conformance tests also be demoted?",
+    "Does the corrected stopping rule work, or does it just move the argument to 'what altitude is this decision'?"
+  ],
+
+  "knownLimitations": [
+    "The percentages are a crude proxy — byte-share of schema-shaped keys. A short invariant can be more architecturally significant than a long schema, and the measure does not see that.",
+    "Extraction was performed by the author of the over-specified artifacts, who is therefore the worst-placed person to notice an invariant he dropped.",
+    "This artifact does not re-examine whether the invariants are RIGHT — only that they are the architectural layer. Their correctness has been reviewed only through the specifications that carried them."
+  ]
+}

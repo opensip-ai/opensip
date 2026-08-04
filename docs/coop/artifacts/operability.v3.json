@@ -1,0 +1,2320 @@
+{
+  "artifact": "opensip.operability",
+  "version": 3,
+  "status": "CANDIDATE-AWAITING-INDEPENDENT-COMBINED-REREVIEW (A-prime lifecycle; G19 remains blocked pending CD-RT-5; NOT APPLIED)",
+  "author": "agent-3; repaired by agent-b; RequestId closure by identity-contract owner; A-prime successor by phase1a-evidence-successor-lane",
+  "reviewStatus": "OPERABILITY v3 is a candidate-only A-prime overlay over an exact mechanically projected v2 base. The lifecycle/Evidence/G19 mechanism awaits independent combined rereview, CD-RT-5 product disposition and coordinator integration. Green checkers are design-integrity evidence only; no product gate is promoted.",
+  "purpose": "Define executable observability, projection, audit, capacity, gate-qualification, and release-decision contracts without treating a paper test as product evidence.",
+  "covers": [
+    "four observability planes",
+    "phase-correct correlation and budgets",
+    "typed projection parity",
+    "durable host-audit protocol",
+    "closed required-property-to-gate mapping",
+    "architecture, gate-harness, and product-release assurance states",
+    "host-owned RequestId allocation, validation, collision, retry, custody, and semantic exclusion"
+  ],
+  "decisionDependencies": [
+    {
+      "claim": "D9",
+      "source": "artifacts/d9-exit-contract.v1.6.json",
+      "supplies": "termination classes and codes"
+    },
+    {
+      "claim": "C-2",
+      "source": "artifacts/c2-plan-stage-schema.v3.json",
+      "supplies": "attempt-admission and seal boundaries"
+    },
+    {
+      "claim": "TM",
+      "source": "artifacts/threat-model.v3.json",
+      "refs": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R9",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18"
+      ],
+      "supplies": "the complete threat-property set that gates claim publication"
+    },
+    {
+      "claim": "EVIDENCE",
+      "source": "artifacts/evidence.v1.json",
+      "supplies": "the analysis EvidenceDigest boundary"
+    },
+    {
+      "claim": "ARCH.PROBE-CONTRACT",
+      "source": null,
+      "status": "REOPENED",
+      "supplies": "a future restricted runtime; initial product excludes the dependent imperative/probe modes"
+    }
+  ],
+  "observability": {
+    "planes": [
+      {
+        "plane": "evidence",
+        "content": "sealed Run findings, Coverage, verdict, provenance and digest",
+        "durability": "durable, user-custody reachable",
+        "inDigest": true,
+        "rule": "The only plane authoritative for an analysis result."
+      },
+      {
+        "plane": "progress",
+        "content": "typed stage/unit events",
+        "durability": "ephemeral",
+        "inDigest": false,
+        "rule": "A no-op sink is valid and cannot change results."
+      },
+      {
+        "plane": "diagnostics",
+        "content": "bounded typed explanations",
+        "durability": "referenced or ephemeral according to the Run policy",
+        "inDigest": false,
+        "rule": "Every payload carries a privacy class and byte budget."
+      },
+      {
+        "plane": "telemetry",
+        "content": "aggregate local metrics, traces and profiles",
+        "durability": "local unless explicitly exported",
+        "inDigest": false,
+        "rule": "Off by default; no analysis-path network exporter."
+      }
+    ],
+    "correlation": {
+      "rule": "RequestId is present on every event. ExecutionId is present only for an admitted analysis attempt. RunId is present only after seal or on a stored-Run read. No event fabricates an identity for a lifecycle phase in which it does not exist.",
+      "derivedFrom": "eventSchema.phaseRequirements"
+    },
+    "volumeBudgets": {
+      "rule": "Budget ownership is phase-derived: RequestId before admission and for stored-Run reads; ExecutionId for an admitted attempt, including its post-seal projection. RunId may partition a post-seal stream but is never the only universal budget owner.",
+      "onExhaustion": "Emit one typed truncation marker with omitted count/bytes and an exact retrieval route when retrieval exists."
+    },
+    "producerOutput": {
+      "rule": "Producer stdout/stderr is captured, privacy-classed, bounded and attributed; it is never parsed as a public contract."
+    },
+    "supportBundles": {
+      "rule": "User-triggered only, with a manifest of artifact IDs, privacy classes and redactions. No source bytes or resolved secret values by default."
+    }
+  },
+  "eventSchema": {
+    "EventEnvelope": {
+      "required": [
+        "schemaVersion",
+        "plane",
+        "phase",
+        "requestId",
+        "budgetOwner",
+        "payloadType",
+        "payloadBytes"
+      ],
+      "closedPlanes": [
+        "progress",
+        "diagnostics",
+        "telemetry",
+        "host-audit"
+      ],
+      "closedPhases": [
+        "request-validation",
+        "attempt-admitted",
+        "attempt-sealed",
+        "stored-run-read"
+      ],
+      "optional": [
+        "executionId",
+        "runId",
+        "parentEventId",
+        "truncation"
+      ]
+    },
+    "phaseRequirements": {
+      "request-validation": {
+        "executionId": "forbidden",
+        "runId": "forbidden",
+        "budgetOwner": "RequestId"
+      },
+      "attempt-admitted": {
+        "executionId": "required",
+        "runId": "forbidden",
+        "budgetOwner": "ExecutionId"
+      },
+      "attempt-sealed": {
+        "executionId": "required",
+        "runId": "required",
+        "budgetOwner": "ExecutionId"
+      },
+      "stored-run-read": {
+        "executionId": "forbidden",
+        "runId": "required",
+        "budgetOwner": "RequestId"
+      }
+    },
+    "truncation": {
+      "required": [
+        "reason",
+        "omittedCount",
+        "omittedBytes",
+        "retrieval"
+      ],
+      "closedReasons": [
+        "event-count-budget",
+        "byte-budget",
+        "field-cap"
+      ],
+      "rule": "retrieval is a typed route or explicit unavailable; never absent."
+    }
+  },
+  "requestIdContract": {
+    "id": "REQUEST-ID-V1",
+    "status": "IMPLEMENTABLE",
+    "assurance": {
+      "state": "IMPLEMENTABLE",
+      "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "rule": "The allocation target and executable controls are specified. Checker success is architecture design-integrity evidence; no built host has been QUALIFIED or DEMONSTRATED."
+    },
+    "authority": {
+      "allocationOwner": "orchestration host request-ingress adapter",
+      "validationOwner": "orchestration host RequestContext constructor and EventEnvelope validator",
+      "callerRule": "Public callers MUST NOT supply requestId. An optional caller correlation token is accepted only in a separately typed clientCorrelationId field, is untrusted display/audit metadata, and never aliases or replaces RequestId.",
+      "propagationRule": "After allocation, the immutable typed RequestContext is the only source of RequestId for events, host-audit records, and child operations. Sinks, providers, stages, profiles, and projection adapters cannot mint, replace, or accept a raw RequestId."
+    },
+    "allocation": {
+      "point": "Immediately when a CLI/API/stored-view invocation crosses the first trusted host ingress, before request parsing, request validation, contribution/capability admission, project resolution, stored-Run lookup, event creation, ExecutionId allocation, or AttemptRecord creation.",
+      "allRequests": [
+        "requests later rejected during parse or request-validation",
+        "requests admitted as analysis attempts",
+        "stored-Run and stored-fact read/projection requests",
+        "host-mutation requests"
+      ],
+      "analysisAttemptRule": "RequestId allocation does not admit an attempt. Rejected requests have RequestId but no ExecutionId, AttemptRecord, RunId, or Run. Stored-view requests have a new RequestId and the selected existing RunId but no new ExecutionId or Run.",
+      "entropyBoundary": "Uses OS CSPRNG only as non-analysis host correlation metadata. RequestId is excluded from every analysis identity and semantic result, so this does not weaken the RESOLVED-INPUTS prohibition on entropy influencing analysis."
+    },
+    "representation": {
+      "raw": "16 uniformly random bytes from the OS CSPRNG",
+      "text": "req1_<32 lowercase hexadecimal characters>",
+      "regex": "^req1_[0-9a-f]{32}$",
+      "decode": "The 32 hexadecimal characters decode to exactly the 16 allocated bytes. Uppercase, padding, braces, UUID hyphens, alternate prefixes, empty values, or Unicode lookalikes are invalid rather than aliases.",
+      "schemaVersion": 1
+    },
+    "collisionAndRetry": {
+      "reservationAuthority": "host RequestId registry",
+      "reservationRule": "Before publishing RequestContext or any EventEnvelope, atomically reserve the candidate under a unique RequestId constraint. A host using durable audit/event custody reserves in the host request ledger transaction; an explicitly ephemeral invocation reserves in the process registry for its complete lifetime.",
+      "maximumCandidates": 8,
+      "onCollision": "Discard the colliding candidate, draw a fresh independent 16-byte candidate, and retry atomic reservation. Never reuse the colliding candidate with a suffix or overwrite the existing request.",
+      "onExhaustion": "After eight colliding candidates, return typed host outcome REQUEST_ID_ALLOCATION_FAILED before request validation and before attempt admission; emit no ordinary EventEnvelope because no valid RequestId exists. Project it through requestIdContract.d9Projection.allocationFailure. This is an operational host failure, not a Run verdict and not a new public D9 code.",
+      "externalRetry": "Every new CLI invocation, API call, transport retry, or stored-view read is a new request and receives a new RequestId. RequestId is not an idempotency key. A mutation uses its separately typed mutationId; an internal retry that remains inside one accepted host request retains the same RequestContext and RequestId.",
+      "collisionScope": "Uniqueness is enforced over the registry's custody lifetime. A durable ledger never reissues an ID present in that ledger; an explicitly ephemeral process prevents duplicates among its live/retained-in-process requests."
+    },
+    "d9Projection": {
+      "rule": "REQUEST_ID_ALLOCATION_FAILED is an internal typed cause projected through the existing D9 pre-admission host-I/O case. The trigger context is retained for diagnostics but does not extend D9's public axes, termination union, code vocabulary, or numeric exits.",
+      "typedOutcome": "REQUEST_ID_ALLOCATION_FAILED",
+      "triggerContexts": {
+        "CSPRNG_FAILURE": "allocationFailure",
+        "RESERVATION_IO_FAILURE": "allocationFailure",
+        "COLLISION_EXHAUSTION": "allocationFailure"
+      },
+      "allocationFailure": {
+        "referenceGoldenId": "pre-admission-host-io-failure",
+        "scenarioAxes": {
+          "lifecycle": "pre-run",
+          "requiredCoverage": "not-applicable",
+          "verdict": "not-applicable",
+          "durability": "not-applicable",
+          "interruption": "none",
+          "requiredPostconditions": "not-applicable",
+          "domainCondition": "host-fault",
+          "admission": "rejected",
+          "commandKind": "any",
+          "deficiency": "none",
+          "rejectionCause": "none",
+          "faultCause": "host-io",
+          "secondaryDeficiencies": []
+        },
+        "expectedTermination": {
+          "class": "operational-failed",
+          "errorCode": "HOST.IO_FAILURE"
+        },
+        "exitCode": 4
+      }
+    },
+    "custody": {
+      "requestContext": "Host-owned immutable value from successful reservation until every child operation and event sink closes.",
+      "operationalRecords": "May be retained in bounded progress/diagnostic/telemetry records and is required in HostAuditRecord. Retention follows the owning operational/audit plane, not analysis evidence custody.",
+      "attemptLink": "AttemptRecord may hold a non-semantic correlation link to RequestId outside the sealed Run manifest. The link cannot change SnapshotId, PlanId, facts, Coverage, findings, verdict, evidence, or Run identity.",
+      "redaction": "RequestId is opaque and contains no timestamp, project, user, path, or source content; it is still treated as correlation metadata in support bundles."
+    },
+    "semanticExclusion": {
+      "excludedFrom": [
+        "SnapshotId preimage",
+        "PlanId preimage",
+        "fact identity and fingerprints",
+        "FactViewId",
+        "EvidenceDigest and evaluation proofs",
+        "RunId derivation",
+        "sealed Run semantic manifest",
+        "Coverage, findings, verdict, policy and termination derivation",
+        "cache and regeneration keys"
+      ],
+      "rule": "Changing only RequestId while holding all semantic inputs and exact Coverage fixed cannot change SnapshotId, PlanId, any fact/finding identity, EvidenceDigest, RunId, Run content, verdict, or termination. RequestId may correlate operational records but never establishes evidence authority.",
+      "proofStatus": {
+        "scopeRule": "check-operability.py mechanically verifies structural absence from the six live closed semantic input surfaces named below. EvidenceBundle unknown-field closure remains explicitly pending on its Phase-1A owner, and byte-recipe equivalence is not claimed for identity surfaces whose exact recipes are not yet bound; those remain explicit normative exclusions and are parked below.",
+        "mechanicallyJoined": [
+          {
+            "surface": "SnapshotDescriptorV1",
+            "sources": [
+              "resolved-inputs.v2.json#snapshotIdContract.descriptorSchema"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          },
+          {
+            "surface": "PlanDescriptorV1",
+            "sources": [
+              "resolved-inputs.v2.json#planIdContract.preimageFields",
+              "resolved-inputs.v2.json#planIdContract.excludedIdentitiesAndInputs"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          },
+          {
+            "surface": "C-2 PlanIntent and ExecutionPlan",
+            "sources": [
+              "c2-plan-stage-schema.v3.json#planIntent",
+              "c2-plan-stage-schema.v3.json#executionPlan.requiredFields"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          },
+          {
+            "surface": "FactEnvelope, FactRecordV1 and normalized body identity",
+            "sources": [
+              "fact-plane.v1.json#factEnvelope.fields",
+              "fact-plane.v1.json#factRecordContractV1.factIdContract",
+              "fact-plane.v1.json#factRecordContractV1.requestIdInvarianceVector",
+              "fact-identity-policy.v2.json#factRecordIdentityBoundaryV1"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          },
+          {
+            "surface": "pure-core serialized input and completion",
+            "sources": [
+              "r1-lifetime-neutrality.conformance.v1.4.json#coreApi",
+              "r1-lifetime-neutrality.conformance.v1.4.json#coreCompletionSchema"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          },
+          {
+            "surface": "D9 termination derivation axes",
+            "sources": [
+              "d9-exit-contract.v1.6.json#scenarioAxesSchema.properties"
+            ],
+            "proof": "RequestId is structurally absent from this semantic input"
+          }
+        ],
+        "parkedNoExactRecipe": [
+          {
+            "surface": "finding fingerprint recipe",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "No exact cross-contract finding-fingerprint byte recipe is binding yet."
+          },
+          {
+            "surface": "FactViewId derivation",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "No exact FactViewId derivation recipe is binding yet."
+          },
+          {
+            "surface": "EvidenceDigest byte recipe",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "EVIDENCE binds structure but not an exact EvidenceDigest byte recipe."
+          },
+          {
+            "surface": "RunId derivation",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "No exact RunId derivation recipe is binding yet."
+          },
+          {
+            "surface": "sealed Run semantic manifest identity",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "The exact sealed Run semantic-manifest identity recipe remains outside this contract."
+          },
+          {
+            "surface": "cache and regeneration key recipes",
+            "status": "NORMATIVE-EXCLUSION-NOT-MECHANICALLY-PROVEN",
+            "blocker": "Exact cache and regeneration key recipes are not yet binding."
+          }
+        ],
+        "pendingCrossSurfaceClosure": [
+          {
+            "surface": "EvidenceBundle unknown-field closure",
+            "status": "PENDING-OWNER-INTEGRATION",
+            "owner": "Phase-1A evidence/retention repair lane",
+            "deferredPatch": "artifacts/identity-contracts.evidence-requestid-closure.deferred-patch.v1.json",
+            "blocker": "The concurrent Evidence owner must close EvidenceBundle against unknown fields and retain RequestId-specific negative controls before OPERABILITY can promote this surface into mechanicallyJoined."
+          }
+        ]
+      }
+    },
+    "fixtures": [
+      {
+        "id": "request-id-valid-rejected-request",
+        "valid": true,
+        "path": "request-validation",
+        "callerSupplied": false,
+        "allocatedBefore": "parse",
+        "requestId": "req1_00000000000000000000000000000001",
+        "executionId": null,
+        "runId": null
+      },
+      {
+        "id": "request-id-valid-stored-view",
+        "valid": true,
+        "path": "stored-run-read",
+        "callerSupplied": false,
+        "allocatedBefore": "stored-Run lookup",
+        "requestId": "req1_00000000000000000000000000000002",
+        "executionId": null,
+        "runId": "run:existing"
+      },
+      {
+        "id": "request-id-valid-collision-retry",
+        "valid": true,
+        "reserved": [
+          "req1_11111111111111111111111111111111"
+        ],
+        "candidates": [
+          "req1_11111111111111111111111111111111",
+          "req1_22222222222222222222222222222222"
+        ],
+        "expectedAttempts": 2,
+        "expectedRequestId": "req1_22222222222222222222222222222222"
+      },
+      {
+        "id": "request-id-reject-caller-supplied",
+        "valid": false,
+        "callerSupplied": true,
+        "requestId": "req1_33333333333333333333333333333333",
+        "expected": "REQUEST_ID_CALLER_SUPPLIED"
+      },
+      {
+        "id": "request-id-reject-uppercase",
+        "valid": false,
+        "callerSupplied": false,
+        "requestId": "req1_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "expected": "REQUEST_ID_INVALID_REPRESENTATION"
+      },
+      {
+        "id": "request-id-reject-late-allocation",
+        "valid": false,
+        "callerSupplied": false,
+        "allocatedAfter": "request-validation",
+        "requestId": "req1_44444444444444444444444444444444",
+        "expected": "REQUEST_ID_ALLOCATION_ORDER_VIOLATION"
+      },
+      {
+        "id": "request-id-reject-collision-exhaustion-as-request",
+        "valid": false,
+        "collisionCount": 8,
+        "eventEmitted": false,
+        "attemptAdmitted": false,
+        "expected": "REQUEST_ID_ALLOCATION_FAILED"
+      },
+      {
+        "id": "request-id-reject-semantic-participation",
+        "valid": false,
+        "requestId": "req1_55555555555555555555555555555555",
+        "insertInto": "PlanId preimage",
+        "expected": "REQUEST_ID_SEMANTIC_EXCLUSION_VIOLATION"
+      },
+      {
+        "id": "request-id-semantic-variation",
+        "valid": true,
+        "semanticInputs": "identical closed SnapshotDescriptorV1, PlanDescriptorV1, C-2 semantic plan, admitted FactRecordV1/core inputs and D9 scenario axes; EvidenceBundle closure remains pending owner integration",
+        "requestIds": [
+          "req1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "req1_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "expectedInvariantPairs": {
+          "snapshotId": [
+            "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6",
+            "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6"
+          ],
+          "planId": [
+            "plan1:sha256:ff5f97635426b1ccb7341cbf9a074a50130fa3f9547e58e7b58a0d40c9205e41",
+            "plan1:sha256:ff5f97635426b1ccb7341cbf9a074a50130fa3f9547e58e7b58a0d40c9205e41"
+          ],
+          "factId": [
+            "fact:sha256:3e03d85a3782f4938182eaa5e850a9a84311107b6ed9d9855eccaa52803ba59e",
+            "fact:sha256:3e03d85a3782f4938182eaa5e850a9a84311107b6ed9d9855eccaa52803ba59e"
+          ],
+          "coreCompletion": [
+            "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          ],
+          "d9Termination": [
+            {
+              "class": "success",
+              "exitCode": 0
+            },
+            {
+              "class": "success",
+              "exitCode": 0
+            }
+          ]
+        },
+        "mechanicallyChecked": [
+          "SnapshotDescriptorV1",
+          "PlanDescriptorV1",
+          "C-2 PlanIntent and ExecutionPlan",
+          "FactEnvelope, FactRecordV1 and normalized body identity",
+          "pure-core serialized input and completion",
+          "D9 termination derivation axes"
+        ],
+        "factIdVectorId": "fact-id-v1-typescript-declares",
+        "parked": [
+          "finding fingerprint recipe",
+          "FactViewId derivation",
+          "EvidenceDigest byte recipe",
+          "RunId derivation",
+          "sealed Run semantic manifest identity",
+          "cache and regeneration key recipes"
+        ],
+        "pendingCrossSurface": [
+          "EvidenceBundle unknown-field closure"
+        ]
+      }
+    ]
+  },
+  "eventFixtures": [
+    {
+      "id": "valid-pre-admission-rejection",
+      "valid": true,
+      "phase": "request-validation",
+      "requestId": "req1_00000000000000000000000000000011",
+      "budgetOwner": "RequestId"
+    },
+    {
+      "id": "valid-admitted-progress",
+      "valid": true,
+      "phase": "attempt-admitted",
+      "requestId": "req1_00000000000000000000000000000012",
+      "executionId": "e2",
+      "budgetOwner": "ExecutionId"
+    },
+    {
+      "id": "valid-post-seal-projection",
+      "valid": true,
+      "phase": "attempt-sealed",
+      "requestId": "req1_00000000000000000000000000000013",
+      "executionId": "e3",
+      "runId": "r3",
+      "budgetOwner": "ExecutionId"
+    },
+    {
+      "id": "valid-stored-run-read",
+      "valid": true,
+      "phase": "stored-run-read",
+      "requestId": "req1_00000000000000000000000000000014",
+      "runId": "r4",
+      "budgetOwner": "RequestId"
+    },
+    {
+      "id": "reject-pre-admission-execution",
+      "valid": false,
+      "violates": "OP-ID",
+      "phase": "request-validation",
+      "requestId": "req1_00000000000000000000000000000015",
+      "executionId": "e5",
+      "budgetOwner": "RequestId"
+    },
+    {
+      "id": "reject-post-seal-missing-run",
+      "valid": false,
+      "violates": "OP-ID",
+      "phase": "attempt-sealed",
+      "requestId": "req1_00000000000000000000000000000016",
+      "executionId": "e6",
+      "budgetOwner": "ExecutionId"
+    },
+    {
+      "id": "reject-pre-admission-run-budget",
+      "valid": false,
+      "violates": "OP-ID",
+      "phase": "request-validation",
+      "requestId": "req1_00000000000000000000000000000017",
+      "budgetOwner": "RunId"
+    }
+  ],
+  "assuranceStateMachine": {
+    "closed": true,
+    "states": [
+      "SPECIFIED",
+      "IMPLEMENTABLE",
+      "QUALIFIED",
+      "DEMONSTRATED",
+      "BLOCKED-NO-MECHANISM",
+      "PARTIAL"
+    ],
+    "definitions": {
+      "SPECIFIED": "A normative property and oracle exist.",
+      "IMPLEMENTABLE": "A concrete target, positive case and executable negative controls exist; no run is implied.",
+      "QUALIFIED": "The gate harness has retained evidence that the positive control passed and every negative control failed.",
+      "DEMONSTRATED": "A QUALIFIED gate has retained a passing execution against the identified release candidate.",
+      "BLOCKED-NO-MECHANISM": "The property names a missing architecture mechanism and cannot be implemented honestly.",
+      "PARTIAL": "Only an explicitly enumerated subset is established."
+    },
+    "rules": [
+      "implementable:true never means QUALIFIED or DEMONSTRATED",
+      "QUALIFIED requires qualificationEvidenceIds; a boolean observedFailure is not evidence",
+      "DEMONSTRATED requires qualificationEvidenceIds and releaseEvidenceIds",
+      "architecture seal requires every included feature property to be at least IMPLEMENTABLE",
+      "product release and public privacy/offline claims require DEMONSTRATED"
+    ]
+  },
+  "validationGates": [
+    {
+      "id": "G1",
+      "property": "termination is one total union with one mapper",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built opensip binary",
+      "positiveCase": "replay all D9 goldens",
+      "negativeControls": [
+        "mutate one code map",
+        "remove one termination variant"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": []
+    },
+    {
+      "id": "G2",
+      "property": "required partial coverage cannot yield pass",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built policy evaluator",
+      "positiveCase": "required relations complete and satisfied",
+      "negativeControls": [
+        "force pass with an unsatisfied required relation"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": []
+    },
+    {
+      "id": "G3",
+      "property": "zero ungranted analysis-path network egress",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "full supported-platform binary and provider bundle under denied network",
+      "positiveCase": "full analysis completes offline",
+      "negativeControls": [
+        "inject host egress",
+        "inject provider egress"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R1"
+      ]
+    },
+    {
+      "id": "G4",
+      "property": "source-derived persistence is admitted and disclosed before first write",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "fresh installation with an instrumented storage root",
+      "positiveCase": "admission precedes every durable source-derived write",
+      "negativeControls": [
+        "write a CAS object before admission",
+        "omit first-run disclosure"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R8"
+      ]
+    },
+    {
+      "id": "G5",
+      "property": "project data inventory and crash-safe purge satisfy the deletion protocol",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built storage engine with shared-within-project objects and crash injection",
+      "positiveCase": "inventory then purge then verify no tool-controlled live bytes or references",
+      "negativeControls": [
+        "retain a project object after purge",
+        "crash after tombstone and skip recovery"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R5"
+      ]
+    },
+    {
+      "id": "G6",
+      "property": "projection parity and hostile-output safety across five surfaces",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "all five built projection adapters",
+      "positiveCase": "projectionFixtures over canonicalRuns",
+      "negativeControls": [
+        "drop SARIF Coverage properties",
+        "hide human truncation",
+        "emit raw ANSI/OSC",
+        "emit unescaped HTML"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R7",
+        "R16"
+      ]
+    },
+    {
+      "id": "G7",
+      "property": "resource safety at reference-standard-v1",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built full profile on capacityClasses.reference-standard-v1",
+      "positiveCase": "generated corpus stays within every independent limit",
+      "negativeControls": [
+        "memory leak",
+        "disk quota overrun",
+        "ignore cooperative cancellation",
+        "leave an orphan process"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "blocking": true,
+      "threatModelRefs": [
+        "R14"
+      ]
+    },
+    {
+      "id": "G8",
+      "property": "host mutations follow the durable audit protocol",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built mutation service and ledger",
+      "positiveCase": "all hostAuditFixtures",
+      "negativeControls": [
+        "commit without audit",
+        "audit a rolled-back mutation as committed",
+        "leak a resolved secret value"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": []
+    },
+    {
+      "id": "G9",
+      "property": "imperative rules and Probes hold only granted ambient authority",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "BLOCKED-NO-MECHANISM",
+      "target": null,
+      "blocker": "ARCH.PROBE-CONTRACT",
+      "initialProductDisposition": "imperative rules, Probe stages, untrusted contributions and scenario-effectful execution are rejected at admission"
+    },
+    {
+      "id": "G10",
+      "property": "the pure analysis core has the declared static import/link closure",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built analysis-core library artifact",
+      "positiveCase": "closure contains only declared pure ports and value types",
+      "negativeControls": [
+        "link filesystem",
+        "link network",
+        "link process supervisor",
+        "link persistence implementation"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": []
+    },
+    {
+      "id": "G11",
+      "property": "a faulting provider is contained and truthfully terminates the attempt",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "orchestration host plus deliberately faulting provider fixture",
+      "positiveCase": "healthy provider completes and no orphan remains",
+      "negativeControls": [
+        "provider crash",
+        "truncated frame",
+        "deadline then hard kill"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": []
+    },
+    {
+      "id": "G12",
+      "property": "the registered contract checkers reject their declared mutations",
+      "class": "design-integrity",
+      "subject": "architecture",
+      "status": "IMPLEMENTABLE",
+      "target": "designIntegritySuite.checkers",
+      "positiveCase": "each exact checker exits zero on its binding artifact",
+      "negativeControls": [
+        "each exact checker --selftest suite"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "note": "This narrow claim is not semantic coherence and cannot discharge a product property."
+    },
+    {
+      "id": "G13",
+      "property": "storage exposure detection, backup disclosure and permission refusal follow the versioned detector catalog",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "supported-platform storage admission service",
+      "positiveCase": "known upload roots, backup-managed roots and private roots classify distinctly",
+      "negativeControls": [
+        "known sync root accepted",
+        "world-readable root accepted",
+        "unknown detector result presented as exhaustive"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R2",
+        "R17",
+        "R18"
+      ]
+    },
+    {
+      "id": "G14",
+      "property": "ingestion, secret-channel and project-isolation boundaries hold",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built snapshot/config/storage composition",
+      "positiveCase": "allowlisted read set and project-keyed facts",
+      "negativeControls": [
+        "read an unrequested file",
+        "persist a resolved secret value",
+        "reuse a fact across ProjectId"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R3",
+        "R11",
+        "R15"
+      ]
+    },
+    {
+      "id": "G15",
+      "property": "private temporary storage is crash-resilient and OS-copy limits are disclosed",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "supported-platform temp/scavenger implementation",
+      "positiveCase": "private temp is inventoried and scavenged after injected crash",
+      "negativeControls": [
+        "write source to shared temp",
+        "promise instantaneous cleanup after power loss",
+        "enable core dumps where preventable"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R6",
+        "R12"
+      ]
+    },
+    {
+      "id": "G16",
+      "property": "the signed full profile installs and analyzes offline on every supported platform",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "delivery.platformMatrix supported rows and exact release bundle",
+      "positiveCase": "install and full TypeScript+Rust analysis with network denied",
+      "negativeControls": [
+        "remove one manifest artifact",
+        "use a revoked root",
+        "run on an unlisted platform",
+        "omit a deep provider"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R9"
+      ]
+    },
+    {
+      "id": "G17",
+      "property": "execution-capable Rust resolution requires a per-project Plan-visible grant",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "Rust provider admission and Plan builder",
+      "positiveCase": "granted build-script/proc-macro universe is keyed",
+      "negativeControls": [
+        "execute without grant",
+        "inherit a global grant",
+        "claim complete Coverage without generated cfg"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R10"
+      ]
+    },
+    {
+      "id": "G18",
+      "property": "serve is project-bound, local-user authenticated, projection-only and audited",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "IMPLEMENTABLE",
+      "target": "built serve/MCP host",
+      "positiveCase": "authorized local caller reads bounded projections",
+      "negativeControls": [
+        "cross-project query",
+        "unauthenticated caller",
+        "raw source request",
+        "unrecorded serve access"
+      ],
+      "qualificationEvidenceIds": [],
+      "releaseEvidenceIds": [],
+      "threatModelRefs": [
+        "R13"
+      ]
+    },
+    {
+      "id": "G19",
+      "property": "durable-authoritative Runs use the selected independently verified evaluation-proof and retention-custody contract",
+      "class": "implementation-conformance",
+      "subject": "product",
+      "status": "BLOCKED-NO-MECHANISM",
+      "target": null,
+      "blocker": "TM.V10 / ARCH.RETENTION-TIERS",
+      "initialProductDisposition": "durable-authoritative retention is rejected; only explicit ephemeral/advisory operation is available until the proof/custody decision is selected",
+      "threatModelRefs": [
+        "R4"
+      ]
+    }
+  ],
+  "requiredPropertyRegistry": {
+    "closed": true,
+    "sourceRule": "All threat-model requiredProperties plus the seven OPERABILITY-local release properties are present exactly once. A property disappears only through an explicit versioned registry change, never by deleting its gate.",
+    "properties": [
+      {
+        "id": "TM.R1",
+        "source": "threat-model.v3.json#R1",
+        "subject": "product",
+        "gateIds": [
+          "G3"
+        ]
+      },
+      {
+        "id": "TM.R2",
+        "source": "threat-model.v3.json#R2",
+        "subject": "product",
+        "gateIds": [
+          "G13"
+        ]
+      },
+      {
+        "id": "TM.R3",
+        "source": "threat-model.v3.json#R3",
+        "subject": "product",
+        "gateIds": [
+          "G14"
+        ]
+      },
+      {
+        "id": "TM.R4",
+        "source": "threat-model.v3.json#R4",
+        "subject": "product",
+        "gateIds": [
+          "G19"
+        ]
+      },
+      {
+        "id": "TM.R5",
+        "source": "threat-model.v3.json#R5",
+        "subject": "product",
+        "gateIds": [
+          "G5"
+        ]
+      },
+      {
+        "id": "TM.R6",
+        "source": "threat-model.v3.json#R6",
+        "subject": "product",
+        "gateIds": [
+          "G15"
+        ]
+      },
+      {
+        "id": "TM.R7",
+        "source": "threat-model.v3.json#R7",
+        "subject": "product",
+        "gateIds": [
+          "G6"
+        ]
+      },
+      {
+        "id": "TM.R8",
+        "source": "threat-model.v3.json#R8",
+        "subject": "product",
+        "gateIds": [
+          "G4"
+        ]
+      },
+      {
+        "id": "TM.R9",
+        "source": "threat-model.v3.json#R9",
+        "subject": "product",
+        "gateIds": [
+          "G16"
+        ]
+      },
+      {
+        "id": "TM.R10",
+        "source": "threat-model.v3.json#R10",
+        "subject": "product",
+        "gateIds": [
+          "G17"
+        ]
+      },
+      {
+        "id": "TM.R11",
+        "source": "threat-model.v3.json#R11",
+        "subject": "product",
+        "gateIds": [
+          "G14"
+        ]
+      },
+      {
+        "id": "TM.R12",
+        "source": "threat-model.v3.json#R12",
+        "subject": "product",
+        "gateIds": [
+          "G15"
+        ]
+      },
+      {
+        "id": "TM.R13",
+        "source": "threat-model.v3.json#R13",
+        "subject": "product",
+        "gateIds": [
+          "G18"
+        ]
+      },
+      {
+        "id": "TM.R14",
+        "source": "threat-model.v3.json#R14",
+        "subject": "product",
+        "gateIds": [
+          "G7"
+        ]
+      },
+      {
+        "id": "TM.R15",
+        "source": "threat-model.v3.json#R15",
+        "subject": "product",
+        "gateIds": [
+          "G14"
+        ]
+      },
+      {
+        "id": "TM.R16",
+        "source": "threat-model.v3.json#R16",
+        "subject": "product",
+        "gateIds": [
+          "G6"
+        ]
+      },
+      {
+        "id": "TM.R17",
+        "source": "threat-model.v3.json#R17",
+        "subject": "product",
+        "gateIds": [
+          "G13"
+        ]
+      },
+      {
+        "id": "TM.R18",
+        "source": "threat-model.v3.json#R18",
+        "subject": "product",
+        "gateIds": [
+          "G13"
+        ]
+      },
+      {
+        "id": "OP.TERMINATION",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G1"
+        ]
+      },
+      {
+        "id": "OP.COVERAGE",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G2"
+        ]
+      },
+      {
+        "id": "OP.PROJECTION",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G6"
+        ]
+      },
+      {
+        "id": "OP.AUDIT",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G8"
+        ]
+      },
+      {
+        "id": "OP.CORE-CLOSURE",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G10"
+        ]
+      },
+      {
+        "id": "OP.PROVIDER-FAULT",
+        "source": "operability.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G11"
+        ]
+      },
+      {
+        "id": "OP.DELIVERY",
+        "source": "delivery.v2.json",
+        "subject": "product",
+        "gateIds": [
+          "G16"
+        ]
+      }
+    ]
+  },
+  "releaseDecision": {
+    "closedStates": [
+      "RELEASABLE",
+      "BLOCKED"
+    ],
+    "rule": "BLOCKED unless every requiredPropertyRegistry property has at least one DEMONSTRATED implementation-conformance gate with retained release evidence for the same release identity.",
+    "state": "BLOCKED",
+    "blockedPropertyIds": [
+      "TM.R1",
+      "TM.R2",
+      "TM.R3",
+      "TM.R4",
+      "TM.R5",
+      "TM.R6",
+      "TM.R7",
+      "TM.R8",
+      "TM.R9",
+      "TM.R10",
+      "TM.R11",
+      "TM.R12",
+      "TM.R13",
+      "TM.R14",
+      "TM.R15",
+      "TM.R16",
+      "TM.R17",
+      "TM.R18",
+      "OP.TERMINATION",
+      "OP.COVERAGE",
+      "OP.PROJECTION",
+      "OP.AUDIT",
+      "OP.CORE-CLOSURE",
+      "OP.PROVIDER-FAULT",
+      "OP.DELIVERY"
+    ],
+    "demonstratedPropertyCount": 0,
+    "note": "This is the expected pre-implementation state, not an architecture blocker."
+  },
+  "gateSubject": {
+    "classes": [
+      {
+        "class": "design-integrity",
+        "subject": "architecture",
+        "mayDischargeProductProperty": false
+      },
+      {
+        "class": "implementation-conformance",
+        "subject": "product",
+        "mayDischargeProductProperty": true
+      }
+    ],
+    "rule": "Gate class and declared subject must match."
+  },
+  "designIntegritySuite": {
+    "checkers": [
+      "artifacts/check-claims.py",
+      "artifacts/check-d9.py",
+      "artifacts/check-fact-plane.py",
+      "artifacts/check-c2.py",
+      "artifacts/check-evidence.py",
+      "artifacts/check-resolved-inputs.py",
+      "artifacts/check-fact-identity.py",
+      "artifacts/check-versioning.py",
+      "artifacts/check-operability.py",
+      "artifacts/check-delivery.py",
+      "artifacts/check-threat-claims.py",
+      "artifacts/check-r1.py"
+    ],
+    "measurementInstrument": "artifacts/check-completeness.py",
+    "rule": "G12 names only this exact 12-checker set. Completeness is a separate instrument and cannot be counted as a contract checker."
+  },
+  "gateQualification": {
+    "requiredForImplementable": [
+      "target",
+      "positiveCase",
+      "negativeControls"
+    ],
+    "requiredForQualified": [
+      "qualificationEvidenceIds"
+    ],
+    "requiredForDemonstrated": [
+      "qualificationEvidenceIds",
+      "releaseEvidenceIds"
+    ],
+    "releaseRule": "Every closed-registry product property needs a DEMONSTRATED gate for the identified release.",
+    "preProductionRule": "Controlled CI adversarial tests may QUALIFY a gate before first release; field incidents are never required."
+  },
+  "projectionParity": {
+    "referenceSurface": "json",
+    "representationModes": [
+      "exact",
+      "native",
+      "extension",
+      "summary-visible",
+      "paginated-reachable",
+      "process-status",
+      "retrieval-reference",
+      "omitted-by-contract"
+    ],
+    "requiredFields": [
+      "verdict",
+      "termination",
+      "findings",
+      "severity",
+      "coverage",
+      "artifacts",
+      "identities"
+    ],
+    "surfaces": [
+      {
+        "id": "json",
+        "fieldModes": {
+          "verdict": "exact",
+          "termination": "exact",
+          "findings": "exact",
+          "severity": "exact",
+          "coverage": "exact",
+          "artifacts": "exact",
+          "identities": "exact"
+        }
+      },
+      {
+        "id": "exit-code",
+        "fieldModes": {
+          "verdict": "omitted-by-contract",
+          "termination": "process-status",
+          "findings": "omitted-by-contract",
+          "severity": "omitted-by-contract",
+          "coverage": "omitted-by-contract",
+          "artifacts": "omitted-by-contract",
+          "identities": "omitted-by-contract"
+        }
+      },
+      {
+        "id": "human-terminal",
+        "fieldModes": {
+          "verdict": "summary-visible",
+          "termination": "summary-visible",
+          "findings": "summary-visible",
+          "severity": "summary-visible",
+          "coverage": "summary-visible",
+          "artifacts": "retrieval-reference",
+          "identities": "summary-visible"
+        },
+        "truncation": "visible count plus exact opensip runs show <RunId> route"
+      },
+      {
+        "id": "sarif",
+        "fieldModes": {
+          "verdict": "extension",
+          "termination": "extension",
+          "findings": "native",
+          "severity": "native",
+          "coverage": "extension",
+          "artifacts": "extension",
+          "identities": "extension"
+        },
+        "extensionNamespace": "run.properties.opensip and result.properties.opensip"
+      },
+      {
+        "id": "agent-mcp",
+        "fieldModes": {
+          "verdict": "exact",
+          "termination": "exact",
+          "findings": "paginated-reachable",
+          "severity": "exact",
+          "coverage": "exact",
+          "artifacts": "paginated-reachable",
+          "identities": "exact"
+        },
+        "pagination": "total count, stable cursor, and truncation=false only at end"
+      }
+    ],
+    "canonicalRuns": [
+      {
+        "id": "clean-complete",
+        "verdict": "pass",
+        "termination": "success",
+        "findingCount": 0,
+        "coverage": "complete",
+        "artifactState": "available"
+      },
+      {
+        "id": "policy-fail",
+        "verdict": "fail",
+        "termination": "policy-failed",
+        "findingCount": 2,
+        "coverage": "complete",
+        "artifactState": "available"
+      },
+      {
+        "id": "partial-indeterminate",
+        "verdict": "indeterminate",
+        "termination": "indeterminate",
+        "findingCount": 0,
+        "coverage": "partial",
+        "artifactState": "available"
+      },
+      {
+        "id": "truncated-unavailable",
+        "verdict": "fail",
+        "termination": "policy-failed",
+        "findingCount": 101,
+        "coverage": "complete-truncated-projection",
+        "artifactState": "irreversibly-unavailable"
+      }
+    ]
+  },
+  "projectionFixtures": [
+    {
+      "id": "json-is-reference",
+      "valid": true,
+      "run": "clean-complete",
+      "surface": "json",
+      "expected": "all-required-fields-exact"
+    },
+    {
+      "id": "exit-is-explicitly-lossy",
+      "valid": true,
+      "run": "policy-fail",
+      "surface": "exit-code",
+      "expected": "termination-only"
+    },
+    {
+      "id": "human-truncation-visible",
+      "valid": true,
+      "run": "truncated-unavailable",
+      "surface": "human-terminal",
+      "expected": "visible-omitted-count-and-retrieval"
+    },
+    {
+      "id": "sarif-preserves-coverage",
+      "valid": true,
+      "run": "partial-indeterminate",
+      "surface": "sarif",
+      "expected": "coverage-in-opensip-property-bag"
+    },
+    {
+      "id": "agent-pagination-reachable",
+      "valid": true,
+      "run": "truncated-unavailable",
+      "surface": "agent-mcp",
+      "expected": "stable-cursor-reaches-all-findings"
+    },
+    {
+      "id": "reject-silent-human-truncation",
+      "valid": false,
+      "violates": "OP-PAR",
+      "run": "truncated-unavailable",
+      "surface": "human-terminal",
+      "expected": "silent-truncation"
+    },
+    {
+      "id": "reject-sarif-drops-coverage",
+      "valid": false,
+      "violates": "OP-PAR",
+      "run": "partial-indeterminate",
+      "surface": "sarif",
+      "expected": "coverage-omitted"
+    }
+  ],
+  "auditPlane": {
+    "authority": "host mutations only",
+    "boundary": "Outside the analysis EvidenceDigest; audit identity never changes an analysis result identity.",
+    "ordering": "Monotonic sequence per ProjectId, allocated transactionally.",
+    "atomicity": "No authoritative mutation becomes visible without a COMMITTED audit outcome in the same ledger transaction. Non-transactional external effects require a durable PREPARED record first and deterministic recovery.",
+    "failure": "Failure to persist PREPARED refuses the mutation. A crash after an external effect leaves PREPARED/RECOVERY-REQUIRED, never an unaudited success.",
+    "redaction": "Records contain typed IDs, commitments and secret handles; never resolved secret values or source excerpts."
+  },
+  "hostAuditSchema": {
+    "HostAuditRecord": {
+      "required": [
+        "schemaVersion",
+        "auditId",
+        "mutationId",
+        "requestId",
+        "projectId",
+        "sequence",
+        "actor",
+        "operation",
+        "state",
+        "privacyClasses",
+        "beforeCommitment",
+        "afterCommitment",
+        "retentionClass",
+        "redactions"
+      ],
+      "closedStates": [
+        "PREPARED",
+        "COMMITTED",
+        "ROLLED-BACK",
+        "RECOVERY-REQUIRED",
+        "FAILED"
+      ],
+      "closedOperations": [
+        "baseline-capture",
+        "baseline-migrate",
+        "waiver-edit",
+        "retention-change",
+        "purge",
+        "capability-grant-change",
+        "storage-root-change",
+        "contribution-promotion",
+        "serve-access"
+      ],
+      "commitmentRule": "A canonical typed object commitment or explicit null when no object exists; prose before/after values are invalid."
+    },
+    "transitionTable": {
+      "PREPARED": [
+        "COMMITTED",
+        "ROLLED-BACK",
+        "RECOVERY-REQUIRED",
+        "FAILED"
+      ],
+      "RECOVERY-REQUIRED": [
+        "COMMITTED",
+        "ROLLED-BACK",
+        "FAILED"
+      ],
+      "COMMITTED": [],
+      "ROLLED-BACK": [],
+      "FAILED": []
+    }
+  },
+  "hostAuditFixtures": [
+    {
+      "id": "commit-atomic",
+      "valid": true,
+      "path": [
+        "PREPARED",
+        "COMMITTED"
+      ],
+      "mutationVisible": true,
+      "committedRecord": true
+    },
+    {
+      "id": "crash-before-effect",
+      "valid": true,
+      "path": [
+        "PREPARED",
+        "ROLLED-BACK"
+      ],
+      "mutationVisible": false,
+      "committedRecord": false
+    },
+    {
+      "id": "crash-after-external-effect",
+      "valid": true,
+      "path": [
+        "PREPARED",
+        "RECOVERY-REQUIRED",
+        "COMMITTED"
+      ],
+      "mutationVisible": true,
+      "committedRecord": true
+    },
+    {
+      "id": "concurrent-sequences",
+      "valid": true,
+      "sequences": [
+        41,
+        42
+      ],
+      "unique": true
+    },
+    {
+      "id": "purge-has-before-and-after",
+      "valid": true,
+      "operation": "purge",
+      "beforeCommitment": "sha256:before",
+      "afterCommitment": "sha256:empty"
+    },
+    {
+      "id": "redacted-secret-handle",
+      "valid": true,
+      "containsSecretHandle": true,
+      "containsSecretValue": false
+    },
+    {
+      "id": "reject-visible-without-commit",
+      "valid": false,
+      "violates": "OP-AUD",
+      "path": [
+        "PREPARED"
+      ],
+      "mutationVisible": true,
+      "committedRecord": false
+    },
+    {
+      "id": "reject-secret-value",
+      "valid": false,
+      "violates": "OP-AUD",
+      "containsSecretHandle": true,
+      "containsSecretValue": true
+    }
+  ],
+  "capacityClasses": {
+    "reference-standard-v1": {
+      "schemaVersion": 1,
+      "hardwareFloor": {
+        "logicalCpu": 8,
+        "memoryGiB": 16,
+        "freeDiskGiB": 40,
+        "storage": "local SSD"
+      },
+      "workload": {
+        "generatorVersion": "repo-shape-v1",
+        "seed": 1,
+        "files": 100000,
+        "logicalLines": 5000000,
+        "languages": {
+          "typescript": 0.5,
+          "rust": 0.5
+        },
+        "crossFileReferenceEdges": 10000000
+      },
+      "limits": {
+        "peakRssGiB": 12,
+        "managedDiskGiB": 20,
+        "coldRuntimeSeconds": 1800,
+        "cooperativeCancelSeconds": 2,
+        "hardKillSeconds": 10,
+        "orphanProcessesAfterSeconds": 0
+      },
+      "measurement": "Run each dimension independently three times from a clean machine image; any breach fails G7. Median is reported but cannot hide a single safety-cap breach.",
+      "classification": "Normative fallback pending product measurements; measurement may tighten or add classes but a release always has this falsifiable floor."
+    }
+  },
+  "gateSchema": {
+    "Gate": {
+      "required": [
+        "id",
+        "property",
+        "class",
+        "subject",
+        "status"
+      ],
+      "class": {
+        "closed": true,
+        "values": [
+          "design-integrity",
+          "implementation-conformance"
+        ]
+      },
+      "subject": {
+        "closed": true,
+        "values": [
+          "architecture",
+          "product"
+        ]
+      },
+      "status": {
+        "closed": true,
+        "values": [
+          "SPECIFIED",
+          "IMPLEMENTABLE",
+          "QUALIFIED",
+          "DEMONSTRATED",
+          "BLOCKED-NO-MECHANISM",
+          "PARTIAL"
+        ]
+      }
+    },
+    "RequiredProperty": {
+      "required": [
+        "id",
+        "source",
+        "subject",
+        "gateIds"
+      ],
+      "idUnique": true,
+      "gateIdsNonEmpty": true
+    },
+    "ReleaseDecision": {
+      "closed": true,
+      "values": [
+        "RELEASABLE",
+        "BLOCKED"
+      ]
+    }
+  },
+  "qualificationFixtures": [
+    {
+      "id": "specified-paper-gate",
+      "valid": true,
+      "gate": {
+        "id": "X1",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "id": "implementable-not-run",
+      "valid": true,
+      "gate": {
+        "id": "X2",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "IMPLEMENTABLE",
+        "target": "binary",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ]
+      }
+    },
+    {
+      "id": "qualified-harness",
+      "valid": true,
+      "gate": {
+        "id": "X3",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "QUALIFIED",
+        "target": "binary",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ],
+        "qualificationEvidenceIds": [
+          "qe:positive",
+          "qe:negative"
+        ]
+      }
+    },
+    {
+      "id": "demonstrated-release",
+      "valid": true,
+      "gate": {
+        "id": "X4",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "DEMONSTRATED",
+        "target": "binary",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ],
+        "qualificationEvidenceIds": [
+          "qe:positive",
+          "qe:negative"
+        ],
+        "releaseEvidenceIds": [
+          "re:release-1"
+        ]
+      }
+    },
+    {
+      "id": "blocked-future-mode",
+      "valid": true,
+      "gate": {
+        "id": "X5",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "BLOCKED-NO-MECHANISM",
+        "target": null,
+        "blocker": "ARCH.X"
+      }
+    },
+    {
+      "id": "reject-implementable-without-target",
+      "valid": false,
+      "violates": "OP-QUAL",
+      "gate": {
+        "id": "X6",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "IMPLEMENTABLE",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ]
+      }
+    },
+    {
+      "id": "reject-qualified-boolean-only",
+      "valid": false,
+      "violates": "OP-QUAL",
+      "gate": {
+        "id": "X7",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "QUALIFIED",
+        "target": "binary",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ],
+        "observedFailure": true
+      }
+    },
+    {
+      "id": "reject-demonstrated-without-release-evidence",
+      "valid": false,
+      "violates": "OP-QUAL",
+      "gate": {
+        "id": "X8",
+        "class": "implementation-conformance",
+        "subject": "product",
+        "status": "DEMONSTRATED",
+        "target": "binary",
+        "positiveCase": "pass",
+        "negativeControls": [
+          "mutation"
+        ],
+        "qualificationEvidenceIds": [
+          "qe:1"
+        ]
+      }
+    }
+  ],
+  "conformanceTests": [
+    {
+      "id": "OP-01",
+      "state": "IMPLEMENTABLE",
+      "assert": "The closed property registry joins every TM required property and every local release property to a subject-compatible gate."
+    },
+    {
+      "id": "OP-02",
+      "state": "IMPLEMENTABLE",
+      "assert": "Gate assurance follows SPECIFIED -> IMPLEMENTABLE -> QUALIFIED -> DEMONSTRATED and never promotes from a boolean."
+    },
+    {
+      "id": "OP-03",
+      "state": "IMPLEMENTABLE",
+      "assert": "The release decision is derived and remains BLOCKED until every required property is DEMONSTRATED."
+    },
+    {
+      "id": "OP-04",
+      "state": "IMPLEMENTABLE",
+      "assert": "Event identity and budget ownership are phase-correct."
+    },
+    {
+      "id": "OP-05",
+      "state": "IMPLEMENTABLE",
+      "assert": "Canonical Runs project through typed field maps and executable loss/truncation fixtures."
+    },
+    {
+      "id": "OP-06",
+      "state": "IMPLEMENTABLE",
+      "assert": "Host mutations obey the typed prepare/commit/recovery audit protocol outside EvidenceDigest."
+    },
+    {
+      "id": "OP-07",
+      "state": "BLOCKED-NO-MECHANISM",
+      "requiresMechanism": "ARCH.PROBE-CONTRACT",
+      "assert": "Future imperative/probe runtime authority is denied rather than labelled."
+    },
+    {
+      "id": "OP-08",
+      "state": "BLOCKED-NO-MECHANISM",
+      "requiresMechanism": "TM.V10 / ARCH.RETENTION-TIERS",
+      "assert": "Durable-authoritative retention is unavailable rather than inferred from storage admission."
+    },
+    {
+      "id": "OP-08",
+      "state": "IMPLEMENTABLE",
+      "assert": "reference-standard-v1 independently gates memory, disk, runtime, cancellation and orphans."
+    },
+    {
+      "id": "OP-09",
+      "state": "IMPLEMENTABLE",
+      "assert": "Static core closure and provider fault containment have separate targets."
+    },
+    {
+      "id": "OP-10",
+      "state": "IMPLEMENTABLE",
+      "assert": "REQUEST-ID-V1 mints and reserves one canonical host-owned RequestId before every request path, rejects caller/malformed/late/colliding identities, and keeps RequestId out of every semantic identity and Run result."
+    }
+  ],
+  "peerReviewRequired": [
+    "Independently replay the RequestId allocation-failure mapping against the live D9 golden and total cause/code tables.",
+    "Adversarially add RequestId to each mechanically joined semantic schema and confirm the retained checker rejects it.",
+    "Independently reimplement FACT-ID-V1 and replay the two-RequestId variation; do not import the FACT-PLANE Python encoder or accept equality-only strings.",
+    "After the Phase-1A owner applies the deferred EvidenceBundle closure, promote that surface from pendingCrossSurfaceClosure to mechanicallyJoined and replay both Evidence and OPERABILITY normal/selftests.",
+    "Confirm that every parked exclusion remains visibly unproven until its exact byte recipe exists."
+  ],
+  "knownLimitations": [
+    "No product exists, so every product property is at most IMPLEMENTABLE and releaseDecision is correctly BLOCKED.",
+    "G19 remains blocked on V10; G4 storage-root admission must never be promoted into proof that durable-authoritative custody is resolved.",
+    "reference-standard-v1 is a conservative normative fallback, not a measured user SLO.",
+    "G9 remains blocked, but the initial product rejects every dependent feature at admission; keeping the feature while omitting its mechanism is not permitted.",
+    "SARIF consumers may hide custom property bags in their UI; the serialized interchange remains lossless and the human/agent surfaces provide the visible fallback.",
+    "REQUEST-ID-V1 is specified and implementable but no built host, collision-injection harness, qualificationEvidenceId, or releaseEvidenceId exists.",
+    "EvidenceBundle is not yet a closed unknown-field-rejecting record. RequestId exclusion from that record remains explicitly pending on the Phase-1A evidence/retention owner and must not be counted as mechanically proven until the deferred patch is integrated and checked.",
+    "Finding fingerprint, FactViewId, EvidenceDigest, RunId, sealed-Run identity and cache/regeneration recipes do not yet exist as exact live byte contracts. RequestId exclusion from those surfaces is normative and explicitly parked, not mechanically proven."
+  ],
+  "supersedes": {
+    "artifact": "operability.v2.json",
+    "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+    "checker": "check-operability.py",
+    "checkerSha256": "925496916ef2c7075c02f7a767353aa6ff047cf55557304f3983e17e1c5256e2"
+  },
+  "resolves": {
+    "B-OP-01": "RESOLVED — gate class and subject are explicit.",
+    "B-OP-02": "RESOLVED — assurance requires retained evidence identities, not booleans.",
+    "B-OP-03": "RESOLVED — the release decision is derived from a closed property registry.",
+    "B-OP-04": "RESOLVED — typed field maps and canonical projection fixtures replace prose parity.",
+    "B-OP-05": "RESOLVED — event identities and budgets are phase-derived.",
+    "B-OP-06": "RESOLVED — live threat references are checked.",
+    "B-OP-07": "RESOLVED — static closure, runtime denial and fault containment are separate gates.",
+    "B-OP-08": "RESOLVED — HostAuditRecord and crash/concurrency protocol are binding.",
+    "B-OP-09": "RESOLVED — reference-standard-v1 supplies falsifiable limits.",
+    "R2-OP-01": "RESOLVED — closed exhaustive requiredPropertyRegistry plus derived releaseDecision.",
+    "R2-OP-02": "RESOLVED — eventSchema phaseRequirements and negative fixtures.",
+    "R2-OP-03": "RESOLVED — G12 narrowed, exact checker set enumerated, and no self-attested qualification.",
+    "R2-OP-04": "RESOLVED — typed surface field maps, canonical Run corpus, SARIF property bags, and loss fixtures.",
+    "R2-OP-05": "RESOLVED — G10 and G11 are implementable separate targets; G9 alone remains mechanism-blocked and its features are excluded.",
+    "R2-OP-06": "RESOLVED — typed audit schema, transition protocol and crash/concurrency/redaction fixtures.",
+    "R2-OP-07": "RESOLVED — versioned reference capacity class with independent resource limits.",
+    "IP-R4-02": "REPAIRED; INDEPENDENT REREVIEW PENDING — REQUEST-ID-V1 binds host allocation and validation ownership, pre-validation allocation for rejected and stored-view requests, canonical representation, atomic collision handling, retry semantics, custody, exact D9 failure projection and mechanically scoped semantic exclusion. Product qualification and release demonstration remain absent.",
+    "R6-XID-04": "REPAIRED FOR REQUEST-ID-V1; INDEPENDENT REREVIEW PENDING — CSPRNG failure, reservation I/O failure and collision exhaustion map to the exact live pre-admission host-io axes, operational-failed/HOST.IO_FAILURE and exit 4 without extending D9 vocabulary.",
+    "R6-IP02-01": "PARTIALLY REPAIRED; EVIDENCE OWNER INTEGRATION AND INDEPENDENT REREVIEW PENDING — the checker joins six live closed semantic input surfaces and a RequestId-variation fixture; EvidenceBundle unknown-field closure is explicitly pending under an exact deferred patch, while six unavailable exact identity/key recipes remain parked rather than paper-proven.",
+    "R6R-IP02-01": "REPAIRED; DELIVERY OWNER INTEGRATION AND INDEPENDENT REREVIEW PENDING — the fact projection is now the computed host-only FACT-ID-V1 oracle; equal junk, equal RequestIds, malformed RequestIds and RequestId preimage admission are retained rejected mutations."
+  },
+  "aPrimeSuccessor": {
+    "id": "OPERABILITY-V3-A-PRIME-SUCCESSOR",
+    "applicationState": "NOT-APPLIED",
+    "authorityClaim": "NONE",
+    "productAcceptance": false,
+    "independentCombinedRereview": "REQUIRED",
+    "dependencies": {
+      "evidence": {
+        "artifact": "evidence.v4.json",
+        "sha256": "4a5d2dc8d9067af103b6f8c898c83f08fdd59ee22ce49fb4cf12a1329c416c70",
+        "checker": "check-evidence-v4.py",
+        "checkerSha256": "fd8db2ab77261ba31351d0647cf62ba4de92db35ba7a15426cb8f4bcf28865bc"
+      },
+      "d9": {
+        "artifact": "d9-exit-contract.v1.7.json",
+        "sha256": "d199aef6ac2edc7652325ef8d26f75cfda35a94f3e234d10aafd984d9088b2eb",
+        "checker": "check-d9-v1.7.py",
+        "checkerSha256": "ead1dd8d3635a355475ba8d71611515497a29e59cdfc5d232f167588dd9fb6d3",
+        "compatibilityInvariant": "D18"
+      },
+      "retentionCustody": {
+        "artifact": "retention-tiers.v10.json",
+        "sha256": "606b5e7125d4a3a46f44f1a7565f9c9ea69132d9ab2783d00339e1b8aac5e026",
+        "checker": "check-retention-custody.py",
+        "checkerSha256": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7"
+      }
+    },
+    "compatibilityProjection": {
+      "id": "OP3-TO-OP2-EXACT-PROJECTION",
+      "predecessor": {
+        "artifact": "operability.v2.json",
+        "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+        "checker": "check-operability.py",
+        "checkerSha256": "925496916ef2c7075c02f7a767353aa6ff047cf55557304f3983e17e1c5256e2"
+      },
+      "algorithm": "Delete aPrimeSuccessor; restore the five root envelope fields from changedRootFields.before; canonical deep-compare the resulting complete object to the protected operability.v2.json bytes.",
+      "changedRootFields": {
+        "version": {
+          "before": 2,
+          "after": 3
+        },
+        "status": {
+          "before": "CANDIDATE-REPAIRED-PENDING-INDEPENDENT-REREVIEW (product gates intentionally undemonstrated)",
+          "after": "CANDIDATE-AWAITING-INDEPENDENT-COMBINED-REREVIEW (A-prime lifecycle; G19 remains blocked pending CD-RT-5; NOT APPLIED)"
+        },
+        "supersedes": {
+          "before": 1,
+          "after": {
+            "artifact": "operability.v2.json",
+            "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+            "checker": "check-operability.py",
+            "checkerSha256": "925496916ef2c7075c02f7a767353aa6ff047cf55557304f3983e17e1c5256e2"
+          }
+        },
+        "author": {
+          "before": "agent-3; repaired by agent-b; RequestId closure by identity-contract owner",
+          "after": "agent-3; repaired by agent-b; RequestId closure by identity-contract owner; A-prime successor by phase1a-evidence-successor-lane"
+        },
+        "reviewStatus": {
+          "before": "The v2 base and first RequestId repair were independently reviewed. Reviewer6 finding R6-XID-04 is repaired and awaits independent rereview. R6R-IP02-01's generic FactId residual is repaired by a computed FACT-ID-V1 join and awaits DELIVERY integration/rereview. R6-IP02-01 is repaired for the six live closed Snapshot/Plan/C-2/fact/pure-core/D9 surfaces; EvidenceBundle unknown-field closure remains pending on the external Phase-1A owner under the exact deferred patch. Green checkers are design-integrity evidence only.",
+          "after": "OPERABILITY v3 is a candidate-only A-prime overlay over an exact mechanically projected v2 base. The lifecycle/Evidence/G19 mechanism awaits independent combined rereview, CD-RT-5 product disposition and coordinator integration. Green checkers are design-integrity evidence only; no product gate is promoted."
+        }
+      },
+      "unchangedTopLevelKeys": [
+        "artifact",
+        "purpose",
+        "covers",
+        "decisionDependencies",
+        "observability",
+        "eventSchema",
+        "requestIdContract",
+        "eventFixtures",
+        "assuranceStateMachine",
+        "validationGates",
+        "requiredPropertyRegistry",
+        "releaseDecision",
+        "gateSubject",
+        "designIntegritySuite",
+        "gateQualification",
+        "projectionParity",
+        "projectionFixtures",
+        "auditPlane",
+        "hostAuditSchema",
+        "hostAuditFixtures",
+        "capacityClasses",
+        "gateSchema",
+        "qualificationFixtures",
+        "conformanceTests",
+        "peerReviewRequired",
+        "knownLimitations",
+        "resolves"
+      ],
+      "deepEqualityRule": "Every predecessor top-level subtree outside the five enumerated envelope fields is exact deep-equal, including every nested key/list/scalar. No additional exception or semantic rewrite is permitted.",
+      "consumerBindings": [
+        {
+          "consumer": "assurance-state.v1.json and check-assurance.py",
+          "predecessorPaths": [
+            "assuranceStateMachine",
+            "validationGates",
+            "requiredPropertyRegistry",
+            "releaseDecision"
+          ],
+          "validity": "exact through this projection; no assurance transition or gate promotion"
+        },
+        {
+          "consumer": "c2-plan-stage-schema.v3.json and check-c2.py",
+          "predecessorPaths": [
+            "requestIdContract"
+          ],
+          "validity": "exact REQUEST-ID-V1 authority/regex/caller exclusion"
+        },
+        {
+          "consumer": "delivery.v2.json and check-delivery.py",
+          "predecessorPaths": [
+            "assuranceStateMachine",
+            "validationGates#G16",
+            "requestIdContract"
+          ],
+          "validity": "exact vocabulary, G16 and RequestId semantics; no product evidence added"
+        },
+        {
+          "consumer": "retention-tiers.v10.json and check-retention-custody.py",
+          "predecessorPaths": [
+            "validationGates#G19"
+          ],
+          "validity": "G19 remains BLOCKED-NO-MECHANISM in the live v2 projection; candidate mechanism is not application"
+        },
+        {
+          "consumer": "threat-model.v3.json and check-threat-claims.py",
+          "predecessorPaths": [
+            "validationGates",
+            "requiredPropertyRegistry",
+            "releaseDecision"
+          ],
+          "validity": "exact gate/property/release derivation; threat model remains unmodified"
+        },
+        {
+          "consumer": "check-completeness.py",
+          "predecessorPaths": [
+            "requiredPropertyRegistry",
+            "releaseDecision"
+          ],
+          "validity": "exact property count and blocked release decision"
+        },
+        {
+          "consumer": "check-operability.py and all other v2 readers",
+          "predecessorPaths": [
+            "artifact",
+            "purpose",
+            "covers",
+            "decisionDependencies",
+            "observability",
+            "eventSchema",
+            "requestIdContract",
+            "eventFixtures",
+            "assuranceStateMachine",
+            "validationGates",
+            "requiredPropertyRegistry",
+            "releaseDecision",
+            "gateSubject",
+            "designIntegritySuite",
+            "gateQualification",
+            "projectionParity",
+            "projectionFixtures",
+            "auditPlane",
+            "hostAuditSchema",
+            "hostAuditFixtures",
+            "capacityClasses",
+            "gateSchema",
+            "qualificationFixtures",
+            "conformanceTests",
+            "peerReviewRequired",
+            "knownLimitations",
+            "resolves"
+          ],
+          "validity": "complete exact predecessor projection; v2 checker remains authoritative only for projected v2 semantics"
+        }
+      ],
+      "integrationBoundary": "After CD-RT-5, any product application requires a narrow successor or external integration disposition with exact re-review of affected live hashes; this projection is not permission to silently rebind consumers."
+    },
+    "lifecycle": {
+      "id": "A-PRIME-COMMITTED-RUN-LIFECYCLE-V1",
+      "authority": "This overlay is authoritative only inside the candidate v3 packet; it does not mutate the protected v2 event schema until coordinator application.",
+      "phaseReplacement": {
+        "legacy": "attempt-sealed",
+        "successor": "run-committed",
+        "rule": "attempt-sealed remains only in the exact v2 compatibility projection. A v3 public event MUST use run-committed and only after the final atomic transaction commits."
+      },
+      "eventSchemaV3": {
+        "required": [
+          "schemaVersion",
+          "plane",
+          "phase",
+          "requestId",
+          "budgetOwner",
+          "payloadType",
+          "payloadBytes"
+        ],
+        "optional": [
+          "executionId",
+          "runId",
+          "parentEventId",
+          "truncation"
+        ],
+        "closedPlanes": [
+          "progress",
+          "diagnostics",
+          "telemetry",
+          "host-audit"
+        ],
+        "closedPhases": [
+          "request-validation",
+          "attempt-admitted",
+          "run-committed",
+          "stored-run-read"
+        ],
+        "phaseRequirements": {
+          "request-validation": {
+            "executionId": "forbidden",
+            "runId": "forbidden",
+            "budgetOwner": "RequestId"
+          },
+          "attempt-admitted": {
+            "executionId": "required",
+            "runId": "forbidden",
+            "budgetOwner": "ExecutionId"
+          },
+          "run-committed": {
+            "executionId": "required",
+            "runId": "required",
+            "budgetOwner": "ExecutionId"
+          },
+          "stored-run-read": {
+            "executionId": "forbidden",
+            "runId": "required-existing-only",
+            "budgetOwner": "RequestId"
+          }
+        }
+      },
+      "identityVisibility": {
+        "candidateRunId": "Opaque internal non-Display/non-Serialize value; absent from public events, logs, diagnostics, errors, responses, public CAS lookup and recovery records before commit.",
+        "commitPoint": "Terminal CAS publication, RunIndexV1, AttemptRunLinkV1, RunCustodyRootV1, custody pin transfer and run-committed outbox row commit in one serializable transaction.",
+        "success": "Only CommittedRunV1 exposes RunId/runSealRef and permits run-committed publication.",
+        "failedFinalCommit": {
+          "d9Golden": "d9-exit-contract.v1.7.json#analysis-durability-failed",
+          "termination": {
+            "class": "operational-failed",
+            "errorCode": "DURABILITY.COMMIT_FAILED",
+            "executionId": "$EXECUTION_ID"
+          },
+          "forbidden": [
+            "runId",
+            "runSealRef",
+            "terminalRunCasRef"
+          ],
+          "rule": "No newly derived RunId exists publicly; retry/recovery uses the Run-free prepared journal and ExecutionId only."
+        },
+        "storedView": "A new RequestId may address one already committed RunId, with no new ExecutionId, Attempt or Run. It cannot derive or publish a new RunId."
+      },
+      "fixtures": [
+        {
+          "id": "op3-valid-request-validation",
+          "valid": true,
+          "phase": "request-validation",
+          "requestId": "req1_00000000000000000000000000000021",
+          "budgetOwner": "RequestId"
+        },
+        {
+          "id": "op3-valid-attempt-admitted",
+          "valid": true,
+          "phase": "attempt-admitted",
+          "requestId": "req1_00000000000000000000000000000022",
+          "executionId": "exec:22",
+          "budgetOwner": "ExecutionId"
+        },
+        {
+          "id": "op3-valid-run-committed",
+          "valid": true,
+          "phase": "run-committed",
+          "requestId": "req1_00000000000000000000000000000023",
+          "executionId": "exec:23",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "budgetOwner": "ExecutionId"
+        },
+        {
+          "id": "op3-valid-stored-read",
+          "valid": true,
+          "phase": "stored-run-read",
+          "requestId": "req1_00000000000000000000000000000024",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "budgetOwner": "RequestId",
+          "runOrigin": "already-committed"
+        },
+        {
+          "id": "op3-reject-precommit-run",
+          "valid": false,
+          "phase": "attempt-admitted",
+          "executionId": "exec:25",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "expected": "RUN_ID_PRECOMMIT_VISIBILITY_FORBIDDEN"
+        },
+        {
+          "id": "op3-reject-failed-commit-run",
+          "valid": false,
+          "phase": "final-commit-failed",
+          "executionId": "exec:26",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "expected": "RUN_ID_ON_FAILED_COMMIT_FORBIDDEN"
+        },
+        {
+          "id": "op3-reject-run-committed-missing-run",
+          "valid": false,
+          "phase": "run-committed",
+          "executionId": "exec:27",
+          "expected": "RUN_ID_REQUIRED_AFTER_COMMIT"
+        },
+        {
+          "id": "op3-reject-stored-read-execution",
+          "valid": false,
+          "phase": "stored-run-read",
+          "executionId": "exec:28",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "expected": "STORED_READ_EXECUTION_FORBIDDEN"
+        },
+        {
+          "id": "op3-reject-legacy-attempt-sealed",
+          "valid": false,
+          "phase": "attempt-sealed",
+          "executionId": "exec:29",
+          "runId": "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+          "expected": "LEGACY_PHASE_NOT_PUBLIC_IN_V3"
+        }
+      ]
+    },
+    "recursiveRequestIdExclusion": {
+      "evidenceSource": {
+        "artifact": "evidence.v4.json#recursiveRequestIdExclusion",
+        "artifactSha256": "4a5d2dc8d9067af103b6f8c898c83f08fdd59ee22ce49fb4cf12a1329c416c70",
+        "checker": "check-evidence-v4.py",
+        "checkerSha256": "fd8db2ab77261ba31351d0647cf62ba4de92db35ba7a15426cb8f4bcf28865bc"
+      },
+      "surfaces": [
+        "EP5 EvaluationAuthoritySealV1",
+        "EP5 SemanticObjectBindingV1",
+        "RT10 SemanticCapabilityClosureV3 semanticRoots/bindings/proofRefs/edges/units",
+        "RawProofInventoryV1 and every RawProofInventoryItemV1",
+        "SemanticEvidenceV1",
+        "EvidenceDigest preimage",
+        "RunIdentityPreimageV1",
+        "TerminalRunV1 and external runSealRef"
+      ],
+      "closureRule": "RequestId and ExecutionId are operational-only. Every named semantic record is exact/closed; neither identity may occur at the root or any nested semantic item. Unknown fields reject rather than being ignored.",
+      "recursiveNegative": "Inject requestId or executionId at each root and each nested semantic collection item; exact decoding/admission rejects before hashing or core authority use.",
+      "variationFixture": {
+        "requestIds": [
+          "req1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "req1_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "executionIds": [
+          "exec:attempt-a",
+          "exec:attempt-b"
+        ],
+        "semanticInputs": "byte-identical EP5 bundle, RT10 closure, admitted sealed target and canonical Evidence records",
+        "expectedEqual": {
+          "semanticEvidenceCasRef": [
+            "sha256:56ce851b02780710ab880a1b255fcdbe56f7b053a10e03314f18f69d8ff2b276",
+            "sha256:56ce851b02780710ab880a1b255fcdbe56f7b053a10e03314f18f69d8ff2b276"
+          ],
+          "evidenceDigest": [
+            "sha256:bb530d4c698c4e46408db27ca2b74a1ce4973b37ae5cb79508b29cf10eb47a42",
+            "sha256:bb530d4c698c4e46408db27ca2b74a1ce4973b37ae5cb79508b29cf10eb47a42"
+          ],
+          "runId": [
+            "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521",
+            "run1:edc4c7b0353dea53dab48bc7fc180e66595027e07a283ee939f34dd837a7c521"
+          ],
+          "runSealRef": [
+            "sha256:f6b3ed2ffebabcd720adedee7aaad0ba556d803662edbebfd904d6db636f1b42",
+            "sha256:f6b3ed2ffebabcd720adedee7aaad0ba556d803662edbebfd904d6db636f1b42"
+          ]
+        },
+        "expectedDistinct": [
+          "RequestId",
+          "ExecutionId",
+          "AttemptRunLinkV1"
+        ]
+      },
+      "availabilityFixture": {
+        "mutation": "remove one replay-only raw object from current RT10 availability",
+        "changesOnly": [
+          "effectiveCapability",
+          "authoritative",
+          "currentAvailability",
+          "typedRefusal"
+        ],
+        "invariant": [
+          "SemanticEvidenceV1",
+          "EvidenceDigest",
+          "RunId",
+          "TerminalRunV1",
+          "runSealRef",
+          "sealedCapability"
+        ]
+      }
+    },
+    "g19CandidateMechanism": {
+      "liveGateId": "G19",
+      "liveGateStatus": "BLOCKED-NO-MECHANISM",
+      "candidateStatus": "SPECIFIED-PENDING-CD-RT-5-AND-INDEPENDENT-REREVIEW",
+      "productState": "BLOCKED",
+      "productDecision": "CD-RT-5 UNRESOLVED",
+      "mechanism": "EP5 admitted semantic evaluation authority + RT10 UNIT-ID-V3 typed raw custody + Evidence v4 exact bytes and atomic committed-only Run publication + VERSIONING v5 historical dependency join.",
+      "evidenceGrade": "CANDIDATE-DESIGN-INTEGRITY-ONLY",
+      "forbiddenPromotion": "Do not change G19 to IMPLEMENTABLE, QUALIFIED or DEMONSTRATED; do not enable durable-authoritative product behavior until CD-RT-5, implementation evidence, independent review and coordinator integration all complete.",
+      "postProductIntegration": "A later product decision requires a narrow successor or external integration disposition, exact consumer rebind and independent re-review; this packet does not mutate product dispositions."
+    },
+    "reviewFindingTransfers": [
+      {
+        "id": "R12-EVD-01",
+        "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+        "closure": "SemanticEvidenceV1, EvidenceDigest, RUN-ID-V1 and TerminalRunV1 are exact closed byte grammars with independently regenerated combined goldens; RunId is externally visible only after atomic final commit.",
+        "evidence": [
+          "canonicalWireGrammar",
+          "acceptedGolden",
+          "storeContract"
+        ]
+      },
+      {
+        "id": "R12-DEP-01",
+        "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+        "closure": "The dependency graph is EP5/RT10 -> VERSIONING v5 -> Evidence v4, with exact artifact/checker/grammar pins and no Evidence back-edge in VERSIONING capabilityJoin.",
+        "evidence": [
+          "dependencies",
+          "semanticJoins.versioning"
+        ]
+      },
+      {
+        "id": "R14-EVD-TRANSFER",
+        "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+        "closure": "The selected EP5 semantic-authority and RT10 typed raw-custody contracts are transferred injectively into Evidence v4; semantic commitments never serve as physical raw-object keys.",
+        "evidence": [
+          "importedAuthorityContract",
+          "semanticJoins",
+          "acceptedGolden"
+        ]
+      },
+      {
+        "id": "RR13-01",
+        "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+        "closure": "Plan authority, ActivationManifest bytes/ref and exact ProjectId-scoped SemanticObjectBindingV1 records are recomputed and admitted before core invocation; no raw JSON, caller ref or boolean bypass constructs authority.",
+        "evidence": [
+          "importedAuthorityContract.preCoreRule",
+          "apiContract",
+          "admissionAndSealOrdering"
+        ]
+      }
+    ],
+    "retainedResiduals": [
+      {
+        "id": "CD-RT-5",
+        "state": "UNRESOLVED",
+        "effect": "G19/product remain blocked"
+      },
+      {
+        "id": "G19",
+        "state": "BLOCKED-PENDING-PRODUCT-DECISION-AND-IMPLEMENTATION",
+        "effect": "candidate mechanism is not live authority"
+      },
+      {
+        "id": "INDEPENDENT-COMBINED-REREVIEW",
+        "state": "REQUIRED",
+        "effect": "no seal/apply"
+      },
+      {
+        "id": "POST-PRODUCT-INTEGRATION",
+        "state": "REQUIRED-AFTER-CD-RT-5",
+        "effect": "narrow successor/external disposition and exact re-review"
+      }
+    ],
+    "sealRecommendation": "DO NOT SEAL OR APPLY. Preserve the v2 compatibility projection, keep G19/product blocked, and require CD-RT-5 plus independent combined rereview before any integration disposition."
+  }
+}

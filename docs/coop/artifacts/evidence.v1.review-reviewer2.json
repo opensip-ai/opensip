@@ -1,0 +1,216 @@
+{
+  "artifact": "opensip.evidence.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/evidence.v1.json",
+  "date": "2026-07-31",
+  "independence": {
+    "otherReviewerOutputReadBeforeFiling": false,
+    "precomparisonRecord": "artifacts/evidence.v1.blind-outcomes.reviewer2.precompare.json",
+    "method": "Read only id/what for all ten counterexamples and all five accepting fixtures, froze reviewer-owned rejecting/accepting rules, then exposed mustRejectBy, valid, bundles, declared invariants, and checker source.",
+    "coverage": {
+      "counterexamples": "10/10",
+      "acceptingFixtures": "5/5",
+      "humanDescriptionsPresent": "13/15"
+    }
+  },
+  "blindComparison": {
+    "counterexamples": [
+      {
+        "id": "RA-CE-1",
+        "reviewerRule": "authoritative verdict retains evaluation and verdict evidence",
+        "authored": "E1",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-1b",
+        "reviewerRule": "non-vacuous required universe",
+        "authored": "E1",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-2",
+        "reviewerRule": "no-match needs retained subject material or regeneration closure",
+        "authored": "E2",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-3",
+        "reviewerRule": "host owns proof adequacy",
+        "authored": "E3",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-4",
+        "reviewerRule": "retained authoritative Run pins its evidence closure",
+        "authored": "E7",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-5",
+        "reviewerRule": "storage/privacy/retention resolve before first durable write",
+        "authored": "E6",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-6",
+        "reviewerRule": "replayable requires complete offline executable closure",
+        "authored": "E8",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-7",
+        "reviewerRule": "required indeterminate/error outcome prevents clean pass",
+        "authored": "E9",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-8",
+        "reviewerRule": "sample cannot prove absence",
+        "authored": "E4",
+        "result": "AGREE"
+      },
+      {
+        "id": "RA-CE-9",
+        "reviewerRule": "activation exactly equals declared universe",
+        "authored": "E1",
+        "result": "AGREE_IN_PROSE_BUT_NOT_IN_EXECUTION"
+      }
+    ],
+    "acceptingFixtures": [
+      {
+        "id": "clean-pass-with-no-match-proof",
+        "blindResult": "CONDITIONALLY ACCEPT",
+        "comparison": "The authored payload intends the same conditions, but the what prose does not name them and the checker does not enforce several of them."
+      },
+      {
+        "id": "failing-run-with-witness",
+        "blindResult": "UNDERDETERMINED",
+        "comparison": "what is absent; valid=true cannot be independently derived from the permitted input."
+      },
+      {
+        "id": "indeterminate-honestly-reported",
+        "blindResult": "CONDITIONALLY ACCEPT",
+        "comparison": "AGREE; the reference to RA-CE-7 supplies enough human semantics."
+      },
+      {
+        "id": "recorded-advisory-run",
+        "blindResult": "CONDITIONALLY ACCEPT",
+        "comparison": "AGREE if recorded/advisory output is mechanically barred from authoritative consumption."
+      },
+      {
+        "id": "replayable-with-closure",
+        "blindResult": "UNDERDETERMINED",
+        "comparison": "what is absent; the closure's required contents cannot be independently derived."
+      }
+    ]
+  },
+  "checkerMutationAudit": [
+    {
+      "mutation": "Duplicate both evaluationId and predicateId while keeping declaredCount unchanged",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Remove requiredUniverse.universeCommitment",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Replace verdictDerivation with {garbage:true}",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Remove required predicateId and coverageId from an EvaluationEvidence",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Replace pinned facts with an unreferenced regenerationClosureRetained=true boolean",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Reduce replayClosure to {offlineAvailable:true}, with no producer or environment",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Delete noMatchConstruction",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Delete bundleSchema",
+      "result": "ESCAPED"
+    }
+  ],
+  "findings": [
+    {
+      "id": "R2-EVIDENCE-01",
+      "severity": "HIGH",
+      "evidence": "E1 says activation exactly satisfies the declared universe, but validate() compares only len(activatedEvaluations) to declaredCount. universeCommitment is never read, evaluation identities need not be unique, and no set commitment is recomputed. A same-count fixture with duplicate evaluationId and predicateId passes cleanly; removing universeCommitment also passes.",
+      "impact": "A producer can omit a required evaluation, duplicate another, and still obtain an authoritative clean pass. RA-CE-9 exercises only a count mismatch, not identity equality, so the green result overstates E1's central guarantee.",
+      "requiredChange": "Define the committed required-universe member identities and canonicalization, require unique activated identities, recompute/compare the universe commitment, and add same-cardinality substitution, duplication, and reorder fixtures. The checker must reject all three for E1 specifically.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "An executable same-cardinality fixture in which one required evaluation is replaced by an undeclared evaluation, rejected because a recomputed member-set commitment differs—not because the counts differ."
+    },
+    {
+      "id": "R2-EVIDENCE-02",
+      "severity": "HIGH",
+      "evidence": "bundleSchema declares required fields, including verdictDerivation.verdict, predicateId, coverageId, and universeCommitment. Every supplied verdictDerivation omits its declared required verdict field, yet all fixtures pass. Deleting required fields or replacing verdictDerivation with an arbitrary non-empty object also passes; deleting bundleSchema itself passes.",
+      "impact": "The binding schema and executable validator contradict each other. An implementation cannot know whether to follow the declared wire shape or the checker, and the checker can certify structurally meaningless verdict evidence.",
+      "requiredChange": "Make the schema machine-validatable and invoke it before semantic invariants. Repair fixtures to conform, reject unknown fields if that is the intended contract, and add mutations for every required nested field plus schema deletion/drift.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A retained schema validator that rejects the recorded missing-field and garbage-object mutations, with all accepting fixtures conforming to the same schema."
+    },
+    {
+      "id": "R2-EVIDENCE-03",
+      "severity": "HIGH",
+      "evidence": "E2 and E8 are discharged by self-asserted booleans: regenerationClosureRetained=true or replayClosure.offlineAvailable=true. No content-addressed closure identity, producer artifact set, environment artifact identity, reachability check, or offline-open operation is required. The checker accepts a replay closure containing only offlineAvailable=true and a no-match evaluation whose only replacement for pinned facts is a bare true flag.",
+      "impact": "The exact false assurance the invariants prohibit can be represented as a truthful-looking boolean and accepted. Verifiable/replayable become producer assertions rather than independently checkable capabilities.",
+      "requiredChange": "Replace availability booleans with typed content-addressed closure references and a host-owned availability/retention projection. Specify closure membership and verify every required object is locally resolvable before granting verifiable or replayable capability. Add missing-object and empty-closure counterexamples.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A fixture whose closure claims availability but references a missing producer/environment/fact object, rejected after actual reference traversal rather than by inspecting a boolean."
+    },
+    {
+      "id": "R2-EVIDENCE-04",
+      "severity": "HIGH",
+      "evidence": "The proposed no-match bundle retains a sorted Merkle root of subject identities, predicateId, coverageId, a count, and the author's completeness string. That commits the subject set; it does not commit or prove that predicate P evaluated false for every subject. Verification therefore still requires the fact partition plus the historical predicate semantics, yet executable closure is required only for the stronger replayable label. The ~100-byte comparison counts the root but excludes the load-bearing retained fact partition.",
+      "impact": "A verifiable authoritative no-match can be accepted without retained evidence of the evaluation result. The stated three-to-five-order cost advantage compares marginal commitment bytes against full source custody while omitting the shared fact custody required to check the claim.",
+      "requiredChange": "Specify precisely how a verifier establishes the universal predicate result: either retain a result commitment with checkable per-subject semantics, or admit that verification re-executes the predicate and require the corresponding historical rule/fact closure. Measure total retained custody and fold/reverification cost, including the fact partition, on representative repositories. Keep A1-RTV4-02 open until then.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A worked independent verification transcript that starts only from the promised verifiable bundle and retained objects, establishes every subject was evaluated under the identified predicate, and reports measured total bytes/time including fact custody."
+    },
+    {
+      "id": "R2-EVIDENCE-05",
+      "severity": "MEDIUM",
+      "evidence": "Two accepting fixtures—failing-run-with-witness and replayable-with-closure—have no what field. clean-pass-with-no-match-proof says only that it 'actually proves something', without stating the conditions the payload is expected to meet.",
+      "impact": "Three of five accepting outcomes cannot be independently re-authored from the mandated human input. That leaves the positive half of the contract in the same same-author oracle loop that the final review was meant to break.",
+      "requiredChange": "Add falsifiable what prose to every accepting fixture, naming the universe, outcomes, evidence/closure, authority, and expected verdict relevant to acceptance; then repeat blind derivation.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A second-author blind record deriving all five acceptance decisions solely from complete human descriptions."
+    }
+  ],
+  "resolves": {
+    "R2-EVIDENCE-01": "OPEN",
+    "R2-EVIDENCE-02": "OPEN",
+    "R2-EVIDENCE-03": "OPEN",
+    "R2-EVIDENCE-04": "OPEN",
+    "R2-EVIDENCE-05": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "RA-1/E1 non-vacuity and exact activation",
+    "RA-2/E2 no-match durability",
+    "RA-3/E3 host-owned proof obligation",
+    "RA-4/E4 absence completeness",
+    "RA-6/E6 storage admission",
+    "RA-7/E7 evidence retention",
+    "RA-8/E8 replay closure",
+    "RA-9/E9 total verdict fold",
+    "positive accepting behavior"
+  ],
+  "knownLimitations": [
+    "The cryptographic construction was reviewed structurally; no benchmark or independent implementation exists to measure it.",
+    "This review does not choose Merkle tree versus accumulator. It finds that the current root commits the wrong proposition regardless of that choice.",
+    "The blind exercise had generic checker self-test labels in prior terminal output but did not expose fixture-to-invariant mappings or payloads."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "Exact activation is not checked, declared schema and fixtures contradict, and verifiable/replayable capability can be granted from bare booleans rather than retained closure evidence."
+  }
+}

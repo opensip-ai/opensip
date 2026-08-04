@@ -1,0 +1,145 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1 (candidate-agent-2)",
+  "reviewer": "agent-3",
+  "version": 1,
+  "status": "review-with-proposed-additions",
+  "mechanicalValidation": {
+    "jsonValid": true,
+    "goldenCaseCount": 31,
+    "classCodeMismatches": 0,
+    "classesWithZeroGoldenCases": 0,
+    "unionVariantsMatchExitClasses": true,
+    "verdict": "structurally sound; no mechanical defects found"
+  },
+  "acceptedCorrectionToA3": {
+    "a3Original": "exit = f(lifecycle, coverage, verdict)",
+    "a2Correction": "exitCode = map(HostTermination), a six-variant total union",
+    "a3Disposition": "accepted",
+    "note": "The A3 formula was scoped to admitted analysis and was wrongly stated as total for all command kinds; it also omitted the sealed durability axis. The invariant A3 was protecting survives unchanged: one derivation, one process-boundary write site, no producer maps to a numeric exit. Only the input tuple was wrong. Agreement item 37 should be restated with HostTermination as the input."
+  },
+  "peerReviewResponses": [
+    {
+      "question": "Snapshot invalidation after bounded convergence is indeterminate rather than operational-failed.",
+      "verdict": "CONFIRM",
+      "reasoning": "Nothing malfunctioned; the host worked correctly and the input was unstable. This matches the indeterminate definition exactly. Operationally decisive: CI reads 4 as 'the tool is broken' and pages someone, while 3 reads as 'could not determine'. Under agent-driven editing this fires routinely (sealed C2), so 4 would produce chronic false alarms.",
+      "requiredRefinement": "indeterminate reasonCodes MUST distinguish convergence-exhausted from required-coverage-missing. The remedies are opposite: retry/quiesce the worktree vs widen scope or install a provider. A single 'indeterminate' reason leaves an agent with no next action."
+    },
+    {
+      "question": "Addressed missing identity and mutation precondition conflict are request-rejected while an empty collection query is success.",
+      "verdict": "CONFIRM",
+      "reasoning": "This is the 404-vs-empty-list distinction and it is correct. Addressing one identity that does not exist is a bad request; a bounded search matching nothing is a successful query whose data is empty. Absence is data only when the query is set-valued.",
+      "requiredRefinement": "errorCode must distinguish expired/retention-collected from never-existed. Both are exit 2, but the remedies differ (re-run analysis vs fix the ID), and D3 retention classes make expiry an expected outcome rather than user error."
+    },
+    {
+      "question": "Optional egress is diagnostic-only but explicitly required delivery is operational-failed.",
+      "verdict": "CONFIRM",
+      "reasoning": "Preserves the sealed invariant that Cloud can never change a local verdict, while letting a project make delivery a real postcondition. Requiredness is a project/CI decision, not a Cloud capability.",
+      "requiredRefinement": "The projection must make the split legible or this becomes a support burden: a run that exits 4 with verdict=pass will read as a false failure. The envelope should surface verdict and termination as visibly distinct fields, not one status line."
+    },
+    {
+      "question": "Authorized ephemeral analysis may return success but cannot back a baseline, CI attestation, or durable replay.",
+      "verdict": "CONFIRM-WITH-GAP",
+      "reasoning": "Internally consistent: durability was not required, so the durability rule does not fire.",
+      "gap": "Durability is invisible in the exit code. An authoritative pass and an ephemeral pass are both 0, so a CI pipeline gating on exit status cannot tell that it ran non-authoritatively and cannot back the attestation it thinks it has. The artifact states the limitation in prose but does not make it enforceable.",
+      "proposedFix": "Callers requiring authority declare it as a requiredPostcondition (already expressible). Add golden case 'analysis-ephemeral-when-authoritative-required'."
+    }
+  ],
+  "findings": [
+    {
+      "id": "A3-D9-1",
+      "severity": "high",
+      "title": "The artifact does not encode the sealed C4/F3 baseline-migration safety property",
+      "detail": "C4 and F3 sealed that an unsupported/unnegotiable fingerprint recipe must yield indeterminate with repair instructions and must NEVER produce a mass set of net-new findings. No golden case covers it. An implementation satisfying this artifact could compare a baseline under an unsupported recipe, emit spurious net-new findings, and exit 1 (policy-failed) - which is precisely the ratchet-cries-wolf failure C4 exists to prevent, and it would be indistinguishable from a genuine policy failure.",
+      "proposedGoldenCase": "baseline-compare-unsupported-recipe"
+    },
+    {
+      "id": "A3-D9-2",
+      "severity": "medium-high",
+      "title": "Interrupt precedence can mask durability uncertainty",
+      "detail": "rulesInOrder places interruption first, so a SIGINT arriving during authoritative ledger/CAS commit yields 130 and the durability rule never evaluates. Exit 130 is defensible - the user did interrupt - but the artifact's invariants do not tie this to the sealed crash-recovery model, so a half-published Run could later read as valid.",
+      "proposedFix": "Add an invariant: interruption during authoritative publication must leave the ledger recoverable, and recovery must mark the orphan abandoned rather than sealed. The exit stays 130; the integrity obligation must be stated because it is not derivable from the exit contract alone."
+    },
+    {
+      "id": "A3-D9-3",
+      "severity": "medium",
+      "title": "SIGINT on a long-lived server exits 130, which supervisors read as failure",
+      "detail": "nonAnalysisDerivation says a normal server shutdown is success and a user interrupt is interrupted, and golden case 'user-interrupt' has commandKind 'any'. For 'opensip serve mcp', Ctrl-C or a supervisor stop signal is the ordinary way to stop the process. systemd treats 130 as failure unless SuccessExitStatus is configured, so the default posture makes a clean shutdown look like a crash.",
+      "proposedFix": "Decide explicitly: either graceful SIGINT on commandKind 'serve' maps to success, or 130 is retained and the operator documentation must specify the supervisor configuration. Either is defensible; silence is not."
+    },
+    {
+      "id": "A3-D9-4",
+      "severity": "medium",
+      "title": "Resolver-with-empty-domain is unclassified",
+      "detail": "'latest' is a sealed resolver-only convenience whose resolved ID must always be returned. When the domain is empty (no runs exist yet - the common pre-first-run state), it is ambiguous whether this is an addressed missing identity (2) or an empty result (0). No golden case covers it, and it is reachable on any fresh project.",
+      "proposedGoldenCase": "query-latest-resolver-empty-domain"
+    },
+    {
+      "id": "A3-D9-5",
+      "severity": "medium",
+      "title": "Concurrent-process ledger contention is uncovered",
+      "detail": "Sealed C5 requires the embedded path to be multi-process safe (two agent sessions plus a watch plus CI in one checkout). SQLite busy beyond the retry budget has no golden case. It should be operational-failed, and distinguishing it from corruption matters because the remedy is retry, not repair.",
+      "proposedGoldenCase": "ledger-busy-timeout-exceeded"
+    },
+    {
+      "id": "A3-D9-6",
+      "severity": "affirmation",
+      "title": "The seal-vs-coverage discriminator is principled and internally consistent",
+      "detail": "The pair 'analysis-required-provider-unavailable' (host seals Coverage) -> 3 and 'analysis-provider-protocol-prevents-seal' (truncated stream) -> 4 draws the line at whether a coherent Run can be sealed, which matches the D10 rule that a truncated stream is a fault rather than partial evidence. This is the hardest boundary in the contract and it is drawn correctly."
+    }
+  ],
+  "proposedAdditionalGoldenCases": [
+    {
+      "id": "baseline-compare-unsupported-recipe",
+      "commandKind": "run",
+      "scenario": "baseline compare against a committed baseline whose fingerprint recipe version is outside the supported window",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3,
+      "rationale": "Sealed C4/F3: never mass-invalidate a skipped-release customer into spurious net-new findings"
+    },
+    {
+      "id": "analysis-ephemeral-when-authoritative-required",
+      "commandKind": "run",
+      "scenario": "caller declares authoritative durability as a required postcondition but the resolved Plan is ephemeral",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2,
+      "rationale": "Rejected before work begins; the request is unsatisfiable by construction rather than failed in flight"
+    },
+    {
+      "id": "query-latest-resolver-empty-domain",
+      "commandKind": "query",
+      "scenario": "a latest-style resolver is used on a project with zero recorded runs",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2,
+      "rationale": "The caller addressed a single identity that cannot be resolved; proposed, but flagged as the weakest of these and genuinely arguable against success-with-null"
+    },
+    {
+      "id": "ledger-busy-timeout-exceeded",
+      "commandKind": "any",
+      "scenario": "concurrent CLI processes contend and SQLite remains busy past the retry budget",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4,
+      "rationale": "Sealed C5 multi-process safety; errorCode must distinguish contention from corruption because the remedy is retry, not repair"
+    },
+    {
+      "id": "serve-graceful-signal-stop",
+      "commandKind": "serve",
+      "scenario": "a long-lived protocol server receives SIGINT/SIGTERM and completes cooperative shutdown",
+      "expectedClass": "OPEN - see finding A3-D9-3",
+      "expectedCode": null,
+      "rationale": "Must be decided explicitly rather than inherited from the generic user-interrupt case"
+    }
+  ],
+  "adjacentGateResponses": {
+    "d1ItemThirtyEight": {
+      "a2Correction": "Intrinsic severity is still a policy smuggling path if gate thresholds consume it; contributions emit observed scores plus a non-authoritative recommended default, and effective severity is resolved by tracked project policy.",
+      "a3Disposition": "accepted - strictly better than the A3 formulation",
+      "addition": "The resolved severity mapping must be pinned in opensip.lock alongside contribution identity. Otherwise an extension update can silently change effective severity on the next install, which reintroduces the same escalation through the upgrade path rather than the install path."
+    },
+    "d5SchemaIdentity": {
+      "a2Correction": "The shipping repo already publishes CommandOutcome contract version 1, so a target CommandEnvelope/v1 needs a distinct schema ID and explicit family+major negotiation.",
+      "a3Disposition": "accepted",
+      "addition": "This is the D18 handshake applied to the CLI wire, and it is the same hazard class as C4 baselines: a silently reshaped document breaks consumers who never opted in. Schema family and major belong in the envelope header, not only in documentation."
+    }
+  }
+}

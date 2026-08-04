@@ -1,0 +1,233 @@
+{
+  "artifact": "opensip.evidence.v2.phase1b-adjudication",
+  "version": 1,
+  "date": "2026-07-31",
+  "adjudicator": "phase-1b-evidence-closer",
+  "scope": "EVIDENCE surface only. evidence.v2.json created, check-evidence.py rebound. No shared integration file edited.",
+
+  "independenceDisclosure": {
+    "statement": "This lane's author also authored the Phase-1A artifacts evidence.v2 consumes (evaluation-proof.v1, retention-tiers.v6) and all four checkers. This is not an independent review.",
+    "consequence": "Reviewer-3's methodological finding applies unchanged: a green authored checker establishes only what it inspects. Every item below is SPECIFIED with checker coverage; none is DISCHARGED, QUALIFIED or DEMONSTRATED.",
+    "requiredNext": "A different agent must independently review evidence.v2 AND the Phase-1A artifacts (evaluation-proof.v1, retention-tiers.v6) before any seal."
+  },
+
+  "filesCreatedOrEdited": [
+    {"path": "artifacts/evidence.v2.json", "action": "CREATED"},
+    {"path": "artifacts/check-evidence.py", "action": "EDITED — rebound from evidence.v1.json to evidence.v2.json and rewritten schema-driven"},
+    {"path": "artifacts/evidence.v2.adjudication-phase1b-evidence-closer.json", "action": "CREATED"},
+    {"path": "artifacts/evidence.v1.json", "action": "PRESERVED UNCHANGED — verified by hash against reviewer-3's recorded reviewBasis"}
+  ],
+
+  "contentHashes": {
+    "_algorithm": "sha256",
+    "reviewedInputs": {
+      "artifacts/evidence.v1.json": "251d76f3cd272b2a48ce462d0f14d53a7c67865c9cc63f8ae8adebd9f7c46496",
+      "artifacts/evidence.adjudication-agent-a.json": "d7a1148d1a4bfc614d9e447fb2b212a6934eeb82be11b1dcfa790ea9721195d7",
+      "artifacts/evaluation-proof.v1.json": "bd96ae59268f914859d6645b5f324c1401206fa44d2d2d43973b09fa3b5dd367",
+      "artifacts/check-evaluation-proof.py": "1caf084fa44ba345a7eab4db2633249056d764ac0ca3ae66cd8f5d82a8ba1863",
+      "artifacts/retention-tiers.v6.json": "b567fad099cb25a47f56d12bb7cd31141d699dbad7575605612edcb620adada4",
+      "artifacts/check-retention-custody.py": "d9444a113a88d5d0a35f8d9742d3b16ad51ce2dc7aa58aa90f1eaccd5d58d033",
+      "artifacts/retention-tiers.v5.review-reviewer3.json": "ddbe68f910d625d2afccec7dc4ebbb0baa5a76554de22f588f38ce142a2869fa",
+      "artifacts/identity-contracts.evidence-requestid-closure.deferred-patch.v1.json": "c6ee8b031d0e6c7d359dfd5df250fac2465db36e4969137afbdc911491859e63",
+      "artifacts/fact-plane.v1.json": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+      "artifacts/d9-exit-contract.v1.6.json": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046"
+    },
+    "producedArtifacts": {
+      "artifacts/evidence.v2.json": "8d54839bfc30befa5fb21ec96165ad35f888a6f06453424d16b865e6ec72b2be",
+      "artifacts/check-evidence.py": "e9c565757ab72cfc381b1cd070f858645b02ccc8c286e574d088fca0445ba0bd"
+    },
+    "hashCorroboration": "evidence.v1.json (251d76f3…) and d9-exit-contract.v1.6.json (c633614e…) match the hashes reviewer-3 recorded in retention-tiers.v5.review-reviewer3.json#reviewBasis exactly, confirming neither was altered by this or the prior lane."
+  },
+
+  "defectsClosed": [
+    {
+      "id": "EVD-01",
+      "requirement": "Closed EvidenceBundle",
+      "was": "bundleSchema listed required/optional fields but _schema_check only tested for MISSING keys. Unknown keys were silently accepted, so RequestId could enter a persisted semantic record with no mechanical objection. Absence from a field list was being read as closure.",
+      "now": "EvidenceBundle declares closed=true, additionalProperties=false and unknownFieldOutcome=EVIDENCE_BUNDLE_UNKNOWN_FIELD. requestId sits in an explicit forbiddenFields list alongside executionId, attemptId, sealedAt, timestamp, processId, cacheState and lifetimeState. The checker rejects any key outside the exact required-plus-optional union BEFORE semantic evaluation.",
+      "source": "artifacts/identity-contracts.evidence-requestid-closure.deferred-patch.v1.json",
+      "fixture": "evidence-bundle-reject-request-id (required by the patch, present and rejecting)",
+      "mutations": ["reopen additionalProperties on EvidenceBundle", "admit requestId into the semantic record", "delete the rejecting RequestId fixture", "drop the deterministic unknown-field outcome"]
+    },
+    {
+      "id": "EVD-02",
+      "requirement": "Close all persisted semantic records",
+      "was": "Only EvidenceBundle, requiredUniverse, EvaluationEvidence, verdictDerivation and storageAdmission had field lists, none enforced as closed. Nested records had no type discipline, and a malformed node could raise rather than report.",
+      "now": "14 closed record schemas: EvidenceBundle, RequiredUniverse, EvaluationEvidence, VerdictDerivation, StorageAdmission, CapabilityClosure, RetentionUnit, ContentRef, ReplayClosure, and five per-claim-shape proof records (ProofLocalMatch, ProofRelationshipMatch, ProofAggregateMatch, ProofNoMatch, ProofReason). Each carries type, exact required/optional, unknown-field outcome and enum constraints. validate() is total: nulls, scalars, arrays and malformed nested records all produce deterministic findings.",
+      "fixtures": ["scalar for RequiredUniverse", "scalar for the evaluation array", "scalar for an EvaluationEvidence record", "null for VerdictDerivation", "array for StorageAdmission", "scalar for a ContentRef", "out-of-enum outcome", "out-of-enum capability", "unknown nested field in VerdictDerivation", "unknown nested field in EvaluationEvidence"],
+      "mutations": ["unclose a nested record schema"]
+    },
+    {
+      "id": "EVD-03",
+      "requirement": "Remove transitional proof shortcuts",
+      "was": "check-evidence.py accepted factPartitionPinned=true with no reference ('transitional: pin flag without ref'), and regenerationClosureRetained=true as a legacy boolean. R3-PROBE-03 reproduced this.",
+      "now": "Neither field exists in any schema. Their presence is a forbidden-field violation inside the closed proof record. Every partition, predicate-semantics, policy, waiver, baseline, relation-semantics and regeneration object must be a ContentRef {kind, id} with a full-length sha256 id that resolves in the retained object store. check() additionally fails the contract itself if any schema re-admits either shortcut name.",
+      "fixtures": ["boolean factPartitionPinned replaces the reference", "boolean regenerationClosureRetained replaces the typed closure", "scalar substituted for a ContentRef"],
+      "mutations": ["re-admit the boolean fact pin", "re-admit the boolean regeneration closure"]
+    },
+    {
+      "id": "EVD-04",
+      "requirement": "Bind verdict proof mechanically",
+      "was": "verdictDerivation required outcomeSetDigest but nothing recomputed it. R3-PROBE-02 replaced it with an arbitrary digest and the checker returned no finding.",
+      "now": "outcomeSetCommitment is RECOMPUTED under the canonical grammar consumed from evaluation-proof.v1 over the complete set of (evaluationId, predicateId, outcome) triples of every activated evaluation. Omission, duplication, substitution, truncation and arbitrary digests all fail. Coverage, baseline, waivers and policy are resolvable ContentRefs; an absent baseline must be explicitly declared. Sorting and deduplication come from the grammar, so a reordering cannot change the value.",
+      "fixtures": ["arbitrary but well-formed outcome-set commitment", "an activated evaluation omitted from the committed set", "universe commitment that does not recompute", "unresolvable policy reference", "indeterminate absorbed into an authoritative pass"],
+      "mutations": ["accept an arbitrary verdict commitment"]
+    },
+    {
+      "id": "EVD-05",
+      "requirement": "Bind claim-shape proof obligations",
+      "was": "proofByOutcome.match required only a 'witness' defined as subject identity plus span anchor. A relationship finding was satisfied by a span. R3-PROBE-01 reproduced this.",
+      "now": "Obligations are consumed per claim shape from evaluation-proof.v1. relationship-match requires relationSemanticsRef plus witnessEdges each carrying fromSubjectId, toSubjectId, relationKind and a resolvable factRef; spanAnchor is a FORBIDDEN field on that record so a relation cannot be dressed up as a located claim. no-match binds the subject-set commitment recomputed from the retained fact partition, subjectCount, completeness=complete, factPartitionRef and predicateSemanticsRef.",
+      "fixtures": ["relationship claim proved by a source span alone", "relationship witness without relation semantics", "absence claim from a sampled witness", "same-cardinality subject substitution", "no-match without historical predicate semantics"],
+      "mutations": ["make the span-only relationship legal"]
+    },
+    {
+      "id": "EVD-06",
+      "requirement": "Bind retention/capability closure",
+      "was": "evidence.v1 had a pinnedEvidenceUnits string list checked only for membership. No mapping from proof references to retention units existed.",
+      "now": "The bundle carries a capabilityClosure whose commitment recomputes, and every proof reference required for the sealed capability must map to exactly one retention unit — omission and aliasing both reject. E12 enforces that a unit is available only if every object it holds is available, so a partially available unit confers no authority. The lattice ranks are cross-read from retention-tiers.v6 and the checker fails if they disagree. Evidence v2 defines no lease, purge, demotion or D9 semantics of its own.",
+      "fixtures": ["a required proof reference maps to no retention unit", "closure commitment does not recompute", "a partially available unit still confers verifiable authority"],
+      "mutations": ["delete E12", "let a partially available unit keep authority", "make the closure-omission counterexample legal"]
+    },
+    {
+      "id": "EVD-07",
+      "requirement": "Authority and layering",
+      "was": "producerDeclaredObligation was checked as a semantic value (E3) but was not structurally excluded, so a producer field could still be persisted.",
+      "now": "producerDeclaredObligation and producerAssertedAdequacy are forbidden fields on EvaluationEvidence — structurally unrepresentable, and additionally reported as E3. Attempt metadata (RequestId, ExecutionId, attempt identity, timestamps, process identity, cache/lifetime state) is forbidden on EvidenceBundle. authorityAndLayering records what a provider may and may not do.",
+      "fixtures": ["producer self-declares a weaker proof obligation", "executionId in the semantic record", "timestamp in the semantic record"],
+      "mutations": ["let a producer declare its own obligation"]
+    },
+    {
+      "id": "EVD-08",
+      "requirement": "Assurance honesty",
+      "now": "status CANDIDATE-AWAITING-INDEPENDENT-REVIEW; assurance SPECIFIED / IMPLEMENTABLE_UNEXECUTED with independentRereview REQUIRED; sealRecommendation DO NOT SEAL. A1-RTV4-02 retained as a measurement residual. No constant-size, orders-of-magnitude, runtime-atomicity, qualification or demonstration claim. CD-RT-5 untouched and unreferenced as accepted.",
+      "mutations": ["claim DEMONSTRATED from a design-integrity checker", "waive independent re-review"]
+    }
+  ],
+
+  "counts": {
+    "closedRecordSchemas": 14,
+    "positiveFixtures": 5,
+    "adversarialCounterexamples": 33,
+    "mutations": 15,
+    "invariants": 12,
+    "allMutationsRejected": true,
+    "allCounterexamplesRejectedByNamedInvariant": true
+  },
+
+  "verification": {
+    "required": {
+      "check-evidence.py": "PASS",
+      "check-evidence.py --selftest": "PASS — 15/15 mutations rejected",
+      "check-evaluation-proof.py": "PASS",
+      "check-evaluation-proof.py --selftest": "PASS — 10/10 mutations rejected",
+      "check-retention-custody.py": "PASS",
+      "check-retention-custody.py --selftest": "PASS — 15/15 mutations rejected",
+      "check-d9.py": "PASS",
+      "check-d9.py --selftest": "PASS — d9 read only, never written",
+      "check-fact-plane.py": "PASS",
+      "check-fact-plane.py --selftest": "PASS"
+    },
+    "baseDirtyGuard": "check-evidence.py refuses to run its mutation suite when the base contract is unclean, so a red base cannot report a false all-green. A mutation that fails to APPLY is counted as an escape rather than silently skipped.",
+    "concurrentLaneFailuresNotOwnedHere": [
+      {
+        "checker": "check-resolved-inputs.py",
+        "finding": "RI-JOIN: DELIVERY TypeScript artifacts/handshake drifted from PlanId closure",
+        "attribution": "RESOLVED-INPUTS/DELIVERY lanes mid-edit. Verified unrelated to EVIDENCE: the checker does not read evidence.v1.json or evidence.v2.json, and zero of its findings mention evidence.",
+        "actionTaken": "none — outside this lane's ownership"
+      },
+      {
+        "checker": "check-delivery.py",
+        "finding": "DL-TS-WIRE / DL-TS-JOIN / DL-SCOPE-TOTAL drift",
+        "attribution": "same concurrent DELIVERY repair; no evidence-related finding",
+        "actionTaken": "none — outside this lane's ownership"
+      },
+      {
+        "checker": "check-method-dispositions.py",
+        "finding": "MD-REGISTER: terminal dispositions remain live claims (CLEANSHEET.VERDICT, METHOD.ALTITUDE, METHOD.CLAIM-STATUS-INTEGRITY)",
+        "attribution": "pre-existing; zero retention or evidence references in that checker",
+        "actionTaken": "none — claim-register is not editable by this lane"
+      }
+    ],
+    "observedResolved": "check-product-dispositions.py is now GREEN. Its RETENTION_PATH has been repointed to retention-tiers.v6.json by its owning lane, which discharges PATCH-12 from artifacts/retention-tiers.v6.adjudication-architecture-closer.json. Recorded as observation, not as an action by this lane."
+  },
+
+  "deferredCrossSurfacePatches": [
+    {
+      "id": "EVD-PATCH-01",
+      "target": "artifacts/claim-register.v1.json",
+      "jsonPath": "claims[id=EVIDENCE]",
+      "precondition": "evidence.v2 passes independent review by an agent that authored neither it nor the Phase-1A artifacts",
+      "requiredValue": {
+        "bindingArtifact": "artifacts/evidence.v2.json",
+        "validator": "artifacts/check-evidence.py",
+        "invariants": ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11", "E12"],
+        "appendSealBlocker": "evidence.v2 is CANDIDATE-AWAITING-INDEPENDENT-REVIEW and consumes two Phase-1A artifacts that are themselves unreviewed",
+        "removeSealBlocker": "the check-evidence.py transitional boolean-pin / presence-only verdict blocker specified as PATCH-06 by the Phase-1A lane is now DISCHARGED by evidence.v2"
+      }
+    },
+    {
+      "id": "EVD-PATCH-02",
+      "target": "artifacts/operability.v2.json",
+      "jsonPath": "requestIdContract.semanticExclusion.proofStatus",
+      "precondition": "check-evidence.py normal AND --selftest both pass with the closure patch applied — both now pass",
+      "requiredValue": "move EvidenceBundle unknown-field closure from pendingCrossSurfaceClosure into mechanicallyJoined",
+      "requiredSource": "artifacts/evidence.v2.json#recordSchemas.EvidenceBundle",
+      "proofText": "RequestId is structurally absent from this exact closed semantic record",
+      "note": "The source path changes from evidence.v1.json to evidence.v2.json relative to the original deferred patch, because the closure landed in v2 rather than as an in-place v1 edit. OPERABILITY is not editable by this lane."
+    },
+    {
+      "id": "EVD-PATCH-03",
+      "target": "artifacts/identity-contracts.evidence-requestid-closure.deferred-patch.v1.json",
+      "jsonPath": "status",
+      "precondition": "EVD-PATCH-02 applied",
+      "requiredValue": "APPLIED-IN-EVIDENCE-V2",
+      "note": "Every requiredContractChange in that patch is satisfied by evidence.v2 except that the target artifact is v2 rather than a mutated v1, which the patch's own reasonForDeferral anticipated by declining to race the Phase-1A lane."
+    },
+    {
+      "id": "EVD-PATCH-04",
+      "target": "artifacts/versioning-policy.v2.json",
+      "precondition": "VERSIONING lane availability",
+      "requiredValue": "state whether a predicateSemanticsRef remains rehydratable across a rule-IR major, and the support window during which a retained predicate/policy object stays interpretable",
+      "why": "E2/E10 require historical predicate semantics to resolve for later verification. If VERSIONING cannot promise it, a verifiable Run silently degrades to recorded after a rule-IR major and evidence.v2 must say so. Duplicate of the Phase-1A lane's PATCH-09; recorded here because evidence.v2 now depends on it directly."
+    }
+  ],
+
+  "residuals": {
+    "architecture": [
+      "None open in the EVIDENCE surface itself. The record closure, proof-shape binding, verdict recomputation and capability-closure join are all specified and mechanically checked.",
+      "Inherited: evaluation-proof.v1 and retention-tiers.v6 are unreviewed candidates. If either changes, evidence.v2's joins must be re-derived (EV2-R-02)."
+    ],
+    "measurement": [
+      "A1-RTV4-02 — no-match fold plus reverification cost including retained fact custody is unmeasured; no cost claim authorized.",
+      "Capability-closure recomputation cost at realistic unit counts is unmeasured."
+    ],
+    "product": [
+      "CD-RT-5 remains BLOCKED_ON_PHASE_1A. Evidence v2 records no product acceptance and does not reference one."
+    ],
+    "process": [
+      "EV2-R-01 — same author across the Phase-1A and Phase-1B chain. Independent review is required and is the gating residual."
+    ]
+  },
+
+  "explicitNonClaims": [
+    "evidence.v2 is NOT sealed, discharged, qualified, demonstrated or product-approved",
+    "evaluation-proof.v1 and retention-tiers.v6 remain CANDIDATE-AWAITING-INDEPENDENT-REVIEW",
+    "V10 is NOT resolved by this lane",
+    "OPERABILITY G19 is NOT unblocked",
+    "the claim register is NOT edited",
+    "product release remains NOT-RELEASE-QUALIFIED"
+  ],
+
+  "preservedConstraints": [
+    "C-1 predicate-relative sufficiency preserved; no global fact tier introduced",
+    "one-shot host + pure core preserved",
+    "offline operation preserved",
+    "v1 slice exclusions preserved",
+    "D9 read only; no new reason or error code",
+    "evidence.v1.json preserved byte-identical as historical input",
+    "no product Rust code written"
+  ],
+
+  "result": "PHASE 1B EVIDENCE CLOSURE CANDIDATE READY FOR INDEPENDENT REVIEW. A different agent must independently review evidence.v2 and the Phase-1A artifacts it consumes before any seal."
+}

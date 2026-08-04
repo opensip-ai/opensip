@@ -1,0 +1,175 @@
+{
+  "artifact": "opensip.resolved-inputs-rust-provider-join",
+  "version": 1,
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "purpose": "Narrow RESOLVED-INPUTS successor that reconciles DELIVERY's tool-paths-enter-PlanId promise and binds the Rust handshake capability record to the signed capability manifest. It does not edit or silently widen resolved-inputs.v2.json.",
+  "authority": {
+    "architectureContractOnly": true,
+    "appliedToResolvedInputsV2": false,
+    "integrationAuthority": "NONE",
+    "productAuthority": "NONE",
+    "freezeAuthority": "NONE",
+    "demonstrationAuthority": "NONE",
+    "releaseAuthority": "NONE",
+    "independentReviewRequired": true
+  },
+  "dependencyPins": [
+    {
+      "path": "resolved-inputs.v2.json",
+      "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+      "use": "closed rust-v1 universe and PLAN-ID-V1 field mapping"
+    },
+    {
+      "path": "delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "use": "signed capability manifest and repository-execution promise"
+    },
+    {
+      "path": "c2-plan-stage-schema.v3.json",
+      "sha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+      "use": "closed capability-grant value included in PlanDescriptor field 10"
+    }
+  ],
+  "protocolReference": {
+    "path": "rust-provider-protocol.v1.json",
+    "artifact": "opensip.rust-provider-protocol",
+    "version": 1,
+    "applicationRule": "This join, the protocol contract and the DELIVERY join must be independently reviewed and formally applied as one dependency-locked candidate set."
+  },
+  "existingRustUniversePreserved": {
+    "schema": "resolved-inputs.v2.json#planIdContract.semanticUniverseSchemas.rust-v1",
+    "closedRecordIsNotWidened": true,
+    "providerArtifactId": "rust-provider",
+    "toolchainArtifactId": "rust-toolchain-bundle",
+    "handshakeEqualityFields": [
+      "protocolMajor",
+      "providerBuildId",
+      "rustCommitHash",
+      "hostTriple",
+      "targetTriple",
+      "sysrootDigest"
+    ],
+    "remainingToolchainSource": "verified signed rust-toolchain-bundle manifest",
+    "systemSubstitutionAllowed": false
+  },
+  "repositoryExecutionPlanBinding": {
+    "owner": "host resolved-inputs adapter",
+    "order": [
+      "admit the exact per-project repository-execution grant in frozen PlanIntent",
+      "allocate ExecutionId and durable AttemptRecord",
+      "seal and verify SnapshotId",
+      "if granted, run the bounded network-disabled repository-resolution preparation outside the semantic sidecar",
+      "seal build-script/procedural-macro outputs and exact logical tool-path records",
+      "construct the complete closed rust-v1 resolvedInputs and exact capabilityGrant parameters",
+      "compute and verify PlanId",
+      "start the Rust semantic sidecar immediately before its admitted stage"
+    ],
+    "semanticSidecarExecutesRepositoryCode": false,
+    "why": "rust-v1 buildScriptOutputs and procMacroOutputs are PlanId inputs, while the semantic child starts only after PlanId. Letting that child create those outputs would make PlanId depend on a future result and is forbidden.",
+    "defaultDisabled": {
+      "executionCapableResolution": false,
+      "repositoryExecutionGrantPresent": false,
+      "buildScriptOutputs": [],
+      "procMacroOutputs": [],
+      "toolPaths": [],
+      "semanticOutcomeWhenGeneratedCfgIsRequired": "Coverage unknown with deficiency provider-unavailable; never silently fall back to an incomplete universe"
+    },
+    "granted": {
+      "executionCapableResolution": true,
+      "grantCapability": "repository-execution",
+      "grantProjectRule": "grant.projectId exactly equals PlanIntent scope.projectId and Snapshot descriptor.projectId",
+      "network": false,
+      "compilerPlugins": false,
+      "projectHooks": false,
+      "buildScripts": "exact boolean from grant parameters",
+      "proceduralMacros": "exact boolean from grant parameters",
+      "outputRule": "Every buildScriptOutputs and procMacroOutputs row in rust-v1 equals the sealed result of this preparation; no later sidecar output may add, replace or default a row."
+    }
+  },
+  "repositoryExecutionGrantParametersV1": {
+    "closed": true,
+    "required": [
+      "schema-version",
+      "build-scripts",
+      "procedural-macros",
+      "network",
+      "tool-paths"
+    ],
+    "optional": [],
+    "fields": {
+      "schema-version": "integer exactly 1",
+      "build-scripts": "boolean",
+      "procedural-macros": "boolean",
+      "network": "boolean exactly false",
+      "tool-paths": "array of ToolPathV1, strict ascending tuple (role UTF-8 bytes, bundleRelativePath UTF-8 bytes), no duplicates; empty exactly when both execution booleans are false and non-empty otherwise"
+    },
+    "c2Carrier": "The exact map is capabilityGrants[].parameters under C-2 BoundedParameterValue. PLAN-ID-V1 field 10 encodes the complete capabilityGrants array with CVE1, so every ToolPathV1 value enters PlanId without widening the closed rust-v1 record.",
+    "unknownParameterRule": "Reject before repository execution and PlanId construction."
+  },
+  "toolPathV1": {
+    "closed": true,
+    "required": [
+      "artifactId",
+      "bundleRelativePath",
+      "fileSha256",
+      "role"
+    ],
+    "optional": [],
+    "fields": {
+      "artifactId": "exact text rust-toolchain-bundle",
+      "bundleRelativePath": "non-empty NFC forward-slash relative path beneath the verified toolchain bundle; no leading slash, backslash, empty, dot or dot-dot segment, drive prefix or NUL",
+      "fileSha256": "64 lowercase hexadecimal SHA-256 characters of the selected file bytes",
+      "role": "enum cargo|rustc|linker|proc-macro-host|dynamic-loader"
+    },
+    "selectionRule": "List every executable or dynamic loader selected by repository-resolution preparation. A used path absent from the array, a listed path not beneath the verified bundle root, or a digest mismatch rejects before execution.",
+    "physicalMapping": "At execution, the host resolves bundleRelativePath beneath the verified absolute rust-toolchain-bundle root and rechecks containment and fileSha256. The machine-specific absolute root is operational and does not enter PlanId; the exact logical path and bytes digest do."
+  },
+  "capabilityHandshakeBinding": {
+    "recordName": "RustProviderCapabilityV1",
+    "closed": true,
+    "required": [
+      "providerId",
+      "language",
+      "providerVersionSource",
+      "toolchainIdentitySource",
+      "relations",
+      "platformIds"
+    ],
+    "optional": [],
+    "fields": {
+      "providerId": "exact text rust-semantic",
+      "language": "exact text rust",
+      "providerVersionSource": "exact text release-manifest:rust-provider",
+      "toolchainIdentitySource": "exact text PlanId.rustUniverse",
+      "relations": "non-empty closed string map exactly equal to the selected signed ProfileEntry CapabilityManifestV1 ProviderCapability.relations row for rust-semantic",
+      "platformIds": "exact array from that signed row; current DELIVERY value is [all-supported]"
+    },
+    "planCommitment": "The selected signed capability manifest is identified by rust-v1.capabilityManifestId, which is a required PLAN-ID-V1 field. The handshake record is not a new free-standing capability source; it must be exact recursive equality with the rust-semantic row committed by that identifier.",
+    "hostValidationOrder": [
+      "verify release and selected profile signatures/digests",
+      "select the one rust-semantic ProviderCapability row",
+      "verify rust-v1.capabilityManifestId names that exact capability manifest",
+      "send the expected closed row in Hello",
+      "receive the closed row in HelloAck",
+      "require exact recursive equality between expected row, returned row and signed row before OpenUniverse or any SnapshotFileChunk"
+    ],
+    "mismatch": "Terminate/reap the child, disclose no source bytes, discard all candidates, and project provider-protocol / PROVIDER.PROTOCOL_VIOLATION through the conditional DELIVERY join. A producer boolean, claimed support string or field presence never establishes equality."
+  },
+  "providerRequestProjection": {
+    "disabled": "OpenUniverse.repositoryResolution is the exact closed disabled variant: mode=disabled, grantId=null, projectId=scope.projectId, buildScriptOutputs=[], procMacroOutputs=[], toolPaths=[] and network=false.",
+    "prepared": "OpenUniverse.repositoryResolution is the exact closed prepared variant: mode=prepared, grantId is the admitted repository-execution grantId, projectId is exact, buildScriptOutputs and procMacroOutputs equal rust-v1 resolvedInputs, toolPaths equal the exact PlanId-bound grant parameter array and network=false.",
+    "authorityRule": "The semantic provider may validate and consume this projection. It may not execute project code, replace output digests, resolve a different path, fetch a tool or broaden a grant."
+  },
+  "changeRules": [
+    "Changing a tool role, logical path, file digest, execution boolean, grant identity or project identity changes capabilityGrants CVE1 and therefore PlanId.",
+    "Changing the selected signed capability manifest or rust-semantic row changes capabilityManifestId and therefore PlanId.",
+    "A handshake capability mismatch cannot produce provider execution or a substitute PlanId.",
+    "No system path, absolute installation prefix, temporary extraction root or PATH order is a semantic PlanId input."
+  ],
+  "residuals": [
+    "Formal integration into RESOLVED-INPUTS and DELIVERY is outside this candidate.",
+    "The host repository-resolution adapter and any process-level enforcement are architecture-owned but remain unimplemented and unqualified.",
+    "Independent review must verify that the C-2 capability-grant carrier and PLAN-ID-V1 tag 10 make the tool-path record load-bearing without widening rust-v1."
+  ]
+}

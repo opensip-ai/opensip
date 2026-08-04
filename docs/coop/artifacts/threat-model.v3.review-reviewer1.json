@@ -1,0 +1,84 @@
+{
+  "artifact": "opensip.threat-model.v3.review-reviewer1",
+  "reviews": "threat-model.v3.json",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "method": "Phase 2 adversarial: V5 deletion, R2/V2 prevalence, ship-gate posture, V11 restore, center correction; suite check-threat-claims.py OK + 6/6 selftest",
+  "suiteState": {
+    "check": "OK — 7 assets, 3 primary risks, 16 findings, 15 required properties, T1..T11 clean",
+    "selftest": "all 6 mutations rejected"
+  },
+  "surfaceQuestions": {
+    "V5_realDeletion": {
+      "question": "V5 real deletion under content-addressed dedup still UNSOLVED?",
+      "answer": "YES — unsolved. residualRisks explicitly: 'R5's real deletion is hard under content-addressed deduplication and has not been designed.' v3 advances inventory/enumeration obligations but does not design CAS-safe purge. This is the one structural hole that blocks honest privacy product claims (together with unqualified gates).",
+      "posture": "Correctly left open. Must not be paper-sealed. Build may implement data inventory first; purge-for-real needs a dedicated design (refcounts + exclusive-owner delete, or copy-on-write per project, or encrypted-per-project keys destroyed on purge)."
+    },
+    "R2_V2": {
+      "question": "R2 sync/backup detection unverified; V2 prevalence ASSERTED?",
+      "answer": "CONFIRM. Mechanism (refuse on detection) does not require prevalence. Word 'commonly' in V2 title/detail is still not evidence — evidenceGrade ASSERTED is correct. R2 MECHANISM UNVERIFIED against real clients is honest. Before ship of refuse-path: exercise marker detection against real Dropbox/iCloud/OneDrive/Time Machine layouts or drop absolute language.",
+      "contest": false
+    },
+    "shipGateNoQualified": {
+      "question": "No QUALIFIED gate ⇒ no privacy/offline claim — correct or paralysing?",
+      "answer": "CORRECT, not paralysing. Publishing sandbox/isolation/offline claims without observed-failure gates is how tools earn distrust. Architecture may be built; *marketing claims* blocked until operability qualifies gates. That is the right consumer-B posture for a tool granted full source read.",
+      "paralysisRisk": "If QUALIFIED is defined so nothing can qualify pre-production, the first release cannot claim offline even when network is blocked in tests. Mitigate: allow QUALIFIED from adversarial test harnesses in CI (observed failure of a deliberate egress attempt), not only production incidents."
+    },
+    "centerCorrection": {
+      "question": "PROTECT THE USER FROM OPENSIP-CLI?",
+      "answer": "Right center for single-user local CLI. Enterprise multi-tenant adversaries correctly CONDITIONAL. Solo author residual remains (same author as contracts) — second review helps but is not multi-party threat modeling."
+    },
+    "V11": {
+      "question": "Secret-value finding restored?",
+      "answer": "YES — V11 + R11 absolute. Closes A1-TM2-01 / resolved-inputs CFG-6 rooting gap for TM."
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-TM-01",
+      "severity": "high",
+      "title": "V5 real deletion under CAS dedup remains undesigned",
+      "evidence": "V5 requiredMitigations demand purge that DELETES content; residualRisks admit not designed; R5 primary gate with no design artifact.",
+      "impact": "Any privacy claim that 'you can delete what we hold' is false under naive CAS GC. Users cannot verify U6.",
+      "requiredChange": "Either (a) design CAS-safe real deletion (project-keyed encryption with key destruction, or non-deduped private store for source-derived classes, or refcount+zero-copy-proof) before sealing R5 as implementable, or (b) narrow R5 to 'enumerate + best-effort deref with EXPLICIT residual that bytes may remain until global GC' and demote 'delete for real' from absolute language. (a) preferred for trust.",
+      "confidence": 0.95,
+      "whatWouldChangeMyMind": "A written deletion design that survives content-addressed sharing across projects/sessions with a conformance test."
+    },
+    {
+      "id": "R1-TM-02",
+      "severity": "medium",
+      "title": "R2 detection unverified against real sync clients",
+      "evidence": "R2 evidenceGrade MECHANISM UNVERIFIED; V2 prevalence ASSERTED; residualRisks novel/corporate sync tools.",
+      "impact": "Refuse path may miss real sync roots (false sense of safety) or false-positive refuse on exotic layouts.",
+      "requiredChange": "Before shipping refuse-on-detect: fixture corpus of real client marker paths; document non-exhaustiveness in UX at refuse time.",
+      "confidence": 0.85,
+      "whatWouldChangeMyMind": "Verified marker matrix for top-N sync/backup tools on macOS/Linux/Windows."
+    },
+    {
+      "id": "R1-TM-03",
+      "severity": "low",
+      "title": "Ship-gate QUALIFIED bar needs a pre-production qualification path",
+      "evidence": "shipGate currentState: no requiredProperty has qualified gate because no implementation exists.",
+      "impact": "Strict reading blocks all privacy/offline claims until production observed failures — too late for first honest docs.",
+      "requiredChange": "Clarify that QUALIFIED may be earned by controlled adversarial tests (e.g. network-blocked run proving R1) under operability definition, not only field incidents.",
+      "confidence": 0.8,
+      "whatWouldChangeMyMind": "Operability already defines observed failure to include harness failures — if so, document the cross-link explicitly in TM shipGate."
+    },
+    {
+      "id": "R1-TM-04",
+      "severity": "info",
+      "title": "Solo authorship of TM and the contracts it cross-checks",
+      "evidence": "knownLimitations; reviewPending.",
+      "impact": "Correlated blind spots across surfaces.",
+      "requiredChange": "This review + Reviewer 2 on other surfaces partially diversifies. Optional external threat pass later.",
+      "confidence": 0.7,
+      "whatWouldChangeMyMind": "Independent threat model from a third party."
+    }
+  ],
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "blocker": "R1-TM-01: V5/R5 deletion design or honest narrowing before any path that would let R5 be treated as DISCHARGED. Model as threat *model* may seal its findings list with residual explicit; do not seal R5 implementability.",
+    "doNotSealBecauseFlagged": true,
+    "note": "Center correction, V11, ship-gate honesty, V15 execution criticality are good. Seal the *risk framing* after V5 residual is either designed or language-narrowed; keep all gates unqualified until implementation+harness."
+  }
+}

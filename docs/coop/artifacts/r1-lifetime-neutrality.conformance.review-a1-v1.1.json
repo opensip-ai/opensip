@@ -1,0 +1,52 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance.review",
+  "reviewOf": "opensip.r1-lifetime-neutrality.conformance v1.1",
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "accept-with-named-blockers",
+  "method": "DIFFERENT FROM AUTHOR: (1) Enumerate ambient dependency attack surface a core could use without CoreDeps (env, fs, signals, thread-locals, provider globals) and check each is either in CoreDeps or forbidden by a test. (2) Ask whether LN-06 can pass while the core still branches on store warmth via side channel. (3) Compare LN-09 text to sealed storage protocol in 03/06 without re-reading author's resolves map first.",
+  "whatCouldHaveFailed": [
+    "CoreDeps missing cancellation, snapshot VFS, toolchain identity, or logger that affects control flow",
+    "LN-06 allowing core to read store.stats().warmth",
+    "LN-09 requiring an external mutex coordinator",
+    "Tests that require a resident host while claiming not to"
+  ],
+  "resolves": {
+    "A2-R1-01": "ACCEPT — LN-04 negative property of core is the right shape",
+    "A2-R1-02": "ACCEPT — no resident required for suite",
+    "A2-R1-03": "ACCEPT — LN-09 same-project contention is necessary",
+    "A2-R1-04": "ACCEPT — determinism preconditions stated",
+    "A2-R1-05": "ACCEPT — removing cachePolicy from core is correct",
+    "A2-R1-06": "CONDITIONAL — exhaustiveForV1_1 claim needs gap analysis",
+    "A2-R1-07": "ACCEPT — paths present",
+    "A2-R1-08": "ACCEPT — PO-01 separated"
+  },
+  "coreDepsExhaustiveness": {
+    "listed": ["clock", "cancellation", "snapshotAccess", "environmentIdentity", "progressSink", "storeHandle", "providerRegistry", "budgets"],
+    "attackSurfaceCheck": [
+      {"dependency": "filesystem beyond snapshotAccess", "status": "forbidden-by-snapshotAccess-rule", "ok": true},
+      {"dependency": "process signal handlers", "status": "forbidden-cancellation-is-token-only", "ok": true},
+      {"dependency": "network", "status": "not in CoreDeps; must be only via provider grants inside registry", "ok": true, "note": "Add explicit non-goal: core has no net handle"},
+      {"dependency": "entropy/rng", "status": "MISSING from CoreDeps", "ok": false, "finding": "A1-R1-DEPS-01", "severity": "medium", "detail": "If any producer needs randomness for non-digest ids, it must not be ambient. Either forbid rng in core analysis path or add rng: DeterministicOrInjected to CoreDeps."},
+      {"dependency": "logger/diagnostics sink", "status": "only progressSink", "ok": true, "note": "If structured diagnostics differ from progress, name it or fold into progressSink"},
+      {"dependency": "rule/pack registry", "status": "implicit in plan?", "ok": "unclear", "finding": "A1-R1-DEPS-02", "severity": "medium-high", "detail": "Plan may embed rule set, but loading pack implementations needs a registry handle. If it is inside providerRegistry, say so. If not, CoreDeps is not exhaustive and LN-02 is vacuous."}
+    ],
+    "verdict": "Not proven exhaustive. Two named gaps (rng; rule-pack load surface). exhaustiveForV1_1 should be false until closed or explicitly out-of-scope with LN-02 extended."
+  },
+  "ln06WarmStore": {
+    "verdict": "ADEQUATE with strengthening",
+    "detail": "Populated vs empty StoreHandle is the right substitute for cold|warm. Strengthen: core must not observe store implementation type or warmth metrics; only FactView/CAS APIs. Add assertion that storeHandle.warmth (if any) is not readable from core package.",
+    "confidence": "medium-high"
+  },
+  "ln09StorageProtocol": {
+    "verdict": "MATCHES sealed protocol",
+    "detail": "Busy-timeout, idempotent insert, write-then-link match 03/06. Explicitly rejects external coordinator — correct. Does not prove WAL-on-network-fs detection; out of scope for LN suite.",
+    "confidence": "high"
+  },
+  "sealR1Item1": {
+    "ready": false,
+    "blocker": "Close A1-R1-DEPS-01/02 or document as explicit non-deps with LN-02 extension; then seal R-1(1) as CANDIDATE→SEALED after green conformance implementation exists",
+    "confidence": "medium"
+  },
+  "knownLimitations": ["Review is of the spec, not a running suite."]
+}

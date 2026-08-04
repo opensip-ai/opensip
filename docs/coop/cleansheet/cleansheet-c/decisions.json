@@ -1,0 +1,364 @@
+[
+  {
+    "id": "D01",
+    "decision": "Return a canonical assessment binding inputs, policy, analyzers, findings, coverage, uncertainty, and gate verdict rather than a Boolean.",
+    "forcing": "FORCED",
+    "forcedBy": "R-checkable; W-CI; W-human; unequal language depth",
+    "rejected": [
+      "Boolean plus console messages, because it loses provenance and omitted work",
+      "Unstructured logs, because they are not a stable replayable machine contract"
+    ],
+    "falsifiedBy": "A Boolean/log design that preserves exact inputs, uncertainty, later explanation, machine consumption, and upgrade comparison without recreating an assessment elsewhere."
+  },
+  {
+    "id": "D02",
+    "decision": "Analyze an immutable logical snapshot of exact source, configuration, dependency, and declared environment inputs.",
+    "forcing": "FORCED",
+    "forcedBy": "W-agent overlapping edits; R-checkable; W-CI reproducibility",
+    "rejected": [
+      "Reading the live filesystem throughout a run, because inputs can drift",
+      "Using only a Git commit, because working-tree and other relevant inputs are omitted",
+      "Using timestamps as identity, because they do not identify content"
+    ],
+    "falsifiedBy": "A complete filesystem or VCS snapshot facility that already supplies an immutable reproducible view of every relevant input for a run."
+  },
+  {
+    "id": "D03",
+    "decision": "Make analyzers hermetic and deterministic: snapshot-only reads, no network/model/clock/random/ambient environment, and canonical enumeration and reduction.",
+    "forcing": "FORCED",
+    "forcedBy": "R-offline; R-deterministic; R-checkable; W-CI",
+    "rejected": [
+      "Best-effort offline execution, because external state can still change results",
+      "Behavioral documentation for plugins without enforcement, because it cannot uphold the product promise",
+      "Seeded nondeterminism, because clock, concurrency, and network inputs remain"
+    ],
+    "falsifiedBy": "A newly required result that inherently depends on live external state, or inability to enforce hermeticity on required platforms without an equivalent substitute."
+  },
+  {
+    "id": "D04",
+    "decision": "Canonicalize rule instances and identify all analyzer, schema, frontend, default, parameter, and data semantics as inputs.",
+    "forcing": "FORCED",
+    "forcedBy": "Teams declare rules; R-checkable; R-adoption across upgrades",
+    "rejected": [
+      "Hashing only user-written config, because expanded defaults and transitive packages disappear",
+      "A marketing version as semantic identity, because independently changing components are hidden",
+      "Analyzer-selected severity, because policy authority belongs to the team/core"
+    ],
+    "falsifiedBy": "A permanently monolithic build whose one immutable digest completely identifies every semantic component and policy expansion."
+  },
+  {
+    "id": "D05",
+    "decision": "Model facts, subjects, claims, evidence, coverage, findings, and verdict as separate objects, with the core owning final assessment.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment; supported by W-human, R-extension, R-languages, and W-CI",
+    "rejected": [
+      "A universal AST, because it loses language-specific semantics",
+      "Analyzer-emitted final diagnostics, because identity, evidence, baseline, and policy become inconsistent",
+      "One undifferentiated event log, because invariants become difficult to validate"
+    ],
+    "falsifiedBy": "A simpler model that supports deep heterogeneous analysis, extension authority, coverage, explanation, and upgrade comparison with less translation."
+  },
+  {
+    "id": "D06",
+    "decision": "Represent required analysis as satisfied, violated, not_applicable, or indeterminate with structured reason codes; never encode unknown as pass.",
+    "forcing": "FORCED",
+    "forcedBy": "R-languages; explicit requirement to report what could not be determined; W-CI",
+    "rejected": [
+      "Dropping failed or unsupported targets, because it creates false passes",
+      "Treating every unknown as a violation, because it misstates evidence",
+      "Warning-only logs, because CI can ignore them"
+    ],
+    "falsifiedBy": "Complete, terminating, sound analyzers for every requested language/rule with no missing inputs or operational failures."
+  },
+  {
+    "id": "D07",
+    "decision": "Publish versioned analyzer capabilities and require rules to declare capabilities so planning accounts for the complete target universe.",
+    "forcing": "FORCED",
+    "forcedBy": "R-languages unequal breadth/depth; R-checkable",
+    "rejected": [
+      "A binary supported-language flag, because it exaggerates shallow support",
+      "Running rules with missing semantics, because findings may be unsound",
+      "Silently excluding unsupported files, because it corrupts coverage"
+    ],
+    "falsifiedBy": "One sound uniform semantic representation that provides identical capabilities for every supported language."
+  },
+  {
+    "id": "D08",
+    "decision": "Attach to every finding a structured evidence witness linking source anchors, facts, producer provenance, rule predicates, and derivation edges.",
+    "forcing": "FORCED",
+    "forcedBy": "The product must prove its answer; R-checkable; W-human",
+    "rejected": [
+      "Message and line number only, because they are fragile and do not show derivation",
+      "Debug logs, because they do not define the justification",
+      "A rerun command alone, because historical inputs or implementation may be missing"
+    ],
+    "falsifiedBy": "Users require only analyzer identity/location, or practical formal proof certificates supersede evidence graphs for every analysis."
+  },
+  {
+    "id": "D09",
+    "decision": "Define canonical serialization and root identities so equal semantic inputs yield an equal assessment root and exit class.",
+    "forcing": "FORCED",
+    "forcedBy": "R-deterministic; R-checkable; W-CI",
+    "rejected": [
+      "Ordinary JSON byte comparison, because ordering and incidental metadata vary",
+      "Run UUIDs, because they identify executions rather than equivalence",
+      "Semantic timestamps/hostnames, because they harm replay and are irrelevant"
+    ],
+    "falsifiedBy": "A different stable offline equivalence protocol with collision-resistant input/result binding and no canonical root."
+  },
+  {
+    "id": "D10",
+    "decision": "Keep immutable result and baseline artifacts separate from disposable mutable acceleration caches.",
+    "forcing": "FORCED",
+    "forcedBy": "R-checkable; R-adoption; W-agent and R-scale cache pressure",
+    "rejected": [
+      "Using the latest cache database as history, because eviction/migration rewrites the record",
+      "Hosted-only reports, because hosted operation is optional",
+      "Console-only history, because it lacks structured closure"
+    ],
+    "falsifiedBy": "Acceleration state itself can be permanently immutable, portable, schema-stable, and inexpensive enough to remove the distinction."
+  },
+  {
+    "id": "D11",
+    "decision": "Store objects by domain-separated SHA-256 and support deterministic sealed bundles containing a report's complete replay closure.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment; supported by R-scale, R-checkable, and R-adoption",
+    "rejected": [
+      "A monolithic database, because partial export and corruption isolation are harder",
+      "Embedding all source in every report, because it scales poorly",
+      "Hashes without retained objects, because identity alone cannot replay",
+      "BLAKE3 initially, because SHA-256 has broader independent verifier availability"
+    ],
+    "falsifiedBy": "Measurements show CAS/SHA-256 overhead dominates, or a transactional pack provides equivalent immutable portable closure more simply."
+  },
+  {
+    "id": "D12",
+    "decision": "Record accepted debt as an immutable, policy-scoped source snapshot anchor plus reviewed result context, not as mutable suppressions.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment under R-adoption",
+    "rejected": [
+      "Analyzer fingerprint lists, because semantic upgrades make them stale",
+      "Source-line suppressions, because they can mask future instances and disperse policy",
+      "Automatic baseline replacement, because it destroys the gate"
+    ],
+    "falsifiedBy": "A version-independent finding identity has lower storage and no silent suppression, or retaining accepted source snapshots is unacceptable."
+  },
+  {
+    "id": "D13",
+    "decision": "On upgrade, evaluate accepted and current snapshots with the same current analyzer/rule semantics and compare those results; retain the historical result for audit.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment under R-adoption trust across upgrades",
+    "rejected": [
+      "Comparing old-engine baseline fingerprints with new-engine current fingerprints, because analyzer churn appears as code change",
+      "Permanently pinning the old engine, because fixes and new analysis cannot enter the gate",
+      "Fingerprint migration without replay, because correspondence is unproved"
+    ],
+    "falsifiedBy": "Replay remains too expensive after caching, accepted snapshots cannot be retained, or a version-independent proof identity exists for all rules."
+  },
+  {
+    "id": "D14",
+    "decision": "Use core-owned semantic lineage and multi-valued delta states; classify ambiguous correspondence as indeterminate rather than silently new or existing.",
+    "forcing": "FORCED",
+    "forcedBy": "R-adoption trustworthiness across refactors and upgrades",
+    "rejected": [
+      "Path-plus-line hashes, because line insertion breaks them",
+      "Message hashes, because presentation changes identity",
+      "Unqualified fuzzy matching, because heuristic confidence becomes gate authority",
+      "Extension-owned existing classification, because it can bypass policy"
+    ],
+    "falsifiedBy": "A complete version-independent identity follows every finding through arbitrary program transformations."
+  },
+  {
+    "id": "D15",
+    "decision": "Read old baseline schemas or migrate by emitting linked immutable objects; never mutate/reaccept automatically during upgrade.",
+    "forcing": "FORCED",
+    "forcedBy": "R-adoption; R-checkable",
+    "rejected": [
+      "In-place baseline database migrations, because they erase the old meaning",
+      "Regenerating incompatible baselines from current code, because new violations may be blessed",
+      "Best-effort partial parsing, because loss can be invisible"
+    ],
+    "falsifiedBy": "Cross-version acceptance compatibility is dropped as a requirement, or a universal immutable baseline schema never needs migration."
+  },
+  {
+    "id": "D16",
+    "decision": "Plan and execute a deterministic dependency DAG of discovery, semantic, rule, evidence, and delta tasks.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment; supported by W-agent, R-scale, and shared deep-analysis intermediates",
+    "rejected": [
+      "A monolithic full-repository pass for every query, because it wastes small-edit reuse",
+      "Independent passes per rule, because they duplicate parsing and resolution",
+      "An undeclared mutable object graph, because invalidation is hard to audit"
+    ],
+    "falsifiedBy": "Full runs meet interactive latency at 100,000 files, or a simpler streaming design provides better deterministic reuse."
+  },
+  {
+    "id": "D17",
+    "decision": "Key cached tasks by every semantic input and validate schemas so warm and cold assessments are identical.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment to cache for W-agent/R-scale; complete keys then follow from R-deterministic/R-checkable",
+    "rejected": [
+      "Path/mtime keys, because they miss content and configuration changes",
+      "Analyzer-version-only invalidation, because it is both coarse and incomplete",
+      "Unvalidated serialized extension data, because stale/corrupt data crosses trust boundaries"
+    ],
+    "falsifiedBy": "Complete keys cost more than recomputation, or an analyzer's true inputs cannot be declared and it must be non-cacheable."
+  },
+  {
+    "id": "D18",
+    "decision": "Provide one semantic engine in a mandatory one-shot path and an optional workspace-local resident path; daemon absence falls back to one-shot.",
+    "forcing": "PREFERRED",
+    "forcedBy": "W-CI forces one-shot; daemon is judgment for W-agent and R-scale",
+    "rejected": [
+      "A mandatory local/remote service, because it violates no-service operation and CI shape",
+      "One-shot only without measurement, because repeated cold costs may harm the dominant workload",
+      "Separate daemon and CI semantics, because results could drift"
+    ],
+    "falsifiedBy": "One-shot latency meets the dominant workload, or daemon lifecycle/security costs exceed reuse benefits."
+  },
+  {
+    "id": "D19",
+    "decision": "Give each overlapping query its own snapshot while coalescing only identical immutable task keys with reference-counted cancellation.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment for W-agent while preserving snapshot/reproducibility invariants",
+    "rejected": [
+      "One mutable latest-project graph, because request states can mix",
+      "Serializing all checks, because overlap is wasted",
+      "First-client cancellation of shared work, because timing changes other results"
+    ],
+    "falsifiedBy": "Measured overlap is rare, or a transactional mutable index demonstrates simpler equivalent isolation."
+  },
+  {
+    "id": "D20",
+    "decision": "For small checks, compute and report a conservative impact closure; widen or mark gaps indeterminate, and reserve repository-wide claims for full checks.",
+    "forcing": "FORCED",
+    "forcedBy": "W-agent small queries; R-checkable; deep transitive analyses; R-scale",
+    "rejected": [
+      "Edited-lines-only checks, because effects propagate",
+      "Always-full checks, because they may defeat rapid interaction at scale",
+      "Unreported heuristic scopes, because clean results become uncheckable"
+    ],
+    "falsifiedBy": "All rules are file-local, or full analysis at maximum scale always meets interactive latency."
+  },
+  {
+    "id": "D21",
+    "decision": "Specify deterministic parallel reductions and treat declared resource-limit exhaustion as indeterminate rather than truncated success.",
+    "forcing": "FORCED",
+    "forcedBy": "R-scale; R-deterministic; W-CI; finite offline laptop resources",
+    "rejected": [
+      "Race-dependent first-result behavior, because load changes output",
+      "Undeclared wall-clock timeouts, because replay differs",
+      "Unlimited execution, because checks can hang",
+      "Silent truncation, because it creates false confidence"
+    ],
+    "falsifiedBy": "All analyses terminate in fixed negligible bounds and serial execution meets scale requirements."
+  },
+  {
+    "id": "D22",
+    "decision": "Run heavy language engines in supervised bounded local workers and localize their failures to affected coverage cells.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment; supported by heterogeneous frontends, W-agent residency, and explicit uncertainty",
+    "rejected": [
+      "All frontends in the core process, because crash and heap retention domains expand",
+      "A process per file, because startup cost is excessive",
+      "Abort-all on one parser failure, because useful evidence is discarded"
+    ],
+    "falsifiedBy": "In-process engines are materially faster and sufficiently safe, or IPC/serialization dominates."
+  },
+  {
+    "id": "D23",
+    "decision": "Initially expose bounded declarative rule packages over versioned facts; admit new executable fact producers only through trusted review and pinned releases.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment under R-extension, constrained by R-deterministic, R-offline, and no inference",
+    "rejected": [
+      "Native runtime plugins, because portable hermetic enforcement is weak",
+      "General WASM initially, because arbitrary embedded inference and evidence/resource validation remain",
+      "No extensions, because common organization-specific rules would be excluded"
+    ],
+    "falsifiedBy": "Real rule demand exceeds the declarative language and a portable certified executable sandbox enforces all product guarantees."
+  },
+  {
+    "id": "D24",
+    "decision": "Limit extensions to candidate facts/claims; core owns baseline lineage, uncertainty, policy, provenance, canonical result, and exit status; lock packages by digest.",
+    "forcing": "FORCED",
+    "forcedBy": "R-deterministic; R-checkable; R-adoption; W-CI",
+    "rejected": [
+      "Package names/version ranges, because identical config can resolve differently",
+      "Plugin-emitted final reports, because schemas and gate semantics fragment",
+      "Runtime latest-package resolution, because it violates offline reproducibility"
+    ],
+    "falsifiedBy": "Extensions are removed, or an attestable runtime safely delegates these authorities with equivalent core enforcement."
+  },
+  {
+    "id": "D25",
+    "decision": "Separate logical verdict, completeness, and operational health; map exits to 0 pass, 1 proved policy failure, 2 required indeterminacy, 3 invocation/config error, 4 core failure, and 130 interruption.",
+    "forcing": "PREFERRED",
+    "forcedBy": "W-CI and explicit unknown reporting force separation/nonzero behavior; exact mapping is judgment",
+    "rejected": [
+      "One nonzero code for all cases, because violation and tool failure are indistinguishable",
+      "Bitmask exits, because shell use is awkward and rich detail still needs the report",
+      "Zero plus warnings for incomplete work, because it creates false passes"
+    ],
+    "falsifiedBy": "Target CI platforms impose another convention, or research shows bitmask/sysexits behavior is materially less error-prone."
+  },
+  {
+    "id": "D26",
+    "decision": "Implement the trusted core, CLI, daemon, scheduler, storage, policy, evidence, baseline, and supervision layers in Rust.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment; supported by offline distribution, R-scale, safe concurrency, and controlled runtime",
+    "rejected": [
+      "Go for now, because Rust offers more memory/layout control, though Go remains viable",
+      "C++, because memory-safety burden is larger",
+      "TypeScript/Python core, because runtime packaging, cold start, and memory are concerns",
+      "JVM core, because it enlarges deployment assumptions"
+    ],
+    "falsifiedBy": "Team expertise/ecosystem makes another language safer or faster, profiling removes runtime concerns, or Rust platform distribution is worse."
+  },
+  {
+    "id": "D27",
+    "decision": "Choose TypeScript/JavaScript and Python as the initial two deep language families, subject to corpus validation.",
+    "forcing": "GUESSED",
+    "forcedBy": "R-languages specifies two but supplies no corpus, customer, rule-demand, staffing, licensing, or platform evidence",
+    "rejected": [
+      "Rust, Java/Kotlin, C/C++, C#, and Go, because none can be ranked from the prompt",
+      "Choosing Rust merely to match the core, because symmetry is not a requirement",
+      "Claiming more than two initially, because depth staffing is unknown"
+    ],
+    "falsifiedBy": "Customer corpus/rule demand ranks a different pair, or frontend licensing/distribution/determinism blocks either choice."
+  },
+  {
+    "id": "D28",
+    "decision": "Support additional languages through pinned capability-graded adapters and retain language-specific semantic fact namespaces.",
+    "forcing": "PREFERRED",
+    "forcedBy": "Judgment under R-languages breadth with unequal depth",
+    "rejected": [
+      "One universal AST, because semantics are lost and rules overclaim",
+      "Unlabeled regex support, because it misrepresents capability",
+      "Deep bespoke frontends for every language, because it conflicts with the two-language depth focus"
+    ],
+    "falsifiedBy": "A common semantic IR is faithful and affordable across target languages, or users define support only as deep compiler analysis."
+  },
+  {
+    "id": "D29",
+    "decision": "Ship a self-sufficient local distribution; CI uses the same one-shot engine; hosted systems may only ingest/render canonical artifacts and never affect results.",
+    "forcing": "FORCED",
+    "forcedBy": "R-offline; R-hosted-optional; W-CI",
+    "rejected": [
+      "Remote analysis or cloud cache in the correctness path, because external state affects results",
+      "Hosted-only baselines, because offline net-new gating fails",
+      "Separate cloud analyzer semantics, because local and hosted verdicts can drift"
+    ],
+    "falsifiedBy": "Requirements change to mandate centrally computed results or accept loss of offline reproducible operation."
+  },
+  {
+    "id": "D30",
+    "decision": "Require content integrity for baselines but make reviewer cryptographic signatures optional until an authorization threat model exists.",
+    "forcing": "GUESSED",
+    "forcedBy": "No attacker, key infrastructure, branch protection, or acceptance-authority requirement is given",
+    "rejected": [
+      "Mandatory signatures, because key management is unjustified without a threat model",
+      "No integrity binding, because accidental mutation would be invisible"
+    ],
+    "falsifiedBy": "Contributors must be unable to alter accepted state without designated approval, or enterprise requirements mandate signed provenance."
+  }
+]

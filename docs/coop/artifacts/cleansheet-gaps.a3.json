@@ -1,0 +1,150 @@
+{
+  "artifact": "opensip.cleansheet-gaps",
+  "version": 1,
+  "status": "CANDIDATE-CORRECTED",
+  "ruleVersion": "cleansheet-adjudication-rule.v1",
+  "adjudicator": "agent-3",
+  "scope": "ONLY-CLEANSHEET findings only. Raising a gap in the incumbent is not adjudicating an incumbent decision, so A8 does not disqualify. Adoption dispositions still require ratification.",
+  "method": "vocabulary-overlap sweep plus targeted grep verification of incumbent absence. B correctly notes this method is weak; 8 is a LOWER BOUND.",
+  "decisions": [
+    {
+      "id": "CS-01",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "RETAIN-AFTER-REWRITE",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a D31 (FORCED). Incumbent hits: locale 0, collation 0, timezone 0, hash seed 0, path separator 0, sort order 0.",
+      "finding": "ENVIRONMENT NEUTRALISATION. The incumbent names 'identical environment identities' as a PRECONDITION the user must satisfy. The clean-sheet makes it an OBLIGATION THE SYSTEM DISCHARGES: enumerate and neutralise locale, collation, timezone, clock, randomness, hash seeds and path separators.",
+      "whyItMatters": "This is the difference between 'results are deterministic IF your environment matches' and 'results are deterministic'. Under the incumbent, two developers on different locales get different EvidenceDigests and the architecture calls that expected behaviour. Determinism is the foundation of the digest, parity testing, and the recomputability reframe \u2014 all inherit the hole.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "A result must be reproducible; an unenumerated environment input silently breaks reproducibility with no signal."
+      },
+      "reviewerCorrection": "Environment closure is a real gap, but must be stated as an architectural closure obligation over ambient inputs \u2014 not as a list of locale/collation/timezone, which is detail."
+    },
+    {
+      "id": "CS-02",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "REJECTED-AS-STATED",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a D13 (PREFERRED). Incumbent explicitly deferred a rule-evaluation computational class.",
+      "finding": "RULE LANGUAGE COMPUTATIONAL CLASS: recursion to fixpoint with stratified negation and aggregation, and no general computation.",
+      "whyItMatters": "The incumbent said 'declarative-first' and deferred the computational class. The clean-sheet chose one. Deferral was defensible, but the incumbent never stated what declarative MEANS operationally, which leaves the escape-hatch boundary undefined.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Rules must be statically analysable and budgetable; that requires a bounded computational class."
+      },
+      "reviewerCorrection": "Exact Datalog computational class: the incumbent's deferral is defensible and every clean sheet marks the class PREFERRED, not FORCED. A DIVERGE where the incumbent's deferral wins, not a gap."
+    },
+    {
+      "id": "CS-03",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "REJECTED-AS-STATED",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D14 (FORCED); verified incumbent absence by grep",
+      "finding": "Every rule ships a computed BEHAVIOUR DIGEST over body, parameter schema and declared dependencies \u2014 not just a semantic version.",
+      "whyItMatters": "The incumbent versions the fingerprint RECIPE and the rule, but has no digest over rule BEHAVIOUR. A rule can change what it detects without a version bump and nothing detects the drift. Incumbent hits: 0.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "Incumbent ALREADY detects rule content drift: BundleId + artifact digest ('exact installed bytes', 02:89), RuleKey = H(rule + config, ...) (03:92), and artifact digest entering PlanId (05:199). My '0 hits for behaviour digest' found absence of the TERM, not the CAPABILITY. What survives is narrower and lives in CS-04."
+    },
+    {
+      "id": "CS-04",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "RETAIN-AFTER-REWRITE",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D38/D39 (PREFERRED); verified incumbent absence by grep",
+      "finding": "A rule absent from the baseline's recorded ruleset is PENDING-ADOPTION \u2014 a third state distinct from 'found nothing then'. When a behaviour digest changes without an adopted version bump, replay the rule at the baseline revision.",
+      "whyItMatters": "This is the mechanism that stops a changed or newly added rule producing false net-new findings. The incumbent's recipe versioning handles IDENTITY drift; it has no answer for RULE BEHAVIOUR drift. It bears directly on the ratchet-trust story the incumbent calls its most consequential contract. Incumbent hits: 0.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "The surviving and real question: how do CHANGED DETECTOR SEMANTICS affect baseline comparison? The incumbent detects that a rule changed; it has no policy for what that means for net-new. This is the genuine hole, narrower than I claimed."
+    },
+    {
+      "id": "CS-05",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "REJECTED-AS-STATED",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D23 (FORCED); verified incumbent absence by grep",
+      "finding": "Queries are cancellable at safe points and LATEST-WINS-COALESCED per workspace.",
+      "whyItMatters": "The incumbent has cancellation but no coalescing. Under the agent loop \u2014 the stated wedge \u2014 rapid overlapping edits produce superseded in-flight work the incumbent would run to completion. Incumbent hits: 1 (incidental).",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "Latest-wins coalescing can cancel a DISTINCT CI, human, or agent attempt \u2014 not merely superseded work. Every clean source labels coalescing policy preferred. I reported it FORCED."
+    },
+    {
+      "id": "CS-06",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "REJECTED-AS-STATED",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D30 (FORCED); verified incumbent absence by grep",
+      "finding": "Reproduction is a first-class command returning a GRADED verdict: identical | equivalent | divergent.",
+      "whyItMatters": "The incumbent has EvidenceDigest equality, which is binary. A graded verdict distinguishes 'same findings, different evidence bytes' from real divergence \u2014 the distinction the retention-tier work needed and did not have. Incumbent hits: 0.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "Under identical pinned semantics, different evidence is DIVERGENCE, not successful equivalence. A graded 'equivalent' verdict would license exactly the drift the digest exists to catch."
+    },
+    {
+      "id": "CS-07",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "RETAIN-AFTER-REWRITE",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D18 (PREFERRED); verified incumbent absence by grep",
+      "finding": "Inline suppressions must name a specific rule, carry a reason, and have usage tracked so unused ones surface.",
+      "whyItMatters": "The incumbent has waivers as a concept with no constraints. Unused-suppression tracking is what stops a waiver set becoming permanent silent debt. Incumbent hits: 0.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "Restate as waiver auditability and non-widening, not as inline-suppression mechanics."
+    },
+    {
+      "id": "CS-08",
+      "class": "ONLY-CLEANSHEET",
+      "disposition": "RETAIN-AFTER-REWRITE",
+      "adjudicator": "agent-3",
+      "incumbentAuthor": "n/a",
+      "evidence": "cleansheet-a:D64 (FORCED); verified incumbent absence by grep",
+      "finding": "The cache is bounded and pruned by an explicit garbage-collection command with a size or age policy; eviction is always safe.",
+      "whyItMatters": "The incumbent has retention CLASSES but no bounded cache, no eviction command, and no size policy \u2014 while its own threat model requires users be able to see and delete what is stored. Incumbent hits: 0.",
+      "justificationTest": {
+        "result": "PASS",
+        "statedRequirement": "Identified by an independent derivation and absent from the incumbent; adoption is the rule's default for ONLY-CLEANSHEET."
+      },
+      "reviewerCorrection": "Restate as finite safe cache reclamation, not as a GC command."
+    }
+  ],
+  "metrics": {
+    "onlyCleansheetCount": 8,
+    "onlyCleansheetAdopted": 0,
+    "rejectedAsStated": 4,
+    "retainAfterRewrite": 4,
+    "incumbentPassedJustification": 0,
+    "incumbentFailedJustification": 0,
+    "forcedDowngradedToPreferred": 0,
+    "onlyIncumbentCount": 0,
+    "onlyIncumbentRemoved": 0,
+    "unresolvedCount": 0
+  },
+  "RETRACTION": {
+    "retracted": "The '8 absent / 7 adopted' register is WITHDRAWN. Zero were adoptable as stated.",
+    "why": "Detection used vocabulary grep. Semantic closure finds prior or partial incumbent coverage (CS-03), preferred mechanisms reported as FORCED (CS-05), and candidates counted as adoptions.",
+    "corrected": "4 REJECTED-AS-STATED, 4 RETAIN-AFTER-REWRITE, 0 adopted.",
+    "errorClass": "NINTH instance of lexical inference \u2014 concluding capability absence from term absence. Same class as Error 1 (grep for checker use), the authorship misattribution, the D9 axis underdetermination, and the finding-count enumeration. It occurred in the artifact I presented as the most valuable output of the entire clean-sheet comparison.",
+    "structuralConclusion": "Nine instances is not a run of accidents. ANY absence claim I make should be treated as unverified until someone traces CAPABILITY rather than TERMINOLOGY. That applies retroactively to every '0 incumbent hits' figure I have reported."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "artifact": "opensip.p4-dependency-adjudication",
+  "version": 1,
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "confirm",
+  "question": "May P-4 stay SEALED with C-1 only in articulationReferences (not dependsOn)?",
+  "resolves": {
+    "P-4-articulation": "CONFIRM — keep SEALED; articulationReferences is legitimate with guardrails",
+    "CHK-2-bypass-risk": "REAL — category must be defined narrowly or it becomes an escape hatch"
+  },
+  "decisionDependencies": [
+    "METHOD.RULE-7 (no unreviewed premise)",
+    "METHOD.RULE-8 (status on claims)",
+    "P-4 product disposition (TS+Rust providers)",
+    "C-1 CANDIDATE (predicate-relative sufficiency)"
+  ],
+  "analysis": {
+    "decisionCore": "TypeScript and Rust receive day-one semantic providers; other languages do not.",
+    "doesDecisionCoreDependOnC1": false,
+    "why": "The product choice of *which languages get providers* is independent of whether fact quality is modelled as a global tier order or as predicate-relative requirements. Either ontology still needs providers for the two deep languages and still withholds them for the rest.",
+    "whatDoesDependOnC1": [
+      "Whether the gap for other languages is called a 'capability tier' vs 'degraded mode'",
+      "How loud tier surfacing is phrased (skipped-requirements-unmet vs degraded-language)",
+      "Some consequence prose in 04 that assumes per-relation Coverage language from C-1"
+    ],
+    "counterfactual": "If C-1 were rejected in favour of always-primary semantics, P-4's language set would still stand; packaging/comms of non-provider languages would be rewritten. That is articulation, not a different product decision about who gets a provider."
+  },
+  "onArticulationReferences": {
+    "legitimate": true,
+    "definition": "A claim X is an articulationReference of sealed claim Y iff changing X can only change how Y is worded/explained in docs, never the truth conditions of Y's disposition.decision.",
+    "notLegitimateWhen": "Changing X would change which options product would still accept for Y, or would change Y's operational obligations beyond labels.",
+    "abuseRisk": "Authors will be tempted to reclassify real dependsOn as articulationReferences to clear CHK-2. Mitigations: (1) require dependencyReasoning prose (present); (2) peer review when used to clear CHK-2 (this artifact); (3) checker should list articulationReferences in reports for human scan; (4) if in doubt, dependsOn and stay unsealed.",
+    "agent3SelfFlag": "Correct and necessary. Confirming is not rubber-stamping: the independence test was applied."
+  },
+  "verdict": {
+    "p4Status": "SEALED",
+    "dependsOn": [],
+    "articulationReferences": ["C-1"],
+    "confidence": "high",
+    "whatWouldChangeMyMind": "Evidence that without predicate-relative C-1, product would revoke Rust or TS as day-one providers or change the two-language set — that would restore dependsOn."
+  },
+  "knownLimitations": [
+    "Does not seal C-1. Does not seal P-4a (Rust substrate).",
+    "Does not prevent future misuse of articulationReferences without process discipline."
+  ]
+}

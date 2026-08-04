@@ -1,0 +1,451 @@
+{
+ "artifact": "opensip.versioning-policy.v9.review-independent",
+ "reviewOf": "versioning-policy.v9.json",
+ "reviewType": "INDEPENDENT-ADVERSARIAL — reviewer did not author the subject; posture was to reject",
+ "reviewer": "independent adversarial reviewer, phase1a",
+ "date": "2026-08-03",
+ "verdict": "CHANGES-REQUIRED",
+ "verdictStatement": "The citation repair itself is CORRECT and I could not falsify any factual claim in versioning-policy.v9.json. The delta is exactly as declared, byte-verified; the additive-only exit-class rule V4 is genuinely unaffected across the v1.6->v1.14 span, established by my own measurement which was BROADER than the author's; status, seal and discharge discipline are intact; all seven named dependents exit 0. The single blocker is against check-versioning-v9.py, NOT against versioning-policy.v9.json: the checker independently re-measures the span into a `measured` dict and then fails to compare 76 of 102 declared evidence leaves against it, including roughly twenty mechanically-checkable values it has ALREADY COMPUTED. A falsified value in any of them exits 0 with the full green banner. versioning-policy.v9.json needs no byte change to clear this; the checker does.",
+ "blockingFindingCount": 1,
+ "nonBlockingObservationCount": 9,
+ "blockers": [
+  {
+   "id": "B-VER9R-01",
+   "severity": "BLOCKING",
+   "against": "check-versioning-v9.py (cf88da34a68a2697d5040d97d32eeaabcf7217162bf279ab5b546c066210bd80)",
+   "notAgainst": "versioning-policy.v9.json — no byte of the contract is wrong; every declaration I tested is TRUE",
+   "title": "The successor's own evidence block is 75% unenforced: the checker measures correctly, then does not compare the declaration against its measurement.",
+   "measured": "I falsified every leaf under successorRevision.d9CitationRepair.{substanceUnchangedEvidence, directionPreservation, siblingCitationAudit} one at a time (bools inverted, ints +7, strings replaced with 'ADVERSARIAL-FALSEHOOD', lists extended) and ran check-versioning-v9.py on each. 102 leaves probed: 26 ENFORCED (non-zero exit), 76 UNENFORCED (exit 0, full green PASS banner).",
+   "whyThisIsNotMerelyProse": "About twenty of the 76 are mechanically verifiable and the checker already computes the correct value into its `measured` dict (check-versioning-v9.py lines ~203-230) and then never compares the artifact's declaration to it. This is a free comparison left on the table, not an unverifiable narrative.",
+   "worstCases": [
+    {
+     "path": "successorRevision.d9CitationRepair.substanceUnchangedEvidence.measuredBetween.supersededCitationSha256",
+     "issue": "The artifact's own recorded sha256 of the superseded span endpoint can be replaced with garbage and the checker exits 0. Same for headSha256. This is squarely the freeze §7.2 recording obligation — the recorded digest of the very artifacts the span measurement rests on is unenforced.",
+     "note": "The checker's own PINS constant IS enforced; the artifact's recorded digests are a separate, uncompared surface."
+    },
+    {
+     "path": "successorRevision.d9CitationRepair.directionPreservation.reVerifiedAtHead.d9CitesVersioningInItsDependencies",
+     "issue": "Can be flipped false->true — the artifact would then assert on its face that D9 DOES depend on VERSIONING, which is precisely the B-SCV2-06 circularity this entire dependency record exists to refute — and the checker exits 0. Its sibling d9CitesAnyVersioningPolicyArtifact IS gated, so the block is half-enforced and a reader cannot tell which half.",
+     "checkerReferences": "0 occurrences of the identifier in check-versioning-v9.py"
+    },
+    {
+     "path": "successorRevision.d9CitationRepair.substanceUnchangedEvidence.byteIdenticalRootsV16ToV114[0..10]",
+     "issue": "All 11 entries falsifiable. The checker computes measured['byteIdenticalRoots'] at line ~225 and never compares the declared list to it. (I verified the declared list is exactly correct: 11 claimed, 11 actual, zero set difference.)"
+    },
+    {
+     "path": "successorRevision.d9CitationRepair.substanceUnchangedEvidence.exitClassSet.v16[*] / .v114[*]",
+     "issue": "The declared exit-class NAME lists are falsifiable. The checker compares only .identical/.removed/.added against its measurement, never the name lists — so the artifact could enumerate wrong class names beside a correctly-gated identical:true."
+    },
+    {
+     "path": "successorRevision.d9CitationRepair.substanceUnchangedEvidence.codeVocabulary.{reasonCodesByteIdentical,errorCodesByteIdentical,remediesAdded[0]}",
+     "issue": "Computed as measured[...] and used for the checker's OWN finding at line ~530, but the artifact's declared values are never compared. reasonCodesByteIdentical can be set to false, 0, 999 or the string 'true' — all exit 0."
+    },
+    {
+     "path": "successorRevision.d9CitationRepair.siblingCitationAudit.entries[*].{fileResolves,anchorResolves,registerBinding}",
+     "issue": "All falsifiable; fileResolves/anchorResolves have 0 references anywhere in the checker. The audit that discovered the two remaining stale citations is itself unverified by the instrument."
+    }
+   ],
+   "relationToLaw18": "The author closed the freeze §6 law 18 integer class completely and I confirmed it: 52/52 integer leaves reject a float respelling and 52/52 reject a bool respelling, ALL by position — zero admitted, zero collateral. The checkerDisposition.integerTypeGuard claim is accurate and in fact under-claims (the guard covers all 52 integer leaves in the artifact, not merely the integers v9 adds). The defect is the SYMMETRIC and undisclosed case: closed BOOLEAN scalars the successor newly adds are respellable to any value, including the opposite truth value. 15 of 139 boolean leaves admit an integer respelling at exit 0, and every one of those 15 sits inside the new d9CitationRepair evidence block.",
+   "whyItMattersHere": "This corpus has now produced three defects from 'two instruments wrong in the same direction read as agreement'. This is a fourth variant and arguably sharper: ONE instrument measures correctly and then declines to compare. The artifact's checkerDisposition invites the reader to treat the evidence block as instrument-backed ('demonstrated by the checker's own mutation selftest'), and the freeze record will carry this block forward as the standing justification for the eight-version span. A later editor could silently falsify it with every instrument green.",
+   "remedy": [
+    "Compare the declared values against the already-computed `measured` dict for: exitClassSet.v16/.v114, byteIdenticalRootsV16ToV114, codeVocabulary.reasonCodesByteIdentical/.errorCodesByteIdentical/.remediesAdded/.remediesRemoved, directionPreservation.preservedByteIdentical, reVerifiedAtHead.d9CitesVersioningInItsDependencies, and measuredBetween.supersededCitationSha256/.headSha256 (against PINS).",
+    "Gate every asserted boolean with an exact `type(x) is bool` check, symmetric to the existing `type(x) is int` guard.",
+    "Add bool-respelling mutations to MUTATIONS. The current 36 include exactly 5 float respellings (verified) but not one boolean respelling, which is why the gap is invisible to --selftest.",
+    "Recompute siblingCitationAudit.entries[*].fileResolves/anchorResolves against disk rather than accepting the declaration."
+   ],
+   "doesNotAffect": "The V4 conclusion. The checker enforces the substantive span invariants from its own measurement (lines ~519-533), so a falsified declaration cannot produce a wrong V4 verdict — only a wrong RECORD."
+  }
+ ],
+ "nonBlockingObservations": [
+  {
+   "id": "O-01",
+   "title": "The span evidence does not disclose that the request-rejected class MEANING was broadened.",
+   "measured": "exitClasses is NOT byte-identical across v1.6->v1.14. exitClasses[2].meaning gains '...or an admitted Run refused before final commit because a HOST-DERIVED finalization precondition proved its frozen authoritative target unsatisfiable.' The other five classes are byte-identical.",
+   "adjudication": "NOT a defect and NOT an overclaim. The artifact never claims exitClasses is byte-identical — byteIdenticalRootsV16ToV114 correctly OMITS exitClasses, and exitClassSet.identical is scoped to the SET. V4 governs the class set and its numbering; broadening a class to admit a newly-introduced condition adds no class and renumbers nothing. Disclosing it would nonetheless have made the evidence self-evidently complete."
+  },
+  {
+   "id": "O-02",
+   "title": "Two exit-class-adjacent roots changed across the span and were not enumerated in the evidence.",
+   "measured": "hostTerminationUnion gains a fully-typed `details` field (declared semanticAuthority NONE, controlFlowUse FORBIDDEN, explicitly 'no exit code may be read from it'). crossAxisInvariants gains X11, which maps the new HOST-DERIVED predicate to the pre-existing request-rejected class. Neither is named in substanceUnchangedEvidence.",
+   "adjudication": "I verified independently that neither affects V4: no path-wise numeric exit code changed and the distinct exit-code set is {0,1,2,3,4,130} in both versions. The author's enumerated evidence is sufficient for V4 but stops one root short of covering the surfaces that could have falsified it."
+  },
+  {
+   "id": "O-03",
+   "title": "decisionDependencies[5] and [6] still literally read 'current candidate', which is false, and relabelling needed no re-derivation.",
+   "measured": "[5] 'evaluation-proof.v8.json (... ; current candidate)' — v13 is highest on disk. [6] 'retention-tiers.v13.json (... ; current candidate)' — the register binds retention-tiers.v22.json.",
+   "adjudication": "The DEFERRAL of retargeting is sound (see adjudication 3). But the author deferred the label too. Correcting the words 'current candidate' to an as-reviewed-pin phrasing is pure prose, requires no re-derivation and no fresh review, and would have removed a false statement from the successor's bytes. knownLimitations[19] and siblingCitationAudit entries 5/6 disclose the staleness fully, so this is transparency-preserved, not concealed. Note the checker's mutation 'silently retarget the carried EP/RT dependency pins' now freezes the false label in place."
+  },
+  {
+   "id": "O-04",
+   "title": "R-VER9-05 UNDERSTATES the predecessor float admission by 13x.",
+   "measured": "The residual cites one site: historicalSemanticsPolicy.crossMajorFixtures[4].hostDefaultIrMajor. I tested all 13 crossMajorFixtures individually against check-versioning-v8.py: ALL 13 admit a float hostDefaultIrMajor at exit 0 with the full green banner, plus `version: 8.0`.",
+   "adjudication": "Understatement in the conservative direction, against the PREDECESSOR, and it strengthens rather than weakens the case for the v9 guard. Not a defect in v9."
+  },
+  {
+   "id": "O-05",
+   "title": "check-versioning-v8.py's green banner names a file it did not read.",
+   "measured": "Run against a mutated copy at a different path, check-versioning-v8.py still prints 'PASS: versioning-policy.v8.json; ...'. The banner is not derived from the path actually loaded.",
+   "adjudication": "Independently strengthens R-VER9-05: a v8 green banner does not even identify which bytes produced it. check-versioning-v9.py does NOT have this defect — it prints path.name. Predecessor bytes are pinned; unfixable, worth recording."
+  },
+  {
+   "id": "O-06",
+   "title": "R-VER9-01 is correct but does not note that the crash is exit-code-indistinguishable from a finding.",
+   "measured": "check-versioning.py on versioning-policy.v8.json or v9.json raises AttributeError: 'str' object has no attribute 'get' at line 1249. An uncaught Python exception exits 1 — the SAME code as a legitimate finding.",
+   "adjudication": "The residual correctly says 'a traceback, not a verdict'. It could add that the exit code cannot distinguish the two, so any automation reading only the exit status of check-versioning.py silently conflates crash with finding."
+  },
+  {
+   "id": "O-07",
+   "title": "check-versioning.py's live finding is about versioning-policy.v4.json, not v8.",
+   "measured": "Default run exits 1 with: VER-DEP: dependency 'D9' cites artifacts/d9-exit-contract.v1.6.json but the register binds artifacts/d9-exit-contract.v1.14.json. Subject is versioning-policy.v4.json — v4 carries the SAME stale citation, and §7.2 freezes it.",
+   "adjudication": "R-VER9-01 states this correctly. Recorded because the dispatch brief phrased the red as being 'on v8', which is not what the instrument reports — v9 cannot clear it either way."
+  },
+  {
+   "id": "O-08",
+   "title": "Residual ordering is 01,02,03,04,05,07,06.",
+   "measured": "retainedResiduals lists R-VER9-07 before R-VER9-06.",
+   "adjudication": "Cosmetic. REQUIRED_RESIDUAL_IDS is a set, so the checker is order-independent and all seven are present."
+  },
+  {
+   "id": "O-09",
+   "title": "The claim register drifted a THIRD time, during this review, and v9's semantic gate held.",
+   "measured": "claim-register.v1.json was ff4df1d7eec949cdc6172dd8a90d109367e7eaae94a9aa56b72fe163c44febeb at my pre-review snapshot (09:09) and 20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910 at review end. The drift added 2 claims (RUST-PROVIDER-PROTOCOL, TRUSTED-REQUEST-CONTEXT, 31->33). The D9, VERSIONING and ARCH.RETENTION-TIERS bindings are byte-identical across the drift. check-versioning-v9.py exits 0 under BOTH register versions. A sibling lane also added check-retention-custody-v23.py mid-review.",
+   "adjudication": "Empirical vindication of R-VER9-07. The author's decision to gate on the semantic invariant rather than a register digest is CORRECT and now demonstrated three times over — a byte pin recorded at authoring would have failed twice since. The two subjects under review were byte-stable throughout."
+  }
+ ],
+ "centralClaimAdjudications": [
+  {
+   "claim": "1. Is this genuinely a citation repair?",
+   "verdict": "CONFIRMED — byte-verified",
+   "method": "Canonical-JSON comparison of all 28 top-level sections, then recursive deep diff of each changed section.",
+   "findings": [
+    "28 top-level keys in both; no key added, removed or reordered.",
+    "21 sections byte-identical, 7 changed — exactly as claimed. Identical: artifact, status, author, reviewStatus, purpose, principle, custodyClasses, versionedIdentities, rules, supportWindows, conformanceTests, peerReviewRequired, migrators, detectorSemanticDelta, historicalSemanticsPolicy, agentProtocolNote, dischargeStatus, comparisonFixtures, comparisonSchema, adjudicationRevision, implementationBacklog.",
+    "Changed: version 8->9; supersedes 7->8; role; decisionDependencies; resolves; knownLimitations; successorRevision.",
+    "decisionDependencies: 7 elements, 6 byte-identical. ONLY element [4] (D9) changed, and within it ONLY `source`. Its `id`, `claim`, `direction` and `note` are byte-identical — CONFIRMED as specifically requested.",
+    "resolves: single key B-SCV2-06 changed; all other keys byte-identical.",
+    "knownLimitations: 17 -> 20; v8's 17 preserved as an exact ordered prefix; 3 appended; 0 removed or altered.",
+    "successorRevision: adds d9CitationRepair; changes only id, forbiddenBackEdge (v8->v9 token), identityStability.predecessor/.reason, supersedesCandidate.{artifact,checker,sha256,checkerSha256}. coldStoredReadRejoin, rawAuthorityKinds, custodyRule, storeAuthorityRule, inputs and dependencyLabelRule carry byte-identical.",
+    "supersedesCandidate.sha256 and .checkerSha256 both verified correct against disk.",
+    "Carried byte-identical and independently confirmed: status CANDIDATE-NOT-APPLIED; reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW; dischargeStatus {seal DO-NOT-SEAL, CD-RT-5 BLOCKED, G19 BLOCKED, V10 UNRESOLVED, candidateState NOT-APPLIED, evidenceGrade IMPLEMENTABLE_UNEXECUTED, state SPECIFIED}; the GUESSED support windows; the run-manifest NOT-YET-ENFORCEABLE restriction."
+   ]
+  },
+  {
+   "claim": "2a. The author corrected my brief about the D9 v1.14 review.",
+   "verdict": "THE AUTHOR IS RIGHT; MY BRIEF WAS WRONG",
+   "findings": [
+    "d9-exit-contract.v1.14.review-independent-prefreeze.json field rederivationVerification.crossVersionIdentity reads verbatim: 'All 55 derived rows are IDENTICAL under v1.13 and v1.14.'",
+    "The substring 'v1.6' occurs 0 times in that review; '1.6' occurs 0 times; 'v1.13' occurs 41 times. That review's verdict is PASS.",
+    "It attests the v1.13->v1.14 step only. It is NOT evidence about the v1.6->v1.14 span the citation crosses. My dispatch brief's phrase 'under both versions' was a substitution and is withdrawn.",
+    "IMPLEMENTATION-FREEZE.md has ALREADY been corrected at the VERSIONING row: it now states the misattribution 'is withdrawn' and substitutes the direct measurement. The freeze no longer repeats the substitution."
+   ]
+  },
+  {
+   "claim": "2b. Does the author's direct v1.6->v1.14 measurement establish V4 is unaffected?",
+   "verdict": "YES — CONFIRMED, and I measured MORE than the author did",
+   "ruleUnderTest": "V4: 'Exit classes are additive-only, forever. Renumbering silently changes the meaning of every CI configuration in existence.' V4 is governed by the class SET and its NUMBERING.",
+   "myIndependentMeasurements": [
+    "exitClasses: 6 -> 6, none added, none removed. CONFIRMED.",
+    "classToExitCode: BYTE-IDENTICAL. success 0, policy-failed 1, request-rejected 2, indeterminate 3, operational-failed 4, interrupted 130. CONFIRMED exactly.",
+    "goldenCases 44 -> 45; 44 shared; 0 removed. Shared-golden mismatches: exit class 0, errorCode 0, reasonCode 0, numeric exit code 0. CONFIRMED.",
+    "Class distribution v1.6 {success 10, policy-failed 2, indeterminate 11, operational-failed 10, request-rejected 10, interrupted 1} -> v1.14 identical except request-rejected 10 -> 11. CONFIRMED as claimed.",
+    "The one new golden, analysis-post-admission-authorized-custody-loss, is class request-rejected, errorCode REQUEST.UNSATISFIABLE, exit code 2 — a PRE-EXISTING class. CONFIRMED.",
+    "The one changed shared golden, analysis-durability-failed, drops runId from expectedTermination; class operational-failed and errorCode DURABILITY.COMMIT_FAILED unchanged. CONFIRMED.",
+    "codeVocabulary.reasonCodes and .errorCodes byte-identical; remedies gains exactly one key, REQUEST.UNSATISFIABLE. CONFIRMED.",
+    "byteIdenticalRootsV16ToV114: the declared list of 11 is EXACTLY correct — 11 claimed, 11 actual, zero set difference in either direction.",
+    "BEYOND the author: no numeric *code field changed at any shared path, and the distinct exit-code value set is {0,1,2,3,4,130} in both versions.",
+    "BEYOND the author: hostTerminationUnion's new `details` field is explicitly declared to carry NO exit-code authority; crossAxisInvariants' new X11 maps its predicate INTO the pre-existing request-rejected class."
+   ],
+   "adjudication": "V4 IS GENUINELY UNAFFECTED. Every motion across the span is additive or intra-class: no class added, none removed, no code renumbered, and — decisively — 0 of 44 shared goldens changed class, so nothing that previously mapped to class X now maps to class Y. v9 does NOT understate its own scope. The only nuance is O-01/O-02: the request-rejected MEANING string broadened and two exit-class-adjacent roots moved, neither disclosed in the enumerated evidence and neither affecting V4."
+  },
+  {
+   "claim": "3. Should the two deferred citations have been repaired?",
+   "verdict": "THE DEFERRAL IS SOUND, AND FOR THE RIGHT REASON — with one missed free repair",
+   "structuralBlindnessConfirmed": [
+    "decisionDependencies[5] = bare string 'evaluation-proof.v8.json (...; current candidate)', no id. [6] = bare string 'retention-tiers.v13.json (...; current candidate)', no id.",
+    "check-versioning.py VER-DEP loop (line 1248-1257) reads d.get('source') then keys the register lookup on d['id']. Bare strings are unreachable — and in fact crash the loop before it. CONFIRMED structurally blind.",
+    "Register binds ARCH.RETENTION-TIERS -> artifacts/retention-tiers.v22.json; the citation says v13, nine versions behind. CONFIRMED.",
+    "No register claim binds evaluation-proof at all; v13 is highest on disk against a v8 citation. CONFIRMED."
+   ],
+   "evaluationProofSubtletyIndependentlyMeasured": {
+    "proofObligationsByClaimShape": "present with 6 claim shapes in evaluation-proof v1..v9; ZERO objects from v10 onward. CONFIRMED.",
+    "claimId": "EVIDENCE in v1..v11; CD-RT-5 from v12 onward. CONFIRMED.",
+    "consequence": "Retargeting [5] from v8 to v13 would bind VERSIONING's cold stored-read rejoin to an artifact that (a) no longer carries the proof-obligation structure the rejoin rests on, and (b) has been reassigned to claim CD-RT-5, which is BLOCKED_ON_PHASE_1A. v8 may well be the substantively correct citation."
+   },
+   "adjudication": "The author's differential treatment is PRINCIPLED and evidence-backed, not convenient deferral. D9 was repaired because measurement SHOWED the substance additive-only across the span. EP was deferred because measurement SHOWS the substance genuinely changed — a whole structure dropped at v10 and the claim owner reassigned at v12. Retargeting either is a re-derivation of the cold stored-read rejoin against different bytes and does require a fresh independent review. Recording rather than absorbing is the correct §7.2 disposition. The one criticism is O-03: the deferral of RETARGETING is right, but the words 'current candidate' are false on their face and correcting the LABEL required no re-derivation at all."
+  },
+  {
+   "claim": "4. check-versioning.py is permanently red by construction.",
+   "verdict": "ALL FOUR SUB-CLAIMS CONFIRMED, empirically reproduced",
+   "findings": [
+    "(i) Line 35: BINDING = 'versioning-policy.v4.json'. CONFIRMED.",
+    "(ii) Line 1772: subject resolves as `args[0] if args else HERE / BINDING`. The register is consulted ONLY for dependency bindings (lines 1242-1247), never for the subject. Repointing the register's VERSIONING binding to v9 cannot change what it reads. CONFIRMED.",
+    "(iii) Line 1149: rejects artifact != 'opensip.versioning-policy' or version != 4 with 'VER-V4: checker requires opensip.versioning-policy version 4'. CONFIRMED.",
+    "(iv) Line 1249: `src = d.get('source', '')` over decisionDependencies. Ran it on BOTH v8 and v9: AttributeError: 'str' object has no attribute 'get'. A traceback, not a verdict. CONFIRMED for both.",
+    "Default run exits 1 with a VER-DEP finding on versioning-policy.v4.json, whose own D9 citation is v1.6 and is frozen by §7.2. Permanently red; v9 cannot clear it. CONFIRMED.",
+    "check-versioning-v9.py does NOT import check-versioning.py. It follows the successor chain: PREDECESSOR='versioning-policy.v8.json', PREDECESSOR_CHECKER='check-versioning-v8.py', and pins v4/check-versioning.py by sha256 only as evidence for residual R-VER9-01. CONFIRMED.",
+    "All 9 PINS in check-versioning-v9.py verified byte-exact against disk."
+   ]
+  },
+  {
+   "claim": "5. Law 18 / the float class.",
+   "verdict": "THE INTEGER CLASS IS FULLY CLOSED FOR v9; THE SYMMETRIC BOOLEAN CLASS IS OPEN (see B-VER9R-01)",
+   "predecessorReproduction": {
+    "versionFloat": "versioning-policy.v8.json with version: 8.0 exits 0 under check-versioning-v8.py with the full green banner. REPRODUCED.",
+    "hostDefaultIrMajor": "REPRODUCED and WORSE than recorded — all 13 crossMajorFixtures admit a float hostDefaultIrMajor individually at exit 0 (R-VER9-05 cites only index [4]). See O-04.",
+    "bannerDefect": "The v8 green banner names versioning-policy.v8.json regardless of which path was actually loaded. See O-05."
+   },
+   "mySweepOverV9": {
+    "contractLeaves": "52 integer leaves, 139 boolean leaves, enumerated exhaustively over the whole of versioning-policy.v9.json.",
+    "intToFloat": {
+     "total": 52,
+     "ADMITTED": 0,
+     "REJECTED-BY-POSITION": 52,
+     "REJECTED-COLLATERAL": 0
+    },
+    "intToBool": {
+     "total": 52,
+     "ADMITTED": 0,
+     "REJECTED-BY-POSITION": 52,
+     "REJECTED-COLLATERAL": 0
+    },
+    "boolToInt": {
+     "total": 139,
+     "ADMITTED": 15,
+     "REJECTED-BY-POSITION": 119,
+     "REJECTED-COLLATERAL": 5
+    },
+    "note": "Zero REJECTED-COLLATERAL in both integer sweeps, so the collateral-masking hazard the brief warned about does not apply to the integer result. Every one of the 104 integer rejections names the mutated leaf or its section."
+   },
+   "adjudication": "The author's claim is TRUE and in fact UNDER-CLAIMED: the type(x) is int guard covers all 52 integer leaves in the artifact, not merely the integers v9 adds, and it rejects bool as well as float. The protected v8 surface is genuinely compared as canonical JSON text, so a float anywhere in it changes the text and is rejected. What is NOT closed, and NOT disclosed, is the mirror case: 15 booleans admit an integer respelling, and all 15 sit in the new d9CitationRepair evidence block. Probing further, those fields accept ANY value — 999, the string 'true', or the inverted boolean — because the checker never reads them at all."
+  },
+  {
+   "claim": "6. --selftest structure and exit matrix.",
+   "verdict": "CONFIRMED — the classic defect is ABSENT",
+   "findings": [
+    "36 mutations, of which exactly 5 are float respellings (version, supersedes, a measured golden count, an exit code, a protected historical IR major). Both counts CONFIRMED by source enumeration and by the checker's own banner.",
+    "Dispatch order verified in main(): errors = check(value) runs FIRST; the `if wants_selftest` branch sits BEFORE the normal PASS return, not after it. Normal and selftest paths print different banners and are byte-distinguishable. The classic 'branch after an early return' defect is NOT present.",
+    "Exit matrix empirically distinct: 0 clean PASS; 0 selftest all-mutations-rejected (distinct banner); 1 findings; 1 selftest failure; 2 load/parse error (verified with a missing file AND malformed JSON); 3 dirty base + --selftest, printing SELFTEST-REFUSED and SELFTEST-NOT-RUN.",
+    "MY OWN MUTATIONS, each caught by a SPECIFIC finding, not merely a non-zero exit: revert D9 citation to v1.6 -> 'D9 citation is still the superseded v1.6 artifact (B-SCV2-06 unrepaired)'; invert the direction -> 'the one-way dependency direction is no longer declared (B-SCV2-06)' + 'the direction no longer names the additive-only exit-class rule (V4) it rests on'; seal DO-NOT-SEAL -> SEALED -> 'protected VERSIONING v8 section changed: dischargeStatus' + 'seal inflation'; version -> 9.0 -> 'version is not exactly integer 9 (freeze §6 law 18: a float or bool respelling is not an integer)'.",
+    "GAP: not one of the 36 mutations respells a declared BOOLEAN, which is precisely why B-VER9R-01 is invisible to --selftest."
+   ]
+  },
+  {
+   "claim": "7. Are the seven residuals accurate, prominent and bounded by measurement?",
+   "verdict": "ALL SEVEN PRESENT AND ACCURATE; each bounded by a re-measurable quantity",
+   "perResidual": [
+    {
+     "id": "R-VER9-01",
+     "verified": "CONFIRMED empirically — all four structural claims reproduced. See adjudication 4. Refinement in O-06/O-07."
+    },
+    {
+     "id": "R-VER9-02",
+     "verified": "CONFIRMED — bare strings without id, VER-DEP keys on d['id'], RT register binding v22 vs citation v13, EP absent from the register with v13 on disk. See adjudication 3."
+    },
+    {
+     "id": "R-VER9-03",
+     "verified": "CONFIRMED — the register binds VERSIONING to artifacts/versioning-policy.v8.json at ea4b52b5…, exactly as stated, under BOTH register versions observed during this review."
+    },
+    {
+     "id": "R-VER9-04",
+     "verified": "CONFIRMED — reviewStatus AWAITING-INDEPENDENT-COMBINED-REREVIEW, status CANDIDATE-NOT-APPLIED, seal DO-NOT-SEAL, all carried byte-identical. This review is the first independent verdict on v9's bytes and does not transfer v8's PASS."
+    },
+    {
+     "id": "R-VER9-05",
+     "verified": "CONFIRMED and conservative — the v8 admission is real and 13x wider than recorded. The v9 closure claim is TRUE (104/104 integer respellings rejected). See O-04, O-05."
+    },
+    {
+     "id": "R-VER9-06",
+     "verified": "CONFIRMED — rust-provider-protocol.v4.json references only d9-exit-contract.v1.13.json, and d9JoinV4.candidate pins it at fc2c546a…, which matches the v1.13 digest on disk. Different surface, different owner."
+    },
+    {
+     "id": "R-VER9-07",
+     "verified": "CONFIRMED and VINDICATED A THIRD TIME during this review. See O-09. The author's reasoning — 'a byte pin would have failed on the very repoint it anticipates' — is empirically correct: the register moved again mid-review while its D9/VERSIONING/RT bindings held, and the semantic gate passed under both."
+    }
+   ],
+   "prominence": "Adequate. The seven are in successorRevision.d9CitationRepair.retainedResiduals with id/residual/measured/disposition/ownedBy; three are additionally surfaced in top-level knownLimitations. check-versioning-v9.py enforces REQUIRED_RESIDUAL_IDS as a set of all seven, and MUTATIONS includes 'absorb a retained residual' and 'absorb the EP8/RT13 staleness residual's measurement'. Ordering nit at O-08."
+  },
+  {
+   "claim": "8. No paper seals.",
+   "verdict": "CONFIRMED — clean",
+   "findings": [
+    "The ONLY `seal` field in the artifact is dischargeStatus.seal = 'DO-NOT-SEAL'. dischargeStatus.CD-RT-5 = 'BLOCKED'. Both carried byte-identical from v8.",
+    "`implementable: true` appears only as feasibility metadata on conformanceTests (26 true, 1 false) and notClaimed states verbatim: 'implementable: true is feasibility metadata and is not DISCHARGED or DEMONSTRATED. Nothing here upgrades it.'",
+    "Every occurrence of DISCHARGED (3), DEMONSTRATED (1) and SEALED (2) is in a NEGATIVE or RESTRICTIVE context — 'NOT DISCHARGED', 'the seal rule forbids sealing on a guess', 'is not DISCHARGED or DEMONSTRATED' — except one fixture identifier, VER4-HIST-SEALED-CAPABILITY-MUTATION, which is a test name.",
+    "Zero occurrences of RELEASE-QUALIFIED, SIGNED, APPROVED or VERIFIED-IN-PRODUCT.",
+    "evidenceGrade values are IMPLEMENTABLE_UNEXECUTED, GUESSED and PROVISIONAL. No grade inflation.",
+    "The checker's own PASS banner appends an explicit scope disclaimer naming SPECIFIED / IMPLEMENTABLE_UNEXECUTED / CANDIDATE-NOT-APPLIED and 'no seal, freeze, status advance or product acceptance is declared'.",
+    "Per instruction, this review signs, seals and freezes nothing. CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+   ]
+  }
+ ],
+ "dependentCheckerResults": {
+  "method": "Run with python3 -I -B against a byte-faithful copy of docs/coop taken at review end (register 20ab0c31…), so that no file under docs/coop could be written. Two of these checkers write, but only inside tempfile.TemporaryDirectory — verified by source inspection.",
+  "mustExitZero": {
+   "check-package-coherence.py": 0,
+   "check-claims.py": 0,
+   "check-product-dispositions.py": 0,
+   "check-retention-custody-v22.py": 0,
+   "check-d9-v1.14.py": 0,
+   "check-evaluation-proof-v13.py": 0,
+   "check-c2-v7.py": 0
+  },
+  "allSevenGreen": true,
+  "subjectChecker": {
+   "check-versioning-v9.py": 0,
+   "note": "exits 0 under BOTH observed register versions (ff4df1d7… and 20ab0c31…), confirming the semantic gate is stable across the drift"
+  },
+  "expectedRed": {
+   "check-versioning.py": {
+    "exit": 1,
+    "reason": "VER-DEP on versioning-policy.v4.json citing d9-exit-contract.v1.6.json against register binding v1.14 — the reason under review, frozen by §7.2"
+   },
+   "check-completeness.py": {
+    "exit": 1,
+    "reason": "cross-cutting open finding R2-FINAL-03; seal readiness 8/13. Only R2-FINAL-03 was listed as open cross-cutting in this run — the brief also named IR-C2V4-01. Pre-existing and unrelated to v9."
+   },
+   "check-rust-provider-protocol-v4.py": {
+    "exit": 1,
+    "reason": "FileNotFoundError: 'rg' — missing binary on this host, not a contract finding"
+   }
+  },
+  "regressionsIntroducedByV9": 0
+ },
+ "verifiedInputs": {
+  "recordingObligation": "freeze §7.2 — filename + SHA-256 for every input this verdict depends on, measured by me, not copied from the subject.",
+  "subjectsUnderReview": [
+   {
+    "file": "artifacts/versioning-policy.v9.json",
+    "sha256": "9d3f936ae492e2b692781215f92de4b50ef9b962911e9067c7d052825e0492a9",
+    "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Re-measured on disk at review start, snapshotted, and re-measured at review end — byte-stable throughout."
+   },
+   {
+    "file": "artifacts/check-versioning-v9.py",
+    "sha256": "cf88da34a68a2697d5040d97d32eeaabcf7217162bf279ab5b546c066210bd80",
+    "note": "THE DIGEST I ACTUALLY REVIEWED. Matches the dispatch digest. Byte-stable across the review window."
+   }
+  ],
+  "driftControl": {
+   "method": "Per the dispatch warning, I copied the whole tree to a scratchpad snapshot BEFORE reviewing and re-measured at the end. Both subjects were byte-identical at both readings.",
+   "driftDetectedInOtherFiles": [
+    {
+     "file": "artifacts/claim-register.v1.json",
+     "atReviewStart": "ff4df1d7eec949cdc6172dd8a90d109367e7eaae94a9aa56b72fe163c44febeb",
+     "atReviewEnd": "20ab0c312179c30cfb2353885cdc939a231424f39bce0e2f367ce7a76685d910",
+     "impact": "NONE on this verdict. Diffed both: 31 -> 33 claims, adding RUST-PROVIDER-PROTOCOL and TRUSTED-REQUEST-CONTEXT bindings. D9, VERSIONING and ARCH.RETENTION-TIERS bindings byte-identical across the drift. check-versioning-v9.py exits 0 under both."
+    },
+    {
+     "file": "artifacts/check-retention-custody-v23.py",
+     "event": "created by another lane during this review",
+     "impact": "NONE — not an input to this verdict"
+    }
+   ]
+  },
+  "predecessorChain": [
+   {
+    "file": "artifacts/versioning-policy.v8.json",
+    "sha256": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e"
+   },
+   {
+    "file": "artifacts/check-versioning-v8.py",
+    "sha256": "82834720a8fd4ec8701dad2b43ad94d6ad9e52d21aeb077f4286fab5fb156844"
+   },
+   {
+    "file": "artifacts/versioning-policy.v8.review-independent-cold-rejoin.json",
+    "sha256": "2012c572be62a59d953fcbaf65d266abfb53aefa6eb98a6ff9656dbc923facb9"
+   },
+   {
+    "file": "artifacts/versioning-policy.v7.json",
+    "sha256": "0c0f2d7396c32854c3cd5a6aff794c6a0e1be2ffe833816f9ff66f0089b49985"
+   },
+   {
+    "file": "artifacts/check-versioning-v7.py",
+    "sha256": "27cc2e22dd909de2ee3050387f87129477ee050e5b25c541dcf305902fbb9d76"
+   },
+   {
+    "file": "artifacts/versioning-policy.v4.json",
+    "sha256": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6"
+   },
+   {
+    "file": "artifacts/check-versioning.py",
+    "sha256": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227"
+   }
+  ],
+  "d9Span": [
+   {
+    "file": "artifacts/d9-exit-contract.v1.6.json",
+    "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046",
+    "role": "superseded citation endpoint; I measured the span from these bytes"
+   },
+   {
+    "file": "artifacts/d9-exit-contract.v1.14.json",
+    "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+    "role": "repaired citation target"
+   },
+   {
+    "file": "artifacts/d9-exit-contract.v1.13.json",
+    "sha256": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+    "role": "the step the v1.14 review actually attests; also the R-VER9-06 pin"
+   },
+   {
+    "file": "artifacts/check-d9-v1.14.py",
+    "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e"
+   },
+   {
+    "file": "artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json",
+    "sha256": "345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2",
+    "role": "read to confirm crossVersionIdentity says v1.13, not v1.6"
+   }
+  ],
+  "deferredCitationEvidence": [
+   {
+    "file": "artifacts/evaluation-proof.v8.json",
+    "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303"
+   },
+   {
+    "file": "artifacts/evaluation-proof.v13.json",
+    "sha256": "1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe"
+   },
+   {
+    "file": "artifacts/retention-tiers.v13.json",
+    "sha256": "3f79668a6d26b5ecc7fd843be71aef90e779ac024a1ac54bb5cc2c8fc3e0a349"
+   },
+   {
+    "file": "artifacts/retention-tiers.v22.json",
+    "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1"
+   },
+   {
+    "file": "artifacts/rust-provider-protocol.v4.json",
+    "sha256": "3e34934720a78f823d3d4c7ceb73735d444f09a4a1ec964a894bd1ac5daf2909",
+    "role": "R-VER9-06"
+   },
+   {
+    "file": "artifacts/corpus-float-admission-sweep.v1.json",
+    "sha256": "1b341681d9cb8dede48686b5629a88804092d404a4992df60dfa2f9539267da4",
+    "role": "R-VER9-05 cited evidence; existence and role confirmed"
+   },
+   {
+    "note": "evaluation-proof.v1..v13 were all read to measure the proofObligationsByClaimShape and claimId drift; v8 and v13 digests recorded above as the load-bearing endpoints."
+   }
+  ],
+  "governance": [
+   {
+    "file": "IMPLEMENTATION-FREEZE.md",
+    "sha256": "ebd6826798181829ed504d736c581821fc7749897e6e0715f1dc686c08197dca",
+    "role": "read to confirm the §3 / VERSIONING-row misattribution was corrected; NOT modified"
+   }
+  ]
+ },
+ "whatIDidNotCheck": [
+  "The internal correctness of d9-exit-contract.v1.14, retention-tiers.v22, evaluation-proof.v13, c2-plan-stage-schema.v7 or rust-provider-protocol.v4 as contracts. I verified only that their checkers exit 0 and, for D9, the specific span quantities V4 depends on.",
+  "Whether the D9 v1.14 review's own PASS is sound. I read it only to establish what its crossVersionIdentity field does and does not attest.",
+  "The 55 derived rows, 4 core-completion rows and 6 reductions referenced by the v1.14 review. I re-derived nothing inside D9.",
+  "The claim-register digest 096fccce808d7639cd823fcf6d6e810ffd3ac4d0b5017a0e08c0463c2fb4e822 recorded in R-VER9-07 — it preceded my window. I independently observed two LATER register digests and a further drift, which corroborates the mechanism but not that specific value.",
+  "The detailed contents of corpus-float-admission-sweep.v1.json. I reproduced the v8 float admission MYSELF rather than relying on it.",
+  "Semantic correctness of the four architecture-prose anchors beyond file existence and heading-slug resolution.",
+  "Whether the IMPLEMENTATION-FREEZE.md correction to the VERSIONING row was authorized, and by whom. I confirmed only that the misattribution is now withdrawn there. That file is outside artifacts/ and outside v9's declared delta.",
+  "Any float/bool sweep over the SEVEN dependent checkers' own contracts. My sweep covered versioning-policy.v9.json only.",
+  "Whether repointing the register's VERSIONING binding to v9 would keep the other checkers green. R-VER9-03 correctly assigns that act to the coordinator, and I did not simulate it.",
+  "check-completeness.py's IR-C2V4-01 finding, which the brief predicted but this run did not list among open cross-cutting findings. Pre-existing and outside v9's scope."
+ ],
+ "authorityBoundary": "This review signs nothing, seals nothing, freezes nothing and advances no status. CD-RT-5 remains BLOCKED_ON_PHASE_1A. versioning-policy.v9.json remains CANDIDATE-NOT-APPLIED with seal DO-NOT-SEAL. The register still binds VERSIONING to versioning-policy.v8.json; repointing it is the coordinator's act, not this review's. My single write is this file."
+}

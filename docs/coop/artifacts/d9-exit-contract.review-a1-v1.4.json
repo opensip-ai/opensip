@@ -1,0 +1,108 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1.4 (candidate-agent-3)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "BLIND AXES PROTOCOL on 14 goldens: authored scenarioAxes from id+commandKind+scenario+expectedTermination only, then diffed author axes (see d9-exit-contract.blind-axes.a1-v1.4.json).",
+    "Underdetermination scan: group all 39 goldens by exact axes tuple; list divergent reason/error codes.",
+    "Read derive()/_analysis once after independent authoring; used only for class checks.",
+    "Did NOT treat check-d9.py 39/39 as evidence of scenario faithfulness (Error pattern 1/author dual-write).",
+    "Compared against prior a1-v1.3 findings AX-01/AX-02 to see if repairs were semantic or cosmetic."
+  ],
+  "whatCouldHaveFailed": [
+    "Independent axes disagree on load-bearing inputs (coverage vs baseline; pass under missing coverage)",
+    "Axes underdetermine reason/error codes while D6 only checks class",
+    "Serve graceful-stop modelled as interruption (order-dependent on derive)",
+    "Closed vocabulary unused codes with wrong code on a golden that should use them",
+    "exitCode reintroduced on payloads; dual vocabularies"
+  ],
+  "priorFindingsDisposition": {
+    "A1-D9-AX-01": "FIXED in sampled goldens — analysis-required-coverage-missing uses verdict=indeterminate",
+    "A1-D9-AX-02": "FIXED at class/modelling level — baseline uses requiredCoverage=satisfied + verdict=indeterminate",
+    "A1-D9-V13-01 dual vocab": "FIXED for used codes; spellingMigration recorded",
+    "A1-D9-V13-02 exitCode on term": "FIXED — forbiddenFields enforced by checker",
+    "caveat": "AX-02 class fix still leaves reason code free relative to axes (see A1-D9-V14-01)"
+  },
+  "blindAxesResult": {
+    "artifact": "artifacts/d9-exit-contract.blind-axes.a1-v1.4.json",
+    "sampleSize": 14,
+    "exactMatch": 12,
+    "mismatchSameClass": 2,
+    "mismatchDifferentClass": 0,
+    "summary": "v1.4 enum axes fixed the two high v1.3 semantic modelling errors in the sample. Remaining mismatches are secondary but one is order-fragile."
+  },
+  "findings": [
+    {
+      "id": "A1-D9-V14-01",
+      "severity": "high",
+      "title": "Axes underdetermine reasonCodes and errorCodes; D6 only proves class",
+      "detail": "Six axis-collision groups among 39 goldens. Notable: (1) analysis-verdict-indeterminate and baseline-compare-unsupported-recipe share identical axes but emit VERDICT.INDETERMINATE vs BASELINE.RECIPE_UNSUPPORTED — different remedies. (2) coverage-missing vs required-provider-unavailable share axes with different COVERAGE.* codes. (3) four query identity cases share axes including EXPIRED vs UNKNOWN, so invariant-identity-expiry (EXPIRED requires tombstone) is not an axis predicate. The pure derivation is a class function; code faithfulness is still author-authored mutual consistency — the same trap class that blind axes caught in v1.3, moved one level down.",
+      "requiredFix": "Either extend axes with a closed domainCondition/reason discriminator that derive maps to codes, or add a second pure function reasonFromAxes with golden checks (D10). TombstoneFound must be an axis if EXPIRED is claimable.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V14-02",
+      "severity": "medium-high",
+      "title": "serve-graceful-signal-stop sets interruption=signal-before-finalization while derive ignores interruption for serve",
+      "detail": "Independent axes: interruption=none, domainCondition=graceful-signal-stop. Author: interruption=signal-before-finalization. derive() short-circuits on commandKind==serve before reading interruption, so both yield success. If rule order ever checks interruption first, cooperative serve stop becomes class interrupted (exit 130) — contradicting nonAnalysisDerivation and product meaning. Dead axes that would flip under reorder are false inputs even when class matches today.",
+      "requiredFix": "Set interruption=none on serve clean/graceful stops. Add a checker invariant: for commandKind=serve, interruption must be none (or serve-specific enum value that is not user-interrupt).",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V14-03",
+      "severity": "low-medium",
+      "title": "user-interrupt-finite models lifecycle=coherent-terminal-run for a never-sealed interrupt",
+      "detail": "Independent model: lifecycle=cannot-seal-coherent-run (interrupt prevented a coherent terminal seal). Author: coherent-terminal-run. Class still interrupted because interruption short-circuits. Faithfulness of lifecycle axis is weak; prefer cannot-seal or an explicit cancelled lifecycle value.",
+      "requiredFix": "Align lifecycle with 'no coherent sealed Run' for pre-finalization interrupts.",
+      "confidence": "medium"
+    },
+    {
+      "id": "A1-D9-V14-04",
+      "severity": "medium",
+      "title": "query-required-completeness-missing uses COVERAGE.REQUIRED_RELATION_MISSING instead of QUERY.COMPLETENESS_UNMET",
+      "detail": "codeVocabulary declares QUERY.COMPLETENESS_UNMET with remedy 'relax the completeness requirement or widen scope', distinct from COVERAGE.REQUIRED_RELATION_MISSING ('widen scope so the relation can be derived'). The golden emits the latter. Per the artifact's own rule, two remedies behind one code (or unused specific code) is a smell/defect. Completeness requirement failure is caller-policy, not missing relation derivation.",
+      "requiredFix": "Emit QUERY.COMPLETENESS_UNMET for that golden; add a golden that uses COVERAGE.REQUIRED_RELATION_MISSING for analysis-scope cases only.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V14-05",
+      "severity": "low",
+      "title": "Three reason codes declared never used in goldens",
+      "detail": "COVERAGE.BUDGET_EXHAUSTED, COVERAGE.LANGUAGE_TIER_UNSUPPORTED, QUERY.COMPLETENESS_UNMET have remedies but no golden. LANGUAGE_TIER_UNSUPPORTED is load-bearing for P-4 loud tier and has no termination proof.",
+      "requiredFix": "Add goldens or drop codes until a scenario exists. Prefer add — P-4 needs the tier code on the wire.",
+      "confidence": "high"
+    }
+  ],
+  "structuralPositives": [
+    "Enum axes (not booleans) remove the type that forced false pass+unsatisfied pairs.",
+    "Executable check-d9.py retained in-tree with D1–D9 is a real advance over v1.3 external-only claim.",
+    "exitCode stripped from payloads; ABSENT-not-null policy holds in fixtures for the sample.",
+    "Scenario sentences present on all 39 (D1).",
+    "Prior high AX-01/AX-02 modelling errors fixed for class-level faithfulness in the blind sample."
+  ],
+  "circularity": {
+    "verdict": "PASS for class derivation; FAIL for code attachment",
+    "detail": "Class path reads only declared axes. Codes are not derived — attachment is circular with author intent, not with derive()."
+  },
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal D9. Close A1-D9-V14-01 (and preferably V14-02/V14-04) first. Class contract is close; code contract is not executable.",
+  "whatWouldChangeMyMind": "A pure code-from-axes (or axes+discriminator) function with 39/39 including EXPIRED-requires-tombstone, plus serve interruption invariant, plus QUERY.COMPLETENESS_UNMET golden.",
+  "knownLimitations": [
+    "14/39 full independent axis authoring; underdetermination scan covered all 39 for collisions only.",
+    "Did not re-implement derive in a second language.",
+    "Did not re-check finalizationTransitions combinatorics for missing event classes."
+  ],
+  "resolves": {
+    "sealBlocker-blind-axes-v1.4": "EXECUTED — results in this artifact and blind-axes companion; does not clear seal"
+  },
+  "sealedPropertiesCovered": [
+    "D9 termination union + one mapper (candidate)",
+    "invariant-baseline-no-mass-netnew (class path)",
+    "invariant-identity-expiry (not yet axis-enforced)"
+  ]
+}

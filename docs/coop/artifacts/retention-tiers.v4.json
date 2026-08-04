@@ -1,0 +1,315 @@
+{
+  "artifact": "opensip.retention-architecture",
+  "version": 4,
+  "status": "CANDIDATE-REVIEWED-REQUIRED-CHANGES",
+  "author": "agent-b",
+  "reviewerRole": "REVIEWER-B",
+  "date": "2026-07-30",
+  "supersedesAsArchitectureCandidate": "artifacts/retention-tiers.v3.json",
+  "purpose": "Decide the architectural guarantees, responsibility boundaries, and failure posture for later-checkable evidence without selecting a wire schema, hash construction, reason-code vocabulary, verifier API, storage layout, or retention duration.",
+  "scopeBoundary": {
+    "architectureDecides": [
+      "which claims need retained evidence",
+      "which component owns proof adequacy and verdict derivation",
+      "which assurance capabilities a Run may promise",
+      "how immutable historical claims are separated from mutable availability",
+      "what must happen before the tool creates a durable user-derived copy",
+      "the difference between later verification, replay, and attestation"
+    ],
+    "architectureDoesNotDecide": [
+      "receipt field names or JSON shape",
+      "canonical byte encoding, hash algorithm, or domain tags",
+      "reason codes or first-failure precedence",
+      "proof-payload discriminators or a closed proof taxonomy",
+      "the verifier function signature",
+      "database tables, object-store layout, or encryption envelope",
+      "numeric retention presets or interactive UX",
+      "the exact authenticated-set or non-membership construction"
+    ],
+    "why": "Machine-checkable architecture means decisions, invariants, ownership, and counterexamples are explicit data. It does not require freezing an implementation contract before alternatives and representative measurements exist."
+  },
+  "problem": {
+    "productObligation": "A later reader must be able to establish why opensip-cli made an authoritative claim against the declared inputs.",
+    "privacyObligation": "Reading a project does not authorise opensip-cli to maintain a second source- or PII-bearing copy in an undisclosed or sync-managed location.",
+    "failureInV1V2": "The model treated visible findings and their excerpts as the proof unit. That local form silently became a global claim that a clean pass, relationship result, and policy verdict were all explained.",
+    "designQuestion": "What evidence capability can support authoritative results without turning ordinary analysis into an implicit source archive?"
+  },
+  "decision": {
+    "claimUnits": {
+      "choice": "evaluation outcomes plus verdict derivation",
+      "rule": "Every activated evaluation has evidence for its recorded outcome, including no-match, indeterminate, and error. Separate evidence establishes how the complete outcome set, Coverage, baseline, waivers, and policy produced the verdict. An authoritative guardrail Run also proves that its required evaluation universe was resolved and non-empty; zero activated evaluations cannot silently mean clean.",
+      "rejected": [
+        "finding-only proof, because a clean passing Run then has no proof",
+        "Run-level outcome digest alone, because commitment to missing material is not later verification"
+      ]
+    },
+    "authoritativeNonVacuity": {
+      "rule": "An authoritative guardrail verdict may be clean only when the Plan establishes at least one required evaluation and the activated set exactly satisfies that requirement.",
+      "emptyPlan": "If scope/configuration resolves to zero required evaluations, return a visible non-clean outcome or reject the request. A future workflow that intentionally assigns meaning to an empty plan would need a distinct explicit policy claim; it cannot inherit clean-pass semantics by vacuous set equality.",
+      "outcomeConsumption": "Every evaluation outcome is a semantic policy input. Indeterminate or error cannot be ignored merely because a structurally complete receipt exists; D9/Coverage policy determines the non-pass termination."
+    },
+    "assuranceCapabilities": [
+      {
+        "workingLabel": "recorded",
+        "promise": "The tool records what it concluded and the identities of declared inputs, without promising that retained material can independently establish why.",
+        "authority": "advisory only; never sufficient for an authoritative gate, baseline mutation, waiver decision, or compliance assertion"
+      },
+      {
+        "workingLabel": "verifiable",
+        "promise": "Retained evidence can establish every evaluation outcome and the verdict relative to the sealed fact/Coverage view.",
+        "authority": "minimum capability for any durable authoritative Run"
+      },
+      {
+        "workingLabel": "replayable",
+        "promise": "The exact source-to-verdict derivation can be executed again offline for the promised period.",
+        "authority": "explicit project opt-in because it requires source/read-set and executable-environment custody"
+      }
+    ],
+    "orthogonalDimensions": [
+      {
+        "dimension": "sealed assurance capability",
+        "rule": "Immutable in the Run's semantic identity. It states what was promised when the Run sealed."
+      },
+      {
+        "dimension": "evidence custody",
+        "rule": "A proof obligation may retain frozen evidence or retain an exact deterministic regeneration closure. This is selected per obligation, not promoted into a universal tier."
+      },
+      {
+        "dimension": "current availability",
+        "rule": "Tracked outside the sealed Run at evidence-unit granularity. Temporary outage may recover; expiry, purge, corruption, and missing dependencies remain distinguishable."
+      }
+    ],
+    "defaultPosture": {
+      "rule": "No managed durable user-derived write occurs without an explicit project storage and retention policy.",
+      "whenPolicyMissing": "The request is either explicitly advisory/ephemeral or rejected if durable or authoritative evidence was requested.",
+      "why": "Zero implicit retention is the only safe default that does not invent consent or an arbitrary lifetime.",
+      "nonInteractiveClients": "Agents and CI use a pre-provisioned or versioned policy; they never answer an interactive consent question implicitly."
+    },
+    "storageAdmission": {
+      "owner": "host composition/admission boundary",
+      "mustEstablish": [
+        "the exact storage root is visible to the user or governing policy",
+        "permissions and filesystem class are acceptable",
+        "known sync/backup-managed, world-readable, and unsupported roots are refused",
+        "projected privacy classes and material copy types are disclosed before the first write",
+        "retention and purge policy is explicit"
+      ],
+      "residual": "Sync/backup detection is heuristic, so explicit root ownership and inventory remain necessary even after detection passes."
+    },
+    "proofAuthority": {
+      "owner": "host evidence contract and independently admitted deterministic verifier",
+      "extensionRole": "Extensions produce claim-specific evidence but cannot select a weaker obligation or declare their own output adequate for authoritative use.",
+      "semanticRule": "Evidence must be sufficient for the actual claim: a commitment alone is not a witness; a path does not prove a complete reachable set; a sample does not prove absence; truncation cannot prove an untruncated claim.",
+      "failurePosture": "Insufficient evidence yields an indeterminate outcome or a separately typed narrower claim, never an authoritative pass."
+    },
+    "immutabilityAndRetention": {
+      "historicalAuthority": "The sealed Run commits to its promised capability and required evidence inventory.",
+      "currentState": "An append-only retention authority records availability and authorised loss without rewriting the Run.",
+      "pinning": "Evidence required by a retained authoritative Run is not ordinary cache material and cannot be evicted by cache GC before explicit policy expiry or purge.",
+      "reporting": "Readers identify exactly which evaluation or verdict evidence is unavailable and why; one Run-wide degradation word is insufficient."
+    },
+    "privacyBoundary": {
+      "rule": "Facts, identifiers, relationship structure, proof material, and excerpts are all user-derived and privacy-classed; source bytes are not the only sensitive representation.",
+      "sourceWitness": "Source is retained only when the proof obligation cannot be satisfied from a less revealing representation and policy explicitly permits it. Otherwise the outcome is indeterminate.",
+      "inventory": "Users can enumerate retained classes, locations, size, age, pins, and expiry without materialising source content."
+    },
+    "replayAndAttestation": {
+      "replay": "Replayability requires custody or guaranteed offline retrieval of the complete executable derivation environment, not merely source bytes and tool version strings.",
+      "attestation": "Signer identity, key trust, trusted time, transparency, and custody testimony are a separate concern. Neither retained inputs nor successful replay alone is called attestation."
+    }
+  },
+  "responsibilityBoundaries": [
+    {
+      "component": "planner/admission",
+      "owns": "requested assurance, storage/privacy policy resolution, host-owned proof obligations, and refusal before persistence",
+      "mustNot": "let an extension or ambient configuration silently lower authority or select storage"
+    },
+    {
+      "component": "evaluation plane",
+      "owns": "deterministic claim evaluation and production of obligation-compatible evidence",
+      "mustNot": "equate no emitted finding with proof of no-match"
+    },
+    {
+      "component": "policy plane",
+      "owns": "verdict derivation from the complete evaluation set, Coverage, baselines, waivers, and policy",
+      "mustNot": "treat an empty required evaluation universe, missing/insufficient evidence, or indeterminate/error outcomes as clean pass"
+    },
+    {
+      "component": "evidence authority",
+      "owns": "sealing the Run's evidence inventory, maintaining references and pins, and resolving later verification",
+      "mustNot": "rewrite historical capability when availability changes"
+    },
+    {
+      "component": "retention authority",
+      "owns": "policy expiry, purge, granular availability events, inventory, and deletion reporting",
+      "mustNot": "allow ordinary cache collection to delete retained authoritative evidence"
+    },
+    {
+      "component": "projection/export surfaces",
+      "owns": "honest presentation of sealed capability and current availability",
+      "mustNot": "materialise source excerpts or confidential proof content by default"
+    }
+  ],
+  "architecturalInvariants": [
+    {
+      "id": "RA-1",
+      "assert": "A clean authoritative pass proves a non-empty required evaluation universe, exact activation of that universe, every evaluation outcome, and the verdict; findings=[] or activatedEvaluations=0 never discharges that obligation."
+    },
+    {
+      "id": "RA-2",
+      "assert": "A digest or identity without retained verification material or a complete regeneration closure cannot satisfy later-verifiable assurance."
+    },
+    {
+      "id": "RA-3",
+      "assert": "Proof adequacy is host-owned and independently verifiable; the claim producer cannot self-select a weaker proof obligation."
+    },
+    {
+      "id": "RA-4",
+      "assert": "An incomplete, sampled, or truncated witness cannot support a complete or absence claim."
+    },
+    {
+      "id": "RA-5",
+      "assert": "The sealed assurance promise never changes; mutable availability is external, granular, and reasoned."
+    },
+    {
+      "id": "RA-6",
+      "assert": "No durable user-derived copy is created before explicit storage and retention admission."
+    },
+    {
+      "id": "RA-7",
+      "assert": "A retained authoritative Run pins all evidence needed for its promised capability until explicit expiry or purge."
+    },
+    {
+      "id": "RA-8",
+      "assert": "Replay requires the executable derivation closure; attestation remains a separate trust claim."
+    },
+    {
+      "id": "RA-9",
+      "assert": "Failure to meet privacy permission, Coverage, or evidence sufficiency, and any indeterminate/error evaluation outcome, cannot be ignored to produce an authoritative clean pass."
+    }
+  ],
+  "falsifyingCounterexamples": [
+    {
+      "id": "RA-CE-1",
+      "wouldFalsify": "A passing authoritative Run with two activated evaluations and no retained evaluation or verdict evidence is labelled verifiable."
+    },
+    {
+      "id": "RA-CE-2",
+      "wouldFalsify": "A no-match claim is accepted from a subject-set digest after the subject material and regeneration closure are gone."
+    },
+    {
+      "id": "RA-CE-3",
+      "wouldFalsify": "A relationship producer declares its own result local and thereby satisfies a weaker host obligation."
+    },
+    {
+      "id": "RA-CE-4",
+      "wouldFalsify": "Cache GC removes evidence referenced by a retained authoritative Run without an explicit retention transition."
+    },
+    {
+      "id": "RA-CE-5",
+      "wouldFalsify": "The first durable analysis writes source-derived material before storage root, privacy class, and retention policy are resolved."
+    },
+    {
+      "id": "RA-CE-6",
+      "wouldFalsify": "A Run is called replayable while a historical producer or required environment artifact is unavailable offline."
+    },
+    {
+      "id": "RA-CE-7",
+      "wouldFalsify": "All receipts are structurally present, but an indeterminate or error evaluation is ignored and the Run is labelled clean pass."
+    }
+  ],
+  "alternativesConsidered": [
+    {
+      "alternative": "excerpt retention as the default explanation",
+      "disposition": "rejected",
+      "reason": "Lint-shaped; cannot establish relationship, absence, aggregate, clean-pass, or verdict claims."
+    },
+    {
+      "alternative": "finding-proof retention",
+      "disposition": "rejected",
+      "reason": "Still leaves no-match evaluations and the verdict unproved."
+    },
+    {
+      "alternative": "tier solely by recomputability",
+      "disposition": "rejected as the only axis",
+      "reason": "Regeneration is a custody strategy, not frozen assurance, and retained facts remain user-derived data."
+    },
+    {
+      "alternative": "retain the full read set by default",
+      "disposition": "rejected",
+      "reason": "Makes ordinary analysis a source archive and still does not guarantee replay without executable closure."
+    },
+    {
+      "alternative": "record only commitments and accept degraded explanation later",
+      "disposition": "advisory capability only",
+      "reason": "Honest for non-authoritative use, insufficient for the product's durable gating claim."
+    }
+  ],
+  "consequences": {
+    "positive": [
+      "Clean passes and policy verdicts become first-class evidence claims rather than vacuous absence of findings.",
+      "Privacy cost is admitted before persistence and cannot hide behind offline/no-egress marketing.",
+      "Frozen and regenerable strategies may evolve independently without changing the promised assurance model.",
+      "Historical truth remains immutable while readers receive honest current availability."
+    ],
+    "costs": [
+      "Authoritative analysis may return indeterminate where evidence, Coverage, or privacy permission is insufficient.",
+      "Retained fact/proof material remains sensitive and needs inventory, pinning, expiry, and real purge.",
+      "Some negative and complete-set claims may be expensive to verify; representative evidence is required before choosing defaults.",
+      "Replayable custody is materially larger and operationally harder than later verification."
+    ]
+  },
+  "detailedDesignHandoff": {
+    "nonBindingExploration": "artifacts/retention-tiers.v3.json",
+    "runner": "artifacts/check-retention-v3.py",
+    "standing": "The v3 field tables, canonical JSON/SHA-256 rules, reason codes, derivation order, proof-kind names, and 19 goldens are a feasibility sketch only. They are not architectural commitments and may be replaced wholesale. Independent review found two critical semantic holes: a zero-evaluation authoritative pass and ignored indeterminate/error outcomes (A1-RTV3-01/02).",
+    "usefulEvidence": "The exploration demonstrates that clean-pass, frozen-body, commitment-only, verdict, custody, privacy, and replay counterexamples can be made executable. Its green runner does not establish scenario faithfulness or select the production contract.",
+    "mandatoryInheritedAcceptance": {
+      "rule": "A production evidence contract is incomplete until every RA-CE counterexample is traced to an acceptance test or to an explicit reviewed argument that the counterexample is structurally impossible under that contract.",
+      "minimumExecutableTests": ["RA-CE-1", "RA-CE-7"],
+      "independence": "The contract author must not be the sole author/reviewer of the RA-CE-1 and RA-CE-7 cases.",
+      "nonSatisfaction": "The v3 runner does not satisfy this handoff while A1-RTV3-01/02 remain in its derivation."
+    }
+  },
+  "openDecisions": [
+    "Measure frozen and regenerable evidence for local, path, complete-set, negative, aggregate, baseline, and external-observation claims on representative repositories.",
+    "Demonstrate at least one privacy-acceptable later-verification construction for clean no-match and relationship claims; do not select its wire form in this artifact.",
+    "Define real deletion behavior for deduplicated and backup-held objects in the storage architecture.",
+    "Decide product retention presets and UX only after the safe no-policy posture receives coordinator/product sign-off.",
+    "Design and independently review the production evidence contract after the architecture is accepted, with mandatory traceability to every RA-CE counterexample."
+  ],
+  "resolves": {
+    "B-RTV2-01": "ADDRESSED ARCHITECTURALLY: proof obligation is per evaluation plus verdict, so clean pass is not vacuous.",
+    "B-RTV2-02": "ADDRESSED AS INVARIANT: commitments alone are insufficient; exact witness/regeneration mechanism remains detailed design.",
+    "B-RTV2-03": "ADDRESSED ARCHITECTURALLY: proof adequacy and verifier admission are host-owned.",
+    "B-RTV2-04": "ADDRESSED ARCHITECTURALLY: incomplete evidence yields indeterminate or a narrower claim.",
+    "B-RTV2-05": "PARTIAL: pre-write policy and zero implicit retention are architectural decisions; measurement, deletion, sync validation, and preset sign-off remain open.",
+    "B-RTV2-06": "ADDRESSED ARCHITECTURALLY: immutable promise and granular external availability replace mutable tier degradation.",
+    "B-RTV2-07": "ADDRESSED AT THE RIGHT LEVEL: evidence must prove actual claim semantics; selecting a closed payload taxonomy is deferred to detailed design.",
+    "B-RTV2-08": "ADDRESSED ARCHITECTURALLY: replay requires executable closure and is distinct from attestation.",
+    "B-RTV2-09": "SCOPE-CORRECTED: executable wire-schema conformance belongs to detailed design. Architecture retains falsifying counterexamples and requires later independent contract verification without selecting the contract now.",
+    "A1-RTV3-01": "ADDRESSED ARCHITECTURALLY: RA-1 forbids a clean authoritative result from a zero-evaluation universe; the defective v3 derivation remains non-binding and unfixed as historical design evidence.",
+    "A1-RTV3-02": "ADDRESSED ARCHITECTURALLY: authoritativeNonVacuity and RA-9 require policy to consume every outcome and forbid ignoring indeterminate/error into clean pass.",
+    "A1-RTV3-03": "ACCEPTED AS SCOPE EVIDENCE: author-written schemas/goldens cannot establish architecture; v3 is demoted and v4 requires independent architectural review.",
+    "A1-RTV3-04": "ACCEPTED: an unused required field is detailed-contract false assurance; v4 binds the outcome-consumption invariant without selecting fields.",
+    "A1-RTV4-01": "ADDRESSED: detailedDesignHandoff now requires traceability for every RA-CE counterexample, makes RA-CE-1/7 executable minimums, and requires independent case authorship/review."
+  },
+  "sealedPropertiesCovered": [
+    "architecture/01 product constraint — answers must be checkable later against declared inputs",
+    "architecture/02 domain separation — facts, findings, Coverage, verdict, and evidence have distinct roles",
+    "architecture/02 canonical immutable Run identity",
+    "architecture/04 exact Coverage governs completeness and pass eligibility",
+    "architecture/06 evidence reachability and explicit ephemeral analysis",
+    "threat-model.v2 V1/V2/V4/V5/V10 — user-derived copies, unsafe roots, derived PII, retention/deletion visibility, and explainability/privacy tension"
+  ],
+  "knownLimitations": [
+    "Authored by the same agent who authored the over-specified v3 correction, so independent review must test whether v4 has removed mechanism without also removing a necessary guarantee.",
+    "No representative proof-custody or fact-retention measurement exists.",
+    "The feasibility of privacy-acceptable negative and complete-set verification is not yet demonstrated on a real workload.",
+    "Sync/backup detection and real deletion remain unsolved threat-model obligations.",
+    "The zero-implicit-retention posture is a candidate product choice and needs coordinator/product sign-off.",
+    "This artifact deliberately cannot validate a production proof object; that belongs to a later detailed-design contract and independent verifier suite."
+  ],
+  "confidence": "medium-high on the proof unit, responsibility boundaries, orthogonal dimensions, and separation of verification/replay/attestation; medium on the viability of privacy-preserving authoritative no-match because representative construction and measurement are absent.",
+  "sealRecommendation": "Do not seal. Independently review the architectural boundary, obtain product sign-off on zero implicit retention, and demonstrate representative later-verification feasibility without ratifying the v3 wire sketch."
+}

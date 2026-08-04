@@ -1,0 +1,301 @@
+{
+  "artifact": "opensip.delivery-rust-provider-join",
+  "version": 2,
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "purpose": "Narrow DELIVERY successor candidate for Rust protocol v2. It preserves v1 child cardinality, launch, offline lifecycle and non-residency while supplying an exhaustive ordered composite-outcome reducer and host-contextual optional/required D9 v1.13 projection. It does not edit delivery.v2.json.",
+  "authority": {
+    "architectureContractOnly": true,
+    "producerResponseOnly": true,
+    "selfReview": false,
+    "independentReviewPerformed": false,
+    "appliedToDeliveryV2": false,
+    "integrationAuthority": "NONE",
+    "productAuthority": "NONE",
+    "freezeAuthority": "NONE",
+    "demonstrationAuthority": "NONE",
+    "releaseAuthority": "NONE",
+    "independentReviewRequired": true
+  },
+  "supersedesOnlyIfIndependentlyAcceptedAndApplied": {
+    "path": "delivery-rust-provider-join.v1.json",
+    "sha256": "42eb9788132aee6d436123881bbd2e82db0da4f223bd13de16c26410fb3e5558",
+    "currentBytesRemainUnmodified": true
+  },
+  "rejectionBasis": {
+    "path": "rust-provider-protocol.v1.review-independent-prefreeze.json",
+    "sha256": "566dc23e6b774a5c8141a45ab4563579d3a2e5a1d0427cb29d7cdaca16ca6a69",
+    "relevantFindings": [
+      "RPP-PF-05-D9-UNAVAILABLE-REQUIREDNESS-LOST",
+      "RPP-PF-07-SUPERVISOR-FATES-OVERLAP"
+    ]
+  },
+  "dependencyPins": [
+    {
+      "path": "delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "use": "existing sidecar, offline-bundle, platform and termination-integration authority"
+    },
+    {
+      "path": "d9-exit-contract.v1.13.json",
+      "sha256": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+      "use": "exact not-applied D9 vocabulary, derivation, golden axes and class-to-exit map"
+    },
+    {
+      "path": "d9-exit-contract.v1.13.review-independent-prefreeze.json",
+      "sha256": "88ab60efb21f603213ebff722f62f310b422f03981895e3f6779f2febe734c5b",
+      "use": "independent PASS for the exact D9 v1.13 candidate bytes"
+    }
+  ],
+  "protocolReference": {
+    "path": "rust-provider-protocol.v2.json",
+    "artifact": "opensip.rust-provider-protocol",
+    "version": 2,
+    "applicationRule": "The protocol, both joins, response and retained checker become usable only after exact-byte independent review and formal application together."
+  },
+  "processModel": {
+    "decision": "bundled-pinned-rustc-driver-sidecar",
+    "workerCardinality": {
+      "closed": true,
+      "keyFields": ["ExecutionId", "SnapshotId", "complete closed recursively validated resolved-inputs rust-v1 value"],
+      "workersPerDistinctKey": 1,
+      "shareAcrossRustStagesInSameExactKey": true,
+      "multiplexDifferentUniverseValues": false,
+      "reuseAcrossExecutionIds": false,
+      "reuseAcrossSnapshotIds": false,
+      "reuseAcrossAttempts": false,
+      "retainAfterTerminal": false,
+      "residentWorker": false,
+      "keyComparison": "exact recursive value equality; no digest-only, prefix, providerVersion-only or private cache key"
+    },
+    "start": "After AttemptRecord, sealed Snapshot, verified PlanId, selected rust-v1 universe, exact repository-resolution projection, byte-bearing prepared corpus and admitted Rust stages exist, start one child immediately before the first selected Rust stage. Earlier start is forbidden.",
+    "stageSharing": "One Analyze carries all and only selected Rust semantic stages for this exact key in verified ExecutionPlan order.",
+    "end": "After every semantic terminal, cancellation, protocol/process/delivery fault, close pipes, terminate the child process group/job if live, reap every owned descendant, erase snapshot/prepared VFS and private scratch, and forget compiler/provider state before supervisor return.",
+    "tcbPosture": "Provider, pinned compiler and explicitly granted pre-Plan preparation tools are TCB-accepted. Process separation contains crashes; it is not a security sandbox.",
+    "pureCoreExclusion": "Child and supervisor are outside the lifetime-neutral pure core."
+  },
+  "ownership": {
+    "host": [
+      "verified artifact and absolute-path selection", "stdin writes and stdout framing", "bounded stderr and scratch", "cancellation/deadline/hard kill/reap",
+      "handshake, identity, limits, schema, sequence, snapshot, prepared-blob and domain validation", "candidate spool and Coverage bijection",
+      "FACT-ID minting and atomic admission", "Run seal", "composite normalization", "D9 finalization", "process exit"
+    ],
+    "semanticChild": ["one-key rustc_driver state", "sealed snapshot/prepared VFS reads", "candidate facts", "Coverage observations"],
+    "semanticChildMayExecuteRepositoryCode": false,
+    "semanticChildMayMintHostIdentity": false,
+    "semanticChildMayWriteDurableState": false,
+    "semanticChildMayDeriveRequirednessPolicyRunTerminationOrExit": false,
+    "repositoryExecutionOwner": "host resolved-inputs adapter after Snapshot seal and before PlanId; all preparation activity terminates before semantic child start"
+  },
+  "launch": {
+    "executable": "absolute digest-verified path of signed rust-provider artifact; no PATH or shell",
+    "commandArray": [
+      "<verified-rust-provider-absolute-path>", "--protocol-stdio-v2", "--toolchain-root",
+      "<verified-rust-toolchain-bundle-absolute-root>", "--scratch-root", "<host-private-child-scratch-absolute-path>"
+    ],
+    "argvRule": "Exactly six ordered elements; placeholders are host-resolved absolute paths. No response file, extra argument, shell expansion or project-controlled value.",
+    "stdio": {
+      "stdin": "fresh unidirectional pipe; protocol frames only",
+      "stdout": "fresh unidirectional pipe; protocol frames only through EOF",
+      "stderr": "fresh bounded diagnostic byte pipe; never authority"
+    },
+    "environment": {
+      "inheritParent": false,
+      "setExactly": {"LANG": "C", "LC_ALL": "C", "TZ": "UTC"},
+      "projectValuesAllowed": false,
+      "networkCredentialsAllowed": false,
+      "pathLookupAllowed": false
+    },
+    "roots": {
+      "toolchainRoot": "read-only verified extraction; every selected component contained and digest-checked",
+      "scratchRoot": "fresh private bounded host-owned directory, never evidence/cache authority, erased at end",
+      "snapshot": "transferred sealed VFS only; no live worktree/repository root",
+      "preparedOutputs": "transferred byte-bearing blobs and mounted read-only sealed VFS only; no CAS, external root, callback or sidecar"
+    },
+    "preSpawnChecks": [
+      "signed profile contains exact provider/toolchain artifacts", "artifact/dependency digests match release", "platform is one of DELIVERY's supported rows",
+      "provider/toolchain paths are absolute and contained", "private scratch is fresh/restrictive", "no system toolchain/PATH substitution",
+      "Snapshot/PlanId/domain/prepared manifest are complete and verified"
+    ]
+  },
+  "diagnosticsAndScratchBounds": {
+    "maxStderrBytes": 262144,
+    "stderrOverflow": "Capture first bound and a host-owned truncation marker; stderr never supplies semantic or D9 authority.",
+    "maxScratchBytes": 2147483648,
+    "scratchOverflow": "normalize provider-protocol and discard all",
+    "cancellationGraceMilliseconds": 5000,
+    "normalExitGraceMilliseconds": 5000
+  },
+  "d9Reference": {
+    "candidatePath": "d9-exit-contract.v1.13.json",
+    "candidateSha256": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+    "independentReviewPath": "d9-exit-contract.v1.13.review-independent-prefreeze.json",
+    "independentReviewSha256": "88ab60efb21f603213ebff722f62f310b422f03981895e3f6779f2febe734c5b",
+    "reviewDecision": "PASS",
+    "reviewCandidateState": "CANDIDATE-NOT-APPLIED",
+    "joinState": "CONDITIONAL-NOT-APPLIED",
+    "classToExitCode": {"success": 0, "policy-failed": 1, "request-rejected": 2, "indeterminate": 3, "operational-failed": 4, "interrupted": 130},
+    "rule": "Exact values are cross-derived from the hash-pinned v1.13 bytes. This join neither applies v1.13 nor changes DELIVERY's current binding."
+  },
+  "providerObservationV2": {
+    "closed": true,
+    "values": ["complete", "unavailable", "budget-exhausted", "provider-fault", "cancelled"],
+    "rule": "A provider terminal is validated as an observation first. Unavailable and BudgetExhausted carry exhaustive unknown Coverage and their protocol deficiency spelling, but do not decide whether the provider was required, whether a C-1 predicate remains sufficient, or the public D9 result."
+  },
+  "compositeObservationV2": {
+    "closed": true,
+    "required": [
+      "userInterruptBeforeFinalization", "deliveryFailure", "postTerminalBytes", "malformedFrame", "schemaOrCommitmentFault",
+      "handshakeMismatch", "deadlineHang", "nonzeroExit", "earlyEof", "coverageObserved", "hostCancelSent", "terminalKind"
+    ],
+    "optional": [],
+    "fields": {
+      "firstEleven": "exact booleans; booleans are independent observations and composites are permitted",
+      "terminalKind": "none|complete|unavailable|budget-exhausted|provider-fault|cancelled"
+    },
+    "finiteDomainSize": 12288,
+    "domainCalculation": "2^11 boolean assignments times 6 terminalKind values; the checker enumerates every tuple",
+    "note": "coverageObserved deliberately remains independent so Coverage+hang is an explicit composite."
+  },
+  "orderedNormalizationReducerV2": {
+    "evaluation": "Evaluate rows by ascending priority and return immediately on the first true predicate. Exactly one normalizedFate is returned; later true predicates are observations only, never additional fates.",
+    "rows": [
+      {"priority": 1, "predicate": "userInterruptBeforeFinalization=true", "normalizedFate": "USER_INTERRUPTED"},
+      {"priority": 2, "predicate": "deliveryFailure=true", "normalizedFate": "DELIVERY_REQUIRED_FAILURE"},
+      {"priority": 3, "predicate": "postTerminalBytes=true", "normalizedFate": "POST_TERMINAL_OUTPUT"},
+      {"priority": 4, "predicate": "malformedFrame=true", "normalizedFate": "MALFORMED_FRAME"},
+      {"priority": 5, "predicate": "schemaOrCommitmentFault=true", "normalizedFate": "SCHEMA_OR_COMMITMENT_FAULT"},
+      {"priority": 6, "predicate": "handshakeMismatch=true", "normalizedFate": "HANDSHAKE_MISMATCH"},
+      {"priority": 7, "predicate": "deadlineHang=true", "normalizedFate": "DEADLINE_HANG"},
+      {"priority": 8, "predicate": "nonzeroExit=true", "normalizedFate": "NONZERO_EXIT"},
+      {"priority": 9, "predicate": "earlyEof=true", "normalizedFate": "EARLY_EOF"},
+      {"priority": 10, "predicate": "terminalKind=cancelled and hostCancelSent=false", "normalizedFate": "UNSOLICITED_CANCELLED"},
+      {"priority": 11, "predicate": "terminalKind=provider-fault", "normalizedFate": "PROVIDER_DECLARED_FAULT"},
+      {"priority": 12, "predicate": "terminalKind=complete", "normalizedFate": "VERIFIED_COMPLETE"},
+      {"priority": 13, "predicate": "terminalKind=unavailable", "normalizedFate": "VERIFIED_UNAVAILABLE"},
+      {"priority": 14, "predicate": "terminalKind=budget-exhausted", "normalizedFate": "VERIFIED_BUDGET_EXHAUSTED"},
+      {"priority": 15, "predicate": "terminalKind=cancelled and hostCancelSent=true", "normalizedFate": "VERIFIED_CANCELLED"},
+      {"priority": 16, "predicate": "true", "normalizedFate": "INCOMPLETE_PROTOCOL"}
+    ],
+    "compositeGoldens": [
+      {"id": "malformed-plus-nonzero", "setTrue": ["malformedFrame", "nonzeroExit"], "terminalKind": "none", "expected": "MALFORMED_FRAME"},
+      {"id": "post-terminal-plus-nonzero", "setTrue": ["postTerminalBytes", "nonzeroExit"], "terminalKind": "complete", "expected": "POST_TERMINAL_OUTPUT"},
+      {"id": "coverage-plus-hang", "setTrue": ["coverageObserved", "deadlineHang"], "terminalKind": "none", "expected": "DEADLINE_HANG"},
+      {"id": "user-interrupt-plus-every-fault", "setTrue": ["userInterruptBeforeFinalization", "deliveryFailure", "postTerminalBytes", "malformedFrame", "schemaOrCommitmentFault", "handshakeMismatch", "deadlineHang", "nonzeroExit", "earlyEof"], "terminalKind": "provider-fault", "expected": "USER_INTERRUPTED"}
+    ],
+    "equalPublicCodeRule": "POST_TERMINAL_OUTPUT, MALFORMED_FRAME, SCHEMA_OR_COMMITMENT_FAULT, HANDSHAKE_MISMATCH, DEADLINE_HANG, NONZERO_EXIT, EARLY_EOF, UNSOLICITED_CANCELLED, PROVIDER_DECLARED_FAULT and INCOMPLETE_PROTOCOL all later project to provider-protocol, but remain mutually single normalized fates. Equal D9 code never licenses multiple reducer results.",
+    "totalityRule": "All 12288 finite input tuples return exactly one listed fate; no fallthrough, exception, multiple output, local priority or timeout-as-budget branch is allowed."
+  },
+  "normalizedFateCustody": {
+    "USER_INTERRUPTED": {"candidates": "DISCARD_ALL", "coverage": "ADMIT_NONE", "next": "hostFinalizerProjection interruption row"},
+    "DELIVERY_REQUIRED_FAILURE": {"candidates": "DISCARD_ALL", "coverage": "ADMIT_NONE", "next": "operational delivery projection"},
+    "VERIFIED_COMPLETE": {"candidates": "ADMIT_ALL_AFTER_ZERO_EXIT_EOF", "coverage": "ADMIT_COMPLETE", "next": "hostFinalizerProjection complete row"},
+    "VERIFIED_UNAVAILABLE": {"candidates": "DISCARD_ALL", "coverage": "ADMIT_EXHAUSTIVE_UNKNOWN_AFTER_ZERO_EXIT_EOF", "next": "hostFinalizerProjection contextual unavailable rows"},
+    "VERIFIED_BUDGET_EXHAUSTED": {"candidates": "DISCARD_ALL", "coverage": "ADMIT_EXHAUSTIVE_UNKNOWN_AFTER_ZERO_EXIT_EOF", "next": "hostFinalizerProjection contextual budget rows"},
+    "VERIFIED_CANCELLED": {"candidates": "DISCARD_ALL", "coverage": "ADMIT_NONE", "next": "hostFinalizerProjection interruption timing"},
+    "providerProtocolFates": {
+      "members": ["POST_TERMINAL_OUTPUT", "MALFORMED_FRAME", "SCHEMA_OR_COMMITMENT_FAULT", "HANDSHAKE_MISMATCH", "DEADLINE_HANG", "NONZERO_EXIT", "EARLY_EOF", "UNSOLICITED_CANCELLED", "PROVIDER_DECLARED_FAULT", "INCOMPLETE_PROTOCOL"],
+      "candidates": "DISCARD_ALL",
+      "coverage": "ADMIT_NONE",
+      "next": "operational provider-protocol projection"
+    }
+  },
+  "hostFinalizerContextV2": {
+    "closed": true,
+    "required": [
+      "interruptionTiming", "admittedProviderRequiredness", "c1PredicateSufficiencyWithoutProvider",
+      "otherRequiredCoverage", "verdict", "durability", "requiredPostconditions"
+    ],
+    "optional": [],
+    "fields": {
+      "interruptionTiming": "none|signal-before-finalization|signal-after-finalization",
+      "admittedProviderRequiredness": "optional|required; required includes C-2 contribution role required or blocking and an explicitly required stage/provider postcondition",
+      "c1PredicateSufficiencyWithoutProvider": "sufficient|insufficient; computed per admitted C-1 predicate/relation/rung against all non-provider Coverage, never as a provider-global boolean",
+      "otherRequiredCoverage": "satisfied|unsatisfied|unknown",
+      "verdict": "pass|advisory|fail|indeterminate|unavailable",
+      "durability": "committed|failed|not-required|not-applicable",
+      "requiredPostconditions": "met|failed|not-applicable"
+    },
+    "effectiveProviderRequired": "true exactly when admittedProviderRequiredness=required OR c1PredicateSufficiencyWithoutProvider=insufficient",
+    "custody": "All fields are host-derived after provider observation validation. The provider cannot supply, default or override them."
+  },
+  "hostFinalizerProjection": {
+    "order": [
+      "If interruptionTiming=signal-before-finalization or normalizedFate=USER_INTERRUPTED, use the exact interrupted row regardless of simultaneous provider/process faults.",
+      "If interruptionTiming=signal-after-finalization, preserve the already settled finalization result.",
+      "Operational normalized fates map without semantic deficiency.",
+      "For verified semantic fates, derive effectiveProviderRequired and apply the contextual rows below.",
+      "Pass the resulting complete axes through the exact hash-pinned D9 v1.13 reference derivation and classToExitCode; do not write a provider-local code."
+    ],
+    "rows": [
+      {
+        "id": "user-interruption-before-finalization",
+        "when": "USER_INTERRUPTED or interruptionTiming=signal-before-finalization",
+        "d9Axes": {"interruption": "signal-before-finalization", "deficiency": "none", "rejectionCause": "none", "faultCause": "none"},
+        "termination": {"class": "interrupted", "reasonCodes": [], "errorCodes": [], "exitCode": 130},
+        "golden": "user-interrupt-finite"
+      },
+      {
+        "id": "delivery-required-failure",
+        "when": "DELIVERY_REQUIRED_FAILURE",
+        "d9Axes": {"deficiency": "none", "rejectionCause": "none", "faultCause": "delivery-required"},
+        "termination": {"class": "operational-failed", "reasonCodes": [], "errorCodes": ["DELIVERY.REQUIRED_FAILED"], "exitCode": 4}
+      },
+      {
+        "id": "provider-protocol-failure",
+        "when": "one providerProtocolFates member",
+        "d9Axes": {"deficiency": "none", "rejectionCause": "none", "faultCause": "provider-protocol"},
+        "termination": {"class": "operational-failed", "reasonCodes": [], "errorCodes": ["PROVIDER.PROTOCOL_VIOLATION"], "exitCode": 4}
+      },
+      {
+        "id": "complete",
+        "when": "VERIFIED_COMPLETE",
+        "providerEffect": "introduces no provider deficiency; final class/exit derives from host Coverage, verdict, durability and postconditions"
+      },
+      {
+        "id": "optional-unavailable-sufficient",
+        "when": "VERIFIED_UNAVAILABLE and effectiveProviderRequired=false",
+        "requiredConditionsForExactGolden": "otherRequiredCoverage=satisfied, verdict=pass, durability=committed, requiredPostconditions=met",
+        "d9Axes": {"requiredCoverage": "satisfied", "verdict": "pass", "durability": "committed", "requiredPostconditions": "met", "deficiency": "none", "rejectionCause": "none", "faultCause": "none"},
+        "termination": {"class": "success", "reasonCodes": [], "errorCodes": [], "exitCode": 0},
+        "golden": "analysis-optional-provider-unavailable",
+        "otherwise": "provider adds no deficiency; exact D9 derivation uses the host's non-provider axes"
+      },
+      {
+        "id": "required-unavailable",
+        "when": "VERIFIED_UNAVAILABLE and effectiveProviderRequired=true",
+        "requiredConditionsForExactGolden": "durability=committed and requiredPostconditions=met; a host durability/postcondition failure takes its higher-priority exact D9 operational path",
+        "d9Axes": {"requiredCoverage": "unsatisfied", "verdict": "indeterminate", "durability": "committed", "requiredPostconditions": "met", "deficiency": "provider-unavailable", "rejectionCause": "none", "faultCause": "none"},
+        "termination": {"class": "indeterminate", "reasonCodes": ["COVERAGE.PROVIDER_UNAVAILABLE"], "errorCodes": [], "exitCode": 3},
+        "golden": "analysis-required-provider-unavailable"
+      },
+      {
+        "id": "optional-budget-sufficient",
+        "when": "VERIFIED_BUDGET_EXHAUSTED and effectiveProviderRequired=false",
+        "providerEffect": "provider adds no primary deficiency because all admitted C-1 predicates remain sufficiently evidenced; exact D9 derives from remaining host axes"
+      },
+      {
+        "id": "required-budget-exhausted",
+        "when": "VERIFIED_BUDGET_EXHAUSTED and effectiveProviderRequired=true",
+        "requiredConditionsForExactGolden": "durability=committed and requiredPostconditions=met; a host durability/postcondition failure takes its higher-priority exact D9 operational path",
+        "d9Axes": {"requiredCoverage": "unknown", "verdict": "indeterminate", "durability": "committed", "requiredPostconditions": "met", "deficiency": "budget-exhausted", "rejectionCause": "none", "faultCause": "none"},
+        "termination": {"class": "indeterminate", "reasonCodes": ["COVERAGE.BUDGET_EXHAUSTED"], "errorCodes": [], "exitCode": 3},
+        "golden": "analysis-budget-exhausted"
+      },
+      {
+        "id": "cancelled",
+        "when": "VERIFIED_CANCELLED",
+        "rule": "A legal Cancel originates in the user-interrupt path and therefore normally matches the first row; if finalization was already committed, preserve that settled result rather than reclassify it."
+      }
+    ],
+    "c1PredicateRelativeRule": "Sufficiency is evaluated for every admitted consumer predicate against its required relation and minimum rung. Optional provider identity alone never implies optional evidence; conversely provider unavailability is not a deficiency when other admitted Coverage already satisfies every predicate.",
+    "observationFirstRule": "Unavailable/BudgetExhausted is recorded and Coverage validated before this projection. Rewriting the wire terminal based on requiredness or letting a terminal directly select deficiency/class/exit is forbidden.",
+    "conditionalApplicationRule": "These rows cross-derive exact v1.13 candidate values only. They do not apply v1.13 to DELIVERY or product code."
+  },
+  "exhaustivenessRule": "The ordered reducer assigns one normalized fate to every composite observation; then exactly one operational/interruption/semantic finalizer branch owns it. No equal-code merging, multiple-match output, implementation-local exit status, partial Coverage seal or timeout-as-budget rule is permitted.",
+  "residuals": [
+    "Formal application to DELIVERY and formal application of D9 v1.13 remain outside this candidate.",
+    "Independent review must replay all 12288 reducer tuples and exact D9 golden cross-derivations.",
+    "Product implementation, process-tree behavior, network-disabled preparation, platforms and release evidence remain unexecuted."
+  ]
+}

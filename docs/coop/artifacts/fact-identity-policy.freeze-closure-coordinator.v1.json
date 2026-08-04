@@ -1,0 +1,177 @@
+{
+  "artifact": "opensip.fact-identity-policy.freeze-closure-coordinator",
+  "version": 1,
+  "date": "2026-07-31",
+  "adjudicator": "architecture-closer",
+  "purpose": "Phase 1B coordinator closure of the FACT-IDENTITY architecture while keeping corpus execution as implementation evidence and excluding authority claims that require ARCH.PROBE-CONTRACT.",
+  "adjudicates": [
+    "artifacts/fact-identity-policy.v2.review-reviewer2.json"
+  ],
+  "reliesOn": [
+    "artifacts/fact-identity-policy.v2.json",
+    "artifacts/fact-identity-policy.adjudication-agent-a.json",
+    "artifacts/fact-plane.v1.json",
+    "v1-slice.md",
+    "artifacts/product-dispositions.v1.json"
+  ],
+  "scopeRule": "The fact-identity ladder, byte grammar, transition protocol, anchor ownership, and deterministic budget semantics are the included v1 architecture. Third-party/untrusted imperative execution and an ambient-authority guarantee are not included features.",
+  "v1Architecture": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "normalisationLadder": {
+      "levels": [
+        "L0-verbatim",
+        "L1-lexical",
+        "L2-comment-insensitive",
+        "L3-identifier-insensitive"
+      ],
+      "default": "L1-lexical",
+      "v1ShippingLanguages": [
+        "typescript",
+        "rust"
+      ],
+      "identityRule": "level id, level version, language id, and language toolchain identity are framed identity inputs; levels are distinct facts",
+      "capabilityRule": "Unsupported or restricted language/level combinations produce exact Coverage deficiencies; no silent approximation is permitted"
+    },
+    "canonicalBytes": {
+      "algorithm": "SHA-256",
+      "domainTag": "opensip.fact-identity.v1",
+      "preimageRule": "fixed domain tag followed by length-framed level, language, language-version, and payload components",
+      "payloadRule": "L0 payload is exact raw body-span bytes and is never tokenised; L1-L3 payloads are framed canonical kind/value token streams whose registry and transform rules are committed by levelVersion",
+      "sourceRule": "body spans use half-open byte offsets over snapshot-owned bytes; Unicode and line-ending behavior are level-specific and explicit",
+      "collisionRule": "same identity with different canonical bytes is a host defect"
+    },
+    "transitionRule": "Changing an existing level algorithm dual-emits old/new versions, requires explicit acceptance, and records a deterministic many-to-many group witness; absent witness yields INDETERMINATE and re-baselining.",
+    "anchorRule": "Rules propose typed anchors; the host resolves, validates, canonicalises, and mints the final fingerprint. A rule can still cause quality churn by omitting valid anchors.",
+    "budgetRule": "Only deterministic budgets define semantic outcomes. Exhaustion discards the entire rule partition unless complete-page continuation is explicitly contracted; wall clock is a host-safety backstop only."
+  },
+  "v1Exclusions": [
+    {
+      "id": "FI-PARK-IMPERATIVE-AUTHORITY",
+      "status": "EXCLUDED-UNTIL-RESTRICTED-RUNTIME",
+      "blockedOn": "ARCH.PROBE-CONTRACT",
+      "excludes": [
+        "third-party or untrusted imperative rules",
+        "claims that FactQuery or a process boundary denies ambient authority",
+        "untrusted native or WASM contributions"
+      ],
+      "narrowTruth": "The API supplies facts only. Linked first-party code, if any, is accepted TCB code under dependency audit; that audit is an integrity control, not confinement.",
+      "productBinding": "product-dispositions.v1.json chooses no ecosystem depth, a narrow contribution ontology, and no public rule-IR freeze for v1."
+    }
+  ],
+  "implementationEvidence": {
+    "status": "SPECIFIED-NOT-DEMONSTRATED",
+    "requiredLater": [
+      "adversarial, versioned TypeScript and Rust corpora over significant layout, directives/comments, strings/regex/templates, Unicode, mixed line endings, macros/generated syntax, and local binding renames",
+      "two independent producers for FI-13 canonical-byte equality",
+      "negative controls that intentionally perturb framing, language version, span boundaries, directives, and transition witnesses",
+      "retained execution records before a capability cell or identity stability property is advertised as demonstrated",
+      "equivalent evidence plus an explicit product scope change before any Python or Go matrix row is admitted by a shipping product"
+    ],
+    "freezeRule": "The corpus contents and execution records are implementation/qualification evidence, not a remaining choice in the byte grammar. Missing results prohibit DISCHARGED/DEMONSTRATED claims but do not reopen the selected ladder or grammar."
+  },
+  "findingDispositions": [
+    {
+      "findingId": "R2-FI-01",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "Every unexecuted property is SPECIFIED, PARTIAL, or NOT DISCHARGED; implementable:true alone never discharges it.",
+      "verification": "check-fact-identity.py rejects DISCHARGED with IMPLEMENTABLE_UNEXECUTED evidence."
+    },
+    {
+      "findingId": "R2-FI-02",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "The supported-language set, capability matrix, positive fixtures, and fact-plane deficiency vocabulary are mechanically joined.",
+      "verification": "check-fact-identity.py rejects matrix/fixture desynchronisation and missing language rows."
+    },
+    {
+      "findingId": "R2-FI-03",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "The canonical preimage is domain-separated and length-framed with exact span, token, Unicode, line-ending, and language-version rules.",
+      "verification": "check-fact-identity.py rejects missing byte grammar, damaged construction, and unframed components."
+    },
+    {
+      "findingId": "R2-FI-04",
+      "decision": "CONFIRM-RESOLVED-BY-EXCLUSION",
+      "reasoning": "The architecture retracts ambient-authority absence, treats linked first-party code as TCB, and excludes third-party/untrusted imperative rules from v1.",
+      "verification": "check-fact-identity.py rejects loss of the exclusion and the coordinator closure's product-boundary checks reject ecosystem/public-IR expansion."
+    },
+    {
+      "findingId": "R2-FI-05",
+      "decision": "CONFIRM-RESOLVED-WITH-IMPLEMENTATION-EVIDENCE",
+      "reasoning": "Semantically risky cells are full-provisional/restricted for shipping; promotion requires the named corpora. Corpus execution is not replaced with a paper claim.",
+      "verification": "The binding matrix and fixtures agree, and the closure forbids treating corpus absence as demonstrated capability."
+    },
+    {
+      "findingId": "R2-FI-06",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "The many-to-many witness includes accepted old/new group identities, typed edges, occurrence anchors, cardinalities, and deterministic ordering.",
+      "verification": "check-fact-identity.py rejects an empty or under-specified witness minimum."
+    }
+  ],
+  "resolves": {
+    "R2-FI-01": "RESOLVED",
+    "R2-FI-02": "RESOLVED",
+    "R2-FI-03": "RESOLVED",
+    "R2-FI-04": "RESOLVED-BY-V1-EXCLUSION",
+    "R2-FI-05": "RESOLVED-WITH-IMPLEMENTATION-EVIDENCE",
+    "R2-FI-06": "RESOLVED"
+  },
+  "forbiddenInferences": [
+    "SEAL-WITH-CHANGES does not mean cross-producer identity is DEMONSTRATED.",
+    "A declared golden-corpus requirement is not evidence that the corpus ran.",
+    "The Rule API's facts-only surface is not a runtime authority boundary.",
+    "Schema-additive level addition does not make an existing-level algorithm change custody-reversible.",
+    "A rule cannot mint a fingerprint, but it can influence stability through its valid anchor choices."
+  ],
+  "claimRegisterPatch": {
+    "claimId": "FACT-IDENTITY",
+    "precondition": {
+      "bindingArtifact": "artifacts/fact-identity-policy.v2.json"
+    },
+    "set": {
+      "title": "Body-hash normalisation ladder, canonical byte grammar, and transition policy",
+      "home": "artifacts/fact-identity-policy.v2.json",
+      "status": "CANDIDATE",
+      "note": "Phase 1B coordinator closure: SEAL-WITH-CHANGES for the L0-L3 ladder, framed byte grammar, transition witness, anchor ownership, and budgets. L0 hashes raw span bytes; L1-L3 use a version-committed canonical token registry. TypeScript/Rust corpora remain implementation evidence and all affected properties stay SPECIFIED until retained results exist. Third-party/untrusted imperative authority is excluded on ARCH.PROBE-CONTRACT.",
+      "sealBlockers": [],
+      "nonBlockingResiduals": [
+        "FI-CORPUS-EVIDENCE — TypeScript/Rust adversarial two-producer corpora are implementation/qualification evidence; affected properties stay SPECIFIED until retained results exist",
+        "FI-PARK-IMPERATIVE-AUTHORITY — third-party/untrusted imperative rules and runtime ambient-authority claims remain excluded on ARCH.PROBE-CONTRACT"
+      ],
+      "parkedExclusions": [
+        "third-party or untrusted imperative rules",
+        "runtime ambient-authority guarantee",
+        "public rule-IR compatibility promise"
+      ],
+      "reviewPending": [],
+      "implementationEvidencePending": [
+        "Implementation must populate and execute FI-13 corpora before promoting identity stability or provisional language cells; this is not an architecture blocker."
+      ],
+      "restatements": [
+        "architecture/04-fact-plane.md#body-identity-used-by-duplicate-facts",
+        "architecture/05-rules-and-extensions.md#initial-product-authority-boundary",
+        "architecture/09-open-decisions.md#design-questions-still-open"
+      ]
+    },
+    "removeDependsOn": [
+      "ARCH.PROBE-CONTRACT"
+    ],
+    "addExplicitlyNotDependentOn": [
+      "ARCH.PROBE-CONTRACT"
+    ],
+    "dependencyRationale": "The v1 FACT-IDENTITY scope excludes third-party/untrusted imperative execution and retracts the ambient-authority guarantee rather than relying on ARCH.PROBE-CONTRACT.",
+    "appendAdjudicationArtifact": "artifacts/fact-identity-policy.freeze-closure-coordinator.v1.json",
+    "appendInvariant": "FI-FREEZE"
+  },
+  "knownLimitations": [
+    "No TypeScript/Rust cross-producer corpus execution record exists yet.",
+    "The four-language matrix is an architecture capability contract, not the v1 installed-language set; v1 admits TypeScript and Rust only.",
+    "Linked first-party native rules, if later used, remain TCB code rather than confined extensions.",
+    "The host cannot prevent a rule from omitting otherwise valid anchors; fingerprint churn remains a rule-quality signal."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Seal the ladder, framed byte grammar, transition protocol, anchor ownership, and budget semantics. Carry corpus execution as implementation evidence and imperative authority as an excluded parked feature.",
+    "consumerB": "Implement the selected grammar and TypeScript/Rust corpora. Do not invent an alternate preimage, silently approximate unavailable levels, freeze a public rule IR, or admit untrusted imperative rules."
+  }
+}

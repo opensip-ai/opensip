@@ -1,0 +1,293 @@
+{
+  "artifact": "opensip.d9-exit-contract.blind-axes-precomparison",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/d9-exit-contract.v1.6.json",
+  "phase": "PRECOMMITTED BEFORE READING scenarioAxes, expectedTermination, codeMaps, referenceDerivation, scenarioAxesSchema, or checker source",
+  "date": "2026-07-31",
+  "method": "Read only goldenCases[].id, commandKind, and scenario. Derive an independent semantic tuple in reviewer-owned vocabulary. All 43 cases are included, exceeding the required sample of 15 and covering success, policy, deficiency, rejection, fault, interruption, and preserve-settled cases.",
+  "reviewerAxes": {
+    "admission": ["admitted", "not-admitted", "no-analysis-attempt"],
+    "terminalRecord": ["sealed-run", "failure-result", "query-result", "mutation-result", "serve-stop", "no-coherent-run", "not-stated"],
+    "coverage": ["satisfied", "known-insufficient", "unknown", "insufficient-and-unknown", "not-applicable", "not-stated"],
+    "verdict": ["pass", "advisory", "fail", "indeterminate", "none", "computed-pass-retained", "not-stated"],
+    "durability": ["authoritative", "authorized-ephemeral", "failed", "not-applicable", "not-stated"],
+    "primaryCauseFamily": ["none", "policy", "deficiency", "rejection", "fault", "interruption", "preserve-settled"],
+    "termination": ["success", "policy-failed", "request-rejected", "indeterminate", "operational-failed", "interrupted", "preserve-settled"]
+  },
+  "cases": [
+    {
+      "id": "analysis-pass",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"pass","durability":"authoritative","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-advisory",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"advisory","durability":"authoritative","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true,
+      "note": "Advisory is non-gating; it is not policy failure."
+    },
+    {
+      "id": "analysis-policy-fail",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"fail","durability":"authoritative","primaryCauseFamily":"policy","causes":["policy-violation"]},
+      "termination": "policy-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-required-coverage-missing",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"known-insufficient","verdict":"indeterminate","durability":"authoritative","primaryCauseFamily":"deficiency","causes":["required-coverage-missing"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-verdict-indeterminate",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"not-stated","verdict":"indeterminate","durability":"not-stated","primaryCauseFamily":"deficiency","causes":["verdict-indeterminate-unspecified"]},
+      "termination": "indeterminate",
+      "proseSufficient": false,
+      "note": "The prose determines verdict and termination but not Coverage, durability, or exact deficiency cause."
+    },
+    {
+      "id": "analysis-snapshot-invalidated",
+      "axes": {"admission":"admitted","terminalRecord":"no-coherent-run","coverage":"unknown","verdict":"none","durability":"not-applicable","primaryCauseFamily":"deficiency","causes":["snapshot-convergence-exhausted"]},
+      "termination": "indeterminate",
+      "proseSufficient": true,
+      "note": "Input instability is not a host malfunction; it prevents an authoritative claim."
+    },
+    {
+      "id": "analysis-optional-provider-unavailable",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"pass","durability":"authoritative","primaryCauseFamily":"none","causes":["optional-provider-unavailable-diagnostic"]},
+      "termination": "success",
+      "proseSufficient": true,
+      "note": "Optional unavailability is diagnostic, not the primary termination cause."
+    },
+    {
+      "id": "analysis-required-provider-unavailable",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"known-insufficient","verdict":"indeterminate","durability":"authoritative","primaryCauseFamily":"deficiency","causes":["required-provider-unavailable"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-provider-protocol-prevents-seal",
+      "axes": {"admission":"admitted","terminalRecord":"no-coherent-run","coverage":"unknown","verdict":"none","durability":"not-applicable","primaryCauseFamily":"fault","causes":["provider-protocol-invalid"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-durability-failed",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"satisfied","verdict":"computed-pass-retained","durability":"failed","primaryCauseFamily":"fault","causes":["authoritative-publication-failed"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-authorized-ephemeral",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"pass","durability":"authorized-ephemeral","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-ephemeral-when-authoritative-required",
+      "axes": {"admission":"not-admitted","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["required-postcondition-unsatisfiable"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "baseline-compare-unsupported-recipe",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"known-insufficient","verdict":"indeterminate","durability":"not-stated","primaryCauseFamily":"deficiency","causes":["baseline-recipe-unsupported"]},
+      "termination": "indeterminate",
+      "proseSufficient": false,
+      "note": "The comparison failure is clear, but the prose does not say whether a new Run was produced or durably published."
+    },
+    {
+      "id": "pre-admission-unknown-option",
+      "axes": {"admission":"not-admitted","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["unknown-option"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "pre-admission-unsupported-schema-major",
+      "axes": {"admission":"not-admitted","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["unsupported-envelope-major"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "pre-admission-invalid-config",
+      "axes": {"admission":"not-admitted","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["invalid-authored-config"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "pre-admission-host-io-failure",
+      "axes": {"admission":"not-admitted","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"fault","causes":["host-io"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-empty-search",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"query-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-addressed-run-not-found",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["identity-unknown"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-addressed-run-expired",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["identity-expired"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-latest-resolver-empty-domain",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["resolver-empty-domain"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-required-completeness-missing",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"known-insufficient","verdict":"none","durability":"not-applicable","primaryCauseFamily":"deficiency","causes":["required-query-completeness-missing"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "query-ledger-corrupt",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"failed","primaryCauseFamily":"fault","causes":["integrity-failure"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "ledger-busy-timeout-exceeded",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"failed","primaryCauseFamily":"fault","causes":["storage-contention-timeout"]},
+      "termination": "operational-failed",
+      "proseSufficient": false,
+      "note": "commandKind=any and prose do not establish whether an analysis attempt was already admitted; the fault classification is determined."
+    },
+    {
+      "id": "repair-snapshot-conflict",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"mutation-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["repair-precondition-conflict"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "repair-verification-pass",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"pass","durability":"authoritative","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "repair-verification-policy-fail",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"fail","durability":"authoritative","primaryCauseFamily":"policy","causes":["verification-policy-violation"]},
+      "termination": "policy-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "repair-verification-indeterminate",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"known-insufficient","verdict":"indeterminate","durability":"authoritative","primaryCauseFamily":"deficiency","causes":["verification-required-coverage-missing"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "extension-admission-rejected",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"mutation-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["extension-admission"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "extension-install-io-failed",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"mutation-result","coverage":"not-applicable","verdict":"none","durability":"failed","primaryCauseFamily":"fault","causes":["atomic-install-publication"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "server-clean-shutdown",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"serve-stop","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"none","causes":[]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "serve-graceful-signal-stop",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"serve-stop","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"none","causes":["cooperative-stop-signal-observed"]},
+      "termination": "success",
+      "proseSufficient": true,
+      "note": "The signal is truthful execution metadata but is not the primary termination cause for a cooperative long-lived stop."
+    },
+    {
+      "id": "server-protocol-host-failure",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"fault","causes":["protocol-host-failure"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "user-interrupt-finite",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"unknown","verdict":"none","durability":"not-stated","primaryCauseFamily":"interruption","causes":["signal-before-finalization"]},
+      "termination": "interrupted",
+      "proseSufficient": true
+    },
+    {
+      "id": "user-interrupt-post-finalization-commit",
+      "axes": {"admission":"admitted","terminalRecord":"not-stated","coverage":"not-stated","verdict":"not-stated","durability":"not-stated","primaryCauseFamily":"preserve-settled","causes":["signal-after-finalization"]},
+      "termination": "preserve-settled",
+      "proseSufficient": false,
+      "note": "The prose determines non-reclassification but never states the pre-signal settled class or axes. Any concrete expectedTermination is invented by the fixture."
+    },
+    {
+      "id": "optional-cloud-egress-failed",
+      "axes": {"admission":"admitted","terminalRecord":"sealed-run","coverage":"satisfied","verdict":"pass","durability":"authoritative","primaryCauseFamily":"none","causes":["optional-delivery-fault-diagnostic"]},
+      "termination": "success",
+      "proseSufficient": true
+    },
+    {
+      "id": "required-delivery-failed",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"satisfied","verdict":"computed-pass-retained","durability":"authoritative","primaryCauseFamily":"fault","causes":["required-delivery-failed"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "machine-output-serialization-failed",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"fault","causes":["required-machine-output-failed"]},
+      "termination": "operational-failed",
+      "proseSufficient": false,
+      "note": "commandKind=any does not say whether an analysis Run already exists; the requested output failure is operational either way."
+    },
+    {
+      "id": "query-addressed-run-no-record-no-tombstone",
+      "axes": {"admission":"no-analysis-attempt","terminalRecord":"failure-result","coverage":"not-applicable","verdict":"none","durability":"not-applicable","primaryCauseFamily":"rejection","causes":["identity-unknown-not-expired"]},
+      "termination": "request-rejected",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-language-tier-unsupported",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"known-insufficient","verdict":"indeterminate","durability":"not-stated","primaryCauseFamily":"deficiency","causes":["required-capability-unsupported"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-budget-exhausted",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"unknown","verdict":"indeterminate","durability":"not-stated","primaryCauseFamily":"deficiency","causes":["budget-exhausted"]},
+      "termination": "indeterminate",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-cas-link-failed",
+      "axes": {"admission":"admitted","terminalRecord":"no-coherent-run","coverage":"not-stated","verdict":"none","durability":"failed","primaryCauseFamily":"fault","causes":["cas-link-materialization"]},
+      "termination": "operational-failed",
+      "proseSufficient": true
+    },
+    {
+      "id": "analysis-multiple-deficiencies",
+      "axes": {"admission":"admitted","terminalRecord":"failure-result","coverage":"insufficient-and-unknown","verdict":"indeterminate","durability":"not-stated","primaryCauseFamily":"deficiency","causes":["provider-unavailable","budget-exhausted"]},
+      "termination": "indeterminate",
+      "proseSufficient": true,
+      "note": "Both deficiencies must remain observable; neither may erase the other."
+    }
+  ],
+  "knownLimitations": [
+    "The reviewer has prior familiarity with D9 v1.4/v1.5 architecture but did not inspect v1.6 authored axes or derivation before this file.",
+    "Reviewer-owned vocabulary intentionally differs from the artifact and requires an explicit semantic mapping during comparison.",
+    "Several scenario strings do not determine all axes; those are marked proseSufficient=false rather than filled by assumption."
+  ],
+  "confidence": "high on primary cause family and termination for 42 cases; high that user-interrupt-post-finalization-commit is underdetermined as written; medium on unspecified durability/lifecycle fields"
+}

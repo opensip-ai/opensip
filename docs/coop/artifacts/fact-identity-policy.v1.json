@@ -1,0 +1,111 @@
+{
+  "artifact": "opensip.fact-identity-policy",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED-SPINE-EXPOSED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review.",
+  "exposureWarning": "This artifact is DOWNSTREAM of two contested decisions — the fact plane (C-1, sealed but re-derived twice) and the plan/stage model (C-2, currently CANDIDATE after a v1 rejection). If the clean-sheet comparison overturns either, this artifact is redone. It was deliberately held back for that reason and is authored now only because the coordinator asked for completion.",
+  "purpose": "Decide the two spine-exposed items: body-hash normalisation policy, and the imperative escape hatch's contract and budget model.",
+
+  "decisionDependencies": [
+    {"id": "C-1", "source": "architecture/04-fact-plane.md#fact-sufficiency-is-predicate-relative", "claim": "no global tier ordering; rules declare requirements"},
+    {"id": "C-2", "source": "artifacts/c2-plan-stage-schema.v2.json", "claim": "typed logical stages; physical materialisation private; requiredness explicit"},
+    {"id": "ARCH.BODYHASH", "source": "architecture/04-fact-plane.md#fact-layers-and-fact-quality", "claim": "body-hash normalisation is the hardest decision to change later because baselines depend on it"},
+    {"id": "ARCH.FINGERPRINT", "source": "architecture/06-evidence-and-persistence.md", "claim": "fingerprint recipe is host-owned and versioned independently of the fact schema"},
+    {"id": "VERSIONING.USER-CUSTODY", "source": "artifacts/versioning-policy.v1.json", "claim": "user-custody changes need migrators and dual-emit windows"},
+    {"id": "TM.F3", "source": "artifacts/threat-model.v1.json", "claim": "finding channel bandwidth is a resource to budget"}
+  ],
+
+  "bodyHashNormalisation": {
+    "whyThisIsHard": "Body hashes power duplicate detection, and duplicate findings get baselined. A normalisation change therefore re-identifies findings across every user's committed baseline — the user-custody hazard. It is a one-way door in the sense that widening later is cheap and narrowing later is not.",
+    "decision": {
+      "form": "A LADDER of named, independently versioned normalisation levels, not one policy.",
+      "why": "A single policy forces one tradeoff on every consumer. Exact-duplicate detection and near-duplicate detection want different normalisation, and forcing one loses either precision or recall permanently.",
+      "levels": [
+        {"level": "L0-verbatim", "normalises": "nothing — raw bytes of the body span", "use": "provenance and exact-byte identity", "stability": "maximally stable; changes only when the file changes"},
+        {"level": "L1-lexical", "normalises": "insignificant whitespace and line endings", "use": "the DEFAULT for exact-duplicate detection", "rationale": "Formatting churn is not duplication. Excluding it is the minimum that makes the feature useful, and it is the least contestable normalisation."},
+        {"level": "L2-comment-insensitive", "normalises": "L1 plus comments", "use": "opt-in", "rationale": "Two bodies differing only in comments are usually genuine duplication — but sometimes the comment is the difference. Opt-in because the judgment is contextual."},
+        {"level": "L3-identifier-insensitive", "normalises": "L2 plus consistent renaming of local identifiers", "use": "opt-in; near-duplicate detection only", "rationale": "This finds copy-paste-and-rename, the highest-value duplication class. It also produces the most false positives, so it must never be a default."}
+      ],
+      "defaultLevel": "L1-lexical",
+      "rules": [
+        {"id": "BH-1", "rule": "Each level is separately versioned. A change to L2's comment grammar does not touch L1 identities, so it does not disturb baselines that only used L1."},
+        {"id": "BH-2", "rule": "The level and its version are part of the fact's identity and enter the derivation key. Two levels are two facts, never one fact computed differently."},
+        {"id": "BH-3", "rule": "A finding records the level that produced it. A baseline entry therefore pins a level, and comparing across levels is a typed mismatch rather than a silent diff."},
+        {"id": "BH-4", "rule": "Level normalisation is language-aware — comment and identifier syntax differ per language — but the LEVEL SEMANTICS are language-independent, so a rule can require L2 without knowing the language."},
+        {"id": "BH-5", "rule": "Changing an existing level's algorithm is a user-custody breaking change: migrator plus dual-emit window. Adding a NEW level is additive and free."},
+        {"id": "BH-6", "rule": "Never normalise away anything a rule might need to report. The finding must be able to show the actual source, so the L0 span is always retained alongside whatever level matched."}
+      ],
+      "escapeFromTheOneWayDoor": "The ladder is what makes this reversible. Because adding a level is additive (BH-5) and levels are separately versioned (BH-1), a wrong default can be corrected by adding a level and migrating the default — not by redefining an existing identity. That converts an irreversible decision into a reversible one, which is the only reason this artifact is willing to decide it while the spine is contested."
+    }
+  },
+
+  "imperativeEscapeHatch": {
+    "purpose": "Rules whose predicate cannot be expressed in the declarative IR. Not rules that need type information — those declare a fact-quality requirement (C-1) and remain declarative.",
+    "whenItIsTheRightTool": ["multi-step derivation with intermediate state", "predicates over aggregates the IR cannot express", "iteration whose bound depends on the data"],
+    "whenItIsNotTheRightTool": ["needing resolved references — that is a declared requirement", "needing type facts — that is a declared requirement", "needing to read a file — that is never available at any tier"],
+    "contract": {
+      "input": "A FactQuery handle scoped to the rule's DECLARED requirements. A query outside the declaration is a typed error, not a wider result.",
+      "output": "Findings with typed subjects and canonical proof anchors. The rule never computes a fingerprint — the host does, from the anchors.",
+      "absent": ["filesystem", "network", "process spawn", "clock", "ambient entropy", "storage handle", "any other rule's results"],
+      "why_no_cross_rule": "Rule-to-rule dependency would make evaluation order semantic, and order-dependence is how a concurrency change silently alters a verdict."
+    },
+    "budgetModel": {
+      "dimensions": [
+        {"budget": "queryCount", "why": "bounds fan-out against the fact plane"},
+        {"budget": "rowsExamined", "why": "the real cost driver; query count alone permits one unbounded query"},
+        {"budget": "wallClock", "why": "backstop against non-terminating logic"},
+        {"budget": "findingCardinality", "why": "TM.F3 — the finding channel is exfiltration bandwidth and a denial-of-merge vector"},
+        {"budget": "anchorSize", "why": "same reason, per finding"}
+      ],
+      "onExhaustion": {
+        "requiredRule": "Coverage entry plus policy indeterminate (c2 requiredness).",
+        "optionalRule": "Coverage entry plus diagnostic; isolated.",
+        "rule": "Exhaustion NEVER silently truncates findings. Truncation without a marker converts a budget into a correctness bug."
+      },
+      "attribution": "Exhaustion names the rule and, where determinable, the input that drove it (TM.F9)."
+    },
+    "determinism": {
+      "requirement": "An imperative rule declares itself deterministic or not. A non-deterministic rule cannot participate in a digest-equality claim, and its findings are marked accordingly.",
+      "enforcement": "Absent clock, entropy, filesystem and cross-rule access (see `absent`), non-determinism is hard to reach — but declaring it is still required rather than inferred, because inference would be a guess."
+    },
+    "tierPlacement": "First-party imperative rules are linked TCB. Third-party imperative rules require the capability-scoped component tier — a signature does not confine anything (the sealed confinement-honesty limit)."
+  },
+
+  "conformanceTests": [
+    {"id": "FI-01", "assert": "Two normalisation levels over one body produce two distinct fact identities, both retained."},
+    {"id": "FI-02", "assert": "A finding records its normalisation level; comparing a baseline entry pinned to L1 against an L2 result is a typed mismatch, not a diff."},
+    {"id": "FI-03", "assert": "Adding a new level does not change any existing level's identities."},
+    {"id": "FI-04", "assert": "Changing an existing level's algorithm without a migrator and dual-emit window is refused by the release gate."},
+    {"id": "FI-05", "assert": "The L0 span is retrievable for any finding produced at any level (BH-6)."},
+    {"id": "FI-06", "assert": "An imperative rule querying outside its declared requirements receives a typed error, not a wider result set."},
+    {"id": "FI-07", "assert": "An imperative rule has no reachable filesystem, network, spawn, clock, entropy, storage, or cross-rule access (closure-analysed, not asserted)."},
+    {"id": "FI-08", "assert": "Exhausting any budget produces a Coverage entry; for a REQUIRED rule it forces indeterminate; findings are never silently truncated."},
+    {"id": "FI-09", "assert": "An imperative rule cannot compute or influence a fingerprint; identical anchors from different rules yield host-computed identities."},
+    {"id": "FI-10", "assert": "A rule declared non-deterministic is excluded from digest-equality claims and its findings are marked."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "fingerprints are host-computed from typed anchors", "dischargedBy": ["contract.output", "FI-09"]},
+    {"property": "user-custody changes need migrators and dual-emit", "dischargedBy": ["BH-5", "FI-04"]},
+    {"property": "no silent truncation", "dischargedBy": ["budgetModel.onExhaustion", "FI-08"]},
+    {"property": "required partial coverage cannot yield pass", "dischargedBy": ["FI-08"]},
+    {"property": "no in-language signature confines anything", "dischargedBy": ["tierPlacement", "FI-07"]},
+    {"property": "finding-channel bandwidth is budgeted (TM.F3)", "dischargedBy": ["findingCardinality", "anchorSize"]}
+  ],
+
+  "peerReviewRequired": [
+    "Is the ladder genuinely reversible, or does pinning a level into baselines create the same lock-in one level down? BH-5 claims additive levels are free; that claim deserves attack.",
+    "Is L1-lexical the right default, or is L2 defensible as default given how often comments differ trivially?",
+    "Is forbidding cross-rule results too strict? It rules out legitimate composition, at the cost of making order non-semantic.",
+    "rowsExamined as a budget assumes the fact plane can meter it. If it cannot, the budget is unenforceable and queryCount is all there is."
+  ],
+
+  "knownLimitations": [
+    "SPINE-EXPOSED: downstream of C-1 and C-2. A clean-sheet divergence on fact representation or stage model invalidates this.",
+    "The ladder is a novel framing authored here and has had no adversarial review; its reversibility argument is the load-bearing claim and is untested.",
+    "Language-specific normalisation grammars are asserted to exist per level; none is specified.",
+    "rowsExamined metering may not be implementable depending on the storage engine, which is itself deferred.",
+    "Authored solo, unreviewed."
+  ]
+}

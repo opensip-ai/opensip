@@ -1,0 +1,251 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/d9-exit-contract.v1.6.json",
+  "date": "2026-07-31",
+  "independence": {
+    "otherReviewerOutputReadBeforeFiling": false,
+    "precomparisonRecord": "artifacts/d9-exit-contract.v1.6.blind-axes.reviewer2.precompare.json",
+    "method": "Read only goldenCases[].id, commandKind, and scenario; authored a reviewer-owned tuple for all 43 cases; made that tuple immutable and JSON-valid; only then exposed scenarioAxes and expectedTermination. Checker derivation source was not read before this comparison was filed.",
+    "coverage": {
+      "casesReauthored": 43,
+      "casesAvailable": 43,
+      "minimumRequired": 15,
+      "causeFamiliesCovered": [
+        "no terminating cause",
+        "policy verdict",
+        "deficiency",
+        "request rejection",
+        "operational fault",
+        "interruption",
+        "preserve an already-settled result"
+      ]
+    }
+  },
+  "blindComparison": {
+    "termination": {
+      "sameConcreteClass": 42,
+      "authoredConcreteClassNotDerivableFromProse": 1,
+      "case": "user-interrupt-post-finalization-commit"
+    },
+    "semanticAgreement": [
+      "analysis-pass",
+      "analysis-advisory",
+      "analysis-policy-fail",
+      "analysis-required-coverage-missing",
+      "analysis-optional-provider-unavailable",
+      "analysis-required-provider-unavailable",
+      "analysis-provider-protocol-prevents-seal",
+      "analysis-durability-failed",
+      "analysis-authorized-ephemeral",
+      "analysis-ephemeral-when-authoritative-required",
+      "pre-admission-unknown-option",
+      "pre-admission-unsupported-schema-major",
+      "pre-admission-invalid-config",
+      "pre-admission-host-io-failure",
+      "query-empty-search",
+      "query-addressed-run-not-found",
+      "query-addressed-run-expired",
+      "query-latest-resolver-empty-domain",
+      "query-required-completeness-missing",
+      "repair-verification-pass",
+      "repair-verification-policy-fail",
+      "repair-verification-indeterminate",
+      "extension-admission-rejected",
+      "server-clean-shutdown",
+      "serve-graceful-signal-stop",
+      "server-protocol-host-failure",
+      "optional-cloud-egress-failed",
+      "required-delivery-failed",
+      "query-addressed-run-no-record-no-tombstone"
+    ],
+    "authoredAxesNotFullyEntailedByScenario": [
+      {
+        "id": "analysis-verdict-indeterminate",
+        "blind": "sealed and indeterminate, but Coverage state and exact deficiency were not stated",
+        "authored": "requiredCoverage=satisfied; deficiency=verdict-indeterminate",
+        "assessment": "The termination is credible, but the scenario must state that required Coverage was satisfied and that verdict computation itself was indeterminate."
+      },
+      {
+        "id": "analysis-snapshot-invalidated",
+        "blind": "convergence exhaustion prevents an authoritative claim; whether a coherent Run is sealed was not stated",
+        "authored": "coherent-terminal-run, verdict=indeterminate, durability=committed",
+        "assessment": "This is a plausible design choice, not an outcome derivable from the prose."
+      },
+      {
+        "id": "baseline-compare-unsupported-recipe",
+        "blind": "comparison is indeterminate; whether a new analysis Run exists or was committed was not stated",
+        "authored": "coherent-terminal-run, requiredCoverage=satisfied, durability=committed",
+        "assessment": "The fixture silently chooses analyse-then-compare rather than reject-before-run."
+      },
+      {
+        "id": "ledger-busy-timeout-exceeded",
+        "blind": "operational fault is determined, but command admission and Run lifecycle are not",
+        "authored": "commandKind=any, admission=admitted, lifecycle=not-applicable",
+        "assessment": "The single tuple does not describe both a query-side lock timeout and a run-publication timeout."
+      },
+      {
+        "id": "user-interrupt-finite",
+        "blind": "interrupted before finalization; durable/coherent terminal Run state was not stated",
+        "authored": "lifecycle=coherent-terminal-run, durability=not-applicable, verdict=unavailable",
+        "assessment": "The expected interrupted class agrees, but the scenario does not establish the lifecycle tuple."
+      },
+      {
+        "id": "machine-output-serialization-failed",
+        "blind": "operational output failure is determined, but an existing Run and its lifecycle are not",
+        "authored": "commandKind=any, admission=admitted, lifecycle=not-applicable, durability=not-applicable",
+        "assessment": "Serialization can fail for a pre-Run query or after an authoritative Run was committed; one any-kind tuple cannot prove both."
+      },
+      {
+        "id": "analysis-language-tier-unsupported",
+        "blind": "known coverage deficiency and indeterminate termination; publication was not stated",
+        "authored": "coherent-terminal-run, durability=committed",
+        "assessment": "Plausible, but the human scenario omits the asserted lifecycle."
+      },
+      {
+        "id": "analysis-budget-exhausted",
+        "blind": "unknown coverage and indeterminate termination; publication was not stated",
+        "authored": "coherent-terminal-run, durability=committed",
+        "assessment": "Plausible, but the human scenario omits the asserted lifecycle."
+      },
+      {
+        "id": "analysis-cas-link-failed",
+        "blind": "cannot seal and durability fails; Coverage state was not stated",
+        "authored": "requiredCoverage=not-applicable",
+        "assessment": "The fault class agrees; the Coverage projection is supplied by the author rather than the scenario."
+      },
+      {
+        "id": "analysis-multiple-deficiencies",
+        "blind": "one known-insufficient relation plus one unknown relation; publication was not stated",
+        "authored": "requiredCoverage=unsatisfied, coherent-terminal-run, durability=committed",
+        "assessment": "The aggregate unsatisfied value is defensible because known false dominates unknown, but the lifecycle is unstated."
+      }
+    ],
+    "reviewerFirstInstinctCorrectedByAuthoredSemantics": [
+      {
+        "id": "query-ledger-corrupt",
+        "blindDifference": "reviewer marked durability failed",
+        "resolution": "Artifact is right: its durability axis describes Run publication, not the health of storage read by a query; not-applicable is the correct projection."
+      },
+      {
+        "id": "repair-snapshot-conflict",
+        "blindDifference": "reviewer treated no analysis attempt as not admitted",
+        "resolution": "Artifact is right under its command-admission boundary: an admitted mutation may later fail its snapshot precondition and still terminate request-rejected."
+      },
+      {
+        "id": "extension-install-io-failed",
+        "blindDifference": "reviewer marked durability failed",
+        "resolution": "Artifact is right: extension filesystem publication is not Run durability, so the Run-durability axis is not-applicable."
+      }
+    ],
+    "directMismatch": {
+      "id": "user-interrupt-post-finalization-commit",
+      "blind": {
+        "termination": "preserve-settled",
+        "coverage": "not-stated",
+        "verdict": "not-stated",
+        "durability": "not-stated"
+      },
+      "authored": {
+        "termination": "success",
+        "requiredCoverage": "satisfied",
+        "verdict": "pass",
+        "durability": "committed"
+      },
+      "assessment": "The prose establishes only non-reclassification. It never states that the pre-signal result was success, so the authored expected value is not independently derivable."
+    }
+  },
+  "checkerMutationAudit": [
+    {
+      "mutation": "Delete causeModel",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Reverse causeModel.precedence",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Delete declared crossAxisInvariants X1..X10",
+      "result": "ESCAPED"
+    },
+    {
+      "mutation": "Change a golden's human commandKind without changing scenarioAxes.commandKind",
+      "result": "ESCAPED"
+    }
+  ],
+  "findings": [
+    {
+      "id": "R2-D9-01",
+      "severity": "MEDIUM",
+      "evidence": "Golden user-interrupt-post-finalization-commit says only that a signal arrives after finalization and the settled termination is not reclassified. Blind derivation therefore produced preserve-settled with all prior-result axes unstated. The authored case instead supplies pass, satisfied, committed, and success.",
+      "impact": "This golden cannot serve as independent evidence for its authored success tuple. The separate finalizationTransitions table does enumerate every settled class and materially limits the design risk, but it does not make this scenario sentence truthful.",
+      "requiredChange": "Rewrite the scenario to state that a successful pass was already settled. Retain the finalizationTransitions table over every class as the universal rule and add a self-test that mutates one expected transition away from its settled class.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "Human prose that explicitly names the pre-signal success settlement; the existing all-class transition table already answers the broader class-coverage concern."
+    },
+    {
+      "id": "R2-D9-02",
+      "severity": "MEDIUM",
+      "evidence": "ledger-busy-timeout-exceeded and machine-output-serialization-failed both use commandKind=any but assert admission=admitted and lifecycle=not-applicable. Their prose does not locate the fault relative to admission or Run publication. A ledger timeout may occur during an authoritative commit, and envelope serialization may fail after a Run has committed as well as for a Run-less query.",
+      "impact": "The goldens collapse materially different lifecycle states into one tuple. Implementers can copy a classification that loses a valid Run identity or incorrectly claims no Run lifecycle, while the checker still reports full coverage.",
+      "requiredChange": "Split each any-kind fixture by relevant phase/command family, or explicitly define the case as a host-finalization projection that preserves any already-created Run fields while only selecting the operational-failed termination. Do not attach one concrete lifecycle tuple to all command kinds.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding definition showing that scenarioAxes.lifecycle and durability deliberately describe only the failing output operation, never an already-settled Run, plus goldens proving required Run identity is preserved when the fault follows Run commitment."
+    },
+    {
+      "id": "R2-D9-03",
+      "severity": "MEDIUM",
+      "evidence": "Eight additional cases assert lifecycle, Coverage, or durability values absent from their scenario prose: analysis-verdict-indeterminate, analysis-snapshot-invalidated, baseline-compare-unsupported-recipe, user-interrupt-finite, analysis-language-tier-unsupported, analysis-budget-exhausted, analysis-cas-link-failed, and analysis-multiple-deficiencies. The detailed blindComparison records each difference.",
+      "impact": "A same-author fixture and derivation can remain mutually consistent while the human input does not actually specify the expected tuple. Independent re-derivation then cannot validate the contract, which recreates the exact v1.5 failure mode this protocol was designed to catch.",
+      "requiredChange": "Rewrite each scenario so every load-bearing axis is stated in human terms, or remove axes that are not relevant to the asserted behavior. Re-run independent blind derivation after the prose is self-sufficient.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A documented, binding rule that mechanically derives each omitted axis solely from words already present in each scenario, with no case-specific assumptions."
+    },
+    {
+      "id": "R2-D9-04",
+      "severity": "HIGH",
+      "evidence": "The contract makes faultCause > rejectionCause > deficiency a binding precedence rule for concurrent conditions, but scenarioAxes forbids more than one cause family and no pre-reduction condition-set schema or reducer exists. check-d9.py never reads causeModel: deleting it or reversing its precedence returns no findings.",
+      "impact": "A builder must invent the concurrency reduction boundary and can implement the opposite precedence while all 43 goldens and D0..D13 remain green. The claimed executable cause precedence is prose-only.",
+      "requiredChange": "Define a typed pre-reduction concurrent-condition input and a pure reducer to the exclusive terminating cause. Add pairwise and three-family goldens, including secondary same-family deficiencies, and make the checker derive the reduced cause from causeModel rather than hard-coded already-reduced axes.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A mutation that reverses any two precedence entries and is rejected because concurrent-condition goldens derive a different terminating cause."
+    },
+    {
+      "id": "R2-D9-05",
+      "severity": "MEDIUM",
+      "evidence": "The checker hard-codes X1..X10 but never verifies that the artifact declares the same rules; deleting crossAxisInvariants passes. It also never compares goldenCases[].commandKind—the field blind reviewers are instructed to read—with scenarioAxes.commandKind, so desynchronizing them passes.",
+      "impact": "The human case and machine input can again describe different commands, and the declared contract can drift away from the validator without a failure—the same local-form/global-claim error class as the recorded D9 regressions.",
+      "requiredChange": "Validate unique IDs, top-level commandKind equality, and a canonical machine representation of every declared cross-axis invariant. Reject deletion or drift of the declarations the success banner names.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "The four recorded mutation probes all fail through explicit checker findings tied to the declared fields."
+    }
+  ],
+  "rejectedFixRecheck": {
+    "finding": "A1-D9-V15-03",
+    "decision": "CONFIRM_AGENT_3_REJECTION",
+    "reason": "serve-graceful-signal-stop explicitly says SIGINT/SIGTERM was observed before cooperative shutdown. Encoding interruption=none would erase true execution metadata. Success is still correct because the signal is a stop trigger, not the terminating cause. X9 is the appropriate serve-order rule; the all-class finalizationTransitions table separately covers post-commit preservation."
+  },
+  "sealedPropertiesCovered": [
+    "D9 termination is a single host-owned projection",
+    "fault > rejection > deficiency cause precedence",
+    "post-finalization signals do not reclassify settled termination",
+    "finite, query, mutation, serve, rejection, deficiency, and fault termination families"
+  ],
+  "knownLimitations": [
+    "The blind comparison was filed before checker internals were inspected; the later checker mutation audit is clearly separated above.",
+    "Reviewer-owned vocabulary differs from the artifact, so semantic equivalence rather than string equality was used.",
+    "The reviewer had prior exposure to older D9 versions but did not inspect v1.6 authored expected fields before freezing the precomparison file."
+  ],
+  "resolves": {
+    "R2-D9-01": "OPEN",
+    "R2-D9-02": "OPEN",
+    "R2-D9-03": "OPEN",
+    "R2-D9-04": "OPEN",
+    "R2-D9-05": "OPEN"
+  },
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "R2-D9-04 leaves the advertised fault > rejection > deficiency precedence unrepresentable and unexecuted; R2-D9-02 also gives universal any-kind cases a lifecycle tuple that is not universal."
+  }
+}

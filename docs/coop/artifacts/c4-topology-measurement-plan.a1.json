@@ -1,0 +1,98 @@
+{
+  "artifact": "opensip.c4-topology-measurement-plan",
+  "version": 1,
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "measurement-gate-not-a-seal",
+  "sealedPropertiesCovered": [
+    "R-1 reopened: do not settle by prose",
+    "EvidenceDigest parity across lifetimes",
+    "C5 multi-process ledger safety",
+    "snapshot cost model cold vs warm",
+    "semantic provider Program cost"
+  ],
+  "question": "C-4 / R-1 — one execution core, two lifetimes?",
+  "documentUnderReview": "architecture/08-surfaces-and-topology.md, architecture/03-execution-model.md §Concurrency",
+  "internalContradiction": {
+    "id": "C3-CONTRA-1",
+    "severity": "high",
+    "detail": "architecture/03-execution-model.md still SEALS 'embedded path is the correctness reference; long-lived engine is pure optimisation' while architecture/08 REOPENs that seal. Traceability item 27 marks REOPENED but 03 body was not demoted. Architecture tree is not self-consistent until 03 is amended."
+  },
+  "conceptSplit": {
+    "note": "Volume 1 collapsed three distinct questions into one 'reference' word",
+    "axes": [
+      {
+        "id": "AXIS-D",
+        "name": "determinism reference",
+        "meaning": "Which execution path defines EvidenceDigest equality tests?",
+        "agent1Lean": "Neither lifetime is privileged: both must equal for identical Plan+Snapshot+toolchain+Coverage; goldens run both"
+      },
+      {
+        "id": "AXIS-P",
+        "name": "performance reference",
+        "meaning": "Which path must meet agent-loop SLOs?",
+        "agent1Lean": "Warm-capable core; cold one-shot may miss agent SLOs and still be correct"
+      },
+      {
+        "id": "AXIS-X",
+        "name": "deployment default",
+        "meaning": "What ships as default for CI vs interactive/agent?",
+        "agent1Lean": "Product choice; CI one-shot explicit; agent prefer resident when available with one-shot fallback"
+      }
+    ]
+  },
+  "proposedStructureIfMeasurementsPass": {
+    "name": "one core, two lifetimes",
+    "summary": "Single execution library; process lifetime is a host concern. Resident engine holds inventory journal + semantic Programs + indexes. One-shot is start-run-exit of the same library, not a second semantics.",
+    "confidence": "medium — structure leans right; costs unpriced"
+  },
+  "unpricedCosts": [
+    "client/engine version skew and handshake",
+    "staleness and invalidation of warm Programs on tsconfig/dep changes",
+    "multi-project resource contention on one machine",
+    "auto-start policy and crash recovery of resident process",
+    "redesign of multi-process safety assuming multiple one-shots + optional resident",
+    "security surface of a long-lived process holding source-derived state"
+  ],
+  "measurementsRequiredBeforeSeal": [
+    {
+      "id": "M-C4-1",
+      "metric": "p50/p95 cold one-shot fit/check-changed on 10k+ file repo",
+      "blocks": "claim that one-shot can serve agent wedge without residency"
+    },
+    {
+      "id": "M-C4-2",
+      "metric": "p50/p95 warm resident same workload; Program rebuild rate under edit loop",
+      "blocks": "pricing residency benefit"
+    },
+    {
+      "id": "M-C4-3",
+      "metric": "EvidenceDigest equality rate: N random Plans run embedded vs resident",
+      "blocks": "mutual parity claim"
+    },
+    {
+      "id": "M-C4-4",
+      "metric": "Concurrent two CLI + one resident + CI on one checkout: corruption/lost writes",
+      "blocks": "C5 under dual-lifetime"
+    },
+    {
+      "id": "M-C4-5",
+      "metric": "RSS and Program memory for TS monorepo semantic universe",
+      "blocks": "default-on residency product decision"
+    }
+  ],
+  "agent1Recommendation": {
+    "sealNow": false,
+    "doNow": [
+      "Fix C3-CONTRA-1: demote 03 concurrency paragraph to REOPENED / align with 08",
+      "Adopt AXIS-D/P/X split in 08 prose so 'reference' is not overloaded",
+      "Run M-C4-1..5 before any SEAL of one-core-two-lifetimes"
+    ],
+    "leanIfForced": "Structure: one core, two lifetimes. Determinism: mutual parity. Do not call residency 'pure optimisation' if semantics is load-bearing. Do not call one-shot 'degraded' — call it the CI lifetime.",
+    "confidence": "medium"
+  },
+  "nonGoals": [
+    "Do not seal R-1 by three agents agreeing in prose",
+    "Do not use shipping CLI being one-shot as evidence either way (framing error class)"
+  ]
+}

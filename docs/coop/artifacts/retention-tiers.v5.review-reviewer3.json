@@ -1,0 +1,282 @@
+{
+  "artifact": "opensip.retention-custody.review",
+  "reviewOf": "artifacts/retention-tiers.v5.json",
+  "reviewer": "reviewer-3",
+  "reviewerRole": "INDEPENDENT-REVIEWER",
+  "date": "2026-07-31",
+  "status": "INDEPENDENT-REVIEW-COMPLETE-FINDINGS-OPEN",
+  "independence": {
+    "authorOfReviewedArtifact": false,
+    "checkerTreatedAsSemanticProof": false,
+    "findingAdjudicationPerformedByReviewer": false,
+    "method": [
+      "Re-derived the obligations from V10.requiredResolution, retention-tiers.v4, the binding v1 slice, the product disposition, and D9 before accepting v5's discharge statements.",
+      "Constructed counterexamples for relationship and verdict proof, capability-inventory omission, concurrent purge after admission, shared-unit targeted purge, temporary outage, and unauthorized product sign-off.",
+      "Ran the retained checker and its mutation suite, then separately probed claims outside the checker's oracle. A green checker is reported only as checker-scope evidence."
+    ]
+  },
+  "reviewBasis": [
+    {
+      "path": "artifacts/retention-tiers.v5.json",
+      "sha256": "7b3e26efdf39cfa458c9601a6a54ecd4394bf487681f4e655615d1fe5b7c690e"
+    },
+    {
+      "path": "artifacts/evidence.v1.json",
+      "sha256": "251d76f3cd272b2a48ce462d0f14d53a7c67865c9cc63f8ae8adebd9f7c46496"
+    },
+    {
+      "path": "artifacts/d9-exit-contract.v1.6.json",
+      "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046"
+    },
+    {
+      "path": "artifacts/threat-model.v3.json",
+      "sha256": "4b3c43fe2caad0e11c987ca7486681a044982680ae048ba73a2035421fa8f3b3"
+    },
+    {
+      "path": "artifacts/operability.v2.json",
+      "sha256": "bd8d6dbeee645cad225f5de43cdfd9ace2be16a1a97a056a40660d406bb3aa36"
+    },
+    {
+      "path": "artifacts/product-dispositions.v1.json",
+      "sha256": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c"
+    },
+    {
+      "path": "artifacts/check-retention-custody.py",
+      "sha256": "9295e7802230244ff3cf69d5842367170e52c1726f60d2fc6a5105e2642aab9b"
+    },
+    {
+      "path": "v1-slice.md",
+      "role": "binding Phase-0 scope; exact proof/custody deliberately delegated to Phase 1A"
+    }
+  ],
+  "checkerResults": {
+    "command": "python3 artifacts/check-retention-custody.py && python3 artifacts/check-retention-custody.py --selftest",
+    "baseResult": "PASS: 10 authored counterexamples rejected by their named invariant and 5 authored accepting fixtures accepted",
+    "mutationResult": "PASS: all 14 authored mutations rejected",
+    "semanticLimit": "The checker validates the authored lattice and fixture model, D9 vocabulary membership, evidence-invariant citation presence, and a self-asserted PRODUCT-SIGNED-OFF string. It does not verify proof sufficiency, closure completeness, product authority, cause-to-D9 derivation, cross-process lease behavior, or storage feasibility."
+  },
+  "independentProbes": [
+    {
+      "id": "R3-PROBE-01",
+      "scenario": "Use evidence.v1's accepted failing-run-with-witness: the match proof contains only subjectId and spanAnchor, with no factPartitionRef or predicateSemanticsRef.",
+      "expected": "A verifiable relationship or aggregate finding must retain enough claim material and historical predicate semantics for a later verifier to establish the relation/aggregate, not merely locate a span.",
+      "observed": "check-evidence.validate returns no finding.",
+      "consequence": "V10 item 1's relationship-proof requirement is not discharged."
+    },
+    {
+      "id": "R3-PROBE-02",
+      "scenario": "Replace an accepted clean pass's verdictDerivation.outcomeSetDigest with an arbitrary unrelated digest while leaving verdict=pass.",
+      "expected": "Verdict proof must bind the exact outcome set, Coverage, baseline, waivers, and policy and must be recomputable by the verifier.",
+      "observed": "check-evidence.validate returns no finding; it checks field presence and verdict equality, not the derivation.",
+      "consequence": "V10 item 1's verdict-derivation requirement is not discharged."
+    },
+    {
+      "id": "R3-PROBE-03",
+      "scenario": "Remove factPartitionRef from every accepted verifiable no-match evaluation while retaining factPartitionPinned=true.",
+      "expected": "E2's content-addressed fact-partition reference or a complete non-empty regeneration closure is mandatory.",
+      "observed": "check-evidence.validate returns no finding because its transitional boolean-pin branch accepts the unresolvable pin.",
+      "consequence": "The cited retained verification closure can still be self-asserted."
+    },
+    {
+      "id": "R3-PROBE-04",
+      "scenario": "Change the REQUEST.UNSATISFIABLE outcome row's class from request-rejected to operational-failed while retaining the same in-vocabulary code.",
+      "expected": "RC-10 must reject a class/cause/code combination that D9 cannot derive.",
+      "observed": "check-retention-custody.check returns no finding because it tests code membership only.",
+      "consequence": "The checker does not establish the claimed D9 mapping."
+    },
+    {
+      "id": "R3-PROBE-05",
+      "scenario": "Set resolvedAtAdmission=true for an accepted authoritative input but provide no acquired pin or lease identity.",
+      "expected": "Admission must establish an enforceable pin that a concurrent purge/expiry authority honors.",
+      "observed": "check-retention-custody.evaluate returns no finding; the boolean stands for both resolution and pin acquisition.",
+      "consequence": "RC-5 does not close the admission-to-use race."
+    },
+    {
+      "id": "R3-PROBE-06",
+      "scenario": "Declare PRODUCT-SIGNED-OFF in v5 while the binding product-dispositions.v1 CD-RT-5 row remains BLOCKED_ON_PHASE_1A.",
+      "expected": "Only the separate product authority can sign off CD-RT-5.",
+      "observed": "The checker passes because it reads only v5's self-assertion.",
+      "consequence": "The candidate cannot close its own product dependency."
+    }
+  ],
+  "blindCounterexamples": [
+    {
+      "id": "R3-RTV5-CE-01",
+      "targets": [
+        "V10 item 1",
+        "RC-4"
+      ],
+      "scenario": "A verifiable Run records a forbidden dependency edge A->B as a match. Its retained proof is only a subject digest and source span. The fact/relation tuple, edge endpoints, historical predicate semantics, and source witness are unavailable. The Run is accepted as an authoritative baseline because every listed evidence unit remains AVAILABLE.",
+      "whyItMustFail": "The later verifier can locate neither the relationship proposition nor the predicate that made it a violation. Availability of an incomplete inventory cannot make the claim verifiable.",
+      "representableByCurrentChecker": false
+    },
+    {
+      "id": "R3-RTV5-CE-02",
+      "targets": [
+        "V10 item 1",
+        "RC-4"
+      ],
+      "scenario": "A clean Run retains exact evaluation identities but supplies an arbitrary outcomeSetDigest and a policyId string; no checkable baseline, waiver, Coverage fold, or policy-evaluation proof binds the pass verdict. The Run remains effective=verifiable and gates.",
+      "whyItMustFail": "Exact activation is not exact verdict derivation.",
+      "representableByCurrentChecker": false
+    },
+    {
+      "id": "R3-RTV5-CE-03",
+      "targets": [
+        "RC-2",
+        "RC-4"
+      ],
+      "scenario": "The sealed evidence proof needs fact unit F and predicate-semantics unit P. The retention inventory omits P or labels it requiredForCapability=replayable. P is purged. The derivation still reports effective=verifiable and permits authoritative use.",
+      "whyItMustFail": "The lattice is sound only if the sealed unit-requirement closure is exact and host-owned. v5 defines no closure validation between evidence obligations and retention units.",
+      "representableByCurrentChecker": false
+    },
+    {
+      "id": "R3-RTV5-CE-04",
+      "targets": [
+        "RC-5",
+        "admissionTimePinning"
+      ],
+      "scenario": "One one-shot host observes AVAILABLE and records resolvedAtAdmission=true. A second process obtains the purge authority and deletes the unit before the first process consumes it. The first process proceeds and seals from an input it can no longer justify.",
+      "whyItMustFail": "One-shot topology does not remove cross-process concurrency. Resolve and pin must be one atomic lease operation and purge must honor the lease.",
+      "representableByCurrentChecker": false
+    },
+    {
+      "id": "R3-RTV5-CE-05",
+      "targets": [
+        "targetedPurgeIsSupported",
+        "TM deletionProtocol"
+      ],
+      "scenario": "Runs A and B in one project share a content-addressed fact partition F containing subject S. A path/subject purge targets S. Retaining F for B leaves S present; deleting F demotes B; rewriting F changes the identity sealed by both Runs.",
+      "whyItMustFail": "The promises that targeted purge removes the selected material, unrelated Runs are untouched, and sealed identities are immutable cannot all hold without a subject/purge-key isolation and lineage rule that the storage architecture does not yet supply.",
+      "representableByCurrentChecker": false
+    },
+    {
+      "id": "R3-RTV5-CE-06",
+      "targets": [
+        "RC-4",
+        "RC-10"
+      ],
+      "scenario": "A verifiable Run's unit is temporarily OUTAGE because removable storage is unmounted. An authoritative use is rejected as REQUEST.UNSATISFIABLE even though the same request becomes satisfiable when the store returns.",
+      "whyItMustFail": "D9 groups codes by remedy. A transient storage failure is not the same cause or remedy as terminally purged evidence. The current blanket below-verifiable mapping erases the distinction v5 otherwise requires.",
+      "representableByCurrentChecker": true,
+      "checkerBehavior": "accepted outcome because RC-10 checks only that REQUEST.UNSATISFIABLE is in the closed vocabulary"
+    }
+  ],
+  "findings": [
+    {
+      "id": "R3-RTV5-01",
+      "severity": "CRITICAL",
+      "title": "V10 item 1 and the retained closure are claimed discharged, but accepted evidence does not prove relationship matches or verdict derivation",
+      "evidence": "R3-PROBE-01..03 reproduce accepted proof holes. evidence.v1 requires only subjectId+spanAnchor for a match; an accepted match has neither retained facts nor historical predicate semantics. verdictDerivation is a bag of identifiers whose outcomeSetDigest is never recomputed and whose baseline/waiver/policy proof is not represented. The no-match validator still accepts factPartitionPinned=true without a content-addressed ref. The declared universe commitment grammar also says unit-separator plus length-prefixing, while check-evidence uses pipe/newline framing and a truncated digest. evidence.v1 still labels itself CANDIDATE-UNREVIEWED and says a post-repair second-author review is absent.",
+      "impact": "A Run can be labelled verifiable and used authoritatively when a later process cannot establish the relational finding, universal negative, or policy verdict. V10's first and second required resolutions remain open.",
+      "requiredChange": "Version the evidence contract/checker. Define proof obligations by claim shape, including relationship/aggregate matches; require resolvable content-addressed fact and historical predicate/policy artifacts or an exact regeneration closure; make verdict derivation an actual evaluation over a recomputed complete outcome/Coverage/baseline/waiver/policy set; select one canonical commitment byte grammar; remove boolean pin compatibility; add independently authored positive and negative goldens and a post-repair review.",
+      "confidence": "HIGH",
+      "counterexamples": [
+        "R3-RTV5-CE-01",
+        "R3-RTV5-CE-02"
+      ]
+    },
+    {
+      "id": "R3-RTV5-02",
+      "severity": "HIGH",
+      "title": "Effective capability trusts an unproved and potentially incomplete unit-requirement inventory",
+      "evidence": "capabilityDerivation assumes every proof dependency is present exactly once and carries the correct lowest required capability. v5 does not bind evidence.v1 proof references and verdict dependencies to an exact host-owned retention-unit closure, and the checker evaluates only the units a fixture happens to list.",
+      "impact": "Omitting or misclassifying one proof dependency lets effectiveCapability remain verifiable after the material needed for verification is gone. Sealed-versus-effective separation is correct in shape but unsound without exact closure custody.",
+      "requiredChange": "Specify and validate a sealed host-owned capability-requirement closure that maps every evaluation and verdict proof dependency to one retained unit and its minimum capability. Recompute/verify that closure at seal and read time, reject unknown/missing/misclassified dependencies, and add omission, duplicate-alias, and downgraded-requiredForCapability counterexamples.",
+      "confidence": "HIGH",
+      "counterexamples": [
+        "R3-RTV5-CE-03"
+      ]
+    },
+    {
+      "id": "R3-RTV5-03",
+      "severity": "HIGH",
+      "title": "Admission-time pinning is a boolean assertion, not a concurrency contract",
+      "evidence": "RC-5 says resolve once and pin, but the fixture/checker treats resolvedAtAdmission=true as sufficient and carries no lease identity or pin acquisition. oneShotFit calls the lease process-scoped even though purge can run in a separate one-shot process. threat-model deletionProtocol has an exclusive purge lease but does not define its linearization against an already-admitted read pin.",
+      "impact": "A purge/expiry can race between capability resolution and evidence use, recreating the TOCTOU failure the clause claims to close.",
+      "requiredChange": "Define one atomic resolve-effective-capability-and-acquire-read-lease operation; state the total order with purge/expiry leases, whether purge waits or rejects, release and crash-recovery behavior, and the D9 outcome for contention/failure. Add concurrent admission-before-purge, purge-before-admission, crash-with-pin, and expiry-during-use goldens.",
+      "confidence": "HIGH",
+      "counterexamples": [
+        "R3-RTV5-CE-04"
+      ]
+    },
+    {
+      "id": "R3-RTV5-04",
+      "severity": "HIGH",
+      "title": "Unit-granular and subject-targeted purge depends on a storage/lineage architecture that remains explicitly unresolved",
+      "evidence": "v5 promises that path/subject purge affects exactly containing units and leaves unrelated Runs untouched, while its own knownLimitations says individual addressability/purgeability is not fixed. TM deletionProtocol permits within-project shared objects and retains a shared object with blocking Run IDs. A fact partition can contain many subjects and be shared by many Runs, so the three promises cannot be implemented from the current contracts.",
+      "impact": "Implementers must invent a week-one fork among subject-isolated storage, per-Run duplication, conservative whole-partition demotion, or retained shared data. Those choices materially change privacy, cost, identity, and purge behavior, so this is not merely a later physical-layout detail.",
+      "requiredChange": "Bind the logical storage and lineage constraints before seal: purge-key granularity, unit-to-subject/path membership, within-project sharing policy, treatment of shared pins, whether a targeted purge may demote other Runs, and the honest retained/blocker report. If exact targeted deletion is not guaranteed, narrow the v5 promise and carry the limitation into the product contract.",
+      "confidence": "HIGH",
+      "counterexamples": [
+        "R3-RTV5-CE-05"
+      ]
+    },
+    {
+      "id": "R3-RTV5-05",
+      "severity": "HIGH",
+      "title": "The D9 mapping is neither total nor cause-derived",
+      "evidence": "RC-4 maps every below-verifiable authoritative use to request-rejected/REQUEST.UNSATISFIABLE, including recoverable OUTAGE, even though D9 groups codes by remedy. v5 separately distinguishes OUTAGE precisely because it can recover. The mapping also sends every integrity failure to LEDGER.CORRUPT without distinguishing ledger corruption from CAS/object corruption, and it omits D9's explicit query-with-required-completeness -> indeterminate case. R3-PROBE-04 shows that a wrong class with an in-vocabulary code passes RC-10.",
+      "impact": "Callers receive the wrong remediation and the artifact's claim that it reuses D9 without reopening it is unsupported.",
+      "requiredChange": "Enumerate operation kind x availability cause x admission/lifecycle axes, pass each row through D9's reference derivation, and add cross-artifact goldens. At minimum distinguish terminal authorized loss from transient storage outage, ledger corruption, object/CAS materialization failure, and an admitted completeness query. Reopen D9 only if no existing cause/code truthfully represents a required row.",
+      "confidence": "HIGH",
+      "counterexamples": [
+        "R3-RTV5-CE-06"
+      ]
+    },
+    {
+      "id": "R3-RTV5-06",
+      "severity": "CRITICAL",
+      "title": "The architecture candidate self-asserts product sign-off that the product authority explicitly withholds",
+      "evidence": "retention-tiers.v5 defaultPosture says PRODUCT-SIGNED-OFF and resolves CD-RT-5 as signed on 2026-07-31. product-dispositions.v1 is the binding product authority and says CD-RT-5=BLOCKED_ON_PHASE_1A, no implementer may choose a default, and no freeze may claim V10 resolved. v1-slice likewise delegates the exact model to Phase 1A. The checker trusts the reviewed artifact's own status string rather than reading the product authority.",
+      "impact": "This is a paper seal and an authority inversion. The architecture closer cannot manufacture product acceptance inside its own candidate.",
+      "requiredChange": "Change v5 to AWAITING-PRODUCT-DISPOSITION and remove SIGNED-OFF/PRODUCT-SIGNED-OFF claims. After the independent findings are adjudicated, have product record CD-RT-5 in product-dispositions.v1 as a separate action. Make the retained checker cross-read that authority or treat product acceptance as an external freeze precondition rather than a self-checkable field.",
+      "confidence": "CERTAIN"
+    },
+    {
+      "id": "R3-RTV5-07",
+      "severity": "HIGH",
+      "title": "Cross-artifact state prematurely marks V10 resolved while binding consumers still mark its mechanism blocked",
+      "evidence": "At the reviewed hashes, threat-model.v3 V10 says RESOLVED and cites a nonexistent artifacts/retention-custody.v5.json path, while the same threat model's R4 architectureState and knownLimitations still say V10 is blocked/unresolved. operability.v2 G19 remains BLOCKED-NO-MECHANISM. product-dispositions.v1 blocks CD-RT-5. retention-tiers.v5 itself is CANDIDATE-UNREVIEWED and retains RC.independent-review.",
+      "impact": "Completeness tooling or a future reader can select whichever state is convenient, equating an in-flight candidate with a resolved dependency.",
+      "requiredChange": "Keep V10 and G19 visibly blocked while these findings are open. After adjudication, product disposition, corrected citations, and a converged checker run, update TM, OPERABILITY, the claim register, and completeness state in one serialized integration step.",
+      "confidence": "CERTAIN"
+    }
+  ],
+  "resolves": {
+    "R3-RTV5-01": "OPEN",
+    "R3-RTV5-02": "OPEN",
+    "R3-RTV5-03": "OPEN",
+    "R3-RTV5-04": "OPEN",
+    "R3-RTV5-05": "OPEN",
+    "R3-RTV5-06": "OPEN",
+    "R3-RTV5-07": "OPEN"
+  },
+  "positiveObservations": [
+    "The immutable sealed capability plus separately derived effective capability is the right conceptual split; it avoids rewriting historical identity while preventing unavailable proof from retaining authority.",
+    "Distinguishing recoverable OUTAGE from terminal loss and requiring per-unit causes is materially better than a single Run-wide degradation word.",
+    "Allowing honest inspection of degraded history while rejecting unsupported authority is a sound product distinction.",
+    "Keeping recorded/verifiable/replayable unbound to the old C0/C1/C2 labels respects the prior adjudication.",
+    "Reusing the closed D9 vocabulary is a good constraint, but it needs derivation-level validation rather than membership validation."
+  ],
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "v10CanSealAfterProductDispositionAlone": false,
+    "reason": "Product acceptance is necessary but not sufficient. Exact relationship/verdict proof, exact capability-unit closure, enforceable admission leases, targeted-purge storage semantics, and cause-derived D9 outcomes remain architecture-level forks.",
+    "minimumBeforeReReview": [
+      "Resolve R3-RTV5-01 through a versioned evidence/proof contract and independent post-repair goldens.",
+      "Bind exact evidence-unit requirement closure and purge-key/storage-lineage semantics.",
+      "Bind atomic pin/purge concurrency and its D9 outcomes.",
+      "Replace vocabulary-only RC-10 checking with D9 derivation goldens.",
+      "Obtain CD-RT-5 from the separate product authority only after the architecture candidate is independently acceptable.",
+      "Reconcile TM, OPERABILITY, claim register, and completeness state only after all preceding work converges."
+    ],
+    "candidateShapeAfterChanges": "The sealed/effective split is worth retaining. The findings require strengthening its proof closure and operational semantics, not returning to a tier-only or Run-rewriting design."
+  },
+  "knownLimitations": [
+    "This is an architecture/contract review, not a storage benchmark or implementation demonstration.",
+    "No finding is self-adjudicated; every R3-RTV5 finding remains OPEN for the owning author/coordinator.",
+    "The review snapshot includes in-flight cross-artifact edits. Hashes are recorded so later changes cannot be mistaken for the reviewed state."
+  ],
+  "confidence": "HIGH"
+}

@@ -1,0 +1,137 @@
+{
+  "artifact": "opensip.review.d9-exit-contract",
+  "version": "1.0",
+  "subject": "artifacts/d9-exit-contract.v1.5.json",
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "independence": {
+    "method": "Mutation-tested the retained checker and independently re-derived the new cause axes from scenario prose. Reviewer A's review artifact was not used as evidence.",
+    "differentInstrument": "The repair author flipped one expected code and showed D10 could reject it. This review instead removed proof machinery, removed map entries, introduced simultaneous causes, and added an unconstrained secondary code to test whether the claimed invariant was actually mandatory and total."
+  },
+  "verdict": "reject-require-v1.6",
+  "repairAssessment": {
+    "A1-D9-V14-01": "PARTIAL. The three new cause axes distinguish the primary code for the existing mapped goldens when codeMaps is present. They do not yet make code determination a required, total invariant, and they do not determine the complete reason-code payload."
+  },
+  "resolves": {
+    "B-D9V15-01": "OPEN-BLOCKER: D10 is optional; deleting codeMaps entirely or deleting a used mapping still passes.",
+    "B-D9V15-02": "OPEN-BLOCKER: the asserted total/injective map-to-vocabulary contract is unchecked, and v1.5 currently maps cas-link to CAS.LINK_FAILED outside the closed error vocabulary.",
+    "B-D9V15-03": "OPEN-BLOCKER: mutually inconsistent cause axes and extra secondary reason codes pass, so axes do not determine the complete HostTermination code payload.",
+    "B-D9V15-04": "OPEN-BLOCKER: the retained checker defaults to v1.4 and reports only D1..D9, while v1.5's conformance claim also reproduces v1.4 rather than v1.5.",
+    "B-D9V15-05": "OPEN-BLOCKER: the query-completeness golden uses required-relation-missing even though its scenario and the new dedicated enum/code say query-completeness-unmet."
+  },
+  "findings": [
+    {
+      "id": "B-D9V15-01",
+      "severity": "critical",
+      "category": "optional-proof-path",
+      "evidence": [
+        "check-d9.py obtains maps with c.get(\"codeMaps\") and executes D10 only under `if maps and ax`",
+        "`python3 artifacts/check-d9.py <(jq 'del(.codeMaps)' artifacts/d9-exit-contract.v1.5.json)` exits 0",
+        "deleting the used deficiency mapping for required-relation-missing also exits 0 because comparison is guarded by `if expected`",
+        "a control mutation changing IDENTITY.EXPIRED to IDENTITY.UNKNOWN is correctly rejected when the map remains present"
+      ],
+      "impact": "The binding object can lose the entire repair for A1-D9-V14-01 while its retained checker remains green. The claimed D10 invariant is therefore optional metadata, not conformance.",
+      "requiredChange": "Require codeMaps and every map family structurally. Fail when any non-none cause lacks exactly one mapping. Rename or extend D6/D10 reporting so the executed invariant is accurately identified, and mutation-test deletion of the whole map and one used entry.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A checker run that rejects both recorded deletions from the binding v1.5 object."
+    },
+    {
+      "id": "B-D9V15-02",
+      "severity": "high",
+      "category": "closed-vocabulary-violation",
+      "evidence": [
+        "codeMaps.rule asserts that its maps are total and injective",
+        "faultCauseToErrorCode maps cas-link to CAS.LINK_FAILED",
+        "codeVocabulary.errorCodes does not contain CAS.LINK_FAILED",
+        "the unmodified v1.5 checker exits 0 because D5 validates codes carried by goldens, not values reachable from codeMaps"
+      ],
+      "impact": "A declared reachable operational outcome violates the artifact's closed vocabulary while all conformance checks pass. A future CAS golden must either fail D5 or emit an undeclared contract code.",
+      "requiredChange": "Validate enum-minus-none equals map keys, map values are injective where that is intended, and every map value belongs to the correct reason/error vocabulary. Add CAS.LINK_FAILED to the vocabulary with a remedy or remove/rename the mapping, then add its golden.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A documented reason that codeMaps is outside vocabulary closure plus a separate closed vocabulary governing its values; no such contract exists in v1.5."
+    },
+    {
+      "id": "B-D9V15-03",
+      "severity": "high",
+      "category": "underdetermined-payload",
+      "evidence": [
+        "adding faultCause=ledger-busy to analysis-required-coverage-missing leaves deficiency non-none and exits 0; D10 silently prioritizes deficiency",
+        "adding COVERAGE.PROVIDER_UNAVAILABLE as a second reasonCode to the same golden exits 0; D10 checks only reasonCodes[0]",
+        "the schema declares no mutual-exclusion or compatibility rule across deficiency, rejectionCause, and faultCause",
+        "derive returns only a class despite codeMaps.rule saying the derivation returns (class, code)"
+      ],
+      "impact": "Two authors can encode the same scenario with contradictory causes or different secondary codes and both pass. The repaired axes still do not uniquely determine the machine-visible termination payload.",
+      "requiredChange": "Define valid cause combinations and reject contradictory non-none axes. Either derive the entire ordered code list from axes or constrain HostTermination to one primary code and separately schema/derive any secondary reasons. Add collision scanning over the complete axes and complete termination payload.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A stated semantic rule making ignored causes and arbitrary additional reason codes intentionally non-authoritative, paired with a different identity field that determines the full payload."
+    },
+    {
+      "id": "B-D9V15-04",
+      "severity": "medium",
+      "category": "wrong-default-target",
+      "evidence": [
+        "check-d9.py line 191 defaults to d9-exit-contract.v1.4.json",
+        "the success message says D1..D9 clean although the file documents D10",
+        "v1.5 conformanceClaims.reproduce explicitly invokes v1.4"
+      ],
+      "impact": "The user-prescribed no-argument check validates the superseded artifact and gives no observable assurance that D10 ran against v1.5.",
+      "requiredChange": "Default and reproduce against v1.5, report D1..D10, and add a version assertion so a future binding-artifact bump cannot leave the checker pinned to its predecessor.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A deliberate policy that the no-argument checker must validate v1.4, with a separate canonical command wired to the register's current binding artifact."
+    },
+    {
+      "id": "B-D9V15-05",
+      "severity": "high",
+      "category": "semantic-axis-mismatch",
+      "evidence": [
+        "query-required-completeness-missing says the caller requires complete graph evidence and Coverage cannot satisfy it",
+        "v1.5 introduces deficiency=query-completeness-unmet and reason QUERY.COMPLETENESS_UNMET for exactly that remedy",
+        "the golden instead supplies deficiency=required-relation-missing and COVERAGE.REQUIRED_RELATION_MISSING",
+        "no golden uses query-completeness-unmet, so its new branch is not exercised"
+      ],
+      "impact": "The machine input passes but states a different cause from the human scenario; the same author controlling both sides can therefore retain a semantically false golden while reporting 39/39.",
+      "requiredChange": "Use query-completeness-unmet/QUERY.COMPLETENESS_UNMET for this scenario, or rewrite the scenario to name one required relation and explain why the query-specific cause exists. Add a golden for every non-none cause enum.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative distinction showing that explicit query completeness is always represented as required-relation-missing and a different scenario that exclusively triggers query-completeness-unmet."
+    }
+  ],
+  "negativeControls": [
+    {
+      "mutation": "delete entire codeMaps",
+      "expected": "checker failure",
+      "observed": "exit 0"
+    },
+    {
+      "mutation": "delete used required-relation-missing map entry",
+      "expected": "checker failure",
+      "observed": "exit 0"
+    },
+    {
+      "mutation": "add simultaneous ledger-busy fault to a deficiency golden",
+      "expected": "checker failure",
+      "observed": "exit 0"
+    },
+    {
+      "mutation": "append an axes-undetermined secondary reason code",
+      "expected": "checker failure",
+      "observed": "exit 0"
+    },
+    {
+      "mutation": "flip the mapped primary identity code",
+      "expected": "checker failure",
+      "observed": "exit 1 with D10 finding"
+    }
+  ],
+  "sealedPropertiesCovered": [
+    "architecture/02-domain-model.md — policy, operational failure, lifecycle, Coverage, and verdict remain orthogonal",
+    "architecture/07-outcomes-and-failure.md — one total termination union and one process-boundary mapper",
+    "artifacts/d9-exit-contract.v1.5.json#codeVocabulary — closed code vocabulary and remedy distinction",
+    "artifacts/d9-exit-contract.v1.5.json#referenceDerivation — outcome must be a pure function of declared axes"
+  ],
+  "knownLimitations": [
+    "This review did not repeat Reviewer A's 12-case blind class-axis protocol; it used cause-axis re-derivation and adversarial mutation, a different instrument.",
+    "It did not settle whether graceful signal shutdown for a serve command should be success or interrupted; the artifact still needs an explicit precedence rule.",
+    "It did not inspect implementation code because D9 is a greenfield contract artifact, not a claim about the current implementation."
+  ],
+  "confidence": "high"
+}

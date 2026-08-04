@@ -1,0 +1,3115 @@
+{
+  "artifact": "opensip.versioning-policy",
+  "version": 8,
+  "status": "CANDIDATE-NOT-APPLIED",
+  "author": "phase1a-evidence-successor-lane",
+  "reviewStatus": "AWAITING-INDEPENDENT-COMBINED-REREVIEW",
+  "purpose": "Define how each public contract evolves. Without this, a small contract set is a promise with no mechanism — and the one contract whose artifacts live in user repositories has no upgrade path.",
+  "decisionDependencies": [
+    {
+      "id": "ARCH.CONTRACT-COUNT",
+      "source": "architecture/02-domain-model.md#kernel-sizing",
+      "claim": "structure is governed by a small set of public versioned contracts, not a package count"
+    },
+    {
+      "id": "ARCH.FINGERPRINT-RECIPE",
+      "source": "architecture/06-evidence-and-persistence.md#baselines-and-the-fingerprint-recipe",
+      "claim": "the recipe is versioned independently of the fact schema; skipped releases must not mass-invalidate"
+    },
+    {
+      "id": "ARCH.ENVELOPE",
+      "source": "architecture/07-outcomes-and-failure.md#public-output-is-a-discriminated-envelope",
+      "claim": "consumers pin a schema major and receive a typed refusal rather than a reshaped document"
+    },
+    {
+      "id": "ARCH.QUERY-BOUNDED",
+      "source": "architecture/04-fact-plane.md#fact-access-contracts",
+      "claim": "physical storage schema is private and freely migratable"
+    },
+    {
+      "id": "D9",
+      "source": "artifacts/d9-exit-contract.v1.6.json",
+      "claim": "exit classes are a public contract with executable goldens",
+      "direction": "VERSIONING depends on D9 for the additive-only exit-class rule (V4). D9 does NOT depend on VERSIONING.",
+      "note": "B-SCV2-06: v1 cited D9 v1.4 while scope-correction v2 asserted D9 depends on VERSIONING, making ownership circular or hidden. The direction is now declared and VER-DEP checks the citation resolves to the live binding artifact."
+    },
+    "evaluation-proof.v8.json (durable cold stored-read authority reconstruction; current candidate)",
+    "retention-tiers.v13.json (cold-reconstruction custody identity rejoin; current candidate)"
+  ],
+  "principle": {
+    "core": "A contract's evolution policy is determined by WHO HOLDS ITS ARTIFACTS, not by how important it feels.",
+    "rationale": "If the artifacts live only in our release, a breaking change costs a version bump. If they live in user repositories, a breaking change costs every user a migration they did not ask for — and if it happens silently, it costs their trust in the gate. These are different problems and cannot share one policy.",
+    "consequence": "Contracts are classified by artifact custody, and the custody class dictates the mechanism."
+  },
+  "custodyClasses": [
+    {
+      "class": "USER-CUSTODY",
+      "meaning": "Artifacts are created by the tool and stored in the user's repository, under their version control, outliving any release.",
+      "members": [
+        "fingerprint recipe / baselines",
+        "tracked project configuration",
+        "waivers",
+        "lockfile"
+      ],
+      "policy": {
+        "breakingChange": "Requires a migrator, not a major bump alone.",
+        "support": "Last K majors readable, K >= 2, published as a number not a vibe.",
+        "negotiation": "Every artifact self-declares the version it was written under. The host reads the declaration; it never infers from shape.",
+        "unsupportedVersion": "INDETERMINATE with repair instructions. NEVER a silent re-interpretation and never a mass net-new diff.",
+        "migration": "Explicit, previewable, and idempotent. `--check` shows the diff without writing.",
+        "dualEmit": "Where two identities can be computed, emit both during the transition window so a mid-upgrade fleet matches on either."
+      },
+      "why": "This is the class that can destroy trust. A user who skipped three releases and comes back to a flood of false net-new findings concludes the gate is unreliable — and they are right to."
+    },
+    {
+      "class": "CONSUMER-CUSTODY",
+      "meaning": "No stored artifact, but an external consumer's code depends on the shape at runtime — CI scripts, agents, dashboards.",
+      "members": [
+        "command envelope schema",
+        "exit classes and codes",
+        "typed query operations",
+        "agent protocol surface"
+      ],
+      "policy": {
+        "breakingChange": "New major, offered alongside the old for a published window.",
+        "negotiation": "The consumer requests a major explicitly. An unsupported request is a typed refusal, never a best-effort reshape.",
+        "unsupportedVersion": "REQUEST-REJECTED naming the supported range.",
+        "additive": "New optional fields are minor. A consumer that rejects unknown fields is non-conforming; this must be stated so additive change stays cheap.",
+        "exitCodesSpecial": "Exit classes may only be ADDED, never renumbered or repurposed. A build script cannot negotiate."
+      },
+      "why": "The failure mode is silent: a reshaped document parses, produces a different meaning, and CI does the wrong thing without erroring."
+    },
+    {
+      "class": "AUTHOR-CUSTODY",
+      "meaning": "Third-party authors compile or validate against it.",
+      "members": [
+        "fact query / rule IR vocabulary",
+        "provider protocol",
+        "contribution manifest",
+        "test kit"
+      ],
+      "policy": {
+        "breakingChange": "New major with an overlap window; contributions declare a supported range and the host refuses outside it at admission, not at first use.",
+        "negotiation": "Handshake at admission: host advertises supported ranges, contribution declares its requirement, mismatch is an admission rejection with both ranges named.",
+        "deprecation": "Announce, then warn on use, then refuse. Each stage is a release, not a day."
+      },
+      "why": "Cheaper than user-custody because authors can respond to a release; more expensive than internal because they are not us."
+    },
+    {
+      "class": "INTERNAL",
+      "meaning": "No external party depends on the shape.",
+      "members": [
+        "physical storage schema",
+        "cache and index layouts",
+        "private plan operators",
+        "internal worker protocols"
+      ],
+      "policy": {
+        "breakingChange": "Free. No version, no window.",
+        "requirement": "Anything derived must be REBUILDABLE from retained inputs, or it is not internal — it is evidence, and evidence is user-custody.",
+        "test": "If deleting it loses information a retained Run needs, it was misclassified."
+      },
+      "why": "The whole point of keeping storage private is to be able to change it. If internal layouts acquire external dependents, that freedom is lost silently."
+    }
+  ],
+  "versionedIdentities": [
+    {
+      "identity": "hostVersion",
+      "class": "release",
+      "note": "Not itself a contract; the vehicle."
+    },
+    {
+      "identity": "envelopeSchema",
+      "class": "CONSUMER-CUSTODY",
+      "form": "family + major",
+      "note": "Family distinguishes this contract from any predecessor with a colliding version number."
+    },
+    {
+      "identity": "exitClassSet",
+      "class": "CONSUMER-CUSTODY",
+      "form": "additive-only"
+    },
+    {
+      "identity": "fingerprintRecipe",
+      "class": "USER-CUSTODY",
+      "form": "major",
+      "note": "Independent of the fact schema — that independence is the whole reason it exists."
+    },
+    {
+      "identity": "factSchema",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major + relation-level minors",
+      "note": "Relation-level granularity so adding a relation does not break rules that never used it."
+    },
+    {
+      "identity": "ruleIR",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major",
+      "retainedRunRule": "A retained trusted declarative semantics object binds its exact IR major, verifier ABI, canonical semantics bytes and a bundled signed content-addressed verifier artifact. Current-host defaults never reinterpret it."
+    },
+    {
+      "identity": "policyIR",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major",
+      "retainedRunRule": "PolicySemanticsRef uses the same historical-verifier binding as PredicateSemanticsRef."
+    },
+    {
+      "identity": "verifierArtifact",
+      "class": "USER-CUSTODY",
+      "form": "content-addressed bytes + exact verifier ABI + exact supported IR family/major + signed bundle provenance",
+      "why": "Reachable from a retained verifiable/replayable Run, therefore USER-CUSTODY by V7. A new IR major requires a new artifact identity; an old Run keeps its old reference."
+    },
+    {
+      "identity": "providerProtocol",
+      "class": "AUTHOR-CUSTODY",
+      "form": "major"
+    },
+    {
+      "identity": "storageSchema",
+      "class": "INTERNAL",
+      "form": "unversioned"
+    },
+    {
+      "identity": "runManifestSchema",
+      "class": "USER-CUSTODY",
+      "form": "major",
+      "why": "A1-VER-06. Reachable from a retained Run, therefore USER-CUSTODY by V7 whatever it was labelled.",
+      "migratorStatus": "NOT-YET-ENFORCEABLE"
+    }
+  ],
+  "rules": [
+    {
+      "id": "V1",
+      "rule": "Every public contract declares exactly one custody class. Unclassified means unshippable."
+    },
+    {
+      "id": "V2",
+      "rule": "A USER-CUSTODY breaking change without a migrator is prohibited, regardless of how the version is numbered."
+    },
+    {
+      "id": "V3",
+      "rule": "No consumer-facing document is reshaped in place. Either the consumer's requested major is served, or the request is refused with the supported range named."
+    },
+    {
+      "id": "V4",
+      "rule": "Exit classes are additive-only, forever. Renumbering silently changes the meaning of every CI configuration in existence."
+    },
+    {
+      "id": "V5",
+      "rule": "Compatibility is negotiated at admission, not discovered at first use. A contribution incompatible with the host fails to load with both ranges reported."
+    },
+    {
+      "id": "V6",
+      "rule": "Support windows are published as concrete counts and dates. 'We support recent versions' is not a policy."
+    },
+    {
+      "id": "V7",
+      "rule": "Anything reachable from a retained Run is USER-CUSTODY by definition, whatever it was labelled. Custody follows reachability, not intent."
+    },
+    {
+      "id": "V8",
+      "rule": "A version identity that participates in PlanId cannot change without changing derived identity — so bumping it invalidates caches by construction. This is a feature; do not add compatibility shims that hide it."
+    },
+    {
+      "id": "V9",
+      "rule": "Any change that makes a byte sequence reachable from a retained Run is a VERSIONING REVIEW EVENT. Reachability is checked mechanically: the evidence reachability graph must never point at a path the inventory labels INTERNAL.",
+      "why": "V7 says custody follows reachability, which means custody can change SILENTLY — a refactor that starts embedding an internal structure in a Run has just made it USER-CUSTODY without anyone deciding to. A1-VER-03."
+    },
+    {
+      "id": "V10",
+      "rule": "For bundled trusted declarative v1 rule/policy semantics, PredicateSemanticsRef and PolicySemanticsRef bind exact canonical semantics bytes, IR family and major, verifier ABI, and a signed bundled content-addressed verifierArtifactRef. A verifiable or replayable closure retains or resolves that exact compatible offline artifact. A major change creates a new artifact; old Runs are immutable and never silently reinterpreted. Unavailable or unsupported semantics/verifier material becomes a typed unavailable capability dependency for retention-tiers.v7, or an authoritative read is refused through existing D9. Proof migration creates a new Run and never rewrites the old Run identity.",
+      "scope": "Only trusted bundled declarative v1 semantics. Untrusted imperative code and Probe are excluded.",
+      "finding": "R10-EVD-07 / EVD-PATCH-04"
+    }
+  ],
+  "supportWindows": {
+    "fingerprintRecipe": {
+      "majorsSupported": 2,
+      "note": "Plus an explicit previewable upgrade path. Beyond the window: INDETERMINATE, never a reinterpretation.",
+      "evidenceGrade": "GUESSED — chosen for coherence, no adoption data"
+    },
+    "envelopeSchema": {
+      "majorsSupported": 2,
+      "overlapReleases": 2,
+      "evidenceGrade": "GUESSED — chosen for coherence, no adoption data"
+    },
+    "factSchema": {
+      "majorsSupported": 1,
+      "note": "Narrower because authors can respond to releases; widen only if a real ecosystem exists (P-1).",
+      "evidenceGrade": "GUESSED — chosen for coherence, no adoption data"
+    },
+    "providerProtocol": {
+      "majorsSupported": 1,
+      "evidenceGrade": "GUESSED — chosen for coherence, no adoption data"
+    },
+    "exitClassSet": {
+      "majorsSupported": "n/a — additive only",
+      "evidenceGrade": "GUESSED — chosen for coherence, no adoption data"
+    },
+    "historicalRulePolicySemantics": {
+      "majorsSupported": "artifact-custody-derived; no fixed count or date",
+      "evidenceGrade": "PROVISIONAL — exact support exists only while the content-addressed semantics, signature material and compatible offline verifier artifact remain resolvable",
+      "notAnSla": true
+    },
+    "caveat": "These numbers are chosen for coherence, not from adoption data. They are the most guessed part of this artifact and should be revisited when real usage exists (A19).",
+    "sealRule": "No support window may be SEALED while its evidenceGrade is GUESSED without a recorded product disposition. VER-EG enforces this.",
+    "consumerFacingRule": "Any consumer-facing support matrix MUST display evidenceGrade (or the word provisional) next to each window. GUESSED numbers must not be presented as SLAs (R1-VER-02). VER-EG continues to forbid sealing windows while GUESSED without product disposition."
+  },
+  "conformanceTests": [
+    {
+      "id": "VT-01",
+      "implementable": true,
+      "assert": "Every public contract declares exactly one custody class; an unclassified contract fails the release gate."
+    },
+    {
+      "id": "VT-02",
+      "implementable": true,
+      "assert": "A USER-CUSTODY breaking change without a SPECIFIED migrator is refused by the release gate.",
+      "note": "A1-VER-01: this was vacuous in v1 because no migrator existed for any member. Four are now specified; run-manifest is NOT-YET-ENFORCEABLE and is excluded from discharge."
+    },
+    {
+      "id": "VT-03",
+      "implementable": true,
+      "assert": "A consumer requesting an unsupported major receives a typed refusal naming the supported range, never a reshaped document."
+    },
+    {
+      "id": "VT-04",
+      "implementable": true,
+      "assert": "Exit classes can be added but never renumbered or repurposed."
+    },
+    {
+      "id": "VT-05",
+      "implementable": true,
+      "assert": "A contribution incompatible with the host fails to load at admission with both ranges reported."
+    },
+    {
+      "id": "VT-06",
+      "implementable": true,
+      "assert": "Every migrator runs offline from in-release code and fetches nothing."
+    },
+    {
+      "id": "VT-07",
+      "implementable": true,
+      "assert": "`--check` previews a migration without writing, and running a migrator twice is a no-op."
+    },
+    {
+      "id": "VT-08",
+      "implementable": true,
+      "assert": "A baseline comparison across a detector change classifies each difference as CODE-NET-NEW, DETECTION-DELTA, or CODE-FIXED using the detector pivot."
+    },
+    {
+      "id": "VT-09",
+      "implementable": true,
+      "assert": "When the pivot detector is unavailable the comparison reports INDETERMINATE for it and never attributes the delta to code."
+    },
+    {
+      "id": "VT-10",
+      "implementable": true,
+      "assert": "A waiver whose target identity changes under migration is reported individually, never summarised."
+    },
+    {
+      "id": "VT-11",
+      "implementable": true,
+      "assert": "The evidence reachability graph never points at a path the inventory labels INTERNAL."
+    },
+    {
+      "id": "VT-12",
+      "implementable": false,
+      "requiresHarness": "adoption telemetry that does not exist and that the threat model may forbid",
+      "assert": "Support windows match observed user upgrade behaviour.",
+      "note": "A1-VER-05: the numbers are GUESSED. Marking this unimplementable is the honest state — and note the harness may be unbuildable by design, since the threat model's zero-egress posture forbids the telemetry that would inform it."
+    },
+    {
+      "id": "VT-13",
+      "implementable": true,
+      "assert": "Canonical semantics bytes exactly equal the selected signed manifest binding for payload ref, manifest ref, IR family/major, verifier ABI, and trust profile."
+    },
+    {
+      "id": "VT-14",
+      "implementable": true,
+      "assert": "A current host on a newer IR major verifies an old Run with the old retained verifier artifact without changing the Run identity."
+    },
+    {
+      "id": "VT-15",
+      "implementable": true,
+      "assert": "Missing/incompatible semantics, native payload, manifest, signature, trust root, public key, platform, target, executable ABI, entrypoint, or verifier ABI yields typed deterministic refusal."
+    },
+    {
+      "id": "VT-16",
+      "implementable": true,
+      "assert": "Changing IR major requires a different verifierArtifactRef; the same artifact cannot silently span majors."
+    },
+    {
+      "id": "VT-17",
+      "implementable": true,
+      "assert": "A proof migration emits a new Run identity with explicit lineage; rewriting the old Run is rejected."
+    },
+    {
+      "id": "VT-18",
+      "implementable": true,
+      "assert": "Untrusted imperative semantics and Probe are outside the historical verifier policy."
+    },
+    {
+      "id": "VT-19",
+      "implementable": true,
+      "assert": "Historical interpretation support is derived from artifact custody/capability, never a fixed support-window or cost/SLA promise."
+    },
+    {
+      "id": "VT-20",
+      "implementable": true,
+      "assert": "Every verifier manifest signature verifies offline with retained raw Ed25519 public-key bytes under the pinned trust root; TOFU and network lookup are false."
+    },
+    {
+      "id": "VT-21",
+      "implementable": true,
+      "assert": "Every manifest contains the exact complete DELIVERY v2 supported-platform set and a content-addressed native Rust payload per platform."
+    },
+    {
+      "id": "VT-22",
+      "implementable": true,
+      "assert": "Historical selection is exact by platformId, targetTriple, executableAbi, mediaType and entrypoint; incompatible host identity refuses."
+    },
+    {
+      "id": "VT-23",
+      "implementable": true,
+      "assert": "Manifest payload/family/major/ABI/key substitutions reject even when the substituted manifest has a valid test signature."
+    },
+    {
+      "id": "VT-24",
+      "implementable": true,
+      "assert": "Semantics verifier ref or ABI disagreement with the selected binding rejects."
+    },
+    {
+      "id": "VT-25",
+      "implementable": true,
+      "assert": "Executable bytes, public key or signature substitution rejects after exact CAS and cryptographic verification."
+    },
+    {
+      "id": "VT-26",
+      "implementable": true,
+      "assert": "A JSON descriptor without native payload bytes cannot satisfy verifierArtifactRef."
+    },
+    {
+      "id": "VT-27",
+      "implementable": true,
+      "assert": "The historical decision derives the exact six-object minimum-verifiable dependency set for the selected platform."
+    }
+  ],
+  "peerReviewRequired": [
+    "Is the detector pivot affordable? It requires running the OLD detector over new code on every comparison that crosses a detector version — potentially doubling analysis cost during a transition window.",
+    "Blind re-authoring of the seven comparison fixtures.",
+    "A1-VER-05 needs a PRODUCT owner. Every support window is a guess and may stay one.",
+    "Blind re-author the historical semantics and cross-major fixtures; verify artifact-custody demotion/refusal without introducing a second capability lattice.",
+    "Independently re-author the native payload CAS, signed per-platform manifest, trust-root/key chain, RFC8032 verification, exact semantics equality, and all R12-EVD-01 controls."
+  ],
+  "knownLimitations": [
+    "Every support window is GUESSED and the corresponding property is NOT DISCHARGED. VT-12's harness may be unbuildable by design.",
+    "The detector pivot doubles work during a transition window; no measurement supports the claim that this is affordable.",
+    "The run-manifest migrator is NOT-YET-ENFORCEABLE, so evidence bundles are USER-CUSTODY by V7 with no migration path.",
+    "Migrators are specified, not written.",
+    "Authored in the Evidence v3 repair lane; independent re-review remains required.",
+    "Historical rule/policy interpretation has no fixed support-window or cost promise. It depends on exact artifact custody and compatible offline verifier support.",
+    "Native verifier payload bytes, signatures and trust roots are deterministic design fixtures. The checker verifies custody and signatures but does not execute a payload or demonstrate product behavior.",
+    "Evidence v3 remains bound to VERSIONING v3 and frozen Phase1A v2/v7. A later Evidence version must explicitly rejoin VERSIONING v4 and independently accepted Phase1A v3/v8 bytes.",
+    "VERSIONING v5 is a candidate-only EP5/RT10 join. It is not product acceptance, implementation evidence, or permission to apply the candidate.",
+    "Evidence rejoin is downstream-owned; this artifact deliberately carries no Evidence artifact or checker hash in capabilityJoin.",
+    "VERSIONING v6 is a not-applied candidate and has no Evidence back-edge or product authority.",
+    "The raw authority lineage is mechanically specified but not executed or independently accepted.",
+    "VERSIONING v7 preserves v6 identity/custody values and only rebinds authority provenance to EP7/RT12.",
+    "No production store/transaction implementation or atomicity evidence exists; candidate remains not applied/unaccepted.",
+    "VERSIONING v8 preserves v7 historical-verifier custody and every semantic/versioned identity; it only rejoins current authority to EP8/RT13 cold stored-read reconstruction.",
+    "EP8/RT13 exercise an in-memory cold-open specification. They do not demonstrate a production restart, durable backend, transaction, recovery or atomicity implementation.",
+    "EP8/RT13 are the only current successor dependencies. Older EP/RT labels retained in protected predecessor material describe historical candidate lineage, not current inputs."
+  ],
+  "supersedes": 7,
+  "migrators": {
+    "why": "A1-VER-01: V2 forbids a USER-CUSTODY breaking change without a migrator, and v1 specified no migrator for any member. A prohibition with no named mechanism is vacuous, and it was discharging a sealed property.",
+    "airGap": {
+      "finding": "A1-VER-02",
+      "rule": "A migrator SHIPS IN THE RELEASE. It may not fetch anything.",
+      "consequence": "If a transition genuinely needs data not present locally, it is NOT a migrator — it is a re-analysis, and it must be reported as such rather than disguised as an upgrade.",
+      "why": "The air-gap posture and the migrator obligation collide the moment a migrator needs the network. Resolving it in favour of in-release packaging keeps both promises; resolving it the other way would quietly break air-gap for exactly the users who care most."
+    },
+    "members": [
+      {
+        "artifact": "fingerprint recipe / baselines",
+        "migratorId": "baseline-recipe-migrator",
+        "preview": "--check prints the full identity diff and writes nothing",
+        "idempotent": true,
+        "witness": "the recipe version declared in the baseline file",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "tracked project configuration",
+        "migratorId": "config-schema-migrator",
+        "preview": "--check prints the rewritten document",
+        "idempotent": true,
+        "witness": "the schema version declared in the document",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "waivers",
+        "migratorId": "waiver-migrator",
+        "preview": "--check lists waivers whose target identity changes",
+        "idempotent": true,
+        "witness": "the waiver's declared recipe version and its anchor set",
+        "status": "SPECIFIED",
+        "hazard": "A waiver whose target identity changes is a waiver that silently stops waiving. It must be reported per-waiver, never summarised."
+      },
+      {
+        "artifact": "lockfile",
+        "migratorId": "lockfile-migrator",
+        "preview": "--check prints the resolved set diff",
+        "idempotent": true,
+        "witness": "the lockfile format version",
+        "status": "SPECIFIED"
+      },
+      {
+        "artifact": "verifier artifact / historical semantics closure",
+        "migratorId": "historical-proof-new-run-migrator",
+        "preview": "--check prints old/new semantics, verifier artifact identities and the new RunId without writing",
+        "idempotent": true,
+        "witness": "the source RunId plus exact old/new PredicateSemanticsRef, PolicySemanticsRef and verifierArtifactRef values",
+        "status": "SPECIFIED",
+        "rule": "Migration creates a new Run with sourceRunId lineage. It never edits the source Run or reuses its identity."
+      },
+      {
+        "artifact": "run manifest / evidence",
+        "migratorId": null,
+        "status": "NOT-YET-ENFORCEABLE",
+        "why": "A1-VER-06 added runManifestSchema to the identity list. Evidence bundles are reachable from a retained Run and are therefore USER-CUSTODY by V7, but no migrator is specified and the EVIDENCE contract's own custody transition is still unreviewed. Declared as a gap rather than discharged."
+      }
+    ],
+    "rule": "A USER-CUSTODY member with no SPECIFIED migrator may not undergo a breaking change, whatever the version number says."
+  },
+  "detectorSemanticDelta": {
+    "why": "B-CSG-04 / CS-04. Exact artifact identity detects that a baseline comparison changed; it CANNOT say whether the change is new code, a changed detector, or the user adopting a new level. All three look like net-new findings, and treating a detector improvement as a regression is how a guardrail loses its users.",
+    "theProblem": "A two-way diff compares (code0, detector0) against (code1, detector1) and attributes the whole difference to code. Two variables moved; one difference was measured.",
+    "theFix": {
+      "name": "three-way comparison with a detector pivot",
+      "pivot": "Run detector0 over code1. Call the result P.",
+      "decomposition": [
+        {
+          "set": "P \\ baseline",
+          "classification": "CODE-NET-NEW",
+          "meaning": "the same detector, applied to new code, finds something new. This is a real regression."
+        },
+        {
+          "set": "(code1,detector1) \\ P",
+          "classification": "DETECTION-DELTA",
+          "meaning": "the detector changed its mind about unchanged code. Not a regression."
+        },
+        {
+          "set": "baseline \\ P",
+          "classification": "CODE-FIXED",
+          "meaning": "the same detector no longer fires — genuine improvement."
+        }
+      ],
+      "requires": "detector0 must still be RUNNABLE. That is exactly what the dual-emit window in the custody policy provides, which is the real reason dual-emit exists: not merely to soften churn, but to make this classification computable at all.",
+      "ifPivotUnavailable": {
+        "outcome": "INDETERMINATE for that detector",
+        "rule": "The comparison reports which detectors could not be pivoted and why. It NEVER falls back to attributing the whole delta to code.",
+        "why": "Silently attributing a detection delta to the user's code is a false net-new finding presented as a regression — the trust-destroying failure the custody class exists to prevent."
+      },
+      "adoption": "A user opting into a new normalisation level or a new rule set is a THIRD case, and it is not inferred: it is an explicit acceptance recorded in the transition, so it never enters the diff as either of the two above."
+    },
+    "relationToFactIdentity": "fact-identity-policy's custody transition protocol supplies the dual-emit window and the many-to-many group mapping this comparison consumes. The two contracts are the same mechanism seen from the baseline side and the identity side.",
+    "shipGate": {
+      "id": "VER-PIVOT-COST-GATE",
+      "rule": "Dual-emit / detector-pivot path MUST NOT ship as the default gate-compare behaviour without either: (a) product acceptance of a documented cost bound (including potential ~2× analysis during multi-major support), or (b) an optimization that keeps pivot off the hot path (cache pivot results; pivot only on detector major change when baseline compare is requested — not on every analysis). Affordability is UNMEASURED; silence is not acceptance (R1-VER-01).",
+      "defaultUntilDisposition": "Pivot runs only when: detector major changes AND a baseline/gate-compare is explicitly requested. Ordinary analysis without compare does not invoke the pivot.",
+      "costStatus": "UNMEASURED",
+      "forbids": "Claiming the pivot is cheap or free; skipping pivot silently and attributing DETECTION-DELTA as CODE-NET-NEW"
+    },
+    "costHonesty": "knownLimitations: pivot doubles work during transition. Do not claim affordability without measurement. Correct classification is necessary; unbounded CI cost without disposition makes operators skip pivot and reintroduce false regressions (R1-VER-01)."
+  },
+  "historicalSemanticsPolicy": {
+    "finding": "R10-EVD-07 / R12-EVD-01",
+    "selectedStrategy": "Retain exact signed native Rust verifier/core payload bytes for every DELIVERY-supported platform, a canonical manifest, detached Ed25519 signature, pinned trust root and raw public key. Historical support is artifact custody, never time based.",
+    "scope": {
+      "included": [
+        "trusted-bundled-declarative-v1"
+      ],
+      "excluded": [
+        "untrusted-imperative",
+        "Probe"
+      ],
+      "rule": "Only trusted declarative semantics from the signed offline release enter this path. No public IR or imperative extension promise is created."
+    },
+    "bindingRule": "Canonical PredicateSemantics/PolicySemantics bytes are authoritative for verifierArtifactRef, verifierManifestRef, verifierAbi, irFamily, irMajor and trustProfileId. Every field must equal the selected binding and signed manifest. Adjacent metadata never overrides semantics bytes.",
+    "releaseCustody": {
+      "authority": "artifacts/delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "providerModel": "bundled-pinned-rustc-driver-sidecar plus signed native Rust verifier/core payload",
+      "payloadAssurance": "SPECIFIED / IMPLEMENTABLE_UNEXECUTED",
+      "executionClaim": "NONE; fixture bytes are never executed by this checker",
+      "networkLookup": false
+    },
+    "deliverySupportedPlatforms": [
+      {
+        "platformId": "linux-x86_64-gnu",
+        "targetTriple": "x86_64-unknown-linux-gnu",
+        "executableAbi": "rust-native-elf-gnu-v1"
+      },
+      {
+        "platformId": "linux-aarch64-gnu",
+        "targetTriple": "aarch64-unknown-linux-gnu",
+        "executableAbi": "rust-native-elf-gnu-v1"
+      },
+      {
+        "platformId": "macos-aarch64",
+        "targetTriple": "aarch64-apple-darwin",
+        "executableAbi": "rust-native-macho-darwin-v1"
+      },
+      {
+        "platformId": "macos-x86_64",
+        "targetTriple": "x86_64-apple-darwin",
+        "executableAbi": "rust-native-macho-darwin-v1"
+      },
+      {
+        "platformId": "windows-x86_64-msvc",
+        "targetTriple": "x86_64-pc-windows-msvc",
+        "executableAbi": "rust-native-pe-msvc-v1"
+      }
+    ],
+    "majorRule": "Every IR major has a distinct signed per-platform native payload map and distinct payload identities. A newer host never reinterprets old semantics with its default verifier.",
+    "runImmutabilityRule": "Historical verification never mutates the sealed Run. Migration creates a new Run with sourceRunId lineage and never rewrites the source identity.",
+    "capabilityJoin": {
+      "id": "VERSIONING-V5-EP5-RT10-CAPABILITY-JOIN",
+      "dependencyDirection": "evaluation-proof.v5 -> retention-tiers.v10 -> versioning-policy.v5; this join has no downstream dependency",
+      "sources": {
+        "evaluationProof": {
+          "artifact": "evaluation-proof.v5.json",
+          "sha256": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b",
+          "checker": "check-evaluation-proof.py",
+          "checkerSha256": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2",
+          "grammarSha256": "343889cf713931b0e228d84de82cb67d8cb22cc13ae2b3cc71302476f89ef9e0",
+          "acceptedVectorId": "EP5-POS-NOMATCH-PASS",
+          "requiredCheckerApi": [
+            "resolve_semantic_object_bindings",
+            "derive_semantic_requirements",
+            "derive_raw_proof_requirements",
+            "encode_semantic_object_binding",
+            "derive_transitive_requirements"
+          ]
+        },
+        "retentionCustody": {
+          "artifact": "retention-tiers.v10.json",
+          "sha256": "606b5e7125d4a3a46f44f1a7565f9c9ea69132d9ab2783d00339e1b8aac5e026",
+          "checker": "check-retention-custody.py",
+          "checkerSha256": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7",
+          "grammarSha256": "abd8c541da028f2a273cc509bb8a2bc1c19eb78618ea56676ac301a83dd82ef8",
+          "acceptedClosureCommitment": "sha256:3e2e151273a69e1f9ccb0272f6a507de45e9fd1f43e4094507537ee1e34cac57",
+          "requiredCheckerApi": [
+            "resolve_semantic_object_bindings",
+            "derive_semantic_requirements",
+            "derive_raw_proof_requirements",
+            "derive_transitive_requirements",
+            "encode_semantic_object_binding",
+            "derive_unit_id",
+            "encode_semantic_custody_unit",
+            "semantic_closure_commitment",
+            "derive_effective_capability"
+          ]
+        }
+      },
+      "dependencyProjection": "VERSIONING returns the exact selected semantics, manifest, native payload, detached signature, trust root and raw public-key refs as typed raw-CAS dependencies, each with minimum verifiable capability and typed availability/refusal.",
+      "exactSetRule": "Map the six EP5 historical roles to the v4 fixture kinds below, require exact ref and minimum-capability equality, and require all six rows exactly once. RT10 proofRefs must contain the same six typed raw keys. No alias, omission, duplicate, unreachable edge, weakening, or strengthening is valid.",
+      "crosswalk": [
+        {
+          "role": "historical-semantics",
+          "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "allowedVersioningKinds": [
+            "predicate-semantics",
+            "policy-semantics"
+          ],
+          "selectedFixtureKind": "predicate-semantics",
+          "requiredForCapability": "verifiable"
+        },
+        {
+          "role": "historical-manifest",
+          "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "allowedVersioningKinds": [
+            "verifier-manifest"
+          ],
+          "selectedFixtureKind": "verifier-manifest",
+          "requiredForCapability": "verifiable"
+        },
+        {
+          "role": "historical-executable",
+          "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+          "allowedVersioningKinds": [
+            "verifier-executable"
+          ],
+          "selectedFixtureKind": "verifier-executable",
+          "requiredForCapability": "verifiable"
+        },
+        {
+          "role": "historical-signature",
+          "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "allowedVersioningKinds": [
+            "bundle-signature"
+          ],
+          "selectedFixtureKind": "bundle-signature",
+          "requiredForCapability": "verifiable"
+        },
+        {
+          "role": "historical-trust-root",
+          "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "allowedVersioningKinds": [
+            "verifier-trust-root"
+          ],
+          "selectedFixtureKind": "verifier-trust-root",
+          "requiredForCapability": "verifiable"
+        },
+        {
+          "role": "historical-public-key",
+          "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "allowedVersioningKinds": [
+            "verifier-public-key"
+          ],
+          "selectedFixtureKind": "verifier-public-key",
+          "requiredForCapability": "verifiable"
+        }
+      ],
+      "negativeControls": [
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-SEMANTICS",
+          "mutation": "omit-row",
+          "role": "historical-semantics",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-MANIFEST",
+          "mutation": "omit-row",
+          "role": "historical-manifest",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-EXECUTABLE",
+          "mutation": "omit-row",
+          "role": "historical-executable",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-SIGNATURE",
+          "mutation": "omit-row",
+          "role": "historical-signature",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-TRUST-ROOT",
+          "mutation": "omit-row",
+          "role": "historical-trust-root",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-OMIT-HISTORICAL-PUBLIC-KEY",
+          "mutation": "omit-row",
+          "role": "historical-public-key",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-SEMANTICS",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-semantics",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-MANIFEST",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-manifest",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-EXECUTABLE",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-executable",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-SIGNATURE",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-signature",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-TRUST-ROOT",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-trust-root",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-MISLABEL-HISTORICAL-PUBLIC-KEY",
+          "mutation": "mislabel-role-or-kind",
+          "role": "historical-public-key",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-WRONG-MINIMUM",
+          "mutation": "replace-verifiable-with-recorded-or-replayable",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-DESCRIPTOR-ONLY",
+          "mutation": "replace-native-payload-by-descriptor",
+          "expected": "REJECT"
+        },
+        {
+          "id": "VER5-HIST-UNKNOWN-ROLE",
+          "mutation": "add-unknown-role",
+          "expected": "REJECT"
+        }
+      ],
+      "forbidden": "Do not copy capability ranks, create a second lattice or demotion state machine, mutate sealedCapability, use TOFU/network lookup, accept descriptor/signature presence as payload custody, or include current availability/effectiveCapability in immutable semantics.",
+      "authoritativeRead": "Unavailable or incompatible custody refuses through existing D9 vocabulary. VERSIONING adds no D9 code, and read-time availability never changes a sealed Run."
+    },
+    "supportPosture": {
+      "basis": "artifact custody plus exact compatible offline native payload",
+      "fixedSupportWindow": false,
+      "sla": false,
+      "costClaim": "NONE",
+      "consumerLabel": "PROVISIONAL",
+      "rule": "No date/count/SLA. Support exists only while the exact selected six-object dependency set is retained and compatible."
+    },
+    "trustModel": {
+      "signatureScheme": "ed25519",
+      "manifestEncoding": "canonical-json-utf8",
+      "trustRootMode": "PINNED-RETAINED-BYTES",
+      "tofu": false,
+      "networkLookup": false,
+      "adjacentMetadataAuthority": false,
+      "testKeyUse": "RFC8032 deterministic conformance fixture only; not a production release key",
+      "privateKeyRetained": false
+    },
+    "typedReasons": [
+      "historical-scope-excluded",
+      "historical-semantics-unavailable",
+      "historical-manifest-unavailable",
+      "historical-verifier-artifact-unavailable",
+      "historical-signature-material-unavailable",
+      "historical-trust-root-unavailable",
+      "historical-signature-invalid",
+      "historical-executable-incompatible",
+      "historical-verifier-platform-unsupported",
+      "historical-verifier-abi-unsupported",
+      "historical-binding-mismatch",
+      "historical-verifier-untrusted",
+      "historical-run-identity-mutation",
+      "historical-sealed-capability-mutation",
+      "historical-run-identity-rewrite-forbidden"
+    ],
+    "dependencyRoles": [
+      "historical-semantics",
+      "historical-manifest",
+      "historical-executable",
+      "historical-signature",
+      "historical-trust-root",
+      "historical-public-key"
+    ],
+    "closedSchemas": {
+      "ContentRef": {
+        "required": [
+          "kind",
+          "id"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "CasEntry": {
+        "required": [
+          "ref",
+          "kind",
+          "mediaType",
+          "encoding",
+          "target",
+          "entrypoint",
+          "bytes"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "HistoricalSemanticsBinding": {
+        "required": [
+          "semanticsKind",
+          "scope",
+          "semanticsRef",
+          "irFamily",
+          "irMajor",
+          "verifierAbi",
+          "trustProfileId",
+          "providerId",
+          "releaseId",
+          "signingKeyId",
+          "trustRootRef",
+          "publicKeyRef",
+          "verifierManifestRef",
+          "verifierArtifactRef",
+          "platformId",
+          "targetTriple",
+          "executableAbi",
+          "payloadMediaType",
+          "entrypoint"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "SignedVerifierBinding": {
+        "required": [
+          "manifestRef",
+          "signatureRef"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "NativePayloadMapEntry": {
+        "required": [
+          "platformId",
+          "targetTriple",
+          "executableAbi",
+          "mediaType",
+          "entrypoint",
+          "payloadRef"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "SignedVerifierManifest": {
+        "required": [
+          "artifact",
+          "version",
+          "manifestId",
+          "providerId",
+          "releaseId",
+          "trustProfileId",
+          "signingKeyId",
+          "trustRootRef",
+          "signatureScheme",
+          "bundleMode",
+          "irFamily",
+          "irMajor",
+          "verifierAbi",
+          "payloads"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "VerifierTrustRoot": {
+        "required": [
+          "artifact",
+          "version",
+          "providerId",
+          "trustProfileId",
+          "keyId",
+          "algorithm",
+          "publicKeyRef",
+          "publicKeyEncoding",
+          "status",
+          "tofu",
+          "networkLookup"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "PredicateSemantics": {
+        "required": [
+          "artifact",
+          "version",
+          "predicateId",
+          "expression",
+          "verificationRequirement",
+          "irFamily",
+          "irMajor",
+          "verifierAbi",
+          "trustProfileId",
+          "verifierArtifactRef",
+          "verifierManifestRef"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "PolicySemantics": {
+        "required": [
+          "artifact",
+          "version",
+          "policyId",
+          "rule",
+          "irFamily",
+          "irMajor",
+          "verifierAbi",
+          "trustProfileId",
+          "verifierArtifactRef",
+          "verifierManifestRef"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "HistoricalReadFixture": {
+        "required": [
+          "id",
+          "binding",
+          "availableRefs",
+          "hostDefaultIrMajor",
+          "hostSupportedVerifierAbis",
+          "hostPlatformId",
+          "hostTargetTriple",
+          "hostExecutableAbi",
+          "sealedRunId",
+          "observedRunId",
+          "sealedCapability",
+          "observedSealedCapability",
+          "expect"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "HistoricalDecision": {
+        "required": [
+          "decision",
+          "capabilityDependencyState",
+          "authoritativeRead",
+          "reason",
+          "runIdentityUnchanged",
+          "sealedCapabilityUnchanged",
+          "requiredDependencies"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "RequiredDependency": {
+        "required": [
+          "ref",
+          "kind",
+          "requiredForCapability"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      },
+      "CustodyControl": {
+        "required": [
+          "id",
+          "baseId",
+          "mutation",
+          "replacementManifestRef",
+          "replacementSignatureRef",
+          "replacementTrustRootRef",
+          "replacementPublicKeyRef",
+          "replacementPayloadRef",
+          "expectedDecision",
+          "expectedReason"
+        ],
+        "optional": [],
+        "additionalProperties": false
+      }
+    },
+    "cryptographicVerification": {
+      "mechanism": "self-contained RFC8032 Ed25519 verifier in check-versioning.py",
+      "message": "exact UTF-8 canonical verifier-manifest bytes",
+      "testVectors": [
+        {
+          "id": "RFC8032-TEST-1-EMPTY-MESSAGE",
+          "publicKeyHex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+          "messageHex": "",
+          "signatureHex": "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b",
+          "expect": true
+        },
+        {
+          "id": "RFC8032-TEST-1-SIGNATURE-BIT-FLIP",
+          "publicKeyHex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+          "messageHex": "",
+          "signatureHex": "e4564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b",
+          "expect": false
+        }
+      ]
+    },
+    "casOracle": [
+      {
+        "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-unknown-linux-gnu",
+        "entrypoint": "opensip_historical_verify_v1",
+        "bytes": "f0VMRgBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjEiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtZWxmLWdudS12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjEsInBsYXRmb3JtSWQiOiJsaW51eC14ODZfNjQtZ251IiwidGFyZ2V0VHJpcGxlIjoieDg2XzY0LXVua25vd24tbGludXgtZ251In0="
+      },
+      {
+        "ref": "sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "aarch64-unknown-linux-gnu",
+        "entrypoint": "opensip_historical_verify_v1",
+        "bytes": "f0VMRgBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjEiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtZWxmLWdudS12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjEsInBsYXRmb3JtSWQiOiJsaW51eC1hYXJjaDY0LWdudSIsInRhcmdldFRyaXBsZSI6ImFhcmNoNjQtdW5rbm93bi1saW51eC1nbnUifQ=="
+      },
+      {
+        "ref": "sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "aarch64-apple-darwin",
+        "entrypoint": "opensip_historical_verify_v1",
+        "bytes": "z/rt/gBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjEiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtbWFjaG8tZGFyd2luLXYxIiwiZml4dHVyZSI6Im9wZW5zaXAtcnVzdC12ZXJpZmllci1jb3JlLW5hdGl2ZS1wYXlsb2FkIiwiaXJNYWpvciI6MSwicGxhdGZvcm1JZCI6Im1hY29zLWFhcmNoNjQiLCJ0YXJnZXRUcmlwbGUiOiJhYXJjaDY0LWFwcGxlLWRhcndpbiJ9"
+      },
+      {
+        "ref": "sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-apple-darwin",
+        "entrypoint": "opensip_historical_verify_v1",
+        "bytes": "z/rt/gBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjEiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtbWFjaG8tZGFyd2luLXYxIiwiZml4dHVyZSI6Im9wZW5zaXAtcnVzdC12ZXJpZmllci1jb3JlLW5hdGl2ZS1wYXlsb2FkIiwiaXJNYWpvciI6MSwicGxhdGZvcm1JZCI6Im1hY29zLXg4Nl82NCIsInRhcmdldFRyaXBsZSI6Ing4Nl82NC1hcHBsZS1kYXJ3aW4ifQ=="
+      },
+      {
+        "ref": "sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-pc-windows-msvc",
+        "entrypoint": "opensip_historical_verify_v1",
+        "bytes": "TVqQAABPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjEiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtcGUtbXN2Yy12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjEsInBsYXRmb3JtSWQiOiJ3aW5kb3dzLXg4Nl82NC1tc3ZjIiwidGFyZ2V0VHJpcGxlIjoieDg2XzY0LXBjLXdpbmRvd3MtbXN2YyJ9"
+      },
+      {
+        "ref": "sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-unknown-linux-gnu",
+        "entrypoint": "opensip_historical_verify_v2",
+        "bytes": "f0VMRgBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjIiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtZWxmLWdudS12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjIsInBsYXRmb3JtSWQiOiJsaW51eC14ODZfNjQtZ251IiwidGFyZ2V0VHJpcGxlIjoieDg2XzY0LXVua25vd24tbGludXgtZ251In0="
+      },
+      {
+        "ref": "sha256:a2dd6485bf59a4e49bc8c8369b960893043c0369267d82cf4addd087dc5db210",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "aarch64-unknown-linux-gnu",
+        "entrypoint": "opensip_historical_verify_v2",
+        "bytes": "f0VMRgBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjIiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtZWxmLWdudS12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjIsInBsYXRmb3JtSWQiOiJsaW51eC1hYXJjaDY0LWdudSIsInRhcmdldFRyaXBsZSI6ImFhcmNoNjQtdW5rbm93bi1saW51eC1nbnUifQ=="
+      },
+      {
+        "ref": "sha256:3b553264b3de1d119bbcde16ad7d59d67d32adb5c285a7f6d56f1ab335623df6",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "aarch64-apple-darwin",
+        "entrypoint": "opensip_historical_verify_v2",
+        "bytes": "z/rt/gBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjIiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtbWFjaG8tZGFyd2luLXYxIiwiZml4dHVyZSI6Im9wZW5zaXAtcnVzdC12ZXJpZmllci1jb3JlLW5hdGl2ZS1wYXlsb2FkIiwiaXJNYWpvciI6MiwicGxhdGZvcm1JZCI6Im1hY29zLWFhcmNoNjQiLCJ0YXJnZXRUcmlwbGUiOiJhYXJjaDY0LWFwcGxlLWRhcndpbiJ9"
+      },
+      {
+        "ref": "sha256:cc26b7d688e416d78ebb47c009527ece7204811ad709459c109e99cce0f5426c",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-apple-darwin",
+        "entrypoint": "opensip_historical_verify_v2",
+        "bytes": "z/rt/gBPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjIiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtbWFjaG8tZGFyd2luLXYxIiwiZml4dHVyZSI6Im9wZW5zaXAtcnVzdC12ZXJpZmllci1jb3JlLW5hdGl2ZS1wYXlsb2FkIiwiaXJNYWpvciI6MiwicGxhdGZvcm1JZCI6Im1hY29zLXg4Nl82NCIsInRhcmdldFRyaXBsZSI6Ing4Nl82NC1hcHBsZS1kYXJ3aW4ifQ=="
+      },
+      {
+        "ref": "sha256:8e5abb8c5f72c4a15527d8e773ac4c24ec643e7584a677d6dde27916d9805b27",
+        "kind": "verifier-executable",
+        "mediaType": "application/vnd.opensip.rust-native-executable",
+        "encoding": "base64",
+        "target": "x86_64-pc-windows-msvc",
+        "entrypoint": "opensip_historical_verify_v2",
+        "bytes": "TVqQAABPUEVOU0lQLU5BVElWRS1GSVhUVVJFAHsiYXNzdXJhbmNlIjoiSU1QTEVNRU5UQUJMRV9VTkVYRUNVVEVEIiwiZW50cnlwb2ludCI6Im9wZW5zaXBfaGlzdG9yaWNhbF92ZXJpZnlfdjIiLCJleGVjdXRhYmxlQWJpIjoicnVzdC1uYXRpdmUtcGUtbXN2Yy12MSIsImZpeHR1cmUiOiJvcGVuc2lwLXJ1c3QtdmVyaWZpZXItY29yZS1uYXRpdmUtcGF5bG9hZCIsImlyTWFqb3IiOjIsInBsYXRmb3JtSWQiOiJ3aW5kb3dzLXg4Nl82NC1tc3ZjIiwidGFyZ2V0VHJpcGxlIjoieDg2XzY0LXBjLXdpbmRvd3MtbXN2YyJ9"
+      },
+      {
+        "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+        "kind": "verifier-public-key",
+        "mediaType": "application/vnd.opensip.ed25519-public-key",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "11qYAYKxCrfVS/7TyWQHOg7hcvPapiMlrwIaaPcHURo="
+      },
+      {
+        "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+        "kind": "verifier-trust-root",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"algorithm\":\"ed25519\",\"artifact\":\"opensip.verifier-trust-root\",\"keyId\":\"key:opensip-rfc8032-test-vector-1\",\"networkLookup\":false,\"providerId\":\"provider:opensip-rust-verifier-core\",\"publicKeyEncoding\":\"raw-32-byte-ed25519\",\"publicKeyRef\":{\"id\":\"sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9\",\"kind\":\"verifier-public-key\"},\"status\":\"PINNED-OFFLINE-TEST-ROOT\",\"tofu\":false,\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "pxFWmNJ2SkFvIXUcchyQ1mStIZYQ7dy9QyTDXx3siRbCFeBrCV9p/MWsTo6xT493hKd5wF/ZnypnFHY2RnOrBg=="
+      },
+      {
+        "ref": "sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.policy-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-policy-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:7d57b670ceed1334b4c785200b414c3ea90946828c82497b2c4b58327b739770",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "TKieRRyHU3Wc6mQHI+iugdz0DK7ZeraDLLG5hK5T+bxF9bMH+SIo62EyXj6ttFNNA2SWAwz4pyGg/DuCeQawAw=="
+      },
+      {
+        "ref": "sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":2,\"manifestId\":\"manifest:historical-rule-ir-v2\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v2\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v2\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:a2dd6485bf59a4e49bc8c8369b960893043c0369267d82cf4addd087dc5db210\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v2\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:3b553264b3de1d119bbcde16ad7d59d67d32adb5c285a7f6d56f1ab335623df6\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v2\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:cc26b7d688e416d78ebb47c009527ece7204811ad709459c109e99cce0f5426c\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v2\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8e5abb8c5f72c4a15527d8e773ac4c24ec643e7584a677d6dde27916d9805b27\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v2\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v2\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:c12a3c33d93ebd83e971b83256faa91342365847355a5fabeb560262a0b1ad3e",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "n1C2oi01/wjSyTsZMxBSxnPJcsxZiU08qAdlqmZmbcGY96l0YfvrZ9ZURtNe2Gwzz98LC8J81JlqccQf9xaOBg=="
+      },
+      {
+        "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+        "kind": "predicate-semantics",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"none\",\"relation\":\"declares\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"predicateId\":\"predicate1:no-secret\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"verifierManifestRef\":{\"id\":\"sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa\",\"kind\":\"verifier-manifest\"},\"version\":1}"
+      },
+      {
+        "ref": "sha256:1898ec18007b3afdf5c25d1268ad9b72d3d3997813312c39e458162fd68ce007",
+        "kind": "predicate-semantics",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"exists-relation\",\"relation\":\"depends-on\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"predicateId\":\"predicate1:forbidden-dependency\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"verificationRequirement\":{\"completeness\":\"partial-ok\",\"minConfidenceMillionths\":0,\"minResolution\":\"resolved-target\",\"relation\":\"depends-on\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"verifierManifestRef\":{\"id\":\"sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa\",\"kind\":\"verifier-manifest\"},\"version\":1}"
+      },
+      {
+        "ref": "sha256:ab5afb4dc4cd4e672938ad08b5072d498d1d871ab46078e4b0aca0c2b9e7e1d8",
+        "kind": "predicate-semantics",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.predicate-semantics\",\"expression\":{\"operator\":\"none\",\"relation\":\"declares\"},\"irFamily\":\"opensip.rule-ir\",\"irMajor\":2,\"predicateId\":\"predicate1:no-secret\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"verificationRequirement\":{\"completeness\":\"complete\",\"minConfidenceMillionths\":0,\"minResolution\":\"syntactic\",\"relation\":\"declares\",\"subjectDomain\":[\"subject:src/a.ts\",\"subject:src/b.ts\"]},\"verifierAbi\":\"opensip.offline-verifier-abi.v2\",\"verifierArtifactRef\":{\"id\":\"sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4\",\"kind\":\"verifier-executable\"},\"verifierManifestRef\":{\"id\":\"sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab\",\"kind\":\"verifier-manifest\"},\"version\":2}"
+      },
+      {
+        "ref": "sha256:5c55165445cc04531889d0c46d59772fbd388b4b935cf7b36e2672b150ea6170",
+        "kind": "policy-semantics",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.policy-semantics\",\"irFamily\":\"opensip.policy-ir\",\"irMajor\":1,\"policyId\":\"policy-gate-v1\",\"rule\":\"all-evaluations-satisfied\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"verifierArtifactRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"verifierManifestRef\":{\"id\":\"sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8\",\"kind\":\"verifier-manifest\"},\"version\":1}"
+      }
+    ],
+    "controlCasOracle": [
+      {
+        "ref": "sha256:5166d4a8fe3ab7f9f74aaf5c3854f38edbd1befcd0627c5be3a8cc44835d5ad0",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:e59acdffe7503a06482a4873c2c6e4ccae97d17e6766dd8e9c02d92ee67c9220",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "c4mg7gDQuh8uSkMDvpU+1JueX4qtMZX0ardyvmbRzF5jhfRhpkftshPZeF1jLqqCW5p538kMRZjppSiqHBgUBw=="
+      },
+      {
+        "ref": "sha256:1a0bae429634491f4bb0f8bba569ccd5c254febcaaa81790229b56abb5d6d8d7",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.attacker-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:91254c04f4b82235c034fe273600c4691437babc204f5eb9ef7b8905ecd22579",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "rITwa4q4LlLUlop15BZi9S4HltUzTcs3shJVMZSnwuon0seSKBIfjL2VfgKQBIIkNrqg6TGRkOP/knHg36BNCw=="
+      },
+      {
+        "ref": "sha256:bd6859fde267dc6ee8c32fb3432d055ec3f7f5ec1d4533b8cee56f056e88cb64",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":9,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:6193ae74f8966735ef621e05f783d71c81d53650857874b6e28d6870c4271ca4",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "wF1mR3M3OpJOBmJhyrKda8AfLAuB0cFUAHqDczI6wDXYLUrdp8c0CKOjrTqdEKGEYAlG1pY9yn4aeJIQv2e3CQ=="
+      },
+      {
+        "ref": "sha256:929059f1e7c093351452b032b4d087437c76e6de5f1843ad58a37fe83ac6e722",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.attacker-abi.v9\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:f398a3d11e328df66b28de66d8742f7484276dd0069acded28300c62ed29f523",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "C9Qo8SU+v+85JqA909OT0+XgWvMLBmy5CWhfkDotutBSgwNDofOKtUXtfFtnAYIl/2tPc5PpFFh6L/tvk7PVBg=="
+      },
+      {
+        "ref": "sha256:d6c95b86902c7b8856f954c98760f96e847ff7b0c6b557c3a2e2287c89c6751b",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:attacker\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:56204142807bc27ba9b3fecf3e003a08f3e04e714c140b0f321baea61bd74473",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "z0eNgvh0qQl5c5Iu1bc6gyE6cqRrf5Z3GBxeoSHy9+YadgS/5X5dyi9m/N2RPsXrsEp69Jjw72bbPpV49ZGHAw=="
+      },
+      {
+        "ref": "sha256:cc3bfdb6b487ea4895daa7904766616ac35abcad625b796a506a4c37c7251edf",
+        "kind": "verifier-public-key",
+        "mediaType": "application/vnd.opensip.ed25519-public-key",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "1lqYAYKxCrfVS/7TyWQHOg7hcvPapiMlrwIaaPcHURo="
+      },
+      {
+        "ref": "sha256:2413db9ef0e99bb6f3e580e62c80f8b63c1f92508f45d968558a7c8ea76c603e",
+        "kind": "verifier-trust-root",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"algorithm\":\"ed25519\",\"artifact\":\"opensip.verifier-trust-root\",\"keyId\":\"key:opensip-rfc8032-test-vector-1\",\"networkLookup\":false,\"providerId\":\"provider:opensip-rust-verifier-core\",\"publicKeyEncoding\":\"raw-32-byte-ed25519\",\"publicKeyRef\":{\"id\":\"sha256:cc3bfdb6b487ea4895daa7904766616ac35abcad625b796a506a4c37c7251edf\",\"kind\":\"verifier-public-key\"},\"status\":\"PINNED-OFFLINE-TEST-ROOT\",\"tofu\":false,\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:6f5a2e82149df27ab57a23b0dd2f59e67428abab92a30f08d0b567c26581c13e",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:2413db9ef0e99bb6f3e580e62c80f8b63c1f92508f45d968558a7c8ea76c603e\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:e2a4258a10260e479138da7ae4710e15fdfe40fd38f40e668117b798a880234e",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "83knHwVZMYlYwt7qwSfxdOFYLp0q7nvhBYJSi2mdSHWWaZzEpq4Vgqpgcm8O7VgdU+wnAmQfOIrGxlo/epKgAQ=="
+      },
+      {
+        "ref": "sha256:f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      {
+        "ref": "sha256:0c4ae45ef94f3a6f2b12c0ae7c5a2204146c3846554ee01b0a7e10a7d4bbe9f4",
+        "kind": "verifier-artifact-descriptor",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.verifier-descriptor-only\",\"entrypoint\":\"opensip_historical_verify_v1\",\"note\":\"No executable payload bytes are present.\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:cd9c6346bc0cb88dafe9229c3f5f1e5866474895d9b219210af592cce3c7c553",
+        "kind": "verifier-manifest",
+        "mediaType": "application/json",
+        "encoding": "utf-8",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "{\"artifact\":\"opensip.signed-verifier-manifest\",\"bundleMode\":\"in-release-offline\",\"irFamily\":\"opensip.rule-ir\",\"irMajor\":1,\"manifestId\":\"manifest:historical-rule-ir-v1\",\"payloads\":[{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/json\",\"payloadRef\":{\"id\":\"sha256:0c4ae45ef94f3a6f2b12c0ae7c5a2204146c3846554ee01b0a7e10a7d4bbe9f4\",\"kind\":\"verifier-artifact-descriptor\"},\"platformId\":\"linux-x86_64-gnu\",\"targetTriple\":\"x86_64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-elf-gnu-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:8b60cd334d508f538fd8265e4f5a345d26c0a93f4ffad1a28febc15140ecff81\",\"kind\":\"verifier-executable\"},\"platformId\":\"linux-aarch64-gnu\",\"targetTriple\":\"aarch64-unknown-linux-gnu\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:734af79ba96dd585ed17dca2cebc7d1ac1b2d6970e5c716c54d9c208e34f154d\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-aarch64\",\"targetTriple\":\"aarch64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-macho-darwin-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:5cdec4f013293593907f70c5e36c41020a5a41643627505fbed0df3a857aeba0\",\"kind\":\"verifier-executable\"},\"platformId\":\"macos-x86_64\",\"targetTriple\":\"x86_64-apple-darwin\"},{\"entrypoint\":\"opensip_historical_verify_v1\",\"executableAbi\":\"rust-native-pe-msvc-v1\",\"mediaType\":\"application/vnd.opensip.rust-native-executable\",\"payloadRef\":{\"id\":\"sha256:fe5ce05baf6c1ecef86a0fea2cec3ab80a8b659fc0b706528c2a7f6a5dbe1ddd\",\"kind\":\"verifier-executable\"},\"platformId\":\"windows-x86_64-msvc\",\"targetTriple\":\"x86_64-pc-windows-msvc\"}],\"providerId\":\"provider:opensip-rust-verifier-core\",\"releaseId\":\"release:opensip-rust-verifier-core-v1\",\"signatureScheme\":\"ed25519\",\"signingKeyId\":\"key:opensip-rfc8032-test-vector-1\",\"trustProfileId\":\"trust-profile:opensip-historical-verifier-rfc8032-fixture-v1\",\"trustRootRef\":{\"id\":\"sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf\",\"kind\":\"verifier-trust-root\"},\"verifierAbi\":\"opensip.offline-verifier-abi.v1\",\"version\":1}"
+      },
+      {
+        "ref": "sha256:0bbac55db8889f17e3b0d5eb846a25c264cc66ed78378104ca4e859915827e90",
+        "kind": "bundle-signature",
+        "mediaType": "application/vnd.opensip.ed25519-signature",
+        "encoding": "base64",
+        "target": null,
+        "entrypoint": null,
+        "bytes": "CqlY0bsgMpBifBpR7jLFHyzqRb6HXO31WEidq0COiETI2zuS6v5dstztOAL/lTb6CjLajK8ILvVPPDyywc1gCQ=="
+      }
+    ],
+    "signedVerifierBindings": [
+      {
+        "manifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+        },
+        "signatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5"
+        }
+      },
+      {
+        "manifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8"
+        },
+        "signatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:7d57b670ceed1334b4c785200b414c3ea90946828c82497b2c4b58327b739770"
+        }
+      },
+      {
+        "manifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab"
+        },
+        "signatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:c12a3c33d93ebd83e971b83256faa91342365847355a5fabeb560262a0b1ad3e"
+        }
+      }
+    ],
+    "crossMajorFixtures": [
+      {
+        "id": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-predicate-v1-on-host-v2",
+        "observedRunId": "run:ver4-hist-predicate-v1-on-host-v2",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "VERIFY-HISTORICAL",
+          "capabilityDependencyState": "AVAILABLE",
+          "authoritativeRead": "ALLOW",
+          "reason": null,
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-POLICY-V1-ON-HOST-V2",
+        "binding": {
+          "semanticsKind": "policy",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "policy-semantics",
+            "id": "sha256:5c55165445cc04531889d0c46d59772fbd388b4b935cf7b36e2672b150ea6170"
+          },
+          "irFamily": "opensip.policy-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:5c55165445cc04531889d0c46d59772fbd388b4b935cf7b36e2672b150ea6170",
+          "sha256:7d57b670ceed1334b4c785200b414c3ea90946828c82497b2c4b58327b739770",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-policy-v1-on-host-v2",
+        "observedRunId": "run:ver4-hist-policy-v1-on-host-v2",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "VERIFY-HISTORICAL",
+          "capabilityDependencyState": "AVAILABLE",
+          "authoritativeRead": "ALLOW",
+          "reason": null,
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:5c55165445cc04531889d0c46d59772fbd388b4b935cf7b36e2672b150ea6170",
+              "kind": "policy-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:7d57b670ceed1334b4c785200b414c3ea90946828c82497b2c4b58327b739770",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:c8a09c753ab4b94749515fbb1649d4302c7c20c62b1c925007081bffba3bedb8",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MAJOR-2-NATIVE-PAYLOAD",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:ab5afb4dc4cd4e672938ad08b5072d498d1d871ab46078e4b0aca0c2b9e7e1d8"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 2,
+          "verifierAbi": "opensip.offline-verifier-abi.v2",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v2",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v2"
+        },
+        "availableRefs": [
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:ab5afb4dc4cd4e672938ad08b5072d498d1d871ab46078e4b0aca0c2b9e7e1d8",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:c12a3c33d93ebd83e971b83256faa91342365847355a5fabeb560262a0b1ad3e",
+          "sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab",
+          "sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-major-2-native-payload",
+        "observedRunId": "run:ver4-hist-major-2-native-payload",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "VERIFY-HISTORICAL",
+          "capabilityDependencyState": "AVAILABLE",
+          "authoritativeRead": "ALLOW",
+          "reason": null,
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:ab5afb4dc4cd4e672938ad08b5072d498d1d871ab46078e4b0aca0c2b9e7e1d8",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:c12a3c33d93ebd83e971b83256faa91342365847355a5fabeb560262a0b1ad3e",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:cf371ce588eb4bfda013deb0cc109a743beafaf580b8d1ee326da4b9948672ab",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:df1b325c9e613761523b908031ad7c8df8b50159ccc696bf9767274a44bf73a4",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MISSING-PAYLOAD",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-missing-payload",
+        "observedRunId": "run:ver4-hist-missing-payload",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-verifier-artifact-unavailable",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MISSING-MANIFEST",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-missing-manifest",
+        "observedRunId": "run:ver4-hist-missing-manifest",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-manifest-unavailable",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MISSING-TRUST-ROOT",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-missing-trust-root",
+        "observedRunId": "run:ver4-hist-missing-trust-root",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-trust-root-unavailable",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MISSING-PUBLIC-KEY",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-missing-public-key",
+        "observedRunId": "run:ver4-hist-missing-public-key",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-trust-root-unavailable",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-MISSING-SIGNATURE",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-missing-signature",
+        "observedRunId": "run:ver4-hist-missing-signature",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-signature-material-unavailable",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-UNSUPPORTED-ABI",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-unsupported-abi",
+        "observedRunId": "run:ver4-hist-unsupported-abi",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-verifier-abi-unsupported",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-INCOMPATIBLE-PLATFORM",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "macos-aarch64",
+        "hostTargetTriple": "aarch64-apple-darwin",
+        "hostExecutableAbi": "rust-native-macho-darwin-v1",
+        "sealedRunId": "run:ver4-hist-incompatible-platform",
+        "observedRunId": "run:ver4-hist-incompatible-platform",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-verifier-platform-unsupported",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": [
+            {
+              "ref": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+              "kind": "verifier-manifest",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+              "kind": "verifier-public-key",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+              "kind": "bundle-signature",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+              "kind": "verifier-trust-root",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+              "kind": "predicate-semantics",
+              "requiredForCapability": "verifiable"
+            },
+            {
+              "ref": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5",
+              "kind": "verifier-executable",
+              "requiredForCapability": "verifiable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "VER4-HIST-RUN-IDENTITY-MUTATION",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-run-identity-mutation",
+        "observedRunId": "run:illicit-replacement",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-run-identity-mutation",
+          "runIdentityUnchanged": false,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": []
+        }
+      },
+      {
+        "id": "VER4-HIST-SEALED-CAPABILITY-MUTATION",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "trusted-bundled-declarative-v1",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-sealed-capability-mutation",
+        "observedRunId": "run:ver4-hist-sealed-capability-mutation",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "replayable",
+        "expect": {
+          "decision": "REFUSE-AUTHORITATIVE-READ",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-sealed-capability-mutation",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": false,
+          "requiredDependencies": []
+        }
+      },
+      {
+        "id": "VER4-HIST-PROBE-EXCLUDED",
+        "binding": {
+          "semanticsKind": "predicate",
+          "scope": "Probe",
+          "semanticsRef": {
+            "kind": "predicate-semantics",
+            "id": "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04"
+          },
+          "irFamily": "opensip.rule-ir",
+          "irMajor": 1,
+          "verifierAbi": "opensip.offline-verifier-abi.v1",
+          "trustProfileId": "trust-profile:opensip-historical-verifier-rfc8032-fixture-v1",
+          "providerId": "provider:opensip-rust-verifier-core",
+          "releaseId": "release:opensip-rust-verifier-core-v1",
+          "signingKeyId": "key:opensip-rfc8032-test-vector-1",
+          "trustRootRef": {
+            "kind": "verifier-trust-root",
+            "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+          },
+          "publicKeyRef": {
+            "kind": "verifier-public-key",
+            "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+          },
+          "verifierManifestRef": {
+            "kind": "verifier-manifest",
+            "id": "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa"
+          },
+          "verifierArtifactRef": {
+            "kind": "verifier-executable",
+            "id": "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+          },
+          "platformId": "linux-x86_64-gnu",
+          "targetTriple": "x86_64-unknown-linux-gnu",
+          "executableAbi": "rust-native-elf-gnu-v1",
+          "payloadMediaType": "application/vnd.opensip.rust-native-executable",
+          "entrypoint": "opensip_historical_verify_v1"
+        },
+        "availableRefs": [
+          "sha256:11e923bffcc99c94372d7b575d733b79787da09d5d06286732c691b1158828fa",
+          "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9",
+          "sha256:249a77c07b91bd865b4873c586ea4e41681be89d8d227590bfc44a3b33402ac5",
+          "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf",
+          "sha256:d6a8d086d9ee0f2693f599ce39ecf90c0be65fd9a9127ddfd95572a2c95c3e04",
+          "sha256:e3be6c3634ac045fd02d4753ac61ed6d9b82ea161e106c143de69a2f196467a5"
+        ],
+        "hostDefaultIrMajor": 2,
+        "hostSupportedVerifierAbis": [
+          "opensip.offline-verifier-abi.v1",
+          "opensip.offline-verifier-abi.v2"
+        ],
+        "hostPlatformId": "linux-x86_64-gnu",
+        "hostTargetTriple": "x86_64-unknown-linux-gnu",
+        "hostExecutableAbi": "rust-native-elf-gnu-v1",
+        "sealedRunId": "run:ver4-hist-probe-excluded",
+        "observedRunId": "run:ver4-hist-probe-excluded",
+        "sealedCapability": "verifiable",
+        "observedSealedCapability": "verifiable",
+        "expect": {
+          "decision": "OUTSIDE-HISTORICAL-POLICY",
+          "capabilityDependencyState": "UNAVAILABLE",
+          "authoritativeRead": "REFUSE-VIA-EXISTING-D9",
+          "reason": "historical-scope-excluded",
+          "runIdentityUnchanged": true,
+          "sealedCapabilityUnchanged": true,
+          "requiredDependencies": []
+        }
+      }
+    ],
+    "custodyControls": [
+      {
+        "id": "VER4-CTRL-SEMANTICS-VERIFIER-REF-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "semantics-verifier-ref-substitution",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": null,
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-SEMANTICS-ABI-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "semantics-abi-substitution",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": null,
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-MANIFEST-PAYLOAD-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signed-manifest",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:5166d4a8fe3ab7f9f74aaf5c3854f38edbd1befcd0627c5be3a8cc44835d5ad0"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:e59acdffe7503a06482a4873c2c6e4ccae97d17e6766dd8e9c02d92ee67c9220"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-MANIFEST-FAMILY-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signed-manifest",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:1a0bae429634491f4bb0f8bba569ccd5c254febcaaa81790229b56abb5d6d8d7"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:91254c04f4b82235c034fe273600c4691437babc204f5eb9ef7b8905ecd22579"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-MANIFEST-MAJOR-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signed-manifest",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:bd6859fde267dc6ee8c32fb3432d055ec3f7f5ec1d4533b8cee56f056e88cb64"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:6193ae74f8966735ef621e05f783d71c81d53650857874b6e28d6870c4271ca4"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-MANIFEST-ABI-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signed-manifest",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:929059f1e7c093351452b032b4d087437c76e6de5f1843ad58a37fe83ac6e722"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:f398a3d11e328df66b28de66d8742f7484276dd0069acded28300c62ed29f523"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-MANIFEST-KEY-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signed-manifest",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:d6c95b86902c7b8856f954c98760f96e847ff7b0c6b557c3a2e2287c89c6751b"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:56204142807bc27ba9b3fecf3e003a08f3e04e714c140b0f321baea61bd74473"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-binding-mismatch"
+      },
+      {
+        "id": "VER4-CTRL-EXECUTABLE-BYTES-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "corrupt-executable-bytes",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": null,
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-verifier-artifact-unavailable"
+      },
+      {
+        "id": "VER4-CTRL-PUBLIC-KEY-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-public-key-chain",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:6f5a2e82149df27ab57a23b0dd2f59e67428abab92a30f08d0b567c26581c13e"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:e2a4258a10260e479138da7ae4710e15fdfe40fd38f40e668117b798a880234e"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:2413db9ef0e99bb6f3e580e62c80f8b63c1f92508f45d968558a7c8ea76c603e"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-public-key",
+          "id": "sha256:cc3bfdb6b487ea4895daa7904766616ac35abcad625b796a506a4c37c7251edf"
+        },
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-signature-invalid"
+      },
+      {
+        "id": "VER4-CTRL-SIGNATURE-SUBSTITUTION",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "replace-signature",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+        },
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-signature-invalid"
+      },
+      {
+        "id": "VER4-CTRL-DESCRIPTOR-WITHOUT-PAYLOAD",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "descriptor-without-payload",
+        "replacementManifestRef": {
+          "kind": "verifier-manifest",
+          "id": "sha256:cd9c6346bc0cb88dafe9229c3f5f1e5866474895d9b219210af592cce3c7c553"
+        },
+        "replacementSignatureRef": {
+          "kind": "bundle-signature",
+          "id": "sha256:0bbac55db8889f17e3b0d5eb846a25c264cc66ed78378104ca4e859915827e90"
+        },
+        "replacementTrustRootRef": {
+          "kind": "verifier-trust-root",
+          "id": "sha256:b4834d2eb7324dbde0aa0c9c461bedaae1ba6317b02fd441612b96dd4b4778bf"
+        },
+        "replacementPublicKeyRef": {
+          "kind": "verifier-public-key",
+          "id": "sha256:21fe31dfa154a261626bf854046fd2271b7bed4b6abe45aa58877ef47f9721b9"
+        },
+        "replacementPayloadRef": {
+          "kind": "verifier-artifact-descriptor",
+          "id": "sha256:0c4ae45ef94f3a6f2b12c0ae7c5a2204146c3846554ee01b0a7e10a7d4bbe9f4"
+        },
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-executable-incompatible"
+      },
+      {
+        "id": "VER4-CTRL-MISSING-TRUST-ROOT",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "missing-trust-root",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": null,
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "REFUSE-AUTHORITATIVE-READ",
+        "expectedReason": "historical-trust-root-unavailable"
+      },
+      {
+        "id": "VER4-CTRL-VALID-CROSS-MAJOR",
+        "baseId": "VER4-HIST-PREDICATE-V1-ON-HOST-V2",
+        "mutation": "identity",
+        "replacementManifestRef": null,
+        "replacementSignatureRef": null,
+        "replacementTrustRootRef": null,
+        "replacementPublicKeyRef": null,
+        "replacementPayloadRef": null,
+        "expectedDecision": "VERIFY-HISTORICAL",
+        "expectedReason": null
+      }
+    ],
+    "proofMigrationFixtures": [
+      {
+        "id": "VER4-MIGRATION-CREATES-NEW-RUN",
+        "action": "CREATE-NEW-RUN",
+        "sourceRunId": "run-v1-predicate",
+        "sourceRunIdAfter": "run-v1-predicate",
+        "newRunId": "run-v2-migrated-proof",
+        "lineageSourceRunId": "run-v1-predicate",
+        "expect": {
+          "decision": "ACCEPT-NEW-RUN",
+          "reason": null,
+          "sourceRunIdentityUnchanged": true
+        }
+      },
+      {
+        "id": "VER4-MIGRATION-REWRITE-REJECTED",
+        "action": "REWRITE-EXISTING-RUN",
+        "sourceRunId": "run-v1-predicate",
+        "sourceRunIdAfter": "run-v2-overwritten",
+        "newRunId": "run-v1-predicate",
+        "lineageSourceRunId": "run-v1-predicate",
+        "expect": {
+          "decision": "REJECT-MIGRATION",
+          "reason": "historical-run-identity-rewrite-forbidden",
+          "sourceRunIdentityUnchanged": false
+        }
+      }
+    ]
+  },
+  "agentProtocolNote": {
+    "finding": "A1-VER-04",
+    "position": "The agent protocol surface is CONSUMER-CUSTODY for shape, but its negotiation is SESSION-SCOPED: a client advertises the major it wants at connect and is refused if unsupported.",
+    "consequence": "No multi-release dual-serve obligation is incurred for agents alone. A durable agent runtime that outlives a session would change this, and none exists.",
+    "why": "Dual-serving every major for a surface whose consumers reconnect every session is cost with no beneficiary."
+  },
+  "dischargeStatus": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "candidateState": "NOT-APPLIED",
+    "qualificationEvidenceIds": [],
+    "releaseEvidenceIds": [],
+    "V10": "UNRESOLVED",
+    "CD-RT-5": "BLOCKED",
+    "G19": "BLOCKED",
+    "seal": "DO-NOT-SEAL"
+  },
+  "comparisonFixtures": [
+    {
+      "id": "same-detector-new-finding",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": true,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW"
+    },
+    {
+      "id": "detector-changed-its-mind",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": false,
+      "inCurrent": true,
+      "expect": "DETECTION-DELTA"
+    },
+    {
+      "id": "genuinely-fixed",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": true,
+      "inPivot": false,
+      "inCurrent": false,
+      "expect": "CODE-FIXED"
+    },
+    {
+      "id": "unchanged",
+      "valid": true,
+      "pivotAvailable": true,
+      "inBaseline": true,
+      "inPivot": true,
+      "inCurrent": true,
+      "expect": "UNCHANGED"
+    },
+    {
+      "id": "pivot-unavailable-is-indeterminate",
+      "valid": true,
+      "pivotAvailable": false,
+      "inBaseline": false,
+      "inPivot": null,
+      "inCurrent": true,
+      "expect": "INDETERMINATE"
+    },
+    {
+      "id": "reject-blaming-code-without-pivot",
+      "valid": false,
+      "violates": "VER-CMP",
+      "pivotAvailable": false,
+      "inBaseline": false,
+      "inPivot": null,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW",
+      "why": "attributing a possible detection delta to the user's code is a false net-new finding presented as a regression"
+    },
+    {
+      "id": "reject-detection-delta-as-regression",
+      "valid": false,
+      "violates": "VER-CMP",
+      "pivotAvailable": true,
+      "inBaseline": false,
+      "inPivot": false,
+      "inCurrent": true,
+      "expect": "CODE-NET-NEW"
+    }
+  ],
+  "resolves": {
+    "A1-VER-01": "RESOLVED — four USER-CUSTODY migrators specified with migratorId, preview surface, idempotence and witness. Run-manifest is declared NOT-YET-ENFORCEABLE and excluded from the legacy test-reference lists, so VT-02's specification is no longer vacuous. This is not demonstration evidence.",
+    "A1-VER-02": "RESOLVED — migrators ship in-release and fetch nothing; a transition needing absent data is a RE-ANALYSIS, reported as such, not a disguised upgrade.",
+    "A1-VER-03": "RESOLVED — V9 makes reachability change a versioning review event, and VT-11 checks the evidence reachability graph never points at INTERNAL paths.",
+    "A1-VER-04": "RESOLVED — agent protocol negotiation is session-scoped; no multi-release dual-serve obligation without a durable agent runtime.",
+    "A1-VER-05": "RESOLVED BY MARKING, NOT BY FIXING — every window carries evidenceGrade GUESSED, the seal rule forbids sealing on a guess, and the corresponding property is NOT DISCHARGED. VT-12 may be permanently unimplementable because the grounding telemetry is what the threat model refuses to collect.",
+    "A1-VER-06": "RESOLVED — runManifestSchema added to versionedIdentities as USER-CUSTODY via V7.",
+    "B-SCV2-06": "RESOLVED — the D9 citation retargets to the live v1.6 artifact and the dependency DIRECTION is declared: VERSIONING depends on D9, not the reverse.",
+    "B-CSG-04 / CS-04": "RESOLVED — the three-way detector-pivot comparison classifies every difference as CODE-NET-NEW, DETECTION-DELTA or CODE-FIXED, with INDETERMINATE when the pivot detector is unavailable. This is also the real justification for the dual-emit window.",
+    "R10-EVD-07 / EVD-PATCH-04": "CANDIDATE REPAIR IN V4 — closes R12-EVD-01 with exact semantics equality, signed per-platform native Rust payload custody, retained trust-root/public-key bytes and real Ed25519 verification. Independent rereview remains required; Evidence v3 still points to VERSIONING v3 and is not repaired by this artifact alone."
+  },
+  "comparisonSchema": {
+    "why": "The classification results and the migrator declaration were referenced throughout and never typed. Two implementations could emit different vocabularies and both claim conformance — the same defect B-FI-09 raised against the normalisation ladder.",
+    "ComparisonResult": {
+      "required": [
+        "classification",
+        "fingerprint",
+        "detectorId",
+        "detectorVersion"
+      ],
+      "optional": [
+        "pivotDetectorVersion",
+        "indeterminateReason"
+      ],
+      "classification": {
+        "closed": true,
+        "values": [
+          "CODE-NET-NEW",
+          "DETECTION-DELTA",
+          "CODE-FIXED",
+          "UNCHANGED",
+          "INDETERMINATE"
+        ],
+        "rule": "Closed. An unknown classification is rejected, not passed through as advisory."
+      },
+      "indeterminateReason": {
+        "closed": true,
+        "values": [
+          "pivot-detector-unavailable",
+          "pivot-detector-nondeterministic",
+          "baseline-recipe-unsupported"
+        ],
+        "rule": "REQUIRED when classification is INDETERMINATE. An unexplained indeterminate is indistinguishable from a bug."
+      }
+    },
+    "MigratorDeclaration": {
+      "required": [
+        "migratorId",
+        "artifact",
+        "preview",
+        "idempotent",
+        "witness",
+        "status"
+      ],
+      "status": {
+        "closed": true,
+        "values": [
+          "SPECIFIED",
+          "NOT-YET-ENFORCEABLE"
+        ]
+      },
+      "rule": "A migrator with status SPECIFIED and any missing field is a release-gate failure, not a warning."
+    },
+    "gateRule": "Only CODE-NET-NEW may fail a ratchet gate. DETECTION-DELTA and INDETERMINATE are reported and never gate, because neither is evidence the user regressed."
+  },
+  "adjudicationRevision": {
+    "by": "agent-a-as-c",
+    "date": "2026-07-31",
+    "resolves": [
+      "R1-VER-01",
+      "R1-VER-02",
+      "R1-VER-03",
+      "A1-VER-05-confirm"
+    ],
+    "note": "Pivot cost ship-gate; support windows consumer-facing evidenceGrade; run-manifest backlog."
+  },
+  "implementationBacklog": [
+    {
+      "id": "run-manifest-migrator",
+      "status": "NOT-YET-ENFORCEABLE",
+      "note": "R1-VER-03: USER-CUSTODY evidence bundles without migrator get typed refusal only under V3 — correct, operationally painful. Track when EVIDENCE seals."
+    }
+  ],
+  "role": "A-prime v4 cold stored-read reconstruction versioning rejoin",
+  "successorRevision": {
+    "id": "VERSIONING-v8-COLD-STORED-READ-SUCCESSOR",
+    "candidateState": "NOT-APPLIED",
+    "supersedesCandidate": {
+      "artifact": "versioning-policy.v7.json",
+      "sha256": "0c0f2d7396c32854c3cd5a6aff794c6a0e1be2ffe833816f9ff66f0089b49985",
+      "checker": "check-versioning-v7.py",
+      "checkerSha256": "27cc2e22dd909de2ee3050387f87129477ee050e5b25c541dcf305902fbb9d76"
+    },
+    "inputs": {
+      "evaluationProof": {
+        "artifact": "evaluation-proof.v8.json",
+        "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+        "checker": "check-evaluation-proof-v8.py",
+        "checkerSha256": "c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769"
+      },
+      "retentionCustody": {
+        "artifact": "retention-tiers.v13.json",
+        "sha256": "3f79668a6d26b5ecc7fd843be71aef90e779ac024a1ac54bb5cc2c8fc3e0a349",
+        "checker": "check-retention-custody-v13.py",
+        "checkerSha256": "0290b4ae22816843c2fbce1288ea36f21e78b396361fa6c0bf5291338be519f6"
+      }
+    },
+    "rawAuthorityKinds": [
+      "resolved-inputs",
+      "plan-id-verification-receipt",
+      "authority-seal-verification-receipt",
+      "activation-manifest-record",
+      "evaluation-authority-seal-record",
+      "file-bytes",
+      "symlink-target-bytes"
+    ],
+    "custodyRule": "All historical and admitted-authority dependencies join by typed RawCasRef key and exact role. Semantic commitments cannot be physical keys; snapshot body refs remain replayable.",
+    "storeAuthorityRule": "ProjectStoreAuthority/store-instance/transaction tokens are operational-only, nonserializable and excluded from all historical/current semantic and raw custody identities.",
+    "identityStability": {
+      "predecessor": "VERSIONING-v7",
+      "state": "EXACT-CUSTODY-IDENTITIES-UNCHANGED",
+      "reason": "Only cold stored-read reconstruction/port continuity changed."
+    },
+    "forbiddenBackEdge": "No Evidence artifact, checker, digest, RunId, TerminalRunV1, RunAuthorityIndexV1, ProjectStoreAuthority token or store transaction token enters VERSIONING-v8 authority/custody.",
+    "coldStoredReadRejoin": {
+      "state": "SPECIFIED-IMPLEMENTABLE-UNEXECUTED",
+      "sourceContracts": {
+        "evaluationProof": "storedAuthorityReconstructionContract",
+        "retentionCustody": "authority"
+      },
+      "rule": "A newly opened ProjectStoreAuthority port may reconstruct admitted authority only from its ProjectId-scoped immutable CAS rows plus EvaluationAuthorityIndexV1, then rerun exact admission. Caller candidate, inventory assertion and warm cache are not authority.",
+      "operationalIdentityExclusions": [
+        "EvaluationAuthorityIndexV1",
+        "cold reconstruction traversal",
+        "candidate cache and inventory assertions",
+        "ProjectStoreAuthorityV1/store-instance/transaction tokens"
+      ],
+      "identityRule": "Index rows, traversal order/state, cache/inventory state and store/transaction tokens are operational-only and excluded from every semantic commitment, raw custody identity and versioned identity.",
+      "productionRestartClaim": "NONE; checker-only in-memory cold-open reconstruction is not a production restart, durable store, transaction, recovery or atomicity demonstration."
+    },
+    "dependencyLabelRule": "Current successor inputs are exactly evaluation-proof.v8.json and retention-tiers.v13.json. Older EP/RT labels in byte-preserved predecessor sections are historical lineage only."
+  }
+}

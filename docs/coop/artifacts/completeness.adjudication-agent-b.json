@@ -1,0 +1,45 @@
+{
+  "artifact": "opensip.completeness-instrument.adjudication",
+  "adjudicator": "agent-b",
+  "adjudicates": [
+    "artifacts/final-round.seal-and-build.review-reviewer2.json"
+  ],
+  "method": [
+    "Reproduced R2-FINAL-01: the old instrument printed 11/11 and 100% while 46 reviewer findings remained OPEN because it deliberately ignored review artifacts.",
+    "Separated the four questions the old percentage conflated: contract shape, independent review, seal readiness, and product implementation/release qualification.",
+    "Made final-review and surface-review artifacts explicit register inputs and treated every finding ID as OPEN until a registered adjudication resolves or rejects it.",
+    "Added discovery of unregistered reviews that name current binding artifacts and a self-test proving that green prose cannot overwrite an OPEN state."
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "R2-FINAL-01",
+      "decision": "ACCEPT",
+      "evidence": "Before repair, all seven Reviewer 2 artifacts carried OPEN resolves maps while check-completeness.py reported all eleven surfaces clean and 100%.",
+      "reasoning": "Contract-shape presence, independent review, adjudicated seal readiness, and product release evidence are different predicates. A single percentage invited the exact paper seal the exercise forbids.",
+      "requiredChange": "Register current reviews/adjudications, ingest their finding IDs fail-closed, expose unregistered applicable reviews, derive surface seal readiness, and report release qualification separately.",
+      "verification": "The repaired instrument reports 11/11 shape separately, lists every unadjudicated open ID, reports cross-cutting R2-FINAL-02/03 open, and reports product qualification as 0/25. Its self-test rejects an OPEN finding even when prose says the checker passes.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "An alternative mechanically synchronized ingestion path from reviews to claim-register sealBlockers with equivalent fail-closed behavior."
+    }
+  ],
+  "resolves": {
+    "R2-FINAL-01": "RESOLVED"
+  },
+  "sealedPropertiesCovered": [
+    "contract-shape completeness is reported independently",
+    "current independent reviews are registered and consumed",
+    "seal readiness requires final finding dispositions and no blocker",
+    "product release qualification requires demonstrated product evidence"
+  ],
+  "knownLimitations": [
+    "The instrument validates declared architecture evidence and review state; it cannot itself determine whether a reviewer's reasoning is substantively correct.",
+    "R2-FINAL-02 and R2-FINAL-03 are outside Agent B's assigned cross-cutting finding and remain OPEN for coordinator adjudication.",
+    "A product can become release-qualified only through the operability release-evidence path, not by editing this instrument."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "The measurement instrument is now fail-closed over registered review findings. The architecture set is not thereby sealable.",
+    "consumerB": "Use the four separate outputs; never interpret 11/11 contract shape as reviewed, seal-ready, or released."
+  }
+}

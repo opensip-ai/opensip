@@ -1,0 +1,139 @@
+{
+  "artifact": "opensip.final-round.seal-and-build.review",
+  "reviewer": "reviewer-2",
+  "date": "2026-07-31",
+  "scope": [
+    "D9 termination blind re-authoring and checker audit",
+    "EVIDENCE counterexample blind re-authoring and checker audit",
+    "FACT-IDENTITY",
+    "OPERABILITY",
+    "DELIVERY",
+    "R-1 lifetime neutrality",
+    "threat-model v3 retracted-overclaim audit",
+    "consumer-B build-readiness judgement"
+  ],
+  "independence": {
+    "phase1": "D9 and EVIDENCE precomparison artifacts were frozen before authored expected fields/checker logic and before reading Reviewer 1's review output.",
+    "reviewer1NotesRead": false,
+    "r1SuiteException": "The R-1 suite-assignment extraction exposed authored suite values before a blind precommit. That sub-review is explicitly non-blind and is not counted as independent corroboration."
+  },
+  "verification": {
+    "date": "2026-07-31",
+    "primaryCheckers": "PASS — claims plus all eleven surface checkers exited 0",
+    "mutationSelftests": "PASS — all 110 declared surface mutations were rejected",
+    "completeness": "REPORTS 11/11 and 100% after the Reviewer 2 artifacts filed 46 OPEN findings",
+    "interpretation": "The green results establish consistency only over the fields each checker reads. They do not overturn any review finding; several recorded invalid mutations target fields the corresponding checker never reads."
+  },
+  "surfaceRecommendations": [
+    {
+      "surface": "D9",
+      "artifact": "artifacts/d9-exit-contract.v1.6.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-D9-04", "R2-D9-02"],
+      "summary": "The advertised cross-family precedence has no pre-reduction input or executable reducer, and commandKind=any fixtures claim lifecycle tuples that are not universal."
+    },
+    {
+      "surface": "EVIDENCE",
+      "artifact": "artifacts/evidence.v1.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-EVIDENCE-01", "R2-EVIDENCE-02", "R2-EVIDENCE-03", "R2-EVIDENCE-04"],
+      "summary": "Exact activation is only a count, fixtures violate their own schema, retained closure is self-attested, and the no-match subject-set root does not prove every predicate outcome."
+    },
+    {
+      "surface": "FACT-IDENTITY",
+      "artifact": "artifacts/fact-identity-policy.v2.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-FI-01", "R2-FI-02", "R2-FI-03", "R2-FI-04"],
+      "summary": "Unexecuted tests paper-discharge identity properties, the language matrix is non-binding/incomplete, canonical bytes remain ambiguous, and linked imperative code is not confined."
+    },
+    {
+      "surface": "OPERABILITY",
+      "artifact": "artifacts/operability.v2.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-OP-01", "R2-OP-02", "R2-OP-03", "R2-OP-04"],
+      "summary": "There is no exhaustive property-to-gate mapping, event identity/budget rules contradict, G12 is stale/self-attested, and projection parity is free-form."
+    },
+    {
+      "surface": "DELIVERY",
+      "artifact": "artifacts/delivery.v2.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-DL-01", "R2-DL-03", "R2-DL-04", "R2-DL-05", "R2-DL-06"],
+      "summary": "Missing verification can grant blocking authority; Rust substrate/platform scope are architecture forks; offline compatibility, signed manifest, and capability profiles are not executable contracts."
+    },
+    {
+      "surface": "R-1",
+      "artifact": "artifacts/r1-lifetime-neutrality.conformance.v1.4.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-R1-01", "R2-R1-02", "R2-R1-03", "R2-R1-04", "R2-R1-07"],
+      "summary": "The same artifact says the core both returns SealedRun and never seals, assigns fact derivation to both host and core, leaves effectful ports undefined, and omits the policy result it says the core computes."
+    },
+    {
+      "surface": "TM",
+      "artifact": "artifacts/threat-model.v3.review-reviewer2.json",
+      "verdict": "DO-NOT-SEAL",
+      "blockers": ["R2-TM-01", "R2-TM-02", "R2-TM-04"],
+      "summary": "The corrected user-protection center is right, but instances violate the model schema, V10 is both solved and unresolved, and required properties do not join to qualified operability evidence."
+    }
+  ],
+  "findings": [
+    {
+      "id": "R2-FINAL-01",
+      "severity": "HIGH",
+      "evidence": "After seven Reviewer 2 artifacts recorded 46 findings with resolves=OPEN, check-completeness.py still reported all eleven surfaces clean and 100%. Its clean test reads only claim-register sealBlockers, does not discover review artifacts or their resolves maps, and explicitly does not score review state.",
+      "impact": "The headline criterion says 'no open findings' while the instrument cannot observe newly filed open findings. A favorable completeness number can survive the exact independent review intended to falsify it.",
+      "requiredChange": "Make review-to-register ingestion explicit and fail closed: either the checker loads registered review artifacts and their OPEN resolves entries, or check-claims requires every review artifact to be indexed and its open IDs copied into sealBlockers. Report contract-shape completeness separately from reviewed/sealable completeness.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A documented workflow that atomically indexes reviews before the completeness result can be consumed, enforced by a checker rather than coordinator memory."
+    },
+    {
+      "id": "R2-FINAL-02",
+      "severity": "HIGH",
+      "evidence": "FACT-IDENTITY, DELIVERY, and R-1 repeatedly mark a property DISCHARGED when cited conformance tests are merely declared implementable:true. Known limitations simultaneously admit the corpus, supply chain, or runtime does not exist. Other checkers correctly reject discharge by implementable:false tests but never require retained successful execution for implementable:true ones.",
+      "impact": "The architecture collapses 'can be tested someday' into 'has been established'. That hides the difference between a complete design obligation and release assurance, and inflates both seal and build confidence.",
+      "requiredChange": "Adopt one cross-artifact state machine: SPECIFIED, IMPLEMENTABLE, QUALIFIED (target plus positive/negative controls), DEMONSTRATED, and NOT/PARTIAL. Use DISCHARGED only for the last evidentiary state intended by the register, and never infer it from a boolean declaration.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A binding glossary proving DISCHARGED means only architecture-level test specification, with every consumer prohibited from reading it as demonstrated assurance."
+    },
+    {
+      "id": "R2-FINAL-03",
+      "severity": "CRITICAL",
+      "evidence": "Consumer B requires a team not to hit an undecided fork in week one. It currently must choose between contradictory R-1 boundaries; invent EVIDENCE activation/closure/proof semantics; define canonical fact bytes; choose the P-4a Rust substrate and platform set; design release-manifest/capability schemas; and decide whether the reopened capability runtime exists or imperative/effectful features are forbidden.",
+      "impact": "Different teams can build incompatible products while conforming to the current documents. These choices affect identity, authority, process topology, privacy, offline assets, and policy outcomes, so they are architecture—not downstream coding detail.",
+      "requiredChange": "Do not present the set as build-complete. Resolve the listed contract contradictions and choose each capability/substrate boundary, or explicitly remove the dependent feature from the initial product. Re-run independent blind derivation and checker mutation audits, register every open blocker, then reconsider sealing.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A build exercise by an independent team that produces one interoperable implementation without seeking decisions on these points, using only the binding artifacts."
+    }
+  ],
+  "buildJudgment": {
+    "answer": "NO — not complete enough for consumer B to build from as a frozen architecture.",
+    "canBegin": "A team can begin low-regret scaffolding around immutable snapshots, typed Runs, fact relations, and one-shot command plumbing, but doing so is implementation exploration rather than execution of a settled build contract.",
+    "nineUndischargedAssessment": {
+      "honest": "Keeping product implementation gates unqualified before a product exists is correct. OPERABILITY's product-conformance property is a release state, not an architecture defect. Measurement-gated support windows and residency value may also remain empirically open if a conservative normative fallback is selected.",
+      "defeatistWhere": "It becomes defeatism when an included feature depends on an undecided capability mechanism and the architecture labels the contract complete anyway. For C-2 effectful work, FACT-IDENTITY imperative authority, and R-1 runtime denial, the architecture must either select ARCH.PROBE-CONTRACT or forbid the dependent execution mode in the initial product. DELIVERY likewise cannot call P-4a or supported-platform membership non-architectural.",
+      "bottomLine": "The statuses are more honest than a false discharge, but honest labels do not satisfy consumer B. Several are implementation evidence gaps; several are unresolved architecture decisions. The latter block sealing."
+    },
+    "architectureVersusDesigning": "Detailed schemas and executable contracts are architecture at consumer-B altitude when they allocate authority, identity, process, persistence, or wire ownership. Presentation layout and tuning can wait; P-4a, core/host factoring, proof closure, deletion semantics, and capability confinement cannot."
+  },
+  "resolves": {
+    "R2-FINAL-01": "OPEN",
+    "R2-FINAL-02": "OPEN",
+    "R2-FINAL-03": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "consumer-B architecture is build-complete",
+    "all contract surfaces are independently reviewed and clean",
+    "undischarged properties are classified as implementation evidence versus architecture decisions",
+    "checker completeness reflects open review findings"
+  ],
+  "knownLimitations": [
+    "Reviewer 2 did not re-review Reviewer 1's assigned FACT-PLANE, C-2, RESOLVED-INPUTS, or VERSIONING surfaces; the whole-build judgment uses their registered status only where necessary.",
+    "No Reviewer 1 notes were read before this artifact, preserving independence but preventing cross-review adjudication here.",
+    "The recommended low-regret starting work is not a seal recommendation and does not resolve the listed forks.",
+    "No claim-register status was changed; the reviewed surfaces were already CANDIDATE or REOPENED."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "Every reviewed surface has an open load-bearing finding, and the architecture still leaves multiple authority, identity, proof, topology, and distribution forks to its builder."
+  }
+}

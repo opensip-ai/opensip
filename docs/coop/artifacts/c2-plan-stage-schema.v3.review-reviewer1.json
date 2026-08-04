@@ -1,0 +1,194 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.v3.review-reviewer1",
+  "reviews": "c2-plan-stage-schema.v3.json",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "method": "Phase 2: blind valid/invalid for 12 plan + 6 coverage fixtures from plan shape alone; adversarial read of admission boundary, effect taxonomy, dischargeStatus; suite check-c2.py OK + 10/10 selftest",
+  "suiteState": {
+    "check": "OK \u2014 12 plan + 6 coverage fixtures, C1X/C2X/C3X + P1..P5 clean",
+    "selftest": "all 10 mutations rejected",
+    "crossCheck": "live d9-exit-contract.v1.6.json and fact-plane.v1.json"
+  },
+  "blindReauthor": {
+    "planFixtures": [
+      {
+        "id": "valid-minimal-plan",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "valid-scanner-plan",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "valid-provider-plan",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "valid-probe-plan",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "reject-unknown-stage-kind",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-snapshot-stage",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-private-operator",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-rule-stage-with-grants",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-rule-stage-with-operator",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-missing-requiredness",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-probe-without-grants",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-unknown-relation",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      }
+    ],
+    "coverageFixtures": [
+      {
+        "id": "intra-universe-complete",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "cross-universe-edge",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "negative-query-commitment",
+        "independent": true,
+        "artifact": true,
+        "match": true
+      },
+      {
+        "id": "reject-missing-target-universe",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-resolution-not-in-ladder",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      },
+      {
+        "id": "reject-opaque-scope",
+        "independent": false,
+        "artifact": false,
+        "match": true
+      }
+    ],
+    "summary": "18/18 independent validity judgments match the artifact."
+  },
+  "surfaceQuestions": {
+    "admissionBoundary": {
+      "question": "Is request-validation vs attempt-admission the right boundary? D9 load-bearing for C-2 identity?",
+      "answer": "YES. Snapshot capture AFTER attempt-admission matches D9 analysis-snapshot-invalidated (admission=admitted, coherent-terminal-run, indeterminate, committed). The v2 invocation-vs-execution split made the same snapshot failure pre-admission in C-2 and post-admission in D9 \u2014 a hard identity fork. Making D9 load-bearing for termination identity is the correct dependency DIRECTION: termination owns identity; plan schema must not invent a second one.",
+      "dependencyDirection": "C-2 \u2192 D9 (and C-2 \u2192 FACT-PLANE for relations). VERSIONING \u2192 D9 already declared. Do not reverse."
+    },
+    "supervisedImplementationEffect": {
+      "question": "Real class or a licence?",
+      "answer": "Real CLASS for schema and Coverage/failure semantics: scanners and semantic providers are not probes (scenario subject) and not pure rules. Representable as fact-derivation under grants. ENFORCEMENT is conditional: PS-12c / runtime denial needs ARCH.PROBE-CONTRACT (REOPENED). The CONDITIONAL discharge on 'effectful work is unrepresentable as a Rule' is correct, not defeatist \u2014 schema rejection (PS-12a/b) is real; runtime authority denial is not yet. Calling the class a licence would be accurate only if the property were marked DISCHARGED; it is not."
+    },
+    "partialConditionalDowngrades": {
+      "question": "Are PARTIAL/CONDITIONAL sealed-property downgrades correct?",
+      "answer": "YES. physical storage schema stays private \u2192 PARTIAL (PS-02 only; PS-07 unbuilt). effectful unrepresentable as Rule \u2192 CONDITIONAL (schema yes, runtime no). C3X blocking paper seals is the right instrument. This is honesty, not defeatism."
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-C2-01",
+      "severity": "medium",
+      "title": "supervised-implementation-effect is unenforceable at runtime until PROBE-CONTRACT",
+      "evidence": "effectTaxonomy.whatCCannotClose and dischargeStatus CONDITIONAL explicitly depend on ARCH.PROBE-CONTRACT REOPENED. PS-09, PS-12c implementable:false.",
+      "impact": "A mislabelled stage can claim fact-derivation and exercise host effects if linked TCB ignores labels. Week-one build can ship schema validation; must not claim capability confinement.",
+      "requiredChange": "No C-2 text change required. Build plan must treat PROBE-CONTRACT as a blocking dependency for any claim of effect confinement. Do not re-upgrade CONDITIONAL to DISCHARGED without implementable tests.",
+      "confidence": 0.95,
+      "whatWouldChangeMyMind": "A sealed capability substrate with LN-12-class runtime denial tests implementable:true.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-C2-02",
+      "severity": "low",
+      "title": "Well-formed plans can be semantically absurd",
+      "evidence": "knownLimitations: schemas validate SHAPE; a rule depending on an unrelated derived relation is accepted.",
+      "impact": "Plan validation is necessary not sufficient for sound analysis graphs.",
+      "requiredChange": "Future work: optional semantic plan lint (depends-on vs relation dependency closure) \u2014 out of C-2 v3 seal scope if documented.",
+      "confidence": 0.8,
+      "whatWouldChangeMyMind": "A conformance test that rejects cross-relation nonsensical dependsOn graphs.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-C2-03",
+      "severity": "info",
+      "title": "subjectScopeCommitment computation not owned here",
+      "evidence": "Coverage key requires the field; computation/verification owned by evidence/retention (REOPENED).",
+      "impact": "Negative-query fixtures are shape-true only until commitment verification exists.",
+      "requiredChange": "Cross-surface seal dependency on EVIDENCE \u2014 already knownLimitation.",
+      "confidence": 0.9,
+      "whatWouldChangeMyMind": "EVIDENCE seals commitment algorithm with C-2 cross-check.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    }
+  ],
+  "sealRecommendation": {
+    "verdict": "SEAL",
+    "blocker": null,
+    "note": "R1-C2-01 is a dependency residual already correctly marked CONDITIONAL/NOT implementable \u2014 not a defect in the contract text. R1-C2-02/03 are documented knownLimitations. Blind fixtures 18/18 match. Admission boundary and effect taxonomy are right.",
+    "doNotSealBecauseFlagged": false,
+    "caveat": "SEAL the schema contract; do not seal the runtime-confinement *product claim*.",
+    "adjudicated": true,
+    "postAdjudicationVerdict": "SEAL",
+    "openFindingsAfterAdjudication": []
+  },
+  "resolves": {
+    "R1-C2-01": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-C2-02": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-C2-03": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+  },
+  "adjudicationArtifact": "artifacts/c2-plan-stage-schema.adjudication-agent-c.json",
+  "postAdjudicationNote": "Adjudicated by agent-a-as-c; see artifacts/c2-plan-stage-schema.adjudication-agent-c.json. Post-adjudication seal recommendation: SEAL."
+}

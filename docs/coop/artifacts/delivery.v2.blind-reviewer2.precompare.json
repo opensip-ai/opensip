@@ -1,0 +1,55 @@
+{
+  "artifact": "opensip.delivery.blind-precomparison",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/delivery.v2.json",
+  "date": "2026-07-31",
+  "phase": "PRECOMMITTED BEFORE READING deliveryFixtures[].valid, validator logic, or authored fixture outcomes",
+  "method": "Read only each fixture's grant/signature/schema/capability/role/verification/counter inputs and independently decided admissibility.",
+  "fixtures": [
+    {
+      "id": "local-dev-grant-runs",
+      "decision": "VALID",
+      "reason": "A path/digest-bound local-development grant may waive publisher signature for advisory execution, but not schema or capability validation."
+    },
+    {
+      "id": "reject-local-dev-as-blocking",
+      "decision": "INVALID",
+      "reason": "Local-development provenance must not satisfy a blocking policy role."
+    },
+    {
+      "id": "reject-unsigned-skips-schema",
+      "decision": "INVALID",
+      "reason": "The provenance waiver cannot waive schema validation."
+    },
+    {
+      "id": "published-blocking-ok",
+      "decision": "UNDERDETERMINED_OR_INVALID",
+      "reason": "Signed, schema-valid, capability-valid publication is necessary but the fixture omits the independent verified=true condition that the adjacent blocking fixture treats as required. Absence must not silently mean verified."
+    },
+    {
+      "id": "reject-unverified-blocking",
+      "decision": "INVALID",
+      "reason": "A blocking unit needs demonstrated semantic verification, not only signature/provenance."
+    },
+    {
+      "id": "reject-rollback",
+      "decision": "INVALID",
+      "reason": "A lower monotonic manifest counter is a rollback unless explicitly forced under policy."
+    },
+    {
+      "id": "forced-downgrade-recorded",
+      "decision": "VALID_CONDITIONALLY",
+      "reason": "An explicit authorised downgrade may proceed only with an auditable record and without pretending it was a normal upgrade."
+    },
+    {
+      "id": "reject-forced-downgrade-unrecorded",
+      "decision": "INVALID",
+      "reason": "An unrecorded forced downgrade defeats rollback protection and provenance history."
+    }
+  ],
+  "knownLimitations": [
+    "The fixture inputs do not expose actor authorization for force, exact manifest identity, or path/digest binding; conditional decisions do not assume those away.",
+    "The blind decision treats absent verified as unknown, not true."
+  ],
+  "confidence": "HIGH"
+}

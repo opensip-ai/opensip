@@ -1,0 +1,247 @@
+{
+  "artifact": "opensip.threat-model.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/threat-model.v2.json",
+  "verdict": "reject-require-v3",
+  "method": [
+    "Re-derived user-owned assets and harms from the primary workflow: a downloaded binary reads a local proprietary repository, derives evidence, writes durable state, serves it to local clients, and may apply or purge data.",
+    "Traced each required property to an executable enforcement mechanism rather than accepting the threat checker result.",
+    "Tested V2's storage-location premise against official XDG, Apple iCloud, Microsoft OneDrive, Dropbox, and Time Machine documentation.",
+    "Cross-checked the model against architecture/03, /05, /06, and /08 for network, retention, confinement, mutation, and agent-surface contradictions."
+  ],
+  "centerAssessment": {
+    "verdict": "correct",
+    "confidence": "high",
+    "reason": "Protecting the user from the authority and side effects of opensip-cli is the right primary center. Extension and hostile-repository risks remain mechanisms by which the tool can harm that user; they should be subordinate branches, not discarded adversary classes."
+  },
+  "severityAssessment": {
+    "V1": {
+      "verdict": "critical impact is defensible but not universally calibrated",
+      "reason": "Copying regulated or proprietary bytes into a weaker protection domain can be critical. A second user-only copy on the same encrypted, non-synced volume is not automatically critical. v3 needs an explicit likelihood/impact rubric and should center protection-domain crossing, not duplication alone."
+    },
+    "V2": {
+      "verdict": "critical consequence, unsupported prevalence premise",
+      "reason": "Unintended third-party upload can be critical. The claim that normal user/XDG cache locations are commonly inside Dropbox, iCloud Drive, or OneDrive is not established and is contradicted by the named products' ordinary folder layouts. Time Machine and corporate backup are materially different from cloud-sync folders and may be an intended durability control."
+    }
+  },
+  "resolves": {
+    "B-TM2-01": "OPEN-BLOCKER: V4/R7 require excerpt materialisation to be explicit and off by default, while V10 makes T1 excerpt retention the default. The model cannot enforce both.",
+    "B-TM2-02": "OPEN-BLOCKER: V2 and R2 turn heuristic sync/backup detection into an absolute 'never' property and rely on an unsupported prevalence claim.",
+    "B-TM2-03": "OPEN-BLOCKER: destructive writes, unsafe purge/repair paths, symlink/TOCTOU replacement, disk exhaustion, and CPU/memory exhaustion are missing user-from-tool harms.",
+    "B-TM2-04": "OPEN-BLOCKER: V9 underweights repository-controlled execution. Ownership of a repository does not imply trust in every branch, dependency, build script, macro, or contributor change.",
+    "B-TM2-05": "OPEN-BLOCKER: serve/MCP/agent clients are an unmodelled disclosure boundary and can amplify source/excerpt egress even though the analysis process itself has no network client.",
+    "B-TM2-06": "OPEN-BLOCKER: OS-created copies and weaker at-rest domains (swap, hibernation, core dumps, snapshots, indexing, different encryption domains) are absent; 'delete for real' is undefined outside the local CAS.",
+    "B-TM2-07": "OPEN-BLOCKER: check-threat-claims.py's T2 and T9 checks are vacuous with respect to their stated properties, and its table skip misses the unqualified 'ephemeral sandbox' claim in architecture/05.",
+    "B-TM2-08": "OPEN-BLOCKER: R1 says zero egress on the analysis path while architecture/03 and /05 permit explicitly granted network-capable Probes inside a Run.",
+    "B-TM2-09": "OPEN-BLOCKER: V10's dependency and residual-risk text still describe the old absolute-retention contradiction after architecture/06 landed the candidate amendment.",
+    "B-TM2-10": "OPEN-BLOCKER: evidence correctness and integrity are absent as user assets; a false pass, corrupted baseline, or cross-project evidence mix-up can directly harm the user this model is centered on protecting."
+  },
+  "findings": [
+    {
+      "id": "B-TM2-01",
+      "severity": "critical",
+      "category": "internal-contradiction",
+      "evidence": [
+        "threat-model.v2.json#V4 requires excerpt materialisation to be explicit and default-off",
+        "threat-model.v2.json#R7 repeats that requirement",
+        "threat-model.v2.json#V10.proposedResolution makes T1-excerpt the default",
+        "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute lands that default"
+      ],
+      "impact": "A conforming implementation cannot know whether retaining source excerpts without a per-run opt-in is required or forbidden.",
+      "requiredChange": "Choose one privacy contract. Prefer redefining T1 as a predicate-specific proof capsule, making source-bearing members separately declared and inventoried, and state whether the first-run/project choice constitutes informed consent.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A field-level model showing that T1 stores no source bytes unless R7's explicit operation occurred. The current text says the opposite."
+    },
+    {
+      "id": "B-TM2-02",
+      "severity": "high",
+      "category": "unsupported-global-claim",
+      "evidence": [
+        "XDG Base Directory Specification: XDG_CACHE_HOME defaults to $HOME/.cache",
+        "Apple documents iCloud Drive syncing iCloud Drive and optionally Desktop/Documents, not the whole home or normal cache tree",
+        "Microsoft documents OneDrive folder backup for selected known folders",
+        "Dropbox documents a dedicated Dropbox root under the user folder",
+        "architecture/06 chooses only an unspecified user-scoped pre-init location, so no concrete target path has been evaluated"
+      ],
+      "impact": "A false absolute refusal rule can reject safe intended backups, still miss arbitrary corporate sync agents, and create false assurance that source-derived bytes never cross a protection boundary.",
+      "requiredChange": "Reframe V2 around protection-domain drift. Select and test platform-specific default roots; minimize or encrypt source-bearing objects; detect known sync roots as defense in depth; require disclosure/consent for a chosen weaker domain; distinguish backup from sync; never claim detection is complete.",
+      "confidence": "high that the current universal claim is unsupported; medium on real-world prevalence because no representative measurement exists",
+      "whatWouldChangeMyMind": "Representative measurements showing that the actual proposed default roots are inside upload scopes on the target platform matrix, plus a documented complete-enough detection mechanism."
+    },
+    {
+      "id": "B-TM2-03",
+      "severity": "high",
+      "category": "missing-primary-risk",
+      "evidence": [
+        "architecture/02 makes RepairPlan/apply first-class",
+        "architecture/06 requires purge and writes a ledger/CAS",
+        "threat-model.v2.json has U4 host integrity but no finding for accidental overwrite, over-broad deletion, disk fill, or resource starvation"
+      ],
+      "impact": "The model protects confidentiality while leaving the tool able to damage source, delete unrelated data, or exhaust the host under its ordinary granted privileges.",
+      "requiredChange": "Add host-integrity and availability findings with root-confined handle-based writes, no-follow/openat-style path discipline, transactional repair with preview/verification, purge target proofs, quotas, preflight space checks, deterministic resource budgets, and crash recovery.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A separate safety model explicitly incorporated by reference and covered by release gates."
+    },
+    {
+      "id": "B-TM2-04",
+      "severity": "high",
+      "category": "misclassified-risk",
+      "evidence": [
+        "V9 reduces severity because users usually build their own repository",
+        "a user can run analysis specifically before trusting or building a branch/dependency",
+        "architecture/05 allows semantic providers, scanners, and probes with process authority"
+      ],
+      "impact": "Analysis can unexpectedly execute code the user deliberately has not chosen to build, turning a read-oriented command into arbitrary code execution.",
+      "requiredChange": "Treat repository-controlled execution as high severity regardless of ownership. Default to non-executing resolution; make every execution-capable substrate explicit at plan preview/admission; bind grants to exact inputs; preserve a full non-executing mode.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Proof that each selected provider parses/resolves without executing repository-controlled code."
+    },
+    {
+      "id": "B-TM2-05",
+      "severity": "high",
+      "category": "missing-trust-boundary",
+      "evidence": [
+        "architecture/08 defines an agent protocol and opensip serve",
+        "T1 may expose retained excerpts on demand",
+        "the model has no boundary for local clients, transport binding, authentication, project authorization, or downstream client egress"
+      ],
+      "impact": "A local or agent client can retrieve source-derived evidence from the wrong project or pass it to a networked model/service while opensip-cli still truthfully reports zero network egress of its own.",
+      "requiredChange": "Model the query/serve boundary: local-only transport by default, peer authorization, exact project binding on every request/response, privacy-class authorization, excerpt access events, bounded query results, and an explicit downstream-egress disclosure.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A separate agent-surface threat model incorporated as a normative dependency."
+    },
+    {
+      "id": "B-TM2-06",
+      "severity": "medium-high",
+      "category": "incomplete-data-lifecycle",
+      "evidence": [
+        "V2 mentions sync/backup/indexing but not memory, swap, hibernation, crash dumps, filesystem snapshots, or placement on a less-protected volume",
+        "R5 promises real deletion although V2 itself describes copies outside the CAS's control",
+        "V6 promises cleanup on every exit path, which is impossible for SIGKILL, kernel crash, or power loss"
+      ],
+      "impact": "Inventory and purge can overstate what the product can undo, and sensitive bytes may survive outside the store after a reported deletion.",
+      "requiredChange": "Define deletion scope and residual copies honestly; use secure creation plus lease-based startup scavenging rather than guaranteed crash cleanup; consider per-project encryption/cryptographic erasure; document OS dump/swap limitations and storage-domain requirements.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A platform-specific storage lifecycle proving byte scope and deletion semantics, including backups and snapshots."
+    },
+    {
+      "id": "B-TM2-07",
+      "severity": "high",
+      "category": "vacuous-checker",
+      "evidence": [
+        "check-threat-claims.py T2 only checks that primaryRisks is non-empty, not that every asset has an in-scope adversary",
+        "T9 only checks that a gate string exists, not that the property is user-verifiable or executable",
+        "the paragraph scanner deliberately skips Markdown tables, so architecture/05's 'Probe | Ephemeral sandbox' assertion passes unqualified"
+      ],
+      "impact": "The advertised ship gate can pass while both its threat coverage and confinement-language property are broken.",
+      "requiredChange": "Make asset-risk edges explicit and validated; replace gate labels with executable gate IDs and recorded negative controls; scan semantic table cells; mutation-test every T rule, including the live table case.",
+      "confidence": "high; verified directly against checker source",
+      "whatWouldChangeMyMind": "A checker revision that fails on each cited mutation and on the current table statement."
+    },
+    {
+      "id": "B-TM2-08",
+      "severity": "medium-high",
+      "category": "cross-document-contradiction",
+      "evidence": [
+        "R1 requires zero network egress on the analysis path",
+        "architecture/03 invariant 3 allows workflow-granted network",
+        "architecture/05 gives Probes explicit per-Plan network authority and places Probes in the analysis DAG"
+      ],
+      "impact": "The offline gate has no well-defined subject and can either forbid a designed Probe or pass a network-capable Run under a zero-egress claim.",
+      "requiredChange": "Define the no-grant deterministic analysis profile as zero-egress. Treat an explicitly network-enabled Probe as a separately disclosed effectful capability with PlanId-visible endpoints and never include it in a zero-egress claim.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A normative definition of 'analysis path' that excludes Probe execution consistently across all documents and command contracts."
+    },
+    {
+      "id": "B-TM2-09",
+      "severity": "medium",
+      "category": "stale-status",
+      "evidence": [
+        "V10 and residualRisks say the architecture still seals absolute replay retention and remains contradictory",
+        "architecture/06 now marks the tiered amendment landed but candidate",
+        "the claim register records ARCH.RETENTION-TIERS as CANDIDATE"
+      ],
+      "impact": "Readers cannot tell whether the contradiction is current, amended, or merely under review.",
+      "requiredChange": "In v3, describe the old contradiction as superseded history, depend on the candidate tier claim explicitly, and carry the review blockers rather than saying the amendment awaits sign-off or is unresolved.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "No change of mind condition; this is a direct version/status mismatch."
+    },
+    {
+      "id": "B-TM2-10",
+      "severity": "high",
+      "category": "missing-user-asset",
+      "evidence": [
+        "The product's core promise is checkable deterministic evidence used for CI gates and baselines",
+        "the assets list covers confidentiality, host integrity, compliance, and control but not correctness or isolation of evidence",
+        "a corrupt cache, wrong-project resolver, or baseline identity drift can produce a false pass without violating any listed asset"
+      ],
+      "impact": "The model can be complete on privacy while omitting the most product-specific way opensip-cli can harm a user: causing them to trust a false claim.",
+      "requiredChange": "Add evidence integrity/correctness and project separation as user assets, with risks for cache poisoning/corruption, wrong-root reads, cross-project CAS/ledger confusion, baseline drift, and projection mismatch. Trace them to existing integrity and parity gates once those gates are executable.",
+      "confidence": "medium-high; this may be factored into a separate assurance model, but no such normative model is referenced",
+      "whatWouldChangeMyMind": "A separate assurance/safety artifact made a required dependency of the threat model and release policy."
+    }
+  ],
+  "externalEvidence": [
+    {
+      "claim": "XDG cache default",
+      "source": "https://specifications.freedesktop.org/basedir/0.8/",
+      "observation": "XDG_CACHE_HOME defaults to $HOME/.cache, a dedicated sibling under home rather than a descendant of the ordinary Dropbox/OneDrive roots."
+    },
+    {
+      "claim": "Apple iCloud sync scope",
+      "source": "https://support.apple.com/en-gb/109344",
+      "observation": "Apple documents iCloud Drive and an optional Desktop/Documents feature, not normal application cache directories."
+    },
+    {
+      "claim": "Microsoft OneDrive folder backup scope",
+      "source": "https://support.microsoft.com/en-us/onedrive/windows/move-files-to-a-new-windows-pc-using-onedrive",
+      "observation": "Microsoft documents a OneDrive root and selected PC folder backup."
+    },
+    {
+      "claim": "Dropbox sync scope",
+      "source": "https://help.dropbox.com/installs/locate-dropbox-folder",
+      "observation": "Dropbox documents a dedicated Dropbox root whose location can be discovered."
+    },
+    {
+      "claim": "Time Machine semantics",
+      "source": "https://support.apple.com/en-lamr/guide/mac-help/mh35860/mac",
+      "observation": "Time Machine is a backup system, including local snapshots; it is not equivalent to a cloud-sync folder and may be an intended durability domain."
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "id": "ARCH.OFFLINE",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "assessment": "Direction retained, but R1 must distinguish default deterministic analysis from explicitly network-granted Probe execution."
+    },
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "assessment": "Not discharged by the checker because table assertions are skipped."
+    },
+    {
+      "id": "ARCH.RETENTION-TIERS",
+      "source": "architecture/06-evidence-and-persistence.md#explainability-is-tiered-not-absolute",
+      "assessment": "Candidate direction is useful; excerpt-default semantics conflict with V4/R7 and are not accepted."
+    },
+    {
+      "id": "ARCH.SNAPSHOT-INTEGRITY",
+      "source": "architecture/03-execution-model.md#snapshot-capture",
+      "assessment": "Read-set and root confinement help ingestion integrity but do not cover write/purge/repair integrity."
+    }
+  ],
+  "knownLimitations": [
+    "This is an architecture threat review, not penetration testing of an implementation that does not yet exist.",
+    "The external-source check establishes that V2's named-default examples do not support its universal prevalence claim; it does not measure corporate backup products.",
+    "I inspected agents-log.md only after completing the threat/retention derivation and architecture read, to determine append format. That exposed Reviewer A's summary. I did not inspect Reviewer A's review JSON, and the findings above are supported by the independent methods and evidence recorded here."
+  ],
+  "confidence": {
+    "overall": "high on contradictions and missing mechanism classes; medium-high on severity calibration",
+    "center": "high",
+    "V1": "high on impact, medium on universal severity",
+    "V2": "high on unsupported premise, medium on prevalence"
+  },
+  "whatWouldChangeOverallVerdict": "A v3 that reconciles excerpt retention, replaces heuristic absolutes with a protection-domain model, adds integrity/availability and agent-surface threats, separates default analysis from effectful network grants, and ships mutation-tested gates for each required property."
+}

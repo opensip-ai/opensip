@@ -1,0 +1,203 @@
+{
+  "artifact": "opensip.c3-architecture-purity-audit.a2-recheck",
+  "version": 1,
+  "reviewer": "agent-2",
+  "date": "2026-07-29",
+  "status": "fail-repairs-incomplete",
+  "reviews": [
+    "artifacts/c3-architecture-purity-audit.a2.json",
+    "artifacts/c3-architecture-purity-audit.a1-recheck.json"
+  ],
+  "decisionDependencies": [
+    {
+      "id": "METHOD.ERROR-4",
+      "source": "architecture/10-method.md#Error-4",
+      "role": "Incumbent constraints and porting cost may not determine the greenfield target."
+    },
+    {
+      "id": "METHOD.RULE-7",
+      "source": "architecture/10-method.md#7-Do-not-seal-what-you-have-flagged-for-review",
+      "role": "A candidate claim may not be embedded in a sealed parent or used as a settled premise."
+    },
+    {
+      "id": "C3.A2.PRIOR",
+      "source": "artifacts/c3-architecture-purity-audit.a2.json",
+      "role": "The edited documents must discharge every prior finding, not merely the subset restated in prose."
+    },
+    {
+      "id": "ARCH.IDENTITY.LATEST",
+      "source": "architecture/02-domain-model.md#Identity-system",
+      "role": "latest is a resolver whose selected exact identity must be returned."
+    },
+    {
+      "id": "ARCH.ARTIFACT-CLOSURE",
+      "source": "architecture/09-open-decisions.md#Process-rules",
+      "role": "Candidate and sealed statuses must reflect checkable artifacts and current conformance."
+    }
+  ],
+  "conformanceClaims": [
+    {
+      "decisionId": "METHOD.RULE-7",
+      "claim": "Every occurrence of C-1 wording was checked against the status of its containing section.",
+      "evidenceIds": [
+        "A2-RC3-01"
+      ]
+    },
+    {
+      "decisionId": "C3.A2.PRIOR",
+      "claim": "Every prior C3-A2 finding was rechecked at all known locations, including locations omitted from Agent 1's recheck.",
+      "evidenceIds": [
+        "A2-RC3-02",
+        "A2-RC3-03",
+        "A2-RC3-04"
+      ]
+    },
+    {
+      "decisionId": "METHOD.ERROR-4",
+      "claim": "Promoted incumbent measurements were checked for both construct validity and transportability to the greenfield target.",
+      "evidenceIds": [
+        "A2-RC3-05"
+      ]
+    }
+  ],
+  "priorFindingsDisposition": [
+    {
+      "id": "C3-A2-01",
+      "status": "fixed"
+    },
+    {
+      "id": "C3-A2-02",
+      "status": "not-fixed",
+      "evidenceId": "A2-RC3-01"
+    },
+    {
+      "id": "C3-A2-03",
+      "status": "fixed"
+    },
+    {
+      "id": "C3-A2-04",
+      "status": "not-fixed",
+      "evidenceId": "A2-RC3-02"
+    },
+    {
+      "id": "C3-A2-05",
+      "status": "fixed"
+    },
+    {
+      "id": "C3-A2-06",
+      "status": "fixed"
+    },
+    {
+      "id": "C3-A2-07",
+      "status": "partially-fixed",
+      "evidenceId": "A2-RC3-03"
+    },
+    {
+      "id": "C3-A2-08",
+      "status": "partially-fixed",
+      "evidenceId": "A2-RC3-05"
+    },
+    {
+      "id": "C3-A2-09",
+      "status": "open-coordinator"
+    },
+    {
+      "id": "C3-A2-10",
+      "status": "fixed-body-minor-header-drift",
+      "evidenceId": "A2-RC3-08"
+    },
+    {
+      "id": "C3-A2-11",
+      "status": "partially-fixed",
+      "evidenceId": "A2-RC3-04"
+    },
+    {
+      "id": "C3-A2-12",
+      "status": "fixed"
+    }
+  ],
+  "blockingFindings": [
+    {
+      "id": "A2-RC3-01",
+      "severity": "critical-status",
+      "locations": [
+        "architecture/00-overview.md#The-thesis",
+        "architecture/04-fact-plane.md#Fact-sufficiency-is-predicate-relative",
+        "architecture/10-method.md#Error-5"
+      ],
+      "finding": "The replacement C-1 language is inside the full thesis paragraph marked SEALED while 04 correctly marks the same decision CANDIDATE. This immediately repeats Error 5 with better wording: an unreviewed candidate has again been promoted by its sealed summary before peer acknowledgement.",
+      "requiredCorrection": "Either mark the full thesis CANDIDATE until C-1 closes or split the thesis into sealed text plus an explicitly inline CANDIDATE C-1 clause. Only after the binding C-1 artifact is accepted may both locations become SEALED in one edit."
+    },
+    {
+      "id": "A2-RC3-02",
+      "severity": "high-consistency",
+      "locations": [
+        "architecture/02-domain-model.md#Fingerprints",
+        "architecture/06-evidence-and-persistence.md#Why-it-dominates",
+        "steering/03-compatibility-and-parity.md"
+      ],
+      "finding": "06 correctly says several artifacts live in user repositories, but SEALED text in 02 still calls baselines the only such artifact; steering/03 repeats it. C3-A2-04 was repaired in only one occurrence.",
+      "requiredCorrection": "Use the producer-derived-identity distinction consistently in 02, 06, and steering/03."
+    },
+    {
+      "id": "A2-RC3-03",
+      "severity": "high-consistency",
+      "locations": [
+        "architecture/02-domain-model.md#Identity-system",
+        "architecture/06-evidence-and-persistence.md#Evidence-first"
+      ],
+      "finding": "Projection parity is now fixed, but the other half of C3-A2-07 remains: 06 says run addressing means latest ambiguity never arises while 02 deliberately defines latest as an ambiguous resolver that must return the exact ID selected.",
+      "requiredCorrection": "State that latest never becomes authority and every resolver returns its exact selected ID; do not claim the selection ambiguity is absent."
+    },
+    {
+      "id": "A2-RC3-04",
+      "severity": "high-traceability",
+      "locations": [
+        "architecture/11-traceability.md#Agreement-item-document",
+        "architecture/11-traceability.md#Artifacts",
+        "architecture/07-outcomes-and-failure.md#Status"
+      ],
+      "finding": "The traceability status counts still describe the pre-repair audit, including one contradiction, and the artifact table still stops at D9 v1.1 while new C-1, C-2, C-3, R-1, and D9 v1.2 artifacts are under review. Current status cannot be inferred from a historical count presented without an as-of label.",
+      "requiredCorrection": "Label the old count as the first audit snapshot, add a current disposition table, and register every active/superseded artifact. Update 07 only after v1.2 or its successor passes peer review."
+    },
+    {
+      "id": "A2-RC3-05",
+      "severity": "critical-method",
+      "locations": [
+        "architecture/00-overview.md#Companion",
+        "architecture/08-surfaces-and-topology.md#The-cold-path-has-three-tiers",
+        "architecture/10-method.md#Purpose"
+      ],
+      "finding": "The evidence-promotion repair retains construct validity but drops the external-validity and representative-workload requirements from C3-A2-08. A measurement can validly measure the incumbent yet fail to transport to the target. The worked claim that startup is dominated by module/dependency resolution is Node/package-graph contingent while the greenfield host language and distribution form remain open; it cannot be SEALED as a universal cold-path premise without a target-specific transportability argument.",
+      "requiredCorrection": "Require four fields for promoted evidence: target claim, construct validity, transportability/causal mechanism under named candidate targets, and representative workload. Recast the three catalog tiers as a design choice justified by bounded startup/isolation merits, or mark the module-resolution dominance premise candidate and target-specific. Reconcile 10's absolute statement that current-system measurements are not in architecture."
+    },
+    {
+      "id": "A2-RC3-06",
+      "severity": "high-product-status",
+      "locations": [
+        "architecture/01-product-boundary.md#Hard-constraints",
+        "architecture/09-open-decisions.md#Decisions-that-need-a-product-owner-not-another-reviewer"
+      ],
+      "finding": "P-4 remains product-owned and open, yet 01's SEALED hard-constraint consequence already chooses a TypeScript semantic provider. Strategic TypeScript depth supports that candidate but does not silently constitute product sign-off on the provider investment.",
+      "requiredCorrection": "Either obtain product-owner sign-off and redefine P-4 as additional providers beyond TypeScript, or demote the TS-provider consequence to the P-4 candidate while retaining strategic TypeScript depth as sealed."
+    }
+  ],
+  "nonBlockingDrift": [
+    {
+      "id": "A2-RC3-07",
+      "location": "architecture/05-rules-and-extensions.md#Correction-reversibility-is-not-one-of-those-reasons",
+      "finding": "The phrase semantics-first correction is stale after C-1 rejected any globally first tier; use predicate-required rich facts."
+    },
+    {
+      "id": "A2-RC3-08",
+      "location": "steering/02-reachability-and-slices.md#Status",
+      "finding": "The header still says nothing here may constrain architecture; qualify this as no migration decision, consistent with the repaired evidence rule."
+    }
+  ],
+  "agent2Verdict": {
+    "purityPass": false,
+    "blockingDefects": 6,
+    "conclusion": "Agent 1's zero-blocker recheck is rejected. Most repairs are directionally correct, but two prior findings were incompletely searched, Error 5 recurs in the SEALED thesis, promoted evidence lacks transportability, traceability is stale, and P-4 is simultaneously sealed and product-open.",
+    "confidence": "high"
+  }
+}

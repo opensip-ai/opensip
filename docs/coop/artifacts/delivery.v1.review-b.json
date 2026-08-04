@@ -1,0 +1,176 @@
+{
+  "artifact": "opensip.delivery.review",
+  "version": 1,
+  "reviewer": "agent-b",
+  "date": "2026-07-29",
+  "reviewOf": "artifacts/delivery.v1.json",
+  "verdict": "reject-require-v2",
+  "method": "Walked the install, offline first-run, skipped-version upgrade, local authoring, signature admission, explain, and fixture-less rule flows as end-to-end state machines. Traced every dependency to its named current source and looked for a user who cannot complete the promised flow.",
+  "resolves": {
+    "B-DL-01": "OPEN-BLOCKER: local path authoring needs unsigned development content while DL-03 and the 'same admission' rule refuse every unsigned bundle.",
+    "B-DL-02": "OPEN-BLOCKER: the air-gap/migrator path is explicitly unsolved, so full offline upgrade and user-custody compatibility cannot both be claimed.",
+    "B-DL-03": "OPEN-BLOCKER: ARCH.INSTALL-UNIT has no cited architecture claim, threat dependencies point to superseded v1, and open P-1/P-2 are omitted despite the artifact assuming a contribution ecosystem.",
+    "B-DL-04": "OPEN-BLOCKER: optional TypeScript/Rust providers conflict with the hard two-deep-language product promise unless install profiles and the meaning of 'full analysis' are specified.",
+    "B-DL-05": "OPEN-BLOCKER: signing rules omit trust-root distribution/rotation, rollback/freeze and mix-and-match protection, revocation, and offline verification metadata.",
+    "B-DL-06": "OPEN-BLOCKER: universal typed explain traces are not defined for imperative, built-in graph, scanner, and negative/relationship rules and conflict with retention/privacy limits.",
+    "B-DL-07": "OPEN-BLOCKER: a fixture-less unverified rule may still affect a gate; admission and policy authority are not separated.",
+    "B-DL-08": "OPEN-BLOCKER: no supported platform assignments or Rust substrate exist, so several conformance statements have no test domain.",
+    "B-DL-09": "OPEN-BLOCKER: the conformanceTests are prose assertions with no schema, fixtures, runner, or negative controls."
+  },
+  "findings": [
+    {
+      "id": "B-DL-01",
+      "severity": "high",
+      "category": "authoring-admission-contradiction",
+      "evidence": [
+        "localLoop requires loading a contribution from a local path with no registry involvement",
+        "localLoop requires the same admission/capability/validation path as a published bundle",
+        "DL-03 requires any unsigned contribution to be refused before execution",
+        "no development trust root, ephemeral signature, or explicit unsigned-dev grant is defined"
+      ],
+      "impact": "A new author cannot run the first local rule without possessing a publication signing path, or the implementation must silently bypass the supposedly identical admission path.",
+      "requiredChange": "Keep one validation/capability pipeline but parameterize provenance policy. Add an explicit local-development grant bound to canonical path/digest and visible in PlanId; it may waive publisher signature only, never schema/capability validation, and cannot satisfy a production lockfile without explicit promotion/signing.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A specified local signing/trust mechanism already intended by 'same admission'."
+    },
+    {
+      "id": "B-DL-02",
+      "severity": "high",
+      "category": "unsolved-required-flow",
+      "evidence": "airGap says migrators must ship in the release but acknowledges unbounded history; VERSIONING requires user-custody migration/support windows; knownLimitations says the conflict is unsolved.",
+      "impact": "An air-gapped user who skipped beyond the bundled chain can neither open/upgrade evidence nor fetch the required bridge, violating either offline usefulness or compatibility.",
+      "requiredChange": "Choose a bounded contract: publish exact supported source majors; include the bounded migrator chain in each release or a separately signed offline bridge bundle; retain a read-only legacy inspector where promised; outside the window return a typed refusal naming signed intermediate bundles. Never promise arbitrary-history migration.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A versioning policy proving every supported offline upgrade path is finite, packaged, signed, and tested."
+    },
+    {
+      "id": "B-DL-03",
+      "severity": "high",
+      "category": "dependency-integrity",
+      "evidence": [
+        "repository search finds no architecture/00 claim that one install may contain several signed artifacts",
+        "TM.F1 and TM.ADV4 cite superseded threat-model.v1",
+        "P-1/P-2 leave the third-party ecosystem and contribution ontology open",
+        "delivery nevertheless commits to contribution bundles, registry-independent overrides, signing, authoring, and first-party dogfooding"
+      ],
+      "impact": "The artifact presents conditional product surface as a closed delivery design and inherits security terms from a rejected threat center.",
+      "requiredChange": "Make install-unit a candidate decision owned here; replace threat dependencies with v3 properties; add P-1/P-2 and branch contribution delivery as conditional until product disposition.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Resolvable current sources and a product disposition adopting the ecosystem."
+    },
+    {
+      "id": "B-DL-04",
+      "severity": "high",
+      "category": "install-promise-ambiguity",
+      "evidence": [
+        "P-4 and architecture/01 say TypeScript and Rust receive deep semantic providers",
+        "artifactSet marks both provider artifacts optional and says absence degrades to syntax",
+        "airGap and DL-01 promise full analysis offline on a supported language",
+        "'one install command produces a working tool' does not say which capability profile it installs"
+      ],
+      "impact": "The same TypeScript/Rust install can be described as fulfilling or not fulfilling the product's strategic-depth promise.",
+      "requiredChange": "Define named install bundles/profiles and their capability manifests. The default product install must explicitly include or exclude each deep provider; 'working' and 'full analysis' must resolve to declared relations/Coverage, not marketing adjectives.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A product decision that strategic depth is available-but-not-default and a loud install-time capability contract reflecting that."
+    },
+    {
+      "id": "B-DL-05",
+      "severity": "high",
+      "category": "incomplete-supply-chain-contract",
+      "evidence": "The host verifies a signature and digest, but the artifact does not define trusted metadata, root-key bootstrap/rotation, expiry, revocation, anti-rollback/freeze, cross-artifact version-set consistency, or offline verification material.",
+      "impact": "A validly signed old/vulnerable artifact or incompatible mix of signed host/provider/grammar assets can pass the stated rules; key compromise recovery is undefined.",
+      "requiredChange": "Define a signed release manifest/version set with threshold/offline root trust, delegated artifact keys, expiry/rollback counters, rotation/revocation procedure, offline verification bundle, and atomic install/admission of one compatible set. Record the exact set in PlanId/Run provenance.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A referenced distribution-security specification providing these semantics."
+    },
+    {
+      "id": "B-DL-06",
+      "severity": "high",
+      "category": "explainability-overclaim",
+      "evidence": [
+        "explain requires per-filter candidate counts for any rule that did not fire",
+        "the architecture includes declarative rules, imperative rules, graph algorithms, external scanners, aggregate and negative predicates",
+        "retention T1 does not retain a proof/trace model for relationship or negative findings",
+        "candidate counts and symbols can themselves be sensitive and large"
+      ],
+      "impact": "Some rule forms cannot produce the promised trace, and retaining it can violate privacy/volume budgets.",
+      "requiredChange": "Define an ExplainTrace union per evaluator class with required common states and typed optional proof events. For declarative IR, filter counts may be available; for opaque scanners/imperative code require a bounded producer trace contract or explicitly report unsupported. Tie durable trace availability to the proof-retention tier and privacy budget.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A universal evaluator instrumentation contract that can generate the listed trace without exposing source or unbounded state."
+    },
+    {
+      "id": "B-DL-07",
+      "severity": "medium-high",
+      "category": "unverified-policy-authority",
+      "evidence": "DL-11 admits fixture-less rules and merely labels them unverified; extensions own detection but project policy can still map their findings into a required gate.",
+      "impact": "An uncalibrated rule can block CI while the delivery artifact calls admission successful.",
+      "requiredChange": "Separate installation/admission from policy eligibility. Default policy must not allow an unverified contribution to become required/blocking without an explicit tracked override; show verification state in plan, run, and explain output.",
+      "confidence": "medium-high",
+      "whatWouldChangeMyMind": "A policy-boundary rule elsewhere already forbidding unverified findings from gating."
+    },
+    {
+      "id": "B-DL-08",
+      "severity": "medium-high",
+      "category": "undefined-test-domain",
+      "evidence": [
+        "platformMatrix assigns no OS/architecture to supported",
+        "P-4a leaves Rust substrate, redistributability, toolchain pinning, and execution behavior unresolved",
+        "DL-01, DL-02, DL-05, DL-06, and DL-12 require those choices"
+      ],
+      "impact": "The artifact cannot instantiate its own offline, packaging, or platform tests.",
+      "requiredChange": "Keep distribution candidate until at least one vertical supported platform/language bundle and the Rust substrate decision exist; parameterize tests over a published matrix and artifact manifest.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "Concrete platform assignments and provider artifacts."
+    },
+    {
+      "id": "B-DL-09",
+      "severity": "medium-high",
+      "category": "non-checkable-closure",
+      "evidence": "DL-01..12 are natural-language assertions only; no field schema, fixture references, runner, or recorded failing mutation is included.",
+      "impact": "The JSON is structured prose rather than a machine-checkable delivery contract.",
+      "requiredChange": "Attach executable fixture IDs/commands and expected envelopes/artifact manifests; add negative controls for unsigned, rollback, network fetch, missing provider, local-dev grant, and explain-state confusion.",
+      "confidence": "high",
+      "whatWouldChangeMyMind": "A validator or harness referenced by this artifact and available in the binding object set."
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "id": "ARCH.OFFLINE",
+      "source": "architecture/01-product-boundary.md#hard-constraints",
+      "assessment": "Direction is represented, but supported offline migration and full-provider install are unresolved."
+    },
+    {
+      "id": "P-4",
+      "source": "artifacts/claim-register.v1.json",
+      "assessment": "Provider languages are reflected; actual Rust substrate and default install capability remain open."
+    },
+    {
+      "id": "ARCH.CONFINEMENT-HONESTY",
+      "source": "architecture/05-rules-and-extensions.md#confinement-honesty",
+      "assessment": "DL-12 requires an explicit grant but does not define the enforcement substrate."
+    },
+    {
+      "id": "VERSIONING",
+      "source": "artifacts/versioning-policy.v1.json",
+      "assessment": "The air-gap migration obligation is acknowledged but not discharged."
+    },
+    {
+      "id": "ARCH.POLICY-BOUNDARY",
+      "source": "architecture/05-rules-and-extensions.md#the-policy-boundary",
+      "assessment": "Fixture-less admission needs an explicit restriction before unverified detection can control a gate."
+    }
+  ],
+  "knownLimitations": [
+    "This review does not choose a concrete signing framework or platform matrix; it specifies the security semantics those choices must satisfy.",
+    "P-1/P-2 may remove much of the third-party authoring surface; that would require narrowing rather than completing several findings.",
+    "The Rust packaging conclusion cannot be finalized before P-4a."
+  ],
+  "confidence": {
+    "overall": "high",
+    "localLoopContradiction": "high",
+    "airGapConflict": "high",
+    "supplyChainMechanism": "high",
+    "eventualProductPackaging": "medium"
+  },
+  "whatWouldChangeOverallVerdict": "A v2 with an explicit local-dev trust mode, bounded offline migration chain, current/valid dependencies, named install capability profiles, complete signed-metadata lifecycle, evaluator-specific explain contracts, policy restrictions for unverified rules, a concrete vertical platform/provider bundle, and executable negative controls."
+}

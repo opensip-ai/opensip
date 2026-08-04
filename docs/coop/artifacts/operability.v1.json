@@ -1,0 +1,131 @@
+{
+  "artifact": "opensip.operability",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review. See threat-model.v1.json#reviewStatus.",
+  "purpose": "Close the two remaining runtime-behaviour domains: observability (what the system says about itself) and validation gates (what must be true before a release ships).",
+  "covers": ["four observability planes", "correlation", "volume budgets", "release gates"],
+
+  "decisionDependencies": [
+    {"id": "ARCH.TELEMETRY-NOT-EVIDENCE", "source": "architecture/02-domain-model.md#plane-separation", "claim": "telemetry is never evidence and never enters the digest"},
+    {"id": "ARCH.OFFLINE", "source": "architecture/01-product-boundary.md#hard-constraints", "claim": "local-first, offline; network default-deny"},
+    {"id": "TM.F3", "source": "artifacts/threat-model.v1.json", "claim": "diagnostics are an exfiltration channel and must be budgeted"},
+    {"id": "TM.PRIVACY", "source": "artifacts/threat-model.v1.json#privacyClasses", "claim": "every exportable artifact carries a privacy class"},
+    {"id": "D9", "source": "artifacts/d9-exit-contract.v1.4.json", "claim": "reason codes distinguish remedies"},
+    {"id": "ARCH.NO-FLAKY", "source": "architecture/09-open-decisions.md", "claim": "release gates include a no-flake policy"}
+  ],
+
+  "observability": {
+    "planes": [
+      {
+        "plane": "evidence",
+        "content": "The sealed Run: findings, Coverage, verdict, provenance, digest",
+        "durability": "durable, user-custody reachable",
+        "inDigest": true,
+        "rule": "The only plane whose content is authoritative. Nothing else may influence a verdict."
+      },
+      {
+        "plane": "progress",
+        "content": "Structured stage/unit events for live rendering",
+        "durability": "ephemeral, never persisted",
+        "inDigest": false,
+        "rule": "Producers emit structured events, never free-form output. A no-op sink must be valid and must not change results."
+      },
+      {
+        "plane": "diagnostics",
+        "content": "Bounded, typed explanations attached to or referenced by a Run",
+        "durability": "referenced by the Run, subject to retention",
+        "inDigest": false,
+        "rule": "Bounded by budget and privacy class. This is the plane TM.F3 attacks, so bandwidth is a resource, not a courtesy."
+      },
+      {
+        "plane": "telemetry",
+        "content": "Aggregate metrics, traces, profiles",
+        "durability": "opt-in export only",
+        "inDigest": false,
+        "rule": "Off by default. No phone-home. Local profiling must work with no exporter configured — observing your own tool must not require a network."
+      }
+    ],
+    "correlation": {
+      "key": "ExecutionId on every event in every plane, plus parent Run identity for multi-stage work",
+      "rule": "An event that cannot be correlated to an execution is a defect, not a log line.",
+      "why": "Under agent-loop concurrency, several executions interleave in one terminal and one ledger. Uncorrelated output is unreadable and unattributable."
+    },
+    "volumeBudgets": {
+      "rule": "Every plane except evidence carries a per-Run budget on count and total size.",
+      "onExhaustion": "Truncate with a visible, typed marker stating what was dropped and why. Silent truncation is the failure this whole architecture is built against.",
+      "why": "Two independent reasons: an agent loop or CI log drowned in per-fact output is unusable, and TM.F3 makes diagnostics bandwidth an exfiltration channel."
+    },
+    "producerOutput": {
+      "rule": "Producer stderr is captured, bounded, and attributed. It is NEVER a public contract.",
+      "why": "A contribution that discovers its stderr is parsed downstream has acquired an unversioned output surface."
+    },
+    "supportBundles": {
+      "rule": "User-triggered only, privacy-classed per artifact, with a manifest listing exactly what is included.",
+      "defaults": "No source bytes, no credentials, no untracked blobs. Redaction is by CLASS, never by pattern-matching for things that look secret."
+    }
+  },
+
+  "validationGates": {
+    "principle": "A gate that can pass while the property it protects is broken is worse than no gate, because it converts an unknown into a false assurance.",
+    "gates": [
+      {"id": "G1", "gate": "Golden EvidenceDigest fixtures", "asserts": "Canonical workflows over fixed corpora reproduce byte-identical digests under identical identities and exact Coverage", "blocksRelease": true, "note": "The single most load-bearing gate: it is the executable form of the determinism claim."},
+      {"id": "G2", "gate": "Rule false-positive/negative corpus", "asserts": "Every rule's fixture verdicts are unchanged, or the change is explicitly accepted", "blocksRelease": true, "note": "This is where calibration lives. Rule mechanics port cheaply; calibration does not, so it needs a gate of its own."},
+      {"id": "G3", "gate": "Provider conformance", "asserts": "Each language provider satisfies the provider protocol and reports fact quality honestly, including unavailability", "blocksRelease": true},
+      {"id": "G4", "gate": "Fingerprint stability", "asserts": "Subject identities do not drift unintentionally; intentional drift ships with a migrator and a dual-emit window", "blocksRelease": true, "note": "Protects the one contract whose artifacts live in user repositories."},
+      {"id": "G5", "gate": "Termination conformance", "asserts": "artifacts/check-d9.py passes: schema, payload, vocabulary closure, derivation, class coverage, finalization", "blocksRelease": true},
+      {"id": "G6", "gate": "Capability denial", "asserts": "PS-09 and LN-11/LN-12 pass — no tier obtains authority it was not granted, by label or by ambient access", "blocksRelease": true},
+      {"id": "G7", "gate": "Chaos and storage faults", "asserts": "Busy-timeout, disk-full, CAS link failure, process hang, cancel mid-publish each fail closed with a typed outcome and never a passing empty Run", "blocksRelease": true},
+      {"id": "G8", "gate": "Concurrency", "asserts": "LN-09 same-project contention: each contender publishes or returns typed busy-timeout; no lost or partial writes", "blocksRelease": true},
+      {"id": "G9", "gate": "Projection parity", "asserts": "Every surface resolves the same Run and Finding identities for one Run", "blocksRelease": true},
+      {"id": "G10", "gate": "Threat-model claim gate", "asserts": "artifacts/check-threat-claims.py passes — no unqualified confinement language anywhere", "blocksRelease": true},
+      {"id": "G11", "gate": "Claim-status integrity", "asserts": "artifacts/check-claims.py passes — no claim is presented above its registered status", "blocksRelease": true},
+      {"id": "G12", "gate": "Performance regression", "asserts": "Published capacity-class SLOs are met on a reference corpus", "blocksRelease": false, "why": "Not blocking because no SLO has been measured yet. It becomes blocking once figures exist rather than being asserted."},
+      {"id": "G13", "gate": "Lifetime parity", "asserts": "If more than one execution lifetime ships, both produce identical digests for identical Plans", "blocksRelease": "conditional", "why": "Conditional on R-1 items 2-4, which are measurement-gated and unresolved."}
+    ],
+    "flakePolicy": {
+      "rule": "An intermittent failure is a bug report, triaged to one terminal outcome: a permanent fix of the product defect or of the test's synchronisation; a deterministic alternative proving the same invariant, after which the timing-dependent form is deleted; or deletion when covered elsewhere.",
+      "prohibited": ["widening a timeout", "retry-on-failure", "skip or quarantine", "repeat nursing of the same test"],
+      "why": "A flaky gate teaches the team to ignore gate failures, which disables every other gate in this table."
+    },
+    "gateOnGates": {
+      "rule": "Each gate must have a demonstrated failing case — a mutation that the gate catches. A gate never observed to fail is not evidence that the property holds; it is evidence the gate might be vacuous.",
+      "status": "Only three of thirteen currently have one: check-d9, check-claims, and check-threat-claims each have a self-test or a recorded catch. The other ten are unproven as gates."
+    }
+  },
+
+  "conformanceTests": [
+    {"id": "OP-01", "assert": "No plane other than evidence can influence a verdict; a Run computed with recording sinks and with no-op sinks yields identical digests."},
+    {"id": "OP-02", "assert": "Every emitted event across all planes carries a resolvable ExecutionId."},
+    {"id": "OP-03", "assert": "Exceeding a diagnostics budget produces a typed truncation marker naming what was dropped; nothing is silently omitted."},
+    {"id": "OP-04", "assert": "With no exporter configured, local profiling still works and no network call is attempted."},
+    {"id": "OP-05", "assert": "A support bundle contains no source bytes, credentials, or untracked blobs by default, and carries a manifest of included classes."},
+    {"id": "OP-06", "assert": "Producer stderr never appears in a machine-readable output document as a structured field."},
+    {"id": "OP-07", "assert": "Each blocking gate in `gates` has a recorded mutation that it catches (gateOnGates)."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "telemetry is never evidence", "dischargedBy": ["planes", "OP-01"]},
+    {"property": "offline by default, no phone-home", "dischargedBy": ["telemetry plane", "OP-04"]},
+    {"property": "diagnostics bandwidth is bounded (TM.F3)", "dischargedBy": ["volumeBudgets", "OP-03"]},
+    {"property": "no silent truncation anywhere", "dischargedBy": ["volumeBudgets.onExhaustion", "OP-03"]},
+    {"property": "determinism is testable, not asserted", "dischargedBy": ["G1"]},
+    {"property": "calibration is protected independently of mechanics", "dischargedBy": ["G2"]},
+    {"property": "no confinement claim goes unqualified", "dischargedBy": ["G10"]},
+    {"property": "no claim exceeds its registered status", "dischargedBy": ["G11"]}
+  ],
+
+  "peerReviewRequired": [
+    "Is G12 correctly non-blocking? Shipping without a performance gate is a real risk, but making an unmeasured SLO blocking would be worse — it would be a gate with no defined pass condition.",
+    "gateOnGates says ten of thirteen gates are unproven. Should that block release on its own, given the stated principle that an unproven gate may be vacuous?",
+    "Is four planes the right decomposition, or do diagnostics and progress collapse into one with a durability flag?"
+  ],
+
+  "knownLimitations": [
+    "Ten of thirteen gates have no demonstrated failing case, which by this artifact's own stated principle means they are unproven as gates. That is recorded rather than resolved.",
+    "No SLO figures exist, so G12 has no pass condition.",
+    "Budget numbers are not specified — the rule says budgets exist, not what they are.",
+    "Authored solo, unreviewed."
+  ]
+}

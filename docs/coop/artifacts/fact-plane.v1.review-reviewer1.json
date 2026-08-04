@@ -1,0 +1,260 @@
+{
+  "artifact": "opensip.fact-plane.v1.review-reviewer1",
+  "reviews": "fact-plane.v1.json",
+  "reviewer": "reviewer-1",
+  "date": "2026-07-31",
+  "method": "Phase 2: blind re-author all 12 sufficiency goldens + 5 profile goldens from scenario/requirement/view alone; then adversarial read of F8, deficiency order, relation registry, knownLimitations; suite check-fact-plane.py OK + 10/10 selftest",
+  "suiteState": {
+    "check": "OK \u2014 12 sufficiency + 5 profile goldens, F1..F11 clean",
+    "selftest": "all 10 mutations rejected"
+  },
+  "blindReauthor": {
+    "sufficiency": [
+      {
+        "id": "syntax-relation-is-authoritative",
+        "independent": {
+          "satisfied": true
+        },
+        "artifact": {
+          "satisfied": true
+        },
+        "match": true
+      },
+      {
+        "id": "syntax-relation-complete-demand",
+        "independent": {
+          "satisfied": true
+        },
+        "artifact": {
+          "satisfied": true
+        },
+        "match": true
+      },
+      {
+        "id": "unknown-coverage-never-satisfies-complete",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "required-relation-missing"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "required-relation-missing"
+        },
+        "match": true,
+        "note": "First instinct considered a dedicated coverage-unknown code; D9 vocabulary has no fact-view coverage code; required-relation-missing under completeness=complete is the correct TO-5 face."
+      },
+      {
+        "id": "resolved-references-with-provider",
+        "independent": {
+          "satisfied": true
+        },
+        "artifact": {
+          "satisfied": true
+        },
+        "match": true
+      },
+      {
+        "id": "name-match-does-not-satisfy-resolved",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "provider-unavailable"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "provider-unavailable"
+        },
+        "match": true
+      },
+      {
+        "id": "language-has-no-semantic-tier",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "language-tier-unsupported"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "language-tier-unsupported"
+        },
+        "match": true
+      },
+      {
+        "id": "budget-exhausted-mid-extraction",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "budget-exhausted"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "budget-exhausted"
+        },
+        "match": true,
+        "note": "Rung is met; completeness demand fails for budget reason \u2014 discrimination order correctly prefers budget-exhausted over required-relation-missing."
+      },
+      {
+        "id": "relation-absent-entirely",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "required-relation-missing"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "required-relation-missing"
+        },
+        "match": true
+      },
+      {
+        "id": "confidence-floor-unmet",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "UNMAPPED \u2014 confidence shortfall is not any of the four discrimination cases",
+          "preferredIfVocabularyAllowed": "confidence-floor-unmet or a documented alias"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "required-relation-missing"
+        },
+        "match": false,
+        "note": "See finding R1-FP-01. Independent author would not pick required-relation-missing (remedy 'widen scope' is wrong)."
+      },
+      {
+        "id": "higher-rung-satisfies-lower-demand",
+        "independent": {
+          "satisfied": true
+        },
+        "artifact": {
+          "satisfied": true
+        },
+        "match": true
+      },
+      {
+        "id": "derived-relation-dependency-met",
+        "independent": {
+          "satisfied": true
+        },
+        "artifact": {
+          "satisfied": true
+        },
+        "match": true
+      },
+      {
+        "id": "derived-relation-dependency-unmet",
+        "independent": {
+          "satisfied": false,
+          "deficiency": "provider-unavailable"
+        },
+        "artifact": {
+          "satisfied": false,
+          "deficiency": "provider-unavailable"
+        },
+        "match": true,
+        "note": "Propagating the dependency's rungUnavailableBecause is right; if calls were language-tier, language-tier-unsupported should win."
+      }
+    ],
+    "profiles": [
+      {
+        "id": "profile-may-raise-resolution",
+        "independent": {
+          "accepted": true
+        },
+        "match": true
+      },
+      {
+        "id": "profile-may-not-lower-resolution",
+        "independent": {
+          "accepted": false
+        },
+        "match": true
+      },
+      {
+        "id": "profile-may-raise-completeness",
+        "independent": {
+          "accepted": true
+        },
+        "match": true
+      },
+      {
+        "id": "profile-may-not-lower-completeness",
+        "independent": {
+          "accepted": false
+        },
+        "match": true
+      },
+      {
+        "id": "profile-alone-does-not-materialise",
+        "independent": {
+          "accepted": true,
+          "materialises": false
+        },
+        "match": true
+      }
+    ],
+    "summary": "11/12 sufficiency match; 1 disagreement (confidence-floor-unmet); 5/5 profile match."
+  },
+  "surfaceQuestions": {
+    "F8": {
+      "question": "Is F8 right \u2014 top rung of a one-rung ladder satisfied outright, no deficiency?",
+      "answer": "YES. This is the mechanical form of C-1. declares@syntactic is authoritative, not a degraded semantic. Without F8, C-1 is a slogan. Blind golden syntax-relation-is-authoritative confirms.",
+      "ifF8Wrong": "C-1 would not be implementable as stated \u2014 I do not find F8 wrong."
+    },
+    "fourWayDeficiency": {
+      "question": "Is four-way deficiency discrimination right, and is most-specific-remedy precedence correct?",
+      "answer": "The four codes (language-tier, provider, budget, relation-missing) are the right REMEDY classes for rung/coverage failures. Precedence by remedy specificity is a judgment, not measured \u2014 acceptable if documented. Gap: confidence-floor is outside the four cases (R1-FP-01). Simultaneous causes still collapse to one code; secondary causes are D9's secondaryDeficiencies, not fact-plane's \u2014 acceptable cross-surface split if stated.",
+      "residual": "A view that is both provider-unavailable and budget-exhausted reports only the more-specific code; user may not get the faster-to-act-on cause."
+    },
+    "relationRegistrySet": {
+      "question": "Is the relation registry the right SET?",
+      "answer": "SHAPE is the contract; membership is illustrative and honestly limited. Twelve relations cover inventory/syntax/semantic/derived enough to exercise ladders, dependencies, and one-rung C-1 cases. Not exhaustive \u2014 knownLimitation is correct. Do not seal membership as product inventory."
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-FP-01",
+      "severity": "medium",
+      "title": "Confidence-floor failure maps to required-relation-missing with the wrong remedy",
+      "evidence": "Golden confidence-floor-unmet: types@annotated present with confidence 0.4, minConfidence 0.9. Discrimination cases cover only language-tier / provider / budget / relation-absent. Checker falls through to required-relation-missing (check-fact-plane.py confidence branch). Remedy for that code is 'widen scope' \u2014 wrong for a confidence shortfall. D9 deficiency enum also lacks a confidence code, so F9 would block a freestanding fact-plane-only code unless D9 is extended or confidence is redefined as non-deficiency unsatisfied with a distinct field.",
+      "impact": "Callers and operators get a false remedy class. TO-7 says a code is a remedy class \u2014 this violates that intent for the confidence floor, which the requirement schema advertises.",
+      "requiredChange": "Either (a) add a D9+fact-plane deficiency for confidence shortfall with remedy 'improve producer / lower floor', or (b) remove minConfidence from the requirement schema until a remedy code exists, or (c) document that confidence shortfall is intentionally alias of required-relation-missing and change the published remedy text for that code to cover both \u2014 (a) preferred.",
+      "confidence": 0.9,
+      "whatWouldChangeMyMind": "Evidence that confidence is never a caller-facing deficiency (e.g. producers always emit 1.0 or omit confidence) making the golden only a schema toy.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-FP-02",
+      "severity": "low",
+      "title": "Sufficiency goldens and sufficiency function still share one author for the 11 matching cases",
+      "evidence": "This review is a second author for the expected verdicts. 11/12 match and 1 real gap found. Residual co-authorship risk is reduced but not zero until another independent re-author (Reviewer 2 is not assigned this surface).",
+      "impact": "Same trap class as D9 v1.5 if only one independent re-author ever runs.",
+      "requiredChange": "Keep second-author re-author on file as seal evidence; optional third sample on any future golden additions.",
+      "confidence": 0.7,
+      "whatWouldChangeMyMind": "Automated property-based generation of goldens from the discrimination table with no human expected fields.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    },
+    {
+      "id": "R1-FP-03",
+      "severity": "low",
+      "title": "Subject-set honesty for completeness=complete is still owned by REOPENED evidence surface",
+      "evidence": "knownLimitations correctly state F5 constrains the verdict but nothing proves coverage values are honest until retention/evidence subject-set commitment seals.",
+      "impact": "F5 can be gamed by a lying coverage flag. Architecture-complete for the fact-plane face; not product-complete for non-membership claims.",
+      "requiredChange": "Cross-link seal of FACT-PLANE to EVIDENCE subject-set commitment; do not publish universal-negative claims until that lands.",
+      "confidence": 0.85,
+      "whatWouldChangeMyMind": "EVIDENCE surface sealed with measured subject-set commitment and F5 cross-check.",
+      "adjudicationStatus": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+    }
+  ],
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "blocker": "R1-FP-01 (confidence deficiency mapping). F8 and the other 11 goldens are sealable.",
+    "doNotSealBecauseFlagged": true,
+    "afterChanges": "SEAL once confidence is a first-class remedy code or minConfidence is withdrawn from the public requirement schema.",
+    "adjudicated": true,
+    "postAdjudicationVerdict": "SEAL-WITH-CHANGES",
+    "openFindingsAfterAdjudication": []
+  },
+  "resolves": {
+    "R1-FP-01": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-FP-02": "RESOLVED-BY-ADJUDICATION-AGENT-C",
+    "R1-FP-03": "RESOLVED-BY-ADJUDICATION-AGENT-C"
+  },
+  "adjudicationArtifact": "artifacts/fact-plane.adjudication-agent-c.json",
+  "postAdjudicationNote": "Adjudicated by agent-a-as-c; see artifacts/fact-plane.adjudication-agent-c.json. Post-adjudication seal recommendation: SEAL-WITH-CHANGES."
+}

@@ -1,0 +1,40 @@
+{
+  "artifact": "opensip.c3-architecture-purity-audit.reverify",
+  "version": 1,
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "fail-one-class-residual",
+  "method": "DIFFERENT FROM AUTHOR REPAIRS: Do not check off prior finding IDs. Fresh method = (1) status-marker lattice walk: for each **SEALED** region, search for candidate-claim signatures without inline candidate mark; (2) heading-before-marker check: claim words in ## headings preceding their status line; (3) SEALED container restating CANDIDATE ids from claim-register. Not a re-run of A3's six-item list.",
+  "whatCouldHaveFailed": [
+    "CANDIDATE claim text under prior SEALED marker because status line follows heading",
+    "RE-DERIVED ignored by lattice so region stays SEALED",
+    "New circular seal of unreviewed artifact"
+  ],
+  "failureClass": "A container's status marker silently promotes its contents",
+  "findings": [
+    {
+      "id": "A1-C3-RV-01",
+      "severity": "high",
+      "title": "Claim phrases in headings before CANDIDATE markers (status promotion)",
+      "detail": "Before repair this turn: 'Fact sufficiency is predicate-relative' heading sat above **CANDIDATE (C-1)**, so nearest-preceding-marker logic still saw SEALED from the previous section. Same class as Error 5 / A2-RC3-01: container status promotes contents. Also: 'one analysis mechanism' under RE-DERIVED/SEALED before CANDIDATE (C-2) marker later in the section.",
+      "repairAppliedByReviewer": "Moved **CANDIDATE (C-1)** above the heading in 04; placed **CANDIDATE (C-2)** above the C-2 section in 05 and removed duplicate mid-section marker.",
+      "recheck": "Re-run lattice walk after edit expected clean for those phrases."
+    },
+    {
+      "id": "A1-C3-RV-02",
+      "severity": "medium",
+      "title": "RE-DERIVED is not a lattice status",
+      "detail": "Markers only recognise SEALED|CANDIDATE|REOPENED|OPEN. A section marked only RE-DERIVED inherits the previous SEALED container. Authors must always pair RE-DERIVED with CANDIDATE or SEALED explicitly (now done for C-2).",
+      "requiredFix": "Document in 00 status legend: RE-DERIVED is a history tag, not a status; must accompany SEALED/CANDIDATE/OPEN."
+    },
+    {
+      "id": "A1-C3-RV-03",
+      "severity": "info",
+      "title": "Prior A3 repairs for CONTRA-1, fingerprint, backend, partitions hold under fresh read",
+      "detail": "03 concurrency, 06 host-owned fingerprints, ProjectId backend, dual partitions, 11 indexed-vs-conformed — no regression found."
+    }
+  ],
+  "verdict": "FAIL residual of the promotion class via heading/marker order — repaired in-docs this turn. After repair: PASS with legend note still open (RV-02). Confidence: high on class; medium that no third instance remains ungrepped.",
+  "whatWouldChangeMyMind": "An automated CHK that fails when a claim signature appears between a stronger marker and a weaker marker without an intervening equal-or-weaker marker.",
+  "knownLimitations": ["Signature list is partial; not full claim-register coverage."]
+}

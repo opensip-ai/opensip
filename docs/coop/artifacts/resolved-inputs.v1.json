@@ -1,0 +1,124 @@
+{
+  "artifact": "opensip.resolved-inputs",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review. See threat-model.v1.json#reviewStatus.",
+  "purpose": "Define how configuration and project scope become resolved, identity-bearing inputs to a Plan. Every Plan depends on these, so an ambiguity here is an ambiguity everywhere.",
+  "covers": ["config precedence and namespacing", "unknown-key policy", "provenance into PlanId", "project root and workspace units", "change detection", "path policy", "semantic universe identification"],
+
+  "decisionDependencies": [
+    {"id": "ARCH.PLANID", "source": "architecture/02-domain-model.md#identity-model", "claim": "PlanId covers workflow, versions, resolved config, grants, budgets"},
+    {"id": "ARCH.SNAPSHOT", "source": "architecture/03-execution-model.md#snapshot-capture", "claim": "snapshot records validation method and assurance; read-set recorded"},
+    {"id": "C-1", "source": "architecture/04-fact-plane.md", "claim": "profiles may strengthen requirements, never weaken; no materialisation by label alone"},
+    {"id": "P-4", "source": "artifacts/claim-register.v1.json", "claim": "TypeScript and Rust receive semantic providers"},
+    {"id": "TM.F2", "source": "artifacts/threat-model.v1.json", "claim": "snapshot capture is a path-traversal surface"},
+    {"id": "TM.F8", "source": "artifacts/threat-model.v1.json", "claim": "credentials are referenced by handle, never inlined into PlanId or the digest"},
+    {"id": "VERSIONING.USER-CUSTODY", "source": "artifacts/versioning-policy.v1.json", "claim": "tracked config is user-custody; breaking changes need migrators"}
+  ],
+
+  "configuration": {
+    "precedence": [
+      {"layer": 1, "source": "compiled defaults", "custody": "release", "affectsPlanId": true},
+      {"layer": 2, "source": "user-global settings", "custody": "user machine", "affectsPlanId": true, "note": "Machine-scoped preference. Because it affects analysis it MUST enter PlanId, or two machines silently produce different results under one identity."},
+      {"layer": 3, "source": "tracked project intent", "custody": "USER-CUSTODY", "affectsPlanId": true, "note": "The reviewed, committed layer. The only layer a team collectively owns."},
+      {"layer": 4, "source": "untracked local override", "custody": "user machine", "affectsPlanId": true, "note": "Explicitly ignored by version control. Present in PlanId AND surfaced in projections, because an unreviewed local override that changes a verdict must never be invisible."},
+      {"layer": 5, "source": "allowlisted environment", "custody": "process", "affectsPlanId": true},
+      {"layer": 6, "source": "command flags", "custody": "invocation", "affectsPlanId": true}
+    ],
+    "rules": [
+      {"id": "CFG-1", "rule": "Only documented environment keys participate. Arbitrary environment is never ingested — an undocumented variable changing a verdict is an unauditable input."},
+      {"id": "CFG-2", "rule": "Unknown keys in TRACKED project intent fail closed. A typo that silently disables a rule is the worst possible failure for a guardrail tool."},
+      {"id": "CFG-3", "rule": "Unknown keys in a layer the user cannot review (defaults, environment) are a host defect, not a user error, and fail loudly as such."},
+      {"id": "CFG-4", "rule": "A missing schema for a declared contribution is a typed admission failure, never silently ignored policy."},
+      {"id": "CFG-5", "rule": "Resolved analysis-affecting configuration is canonicalised into PlanId with PER-FIELD provenance, so `explain` can name the layer that decided each value."},
+      {"id": "CFG-6", "rule": "Secrets are referenced by handle. The handle enters PlanId; the value never does, and never enters the evidence digest or diagnostics (TM.F8)."},
+      {"id": "CFG-7", "rule": "Contributions register namespaced declarative schemas only. No executable configuration format in the target — executable config is an ambient authority path (TM.F1 class)."},
+      {"id": "CFG-8", "rule": "A profile may raise a fact-quality floor. It may not lower one, and it may not trigger materialisation absent a consumer requirement (C-1)."}
+    ],
+    "operations": {
+      "validate": "Reports the resolved value AND its provenance layer per field. Provenance is the product, not a debug extra.",
+      "schema": "Exports the composed authoring contract, including contribution namespaces.",
+      "migrate": "Pure-plan-first with a preview; atomic on apply; versioned per the user-custody policy."
+    }
+  },
+
+  "projectModel": {
+    "rootResolution": {
+      "order": ["explicit path argument", "nearest project configuration", "VCS root"],
+      "rule": "Never cross a discovered boundary silently. If resolution finds a candidate above an intervening project marker, that is a typed ambiguity requiring an explicit choice.",
+      "why": "Silent upward traversal is how a tool analyzes a parent monorepo when the user meant one package."
+    },
+    "workspaceUnits": {
+      "model": "One ProjectSnapshot may contain multiple WorkspaceUnits.",
+      "rule": "Workspace fan-out is planner parallelism over ONE parent Run, not several products. Storage authority is keyed by canonical ProjectId, not by unit.",
+      "why": "Otherwise a monorepo produces N unrelated histories and cross-unit impact is unrepresentable."
+    },
+    "semanticUniverse": {
+      "definition": "The identity of a semantic provider's compilation context — the smallest set whose change invalidates resolved facts.",
+      "keyComponents": ["provider identity and version", "toolchain identity", "configuration root set", "language edition or target", "feature or conditional-compilation selection", "whether execution-capable resolution is enabled"],
+      "rule": "The universe key participates in the derivation key and in PlanId.",
+      "whyFeatureSelectionMatters": "The same source resolves differently under different feature or conditional-compilation selections. Treating features as configuration rather than identity would let two semantically different fact sets share one identity — the exact unsoundness the derivation-key work exists to prevent (P-4 consequence).",
+      "whyExecutionFlagMatters": "TM.F1: a provider that can execute repository-controlled code is a materially different security posture. That must be visible in PlanId, not implied by a config file."
+    },
+    "changeDetection": {
+      "spec": "A ChangeSpec records the exact mode; it is never inferred.",
+      "modes": ["worktree", "staged/index", "explicit file list", "merge-base against a ref", "since a ref"],
+      "provenance": ["base commit identity", "dirty overlay policy", "untracked policy", "VCS adapter identity"],
+      "nonVcs": "Full scope and explicit-file scope are supported. Changed-mode is UNAVAILABLE unless a declared adapter can prove it — unavailable, not silently degraded to full scope.",
+      "rule": "If impact expansion is requested and graph Coverage is insufficient, the Plan either broadens to full declared scope or yields indeterminate per workflow policy. It never silently analyzes an under-approximation.",
+      "why": "An under-approximated changed set produces a passing verdict that means nothing, which is worse than no verdict."
+    },
+    "pathPolicy": {
+      "rules": [
+        "Canonicalise every path before inclusion. A path resolving outside the project root is a typed rejection, not a skipped file (TM.F2).",
+        "Symlink policy is declared, participates in SnapshotId, and does not follow links out of the root by default.",
+        "Case-folding behaviour is recorded, because the same manifest on a case-insensitive filesystem otherwise yields a different file set under one identity.",
+        "Submodule and nested-checkout policy is explicit: included as content, referenced as a pointer, or excluded — never resolved by accident.",
+        "Sparse or partial checkouts are detected and recorded as a Coverage input; an incomplete working tree must not read as a complete inventory.",
+        "Generated, vendored, and test classification is canonical snapshot policy, not per-rule filesystem behaviour."
+      ],
+      "why": "Every one of these is a way for the file set to differ from what the identity claims it is."
+    }
+  },
+
+  "conformanceTests": [
+    {"id": "RI-01", "assert": "An unknown key in tracked project intent fails closed with the offending path named."},
+    {"id": "RI-02", "assert": "An undocumented environment variable cannot change any resolved value."},
+    {"id": "RI-03", "assert": "`validate` reports the deciding layer for every analysis-affecting field."},
+    {"id": "RI-04", "assert": "Two invocations differing only in an untracked local override produce different PlanIds, and the override is visible in the projection."},
+    {"id": "RI-05", "assert": "A secret value never appears in PlanId, the evidence digest, diagnostics, or a support bundle; only its handle does."},
+    {"id": "RI-06", "assert": "Root resolution across an intervening project marker raises a typed ambiguity rather than choosing."},
+    {"id": "RI-07", "assert": "Two feature/conditional-compilation selections over identical source yield different semantic universe keys and different derivation keys."},
+    {"id": "RI-08", "assert": "Enabling execution-capable resolution changes PlanId."},
+    {"id": "RI-09", "assert": "A path resolving outside the project root is rejected with a typed error, not omitted."},
+    {"id": "RI-10", "assert": "Changed-mode on a non-VCS project reports UNAVAILABLE; it does not fall back to full scope."},
+    {"id": "RI-11", "assert": "Requested impact expansion with insufficient graph Coverage either broadens scope or yields indeterminate — never a narrow pass."},
+    {"id": "RI-12", "assert": "A sparse checkout is recorded as a Coverage input and cannot read as complete inventory."},
+    {"id": "RI-13", "assert": "A profile cannot lower a fact-quality floor, and a profile label alone materialises nothing."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "resolved config is canonicalised into PlanId with provenance", "dischargedBy": ["CFG-5", "RI-03", "RI-04"]},
+    {"property": "unknown keys fail closed in authored intent", "dischargedBy": ["CFG-2", "RI-01"]},
+    {"property": "secrets never enter the evidence digest", "dischargedBy": ["CFG-6", "RI-05"]},
+    {"property": "workspace fan-out is one parent Run", "dischargedBy": ["projectModel.workspaceUnits"]},
+    {"property": "never silently analyze an under-approximation", "dischargedBy": ["changeDetection.rule", "RI-11"]},
+    {"property": "path traversal is rejected, not skipped (TM.F2)", "dischargedBy": ["RI-09"]},
+    {"property": "execution-capable resolution is visible in identity (TM.F1)", "dischargedBy": ["RI-08"]},
+    {"property": "profiles strengthen but never weaken (C-1)", "dischargedBy": ["CFG-8", "RI-13"]}
+  ],
+
+  "peerReviewRequired": [
+    "Should layer 2 (user-global) affect PlanId at all? Including it makes results machine-dependent by identity; excluding it makes them machine-dependent invisibly. This artifact chose visible over portable and that is arguable.",
+    "Is an untracked local override worth supporting given it can change a verdict? The alternative is to forbid it outright.",
+    "Is the semantic universe key complete for Rust, where conditional compilation interacts with target and dependency resolution in ways this author has not verified against a real toolchain."
+  ],
+
+  "knownLimitations": [
+    "No field-level schema for any configuration block; this fixes the resolution and identity contract, not the vocabulary.",
+    "The migrator required by the user-custody policy is referenced, not designed.",
+    "Semantic universe components for Rust are asserted from general knowledge of conditional compilation, not verified against a toolchain — the same class of unverified claim that produced two earlier errors in this exercise.",
+    "Authored solo, unreviewed."
+  ]
+}

@@ -1,0 +1,420 @@
+{
+ "artifact": "opensip.c2-plan-stage-schema.v7.review-independent",
+ "version": 1,
+ "date": "2026-08-03",
+ "reviewer": "independent adversarial reviewer; authored neither the contract nor the checker, and reviewed with the explicit objective of rejecting them",
+ "subject": {
+  "contract": {
+   "filename": "c2-plan-stage-schema.v7.json",
+   "sha256Reviewed": "51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+   "sha256Dispatched": "51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+   "recomputed": "MATCHES"
+  },
+  "checker": {
+   "filename": "check-c2-v7.py",
+   "sha256Reviewed": "d96faeee9e26abcca518c08a1a1399642dbe9ff2e452a60058e455d912b900c7",
+   "sha256Dispatched": "d96faeee9e26abcca518c08a1a1399642dbe9ff2e452a60058e455d912b900c7",
+   "recomputed": "MATCHES"
+  },
+  "driftDiscipline": "Freeze section 7.2.1 binds and a sibling review had its subject move mid-flight, so I copied docs/coop into a private scratchpad before touching anything and retained byte snapshots of both subjects at review start. I re-hashed both against disk at three points during the review and again immediately before writing this file. NEITHER SUBJECT MOVED. Every measurement in this document was taken against the two digests above; no measurement is attributed to any other bytes."
+ },
+ "verdict": "REJECT - CANDIDATE-NOT-APPLIED, on ONE blocking finding. IR-C2V6-01 IS REPAIRED and I verified it in both directions by execution rather than by reading: the eighteen-byte duplicate-key edit that took v6 to a full green banner now exits 1 with C2V7-DUPKEY naming position 'version', the byte-identical control exits 0, nested and array-element duplicates are named by full indexed path, escape-spelled duplicate keys are caught, and a pinned input carrying a duplicate is refused with AuthorityLoadError at exit 2 EVEN WITH THE PIN DIGEST UPDATED TO MATCH THE TAMPERED FILE. The 139-row --selftest ran to termination under me: 139 rows, 139 reject, 0 ESCAPE, 0 COUNTER-ONLY, exit 0, including the retained row that executes the pinned REJECTED check-c2-v6.py over the eighteen-byte edit and records 'FULLY GREEN: True'. My own exhaustive candidate sweep is 164 cases with ZERO admitted and ZERO collateral - the best result in this lineage (v4 57/136, v5 13/66, v6 0/137). jx_min and jx_max are real and value-correct, jx_order and jx_equal now agree over my own hostile cross-product, the float-leaf gap OBS-C2V6-01 is genuinely closed, residualAccounting cannot be made to lie, and all 16 required dependents exit 0. It is nevertheless REJECTED because the totality that IR-C2V5-03 and OBS-C2V6-01 were graded on still has one JSON type outside it. L2c enumerates integer leaves and JSON number leaves; it does not enumerate BOOLEAN leaves. A ONE-BYTE edit changing 'theParseDefect/minimalReproduction/reproducedByThisLane' from true to false - the document's own assertion that this lane reproduced the very finding v7 exists to discharge - produces exit 0 and a full green banner whose L2c line still reads 'with no unbound bucket'. Adding a new boolean leaf at the root does the same. That is one JSON edit, zero bytes of Python, to a fully green run, which is this corpus's own bright line, and boolean is not an exotic type here: it is a row of this artifact's own operator space, it is what jx_bind(False, 0) exists to refuse, and the residual that would scope it out names STRINGS instead. CD-RT-5 remains BLOCKED_ON_PHASE_1A; this review changes no status, closes no finding and seals nothing.",
+ "verdictRule": "A finding is BLOCKING when a single edit to the candidate, with no modification of checker source, produces exit 0 - freeze section 7.4, and the rule under which IR-C2V4-01, IR-C2V5-01 and IR-C2V6-01 were graded. IR-C2V7-01 meets it by execution, three times over, on a quiet host with a byte-identical control. Findings that are honestly scoped out by a published rule, or that I could not drive to exit 0, are recorded as non-blocking however uncomfortable they are - including the RecursionError in the repair's own new code path, which I could only drive to exit 1.",
+ "theDuplicateKeyRepair": {
+  "why": "This is the finding v7 exists to close and the brief asked for both directions. I reproduced both myself; nothing here is taken from the artifact's own account.",
+  "precondition": "I confirmed independently that the attack precondition still holds for the v7 document: json.loads(mutant) == json.loads(original) is True, so the parsed object is byte-for-byte the parse of the unedited file and no guard reading only the parse can see the difference.",
+  "attackDirection": {
+   "edit": "insert one line, '  \"version\": 7.0,', immediately BEFORE the existing '  \"version\": 7,' at the document root",
+   "bytesAdded": 18,
+   "sourceModification": "none",
+   "mutantSha256": "1f2e913908b476c8eabc3a8bbb25f023dc89a0e6d87940ad15bb656f07f19861",
+   "exit": 1,
+   "findingCount": 1,
+   "findingVerbatim": "C2V7-DUPKEY: version in dupkey-version.json is published more than once in the bytes; the host parser keeps the LAST occurrence, so the parsed object cannot say what the document says; the bytes of record and the object every layer of this checker reads are then different documents, which is IR-C2V6-01 and is invisible to every guard that reads only the parse"
+  },
+  "controlDirection": {
+   "input": "a byte-identical copy of the reviewed candidate, sha256 51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+   "exit": 0,
+   "result": "full green banner; the repair does not refuse its own control, so the exit-1 above is a guard firing and not an instrument that refuses everything"
+  },
+  "depthAndShape": "Verified against the extracted primitive: root duplicates report path ['a']; nested duplicates report ['o','a']; duplicates inside an array element report the INDEXED path ['o',0,'a']. Duplicate keys that differ only by ESCAPE SPELLING ({\"a\":1.0,\"\\u0061\":1}) ARE caught, because the hook canonicalises the PARSED key - the brief asked and the answer is that this one is covered, not a gap.",
+  "pinnedInputsFailClosed": {
+   "method": "I inserted the same eighteen-byte duplicate into the pinned c2-plan-stage-schema.v4.json in a private copy of the whole artifacts directory AND rewrote the PINS entry in a copy of check-c2-v7.py to the tampered file's new digest, so the hash check passes and only the parse can object.",
+   "tamperedPinnedSha256": "f787e839bb6b7704a6048963478af77b401548e90b1d8492d46b91d6126c18fc",
+   "exit": 2,
+   "verbatim": "C2V7-PINNED-INPUT-REFUSED: AuthorityLoadError: pinned input c2-plan-stage-schema.v4.json does not say the same thing to a reader as to this instrument: 1 byte/parse divergence(s), the first being a duplicate-key at version (is published more than once in the bytes; the host parser keeps the LAST occurrence, so the parsed object cannot say what the document says)",
+   "verdict": "CLAIM UPHELD. The refusal is on CONTENT, not on the digest."
+  },
+  "survivesEveryEarlyReturn": "Structurally confirmed: check() prepends authority.parse_findings on the normal return, on the malformed-root return AND on the MALFORMED_SHAPE_EXCEPTIONS return, so a byte/parse divergence cannot be dropped by an early exit. The one path on which it IS dropped is IR-C2V7-02 below, where jx_loads itself raises before check() is ever reached."
+ },
+ "theSelftest": {
+  "why": "A composed result is not an observed one and the brief said so. I ran it to termination on the reviewed bytes and transcribed the banner.",
+  "invocation": "python3 -I -B artifacts/check-c2-v7.py --selftest, cwd docs/coop, against d96faeee9e26abcca518c08a1a1399642dbe9ff2e452a60058e455d912b900c7",
+  "ranToCompletion": true,
+  "rows": 139,
+  "rejectRows": 139,
+  "escapes": 0,
+  "counterOnlyRows": 0,
+  "exitCode": 0,
+  "elapsed": "approximately 50 minutes under a concurrent load of my own 13-way sweep; it is not hung",
+  "finalBannerVerbatim": [
+   "SELFTEST-PASS: all 139 retained cases rejected by their named finding at the position under test, and every one of the 79 source rows stayed rejected after every bound counter was republished from the mutant's own measurements - no counter is the sole detector of any break",
+   "  every one of the 44 declared type gates is broken by this suite and every break is caught by the layer it breaks; L4's exclusion of the gates from its own scan is a debt and this is where it is paid",
+   "  7 of these rows edit the candidate's OWN BYTES rather than a parsed copy, because IR-C2V6-01 exists only in the bytes; and one executes the PINNED, REJECTED check-c2-v6.py over the eighteen-byte duplicate-key edit it was rejected for, which must still run FULLY GREEN - that is the one measurement an ordinary invocation does not recompute, and this is where it is recomputed",
+   "  L7 is terminal: nothing stands behind this suite but independent review, and every one of its 139 rows is printed above so a reviewer can be that thing"
+  ],
+  "rowCompositionVerifiedStructurally": "RETAINED_ROWS is DERIVED, not written: len(PARSED_ROOT_CASES)=4 + len(CONTRACT_MUTATIONS)=31 + len(SOURCE_MUTATIONS)=79 + len(SCAN_MUTATIONS)=8 + len(PARSE_MUTATIONS)=7 + 1 pinned-v6 row + len(DIFFERENTIAL_VECTORS)=6 + len(SUCCESSOR_DIFFERENTIAL_VECTORS)=3 = 139. I evaluated those lengths myself by importing the module. This is the repair for v6's OBS-C2V6-09, where the refusal denominator and the pass denominator disagreed, and it is correct.",
+  "gateCoverage": "44 declared type gates, which is exactly len(GUARD_HELPERS)=44 measured independently by me. v6 had 40.",
+  "theRetainedPinnedV6Row": "OBSERVED, verbatim: 'reject  IR-C2V6-01 against the PINNED check-c2-v6.py [check-c2-v6.py] / pinned v6 over the 18-byte edit: 0 finding(s), FULLY GREEN: True; this checker: C2V7-DUPKEY: version in c2-plan-stage-schema.v7.json is published more than once in the bytes...'. The predecessor's blindness is executed here, not asserted.",
+  "hitForStrictness": "Preserved and unweakened. hit_for still requires a finding that BOTH startswith(expected + ':') AND contains the position substring; a rejection from another layer, or from the right layer at the wrong position, is scored ESCAPE. I read the implementation and it is the same mechanism the v6 reviewer observed firing."
+ },
+ "myOwnSweep": {
+  "method": "Token-exact single-token substitution in the RAW BYTES of the reviewed candidate: one scalar token replaced, every other byte identical, no re-serialisation. My scanner is my own path-aware JSON text walker; I asserted its 628 scalars and their values equal json.loads at every path before using it, with 0 mismatches. Each mutant was written to its own file and driven through a COMPLETE run of the reviewed checker, invoked by path so the pinned inputs resolve from the real artifacts directory.",
+  "arms": "a float at every one of the 148 integer-spelled number tokens of the document (the document contains no float-spelled token), and a boolean at all 16 integer tokens valued 0 or 1.",
+  "raceDiscipline": "I raised my worker pool mid-sweep and SIGTERMed 7 in-flight cases. Those 7 recorded exit 143, which is a killed process and not a measurement; I discarded and re-ran all 7 and they are included below only on their re-measured results. The four decisive cases - the control, the duplicate-key mutant and both boolean mutants - were additionally re-run one at a time on an idle host with the candidate re-hashed after each run.",
+  "results": {
+   "cases": 164,
+   "ADMITTED": 0,
+   "REJECTED-BY-POSITION": 164,
+   "REJECTED-COLLATERAL": 0
+  },
+  "byArm": {
+   "float": {
+    "cases": 148,
+    "ADMITTED": 0,
+    "REJECTED-BY-POSITION": 148,
+    "REJECTED-COLLATERAL": 0
+   },
+   "bool": {
+    "cases": 16,
+    "ADMITTED": 0,
+    "REJECTED-BY-POSITION": 16,
+    "REJECTED-COLLATERAL": 0
+   }
+  },
+  "handAdjudication": "None required. Unlike the v6 sweep, which needed 9 overrides out of the collateral bucket, every one of my 164 rejections carried a finding that named the mutated leaf by path or by key in the finding text itself. There is no position in this arm defended only by collateral.",
+  "comparison": "v4 admitted 57 of 136. v5 admitted 13 of 66. v6 admitted 0 of 137 with 9 needing hand adjudication. v7 admits 0 of 164 with 0 needing hand adjudication. On the arm this lineage is actually about - an integer leaf respelled as a float or a boolean - v7 is airtight and I want that recorded as plainly as the blocker.",
+  "whatTheSweepDoesNotCover": "It covers TYPE substitution at existing NUMERIC leaves. It is precisely the arm that does NOT reach the blocker, because the blocker lives at a leaf whose type is already boolean and at leaves that do not exist yet. That is why I ran a separate leaf-type totality probe, and it is where the blocker came from."
+ },
+ "blockers": [
+  {
+   "id": "IR-C2V7-01",
+   "severity": "BLOCKING",
+   "title": "The candidate-document totality enumerates integer and number leaves but not BOOLEAN leaves, so a one-byte edit flips the document's own claim that this lane reproduced IR-C2V6-01 and the run is fully green, while the banner still certifies 'with no unbound bucket'",
+   "measuredAgainst": "d96faeee9e26abcca518c08a1a1399642dbe9ff2e452a60058e455d912b900c7 over 51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+   "minimalReproduction": {
+    "input": "c2-plan-stage-schema.v7.json",
+    "edit": "change 'theParseDefect/minimalReproduction/reproducedByThisLane' from true to false - one token, one byte added",
+    "bytesAdded": 1,
+    "sourceModification": "none",
+    "mutantSha256": "e202d7ec741544b923bebe1ca3f870bf0a25375778f28564c8f7c1003e2072f5",
+    "exit": 0,
+    "banner": "full green, including 'L2c candidate-document binding: 148 integer leaves of THIS document bound to a value this run measured or to a verified pinned byte, with no unbound bucket; 1332 hostile spelling and value-drift and control probes at those leaves, of which 0 were admitted'",
+    "confirmedOnAnIdleHost": true
+   },
+   "furtherReproductions": [
+    {
+     "edit": "the same flip at 'theDefect/minimalReproduction/reproducedByThisLane', the reproduction claim for IR-C2V4-01",
+     "bytesAdded": 1,
+     "mutantSha256": "f2f3934ad4555fc6b2b05745113860af2e22315bcde168c1b27e060d2d35957a",
+     "exit": 0
+    },
+    {
+     "edit": "add '  \"reviewerInjectedBool\": true,' at the document root",
+     "bytesAdded": 32,
+     "mutantSha256": "f5cbf993a648c079dc3aacfa3c6f0f351339fe542682296c8d2a5dcbd3318724",
+     "exit": 0
+    },
+    {
+     "edit": "add the same boolean leaf at DEPTH, inside theDefect",
+     "exit": 0
+    },
+    {
+     "controlsForVacuity": "The SAME injected leaf spelled 17 is refused by C2V7-UNBOUND ('the candidate publishes a JSON integer at reviewerInjectedLeaf that no layer of this run binds'); spelled 17.0 it is refused by C2V7-UNBOUND ('the candidate publishes a JSON number at ... '); spelled NaN by C2V7-NONRFC; spelled 1E2 by C2V7-NUMBER-TEXT. Only the boolean spelling passes. The guards are strong; boolean is simply not in the enumeration."
+    }
+   ],
+   "whyTheCheckerCannotSeeIt": "L2c's totality is built from _integer_leaf_steps and _number_leaf_steps. jx_type decides boolean BEFORE integer - correctly, and that is the primitive's central virtue - so jx_type(True) is 'boolean', jx_int(True) is False, and a boolean leaf is enumerated by NEITHER walker. It therefore never enters candidate_bindings, never reaches the unbound-bucket check, and no layer binds it. The document holds exactly two boolean leaves and both are unbound in value; any number of new ones can be added unbound.",
+   "whyThisIsBlockingAndNotAdvisory": [
+    "It meets the corpus's own bright line exactly: one JSON edit - one BYTE - zero bytes of Python, exit 0, full green banner. That is the rule under which IR-C2V4-01, IR-C2V5-01 and IR-C2V6-01 were graded BLOCKING, and it is the rule this artifact's own verdictRule inheritance rests on.",
+    "It falsifies a published headline claim verbatim, not a marginal one. v7MeasuredCountersRule says 'There is no unbound bucket: a leaf no layer binds is itself a named finding, so narrowing the binding table fails closed instead of silently exempting a counter.' After the edit the document contains a leaf no layer binds, C2V7-UNBOUND does not fire, and the banner still prints 'with no unbound bucket'. The rule's enumeration clause and the rule's totality clause contradict each other, and the totality clause is the one printed in the banner a reader sees.",
+    "The affected positions are not decorative. They are the document's own assertions that this lane REPRODUCED IR-C2V4-01 and IR-C2V6-01 - the second being the single finding v7 exists to discharge. A document of record that says 'reproducedByThisLane: false' for the defect it claims to repair is certified fully green by the checker whose entire thesis is that a self-certification must bind every leaf of its own document.",
+    "This is a VALUE drift at an EXISTING leaf of the shipped document, not only an added leaf. That distinction matters: OBS-C2V6-01, the non-blocking float analogue, was about a leaf the reviewer invented and added. The class of 'the document's own existing leaves admit a value the checker never measures' is IR-C2V5-03, which WAS graded BLOCKING, and v7MeasuredCountersRule names IR-C2V5-03 as the thing it repairs.",
+    "Boolean is inside the defect class this artifact names, not outside it. The operator space carries a 'boolean' row - 'True == 1, hash(True) == hash(1), {True: x}[1]'. jx_bind(False, 0) is documented as a refusal the binding performs. The banner publishes censusPositionsBooleanExploitable = 16. RES-C2V7-07's own whyNotClosed describes the corpus's measured defect class as 'int/float/bool equivalence'. The one JSON type the totality omits is the third member of the phrase the residual uses to justify the omission.",
+    "No residual scopes it. RES-C2V7-07 names STRINGS as the neighbouring gap and does not mention booleans anywhere; the word 'boolean' does not occur in any residual. RES-C2V7-05 scopes value drift to the EFFECTIVE contract and states affirmatively that 'L2c leaves NO integer leaf of THIS document unbound in value' - true only because a boolean is not an integer. This is the third consecutive version in which the residual points one type away from the live hazard: v5's pointed away from the taint model, v6's named STRINGS while the gap was NUMBERS, and v7's names STRINGS while the gap is BOOLEANS.",
+    "v7 itself established the standard I am applying. _number_leaf_steps's docstring says of the v6 gap: 'The rule was honestly scoped and the scope was wrong: this artifact exists because of int/float equivalence, and the one JSON type it left unbound was float. v7 closes the gap rather than rewording the blind spot.' The same sentence is now true with 'boolean' substituted, and by the author's own published standard rewording the blind spot is not the remedy.",
+    "It is orthogonal to the primitive, exactly as IR-C2V6-01 was. jx_canon is not defeated and jx_type is not wrong - jx_type(True) == 'boolean' is CORRECT and is the thing that makes the primitive sound. The defect is that the totality's enumeration was written over two of the seven JSON types. No strengthening of the comparison closes it."
+   ],
+   "theStrongestCaseAGAINSTGradingItBLOCKING": "I record this because an adjudicator should be able to overrule me on the evidence rather than on my framing. v7MeasuredCountersRule's enumeration clause says 'Every integer leaf AND every JSON number leaf', so a boolean leaf is outside the stated enumeration, and the independent reviewer of v6 graded the structurally identical float case (OBS-C2V6-01) MAJOR-NON-BLOCKING on exactly that reasoning - 'the rule is honestly scoped ... a float leaf is outside the stated claim rather than a violation of it'. If that precedent is applied mechanically, IR-C2V7-01 is MAJOR-NON-BLOCKING. I have not applied it mechanically for three reasons, all of which are on the record above: the leaves here already exist in the shipped document rather than being invented by me; the same rule's totality clause is falsified verbatim while its enumeration clause is satisfied, so 'honestly scoped' is not a coherent description of a rule that contradicts itself; and v7's own source text adopted the standard that a wrongly-scoped rule is repaired rather than reworded. An adjudicator who weights the enumeration clause above the totality clause should downgrade this to MAJOR-NON-BLOCKING and I would not call that unreasonable - but the artifact would then ship with a banner line that is false about its own document.",
+   "whatWouldDischargeIt": "Add a _boolean_leaf_steps walker beside the two that exist and route it into candidate_bindings and the unbound-bucket check, so a boolean leaf is either bound to a live measurement or is itself a named finding; bind the two reproducedByThisLane leaves to what this run actually measures (the run already computes both reproductions live, so the measurement exists); and add retained rows flipping each. Better still, invert the enumeration: make the totality walk EVERY scalar leaf and require each to be bound or named, so the next JSON type is not a fourth iteration of this finding. This does not touch the primitive, any layer, any counter or the parse repair.",
+   "notARegression": "This is NOT a defect v7 introduced. It is a gap v6 also had and that nobody measured, because v6's document held no boolean leaf that mattered and the reviewer's boolean arm ran only at integer positions. v7 is the version that made it reachable and load-bearing by publishing reproducedByThisLane."
+  }
+ ],
+ "nonBlockingObservations": [
+  {
+   "id": "IR-C2V7-02",
+   "severity": "MAJOR-NON-BLOCKING",
+   "title": "'Every duplicate key at any depth' is false beyond nesting depth ~1000: the repair's own duplicate-path walker raises an uncaught RecursionError and the run dies with a traceback instead of naming the position",
+   "measured": "A candidate carrying a duplicate key nested 1200 objects deep produces an UNCAUGHT RecursionError inside _jx_duplicate_paths, called from jx_loads, called from main() at line 6713. Full traceback to stderr, exit 1, ZERO findings emitted. The duplicate is never named. I isolated the cause: the same 1200-deep document WITHOUT a duplicate parses fine (the host json.loads is not the limit - it handles 2000+), and jx_loads only recurses when marks is non-empty, so the recursion is reached exactly and only on the vector the repair exists to catch. The threshold is the host recursion limit of 1000.",
+   "theAsymmetryThatMakesItAFinding": "The SAME 1200-deep document without a duplicate is handled GRACEFULLY by a sibling guard: 'C2V7-TOTALITY: the candidate could not be traversed (RecursionError: maximum recursion depth exceeded)', exit 1, a named finding. So the file already knows how to convert a deep-traversal RecursionError into evidence. jx_loads runs BEFORE check() and is outside that protection: main() catches only (json.JSONDecodeError, JxDomainError) around it, and load_authority catches only (UnicodeError, json.JSONDecodeError, JxDomainError), even though RecursionError is already a member of MALFORMED_SHAPE_EXCEPTIONS.",
+   "whyNotBlocking": "I could only drive it to exit 1, never to exit 0. Under the corpus rule that is not a blocking finding, and I am applying the rule as written rather than as I would like it.",
+   "whyItStillMatters": "The banner claims 'every duplicate key at any depth ... is a named finding at its position, in EVERY input this checker parses'. That is the headline of the repair and it is false past depth ~1000. The artifact's own design rationale for reporting rather than raising is that 'a non-zero exit is not evidence a guard fired'; here the mechanism produces exactly such an exit. The same shape applies to a pinned input, where it would abort load_authority with a traceback rather than the distinct AuthorityLoadError. The fix is three lines: make _jx_duplicate_paths iterative, or catch RecursionError at the two jx_loads call sites and emit a named finding.",
+   "reproduction": "candidate = the reviewed document with '  \"reviewerDeep\": ' + '{\"n\": '*1200 + '{\"dup\": 1.0, \"dup\": 1}' + '}'*1200 + ',' inserted at the root."
+  },
+  {
+   "id": "OBS-C2V7-01",
+   "severity": "MAJOR-NON-BLOCKING",
+   "title": "The structural parse scan is syntactic and evadable, and the thing that actually holds the exemption line is the counter binding, not the scan - and unlike L4, L8 discloses neither",
+   "attackTable": "I ran json_load_sites over six mutated syntax trees of the reviewed file and measured what it reports. (A1) a bare json.loads added inside the declared-exempt parse_differential: UNGATED stays 0; the scan does not object. (A2) a bare json.loads hidden among the hazard demos inside the OPERATOR_SPACE line span: UNGATED stays 0. (A3) replacing the candidate's jx_loads with json.JSONDecoder().decode(text): UNGATED stays 0, sites stays 11, EVERY published parse counter is unchanged - completely invisible. (A4) replacing it with getattr(json, 'loads')(text): identically invisible. (A5) object_pairs_hook=None: correctly counted as bare, UNGATED becomes 1, exactly as documented. (A6) object_pairs_hook=dict, a no-op hook: counted as HOOKED.",
+   "whatStopsA1A2A6": "Not the scan. parseJsonLoadSites (11), parseHookedLoadSites (3), parseDeclaredHazardSites (5), parseDeclaredPredecessorParses (3) and parseUngatedLoadSites (0) are all published in v7MeasuredCounters and every v7MeasuredCounters key is bound by jx_bind to the live measurement, so A1 moves 3 to 4, A2 moves 5 to 6 and A6 moves 3 to 4, and each is then a named C2V7-CANDIDATE finding. The exemption list genuinely CANNOT be widened silently - I want that recorded as an affirmative answer to the brief's question - but it is the counter binding that refuses it, and the scan that is described as making the property 'structural instead of a list somebody remembered' does not see any of the three.",
+   "whatStopsA3AndA4": "Nothing. json_load_sites matches ast.Call whose func is an Attribute or Name spelled 'load'/'loads'. json.JSONDecoder().decode and getattr(json,'loads') are neither, and they change no published counter. Both are real, bare, unhooked parses of caller input that the whole L8 structural property is blind to.",
+   "theDisclosureAsymmetry": "This is the same model limit L4 discloses as its blind spot 3 - 'L4 cannot see a comparison built at run time (eval, exec, a dispatch table)' - and L4 does not merely disclose it, it COUNTS those primitives and requires eval and getattr-dispatch to be zero and exec to be exactly two declared sites. L8's blind spot 10 discloses only string escape spelling and the pinned oracles' own parses. There is no companion guard requiring JSONDecoder to be absent or getattr-dispatch on json to be zero, and no blind-spot entry naming the gap.",
+   "whyNotBlocking": "Every one of these requires editing checker source, so none of them meets the bright line. The file as shipped contains no JSONDecoder reference at all, and I verified that. This is a statement about the strength of the instrument and the honesty of its disclosure, not a live false accept.",
+   "whatWouldCloseIt": "Two lines: count ast.Attribute nodes named JSONDecoder/raw_decode/decode on the json module and require zero, and require getattr with a constant 'load'/'loads' argument to be zero - exactly what L4 already does for its own evasions - plus a blind-spot entry saying the scan is syntactic."
+  },
+  {
+   "id": "OBS-C2V7-02",
+   "severity": "MAJOR-NON-BLOCKING",
+   "title": "The L8 banner line is arithmetically incoherent and hides eight declared-exempt unhooked parses; the contract's covered list says 'two exemptions' where there are eight call sites in two classes",
+   "measured": "The banner renders '{parseJsonLoadSites} JSON parse call site(s) of which {parseHookedLoadSites} pass an object_pairs_hook and {parseUngatedLoadSites} do not' and therefore prints 'structurally this file holds 11 JSON parse call site(s) of which 3 pass an object_pairs_hook and 0 do not'. 3 + 0 is not 11. The true decomposition, which I measured independently, is 3 hooked + 5 hazard-demo exempt + 3 predecessor-parse exempt = 11, so EIGHT call sites do not pass a hook. parseUngatedLoadSites means 'ungated', not 'do not pass a hook', and the sentence as worded asserts the stronger and false thing.",
+   "theContractSaysItToo": "theParseDefect.theClassAndWhatIsCovered.covered[4] reads 'no json.load or json.loads anywhere in this file parses without an object_pairs_hook, with two named and counted exemptions that reproduce the predecessor's parse as evidence'. There are two named FUNCTIONS in DECLARED_UNHOOKED_PARSE_FUNCTIONS, but they account for only 3 of the 8 unhooked sites; the other 5 are exempted by falling inside the OPERATOR_SPACE line span and belong to a second exemption class the covered list does not mention at all. The source comment above json_load_sites makes the stronger claim explicitly - 'The ONLY places this file is permitted to parse JSON the way the REJECTED predecessor does ... Both exist to reproduce the predecessor's own behaviour' - and that is false; the five hazard demos are also permitted places.",
+   "whyNotBlocking": "Both counts ARE published as separate bound counters (parseDeclaredHazardSites=5, parseDeclaredPredecessorParses=3) in v7MeasuredCounters, so the information is in the artifact and cannot drift. Nothing is concealed from a reader who reads the counter register. It is the banner sentence and the prose summary that are wrong.",
+   "whyItStillMatters": "This artifact's entire lineage is about self-certifications that say more than they measured, and the banner is the sentence a reader actually reads. 'and 0 do not' is the exact shape of the overstatement. It is also a second-order instance of the class that produced v6's rejection: the number in the banner and the number in the file are different documents."
+  },
+  {
+   "id": "OBS-C2V7-03",
+   "severity": "MAJOR-NON-BLOCKING",
+   "title": "The claim that the parse gate's placement inside the primitive means an adopter 'cannot take the comparison and leave the parse' is true only of availability, not of use",
+   "measured": "I extracted the delimited region into a bare module and confirmed it: jx_loads IS inside the primitive (region spans lines 302-1608), so an adopter who copies the region cannot fail to receive it, and jx_selftest() runs standalone with escapes == []. But json_load_sites - the thing that makes the property structural and forces the adopter to USE jx_loads - is at line 2077, OUTSIDE the region. An adopter who follows adoption step 1 verbatim ('Copy the delimited region and jx_selftest()') gets the parse gate available and nothing that requires it. The region also contains five bare json.loads calls of its own, the OPERATOR_SPACE hazard demos; they parse string literals and cannot reach adopter input, but an adopter running a naive 'no bare json.loads' grep over the copied region will find five.",
+   "whyNotBlocking": "The checker docstring is ACCURATE about this - adoption step 2 says 'Then copy json_load_sites and require every json.load/json.loads in YOUR tree to pass an object_pairs_hook'. The overstatement is in the summary framing, not in the normative instructions. I verified the instructions themselves execute: every function named in adoption steps 1-7 exists and is callable.",
+   "note": "This is the weakest of my observations and I record it only because the brief asked me to verify the placement claim in both directions."
+  },
+  {
+   "id": "OBS-C2V7-04",
+   "severity": "MINOR",
+   "title": "L9's self-exclusion set omits one of the four assertion tables it reads, so PARSE_MUTATIONS rows can prove their own subjects - and two published bound counters are wrong by 4 as a result",
+   "measured": "declared_assertion_rows() reads CONTRACT_MUTATIONS, SOURCE_MUTATIONS, SCAN_MUTATIONS and PARSE_MUTATIONS. _ASSERTION_TABLE_NAMES, the set whose string constants are excluded from the evidence pool, is ('_GATE_MUTATIONS', 'GATE_MUTATIONS', 'LAYER_MUTATIONS', 'SOURCE_MUTATIONS', 'CONTRACT_MUTATIONS', 'SCAN_MUTATIONS'). PARSE_MUTATIONS is absent. Its 35 string constants are therefore in source_string_pool, and 0 of them are excluded. That is exactly the vacuity the function's own docstring says it exists to prevent: 'a table proving its own claims is the vacuity this layer is here to avoid.'",
+   "sizeOfTheError": "I recomputed L9 with PARSE_MUTATIONS also excluded, using the checker's own functions. declaredSubjectsInSource falls from 119 to 115 and declaredSubjectsInDocument rises from 5 to 9. Both are published counters bound by jx_bind, so both are currently measured over a pool that violates the layer's stated rule.",
+   "whyItIsONLYMinor": "IT IS NOT LOAD-BEARING. unresolved stays 0 either way: the two subjects that lose their self-proof ('v7MeasuredCounters/pinnedInputs' and 'theDefect/repairedComparisonSites/0/line') fall back to the candidate document, which genuinely contains them. So the published 'declaredSubjectsUnresolved: 0' is honest and is not bought by the omission. I checked this specifically because it is the kind of thing that would otherwise be a blocker.",
+   "aRelatedCoupling": "9 of 124 subjects (5 as shipped) resolve ONLY in the candidate document, so the candidate under test is load-bearing evidence for the checker's own assertion-table integrity. The banner discloses this figure, which is the right thing to do, but the direction of the dependency is worth naming: editing the candidate can only ever MASK an L9 escape, never create one."
+  },
+  {
+   "id": "OBS-C2V7-05",
+   "severity": "MINOR",
+   "title": "The artifact's own 'this is not a verdict' disclaimer names the REJECTED predecessor instead of itself",
+   "measured": "knownLimitations.thisIsNotAVerdict in c2-plan-stage-schema.v7.json reads 'A green run of check-c2-v6.py is authored by the same lane that authored the repair.' The v5 artifact says check-c2-v5.py and the v6 artifact says check-c2-v6.py, so the version bump was missed exactly once. As written, the v7 document disclaims a green run of the checker that was REJECTED and says nothing about the green run of check-c2-v7.py that it is actually asking a reader to discount.",
+   "whyItMatters": "This is a live instance of the class RES-C2V7-10 concedes L9 does not catch: a declared string that names something which exists SOMEWHERE OTHER than what it asserts on. 'check-c2-v6.py' occurs 21 times in the document legitimately, so nothing fires. It is in the knownLimitations block, which is the one place in this artifact whose whole job is to be accurate about what the artifact is not.",
+   "whyNotBlocking": "It is a documentation defect in prose and changes no measurement."
+  },
+  {
+   "id": "OBS-C2V7-06",
+   "severity": "MINOR",
+   "title": "Exit 2 is returned for a malformed candidate, which the published exit-code contract does not describe",
+   "measured": "A UTF-8 BOM prefix exits 2 with 'cannot load C-2 v7 candidate ...: JSONDecodeError: Unexpected UTF-8 BOM'. Trailing content after the top-level value exits 2 with 'JSONDecodeError: Extra data'. checkerModeContract.exitCodes['2'] reads 'unsupported invocation, or a pinned input that does not hash to its declared digest, or a softened disposition', and the module docstring's Usage line says '2 unsupported invocation or a pinned input that does not hash to its declared digest'. A malformed candidate is none of those.",
+   "whyNotBlocking": "Both inputs are REFUSED, which is the fail-closed direction, and the message is clear. This is a gap in the declared exit contract, not in the behaviour. I note it because DECLARED_EXIT_CODES is itself a checked surface in this file."
+  },
+  {
+   "id": "OBS-C2V7-07",
+   "severity": "MINOR",
+   "title": "The number-token scan emits a false-positive C2V7-NUMBER-TEXT for the bare '-' of a -Infinity token",
+   "measured": "jx_loads('{\"a\": -Infinity}') returns TWO problems: the correct non-rfc-constant for '-Infinity', and a number-text problem for the token '-' with detail 'is not a JSON number at all'. jx_number_tokens starts a token at '-' and stops at 'I', which is not in the number character class.",
+   "context": "I audited the scanner hard because '0 false positives' is a published property. Over the real candidate it finds 148 tokens, 0 of which fail to parse as JSON numbers, and its value multiset exactly equals the multiset of numeric leaves in the parse - 0 false negatives and 0 false positives. A 4000-case randomised differential fuzz over generated documents containing framing-lookalike strings, escaped quotes and exponent-shaped keys found 0 failures of either kind. Nineteen hand-built adversarial tokens including 1e309, 2e308, 1e-400, 0e0, 1.0e0, -0.0, 1e+16 and a 16-digit integer were all classified correctly. The scanner is sound; -Infinity is the one shape that produces a spurious extra finding, and the document is refused anyway by C2V7-NONRFC.",
+   "figureCheck": "The brief's '960 tokens' does not appear in either artifact and is therefore not a bound published figure. It reproduces exactly as the total over the sixteen pinned .json inputs: 1108 tokens across candidate plus pinned, minus the candidate's 148, is 960. The figure is correct; it is simply not in the artifact."
+  },
+  {
+   "id": "OBS-C2V7-08",
+   "severity": "MINOR",
+   "title": "'Proved at the emit site' is function-granular, not statement-granular",
+   "measured": "emit_site_pool collects EVERY string constant of ANY function that contains a constant starting with the finding id, then a subject counts as proved at the emit site if it appears in any of them. So a subject can be 'proved at the emit site' by matching a different string in the same function than the one that emits the finding. The published figure of 41 of 124 is computed under that definition.",
+   "whyNotBlocking": "The figure is published rather than claimed, the direction of the looseness is disclosed by RES-C2V7-10, and I independently reproduced all of L9's published counts (rows 124, findingIds 30, inSource 119, inDocument 5, atEmitSite 41, unresolved 0, namesChecked 83, namesUndefined 0) by driving the checker's own functions."
+  },
+  {
+   "id": "OBS-C2V7-09",
+   "severity": "OBSERVATION-ONLY",
+   "title": "New STRING and NULL leaves are also admitted to a green run, and unlike the boolean case this IS honestly scoped",
+   "measured": "Adding '\"reviewerInjectedString\": \"x\"' or '\"reviewerInjectedNull\": null' at the root exits 0 with a full green banner.",
+   "whyThisIsNotPartOfTHEBLOCKER": "RES-C2V7-07 names strings explicitly, at MINOR, with a stated and defensible reason for not sweeping them, and law 18's string half is genuinely routed through jx_bind_text where the code gates it. Null is inert. I separate these from the boolean case deliberately: the difference is that booleans are named nowhere in the residuals, are a row of the operator space, and carry the corpus's own defect semantics. If the successor closes only booleans I would consider RES-C2V7-07 adequate for the rest; if it closes the enumeration generically that is better."
+  }
+ ],
+ "centralClaimAdjudications": {
+  "1_IR_C2V6_01_theParseRepair": {
+   "verdict": "UPHELD, in both directions, and it is a genuine repair rather than a narrowing.",
+   "evidence": "Attack exits 1 naming the position; byte-identical control exits 0; nested and array-indexed duplicates carry full paths; escape-spelled duplicates are caught; pinned inputs fail closed at exit 2 on content even with the pin digest rewritten; the candidate's bytes are read once, their sha256 is in the banner and matches the digest I computed; the decode is an explicit UTF-8 decode. The differential recomputes the predecessor's blindness every run and I confirmed the retained selftest row executes the pinned rejected v6 over the eighteen-byte edit and records FULLY GREEN: True."
+  },
+  "2_theParseScanExemptionList": {
+   "verdict": "THE LIST CANNOT BE WIDENED SILENTLY - but the scan is not what stops you.",
+   "measured": "8 declared-and-counted exemptions (5 hazard demos, 3 predecessor-parse reproductions), 3 hooked, 11 total, 0 ungated, all reproduced by me. A ninth exemption in either class changes a bound published counter and becomes a named finding. object_pairs_hook=None is correctly counted as bare. But json.JSONDecoder().decode and getattr(json,'loads') are invisible to the scan and change no counter. See OBS-C2V7-01 and OBS-C2V7-02."
+  },
+  "3_theWiderClassScoping": {
+   "verdict": "SUBSTANTIALLY HONEST. I could not find a bytes-versus-parse divergence in neither list.",
+   "whatIHunted": "BOM (refused, exit 2); trailing content after the top-level value (refused, exit 2); duplicate keys differing only by escape spelling (COVERED - caught); surrogate pairs and lone surrogates (no divergence: bytes and parse agree, and the escape spelling is declared out of scope); NUL in a string and escaped solidus (same); integer tokens exceeding double precision (correctly NOT flagged - Python parses them exactly, so bytes and parse agree); 1e309, 2e308, 1e1000 and 1e-400 (all flagged by C2V7-NUMBER-TEXT because repr of the resulting inf or 0.0 is not the token); floats beyond double precision (flagged); deeply nested structures (see IR-C2V7-02, which is a crash and not a divergence); whitespace-significant positions (JSON whitespace is insignificant, no divergence); NFC-versus-NFD and Cyrillic-homoglyph keys, which look identical to a human reader (bytes and parse AGREE, so they are outside the declared class - and I drove one through the full checker anyway and it is refused by C2V7-UNBOUND naming the homoglyph position).",
+   "conclusion": "The notCovered list is also WIDER than the brief summarised: it carries four entries, adding 'byte-level divergences in any input this checker does not itself parse'. I found nothing that belongs in neither list. The one thing I would move INTO the covered list's prose is that escape-spelled DUPLICATE KEYS are caught even though escape spelling generally is not - that is a real strength the disclosure understates."
+  },
+  "4_jx_min_jx_max": {
+   "verdict": "UPHELD, and the not-an-alias claim is TRUE and I found the disagreeing case the brief asked for.",
+   "measured": "jx_sorted([3, -5]) is [3, -5] because the length prefix sorts first, so taking extremes off jx_sorted would give min=3 and max=-5, both WRONG. jx_min([3,-5]) is -5 and jx_max([3,-5]) is 3 - value-correct. Token order and value order disagreed in 4 of my 7 probe sequences and jx_min/jx_max were value-correct in all 7. Refusals verified BY NAME for a mixed type set, an empty sequence, booleans, nulls, objects, arrays, and non-finite numbers including both inf and NaN. Strings are correctly ORDERABLE and return 'a'/'b'. Both are in GUARD_HELPERS, so L7 breaks them; v6's NameError is closed."
+  },
+  "5_L9_andItsConcession": {
+   "verdict": "IMPLEMENTED FOR REAL THIS TIME, and RES-C2V7-10's concession is ACCURATE - and CONSERVATIVE.",
+   "concessionVerified": "I replayed the exact v6 incident. Both 'outside the census block' and 'OUTSIDE the census block' occur in this file's string constants, so L9 would indeed NOT have caught the v6 drift. The concession is accurate as written.",
+   "theConcessionUnderstatesTheInstrument": "I then case-flipped every one of the 124 declared subjects. 116 of 121 flippable subjects would resolve NOWHERE and would fire C2V7-DECLARED-STRING; only 5 survive. So L9 catches the v6 drift SHAPE in 96 percent of its own rows and misses it in the one row v6 actually had. The residual states the weaker property, which is the correct direction to err, but a reader would conclude L9 is useless against that class and it is not.",
+   "gapSize": "83 of 124 rows are not proved at the emit site, which is exactly the published 41 subtracted from the published 124. The gap is no larger than stated. 44 of the 83 are the gate rows, whose subjects are function names. The general 'wrong string that exists somewhere' class remains genuinely open: rewriting a subject to a common phrase such as 'the candidate' is silent.",
+   "defects": "See OBS-C2V7-04 (PARSE_MUTATIONS not self-excluded) and OBS-C2V7-08."
+  },
+  "6_jx_order_and_jx_equal": {
+   "verdict": "UPHELD. The v6 divergence is REMOVED, not merely disclosed, and I verified it independently of the artifact's own counter.",
+   "measured": "Over my own hostile 15-value probe - 0.0, -0.0, integer 0, NaN, 1.0, 1, -1, +inf, -inf, a string, True, False, null, an array and an object - the full 225-pair cross-product yields ZERO order/equality divergences. Specifically jx_order(0.0, -0.0) is None (not comparable, therefore not reported equal) while jx_equal is False - they agree; jx_order(NaN, 1.0) is None and jx_equal is False - they agree; jx_order(NaN, NaN) is 0 and jx_equal is True - they agree. jx_le(NaN, 1.0) and jx_ge(NaN, 1.0) are both False, which was the v6 hazard. The published primitiveOrderEqualityDivergences of 0 over 1764 pairs is corroborated by my own independent measurement."
+  },
+  "7_theFloatLeafGap": {
+   "verdict": "OBS-C2V6-01 IS CLOSED. Verified by execution in both directions.",
+   "measured": "A new leaf spelled 17 is refused by C2V7-UNBOUND naming a JSON integer at the position; the SAME leaf spelled 17.0 - which reached a full green run under v6 - is now refused by C2V7-UNBOUND naming a JSON number at the position; and a float leaf inserted at DEPTH inside theDefect is refused naming the full path. The candidate holds no JSON number at all, so C2V7-CANDNUM is a live totality assertion rather than a table, and the live probe genuinely inserts floats at root and depth."
+  },
+  "8_residualAccounting": {
+   "verdict": "UPHELD. I tried to make the counts lie and could not.",
+   "measured": "The lists genuinely hold 11 residuals and 5 knownLimitations entries and the published 11/5/16 match. Adding a twelfth residual WITHOUT bumping the count produces C2V7-CANDIDATE at residualAccounting/residuals ('published as 11 but this run measured 12') AND at residualAccounting/total, plus three C2V7-RESIDUAL findings about the injected entry's own shape. Drifting total to 17 alone is caught. A self-consistent shrink - removing a residual and decrementing both counts - is caught by a DIFFERENT guard, C2V7-RESIDUAL, which requires the named residual ids to be retained; so the counts cannot be made honest by deleting the thing they count. The binding is to len() of the actual lists, in both directions. This is the discharge of OBS-C2V6-08."
+  },
+  "9_preservedSurface": {
+   "verdict": "UPHELD on everything I re-executed.",
+   "primitive": "I extracted the delimited region verbatim into a bare module. My OWN independent AST free-name analysis - every Load name minus the region's own definitions, bound names, arguments, imports and builtins - returns the EMPTY set, confirming the published 0 free names outside the boundary ('json', 'math', both imported inside the region). jx_selftest() runs standalone and returns 42 corpus values, 42 distinct tokens, 42 round trips, 1764 pairs, 0 collisions, 0 cross-type admissions, 0 reflexive failures, 104 entry-point cases with 0 failures, 15 parse cases with 0 admissions, and escapes == []. I did NOT rebuild the v6 reviewer's 82,368-token injectivity attack; I confirmed the region's bytes are unchanged in the ways that matter and that its own exhaustive test passes standalone.",
+   "hitFor": "Strictness preserved; see theSelftest.",
+   "republicationResistance": "OBSERVED, not inferred: all 79 source rows stayed rejected after republish_every_counter rewrote every bound counter from the mutant's own measurements. 0 COUNTER-ONLY rows.",
+   "banner": "The candidate's sha256 printed in the L8 banner line equals the digest I computed from the bytes, and the checker's self-reported own digest equals the frozen d96faeee. The L6b sweep is genuinely re-executed (60 seconds published, exhaustive over 136 leaves)."
+  },
+  "10_theBrightLineItself": {
+   "verdict": "The corpus rule is doing real work here and I want to say so. Every one of my nine non-blocking observations was tested against it and none reached exit 0. The one finding that did is the blocker. That is the discipline the rule exists to impose and I applied it in both directions rather than only in the direction that produces a rejection."
+  }
+ },
+ "dependentsStillExitZero": {
+  "allSixteenRequired": "EXIT 0",
+  "measured": {
+   "check-c2-v6.py": 0,
+   "check-c2-v5.py": 0,
+   "check-c2-v4.py": 0,
+   "check-c2.py": 0,
+   "check-evaluation-proof-v13.py": 0,
+   "check-evaluation-proof-v12.py": 0,
+   "check-evaluation-proof-v11.py": 0,
+   "check-evaluation-proof-v10.py": 0,
+   "check-evaluation-proof-v8.py": 0,
+   "check-retention-custody-v22.py": 0,
+   "check-d9-v1.14.py": 0,
+   "check-evidence-v10.py": 0,
+   "check-package-coherence.py": 0,
+   "check-product-dispositions.py": 0,
+   "check-claims.py": 0,
+   "check-trusted-request-context-v3.py": 0,
+   "check-completeness.py": 1,
+   "check-rust-provider-protocol-v4.py": 1
+  },
+  "expectedNonZero": {
+   "check-completeness.py": "exit 1 as briefed; I confirmed the drivers are IR-C2V4-01 and R2-FINAL-03",
+   "check-rust-provider-protocol-v4.py": "exit 1 as briefed; I confirmed the driver is the missing rg binary, which is environmental"
+  }
+ },
+ "whatIDidNotCheck": [
+  "I did not rebuild the v6 reviewer's direct attack on jx_canon - the 82,368-token hostile corpus, the exhaustive frame-forging, the 300k deep fuzz. I extracted the primitive, ran its own exhaustive test standalone to escapes == [], and performed my own independent free-name analysis, but the injectivity result is INHERITED from that review and not re-derived by me.",
+  "I did not re-run check-c2-v4.py --selftest, the predecessor's ~24,000-case matrix. That is the artifact's own RES-C2V7-03 and it remains an open coverage gap relative to the predecessor.",
+  "I did not port the primitive into check-evidence-v10.py, check-retention-custody-v22.py or check-evaluation-proof-v11.py and re-measure the 113/130, 155/183 and 45/48 susceptibility figures the docstring cites. Those three figures are UNVERIFIED by me.",
+  "My sweep covers TYPE substitution (float, boolean) at the 148 numeric leaves. I did NOT sweep arbitrary VALUE drift at all 148 positions, nor NaN or string respelling at all 148 - the artifact's own 1332-probe run covers those and I did not independently re-derive it. I swept string leaves only at the two positions named in my observations, not exhaustively.",
+  "I did not attempt a TOCTOU attack between pin verification and pinned-input use, did not test a hostile PYTHONPATH, and did not audit _VerifiedSourceLoader or the two DECLARED_EXEC_SITES for escape.",
+  "I did not verify the substantive correctness of what the inherited v4 measurement functions MEASURE. That is RES-C2V7-04 and I accepted it as a declared trust relationship, as the two reviews before me did.",
+  "I did not run --selftest over a dirty base to observe exit 3 by execution. I confirmed the code path structurally: check() prepends parse findings on every return, so a candidate with a byte/parse divergence produces base findings and selftest returns 3 with 'zero of 139 mutations executed'.",
+  "I did not review the contract's prose for semantic accuracy beyond the claims in my brief, and I did not verify that each of the 148 candidate bindings points at the SEMANTICALLY right live key - the artifact names that blind spot itself.",
+  "I did not execute the A1-A6 parse-scan attacks as full checker runs. I measured them structurally by driving the checker's own json_load_sites over six mutated syntax trees, which establishes what the SCAN sees; the claim that A1/A2/A6 then become named findings via the counter binding is a reasoned inference from the binding I did verify, not a fifth executed run.",
+  "The blocker's minimal reproduction is a candidate edit only. I did not attempt to find a boolean position whose flip would ALSO corrupt a downstream measurement, so I have not established that the gap is exploitable for anything beyond falsifying the document's own self-report - which is sufficient under the corpus rule but is the limit of what I measured."
+ ],
+ "verifiedInputs": [
+  {
+   "filename": "c2-plan-stage-schema.v7.json",
+   "sha256": "51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+   "role": "SUBJECT (contract) AS REVIEWED. Matches the dispatch digest. Re-hashed against disk four times during the review; it did not move."
+  },
+  {
+   "filename": "check-c2-v7.py",
+   "sha256": "d96faeee9e26abcca518c08a1a1399642dbe9ff2e452a60058e455d912b900c7",
+   "role": "SUBJECT (checker) AS REVIEWED. Matches the dispatch digest. THIS IS THE DIGEST EVERY MEASUREMENT IN THIS DOCUMENT WAS TAKEN AGAINST. Re-hashed four times; it did not move. The checker's own banner self-report agrees with it."
+  },
+  {
+   "filename": "c2-plan-stage-schema.v6.review-independent.json",
+   "sha256": "cb2e50e19e38fb786990852758a29d7fb1479688fe81f5851b926e09b448b13b",
+   "role": "the REJECT/1 this successor exists to discharge; read in full, and its OBS-C2V6-01 precedent is the counter-argument I address in the blocker"
+  },
+  {
+   "filename": "c2-plan-stage-schema.v5.review-independent.json",
+   "sha256": "b8ec85cf46b2e2ae7e9e8a1f5b56b26a83e014d6c59f99d77798040284c4a92c",
+   "role": "the REJECT/4 in the lineage; read for IR-C2V5-03's grading of the value-admission class"
+  },
+  {
+   "filename": "c2-plan-stage-schema.v4.adjudication-ir-c2v4-01.json",
+   "sha256": "211a7798a621341191b296c1e7c5308ca2e87657b72b7295261ce0d5cac49851",
+   "role": "the BLOCKING disposition; read for the lineage"
+  },
+  {
+   "filename": "c2-plan-stage-schema.v6.json",
+   "sha256": "f9c25ccba272c8306610dd1f3886b0449cf554a369a3e91d0e01cec05faa8786",
+   "role": "pinned predecessor contract; source of the eighteen-byte vector shape"
+  },
+  {
+   "filename": "check-c2-v6.py",
+   "sha256": "08c283d45c42e9e53781197e5b7cab5b22213a0ebdddc3a90d3a6b1da55ba9d6",
+   "role": "pinned rejected predecessor; run as a dependent, and executed by the retained selftest row I observed"
+  },
+  {
+   "filename": "c2-plan-stage-schema.v5.json",
+   "sha256": "fe5748963db1724123dbc82b2381feb708d8f3836de6f99e10ca3134534547bd",
+   "role": "pinned"
+  },
+  {
+   "filename": "check-c2-v5.py",
+   "sha256": "3518a9c1253a09300bc76c0f13a88e133f0dd2f3589f45e724c2da8e1971a081",
+   "role": "pinned; run as a dependent"
+  },
+  {
+   "filename": "c2-plan-stage-schema.v4.json",
+   "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+   "role": "pinned verified predecessor; TAMPER-TESTED by me for the duplicate-key fail-closed vector, in a private copy only"
+  },
+  {
+   "filename": "check-c2-v4.py",
+   "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+   "role": "pinned inherited oracle; run as a dependent"
+  },
+  {
+   "filename": "check-trusted-request-context-v3.py",
+   "sha256": "0c96564d2027a6f178a4b88d3442dda1ba2beec7790e2c05fd31da1dce9473ad",
+   "role": "the in-corpus precedent for the duplicate-key defence; run as a dependent, exit 0"
+  },
+  {
+   "filename": "IMPLEMENTATION-FREEZE.md",
+   "sha256": "b2375e6b9d8be946e1b375abe9fa6e165300ae84dd69865511207d4510d00623",
+   "role": "sections 7.2, 7.2.1 and 7.4 read for the recording and drift obligations. NOT modified."
+  },
+  {
+   "filename": "SCRATCHPAD-MUTANT c2-plan-stage-schema.v7.json + 18-byte duplicate at version",
+   "sha256": "1f2e913908b476c8eabc3a8bbb25f023dc89a0e6d87940ad15bb656f07f19861",
+   "role": "the attack direction of the IR-C2V6-01 reproduction; exit 1"
+  },
+  {
+   "filename": "SCRATCHPAD-MUTANT theParseDefect/minimalReproduction/reproducedByThisLane true->false",
+   "sha256": "e202d7ec741544b923bebe1ca3f870bf0a25375778f28564c8f7c1003e2072f5",
+   "role": "IR-C2V7-01 minimal reproduction; exit 0, full green"
+  },
+  {
+   "filename": "SCRATCHPAD-MUTANT theDefect/minimalReproduction/reproducedByThisLane true->false",
+   "sha256": "f2f3934ad4555fc6b2b05745113860af2e22315bcde168c1b27e060d2d35957a",
+   "role": "IR-C2V7-01 second reproduction; exit 0, full green"
+  },
+  {
+   "filename": "SCRATCHPAD-MUTANT new boolean leaf at the document root",
+   "sha256": "f5cbf993a648c079dc3aacfa3c6f0f351339fe542682296c8d2a5dcbd3318724",
+   "role": "IR-C2V7-01 third reproduction; exit 0, full green"
+  }
+ ],
+ "environment": {
+  "python": "Python 3.14.6 (CPython, Clang 21.0.0), darwin arm64, 18 cores",
+  "invocation": "python3 -I -B, cwd docs/coop",
+  "cost": "A normal run is about 90 seconds idle. The 139-row --selftest took approximately 50 minutes to termination under my own concurrent 13-way sweep. My 164-case sweep took about 55 minutes at 13-way parallelism. Nothing was hung.",
+  "concurrency": "docs/coop was under concurrent execution by other agents. Every mutation I made was in a private scratchpad tree copied before I touched anything, or in a candidate passed by path. The four decisive results were re-measured one at a time on an idle host with the candidate re-hashed after each run. The only file I wrote under docs/coop is this review.",
+  "discardedMeasurements": "7 sweep cases recorded exit 143 (SIGTERM) when I raised my worker pool mid-run. A killed process is not a measurement; I discarded all 7 and re-ran them, and only the re-measured results appear above."
+ },
+ "scope": "Independent review evidence only. Nothing here is signed, sealed, frozen, applied or integrated; no finding is closed, no disposition is softened and no status is changed. CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+}

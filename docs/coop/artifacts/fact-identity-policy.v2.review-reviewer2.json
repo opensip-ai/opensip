@@ -1,0 +1,136 @@
+{
+  "artifact": "opensip.fact-identity-policy.review",
+  "reviewer": "reviewer-2",
+  "reviewOf": "artifacts/fact-identity-policy.v2.json",
+  "date": "2026-07-31",
+  "method": [
+    "Blind language-capability and fixture derivation was frozen in artifacts/fact-identity-policy.v2.blind-reviewer2.precompare.json before authored expected values or checker logic were read.",
+    "The canonical byte construction, capability boundary, transition model, discharge table, and checker were then audited adversarially.",
+    "Checker claims were tested by applying isolated invalid mutations to temporary copies and observing whether check-fact-identity.py rejected them.",
+    "Language claims were checked against primary language specifications rather than the current implementation."
+  ],
+  "blindComparison": {
+    "matrix": [
+      {
+        "language": "typescript",
+        "reviewer": {"L1": "full", "L2": "restricted", "L3": "full"},
+        "artifact": {"L1": "full", "L2": "full", "L3": "full"},
+        "result": "DISAGREE_L2",
+        "reason": "TypeScript triple-slash directives, ts-check/ignore directives, source-map pragmas, and JSDoc-in-JavaScript semantics mean that a generic comment-insensitive tier is not unconditionally full without a measured preserved-directive grammar. See https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html and https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html."
+      },
+      {
+        "language": "rust",
+        "reviewer": {"L1": "full", "L2": "restricted", "L3": "restricted"},
+        "artifact": {"L1": "full", "L2": "full", "L3": "full"},
+        "result": "DISAGREE_L2_L3",
+        "reason": "Rust doc comments lower to attributes, and macro/name-resolution semantics make unconditional comment removal and local-binding renaming claims corpus-dependent. See https://doc.rust-lang.org/stable/reference/comments.html and https://doc.rust-lang.org/reference/names/name-resolution.html."
+      },
+      {
+        "language": "python",
+        "reviewer": {"L1": "restricted", "L2": "restricted", "L3": "unavailable"},
+        "artifact": {"L1": "restricted", "L2": "restricted", "L3": "unavailable"},
+        "result": "AGREE"
+      },
+      {
+        "language": "go",
+        "reviewer": {"L1": "restricted", "L2": "restricted", "L3": "unavailable"},
+        "artifact": {"L1": "full", "L2": "restricted", "L3": "unavailable"},
+        "result": "DISAGREE_L1",
+        "reason": "Go's lexical semicolon insertion means whitespace/newline normalization requires a constrained token-aware definition; 'full' is not justified by the artifact. See https://go.dev/ref/spec."
+      }
+    ],
+    "fixtures": "All six level-fixture and all six transition-fixture outcomes matched the independent semantic derivation. Their IDs leak some intended polarity, so this is weaker evidence than the matrix comparison.",
+    "groupTransition": "MANY-TO-MANY is the correct lossless domain model: a normalization change can split and merge groups simultaneously. User readability should be supplied by deterministic split/merge summaries plus drill-down, not by falsifying the relation as one-to-one.",
+    "whatWouldChangeMyMind": "A counterexample in which a real normalization transition cannot be represented as a many-to-many relation, or usability evidence showing that deterministic split/merge projections remain unusable even with drill-down."
+  },
+  "checkerMutationAudit": [
+    {"mutation": "Change the TypeScript matrix L3 capability to unavailable while leaving the fixture at full", "result": "ESCAPED"},
+    {"mutation": "Delete the Rust capability row", "result": "ESCAPED"},
+    {"mutation": "Delete every level fixture", "result": "ESCAPED"},
+    {"mutation": "Replace goldenCorpusRequirement with unrelated text", "result": "ESCAPED"},
+    {"mutation": "Destroy canonicalisation construction step1", "result": "ESCAPED"},
+    {"mutation": "Empty the migration-witness minimum", "result": "ESCAPED"}
+  ],
+  "findings": [
+    {
+      "id": "R2-FI-01",
+      "severity": "HIGH",
+      "evidence": "The discharge rule equates a conformance-test declaration marked implementable:true with discharge. 'duplicate identity is stable across versions' is DISCHARGED partly by FI-13, although FI-13 is only an assertion that two producers agree and knownLimitations says the required per-language golden corpora do not exist. The checker verifies the declaration, not an execution result.",
+      "impact": "A build team is told a cross-producer identity property is settled when the only evidence needed to falsify it has never been produced. The same pattern can paper-seal other properties while every checker remains green.",
+      "requiredChange": "Separate SPECIFIED, IMPLEMENTABLE, QUALIFIED, and DEMONSTRATED states. A property may be architecturally specified by an implementable test, but it may be DISCHARGED only by retained evidence that the test ran against its required domain and its negative control failed. Mark the affected properties UNDISCHARGED until that evidence exists.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A retained, independently generated FI-13 corpus and result record from two producers, plus a definition showing that DISCHARGED intentionally means only 'a future test can be written' everywhere in the register."
+    },
+    {
+      "id": "R2-FI-02",
+      "severity": "HIGH",
+      "evidence": "The checker never relates languageCapability.matrix to levelFixtures: TypeScript L3 can be changed to unavailable while its fixture remains full and the checker passes. Entire language rows and all level fixtures can also be deleted. The matrix covers only TypeScript, Rust, Python, and Go although the architecture promises additional supported languages and the fact-plane clone relation is not scoped to only four.",
+      "impact": "The same artifact can make contradictory capability promises, omit a supported language, and still be declared complete. Consumers cannot know whether to emit a fact or a language-tier-unsupported deficiency for all supported inputs.",
+      "requiredChange": "Make the supported-language set a binding input, require exactly one matrix row per supported language and one fixture per row/level, and mechanically compare each fixture's expected capability to the matrix. Unsupported combinations must derive the exact fact-plane deficiency.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A checker mutation suite that rejects a changed row, a deleted row, a missing level fixture, and a language-set mismatch."
+    },
+    {
+      "id": "R2-FI-03",
+      "severity": "HIGH",
+      "evidence": "The canonical construction frames tokens but writes the domain prefix as H(levelId || levelVersion || languageId || languageVersion || framedTokenStream) without framing those four components. It also leaves body-span boundary semantics, token byte encoding, Unicode normalization, line-ending treatment at L0, and the definition of languageVersion unspecified. Deleting or corrupting construction steps is not rejected.",
+      "impact": "Two conforming producers can compute different bytes, or ambiguous concatenations can share a preimage representation. That defeats the load-bearing promise of stable identity across versions and platforms before cryptographic collision resistance is relevant.",
+      "requiredChange": "Publish a fully framed domain-separated binary format: fixed tag and algorithm, length-prefixed identifiers and versions, exact source encoding and span boundary, token-kind/value encoding, Unicode policy, and per-level transform version. Populate adversarial cross-producer corpora and make their byte outputs binding.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A normative byte grammar elsewhere in the binding set that supplies every omitted representation rule and is referenced and checked here."
+    },
+    {
+      "id": "R2-FI-04",
+      "severity": "HIGH",
+      "evidence": "The artifact correctly admits that linked first-party imperative rules remain TCB code and that dependency audit is not a boundary, but architecture/05-rules-and-policy.md summarizes imperative rule authority as 'Facts only'. A process-local linked rule can import ambient capabilities despite the narrow Rule API. ARCH.PROBE-CONTRACT remains REOPENED and FI-07 is unimplementable.",
+      "impact": "The local API shape can be promoted into a false global confinement claim. A builder may ship third-party imperative code under language implying isolation even though it executes with host authority.",
+      "requiredChange": "Align every architecture summary to the narrow truth: the API supplies facts only; linked first-party rules are accepted TCB code; dependency audit is an integrity control; untrusted/third-party imperative rules are disabled until a named restricted runtime is selected and tested over direct, transitive, dynamic, native, and collaborator reach.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A production execution boundary that denies those capabilities at runtime, with reachability and escape conformance tests."
+    },
+    {
+      "id": "R2-FI-05",
+      "severity": "MEDIUM",
+      "evidence": "The authored matrix labels TypeScript and Rust L2/L3 and Go L1 as full without a corpus or toolchain measurement. The independent derivation was more restrictive, and official language specifications contain semantic comment, macro/name-resolution, or newline cases. The artifact itself calls the matrix judgment rather than measurement.",
+      "impact": "A 'full' promise permits silent identity equivalence where a language construct changes meaning, causing false clone groups and baseline churn.",
+      "requiredChange": "Treat every unmeasured full cell as provisional/restricted. Promote a cell to full only after adversarial, versioned language corpora—including macros/generated syntax/directives/Unicode—pass across two implementations. Record compiler/language versions in the result.",
+      "confidence": "MEDIUM",
+      "whatWouldChangeMyMind": "Passing adversarial corpora over the exact supported language versions, especially Rust macro and TypeScript directive/JSDoc cases."
+    },
+    {
+      "id": "R2-FI-06",
+      "severity": "MEDIUM",
+      "evidence": "custodyTransition correctly chooses a many-to-many relation but defines the minimum witness as old level version, L0 span-location set, and group cardinality. It does not normatively identify old/new groups, represent unmatched members, bind witness content to the baseline, or define deterministic projection ordering. Emptying the witness minimum passes the checker.",
+      "impact": "Independent implementations can produce incompatible transition witnesses, and a user-facing diff can become unreadable even though 'many-to-many' is nominally supported.",
+      "requiredChange": "Define a typed transition graph with committed old/new group IDs, occurrence anchors, split/merge/unmatched classifications, acceptance identity, deterministic ordering, and concise projection rules with drill-down. Add split-only, merge-only, simultaneous split+merge, and insufficient-witness goldens.",
+      "confidence": "HIGH",
+      "whatWouldChangeMyMind": "A referenced binding witness schema and projection golden set that already supplies these fields."
+    }
+  ],
+  "resolves": {
+    "R2-FI-01": "OPEN",
+    "R2-FI-02": "OPEN",
+    "R2-FI-03": "OPEN",
+    "R2-FI-04": "OPEN",
+    "R2-FI-05": "OPEN",
+    "R2-FI-06": "OPEN"
+  },
+  "sealedPropertiesCovered": [
+    "duplicate identity is stable across versions",
+    "normalisation changes cannot silently re-identify a baseline",
+    "language capability is observable",
+    "imperative rules hold no ambient authority",
+    "fact identity does not force byte retention",
+    "group transitions preserve split and merge truth"
+  ],
+  "knownLimitations": [
+    "The language capability judgment is based on specifications and architecture promises, not a compiled corpus; this is why R2-FI-05 is MEDIUM rather than HIGH.",
+    "The current product implementation was not used to constrain the greenfield design.",
+    "No claim-register status was changed: FACT-IDENTITY is already CANDIDATE and the ambient-authority property is already NOT DISCHARGED."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "DO-NOT-SEAL",
+    "blocker": "R2-FI-01 paper-discharges unexecuted properties, R2-FI-02 leaves the capability matrix non-binding, and R2-FI-03 leaves cross-producer canonical bytes underspecified."
+  }
+}

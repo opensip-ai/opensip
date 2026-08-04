@@ -1,0 +1,185 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.freeze-closure-coordinator",
+  "version": 1,
+  "date": "2026-07-31",
+  "adjudicator": "architecture-closer",
+  "purpose": "Phase 1B coordinator closure of the R-1 v1 architecture scope without converting future-residency measurement or absent runtime-confinement evidence into a paper seal.",
+  "adjudicates": [
+    "artifacts/r1-lifetime-neutrality.conformance.v1.4.review-reviewer2.json"
+  ],
+  "reliesOn": [
+    "artifacts/r1-lifetime-neutrality.conformance.v1.4.json",
+    "artifacts/r1-lifetime-neutrality.adjudication-agent-a.json",
+    "v1-slice.md",
+    "artifacts/product-dispositions.v1.json"
+  ],
+  "scopeRule": "The R-1 claim closed here is the v1 process and component floor. It does not claim that a resident host ships, that residency is valuable, or that language/process boundaries deny ambient authority at runtime.",
+  "v1Architecture": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "initialTopology": "one-shot Rust orchestration host + pure data-only evaluation core",
+    "coreBoundary": "evaluate(stageInput: SealedStageInput, deps: CoreDeps, attempt: AttemptMetadata) -> CoreCompletion",
+    "hostOwns": [
+      "request validation and attempt admission",
+      "ExecutionId allocation",
+      "snapshot capture and seal",
+      "fact derivation and provider supervision",
+      "storage publication and authoritative Run seal",
+      "D9 HostTermination derivation"
+    ],
+    "coreOwns": [
+      "rule evaluation over sealed facts",
+      "policy evaluation over findings and exact Coverage",
+      "deterministic core-stage budget accounting",
+      "typed CoreCompletion including policyOutcome"
+    ],
+    "coreForbids": [
+      "effectful ports or host callbacks",
+      "filesystem, network, spawn, clock, entropy, environment, storage, or provider handles in CoreDeps",
+      "identity minting",
+      "Run sealing, publication, or termination mapping"
+    ],
+    "authoritativeRule": "Warm state is never an evidence authority. Any future lifetime mode is prohibited from changing PlanId, exact Coverage semantics, EvidenceDigest, Run sealing, or HostTermination for identical semantic inputs."
+  },
+  "v1Exclusions": [
+    {
+      "id": "R1-PARK-RESIDENCY",
+      "status": "PARKED-OUTSIDE-V1",
+      "excludes": [
+        "resident host",
+        "daemon autostart",
+        "resident-default UX",
+        "per-project residency",
+        "multi-project residency"
+      ],
+      "reentryRule": "A resident host requires target-workload measurement, an explicit product scope change, and LN-10 composition evidence. It is not an implementation option inside the v1 floor."
+    },
+    {
+      "id": "R1-PARK-RUNTIME-DENIAL",
+      "status": "NOT-DISCHARGED-AND-NOT-CLAIMED-FOR-V1",
+      "blockedOn": "ARCH.PROBE-CONTRACT",
+      "excludes": [
+        "claims that the pure-core signature or package boundary is a security sandbox",
+        "third-party or untrusted imperative rules",
+        "Probe and scenario-effectful modes",
+        "untrusted native or WASM contributions"
+      ],
+      "reentryRule": "Capability-dependent modes require a named restricted runtime and negative escape tests over direct, transitive, dynamic, native, and collaborator reach."
+    }
+  ],
+  "implementationEvidence": {
+    "status": "NOT-YET-DEMONSTRATED",
+    "rule": "The binding types and conformance obligations are architecture-complete. implementable:true means a test can be built; it does not establish that the Rust implementation passed it.",
+    "requiredLater": [
+      "LN-01 through LN-11 and LN-13 through LN-14 execution records against the product",
+      "negative controls for every claimed conformance property",
+      "LN-10 only if a resident topology is proposed after v1"
+    ],
+    "neverRequiredForArchitectureFreeze": [
+      "residency value benchmark",
+      "LN-12 while capability-dependent modes remain excluded"
+    ]
+  },
+  "findingDispositions": [
+    {
+      "findingId": "R2-R1-01",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "The binding has one boundary: SealedStageInput to CoreCompletion. Fact derivation and Run sealing are host-owned.",
+      "verification": "check-r1.py rejects restored SealedRun and fact-derivation-in-core mutations."
+    },
+    {
+      "findingId": "R2-R1-02",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "CoreDeps is a closed data-only record and the core never calls an effectful port.",
+      "verification": "check-r1.py rejects StorePort permission and CoreDeps removal."
+    },
+    {
+      "findingId": "R2-R1-03",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "CoreCompletion carries the policy identity, verdict, and derivation digest needed by host sealing.",
+      "verification": "check-r1.py rejects removal of policyOutcome."
+    },
+    {
+      "findingId": "R2-R1-04",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "Unexecuted tests specify obligations; LN-12 cannot discharge or close runtime authority.",
+      "verification": "check-r1.py rejects both runtime discharge through LN-12 and DISCHARGED without QUALIFIED/DEMONSTRATED evidence."
+    },
+    {
+      "findingId": "R2-R1-05",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "LN-10 is composition acceptance, not evidence about the host suite alone.",
+      "verification": "check-r1.py rejects assigning LN-10 to the host suite."
+    },
+    {
+      "findingId": "R2-R1-06",
+      "decision": "CONFIRM-RESOLVED",
+      "reasoning": "Attempt identity is host-injected metadata, and the core has no entropy input.",
+      "verification": "check-r1.py rejects reintroduced entropy and core-owned ExecutionId."
+    },
+    {
+      "findingId": "R2-R1-07",
+      "decision": "CONFIRM-RESOLVED-BY-V1-SCOPE",
+      "reasoning": "The v1 build has one topology: one-shot host plus pure core. Future residency is excluded and parked, so no week-one topology fork remains.",
+      "verification": "check-r1.py rejects loss of the one-shot floor and loss of the closure's v1 residency exclusion."
+    }
+  ],
+  "resolves": {
+    "R2-R1-01": "RESOLVED",
+    "R2-R1-02": "RESOLVED",
+    "R2-R1-03": "RESOLVED",
+    "R2-R1-04": "RESOLVED",
+    "R2-R1-05": "RESOLVED",
+    "R2-R1-06": "RESOLVED",
+    "R2-R1-07": "RESOLVED-BY-V1-SCOPE; FUTURE RESIDENCY PARKED"
+  },
+  "forbiddenInferences": [
+    "SEAL-WITH-CHANGES does not mean R-1 product conformance is DEMONSTRATED.",
+    "The absence of effectful fields from CoreDeps is not runtime capability denial.",
+    "A future resident host is not permitted to appear behind a v1 flag or alternate code path.",
+    "The core never produces SealedRun and the host never re-evaluates policyOutcome."
+  ],
+  "claimRegisterPatch": {
+    "claimId": "R-1",
+    "precondition": {
+      "bindingArtifact": "artifacts/r1-lifetime-neutrality.conformance.v1.4.json"
+    },
+    "set": {
+      "title": "V1 execution uses a one-shot orchestration host and lifetime-neutral pure evaluation core",
+      "status": "CANDIDATE",
+      "note": "Phase 1B coordinator closure: SEAL-WITH-CHANGES for the v1 one-shot host + pure data-only evaluation core. Resident/autostart/default/multi-project modes are parked outside v1. Runtime ambient-authority denial remains NOT DISCHARGED on ARCH.PROBE-CONTRACT, and dependent authority modes are excluded. Implementable conformance tests specify later product evidence; they do not demonstrate it.",
+      "sealBlockers": [],
+      "nonBlockingResiduals": [
+        "R1-PARK-RESIDENCY — resident-host value and topology are parked outside v1; reentry requires measurement and product scope change",
+        "R1-PARK-RUNTIME-DENIAL — runtime ambient-authority denial is NOT DISCHARGED; capability-dependent modes remain excluded on ARCH.PROBE-CONTRACT"
+      ],
+      "parkedExclusions": [
+        "resident/autostart/default/multi-project host modes",
+        "runtime-confinement claim and every authority mode that depends on it"
+      ],
+      "reviewPending": [],
+      "implementationEvidencePending": [
+        "Implementation must produce retained conformance evidence; this is release/implementation qualification, not an architecture blocker."
+      ]
+    },
+    "removeDependsOn": [
+      "ARCH.PROBE-CONTRACT"
+    ],
+    "addExplicitlyNotDependentOn": [
+      "ARCH.PROBE-CONTRACT"
+    ],
+    "dependencyRationale": "The v1 R-1 scope retracts runtime denial and excludes dependent modes rather than relying on ARCH.PROBE-CONTRACT.",
+    "appendAdjudicationArtifact": "artifacts/r1-lifetime-neutrality.freeze-closure-coordinator.v1.json",
+    "appendInvariant": "R1-FREEZE"
+  },
+  "knownLimitations": [
+    "The product does not yet exist, so no R-1 implementation property is demonstrated.",
+    "The original Reviewer 2 LN-10 suite-assignment sub-review was not blind; the repaired structural assignment is checker-enforced.",
+    "This closure deliberately makes no claim about whether a resident host should ever ship."
+  ],
+  "confidence": "HIGH",
+  "sealRecommendation": {
+    "verdict": "SEAL-WITH-CHANGES",
+    "note": "Seal the one-shot/pure-core v1 architecture. Carry residency and runtime denial as named non-blocking parks, not seal blockers and not demonstrated claims.",
+    "consumerB": "Implement exactly one v1 topology. Do not invent resident mode, effectful core ports, SealedRun-from-core, or a runtime-confinement claim."
+  }
+}

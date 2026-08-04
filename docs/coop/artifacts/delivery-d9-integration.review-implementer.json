@@ -1,0 +1,29 @@
+{
+  "artifact": "opensip.delivery-d9-integration.review",
+  "reviewer": "independent implementer-package lane",
+  "reviewOf": "delivery.v2.json",
+  "date": "2026-07-31",
+  "method": "Mapped every DELIVERY-produced typed fault/rejection named by the first vertical slice into D9's closed public code vocabulary while drafting the contract-to-module map.",
+  "findings": [
+    {
+      "id": "IMP-DL-D9-01",
+      "severity": "HIGH",
+      "evidence": "delivery.v2 rustSemanticSubstrate.providerProtocol.frameIntegrity emitted PROVIDER.PROTOCOL_FAULT, while D9's closed vocabulary and provider-protocol map permit only PROVIDER.PROTOCOL_VIOLATION.",
+      "impact": "An implementer must either violate D9's closed vocabulary or silently invent a normalization rule.",
+      "requiredChange": "Use the D9 canonical error code and mechanically cross-check DELIVERY against the live D9 map.",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "IMP-DL-D9-02",
+      "severity": "HIGH",
+      "evidence": "DELIVERY requires excluded forms to return FEATURE.REQUIRES_CAPABILITY_RUNTIME, but D9 has no such public errorCode or rejectionCause and declares its vocabulary closed.",
+      "impact": "The first admission path for an intentionally excluded feature has no deterministic host-termination derivation.",
+      "requiredChange": "Bind FEATURE.REQUIRES_CAPABILITY_RUNTIME as typed domain detail and map it to D9 extension-admission-rejected / EXTENSION.ADMISSION_REJECTED, or explicitly evolve D9.",
+      "confidence": "HIGH"
+    }
+  ],
+  "resolves": {
+    "IMP-DL-D9-01": "OPEN",
+    "IMP-DL-D9-02": "OPEN"
+  }
+}

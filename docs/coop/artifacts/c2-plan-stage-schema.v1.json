@@ -1,0 +1,111 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema",
+  "version": 1,
+  "status": "candidate-agent-3",
+  "purpose": "Close C-2 by fixing the durable logical Plan contract: one analysis mechanism, typed logical stage kinds with independent budgets and Coverage, and physical materialisation held private.",
+  "closes": "C-2 seal blocker — 'consolidated logical-stage schema/conformance artifact absent'",
+  "decisionDependencies": [
+    {"id": "C-2", "source": "architecture/05-rules-and-extensions.md#there-are-not-four-analysis-products", "claim": "one mechanism, typed logical stages, physical materialisation private"},
+    {"id": "C-1", "source": "architecture/04-fact-plane.md#fact-sufficiency-is-predicate-relative", "claim": "rules declare requirements; the planner materialises the least sufficient view"},
+    {"id": "ARCH.STORAGE-PRIVATE", "source": "architecture/04-fact-plane.md#fact-access-contracts", "claim": "physical storage schema is private and freely migratable"},
+    {"id": "ARCH.QUERY-NO-RUN", "source": "architecture/05-rules-and-extensions.md#there-are-not-four-analysis-products", "claim": "a query against a stored fact view never silently runs analysis or creates a Run"},
+    {"id": "ARCH.PROBE", "source": "architecture/05-rules-and-extensions.md#execution-tiers", "claim": "effectful work is unrepresentable as a Rule"},
+    {"id": "CLAIM.C-2", "source": "artifacts/claim-register.v1.json", "claim": "C-2 status is CANDIDATE; this artifact is its binding form"}
+  ],
+  "principle": {
+    "oneMechanism": "There are not four analysis products. Rule evaluation, graph/reference queries, and reduction analysis are the same machinery over the same facts, differing in query and presentation.",
+    "notOneStage": "One mechanism is not one stage. Extraction, resolution, rule evaluation and policy have different budgets, different Coverage semantics, and different failure modes; a plan that cannot distinguish them cannot report honestly.",
+    "publicVsPrivate": "The logical stage kinds below are a PUBLIC durable contract. Physical operators are PRIVATE and may be inserted, reordered, fused, or elided by the planner without a contract change."
+  },
+  "logicalStageKinds": [
+    {
+      "kind": "snapshot",
+      "produces": "SnapshotManifest + recorded read-set",
+      "budgets": ["wallClock", "bytesHashed", "filesStatted"],
+      "coverageSemantics": "inventory completeness; validation method and assurance level recorded",
+      "distinctFailureModes": ["convergence-exhausted (indeterminate)", "integrity fault (operational)"],
+      "whyDistinct": "It is the integrity boundary. Everything downstream is defined relative to its identity."
+    },
+    {
+      "kind": "fact-derivation",
+      "produces": "versioned fact relations",
+      "relations": ["inventory", "syntax", "resolved", "type", "external", "derived"],
+      "budgets": ["wallClock", "memory", "perRelationCost"],
+      "coverageSemantics": "PER RELATION, not per stage — a plan may have complete syntax and unavailable resolved facts simultaneously",
+      "distinctFailureModes": ["provider unavailable (Coverage)", "truncated provider stream (operational — a truncated stream is a fault, not partial evidence)"],
+      "whyDistinct": "Per-relation Coverage is what makes predicate-relative sufficiency (C-1) expressible at all."
+    },
+    {
+      "kind": "rule-evaluation",
+      "produces": "findings + typed proof anchors",
+      "budgets": ["perRuleQueryCost", "outputCardinality", "wallClock"],
+      "coverageSemantics": "per rule: evaluated / skipped-requirements-unmet / budget-exceeded",
+      "distinctFailureModes": ["requirement unmet (skipped, recorded)", "budget exceeded (Coverage edge)", "rule fault (isolated, does not fail the plan)"],
+      "whyDistinct": "A rule exceeding its query budget must not be indistinguishable from a provider that could not resolve references."
+    },
+    {
+      "kind": "policy-evaluation",
+      "produces": "verdict",
+      "budgets": [],
+      "coverageSemantics": "consumes Coverage; required-unmet forces indeterminate",
+      "distinctFailureModes": ["indeterminate (required Coverage unmet)"],
+      "whyDistinct": "Host-owned. Consumes findings and Coverage; contributes neither.",
+      "hostOnly": true
+    },
+    {
+      "kind": "probe",
+      "produces": "observations",
+      "budgets": ["wallClock", "processCount", "networkGrants"],
+      "coverageSemantics": "determinism class declared per probe",
+      "distinctFailureModes": ["grant denied (request-rejected at plan time)", "probe fault (operational)"],
+      "whyDistinct": "Effectful. Explicit grants, ephemeral workspace, never implicitly retried.",
+      "implementationGated": true
+    }
+  ],
+  "privateOperators": {
+    "rule": "These MUST NOT appear in the public Plan schema. Exposing them would freeze a storage strategy into a durable contract — the same mistake as exposing the physical fact schema.",
+    "examples": ["index materialisation", "cache layout and chunking", "fact-partition fusion", "query plan selection", "parallel shard assignment"],
+    "plannerFreedom": "The planner may insert, reorder, fuse, or elide any private operator provided the logical stage contract and the resulting EvidenceDigest are unchanged."
+  },
+  "domainResults": {
+    "rule": "One analysis plane may expose several result contracts. They differ in shape, not in machinery.",
+    "contracts": [
+      {"name": "fact/graph query", "shape": "bounded, paginated rows + Coverage", "createsRun": false},
+      {"name": "rule findings", "shape": "findings + proof anchors + Coverage", "createsRun": true},
+      {"name": "reduction candidates", "shape": "ranked candidates + confidence + Coverage", "createsRun": true},
+      {"name": "probe observations", "shape": "observations + determinism class", "createsRun": true}
+    ],
+    "queryNeverRunsAnalysis": {
+      "assert": "A query against a stored fact view MUST NOT silently execute analysis or create a Run.",
+      "whenFactsUnavailable": "Return a typed unavailable response naming the missing requirement and what would satisfy it. Only explicit admission creates a Run.",
+      "why": "Otherwise a read surface becomes an unbounded, unbudgeted, unrecorded compute surface — and agent loops make that the common path."
+    }
+  },
+  "conformanceTests": [
+    {"id": "PS-01", "assert": "Every stage in a serialised Plan has a kind drawn from logicalStageKinds. An unknown kind is rejected, never ignored."},
+    {"id": "PS-02", "assert": "No serialised Plan contains any operator named in privateOperators. Round-tripping a Plan through the public schema loses no logical information."},
+    {"id": "PS-03", "assert": "Coverage is reported per fact RELATION, not per stage: a plan can report complete syntax and unavailable resolved facts in the same Run."},
+    {"id": "PS-04", "assert": "A rule whose declared requirements are unmet is recorded as skipped-requirements-unmet and never silently evaluated against insufficient facts (C-1 enforcement)."},
+    {"id": "PS-05", "assert": "A budget exceeded in rule-evaluation and a provider unavailable in fact-derivation produce DISTINCT Coverage reason codes."},
+    {"id": "PS-06", "assert": "A query issued against a fact view lacking required relations returns a typed unavailable response and creates no Run."},
+    {"id": "PS-07", "assert": "Two Plans differing only in private operator selection produce identical EvidenceDigests."},
+    {"id": "PS-08", "assert": "A profile may raise a fact-quality floor but no profile label alone triggers materialisation absent a consumer requirement (C-1)."}
+  ],
+  "sealedPropertiesCovered": [
+    {"property": "physical storage schema stays private", "dischargedBy": ["PS-02", "PS-07"]},
+    {"property": "fact sufficiency is predicate-relative", "dischargedBy": ["PS-04", "PS-08"]},
+    {"property": "reads do not create Runs", "dischargedBy": ["PS-06"]},
+    {"property": "required partial coverage cannot yield pass", "dischargedBy": ["PS-03", "PS-05"]},
+    {"property": "effectful work is unrepresentable as a Rule", "dischargedBy": ["PS-01"]}
+  ],
+  "peerReviewRequired": [
+    "Confirm the five logical stage kinds are exhaustive — a sixth appearing later would be a public contract break.",
+    "Confirm per-relation (not per-stage) Coverage is the right granularity; it is the load-bearing choice here.",
+    "Confirm PS-07 is testable in practice — it requires the planner to expose alternative operator selections to a test."
+  ],
+  "knownLimitations": [
+    "Stage kinds are named but their field-level schemas are not specified; that is the next artifact if this shape is accepted.",
+    "Budget units are named, not typed.",
+    "The probe stage is specified but implementation-gated, so PS-01's coverage of it is contractual only."
+  ]
+}

@@ -1,0 +1,1304 @@
+{
+  "artifact": "opensip.evidence",
+  "version": 6,
+  "status": "CANDIDATE-NOT-APPLIED",
+  "role": "A-prime v3 Evidence finalization with ProjectStoreAuthority capability continuity",
+  "author": "phase1a-evidence-successor-lane",
+  "date": "2026-08-01",
+  "supersedes": {
+    "artifact": "evidence.v5.json",
+    "sha256": "833d2dd69276363d2951f69eb1665e12a8e87d7e433a24aaf085753013903351",
+    "checker": "check-evidence-v5.py",
+    "checkerSha256": "fc2017ffbe70f46b18c19a41688b1e7fd037dd9b174308ae63ae53d7b703abf3"
+  },
+  "authority": {
+    "candidateState": "NOT-APPLIED",
+    "authorityClaim": "NONE",
+    "independentReview": "REQUIRED",
+    "productAcceptance": false,
+    "integrationAuthority": "coordinator-only after independent combined rereview and separate CD-RT-5 disposition"
+  },
+  "reviewFindingTransfers": [
+    {
+      "id": "IR-E4OP3-01",
+      "state": "REPAIRED-IN-CANDIDATE-NOT-APPLIED",
+      "closure": "EP6 recomputes one exact same-project C2/RI/manifest/seal authority chain before core.",
+      "evidence": [
+        "dependencies.evaluationProof",
+        "importedAuthorityContract"
+      ]
+    },
+    {
+      "id": "RR13-01",
+      "state": "MECHANICALLY-CLOSED-IN-CANDIDATE-NOT-APPLIED",
+      "closure": "Closed raw receipts and a unique ProjectId-scoped seal index construct the only opaque authority capability; post-core RunAuthorityIndex equality-rejoins that chain.",
+      "evidence": [
+        "importedAuthorityContract",
+        "runAuthorityIndexContract"
+      ]
+    },
+    {
+      "id": "R12-EVD-01",
+      "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+      "closure": "The retained closed wire grammar is regenerated over RT11's actual raw closure and EP6's corrected authority identities.",
+      "evidence": [
+        "canonicalWireGrammar",
+        "acceptedGolden"
+      ]
+    },
+    {
+      "id": "R12-DEP-01",
+      "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+      "closure": "EP6/RT11 feed VERSIONING v6, then Evidence v5; the post-core authority index creates no semantic back-edge.",
+      "evidence": [
+        "dependencies",
+        "runAuthorityIndexContract.cycleExclusion"
+      ]
+    },
+    {
+      "id": "R14-EVD-TRANSFER",
+      "state": "CANDIDATE-MECHANISM-SPECIFIED-NOT-APPLIED",
+      "closure": "EP6 semantic commitments resolve to RT11 raw-only custody and the Evidence inventory is an exact projection of derived proof refs.",
+      "evidence": [
+        "importedAuthorityContract",
+        "acceptedGolden"
+      ]
+    },
+    {
+      "id": "STORE-PROVENANCE-CONTINUITY",
+      "state": "REPAIRED-IN-CANDIDATE-NOT-APPLIED",
+      "closure": "Candidate has no index; EP7 host store authorizes it, and Evidence v6 requires the identical store instance/handle continuity for atomic finalization.",
+      "evidence": [
+        "importedAuthorityContract",
+        "storeCapabilityContinuityContract",
+        "identityStabilityFromEvidenceV5"
+      ]
+    }
+  ],
+  "recursiveRequestIdExclusion": {
+    "rule": "RequestId and ExecutionId are operational-only. Every named semantic record is exact/closed; neither identity may occur at the root or any nested semantic item. Unknown fields reject rather than being ignored.",
+    "surfaces": [
+      "EP7 EvaluationAuthoritySealV1",
+      "EP7 SemanticObjectBindingV1",
+      "RT12 SemanticCapabilityClosureV3 semanticRoots/bindings/proofRefs/edges/units",
+      "RawProofInventoryV1 and every RawProofInventoryItemV1",
+      "SemanticEvidenceV1",
+      "EvidenceDigest preimage",
+      "RunIdentityPreimageV1",
+      "TerminalRunV1 and external runSealRef"
+    ],
+    "differential": "Two RequestIds and distinct ExecutionIds over byte-equal semantic inputs and sealed target produce identical inventory, SemanticEvidence, EvidenceDigest, RunId, TerminalRun and runSealRef; they differ only in AttemptRunLinkV1 and operational records.",
+    "negativeControl": "Inject requestId or executionId at each root and each nested semantic collection item; exact decoding/admission rejects before hashing or core authority use."
+  },
+  "dependencies": {
+    "evaluationProof": {
+      "artifact": "evaluation-proof.v7.json",
+      "sha256": "92d51e9232c6ee137b7228aa7885a2e32f668f9b4b108d7140fdb52dae864ef8",
+      "checker": "check-evaluation-proof-v7.py",
+      "checkerSha256": "550a2231264ab6b308b3ddb752199c6496f7c2417a8dbeeb9f21c230569b36c4",
+      "acceptedVectorId": "EP7-POS-NOMATCH-PASS"
+    },
+    "retentionCustody": {
+      "artifact": "retention-tiers.v12.json",
+      "sha256": "1a034746512de51605b7a4bcc4fb0936bdc167db057a3018be74a2a047376dab",
+      "checker": "check-retention-custody-v12.py",
+      "checkerSha256": "104a8f9bd01e92226c11c41c234358b5a9d991b42cf12ec9318582ed12b57851",
+      "acceptedClosureCommitment": "sha256:156ac0017a65c026a2e939c728fc189aa81728ad827c2218e1b4ccce8924c626"
+    },
+    "versioning": {
+      "artifact": "versioning-policy.v7.json",
+      "sha256": "0c0f2d7396c32854c3cd5a6aff794c6a0e1be2ffe833816f9ff66f0089b49985",
+      "checker": "check-versioning-v7.py",
+      "checkerSha256": "27cc2e22dd909de2ee3050387f87129477ee050e5b25c541dcf305902fbb9d76"
+    },
+    "dependencyDirection": "EP7 and RT12 feed VERSIONING v7; Evidence v6 binds all three and requires same-store capability continuity at finalization. VERSIONING v7 has no Evidence/store-token back-edge."
+  },
+  "importedAuthorityContract": {
+    "owner": "evaluation-proof.v7.json",
+    "candidateType": "EvaluationAuthorityCandidateV1 (untrusted, no store/index fields)",
+    "storePortType": "ProjectStoreAuthorityV1 (host-created, ProjectId/store-instance-bound, nonserializable)",
+    "capabilityType": "AdmittedEvaluationAuthorityV1 (store-instance/project/EAS-bound, nonserializable)",
+    "authorizeApi": "ProjectStoreAuthorityV1.authorize_evaluation(candidate)",
+    "storedReadApi": "ProjectStoreAuthorityV1.resolve_stored_evaluation(EASRef)",
+    "finalizeApi": "commit_run(ProjectStoreAuthorityV1, AdmittedEvaluationAuthorityV1, FinalizedSemanticEvidenceV1, PreparedCustodyV1)",
+    "identityExclusion": "Store/transaction/capability tokens are operational-only and excluded from every semantic/content identity and serialized record."
+  },
+  "canonicalWireGrammar": {
+    "id": "EVIDENCE-RUN-TERMINAL-GRAMMAR-V1",
+    "scalarEncoding": {
+      "text": "NFC UTF-8, no BOM, non-empty, no U+0000..U+001F or U+007F; identifiers and enums retain their closed ASCII grammar",
+      "canonicalUnsignedDecimal": "ASCII digits; zero is 0; otherwise no leading zero",
+      "componentFrame": "uint8(tag) || uint32be(byteLength) || bytes",
+      "blobFrame": "uint8(tag) || uint32be(byteLength) || bytes",
+      "byteOrder": "unsigned bytewise lexicographic"
+    },
+    "recordRules": {
+      "order": "exact field order below",
+      "presence": "every declared field exactly once; no optional or undeclared bytes",
+      "sets": "sort complete item record bytes unsigned; reject duplicates instead of silently deduplicating",
+      "decoding": "reject non-NFC, noncanonical decimal, tag/order/length mismatch, duplicate, omitted, unknown, trailing, or overlong bytes"
+    },
+    "domainEnvelope": {
+      "recordTag": "0x8e",
+      "fields": [
+        {
+          "name": "domain",
+          "tag": "0x8c",
+          "encoding": "blobFrame(ASCII)"
+        },
+        {
+          "name": "payload",
+          "tag": "0x8d",
+          "encoding": "blobFrame(bytes)"
+        }
+      ],
+      "encoding": "0x8e || blob(0x8c, domain ASCII) || blob(0x8d, payload)"
+    },
+    "tagRegistry": [
+      {
+        "tag": "0x80",
+        "role": "RawProofInventoryItemV1 record"
+      },
+      {
+        "tag": "0x81",
+        "role": "RawProofInventoryV1 record"
+      },
+      {
+        "tag": "0x82",
+        "role": "SemanticEvidenceV1 record"
+      },
+      {
+        "tag": "0x83",
+        "role": "RunIdentityPreimageV1 record"
+      },
+      {
+        "tag": "0x84",
+        "role": "TerminalRunV1 record"
+      },
+      {
+        "tag": "0x85",
+        "role": "recordCasRef"
+      },
+      {
+        "tag": "0x86",
+        "role": "recordKind"
+      },
+      {
+        "tag": "0x87",
+        "role": "requiredForCapability"
+      },
+      {
+        "tag": "0x88",
+        "role": "inventory schemaVersion"
+      },
+      {
+        "tag": "0x89",
+        "role": "inventory projectId"
+      },
+      {
+        "tag": "0x8a",
+        "role": "inventory items list"
+      },
+      {
+        "tag": "0x8b",
+        "role": "inventory item wrapper"
+      },
+      {
+        "tag": "0x8c",
+        "role": "domain envelope domain"
+      },
+      {
+        "tag": "0x8d",
+        "role": "domain envelope payload"
+      },
+      {
+        "tag": "0x8e",
+        "role": "domain envelope record"
+      },
+      {
+        "tag": "0x90",
+        "role": "SemanticEvidenceV1 field 1"
+      },
+      {
+        "tag": "0x91",
+        "role": "SemanticEvidenceV1 field 2"
+      },
+      {
+        "tag": "0x92",
+        "role": "SemanticEvidenceV1 field 3"
+      },
+      {
+        "tag": "0x93",
+        "role": "SemanticEvidenceV1 field 4"
+      },
+      {
+        "tag": "0x94",
+        "role": "SemanticEvidenceV1 field 5"
+      },
+      {
+        "tag": "0x95",
+        "role": "SemanticEvidenceV1 field 6"
+      },
+      {
+        "tag": "0x96",
+        "role": "SemanticEvidenceV1 field 7"
+      },
+      {
+        "tag": "0x97",
+        "role": "SemanticEvidenceV1 field 8"
+      },
+      {
+        "tag": "0x98",
+        "role": "SemanticEvidenceV1 field 9"
+      },
+      {
+        "tag": "0x99",
+        "role": "SemanticEvidenceV1 field 10"
+      },
+      {
+        "tag": "0x9a",
+        "role": "SemanticEvidenceV1 field 11"
+      },
+      {
+        "tag": "0x9b",
+        "role": "SemanticEvidenceV1 field 12"
+      },
+      {
+        "tag": "0x9c",
+        "role": "SemanticEvidenceV1 field 13"
+      },
+      {
+        "tag": "0xa0",
+        "role": "RunIdentityPreimageV1 field 1"
+      },
+      {
+        "tag": "0xa1",
+        "role": "RunIdentityPreimageV1 field 2"
+      },
+      {
+        "tag": "0xa2",
+        "role": "RunIdentityPreimageV1 field 3"
+      },
+      {
+        "tag": "0xa3",
+        "role": "RunIdentityPreimageV1 field 4"
+      },
+      {
+        "tag": "0xa4",
+        "role": "RunIdentityPreimageV1 field 5"
+      },
+      {
+        "tag": "0xa5",
+        "role": "RunIdentityPreimageV1 field 6"
+      },
+      {
+        "tag": "0xb0",
+        "role": "TerminalRunV1 field 1"
+      },
+      {
+        "tag": "0xb1",
+        "role": "TerminalRunV1 field 2"
+      },
+      {
+        "tag": "0xb2",
+        "role": "TerminalRunV1 field 3"
+      },
+      {
+        "tag": "0xb3",
+        "role": "TerminalRunV1 field 4"
+      },
+      {
+        "tag": "0xb4",
+        "role": "TerminalRunV1 field 5"
+      },
+      {
+        "tag": "0xb5",
+        "role": "TerminalRunV1 field 6"
+      },
+      {
+        "tag": "0xb6",
+        "role": "TerminalRunV1 field 7"
+      },
+      {
+        "tag": "0xb7",
+        "role": "TerminalRunV1 field 8"
+      },
+      {
+        "tag": "0xb8",
+        "role": "TerminalRunV1 field 9"
+      },
+      {
+        "tag": "0xb9",
+        "role": "TerminalRunV1 field 10"
+      },
+      {
+        "tag": "0xba",
+        "role": "TerminalRunV1 field 11"
+      },
+      {
+        "tag": "0xbb",
+        "role": "TerminalRunV1 field 12"
+      },
+      {
+        "tag": "0xbc",
+        "role": "TerminalRunV1 field 13"
+      },
+      {
+        "tag": "0xbd",
+        "role": "TerminalRunV1 field 14"
+      }
+    ],
+    "records": {
+      "RawProofInventoryItemV1": {
+        "recordTag": "0x80",
+        "required": [
+          "recordCasRef",
+          "recordKind",
+          "requiredForCapability"
+        ],
+        "fields": [
+          {
+            "name": "recordCasRef",
+            "tag": "0x85",
+            "type": "RawCasRef"
+          },
+          {
+            "name": "recordKind",
+            "tag": "0x86",
+            "type": "RT11 closed recordKind"
+          },
+          {
+            "name": "requiredForCapability",
+            "tag": "0x87",
+            "enum": [
+              "verifiable",
+              "replayable"
+            ]
+          }
+        ],
+        "forbidden": [
+          "semanticRef",
+          "semanticDomain",
+          "identityKind",
+          "projectId",
+          "runId",
+          "objectState",
+          "lease",
+          "physicalLocator"
+        ]
+      },
+      "RawProofInventoryV1": {
+        "recordTag": "0x81",
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "items"
+        ],
+        "fields": [
+          {
+            "name": "schemaVersion",
+            "tag": "0x88",
+            "const": 1
+          },
+          {
+            "name": "projectId",
+            "tag": "0x89",
+            "type": "PROJECT-ID-V1"
+          },
+          {
+            "name": "items",
+            "tag": "0x8a",
+            "encoding": "blob(concat(sorted blob(0x8b, complete RawProofInventoryItemV1 bytes)))"
+          }
+        ],
+        "equalityRule": "Exact projection of RT11 SemanticCapabilityClosureV3.proofRefs after requiring identityKind=raw-cas and every item ProjectId equal the outer ProjectId. Preserve recordCasRef, recordKind, and requiredForCapability exactly; zero items is permitted only when RT11 validates that capability."
+      },
+      "SemanticEvidenceV1": {
+        "recordTag": "0x82",
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "planId",
+          "evaluationAuthoritySealRef",
+          "evaluationProofBundleCasRef",
+          "universeCommitment",
+          "outcomeSetCommitment",
+          "verdictDerivationCommitment",
+          "verdict",
+          "sealedCapability",
+          "rawProofInventory",
+          "semanticCapabilityClosureCasRef",
+          "semanticCapabilityClosureCommitment"
+        ],
+        "fields": [
+          {
+            "name": "schemaVersion",
+            "tag": "0x90",
+            "const": 1
+          },
+          {
+            "name": "projectId",
+            "tag": "0x91",
+            "type": "PROJECT-ID-V1"
+          },
+          {
+            "name": "planId",
+            "tag": "0x92",
+            "type": "PLAN-ID-V1"
+          },
+          {
+            "name": "evaluationAuthoritySealRef",
+            "tag": "0x93",
+            "type": "SemanticCommitmentRef<evaluation-authority-seal-v1>"
+          },
+          {
+            "name": "evaluationProofBundleCasRef",
+            "tag": "0x94",
+            "type": "RawCasRef<EP6.EvaluationProofBundleV5>"
+          },
+          {
+            "name": "universeCommitment",
+            "tag": "0x95",
+            "type": "EP6 universe commitment"
+          },
+          {
+            "name": "outcomeSetCommitment",
+            "tag": "0x96",
+            "type": "EP6 outcome-set commitment"
+          },
+          {
+            "name": "verdictDerivationCommitment",
+            "tag": "0x97",
+            "type": "EP6 verdict-input commitment"
+          },
+          {
+            "name": "verdict",
+            "tag": "0x98",
+            "enum": [
+              "pass",
+              "fail",
+              "advisory",
+              "indeterminate"
+            ]
+          },
+          {
+            "name": "sealedCapability",
+            "tag": "0x99",
+            "enum": [
+              "recorded",
+              "verifiable",
+              "replayable"
+            ]
+          },
+          {
+            "name": "rawProofInventory",
+            "tag": "0x9a",
+            "type": "complete RawProofInventoryV1 bytes"
+          },
+          {
+            "name": "semanticCapabilityClosureCasRef",
+            "tag": "0x9b",
+            "type": "RawCasRef<RT11.SemanticCapabilityClosureV3>"
+          },
+          {
+            "name": "semanticCapabilityClosureCommitment",
+            "tag": "0x9c",
+            "type": "RT11 semantic-capability-closure-v3 commitment"
+          }
+        ],
+        "forbidden": [
+          "requestId",
+          "executionId",
+          "attemptId",
+          "correlationId",
+          "runId",
+          "runSealRef",
+          "evidenceDigest",
+          "timestamp",
+          "createdAt",
+          "updatedAt",
+          "sealedAt",
+          "producedAt",
+          "clocks",
+          "processId",
+          "physicalLocators",
+          "objectStates",
+          "unitAvailabilityRecords",
+          "lease",
+          "fence",
+          "ledger",
+          "lineage",
+          "sourceRunId",
+          "effectiveCapability",
+          "authoritative"
+        ]
+      },
+      "RunIdentityPreimageV1": {
+        "recordTag": "0x83",
+        "required": [
+          "schemaMajor",
+          "projectId",
+          "planId",
+          "evaluationAuthoritySealRef",
+          "evidenceDigest",
+          "sealedCapability"
+        ],
+        "fields": [
+          {
+            "name": "schemaMajor",
+            "tag": "0xa0",
+            "const": 1
+          },
+          {
+            "name": "projectId",
+            "tag": "0xa1",
+            "type": "PROJECT-ID-V1"
+          },
+          {
+            "name": "planId",
+            "tag": "0xa2",
+            "type": "PLAN-ID-V1"
+          },
+          {
+            "name": "evaluationAuthoritySealRef",
+            "tag": "0xa3",
+            "type": "SemanticCommitmentRef<evaluation-authority-seal-v1>"
+          },
+          {
+            "name": "evidenceDigest",
+            "tag": "0xa4",
+            "type": "EvidenceDigest"
+          },
+          {
+            "name": "sealedCapability",
+            "tag": "0xa5",
+            "enum": [
+              "recorded",
+              "verifiable",
+              "replayable"
+            ]
+          }
+        ],
+        "domain": "opensip.run-id.v1",
+        "textualForm": "run1:<64 lowercase hex>",
+        "forbidden": [
+          "requestId",
+          "executionId",
+          "attemptId",
+          "runId",
+          "runSealRef",
+          "clock",
+          "locator",
+          "availability",
+          "lease",
+          "lineage",
+          "effectiveCapability"
+        ]
+      },
+      "TerminalRunV1": {
+        "recordTag": "0x84",
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "runId",
+          "planId",
+          "planIntentCommitment",
+          "executionPlanCommitment",
+          "activationManifestRef",
+          "evaluationAuthoritySealRef",
+          "semanticEvidenceCasRef",
+          "evidenceDigest",
+          "verdict",
+          "sealedCapability",
+          "semanticCapabilityClosureCasRef",
+          "semanticCapabilityClosureCommitment"
+        ],
+        "fields": [
+          {
+            "name": "schemaVersion",
+            "tag": "0xb0",
+            "const": 1
+          },
+          {
+            "name": "projectId",
+            "tag": "0xb1",
+            "type": "PROJECT-ID-V1"
+          },
+          {
+            "name": "runId",
+            "tag": "0xb2",
+            "type": "RUN-ID-V1"
+          },
+          {
+            "name": "planId",
+            "tag": "0xb3",
+            "type": "PLAN-ID-V1"
+          },
+          {
+            "name": "planIntentCommitment",
+            "tag": "0xb4",
+            "type": "Raw commitment"
+          },
+          {
+            "name": "executionPlanCommitment",
+            "tag": "0xb5",
+            "type": "Raw commitment"
+          },
+          {
+            "name": "activationManifestRef",
+            "tag": "0xb6",
+            "type": "SemanticCommitmentRef<activation-manifest-v1>"
+          },
+          {
+            "name": "evaluationAuthoritySealRef",
+            "tag": "0xb7",
+            "type": "SemanticCommitmentRef<evaluation-authority-seal-v1>"
+          },
+          {
+            "name": "semanticEvidenceCasRef",
+            "tag": "0xb8",
+            "type": "RawCasRef<SemanticEvidenceV1>"
+          },
+          {
+            "name": "evidenceDigest",
+            "tag": "0xb9",
+            "type": "EvidenceDigest"
+          },
+          {
+            "name": "verdict",
+            "tag": "0xba",
+            "enum": [
+              "pass",
+              "fail",
+              "advisory",
+              "indeterminate"
+            ]
+          },
+          {
+            "name": "sealedCapability",
+            "tag": "0xbb",
+            "enum": [
+              "recorded",
+              "verifiable",
+              "replayable"
+            ]
+          },
+          {
+            "name": "semanticCapabilityClosureCasRef",
+            "tag": "0xbc",
+            "type": "RawCasRef<RT11.SemanticCapabilityClosureV3>"
+          },
+          {
+            "name": "semanticCapabilityClosureCommitment",
+            "tag": "0xbd",
+            "type": "RT11 semantic-capability-closure-v3 commitment"
+          }
+        ],
+        "rawHashRule": "runSealRef = sha256:<lowerhex SHA-256(exact TerminalRunV1 bytes)>; runSealRef is external and MUST NOT occur in TerminalRunV1.",
+        "forbidden": [
+          "runSealRef",
+          "requestId",
+          "executionId",
+          "attemptId",
+          "correlationId",
+          "timestamp",
+          "clock",
+          "physicalLocator",
+          "effectiveCapability",
+          "objectState",
+          "lease",
+          "lineage",
+          "sourceRunId"
+        ]
+      }
+    },
+    "commitments": {
+      "semanticEvidenceCasRef": "sha256:<lowerhex SHA-256(exact SemanticEvidenceV1 bytes)>",
+      "EvidenceDigest": "sha256:<lowerhex SHA-256(DomainEnvelopeV1('opensip.semantic-evidence.v1', exact SemanticEvidenceV1 bytes))>",
+      "RunId": "run1:<lowerhex SHA-256(DomainEnvelopeV1('opensip.run-id.v1', exact RunIdentityPreimageV1 bytes))>",
+      "runSealRef": "sha256:<lowerhex SHA-256(exact TerminalRunV1 bytes)>",
+      "canonicalJsonRawCas": "sha256:<lowerhex SHA-256(opensip-canonical-json-v1(value))>; no domain, BOM, whitespace, or trailing newline"
+    }
+  },
+  "semanticJoins": {
+    "preCoreAuthority": "EP7 ProjectStoreAuthorityV1.authorize_evaluation returns the only accepted opaque capability after exact same-project C2/RI/raw validation plus trusted CAS/index publication and reread.",
+    "retention": "RawProofInventoryV1 equals RT12 semanticClosure.proofRefs exactly; all physical identities are RawCasRef.",
+    "versioning": "VERSIONING v7 historical and authority dependencies are already inside the same RT12 derived raw closure; store tokens are excluded.",
+    "terminalAuthority": "TerminalRunV1 ProjectId, PlanId, PlanIntent commitment, ExecutionPlan commitment, ActivationManifest ref and EvaluationAuthoritySeal ref equal the admitted receipts exactly.",
+    "postCoreIndex": "RunAuthorityIndexV1 equality-rejoins TerminalRunV1 to PlanAuthorityReceiptV1 and EvaluationAuthorityAdmissionV1 inside the same atomic final transaction."
+  },
+  "persistedVsProjection": {
+    "persisted": [
+      "EP7 EvaluationProofBundleV5 canonical JSON bytes",
+      "RT12 SemanticCapabilityClosureV3 canonical JSON bytes",
+      "SemanticEvidenceV1 bytes",
+      "TerminalRunV1 bytes",
+      "EP7 semantic-object records/bindings",
+      "RunIndexV1",
+      "AttemptRunLinkV1",
+      "RunCustodyRootV1"
+    ],
+    "projection": {
+      "name": "EvidenceReadProjectionV1",
+      "fields": [
+        "projectId",
+        "runId",
+        "planId",
+        "verdict",
+        "sealedCapability",
+        "effectiveCapability",
+        "authoritative",
+        "expandedSemanticEvidence",
+        "expandedEvaluationProofBundle",
+        "expandedSemanticCapabilityClosure",
+        "currentAvailability",
+        "typedRefusal"
+      ],
+      "rule": "Recompute on every stored read from verified persisted bytes plus RT12 UnitAvailabilityRecordV2 and VERSIONING v7 verifier availability. Never store, CAS-address, or include this projection in EvidenceDigest/RunId/TerminalRun."
+    }
+  },
+  "apiContract": {
+    "opaqueTypes": [
+      "ProjectStoreAuthorityV1",
+      "AdmittedEvaluationAuthorityV1",
+      "ValidatedEP7BundleV5",
+      "ValidatedRunFreeClosureV3",
+      "PreparedCustodyV1",
+      "FinalizedSemanticEvidenceV1",
+      "CommittedRunV1",
+      "VerifiedStoredRunV1"
+    ],
+    "calls": [
+      "opensip_store.open_project_store_authority_v1(HostProjectAdmissionV1, TrustedProjectStoreStateV1) -> ProjectStoreAuthorityV1",
+      "ProjectStoreAuthorityV1.authorize_evaluation(EvaluationAuthorityCandidateV1) -> AdmittedEvaluationAuthorityV1",
+      "opensip_evidence.validate_semantic_bundle_v1(bundle, AdmittedEvaluationAuthorityV1) -> ValidatedEP7BundleV5",
+      "opensip_retention.validate_run_free_closure_v3(ValidatedEP7BundleV5, AdmittedEvaluationAuthorityV1, RT12.SemanticCapabilityClosureV3) -> ValidatedRunFreeClosureV3",
+      "opensip_store.prepare_custody_v1(ProjectStoreAuthorityV1, FrozenRetentionTarget, RawProofInventoryV1, ValidatedRunFreeClosureV3) -> PreparedCustodyV1",
+      "opensip_evidence.finalize_semantic_evidence_v1(ValidatedEP7BundleV5, ValidatedRunFreeClosureV3, PreparedCustodyV1) -> FinalizedSemanticEvidenceV1",
+      "opensip_store.commit_run_v1(ProjectStoreAuthorityV1, AdmittedEvaluationAuthorityV1, FinalizedSemanticEvidenceV1, PreparedCustodyV1) -> CommittedRunV1",
+      "opensip_store.read_committed_run_v1(ProjectStoreAuthorityV1, RunId) -> VerifiedStoredRunV1",
+      "opensip_evidence.project_read_v1(VerifiedStoredRunV1, RT12 mutableState, VERSIONING v7 availability) -> EvidenceReadProjectionV1"
+    ],
+    "constructionRule": "There is one authority path: a host-admitted nonserializable ProjectStoreAuthorityV1 authorizes closed candidate bytes and mints the store-bound AdmittedEvaluationAuthorityV1; no split/decorative bind API and no overload accepts raw JSON, a supplied index/PlanId/RunId/ref, owner string or verified/pinned boolean. The identical live store/handle pair is mandatory for commit_run_v1."
+  },
+  "storeContract": {
+    "records": {
+      "RunFreePreparedCommitV1": {
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "executionId",
+          "expectedAttemptRevision",
+          "semanticEvidenceCasRef",
+          "preparedCustodyToken"
+        ],
+        "optional": [],
+        "forbidden": [
+          "runId",
+          "runSealRef",
+          "terminalRunCasRef",
+          "timestamp",
+          "physicalLocator"
+        ],
+        "visibility": "private recovery journal only"
+      },
+      "RunIndexV1": {
+        "key": [
+          "projectId",
+          "runId"
+        ],
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "runId",
+          "runSealRef"
+        ],
+        "uniqueness": "append-only; same key/same runSealRef is idempotent; same key/different ref is LEDGER.CORRUPT"
+      },
+      "AttemptRunLinkV1": {
+        "key": [
+          "projectId",
+          "executionId"
+        ],
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "executionId",
+          "disposition",
+          "runId",
+          "runSealRef"
+        ],
+        "constants": {
+          "disposition": "run-committed"
+        },
+        "uniqueness": "one Run per Attempt; many Attempts may link the same content-derived Run"
+      },
+      "RunCustodyRootV1": {
+        "key": [
+          "projectId",
+          "runId"
+        ],
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "runId",
+          "runSealRef",
+          "semanticEvidenceCasRef",
+          "unitIds"
+        ],
+        "boundary": "operational reachability/lineage outside EvidenceDigest; unitIds are exact RT11 UNIT-ID-V3 values"
+      }
+    },
+    "transaction": [
+      "Through the same ProjectStoreAuthorityV1, reread and rehash authority/raw CAS bytes; validate the EP7 store-bound handle, typed semantic bindings, EP7 bundle, RT12 closure, inventory equality, admitted target equality, custody preparation and Attempt expected revision.",
+      "Derive EvidenceDigest and an opaque candidate RunId; build TerminalRunV1; write Terminal bytes to a private staging namespace not served by public CAS lookup.",
+      "In one serializable transaction publish-or-verify Terminal CAS visibility, RunIndexV1, AttemptRunLinkV1, RunCustodyRootV1 and custody pin transfer; enqueue run-committed in the same outbox transaction; remove the prepared journal.",
+      "Return CommittedRunV1 only after commit. A transaction failure emits no RunId and leaves no public Run index or terminal object."
+    ],
+    "recovery": [
+      "Before journal: hidden/orphan CAS is garbage-collectable and no Run exists.",
+      "Journal exists but no index/link: rehydrate SemanticEvidence and custody, rederive the same candidate, and retry.",
+      "Commit succeeded but response was lost: exact Attempt link and Run index return the committed result idempotently.",
+      "Index/link both exist with exact refs: success. Neither exists: retry. Exactly one exists, or either conflicts: LEDGER.CORRUPT; never guess or overwrite.",
+      "Concurrent semantically identical Attempts converge on one RunIndex/RunCustodyRoot and retain distinct AttemptRunLink/outbox rows."
+    ],
+    "publicVisibility": "Analysis events, logs, diagnostics, errors, responses and public CAS/index lookup forbid the candidate RunId before final commit. Stored-view may carry an already committed RunId and creates no new Run.",
+    "finalTransaction": {
+      "boundary": "ONE_PROJECT_LEDGER_TRANSACTION",
+      "writes": [
+        "TerminalRunV1",
+        "RunIndexV1",
+        "AttemptRunLinkV1",
+        "CustodyRootV1",
+        "RunAuthorityIndexV1",
+        "outbox"
+      ],
+      "precondition": "the identical ProjectStoreAuthorityV1/AdmittedEvaluationAuthorityV1 pair passes an in-transaction authority-index/CAS reread; all raw CAS and semantic closure bytes are durable; Terminal and RunAuthorityIndex are fully rederived and equality-joined",
+      "visibility": "RunId, Terminal, RunAuthorityIndex and outbox event become public together or none do",
+      "retry": "same keys and byte-identical values are idempotent; any RunIndex or RunAuthorityIndex collision with different bytes is corruption"
+    }
+  },
+  "admissionAndSealOrdering": [
+    "Validate RequestId and resolve an explicit project retention policy plus admitted sealed-capability target before Attempt allocation. With CD-RT-5 unresolved, an absent default is REQUEST.UNSATISFIABLE and creates no Attempt.",
+    "Allocate ExecutionId/AttemptRecord and freeze PlanIntent, AdmissionDescriptor and sealed-capability target; RequestId/ExecutionId remain operational and outside semantic commitments.",
+    "Converge snapshot, derive/recompute PlanId and ExecutionPlan commitment, freeze Coverage/core inputs, derive ActivationManifest and EP7 EvaluationAuthoritySeal, then submit the closed index-free candidate to the host-admitted ProjectStoreAuthorityV1.",
+    "ProjectStoreAuthorityV1 atomically publishes/verifies CAS, inserts/verifies and rereads its ProjectId/EAS index, mints AdmittedEvaluationAuthorityV1, and pure core accepts only that store-bound handle.",
+    "Validate the EP7 bundle; derive RT12 semantic roots/bindings, typed raw proofRefs/edges, UNIT-ID-V3 units and RunId-free closure. Require sealedCapability equal the frozen target; prepare custody through the same store without downgrade.",
+    "Encode SemanticEvidence/EvidenceDigest, write the Run-free journal, and call commit_run with the identical ProjectStoreAuthorityV1/admitted handle. Only the atomic six-record committed publication exposes RunId."
+  ],
+  "sealedCapabilityContract": {
+    "targetTiming": "Frozen at request validation and committed in the admitted PlanIntent before Attempt/core. It cannot be selected after observing verdict or current availability.",
+    "finalization": "Final sealedCapability equals the admitted target exactly after RT12 closure and custody preparation. Unsupported target or failed custody does not silently demote; no Run commits.",
+    "readTime": "RT12 alone derives effectiveCapability from mutable raw-object availability. Availability, leases and lineage may change effectiveCapability but never sealedCapability, SemanticEvidence, EvidenceDigest, RunId or TerminalRun.",
+    "productFork": "CD-RT-5 alone decides the product default. This candidate supports explicit admitted targets and rejects an absent default; it does not claim or apply product acceptance."
+  },
+  "d9Mapping": {
+    "malformedBoundaryInput": "CONFIG.INVALID",
+    "wellFormedPreconditionSubstitution": "REQUEST.PRECONDITION_FAILED",
+    "missingRetentionDefaultOrUnsupportedTarget": "REQUEST.UNSATISFIABLE",
+    "casMaterializationOrLinkFailure": "CAS.LINK_FAILED",
+    "hostIoFailure": "HOST.IO_FAILURE",
+    "finalTransactionFailure": "DURABILITY.COMMIT_FAILED (ExecutionId only; RunId forbidden)",
+    "persistedHashBindingOrIndexMismatch": "LEDGER.CORRUPT",
+    "contentionTimeout": "LEDGER.BUSY_TIMEOUT",
+    "unknownOrExpiredCommittedRun": "IDENTITY.UNKNOWN or IDENTITY.EXPIRED",
+    "unsupportedSchemaMajor": "REQUEST.SCHEMA_MAJOR_UNSUPPORTED",
+    "vocabularyRule": "No new D9 class, code, axis, precedence, or exit mapping is introduced."
+  },
+  "acceptedGolden": {
+    "id": "EVIDENCE5-ACCEPTED-EP6-NOMATCH",
+    "sourceVectorId": "EP6-POS-NOMATCH-PASS",
+    "values": {
+      "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "planId": "plan1:sha256:0c0604a8f58148ec4fd3b12fc3e72dd7b0a2e7687ae776694c66bf9db03e0d02",
+      "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358",
+      "planIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+      "executionPlanCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+      "activationManifestRef": "sha256:f6bc8634a82e49dc3a6faf9d42f5c10ce8f4e9e2030ca8af9ea608598d37bb09",
+      "evaluationProofBundleCasRef": "sha256:cc27c2beef32f3343d167c5727aa255b51884993ca416c4a862388e3be96a829",
+      "universeCommitment": "sha256:4884bf9d493bff0dd2f70af4e047e716b89ed8594ece385aa64b472ef5494301",
+      "outcomeSetCommitment": "sha256:1d33209c51f64793e8535bfa116204fbadb6de06b3fedec9d2650b0260061568",
+      "verdictDerivationCommitment": "sha256:f2d88bcc256644ed41b2f23f9b14109169c32188a444a68036ad34b9b2b22e83",
+      "verdict": "pass",
+      "sealedCapability": "replayable",
+      "semanticCapabilityClosureCasRef": "sha256:70ce71b8fc31551809c7c800a165fa5d9a8a8e04a7e5523e7668324fce8a977c",
+      "semanticCapabilityClosureCommitment": "sha256:156ac0017a65c026a2e939c728fc189aa81728ad827c2218e1b4ccce8924c626"
+    },
+    "rawProofInventoryLength": 2836,
+    "rawProofInventoryHex": "81880000000131890000004570726a312d616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161618a00000abe8b000000748085000000477368613235363a313165393233626666636339396339343337326437623537356437333362373937383764613039643564303632383637333263363931623131353838323866618600000013686973746f726963616c2d6d616e6966657374870000000a76657269666961626c658b0000006b8085000000477368613235363a31366332666361396533373139333634353864303135373662346361333131633232643136366134353533396363626339313034383233643062313064623437860000000a66696c652d6279746573870000000a7265706c617961626c658b000000768085000000477368613235363a323166653331646661313534613236313632366266383534303436666432323731623762656434623661626534356161353838373765663437663937323162398600000015686973746f726963616c2d7075626c69632d6b6579870000000a76657269666961626c658b000000708085000000477368613235363a32326231613237303331353136616234336331653761303639336335386435653039373636356466633063653731656132633462653034343536336338366536860000000f7265736f6c7665642d696e70757473870000000a76657269666961626c658b000000758085000000477368613235363a323439613737633037623931626438363562343837336335383665613465343136383162653839643864323237353930626663343461336233333430326163358600000014686973746f726963616c2d7369676e6174757265870000000a76657269666961626c658b000000818085000000477368613235363a3264646436323430323864333164396462396161666534616330376132376439616236376232343162326437333633633238313839643435356266313531663586000000206576616c756174696f6e2d617574686f726974792d7365616c2d7265636f7264870000000a76657269666961626c658b000000848085000000477368613235363a336133316233656330643337323963303335653961326537396238303965323965616236373631323833326130356439303335626338306665653364386237388600000023617574686f726974792d7365616c2d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007d8085000000477368613235363a34386633616432333964616439366131343033306366643732363939383538643738376239373433636365616565353066666638366138383065346233363565860000001c706c616e2d69642d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007a8085000000477368613235363a3834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383486000000197265736f6c7665642d61637469766174696f6e2d6772617068870000000a7265706c617961626c658b0000006f8085000000477368613235363a39313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b0000006f8085000000477368613235363a39323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b000000658085000000477368613235363a39333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933860000000466616374870000000a76657269666961626c658b000000748085000000477368613235363a6131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613186000000137072656469636174652d73656d616e74696373870000000a76657269666961626c658b0000007b8085000000477368613235363a61326332333061633731353336613861346533376465343834653932656337623836346162326230363638663063386566363266383934656431383863633362860000001a61637469766174696f6e2d6d616e69666573742d7265636f7264870000000a76657269666961626c658b000000678085000000477368613235363a623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062308600000006706f6c696379870000000a76657269666961626c658b000000768085000000477368613235363a623438333464326562373332346462646530616130633963343631626564616165316261363331376230326664343431363132623936646434623437373862668600000015686973746f726963616c2d74727573742d726f6f74870000000a76657269666961626c658b000000698085000000477368613235363a633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063308600000008636f766572616765870000000a76657269666961626c658b000000758085000000477368613235363a643661386430383664396565306632363933663539396365333965636639306330626536356664396139313237646466643935353732613263393563336530348600000014686973746f726963616c2d73656d616e74696373870000000a76657269666961626c658b000000768085000000477368613235363a653362653663333633346163303435666430326434373533616336316564366439623832656131363165313036633134336465363961326631393634363761358600000015686973746f726963616c2d65786563757461626c65870000000a76657269666961626c658b0000006f8085000000477368613235363a65356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b0000006f8085000000477368613235363a65366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b000000658085000000477368613235363a66306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630860000000466616374870000000a76657269666961626c658b0000006f8085000000477368613235363a66316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631860000000e666163742d706172746974696f6e870000000a76657269666961626c65",
+    "semanticEvidenceLength": 3560,
+    "semanticEvidenceHex": "82900000000131910000004570726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161920000004d706c616e313a7368613235363a3063303630346138663538313438656334666433623132666333653732646437623061326537363837616537373636393463363662663964623033653064303293000000477368613235363a3633313732363631303038396333626163613161333738303266333138633236326133333362393533643832336238393135373538376233373834363333353894000000477368613235363a6363323763326265656633326633333433643136376335373237616132353562353138383439393363613431366334613836323338386533626539366138323995000000477368613235363a3438383462663964343933626666306464326637306166346530343765373136623839656438353934656365333835616136346234373265663534393433303196000000477368613235363a3164333332303963353166363437393365383533356266613131363230346662616462366465303662336665646563396432363530623032363030363135363897000000477368613235363a66326438386263633235363634346564343162326632336639623134313039313639633332313838613434346136383033366164333462396232623232653833980000000470617373990000000a7265706c617961626c659a00000b1481880000000131890000004570726a312d616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161618a00000abe8b000000748085000000477368613235363a313165393233626666636339396339343337326437623537356437333362373937383764613039643564303632383637333263363931623131353838323866618600000013686973746f726963616c2d6d616e6966657374870000000a76657269666961626c658b0000006b8085000000477368613235363a31366332666361396533373139333634353864303135373662346361333131633232643136366134353533396363626339313034383233643062313064623437860000000a66696c652d6279746573870000000a7265706c617961626c658b000000768085000000477368613235363a323166653331646661313534613236313632366266383534303436666432323731623762656434623661626534356161353838373765663437663937323162398600000015686973746f726963616c2d7075626c69632d6b6579870000000a76657269666961626c658b000000708085000000477368613235363a32326231613237303331353136616234336331653761303639336335386435653039373636356466633063653731656132633462653034343536336338366536860000000f7265736f6c7665642d696e70757473870000000a76657269666961626c658b000000758085000000477368613235363a323439613737633037623931626438363562343837336335383665613465343136383162653839643864323237353930626663343461336233333430326163358600000014686973746f726963616c2d7369676e6174757265870000000a76657269666961626c658b000000818085000000477368613235363a3264646436323430323864333164396462396161666534616330376132376439616236376232343162326437333633633238313839643435356266313531663586000000206576616c756174696f6e2d617574686f726974792d7365616c2d7265636f7264870000000a76657269666961626c658b000000848085000000477368613235363a336133316233656330643337323963303335653961326537396238303965323965616236373631323833326130356439303335626338306665653364386237388600000023617574686f726974792d7365616c2d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007d8085000000477368613235363a34386633616432333964616439366131343033306366643732363939383538643738376239373433636365616565353066666638366138383065346233363565860000001c706c616e2d69642d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007a8085000000477368613235363a3834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383486000000197265736f6c7665642d61637469766174696f6e2d6772617068870000000a7265706c617961626c658b0000006f8085000000477368613235363a39313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b0000006f8085000000477368613235363a39323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b000000658085000000477368613235363a39333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933860000000466616374870000000a76657269666961626c658b000000748085000000477368613235363a6131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613186000000137072656469636174652d73656d616e74696373870000000a76657269666961626c658b0000007b8085000000477368613235363a61326332333061633731353336613861346533376465343834653932656337623836346162326230363638663063386566363266383934656431383863633362860000001a61637469766174696f6e2d6d616e69666573742d7265636f7264870000000a76657269666961626c658b000000678085000000477368613235363a623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062308600000006706f6c696379870000000a76657269666961626c658b000000768085000000477368613235363a623438333464326562373332346462646530616130633963343631626564616165316261363331376230326664343431363132623936646434623437373862668600000015686973746f726963616c2d74727573742d726f6f74870000000a76657269666961626c658b000000698085000000477368613235363a633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063308600000008636f766572616765870000000a76657269666961626c658b000000758085000000477368613235363a643661386430383664396565306632363933663539396365333965636639306330626536356664396139313237646466643935353732613263393563336530348600000014686973746f726963616c2d73656d616e74696373870000000a76657269666961626c658b000000768085000000477368613235363a653362653663333633346163303435666430326434373533616336316564366439623832656131363165313036633134336465363961326631393634363761358600000015686973746f726963616c2d65786563757461626c65870000000a76657269666961626c658b0000006f8085000000477368613235363a65356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b0000006f8085000000477368613235363a65366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b000000658085000000477368613235363a66306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630860000000466616374870000000a76657269666961626c658b0000006f8085000000477368613235363a66316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631860000000e666163742d706172746974696f6e870000000a76657269666961626c659b000000477368613235363a373063653731623866633331353531383039633763383030613136356661356439613861386530346137653535323365373636383332346663653861393737639c000000477368613235363a31353661633030313761363563303236613265393339633732386663313839616138313732386164383237633232313865316234636363653839323463363236",
+    "semanticEvidenceCasRef": "sha256:858ccc7c508c49c44ae85df6f880b4e26cecb0b2ec182abbf890a6c1ea8a0d82",
+    "evidenceDigestDomain": "opensip.semantic-evidence.v1",
+    "evidenceDigestPreimageLength": 3599,
+    "evidenceDigestPreimageHex": "8e8c0000001c6f70656e7369702e73656d616e7469632d65766964656e63652e76318d00000de882900000000131910000004570726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161920000004d706c616e313a7368613235363a3063303630346138663538313438656334666433623132666333653732646437623061326537363837616537373636393463363662663964623033653064303293000000477368613235363a3633313732363631303038396333626163613161333738303266333138633236326133333362393533643832336238393135373538376233373834363333353894000000477368613235363a6363323763326265656633326633333433643136376335373237616132353562353138383439393363613431366334613836323338386533626539366138323995000000477368613235363a3438383462663964343933626666306464326637306166346530343765373136623839656438353934656365333835616136346234373265663534393433303196000000477368613235363a3164333332303963353166363437393365383533356266613131363230346662616462366465303662336665646563396432363530623032363030363135363897000000477368613235363a66326438386263633235363634346564343162326632336639623134313039313639633332313838613434346136383033366164333462396232623232653833980000000470617373990000000a7265706c617961626c659a00000b1481880000000131890000004570726a312d616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161618a00000abe8b000000748085000000477368613235363a313165393233626666636339396339343337326437623537356437333362373937383764613039643564303632383637333263363931623131353838323866618600000013686973746f726963616c2d6d616e6966657374870000000a76657269666961626c658b0000006b8085000000477368613235363a31366332666361396533373139333634353864303135373662346361333131633232643136366134353533396363626339313034383233643062313064623437860000000a66696c652d6279746573870000000a7265706c617961626c658b000000768085000000477368613235363a323166653331646661313534613236313632366266383534303436666432323731623762656434623661626534356161353838373765663437663937323162398600000015686973746f726963616c2d7075626c69632d6b6579870000000a76657269666961626c658b000000708085000000477368613235363a32326231613237303331353136616234336331653761303639336335386435653039373636356466633063653731656132633462653034343536336338366536860000000f7265736f6c7665642d696e70757473870000000a76657269666961626c658b000000758085000000477368613235363a323439613737633037623931626438363562343837336335383665613465343136383162653839643864323237353930626663343461336233333430326163358600000014686973746f726963616c2d7369676e6174757265870000000a76657269666961626c658b000000818085000000477368613235363a3264646436323430323864333164396462396161666534616330376132376439616236376232343162326437333633633238313839643435356266313531663586000000206576616c756174696f6e2d617574686f726974792d7365616c2d7265636f7264870000000a76657269666961626c658b000000848085000000477368613235363a336133316233656330643337323963303335653961326537396238303965323965616236373631323833326130356439303335626338306665653364386237388600000023617574686f726974792d7365616c2d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007d8085000000477368613235363a34386633616432333964616439366131343033306366643732363939383538643738376239373433636365616565353066666638366138383065346233363565860000001c706c616e2d69642d766572696669636174696f6e2d72656365697074870000000a76657269666961626c658b0000007a8085000000477368613235363a3834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383438343834383486000000197265736f6c7665642d61637469766174696f6e2d6772617068870000000a7265706c617961626c658b0000006f8085000000477368613235363a39313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931393139313931860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b0000006f8085000000477368613235363a39323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932393239323932860000000e7265706c61792d636c6f73757265870000000a76657269666961626c658b000000658085000000477368613235363a39333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933393339333933860000000466616374870000000a76657269666961626c658b000000748085000000477368613235363a6131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613161316131613186000000137072656469636174652d73656d616e74696373870000000a76657269666961626c658b0000007b8085000000477368613235363a61326332333061633731353336613861346533376465343834653932656337623836346162326230363638663063386566363266383934656431383863633362860000001a61637469766174696f6e2d6d616e69666573742d7265636f7264870000000a76657269666961626c658b000000678085000000477368613235363a623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062306230623062308600000006706f6c696379870000000a76657269666961626c658b000000768085000000477368613235363a623438333464326562373332346462646530616130633963343631626564616165316261363331376230326664343431363132623936646434623437373862668600000015686973746f726963616c2d74727573742d726f6f74870000000a76657269666961626c658b000000698085000000477368613235363a633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063306330633063308600000008636f766572616765870000000a76657269666961626c658b000000758085000000477368613235363a643661386430383664396565306632363933663539396365333965636639306330626536356664396139313237646466643935353732613263393563336530348600000014686973746f726963616c2d73656d616e74696373870000000a76657269666961626c658b000000768085000000477368613235363a653362653663333633346163303435666430326434373533616336316564366439623832656131363165313036633134336465363961326631393634363761358600000015686973746f726963616c2d65786563757461626c65870000000a76657269666961626c658b0000006f8085000000477368613235363a65356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535653565356535860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b0000006f8085000000477368613235363a65366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536653665366536860000000e7265706c61792d636c6f73757265870000000a7265706c617961626c658b000000658085000000477368613235363a66306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630663066306630860000000466616374870000000a76657269666961626c658b0000006f8085000000477368613235363a66316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631663166316631860000000e666163742d706172746974696f6e870000000a76657269666961626c659b000000477368613235363a373063653731623866633331353531383039633763383030613136356661356439613861386530346137653535323365373636383332346663653861393737639c000000477368613235363a31353661633030313761363563303236613265393339633732386663313839616138313732386164383237633232313865316234636363653839323463363236",
+    "evidenceDigest": "sha256:6edbf46f919565e5a10426e4ff9f1dcf56588d18d1b75ad1c32cd848b19f47b9",
+    "runIdentityRecordLength": 330,
+    "runIdentityRecordHex": "83a00000000131a10000004570726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161a20000004d706c616e313a7368613235363a30633036303461386635383134386563346664336231326663336537326464376230613265373638376165373736363934633636626639646230336530643032a3000000477368613235363a36333137323636313030383963336261636131613337383032663331386332363261333333623935336438323362383931353735383762333738343633333538a4000000477368613235363a36656462663436663931393536356535613130343236653466663966316463663536353838643138643162373561643163333263643834386231396634376239a50000000a7265706c617961626c65",
+    "runDomainPreimageLength": 358,
+    "runDomainPreimageHex": "8e8c000000116f70656e7369702e72756e2d69642e76318d0000014a83a00000000131a10000004570726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161a20000004d706c616e313a7368613235363a30633036303461386635383134386563346664336231326663336537326464376230613265373638376165373736363934633636626639646230336530643032a3000000477368613235363a36333137323636313030383963336261636131613337383032663331386332363261333333623935336438323362383931353735383762333738343633333538a4000000477368613235363a36656462663436663931393536356535613130343236653466663966316463663536353838643138643162373561643163333263643834386231396634376239a50000000a7265706c617961626c65",
+    "runId": "run1:3f319950f6a00565611029f3accc38a2afd38b3f4ab6539b2d6c8304ef0a9208",
+    "terminalRunLength": 869,
+    "terminalRunEncodedHex": "84b00000000131b10000004570726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161b20000004572756e313a33663331393935306636613030353635363131303239663361636363333861326166643338623366346162363533396232643663383330346566306139323038b30000004d706c616e313a7368613235363a30633036303461386635383134386563346664336231326663336537326464376230613265373638376165373736363934633636626639646230336530643032b4000000477368613235363a37633331373466363335386634306133366631396239376561623662323437303836663761353431313134316662396565303536353335393034666137613835b5000000477368613235363a37633331373466363335386634306133366631396239376561623662323437303836663761353431313134316662396565303536353335393034666137613835b6000000477368613235363a66366263383633346138326534396463336136666166396434326635633130636538663465396532303330636138616639656136303835393864333762623039b7000000477368613235363a36333137323636313030383963336261636131613337383032663331386332363261333333623935336438323362383931353735383762333738343633333538b8000000477368613235363a38353863636337633530386334396334346165383564663666383830623465323663656362306232656331383261626266383930613663316561386130643832b9000000477368613235363a36656462663436663931393536356535613130343236653466663966316463663536353838643138643162373561643163333263643834386231396634376239ba0000000470617373bb0000000a7265706c617961626c65bc000000477368613235363a37306365373162386663333135353138303963376338303061313635666135643961386138653034613765353532336537363638333234666365386139373763bd000000477368613235363a31353661633030313761363563303236613265393339633732386663313839616138313732386164383237633232313865316234636363653839323463363236",
+    "runSealRef": "sha256:d34fc5e0d80f2af919c3ab572f03793b7893dddb2f816587b76bce40af497734",
+    "runAuthorityIndex": {
+      "schemaVersion": 1,
+      "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "runId": "run1:3f319950f6a00565611029f3accc38a2afd38b3f4ab6539b2d6c8304ef0a9208",
+      "runSealRef": "sha256:d34fc5e0d80f2af919c3ab572f03793b7893dddb2f816587b76bce40af497734",
+      "planAuthorityReceiptRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+      "evaluationAuthorityAdmissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+      "planId": "plan1:sha256:0c0604a8f58148ec4fd3b12fc3e72dd7b0a2e7687ae776694c66bf9db03e0d02",
+      "planIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+      "executionPlanCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+      "activationManifestRef": "sha256:f6bc8634a82e49dc3a6faf9d42f5c10ce8f4e9e2030ca8af9ea608598d37bb09",
+      "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358"
+    },
+    "runAuthorityIndexRaw": {
+      "id": "EVIDENCE5-RUN-AUTHORITY-INDEX",
+      "recordType": "RunAuthorityIndexV1",
+      "domainUtf8": "opensip.run-authority-index.v1",
+      "value": {
+        "schemaVersion": 1,
+        "projectId": "prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runId": "run1:3f319950f6a00565611029f3accc38a2afd38b3f4ab6539b2d6c8304ef0a9208",
+        "runSealRef": "sha256:d34fc5e0d80f2af919c3ab572f03793b7893dddb2f816587b76bce40af497734",
+        "planAuthorityReceiptRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+        "evaluationAuthorityAdmissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+        "planId": "plan1:sha256:0c0604a8f58148ec4fd3b12fc3e72dd7b0a2e7687ae776694c66bf9db03e0d02",
+        "planIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+        "executionPlanCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+        "activationManifestRef": "sha256:f6bc8634a82e49dc3a6faf9d42f5c10ce8f4e9e2030ca8af9ea608598d37bb09",
+        "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358"
+      },
+      "encodedHex": "6f70656e7369702e72756e2d617574686f726974792d696e6465782e7631007b2261637469766174696f6e4d616e6966657374526566223a227368613235363a66366263383633346138326534396463336136666166396434326635633130636538663465396532303330636138616639656136303835393864333762623039222c226576616c756174696f6e417574686f7269747941646d697373696f6e526566223a227368613235363a33613331623365633064333732396330333565396132653739623830396532396561623637363132383332613035643930333562633830666565336438623738222c226576616c756174696f6e417574686f726974795365616c526566223a227368613235363a36333137323636313030383963336261636131613337383032663331386332363261333333623935336438323362383931353735383762333738343633333538222c22657865637574696f6e506c616e436f6d6d69746d656e74223a227368613235363a37633331373466363335386634306133366631396239376561623662323437303836663761353431313134316662396565303536353335393034666137613835222c22706c616e417574686f7269747952656365697074526566223a227368613235363a34386633616432333964616439366131343033306366643732363939383538643738376239373433636365616565353066666638366138383065346233363565222c22706c616e4964223a22706c616e313a7368613235363a30633036303461386635383134386563346664336231326663336537326464376230613265373638376165373736363934633636626639646230336530643032222c22706c616e496e74656e74436f6d6d69746d656e74223a227368613235363a37633331373466363335386634306133366631396239376561623662323437303836663761353431313134316662396565303536353335393034666137613835222c2270726f6a6563744964223a2270726a312d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c2272756e4964223a2272756e313a33663331393935306636613030353635363131303239663361636363333861326166643338623366346162363533396232643663383330346566306139323038222c2272756e5365616c526566223a227368613235363a64333466633565306438306632616639313963336162353732663033373933623738393364646462326638313635383762373662636534306166343937373334222c22736368656d6156657273696f6e223a317d",
+      "byteLength": 996,
+      "rawCasRef": "sha256:bf50d2d6b01dcdc09ef13f830a1b8ed208547c549e53816ba282c99e53185dad"
+    }
+  },
+  "runSubstitutionGoldens": [
+    {
+      "id": "RUN-SUB-SCHEMA-MAJOR",
+      "mutation": {
+        "schemaMajor": 2
+      },
+      "expectedRunId": "run1:99466c966ebd6ed5da769bc56e2f7a4f013e4fd0edd6586da4ba0a01798b77b4"
+    },
+    {
+      "id": "RUN-SUB-PROJECT",
+      "mutation": {
+        "projectId": "prj1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expectedRunId": "run1:543db852fb6759433a48c602342013bc6ea2beaaf4092da541bc6cdcd9c195eb"
+    },
+    {
+      "id": "RUN-SUB-PLAN",
+      "mutation": {
+        "planId": "plan1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expectedRunId": "run1:fd0c6603199e8b411512d2ee5be715913f7b2277a2946c42c31ff4aeb6612646"
+    },
+    {
+      "id": "RUN-SUB-AUTHORITY",
+      "mutation": {
+        "evaluationAuthoritySealRef": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expectedRunId": "run1:3e891fa33d3b76c9d8a22cd34d5ea3036942c88a7fd41a589f596bbf72039be9"
+    },
+    {
+      "id": "RUN-SUB-EVIDENCE",
+      "mutation": {
+        "evidenceDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "expectedRunId": "run1:d9abe10c6f98b127444ba57cf332b7af9830665994e1e64812f0cc90a0b9cf10"
+    },
+    {
+      "id": "RUN-SUB-CAPABILITY",
+      "mutation": {
+        "sealedCapability": "verifiable"
+      },
+      "expectedRunId": "run1:653adc68d5d741944a1c27e0df1dc264cd88110a915878558099299e43cdc414"
+    }
+  ],
+  "positiveControls": [
+    {
+      "id": "EVD4-POS-NOMATCH-PASS",
+      "assert": "Accepted EP6/RT11 vector reproduces every byte/hash above."
+    },
+    {
+      "id": "EVD4-POS-CORRELATION-STABILITY",
+      "assert": "Two RequestIds and distinct ExecutionIds over equal semantic inputs/cap produce byte-identical inventory/Evidence/RUN/Terminal and one Run index with two Attempt links."
+    },
+    {
+      "id": "EVD4-POS-AVAILABILITY-DEGRADE",
+      "assert": "Removing one replay-only raw object changes only RT11 effectiveCapability/read projection; every persisted byte/hash remains exact."
+    },
+    {
+      "id": "EVD4-POS-CAPABILITY-CHANGE",
+      "assert": "Changing the admitted sealed target changes SemanticEvidence and RUN-ID-V1 even if every other scalar were equal."
+    },
+    {
+      "id": "EVD4-POS-RECOVERY",
+      "assert": "Each documented crash point converges to no public Run or the one exact committed Run; no partial identity is observable."
+    }
+  ],
+  "adversarialControls": {
+    "authority": [
+      "arbitrary PlanId even when downstream values are coherently recomputed",
+      "arbitrary authority semantic ref",
+      "ActivationManifest substitution",
+      "cross-Project binding",
+      "missing raw semantic record",
+      "semantic/raw hash swap",
+      "wrong semanticDomain or recordKind",
+      "noncanonical record reencoding",
+      "one semantic key mapped to multiple raw records",
+      "raw JSON or verified/pinned boolean bypass; core invocation count must remain zero",
+      "each EP6 forbidden authority field",
+      "cross-project valid receipt chain",
+      "opaque or arbitrary-but-valid receipt CAS",
+      "verificationOwner string or boolean authority",
+      "missing/duplicate ProjectId+seal store index",
+      "receipt-to-resolved-input edge removal",
+      "caller-constructed or serialized opaque handle",
+      "forged evaluationAuthorityIndex field in untrusted candidate",
+      "plain-dict/from-json/owner-string/boolean/ref ProjectStoreAuthority",
+      "wrong-project store authority",
+      "missing/duplicate/conflicting immutable authority index",
+      "missing trusted CAS on stored read"
+    ],
+    "semantic": [
+      "EP bundle raw-ref mismatch",
+      "Coverage add/omit/substitute",
+      "universe member/count/commitment mismatch",
+      "outcome add/omit/substitute",
+      "proof-union/tag/witness mismatch",
+      "verdict-input/derived verdict mismatch",
+      "inventory add/omit/duplicate/project/kind/capability/raw-ref mutation",
+      "old EP4 semantic ref used as raw custody target",
+      "RT closure raw-ref/commitment/root/binding/edge/unit/capability mutation",
+      "missing CAS bytes",
+      "each lifecycle/mutable/physical field injected at root or nested depth"
+    ],
+    "run": [
+      "mutate each of the six framed fields",
+      "caller-supplied RunId",
+      "wrong prefix/case/length",
+      "domain substitution",
+      "record/field tag substitution",
+      "field reorder/omit/duplicate/unknown",
+      "length truncation/overlong/trailing bytes",
+      "RequestId/ExecutionId inclusion"
+    ],
+    "terminal": [
+      "RunId recomputation mismatch",
+      "each duplicated identity mismatch",
+      "Evidence raw ref/digest mismatch",
+      "verdict/capability/closure mismatch",
+      "runSealRef self-field injection",
+      "raw hash mismatch",
+      "mutable/physical field injection",
+      "Terminal activationManifestRef mismatch",
+      "Terminal evaluationAuthoritySealRef mismatch"
+    ],
+    "store": [
+      "wrong Project",
+      "raw CAS hash mismatch",
+      "semantic binding mismatch",
+      "journal mutation",
+      "Attempt revision mismatch",
+      "same RunId/different terminal",
+      "same Attempt/different Run",
+      "concurrent identical attempts",
+      "crash before stage/after stage/after journal/during transaction/after commit before response",
+      "precommit event/log/public lookup leak",
+      "same ProjectId+RunId different RunAuthorityIndex",
+      "RunAuthorityIndex included in EvidenceDigest or any pre-core/content identity cycle",
+      "different ProjectStoreAuthority instance finalizes admitted handle",
+      "authority index replacement between authorize and commit",
+      "duplicate/conflicting authority index row",
+      "store/transaction token injected into EvidenceDigest/RunId/Terminal/RunAuthorityIndex"
+    ],
+    "versioning": [
+      "six historical omissions",
+      "six role/kind mislabels",
+      "minimum weakening/strengthening",
+      "duplicate/alias/unreachable edge",
+      "descriptor-only payload",
+      "unknown role",
+      "current availability or effective capability copied into immutable semantics",
+      "any v4 custody subtree mutation"
+    ]
+  },
+  "invariants": [
+    {
+      "id": "EV4-1",
+      "assert": "EvaluationAuthoritySealV1 is exact EP7-owned pre-core authority; only the store-authorized opaque handle invokes core."
+    },
+    {
+      "id": "EV4-2",
+      "assert": "SemanticEvidence binds exact Project/Plan/seal, Coverage/universe/outcomes/proofs/verdict, raw proof inventory, sealed capability and RT12 closure without lifecycle or mutable state."
+    },
+    {
+      "id": "EV4-3",
+      "assert": "Semantic commitments and raw CAS refs are nominally distinct; only EP7 SemanticObjectBindingV1 resolves between them."
+    },
+    {
+      "id": "EV4-4",
+      "assert": "RT12 closure and UNIT-ID-V3 are content-derived and RunId-free; availability/lease/lineage/effective capability remain outside EvidenceDigest."
+    },
+    {
+      "id": "EV4-5",
+      "assert": "RUN-ID-V1 is exactly the six-field domain-framed digest and is externally visible only after atomic final commit."
+    },
+    {
+      "id": "EV4-6",
+      "assert": "TerminalRunV1 has no self-reference; external runSealRef is the raw exact-byte hash."
+    },
+    {
+      "id": "EV4-7",
+      "assert": "RunIndex, Attempt link, custody root and postcommit event publish atomically and recover idempotently."
+    },
+    {
+      "id": "EV4-8",
+      "assert": "VERSIONING v7 preserves exact custody and Evidence binds exact EP7/RT12/VERSIONING v7 bytes without a dependency cycle or store-token identity leak."
+    },
+    {
+      "id": "EV4-9",
+      "assert": "Sealed capability is the pre-core admitted target, never a post-verdict maximum or silent downgrade."
+    },
+    {
+      "id": "EV4-10",
+      "assert": "RequestId/ExecutionId variation and current availability cannot change semantic bytes or content Run identity."
+    }
+  ],
+  "retainedResiduals": [
+    "The checker uses guarded in-memory store capabilities; no production store/transaction/atomicity implementation was executed or demonstrated.",
+    "All Evidence v5 identity values are intentionally unchanged; only finalization authority provenance is strengthened.",
+    "V10 remains unresolved; CD-RT-5 and G19 remain blocked.",
+    "Independent review, product qualification and coordinator integration remain absent; no seal/signoff is authorized."
+  ],
+  "sealRecommendation": "DO-NOT-SEAL",
+  "runAuthorityIndexContract": {
+    "type": "RunAuthorityIndexV1",
+    "key": [
+      "projectId",
+      "runId"
+    ],
+    "required": [
+      "schemaVersion",
+      "projectId",
+      "runId",
+      "runSealRef",
+      "planAuthorityReceiptRef",
+      "evaluationAuthorityAdmissionRef",
+      "planId",
+      "planIntentCommitment",
+      "executionPlanCommitment",
+      "activationManifestRef",
+      "evaluationAuthoritySealRef"
+    ],
+    "optional": [],
+    "derivation": "After core return, closed-decode/rederive TerminalRunV1 and require every shared identity equal the admitted plan receipt and authority admission; then stage this exact row in the final transaction.",
+    "atomicPeers": [
+      "TerminalRunV1",
+      "RunIndexV1",
+      "AttemptRunLinkV1",
+      "CustodyRootV1",
+      "outbox"
+    ],
+    "collisionRule": "An existing (ProjectId,RunId) row must be byte-identical. Same key with any different authority/terminal field is corruption and publishes nothing.",
+    "cycleExclusion": "RunAuthorityIndexV1 is post-content and is excluded from SemanticEvidenceV1, EvidenceDigest, RunIdentityPreimageV1, RunId, TerminalRunV1 and runSealRef. No pre-core RunId exists."
+  },
+  "correlationDifferential": {
+    "requestIds": [
+      "req1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "req1_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ],
+    "executionIds": [
+      "exec:attempt-a",
+      "exec:attempt-b"
+    ],
+    "semanticInputs": "byte-identical EP7 bundle, RT12 closure, admitted authority and canonical Evidence records",
+    "expectedEqual": {
+      "semanticEvidenceCasRef": [
+        "sha256:858ccc7c508c49c44ae85df6f880b4e26cecb0b2ec182abbf890a6c1ea8a0d82",
+        "sha256:858ccc7c508c49c44ae85df6f880b4e26cecb0b2ec182abbf890a6c1ea8a0d82"
+      ],
+      "evidenceDigest": [
+        "sha256:6edbf46f919565e5a10426e4ff9f1dcf56588d18d1b75ad1c32cd848b19f47b9",
+        "sha256:6edbf46f919565e5a10426e4ff9f1dcf56588d18d1b75ad1c32cd848b19f47b9"
+      ],
+      "runId": [
+        "run1:3f319950f6a00565611029f3accc38a2afd38b3f4ab6539b2d6c8304ef0a9208",
+        "run1:3f319950f6a00565611029f3accc38a2afd38b3f4ab6539b2d6c8304ef0a9208"
+      ],
+      "runSealRef": [
+        "sha256:d34fc5e0d80f2af919c3ab572f03793b7893dddb2f816587b76bce40af497734",
+        "sha256:d34fc5e0d80f2af919c3ab572f03793b7893dddb2f816587b76bce40af497734"
+      ]
+    },
+    "expectedDistinct": [
+      "RequestId",
+      "ExecutionId",
+      "AttemptRunLinkV1"
+    ]
+  },
+  "availabilityDifferential": {
+    "mutation": "remove one replay-only raw object from current RT12 availability",
+    "changesOnly": [
+      "effectiveCapability",
+      "authoritative",
+      "currentAvailability",
+      "typedRefusal"
+    ],
+    "invariant": [
+      "SemanticEvidenceV1",
+      "EvidenceDigest",
+      "RunId",
+      "TerminalRunV1",
+      "runSealRef",
+      "sealedCapability",
+      "RunAuthorityIndexV1"
+    ]
+  },
+  "storeCapabilityContinuityContract": {
+    "api": "commit_run(ProjectStoreAuthorityV1, AdmittedEvaluationAuthorityV1, FinalizedSemanticEvidenceV1, PreparedCustodyV1) -> CommittedRunV1",
+    "preconditions": [
+      "both arguments are live opaque capabilities from the EP7 module; parsed JSON/refs/owner strings/booleans reject",
+      "admitted handle store-instance token equals supplied ProjectStoreAuthority instance token",
+      "store project equals handle/bundle/Terminal/RunAuthorityIndex ProjectId",
+      "handle EAS/admission/index fingerprint equals current immutable trusted store row",
+      "all authority and semantic CAS records reread byte-identically through the same store port",
+      "TerminalRunV1 and RunAuthorityIndexV1 rederive exactly from unchanged Evidence identities"
+    ],
+    "atomicWrites": [
+      "TerminalRunV1",
+      "RunIndexV1",
+      "AttemptRunLinkV1",
+      "CustodyRootV1",
+      "RunAuthorityIndexV1",
+      "outbox"
+    ],
+    "collisionRule": "Every key is append-only/insert-or-exact-verify. A RunAuthorityIndex or authority-index conflict/duplicate/replacement aborts with no publication.",
+    "toctouRule": "Finalization rereads the immutable authority index/CAS and compares the handle fingerprint inside the same trusted transaction immediately before atomic writes.",
+    "tokenExclusion": "Store instance/transaction/continuity tokens are nonserializable operational state and do not enter SemanticEvidence, EvidenceDigest, RunIdentityPreimage, RunId, TerminalRunV1, RunAuthorityIndexV1, runSealRef or RT closure."
+  },
+  "identityStabilityFromEvidenceV5": {
+    "predecessorArtifact": "evidence.v5.json",
+    "predecessorSha256": "833d2dd69276363d2951f69eb1665e12a8e87d7e433a24aaf085753013903351",
+    "predecessorChecker": "check-evidence-v5.py",
+    "predecessorCheckerSha256": "fc2017ffbe70f46b18c19a41688b1e7fd037dd9b174308ae63ae53d7b703abf3",
+    "exactUnchanged": [
+      "RawProofInventory bytes",
+      "SemanticEvidence bytes/CAS",
+      "EvidenceDigest",
+      "six Run substitutions",
+      "RunId",
+      "TerminalRunV1 bytes",
+      "runSealRef",
+      "RunAuthorityIndexV1 value/raw CAS"
+    ],
+    "reason": "Store capability continuity is operational finalization authority, excluded from content identities."
+  }
+}

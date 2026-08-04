@@ -1,0 +1,136 @@
+{
+  "artifact": "opensip.delivery",
+  "version": 1,
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO. No second-party review. See threat-model.v1.json#reviewStatus.",
+  "purpose": "Close the two remaining human-facing domains: distribution (how the thing arrives and is trusted) and authoring DX (how someone writes and debugs a rule).",
+  "covers": ["artifact set", "platform matrix", "signing and provenance", "air-gap", "update posture", "authoring loop", "rule explainability"],
+
+  "decisionDependencies": [
+    {"id": "ARCH.OFFLINE", "source": "architecture/01-product-boundary.md#hard-constraints", "claim": "fully useful offline; network default-deny"},
+    {"id": "ARCH.INSTALL-UNIT", "source": "architecture/00-overview.md", "claim": "one installation may contain several signed artifacts; the promise is one install, not one file"},
+    {"id": "P-4", "source": "artifacts/claim-register.v1.json", "claim": "TypeScript and Rust receive semantic providers"},
+    {"id": "TM.F1", "source": "artifacts/threat-model.v1.json", "claim": "a provider invoking a real toolchain over untrusted source can execute repository code"},
+    {"id": "TM.ADV4", "source": "artifacts/threat-model.v1.json", "claim": "network attacker on install or export"},
+    {"id": "VERSIONING", "source": "artifacts/versioning-policy.v1.json", "claim": "user-custody contracts need migrators; support windows are published"},
+    {"id": "C-1", "source": "architecture/04-fact-plane.md", "claim": "rules declare requirements; the planner materialises the least sufficient view"}
+  ],
+
+  "distribution": {
+    "artifactSet": [
+      {"artifact": "host binary", "required": true, "note": "Contains the kernel, fact engine, declarative matcher, policy, and projections."},
+      {"artifact": "syntax grammars", "required": true, "note": "The portable floor. Must be present for every supported language or the capability tier is a lie."},
+      {"artifact": "TypeScript semantic provider", "required": false, "note": "Optional feature bundle. Absence degrades TypeScript to the syntax tier, reported as Coverage — not a broken install."},
+      {"artifact": "Rust semantic provider", "required": false, "note": "As above. Its substrate is P-4a and unresolved; its packaging consequences are therefore unknown."},
+      {"artifact": "external scanner adapters", "required": false, "note": "Never required for any core path; absence is a typed unavailability."}
+    ],
+    "installPromise": {
+      "promise": "One install command produces a working tool.",
+      "notPromised": "A single executable file. Optional providers and grammars may be separate signed assets.",
+      "why": "Promising one file would either force everything into the binary or make the promise false. The honest unit is the installation."
+    },
+    "platformMatrix": {
+      "tiers": [
+        {"tier": "supported", "meaning": "CI-verified every release; a failure blocks the release"},
+        {"tier": "best-effort", "meaning": "Builds and smoke-tests; failures are bugs, not release blockers"},
+        {"tier": "unsupported", "meaning": "May work; no claim made"}
+      ],
+      "rule": "A platform's tier is published. An unlisted platform is unsupported by default, never implicitly supported.",
+      "note": "Which OS/arch belongs in which tier is a product decision this artifact does not make."
+    },
+    "signingAndProvenance": {
+      "rules": [
+        "Every shipped artifact is signed, including optional provider bundles. An unsigned optional bundle is the easiest supply-chain entry point (TM.ADV4).",
+        "The host verifies signature and version compatibility BEFORE executing any provider or adapter — at admission, not at first use.",
+        "Contribution bundles carry a digest recorded in the lockfile; the digest enters PlanId, so a substituted bundle changes analysis identity rather than silently changing results.",
+        "A build should be reproducible enough that an independent rebuild yields matching digests. Recorded as a goal, not claimed as achieved.",
+        "Signing raises the cost of substitution. It does not defend against a malicious first-party release — that is threat-model non-goal N5."
+      ]
+    },
+    "airGap": {
+      "requirement": "Full analysis capability with no network, at any time, including first run.",
+      "implications": [
+        "An offline bundle contains host, grammars, and selected providers with all transitive assets — no fetch-on-first-use of grammars or toolchains.",
+        "Nothing may be resolved lazily from a network on the analysis path. A lazily-fetched grammar makes the product silently online.",
+        "Migrators must ship IN the release. An air-gapped user who skipped releases cannot fetch a migrator, so a user-custody migration that requires download is unreachable for them — this is a real interaction between the air-gap requirement and the versioning policy that the versioning artifact flagged and did not solve.",
+        "Update checks are opt-in and never on the analysis path."
+      ]
+    },
+    "updatePosture": {
+      "decision": "No self-mutating updater in the core.",
+      "why": "A tool whose job is deterministic evidence should not rewrite its own binary. It breaks the version-to-evidence binding and adds an unnecessary privileged code path.",
+      "allowed": "Reporting that a newer version exists, opt-in, off the analysis path."
+    }
+  },
+
+  "authoringDX": {
+    "principle": "A rule author's loop must not require publishing anything, and the tool must be able to explain why a rule did not fire. Both are correctness features, not conveniences: an author who cannot see why a rule was silent will write a rule that is silently wrong.",
+    "localLoop": {
+      "requirements": [
+        "A local path or lockfile override loads a contribution from disk with no registry involvement.",
+        "The local loop uses the SAME admission, capability, and validation path as a published bundle. A rule that works locally and fails on install means the local loop was a different code path.",
+        "First-party rules dogfood the identical authoring surface. If they use a private path, the public one is untested."
+      ]
+    },
+    "explainability": {
+      "requirement": "`explain` answers 'why did this rule not fire here?' with a typed trace, not prose.",
+      "traceContents": [
+        "the rule's declared requirements",
+        "the Coverage entries it consumed, with the compound key",
+        "candidate subjects considered and the count excluded at each filter",
+        "whether it was evaluated, skipped-requirements-unmet, budget-exceeded, or faulted",
+        "for skipped: the exact unmet requirement, including a language capability tier where that is the reason (P-4 loud tiering)"
+      ],
+      "why": "Under predicate-relative sufficiency a rule may legitimately not run. Without an explanation that is indistinguishable from a rule that ran and found nothing — and those two have opposite meanings."
+    },
+    "factExploration": {
+      "requirement": "A bounded, typed query surface over a stored fact view, usable without authoring a rule.",
+      "constraint": "It is the same typed query API surfaced elsewhere; it never runs analysis or creates a Run, and returns typed unavailable when facts are missing.",
+      "why": "An author who cannot inspect facts writes rules against an imagined schema."
+    },
+    "testKit": {
+      "requirement": "Fixture-based rule tests with recorded expected verdicts, runnable locally, identical to the release gate G2.",
+      "rule": "A rule contribution without fixtures is admissible but is reported as unverified. Calibration is the asset; a rule with no fixtures has none."
+    }
+  },
+
+  "conformanceTests": [
+    {"id": "DL-01", "assert": "With no network available at any point, including first run, a full analysis completes on a supported language."},
+    {"id": "DL-02", "assert": "Absence of an optional semantic provider degrades the affected language to the syntax tier with typed Coverage, and does not fail the install or the run."},
+    {"id": "DL-03", "assert": "An unsigned or digest-mismatched provider or contribution is refused at admission, before execution."},
+    {"id": "DL-04", "assert": "Substituting a contribution bundle changes PlanId."},
+    {"id": "DL-05", "assert": "No grammar, toolchain, or migrator is fetched from a network on the analysis path."},
+    {"id": "DL-06", "assert": "An unlisted platform reports unsupported rather than attempting and failing obscurely."},
+    {"id": "DL-07", "assert": "A contribution loaded by local path traverses the same admission and capability checks as a published one."},
+    {"id": "DL-08", "assert": "`explain` on a rule that did not fire distinguishes skipped-requirements-unmet from evaluated-with-no-findings, and names the unmet requirement."},
+    {"id": "DL-09", "assert": "`explain` names the language capability tier as the reason where that is the reason (P-4)."},
+    {"id": "DL-10", "assert": "The fact-exploration surface creates no Run and returns typed unavailable for missing relations."},
+    {"id": "DL-11", "assert": "A rule contribution without fixtures is admitted and reported as unverified."},
+    {"id": "DL-12", "assert": "A provider that can execute repository-controlled code is refused unless explicitly granted, and the grant is visible in PlanId (TM.F1)."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "fully useful offline, network default-deny", "dischargedBy": ["airGap", "DL-01", "DL-05"]},
+    {"property": "one installation, not one file", "dischargedBy": ["installPromise"]},
+    {"property": "the language capability tier is honest and observable", "dischargedBy": ["DL-02", "DL-09"]},
+    {"property": "compatibility is negotiated at admission, not at first use", "dischargedBy": ["DL-03", "DL-07"]},
+    {"property": "execution-capable resolution requires an explicit grant (TM.F1)", "dischargedBy": ["DL-12"]},
+    {"property": "first-party dogfoods the public authoring surface", "dischargedBy": ["localLoop", "DL-07"]},
+    {"property": "a silent rule is distinguishable from a satisfied rule", "dischargedBy": ["DL-08"]}
+  ],
+
+  "peerReviewRequired": [
+    "The air-gap/migrator interaction is identified but unsolved: an offline user who skipped releases cannot fetch a migrator, and shipping every historical migrator in every release is unbounded. This needs a real answer.",
+    "Is 'no self-mutating updater' right for a CLI whose users expect one? It is defensible on evidence-binding grounds but is a UX cost.",
+    "Should a fixture-less rule be admissible at all, versus refused? This artifact chose admitted-but-unverified."
+  ],
+
+  "knownLimitations": [
+    "No concrete platform assignments — the tier structure is defined, the contents are a product decision.",
+    "Rust provider packaging is unknowable until P-4a resolves the substrate, so its size, licensing, and air-gap implications are unstated.",
+    "Reproducible builds are a stated goal with no mechanism.",
+    "The air-gap/migrator conflict is recorded as unsolved, not solved.",
+    "Authored solo, unreviewed."
+  ]
+}

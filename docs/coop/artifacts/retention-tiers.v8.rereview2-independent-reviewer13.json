@@ -1,0 +1,230 @@
+{
+  "artifact": "opensip.retention-custody.rereview2",
+  "version": 1,
+  "reviewer": "reviewer-13",
+  "reviewerRole": "INDEPENDENT-REREVIEWER",
+  "date": "2026-08-01",
+  "reviewBinding": "artifacts/retention-tiers.v7.rereview-independent-reviewer8.json findings R8-P1A-RR-01..04, plus regression of R8-P1A-01/03/05/06/08",
+
+  "independence": {
+    "authorOfReviewedArtifacts": false,
+    "authorOfAncestorArtifacts": true,
+    "MATERIAL_LIMITATION": "This reviewer authored earlier ancestors of the artifacts under review: retention-tiers.v5, retention-tiers.v6, evaluation-proof.v1, evidence.v2, and the first versions of check-retention-custody.py and check-evaluation-proof.py. retention-tiers.v8 descends from v6 through v7, and evaluation-proof.v3 descends from v1 through v2.",
+    "whyItStillHasValue": "None of the reviewed bytes were written by this reviewer. The reviewed checkers are 4-6x larger than the versions this reviewer wrote and were substantially rebuilt by other lanes. Every conclusion below rests on independently reimplemented recomputation or on adversarial probes constructed here, not on the authors' fixtures.",
+    "whyItIsStillALIMITATION": "A reviewer who helped shape the sealed/effective split, the capability-closure concept and the canonical commitment approach is not neutral about whether those were the right shapes. This review can attest that the four findings are mechanically closed; it cannot serve as a neutral opinion on the underlying design lineage.",
+    "recommendation": "The coordinator should treat this as a QUALIFIED independent rereview. A reviewer with no lineage involvement should confirm before Phase 1A is declared closed.",
+    "checkerTreatedAsSemanticProof": false,
+    "findingAdjudicationPerformedByReviewer": false,
+    "method": [
+      "Verified all six frozen input hashes before reading, and re-verified at end of review.",
+      "Reimplemented the canonical component framing, Merkle construction and outer commitment from evaluation-proof.v3#canonicalCommitmentGrammar and recomputed the activation manifest bytes and digest without calling the checker's encoder.",
+      "Constructed the reviewer-8 falsifiers directly rather than replaying the authors' named fixtures.",
+      "Drove the pure lease reducer with composed event sequences authored here.",
+      "Exhaustively enumerated the waiver/baseline order question rather than reasoning from one golden.",
+      "Ran every checker normal and --selftest, and treated green as checker-scope evidence only."
+    ]
+  },
+
+  "frozenInputHashes": {
+    "algorithm": "sha256",
+    "preReviewVerification": "ALL SIX MATCH",
+    "inputs": {
+      "artifacts/evaluation-proof.v3.json": "b1f10c9b7bd88d5e794c428d176084e497ba0ffbd8234b3b8c712ea532d8a40e",
+      "artifacts/check-evaluation-proof.py": "05f9c9ae4073e6492b7287cf15cb3d008153a14a53189bfed995f568c5be15f3",
+      "artifacts/retention-tiers.v8.json": "7a754b0eac75f5335c9a48646f19825f3b3ffaad44c8a7daf99360253dacb989",
+      "artifacts/check-retention-custody.py": "29e4f6f18b562e0a5fca54933675f81ae712004df4887cedda63d8d9dc50a92b",
+      "artifacts/check-product-dispositions.py": "507ae5b391889d0360b627fd4b47337e122e1baec958f12ee2682822b1712330",
+      "artifacts/retention-tiers.v8.adjudication-reviewer8-rereview-response.json": "66b033342c6bd621d4b38b2c71e914eb71f9abb95a72c1c1f76d97e19131c6c5"
+    },
+    "corroboratingHash": {
+      "artifacts/c2-plan-stage-schema.v3.json": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+      "note": "independently recomputed and equals evaluation-proof.v3#c2AuthorityJoin.sourceSha256"
+    },
+    "endOfReviewDriftCheck": "ZERO DRIFT — all six inputs byte-identical after the review completed",
+    "inputHashDrift": false
+  },
+
+  "commandsAndResults": [
+    {"command": "python3 artifacts/check-evaluation-proof.py", "exit": 0, "summary": "PASS: 7 fixed-authority positives; 17 named negatives; 3 byte/digest goldens; EP-1..EP-13 clean"},
+    {"command": "python3 artifacts/check-evaluation-proof.py --selftest", "exit": 0, "summary": "PASS: 141 mutations/hostile parsed-value cases rejected; base-dirty and non-applying-mutation guards active"},
+    {"command": "python3 artifacts/check-retention-custody.py", "exit": 0, "summary": "PASS: 13 transitive proof refs / 2 custody units; 15 lease reducer fixtures + 3 composed scenarios; 3 ProjectId purge fixtures; 11 full D9 rows; RC-1..RC-15 clean"},
+    {"command": "python3 artifacts/check-retention-custody.py --selftest", "exit": 0, "summary": "PASS: 190 mutations/hostile parsed-value cases rejected; guards active"},
+    {"command": "python3 artifacts/check-product-dispositions.py", "exit": 0, "summary": "OK — 7 non-retention choices bound; CD-RT-5 BLOCKED_ON_PHASE_1A; consumed retention-tiers.v8.json@sha256:7a754b0e…"},
+    {"command": "python3 artifacts/check-product-dispositions.py --selftest", "exit": 0, "summary": "7 product-choice mutations, 5 retention authority regressions, 1 stale-binding regression, 4 root-shape and 4 nested-shape cases rejected"},
+    {"command": "python3 artifacts/check-d9.py", "exit": 0, "summary": "44 goldens, D0..D16 clean"},
+    {"command": "python3 artifacts/check-d9.py --selftest", "exit": 0, "summary": "13 semantic mutations + 8 shape cases rejected"},
+    {"command": "python3 artifacts/check-threat-claims.py", "exit": 0, "summary": "T1..T13 clean; V10 UNRESOLVED"},
+    {"command": "python3 artifacts/check-threat-claims.py --selftest", "exit": 0, "summary": "29 semantic mutations + 8 shape cases rejected"},
+    {"command": "python3 artifacts/check-c2.py", "exit": 0, "summary": "35 PlanIntent + 14 analysis + 13 stored + 12 stage-plan + 6 coverage fixtures clean"},
+    {"command": "python3 artifacts/check-c2.py --selftest", "exit": 0, "summary": "32 semantic mutations + 4 root-shape cases rejected"},
+    {"command": "python3 artifacts/check-resolved-inputs.py", "exit": 0, "summary": "22 ambient inputs classified, 6 closure fixtures clean"},
+    {"command": "python3 artifacts/check-resolved-inputs.py --selftest", "exit": 0, "summary": "42 semantic mutations + 4 root-shape cases rejected"}
+  ],
+  "checkerResultInterpretation": "All fourteen runs are green. Per the standing rule this establishes only what those checkers inspect. Every determination below rests on the independent recomputations and probes recorded next.",
+
+  "independentRecomputation": {
+    "activationManifestBytes": {
+      "method": "Reimplemented uint8(tag)||uint32be(len)||utf8 component framing, the 0x19 activation-member and 0x18 manifest records, sorted-leaf Merkle with promoted odd nodes, and the 0x30 outer commitment, from the declared grammar only.",
+      "result": "594-byte canonical encoding byte-identical to the checker's encoder",
+      "digest": "sha256:62033398da77955311c084b0e2ea07912f72745cdbc22f61047d2c0cbd3adfd1",
+      "matchesSealedActivationManifestRef": true
+    },
+    "c2AuthorityJoin": {
+      "sourceHashBinding": "declared sourceSha256 equals the independently recomputed live c2-plan-stage-schema.v3.json digest",
+      "commitmentRecomputation": "the checker recomputes expectedPlanIntentCommitment via C-2's OWN module (c2mod.plan_intent_commitment) over the named admitted PlanIntent fixture; it is derived, not asserted",
+      "intentBindingChain": "the named intent-binding fixture is verified to consume the named admitted PlanIntent (baseFixtureId equality)",
+      "allSevenAuthorityVectorsCarryTheJoinedPlanId": true
+    },
+    "d9": "All 11 retention-tiers.v8 D9 rows independently rederived through check-d9 derive_class/derive_codes plus classToExitCode: class, ordered code payload and exit code all match with zero mismatches.",
+    "projectIdPurge": "All 3 purge fixtures rederived from an independently written ProjectId-scoped run→unit→object lineage reachability walk; removed/blocked partitions match, demotedOutsideScope false everywhere, and the checker's derive_purge agrees with the independent derivation.",
+    "capabilityClosure": "Transitive proof-requirement closure rederived from bundle plus authority: 8 seeds resolve to 8 refs at minima {verifiable, replayable}; authority-derived requirements pin activationManifestRef and runSealRef at verifiable and resolvedActivationGraphRef at replayable.",
+    "waiverBaselineOrder": "Exhaustive enumeration over all 512 (match, baseline, waiver) configurations on a 3-member universe.",
+    "reviewerProbeErrorDisclosed": "An initial purge probe keyed objects by digest alone and mismatched PF-03-EQUAL-DIGEST-CROSS-PROJECT. The error was the reviewer's; correcting to (ProjectId, digest) reproduced the fixture exactly. This is recorded because that fixture exists precisely to catch a digest-only implementation, and it did."
+  },
+
+  "findingDecisions": [
+    {
+      "id": "R8-P1A-RR-01",
+      "decision": "PASS-CLOSED",
+      "title": "Immutable activation authority",
+      "evidence": [
+        "validate_bundle(bundle, authority) accepts a SEPARATELY supplied SealedEvaluationAuthorityV1; no authority is read from the producer bundle.",
+        "SealedEvaluationAuthorityV1 binds schemaVersion, source, ProjectId, RunId, runSealRef, PlanId, planIntentCommitment, executionPlanCommitment, activationManifestRef and the ActivationManifestV1 itself; each manifest member binds evaluationId, predicateId, claimShape, coverageRef, ruleActivationId, predicateActivationId and policyActivationId.",
+        "source must equal the fixed IMMUTABLE_RUN_SEAL / host-derived-from-C2 constant with implementerChosenActivation false.",
+        "THE FALSIFIER: every evaluationId and predicateId substituted consistently, requiredUniverse.memberIds rewritten, and every bundle-local commitment recomputed via the contract's own recompute helper, with the sealed authority held fixed — REJECTED with EP-12 '$bundle.evaluations: does not equal the immutable Run-sealed activation universe'.",
+        "Unknown extra manifest member REJECTED; omitted member REJECTED; duplicated member REJECTED (EP-12 duplicate activation).",
+        "Reordering manifest members leaves the digest unchanged, confirming the canonical sort is real rather than incidental.",
+        "PlanId recipe unchanged: planId is pattern-bound to ^plan1:sha256:[0-9a-f]{64}$ with its declared source recorded as resolved-inputs.v2.json#planIdContract; no competing recipe is introduced."
+      ],
+      "residualRecorded": "RR13-01"
+    },
+    {
+      "id": "R8-P1A-RR-02",
+      "decision": "PASS-CLOSED",
+      "title": "Waiver/baseline precedence",
+      "evidence": [
+        "policy-ir-2 declares exactly one ordered program and it matches the required sequence: indeterminate-or-error-dominates, validate-exact-waivers, suppress-waived-current-matches, classify-effective-new-match-as-fail, classify-effective-baseline-match-as-advisory, classify-no-effective-match-as-pass.",
+        "An independently written implementation of the required order reproduces the checker's derive_verdict AND the published verdict on all 7 of 7 positive vectors.",
+        "The baseline-plus-waiver golden genuinely contains an overlapping member (matched AND baselined AND waived) and publishes pass under the normative order.",
+        "Removing the waiver flips the derived verdict to advisory, so the waiver is load-bearing rather than decorative.",
+        "Dropping waivers without recommitting is rejected (waiverSetCommitment does not recompute); the policy identity is a closed committed field.",
+        "An implementation DECLARING the inverse order is rejected: EP3-NEG-17 rewrites policy.evaluationOrder and the asserted verdict, and validation fails."
+      ],
+      "importantQualification": "See RR13-02. The two orders are set-algebraically equivalent, so the rejection is a DECLARATION check rather than a behavioural one. This does not weaken the repair — it means the ambiguity reviewer-8 found could never have produced a wrong verdict — but the guarantee should be understood correctly.",
+      "residualRecorded": "RR13-02"
+    },
+    {
+      "id": "R8-P1A-RR-03",
+      "decision": "PASS-CLOSED",
+      "title": "Crash reclaim and fencing",
+      "evidence": [
+        "CrashReclaimEventV2 binds leaseId, expectedOwnerId, expectedOwnerLivenessToken, expectedFencingToken, scopeRefs, observedOwnerAlive and ProjectId — all seven present.",
+        "Composed scenario authored here: resolve-and-pin -> expiry queued against the HELD lease (READ_CONTINUES, pendingExpiryRefs populated) -> valid crash-reclaim -> LEASE_RECLAIMED with the queued expiry APPLIED ATOMICALLY before the lease is cleared, leaving the object EXPIRED.",
+        "Repin of the now-EXPIRED object after reclaim REJECTED (request-rejected / REQUEST.PRECONDITION_FAILED).",
+        "Repin presenting a REUSED prior fencing token REJECTED.",
+        "Six mismatched-reclaim variants all rejected: wrong fence, wrong ownerId, wrong liveness token, wrong leaseId, mismatched scope, and owner still alive.",
+        "Release path also applies queued expiry before releasing, and repin afterwards is rejected.",
+        "Fencing tokens allocated across five pin/release cycles are strictly monotonic [1,2,3,4,5] from durable lastIssuedFencingToken; a stale fence from cycle 1 replayed later is rejected with REQUEST.PRECONDITION_FAILED."
+      ],
+      "probeResult": "15/15 composed scenarios passed, plus the multi-grant monotonicity test"
+    },
+    {
+      "id": "R8-P1A-RR-04",
+      "decision": "PASS-CLOSED",
+      "title": "Authority closure and exact product join",
+      "evidence": [
+        "The exact hidden alias named in the review task — repairs[0].productDecision = {decisionId: CD-RT-5, outcome: APPROVED, by: architecture-candidate} — is REJECTED by BOTH checkers (retention: RC-15 unknown root field 'repairs'; product: PD-RT top-level binding is not recursively closed).",
+        "The same alias buried under five different ALLOWED nested records (custodyPolicy, integrationState, assurance, retainedResiduals, authority) is rejected by BOTH checkers in every case.",
+        "CLOSURE IS STRUCTURAL, NOT KEY-NAME HEURISTIC: renaming the alias key from productDecision to 'ratification' is still rejected, because the enclosing records are recursively exact-shaped. This directly closes reviewer-8's stated defect.",
+        "The product checker binds retention-tiers.v8.json at exactly sha256:7a754b0eac75f5335c9a48646f19825f3b3ffaad44c8a7daf99360253dacb989, which equals the independently recomputed live digest and the frozen review basis.",
+        "Stale bindings to retention-tiers.v6.json and retention-tiers.v7.json are both rejected (PD-RT-BINDING), as is the correct path carrying a wrong digest.",
+        "P15, P16 and P17 self-sign regressions remain referenced and retained in the product checker.",
+        "CD-RT-5 remains BLOCKED_ON_PHASE_1A in product-dispositions.v1; V10 remains UNRESOLVED / UNRESOLVED-CONTRADICTION in threat-model.v3.",
+        "Author-side attempts to flip the posture status to PRODUCT-SIGNED-OFF, or to assert integrationState.v10 = RESOLVED inside the candidate, are both rejected."
+      ],
+      "probeResult": "23/23 probes passed"
+    }
+  ],
+
+  "regressionReconfirmation": {
+    "R8-P1A-01": "RECONFIRMED — canonical framing and digests independently reproduced (594-byte manifest encoding and its commitment).",
+    "R8-P1A-03": "RECONFIRMED — transitive closure independently rederived; 8 seeds to 8 refs at exact minima.",
+    "R8-P1A-05": "RECONFIRMED — all 3 ProjectId purge partitions rederived from an independently written lineage walk; equal-digest-cross-project remains correctly distinguished by (ProjectId, digest).",
+    "R8-P1A-06": "RECONFIRMED — all 11 D9 rows rederive class, ordered codes and exit code with zero mismatches against the live d9-exit-contract.v1.6 derivation.",
+    "R8-P1A-08": "RECONFIRMED — 18 hostile parsed-JSON cases (null, bool, int, str, empty and populated arrays, empty and malformed objects) across both owned checkers returned findings; zero exceptions.",
+    "guards": "Dirty-base refusal present in all three owned checkers (the product checker carries four distinct refusal conditions). Explicit non-applying-mutation detection is present in check-retention-custody.py and check-evaluation-proof.py; in check-product-dispositions.py it is achieved structurally — the dirty-base refusal guarantees a clean base, so a mutation that fails to apply yields a clean candidate and is counted as an escape. Verified by inspection of the mutate/missed mechanism."
+  },
+
+  "newFindings": [
+    {
+      "id": "RR13-01",
+      "severity": "MEDIUM",
+      "status": "RESIDUAL-NOT-BLOCKING",
+      "title": "The authority's external anchors are shape-checked but never recomputed or verified against their owning contracts",
+      "evidence": "validate_activation_authority pattern-checks runSealRef as a content ref and planId against ^plan1:sha256:[0-9a-f]{64}$, but neither is verified against anything external. runSealRef occurs ONLY in evaluation-proof.v3.json and check-evaluation-proof.py — a tree-wide search finds no other contract or checker that references it, so nothing anywhere verifies that activationManifestRef is the manifest actually sealed into the Run identified by runId. planId is likewise never recomputed from resolved-inputs.v2#planIdContract. This contrasts sharply with the PlanIntent/ExecutionPlan commitments, which ARE genuinely recomputed through C-2's own module.",
+      "reproducibleCondition": "Take any positive vector. Rewrite every activationManifest member consistently AND recompute activationManifestRef with the contract's own deriver, then substitute the bundle universe to match. validate_bundle ACCEPTS, because no anchor outside the supplied authority constrains it.",
+      "whyNotBlocking": "The contract explicitly declares the authority a trusted input supplied separately from producer-controlled fields, and RR-01's actual threat — a PRODUCER choosing its own activation universe — is fully closed. Verifying a Run seal is a different operation belonging to the Run/retention surface, and both refs are correctly pinned into the retention closure at verifiable minimum. The probe above forges a trusted input, which is outside the declared boundary.",
+      "requiredRepair": "Either (a) verify activationManifestRef against the Run seal identified by runSealRef, and recompute planId from resolved-inputs.v2#planIdContract, at the point the authority is admitted; or (b) state explicitly in the contract that runSealRef and planId are unverified trusted preconditions, name the component that must verify them, and record that as a carried residual so no reader mistakes 'sealed into the immutable Run' for a checked property.",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "RR13-02",
+      "severity": "LOW",
+      "status": "INFORMATIONAL",
+      "title": "Waiver-before-baseline and baseline-before-waiver are set-algebraically equivalent, so the precedence guard is declarative",
+      "evidence": "Exhaustive enumeration over all 512 (match, baseline, waiver) configurations on a 3-member universe found ZERO configurations where the two orders yield different verdicts. The fail conditions (M−W)−B and (M−B)−W denote the same set, as do the advisory conditions (M−W)∩B and (M∩B)−W. Consequently the baseline-plus-waiver overlap golden publishes pass under BOTH orders, and EP3-NEG-17 rejects only because it also rewrites the declared policy.evaluationOrder and asserts a verdict that contradicts the derivation.",
+      "reproducibleCondition": "Implement both orders as pure set operations and enumerate all subsets; no distinguishing input exists.",
+      "impact": "Positive rather than negative for correctness: reviewer-8's RR-02 concern — that contradictory precedence could yield a wrong verdict — was not reachable. But 'an implementation using baseline-before-waiver is rejected' holds only for an implementation that DECLARES the inverse order. A conforming implementation that computes in the inverse order, declares the normative order and publishes the correct verdict is indistinguishable, and is in fact correct.",
+      "requiredRepair": "None mechanical. Recommend the contract record the equivalence explicitly so a future reader does not mistake the declaration check for a behavioural guarantee, and so no one designs a costly behavioural test for a distinction that cannot exist.",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "RR13-03",
+      "severity": "LOW-MEDIUM",
+      "status": "RESIDUAL-NOT-BLOCKING",
+      "title": "The newest and most authority-bearing records have no published cross-language byte golden and undeclared component tags",
+      "evidence": "crossLanguageGoldens publishes encodedHex plus commitment for exactly three record kinds: EP2-GOLDEN-MEMBER-01, EP2-GOLDEN-OUTCOME-01 and EP2-GOLDEN-SUBJECT-01. There is no golden for ActivationManifestV1 (0x18) or ActivationMemberV1 (0x19). canonicalCommitmentGrammar names the two record tags but does not declare the inner component tag assignments (0x01-0x07 for members; 0x50-0x57 for the manifest). This reviewer could only reproduce the 594-byte encoding by reading check-evaluation-proof.py, not from the contract.",
+      "reproducibleCondition": "Attempt to reimplement ActivationManifestV1 canonical bytes in a second language using only evaluation-proof.v3.json. The component tag assignments and the nested 0x56/0x57 member-blob framing are not recoverable from the contract text.",
+      "impact": "The activation manifest is now the root of activation authority for the whole proof chain, and it is the one record an independent implementer cannot reproduce or self-verify from the binding artifact alone. The contract's own cross-language golden mechanism exists precisely to prevent this.",
+      "requiredRepair": "Publish an ActivationManifestV1 and an ActivationMemberV1 cross-language golden with components, encodedHex, domain and commitment, and declare the component tag assignments in canonicalCommitmentGrammar alongside the existing record tags.",
+      "confidence": "HIGH"
+    }
+  ],
+
+  "assuranceBoundary": {
+    "state": "SPECIFIED",
+    "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+    "whatThisReviewEstablishes": "That the four blocking architecture findings are mechanically closed against independently constructed falsifiers, and that the previously closed findings remain closed.",
+    "whatThisReviewDoesNotEstablish": [
+      "No property is QUALIFIED or DEMONSTRATED; no product gate is unblocked.",
+      "No implementation exists; the lease protocol, purge lineage and closure are specified and executable as pure reducers over fixtures, not demonstrated against a real ledger or store.",
+      "A1-RTV4-02 remains an open measurement residual; no constant-size, orders-of-magnitude, or runtime-atomicity claim is supported.",
+      "Product release remains NOT-RELEASE-QUALIFIED."
+    ],
+    "checkerScopeRule": "Fourteen green runs establish only what those checkers inspect. The determinations above rest on the independent recomputations recorded in this artifact."
+  },
+
+  "verdict": {
+    "decision": "PASS — Phase 1A architecture acceptable pending only product CD-RT-5",
+    "qualifier": "QUALIFIED BY THE INDEPENDENCE LIMITATION ABOVE. This reviewer authored ancestor artifacts (v5/v6, evaluation-proof.v1) and cannot serve as a neutral opinion on the design lineage, only on whether the four findings are mechanically closed.",
+    "R8-P1A-RR-01": "PASS",
+    "R8-P1A-RR-02": "PASS",
+    "R8-P1A-RR-03": "PASS",
+    "R8-P1A-RR-04": "PASS",
+    "priorFindingsReconfirmed": ["R8-P1A-01", "R8-P1A-03", "R8-P1A-05", "R8-P1A-06", "R8-P1A-08"],
+    "newResidualFindings": ["RR13-01", "RR13-02", "RR13-03"],
+    "blockingFindings": [],
+    "V10": "UNRESOLVED",
+    "CD-RT-5": "BLOCKED_ON_PHASE_1A",
+    "candidateIntegrationState": "NOT-APPLIED",
+    "cdAcceptanceRecordedByThisReview": false,
+    "integrationPatchesAppliedByThisReview": false,
+    "nextGate": "Carry RR13-01 and RR13-03 as named residuals into the freeze document; RR13-02 is informational. Product may now take up CD-RT-5. Because this rereview is independence-qualified, a reviewer with no lineage involvement should confirm before Phase 1A is declared closed."
+  },
+
+  "hashDrift": {
+    "checkedAtEndOfReview": true,
+    "drift": false,
+    "statement": "All six frozen inputs were byte-identical at the start and end of this review; no conclusion here was drawn against moving bytes."
+  }
+}

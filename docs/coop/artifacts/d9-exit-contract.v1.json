@@ -1,0 +1,381 @@
+{
+  "artifact": "opensip.d9-exit-contract",
+  "version": 1,
+  "status": "candidate-agent-2",
+  "purpose": "Define one total host-owned process-exit contract for every CommandEnvelope kind and for long-lived protocol servers.",
+  "correctsCandidateFormula": {
+    "from": "exit = f(lifecycle, coverage, verdict)",
+    "reason": "Those axes do not exist for pre-admission failures, ordinary queries, mutations, or servers, and omit the orthogonal durability axis for admitted analysis runs.",
+    "to": "exitCode = map(HostTermination); admitted analysis derives HostTermination from lifecycle, required Coverage, verdict, durability, interruption, and required postconditions."
+  },
+  "exitClasses": [
+    {
+      "class": "success",
+      "code": 0,
+      "meaning": "The requested operation completed; an analysis passed or was advisory."
+    },
+    {
+      "class": "policy-failed",
+      "code": 1,
+      "meaning": "A valid, sufficiently covered analysis completed and project-owned policy failed."
+    },
+    {
+      "class": "request-rejected",
+      "code": 2,
+      "meaning": "Usage, configuration, admission, compatibility, lookup-address, or mutation-precondition rejection."
+    },
+    {
+      "class": "indeterminate",
+      "code": 3,
+      "meaning": "The host produced an honest terminal result but required evidence or convergence was unavailable."
+    },
+    {
+      "class": "operational-failed",
+      "code": 4,
+      "meaning": "Host, provider, protocol, integrity, durability, required-delivery, or output-materialization failure prevented the requested operation from completing reliably."
+    },
+    {
+      "class": "interrupted",
+      "code": 130,
+      "meaning": "The user interrupted the operation and cooperative cleanup ran where possible."
+    }
+  ],
+  "hostTerminationUnion": {
+    "discriminator": "class",
+    "variants": [
+      {
+        "class": "success",
+        "required": []
+      },
+      {
+        "class": "policy-failed",
+        "required": [
+          "runId"
+        ]
+      },
+      {
+        "class": "request-rejected",
+        "required": [
+          "errorCode"
+        ]
+      },
+      {
+        "class": "indeterminate",
+        "required": [
+          "reasonCodes"
+        ],
+        "optional": [
+          "runId",
+          "coverageId"
+        ]
+      },
+      {
+        "class": "operational-failed",
+        "required": [
+          "errorCode"
+        ],
+        "optional": [
+          "executionId",
+          "runId"
+        ]
+      },
+      {
+        "class": "interrupted",
+        "required": [
+          "signal"
+        ],
+        "optional": [
+          "executionId",
+          "runId"
+        ]
+      }
+    ]
+  },
+  "analysisDerivation": {
+    "requiredInputs": [
+      "lifecycle",
+      "requiredCoverage",
+      "verdict",
+      "durability",
+      "interruption",
+      "requiredPostconditions"
+    ],
+    "rulesInOrder": [
+      {
+        "when": "interruption is user-signal",
+        "termination": "interrupted"
+      },
+      {
+        "when": "the host cannot seal a coherent terminal Run because lifecycle, provider protocol, integrity, or internal execution faulted",
+        "termination": "operational-failed"
+      },
+      {
+        "when": "authoritative durability was required but the ledger/CAS commit failed, or another explicitly required postcondition failed",
+        "termination": "operational-failed"
+      },
+      {
+        "when": "snapshot convergence exhausted, required Coverage is unsatisfied, or verdict is indeterminate",
+        "termination": "indeterminate"
+      },
+      {
+        "when": "a coherent Run is sealed, required Coverage is satisfied, durability policy is satisfied, and verdict is fail",
+        "termination": "policy-failed"
+      },
+      {
+        "when": "a coherent Run is sealed, required Coverage is satisfied, durability policy is satisfied, and verdict is pass or advisory",
+        "termination": "success"
+      },
+      {
+        "when": "no rule matches",
+        "termination": "operational-failed",
+        "errorCode": "SYSTEM.OUTCOME.ILLEGAL_STATE"
+      }
+    ]
+  },
+  "nonAnalysisDerivation": {
+    "rules": [
+      "A valid empty query result is success; absence is data unless the command addresses one required identity.",
+      "Bad arguments, authored-config errors, unsupported schema majors, incompatible contributions, missing addressed identities, and failed mutation preconditions are request-rejected.",
+      "A query with an explicit completeness requirement that cannot be met is indeterminate.",
+      "Host, datastore, provider-protocol, installation-I/O, required-delivery, and output-serialization failures are operational-failed.",
+      "A mutation with a linked verification Run propagates that Run's success, policy-failed, indeterminate, or operational-failed termination while retaining the mutation receipt.",
+      "A protocol server that shuts down normally is success; a user interrupt is interrupted; a host/protocol fault is operational-failed."
+    ]
+  },
+  "invariants": [
+    "Only the host finalizer constructs HostTermination; producers return domain results, Coverage reasons, observations, or typed faults and never numeric exits.",
+    "There is one normal process-boundary map from HostTermination.class to a numeric code and one controllable process-exit write site.",
+    "For finite CLI commands, CommandEnvelope.termination.class and .exitCode equal the process termination when serialization succeeds.",
+    "FailureResult is constructible without project identity or Run identity.",
+    "A policy verdict never becomes an Error, and an operational failure never becomes a Finding.",
+    "Optional Cloud/export failure cannot alter the local Run verdict; it changes process termination only when delivery was an explicit required postcondition.",
+    "A durability failure cannot report success for an authoritative Run even when analysis verdict is pass.",
+    "Signal handlers request cancellation; they do not contain an independent business-level exit mapper.",
+    "SIGKILL and runtime failures that prevent all finalization are outside the controllable exit contract."
+  ],
+  "goldenCases": [
+    {
+      "id": "analysis-pass",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, pass",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "analysis-advisory",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, advisory",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "analysis-policy-fail",
+      "commandKind": "run",
+      "scenario": "sealed, required Coverage satisfied, authoritative durability satisfied, fail",
+      "expectedClass": "policy-failed",
+      "expectedCode": 1
+    },
+    {
+      "id": "analysis-required-coverage-missing",
+      "commandKind": "run",
+      "scenario": "sealed evidence is honest but required Coverage is missing",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "analysis-verdict-indeterminate",
+      "commandKind": "run",
+      "scenario": "sealed with an indeterminate verdict",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "analysis-snapshot-invalidated",
+      "commandKind": "run",
+      "scenario": "read-set changed and bounded re-snapshot convergence was exhausted",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "analysis-optional-provider-unavailable",
+      "commandKind": "run",
+      "scenario": "optional provider is unavailable, all required Coverage remains satisfied, verdict passes",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "analysis-required-provider-unavailable",
+      "commandKind": "run",
+      "scenario": "required provider is unavailable but the host seals Coverage and diagnostics",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "analysis-provider-protocol-prevents-seal",
+      "commandKind": "run",
+      "scenario": "a truncated or invalid provider stream prevents a coherent terminal Run",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "analysis-durability-failed",
+      "commandKind": "run",
+      "scenario": "analysis passes but authoritative ledger/CAS publication fails",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "analysis-authorized-ephemeral",
+      "commandKind": "run",
+      "scenario": "analysis passes under an explicitly non-authoritative ephemeral Plan",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "pre-admission-unknown-option",
+      "commandKind": "any",
+      "scenario": "unknown CLI option before project resolution",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "pre-admission-unsupported-schema-major",
+      "commandKind": "any",
+      "scenario": "consumer requests an unsupported CommandEnvelope schema major",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "pre-admission-invalid-config",
+      "commandKind": "any",
+      "scenario": "authored project configuration is invalid",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "pre-admission-host-io-failure",
+      "commandKind": "any",
+      "scenario": "host cannot read required installation metadata because of an operational I/O failure",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "query-empty-search",
+      "commandKind": "query",
+      "scenario": "bounded symbol search completes with zero matches",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "query-addressed-run-not-found",
+      "commandKind": "query",
+      "scenario": "runs show addresses a RunId that does not exist or is expired",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "query-required-completeness-missing",
+      "commandKind": "query",
+      "scenario": "caller explicitly requires complete graph evidence and Coverage cannot satisfy it",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "query-ledger-corrupt",
+      "commandKind": "query",
+      "scenario": "ledger or referenced CAS integrity check fails",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "repair-snapshot-conflict",
+      "commandKind": "mutation",
+      "scenario": "RepairPlan precondition rejects a worktree that moved beyond its SnapshotId",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "repair-verification-pass",
+      "commandKind": "mutation",
+      "scenario": "repair applies and linked verification Run passes",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "repair-verification-policy-fail",
+      "commandKind": "mutation",
+      "scenario": "repair applies but linked verification Run fails project policy",
+      "expectedClass": "policy-failed",
+      "expectedCode": 1
+    },
+    {
+      "id": "repair-verification-indeterminate",
+      "commandKind": "mutation",
+      "scenario": "repair applies but linked verification Run lacks required Coverage",
+      "expectedClass": "indeterminate",
+      "expectedCode": 3
+    },
+    {
+      "id": "extension-admission-rejected",
+      "commandKind": "mutation",
+      "scenario": "extension signature, compatibility, or requested capability is rejected",
+      "expectedClass": "request-rejected",
+      "expectedCode": 2
+    },
+    {
+      "id": "extension-install-io-failed",
+      "commandKind": "mutation",
+      "scenario": "admitted extension installation fails during atomic filesystem publication",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "server-clean-shutdown",
+      "commandKind": "serve",
+      "scenario": "stdio protocol server receives a normal transport close and completes cleanup",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "server-protocol-host-failure",
+      "commandKind": "serve",
+      "scenario": "host protocol loop fails unexpectedly",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "user-interrupt",
+      "commandKind": "any",
+      "scenario": "SIGINT requests cancellation and the host reaches its finalizer",
+      "expectedClass": "interrupted",
+      "expectedCode": 130
+    },
+    {
+      "id": "optional-cloud-egress-failed",
+      "commandKind": "run",
+      "scenario": "local authoritative Run passes and optional Cloud export fails",
+      "expectedClass": "success",
+      "expectedCode": 0
+    },
+    {
+      "id": "required-delivery-failed",
+      "commandKind": "run",
+      "scenario": "local authoritative Run passes but an explicitly required delivery postcondition fails",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    },
+    {
+      "id": "machine-output-serialization-failed",
+      "commandKind": "any",
+      "scenario": "the requested CommandEnvelope cannot be serialized or atomically written",
+      "expectedClass": "operational-failed",
+      "expectedCode": 4
+    }
+  ],
+  "peerReviewRequired": [
+    "Confirm that snapshot invalidation after bounded convergence is indeterminate rather than operational-failed.",
+    "Confirm that an addressed missing identity and a mutation precondition conflict are request-rejected while an empty collection query is success.",
+    "Confirm that optional egress is diagnostic-only but explicitly required delivery is operational-failed.",
+    "Confirm that authorized ephemeral analysis may return success but cannot back a baseline, CI attestation, or durable replay."
+  ]
+}

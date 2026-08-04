@@ -1,0 +1,1176 @@
+{
+ "artifact": "opensip.evaluation-proof",
+ "version": 11,
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewState": "AWAITING-INDEPENDENT-REVIEW",
+ "author": "evaluation-proof v11 authoring lane; successor to the REJECTED evaluation-proof.v10.json",
+ "date": "2026-08-03",
+ "claimId": "EVIDENCE",
+ "role": "Repair the blocking finding of ep10.review-independent.json: establish ANSWER provenance for the C-2 authority join rather than CALL provenance. v11 supersedes the proof obligations of evaluation-proof.v10.json and takes no authority from it, but it does PRESERVE by execution — not by transcription — every measurement that review independently verified.",
+ "supersedesProofObligationsOf": "evaluation-proof.v10.json",
+ "predecessor": {
+  "file": "evaluation-proof.v10.json",
+  "sha256": "ba023d7eab2b9ed5f0aad49b103f77775b748dce1e706cfc46d4eee22b984cb8",
+  "verdict": "REJECT",
+  "review": "ep10.review-independent.json",
+  "reviewSha256": "854c3defe17528ed237a3b1185ab61d1fc2a8e33ff9e282f631982a6235a8a55",
+  "blockersAddressed": [
+   "IR-EP10-01"
+  ],
+  "nonBlockingObservationsAddressed": [
+   "IR-EP10-NB-01",
+   "IR-EP10-NB-02",
+   "IR-EP10-NB-03",
+   "IR-EP10-NB-04",
+   "IR-EP10-NB-05",
+   "IR-EP10-NB-06",
+   "IR-EP10-NB-07",
+   "IR-EP10-NB-08"
+  ],
+  "whatV11TakesFromIt": "Its retracted text, quoted verbatim from the named subject so each retraction demonstrably targets the pinned bytes; and its EXECUTABLE, hash-verified and run from that verified snapshot, so the measurements the review upheld are reproduced rather than re-asserted. No byte of it is transcribed. The positive vectors are taken from evaluation-proof.v8.json, which carries a PASSING independent review, and both rejected predecessors' vectors are required to agree with EP8's.",
+  "surviveUnchanged": [
+   "the two-regime admitted-set measurement and both regimes' admitted sets",
+   "the frozenPlanIntent.analysis.admissionDescriptor.schemaVersion position and its six moved identities",
+   "the producer-consistency rejection of the activation manifest and the seal",
+   "the differential oracle retained as a second layer with isSufficientAlone false, including its finding that the ep9 reviewer's own recommended remedy would not have sufficed",
+   "the 14-intent legal-variant family and its injectivity measurement",
+   "the LB-C2-01 probe family as a control and not as the guard",
+   "hash-verify-then-execute-from-the-verified-snapshot ordering",
+   "non-circular commitment verification, now measured: this checker's text carries exactly its pin digests and no other 64-hex literal",
+   "a live --selftest with a distinct 0/1/2/3 exit matrix and dirty-base refusal",
+   "no paper seals"
+  ]
+ },
+ "retractions": [
+  {
+   "id": "RET-EP11-01",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subjectFile": "evaluation-proof.v10.json",
+   "subjectPath": "$.repairs[1]",
+   "subject": "evaluation-proof.v10.json repairs[REP-EP10-2], which claims to clear IR-EP9-02",
+   "retractedText": "a per-call served-module ledger installed on BOTH C-2 module objects",
+   "statement": "FALSE. The six published requirements quantify over CALLS RECORDED IN A WINDOW. They establish which module was CALLED; they do not establish whose answer was used. A join controls what it calls, so it can call the repaired module correctly, with the right argument, and have the call faithfully recorded, and then return the superseded module's answer. These rules bind which module was called and not whose answer was used. The result is that because the repaired result was discarded. Rule R-5 binds one value, the commitment object, and there is no rule at all for the validation verdict — which is the gate, because the join returns early on any finding and LB-C2-01 lives exactly in accept/reject. MEASURED, not argued: variant AX2 is rebuilt here inside the route region and every one of the six rules is green while it runs; call provenance reports no finding for it and the answer-provenance guard is its only catcher.",
+   "howEstablished": "evasionMeasurement builds and EXECUTES AX2 on every ordinary run and scores every declared guard against it separately; the per-guard matrix is published as measured."
+  },
+  {
+   "id": "RET-EP11-02",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subjectFile": "evaluation-proof.v10.json",
+   "subjectPath": "$.c2AuthorityRepairJoin.howTheOuterGateIsEstablished",
+   "subject": "evaluation-proof.v10.json c2AuthorityRepairJoin.howTheOuterGateIsEstablished",
+   "retractedText": "behaviourally, by the served-module ledger, not by an AST scan and not by a fixed probe family.",
+   "statement": "FALSE as a statement about the outer gate. What the served-module ledger establishes behaviourally is call provenance: that the calls the join made went into the repaired module. The outer gate is the accept/reject decision and the commitment the checker then acts on, and the ledger binds neither of them except for the commitment object. v11 separates the two properties by name — callProvenance and answerProvenance — states for each what it establishes and what it does not, and makes the second the load-bearing one. answer provenance is what the outer gate needs; call provenance is what v10 measured.",
+   "howEstablished": "the two properties are measured by two different guards on every ordinary run and each publishes its own whatThisDoesNotEstablish, which the checker enforces by content."
+  },
+  {
+   "id": "RET-EP11-03",
+   "disposition": "RETRACTED-AS-FALSE",
+   "subjectFile": "check-evaluation-proof-v10.py",
+   "subjectPath": "$",
+   "subject": "check-evaluation-proof-v10.py's green banner line",
+   "retractedText": "ROUTING ESTABLISHED BEHAVIOURALLY: {route['observedCalls']} C-2 calls \"\n          f\"observed PER CALL across {route['vectorsDriven']} pinned vectors; \"",
+   "statement": "The banner headline ROUTING ESTABLISHED BEHAVIOURALLY is overstated and is retracted as false. What was established behaviourally is that 28 calls were observed and none was served by the superseded module. Routing, in the sense the sentence is read — that the answers the checker acted on came from the repaired instrument — was not established, and the measured counterexample is AX2. v11's banner states the two properties separately and prints the call-provenance line with the words 'and no more than that'.",
+   "howEstablished": "the retracted text is a verbatim fragment of the pinned predecessor checker's own bytes, located in the verified snapshot rather than quoted from memory."
+  }
+ ],
+ "repairs": [
+  {
+   "id": "REP-EP11-1",
+   "title": "Establish ANSWER provenance, not call provenance",
+   "clears": "IR-EP10-01",
+   "how": "answer_provenance_guard rules A-1..A-6: an independent instance of check-c2-v4.py exec'd inside the guard from the verified snapshot and unreachable from the route region; object identity against a PRIVATE witness rather than the reachable shared ledger; and sentinel-flow dependence measured in both directions by poisoning every reachable spelling of an api and requiring the answer to follow the repaired module and to ignore the superseded one."
+  },
+  {
+   "id": "REP-EP11-2",
+   "title": "Build the reviewer's evasion and three further answer substitutions",
+   "clears": "IR-EP10-01",
+   "how": "AX2 rebuilt exactly, plus verdict-only, commitment-only and family-split substitutions, plus a differential sentinel detector that defeats A-3 and A-4, plus two guard-tamper variants and the object attacks ep10.review-independent.json built by hand; 19 variants built and EXECUTED on every ordinary run with every guard scored separately."
+  },
+  {
+   "id": "REP-EP11-3",
+   "title": "Publish a complete guard inventory including sole guards",
+   "clears": "IR-EP10-NB-05",
+   "how": "guardInventory names every guard, what it establishes, whether it reads source, and its blind spot; the sole-guard set is MEASURED from the per-variant matrix and a guard that is sole for a class this run measured must publish isSoleGuardForSomeClass=true."
+  },
+  {
+   "id": "REP-EP11-4",
+   "title": "Enforce residual CONTENT, not the presence of an identifier",
+   "clears": "IR-EP10-NB-02",
+   "how": "every residual carries a declared minimum length and declared content anchors, both enforced; two selftest mutations gut a residual to a bare identifier and a third hollows one of its disclosure."
+  },
+  {
+   "id": "REP-EP11-5",
+   "title": "Make retractedText a substantive fragment of the NAMED subject",
+   "clears": "IR-EP10-NB-01",
+   "how": "each retraction declares subjectFile and subjectPath; the fragment must be at least 60 characters and must occur inside the resolved subject of the pinned predecessor, source or JSON."
+  },
+  {
+   "id": "REP-EP11-6",
+   "title": "Enumerate the silent accepts instead of counting them",
+   "clears": "IR-EP10-NB-03",
+   "how": "both wire surfaces publish every silently-accepted position and the enumeration is required to match this run's exactly and to agree with its own cardinality."
+  },
+  {
+   "id": "REP-EP11-7",
+   "title": "Disclose the ledger's accidental per-API asymmetry",
+   "clears": "IR-EP10-NB-04",
+   "how": "RES-EP11-14 states it and two variants measure it: AX5 leaks a depth-1 superseded entry and is caught by call provenance, AX4 substitutes the commitment without leaking and is caught by answer provenance alone."
+  }
+ ],
+ "answerProvenance": {
+  "property": "for every pinned vector, each value the join returns and the checker acts on — the validation verdict above all, plus the commitment and the canonical preimage — is the value the repaired module produced for that PlanIntent",
+  "establishesCallProvenanceOnly": false,
+  "isSoleGuardForAnswerProvenance": true,
+  "readsSource": false,
+  "independentPathIsUnreachable": "the repaired instance the guard measures against is exec'd inside answer_provenance_guard from the verified byte snapshot, re-hashed against the pin before execution, and held only in that frame. It is not installed in the ledger, not stored on the Authority, not bound to any module global and never passed to the route region. The expected values are computed AFTER the join has been driven, so while the route region runs they do not exist anywhere in the process.",
+  "rules": [
+   {
+    "id": "A-1",
+    "name": "independent value",
+    "how": "the guard exec's check-c2-v4.py a SECOND time from the verified byte snapshot into a module object created inside the guard and held only in its frame — never installed in the ledger, never stored on the Authority, never bound to a module global, never passed to the route region — and computes the answer over a private deep copy of the vector's PlanIntent, a private parse of the pinned contract and a private relation set. The join's returned value must equal it type-exactly.",
+    "establishes": "the VALUE the join returned is the value the repaired module produces for this PlanIntent.",
+    "doesNotEstablish": "that the value CAME FROM it. Two modules that agree on an input satisfy A-1 either way, which is exactly why a differential oracle — an A-1-shaped instrument — missed the blocking evasion. Measured here: the decoy-call control satisfies A-1 21 times out of 21."
+   },
+   {
+    "id": "A-2",
+    "name": "returned-object provenance",
+    "how": "each returned value must BE, by object identity, the result of a call recorded by the guard's PRIVATE witness at depth 0 against the repaired tag, for the same api, over this vector's PlanIntent fingerprint. The witness is not the shared served-module ledger: the shared ledger is reachable from the route region and can be told a call happened that did not.",
+    "establishes": "the OBJECT the join returned is an object the repaired module produced for THIS input. A call whose result is discarded returns a foreign object and fails here.",
+    "doesNotEstablish": "anything against a route region that reaches the private witness itself. Variants AX6 and AX9 do exactly that and defeat this rule; only the introspection tripwire is left."
+   },
+   {
+    "id": "A-3",
+    "name": "sentinel flow, repaired module poisoned",
+    "how": "every reachable spelling of the repaired module's api — the module attribute AND the ledger's own unwrapped original — is replaced by a function returning a per-run unpredictable sentinel, and the join is driven again. The value returned must BECOME the sentinel.",
+    "establishes": "CAUSAL DEPENDENCE: the answer flows from the repaired module. It trusts no record at all, so no forged ledger entry helps, and a decoy call that throws the sentinel away fails it.",
+    "doesNotEstablish": "dependence for any input other than the pinned vectors, and nothing against a route region that DETECTS the sentinel differentially — variant AX8 does, and is caught by A-2 instead."
+   },
+   {
+    "id": "A-4",
+    "name": "sentinel flow, superseded module poisoned",
+    "how": "symmetrically, every reachable spelling of the superseded module's api is sentinel-poisoned and the join driven again. The value must be UNCHANGED and must still equal A-1's independent value.",
+    "establishes": "NON-dependence on the superseded module: a join that returns check-c2.py's answer returns the sentinel here.",
+    "doesNotEstablish": "non-dependence on any third source of answers that is neither of the two pinned C-2 modules."
+   },
+   {
+    "id": "A-5",
+    "name": "the gate",
+    "how": "the validation verdict is measured as its own value for every vector, including when it is a rejection, and the accept/reject gate the join acts on is required to be the gate the independent instance computes.",
+    "establishes": "the accept/reject decision — where LB-C2-01 lives, and the value v10's join discarded on any finding — is the repaired module's decision.",
+    "doesNotEstablish": "that the repaired module's decision is correct; see RES-EP11-09."
+   },
+   {
+    "id": "A-6",
+    "name": "aggregate and liveness",
+    "how": "vectors covered, apis covered per vector and the count for each rule are measured and published, and a rule that could not be EVALUATED is a finding rather than an omission. A positive control drives two deliberately substituted joins through the same guard on every ordinary run and requires findings from both.",
+    "establishes": "that the guard was live and discriminating on this run rather than silently passing everything.",
+    "doesNotEstablish": "coverage of any evasion class not built. Nineteen are built and executed; that is a measurement over nineteen."
+   }
+  ],
+  "vectors": 7,
+  "apisPerVector": 3,
+  "expectedPerRuleTotal": 21,
+  "independentValueAgreements": 21,
+  "objectProvenanceAgreements": 21,
+  "sharedLedgerAgreements": 21,
+  "repairedSentinelFlowed": 21,
+  "supersededSentinelIgnored": 21,
+  "gateAgreements": 7,
+  "evaluationErrors": 0,
+  "positiveControl": {
+   "decoyCall": {
+    "producesFindings": true,
+    "findingCount": 21,
+    "independentValueAgreements": 21,
+    "objectProvenanceAgreements": 14,
+    "sharedLedgerAgreements": 14,
+    "repairedSentinelFlowed": 14,
+    "supersededSentinelIgnored": 14
+   },
+   "forgedLedgerEntry": {
+    "producesFindings": true,
+    "findingCount": 21,
+    "independentValueAgreements": 21,
+    "objectProvenanceAgreements": 14,
+    "sharedLedgerAgreements": 21,
+    "repairedSentinelFlowed": 14,
+    "supersededSentinelIgnored": 14
+   },
+   "bothProduceFindings": true
+  },
+  "positiveControlNote": "the decoy-call join satisfies A-1 at every one of the 21 answers and still produces 21 findings, which is the measurement that shows value equality alone cannot see the blocking evasion. The forged-ledger join has the SHARED served-module ledger agreeing where the guard's private witness agrees for none, which is the measurement that shows why A-2 does not read the shared ledger."
+ },
+ "callProvenance": {
+  "mechanism": "a per-call served-module ledger installed on BOTH C-2 module objects at load time; the tag is fixed at install time from the module the wrapper was installed on",
+  "readsSource": false,
+  "isSufficientAlone": false,
+  "requirements": [
+   "R-1 the ledger window for each vector is NON-EMPTY (a silent instrument fails closed)",
+   "R-2 every call the join MADE inside the window was served by the repaired module. This is call provenance and nothing more: it does not say the result of any of those calls was used",
+   "R-3 every depth-0 call carries the fingerprint of THIS vector's PlanIntent",
+   "R-4 all three imported APIs are observed at depth 0 for the vector",
+   "R-5 the join's gate for the vector is ACCEPT",
+   "R-6 the distinct fingerprints observed equal the measured distinct intents driven, and zero superseded-module calls occur in any authority-join window"
+  ],
+  "whatThisEstablishes": "which module was CALLED, for which argument, at which depth, across which APIs. It catches a join that reaches C-2 by a route the ledger cannot observe, one served by the superseded module, one whose calls are not bound to the pinned vector, and one that is only partly re-pinned.",
+  "whatThisDoesNotEstablish": "which module was CALLED is not whose answer was used, and these rules establish the first and not whose answer was used. A call can be made correctly and its result discarded, and every rule above stays green. Measured on this run: call provenance reports no finding for AX2, AX3, AX4 or AX8, each of which returns the superseded module's answer for every real pinned vector. v10 published this guard under the headline ROUTING ESTABLISHED BEHAVIOURALLY and its whatThisDoesNotEstablish omitted exactly this; the omission was the blocking finding.",
+  "vectorsDriven": 7,
+  "distinctIntentsDriven": 1,
+  "observedCalls": 28,
+  "depthZeroCalls": 21,
+  "distinctFingerprintsObserved": 1,
+  "supersededCallsInsideJoin": 0
+ },
+ "guardInventory": {
+  "why": "IR-EP10-NB-05: the predecessor published astOnlyProperties as measured-empty while carrying an undisclosed sole guard of a different kind. Every guard this instrument runs is listed here with what it establishes and what it cannot see, and the sole-guard set is measured from this run's per-variant matrix rather than declared.",
+  "claimsTotalCoverage": false,
+  "guards": [
+   {
+    "id": "answerProvenance",
+    "mechanism": "answer_provenance_guard, rules A-1..A-6",
+    "readsSource": false,
+    "establishes": "for every pinned vector, that each of the three values the join returns and the checker acts on is the value the repaired module produced for that PlanIntent — by independent recomputation, by object identity against a private witness, and by causal sentinel flow in both directions.",
+    "isSoleGuardForSomeClass": true,
+    "blindSpot": "it models a hostile ROUTE REGION, not a hostile guard. A route region that reaches the guard's private witness by walking the call stack defeats every one of its rules; AX6 and AX9 do, and are caught only by the introspection tripwire. It also says nothing about inputs other than the seven pinned vectors, and provenance is not correctness."
+   },
+   {
+    "id": "callProvenance",
+    "mechanism": "call_provenance_guard, rules R-1..R-6 over the served-module ledger (v10's rules, restated for what they show)",
+    "readsSource": false,
+    "establishes": "that the C-2 calls the join MADE for each pinned vector went into the repaired module, at depth 0, over that vector's PlanIntent, across all three imported APIs, with a non-empty window and no superseded call.",
+    "isSoleGuardForSomeClass": false,
+    "blindSpot": "it observes CALLS. It cannot see whose answer was used, and it is green for AX2, AX3, AX4 and AX8 — every variant that calls correctly and returns someone else's answer. Its practical reach against a hidden call is also asymmetric by accident of the pinned modules' internal call graph; see RES-EP11-14."
+   },
+   {
+    "id": "differentialOracle",
+    "mechanism": "plan_intent_surface: both instruments driven over the live leaf-inclusive census, the repaired reference answer computed on the guard's private instance",
+    "readsSource": false,
+    "establishes": "that the join's verdict equals the repaired instrument's at every enumerated position of the census, and it is the only guard here that reaches beyond the seven pinned vectors.",
+    "isSoleGuardForSomeClass": true,
+    "blindSpot": "it can only witness a defect where the two instruments DISAGREE. Its measured discriminating cardinality on this census is 4, and every whitelisting variant routes exactly those four to the repaired module. It is blind to AX2, AX4, AX5 and AX8, and it compares values only, never provenance."
+   },
+   {
+    "id": "supersededCrossCheck",
+    "mechanism": "the delegate's superseded_cross_check: the independent reproduction must really be served by the superseded module",
+    "readsSource": false,
+    "establishes": "that the cross-check half of the evidence is independent — that the module answering under the superseded tag is the superseded module.",
+    "isSoleGuardForSomeClass": false,
+    "blindSpot": "it reads the ledger's TAGS, so it sees a forged recorder and a de-installed ledger but not a tag forgery in which the cross-check's own module is left consistent. It was the sole catcher of two classes in ep10.review-independent.json and appeared in no published guard list at all; that omission is IR-EP10-NB-05 and this inventory exists to repair it."
+   },
+   {
+    "id": "c2RouteScan",
+    "mechanism": "c2_route_scan, a source tripwire",
+    "readsSource": true,
+    "establishes": "that no top-level function outside the declared join and measurement closure names a C-2 API, and that every C-2 site inside the join routes through an Authority accessor.",
+    "isSoleGuardForSomeClass": false,
+    "blindSpot": "it sees an identifier inside a top-level FunctionDef. It cannot see which module an accessor returns, it cannot see whose answer was used, and it is blind to every object-level attack because those change no source. Measured blind: it misses 9 of the 12 source variants built here."
+   },
+   {
+    "id": "introspectionScan",
+    "mechanism": "route_introspection_scan over the WHOLE route region text",
+    "readsSource": true,
+    "establishes": "that the route region names no primitive by which it could read or rewrite the guard's private state.",
+    "isSoleGuardForSomeClass": true,
+    "blindSpot": "it is an ENUMERATION of spellings, and an enumeration is not a proof. A spelling it does not name would reach the private witness undetected. Two tamper variants are built against it and both are caught; that is evidence about those two. Its behavioural counterpart, global_binding_probe, covers only rebinding of module-level functions, not frame writes."
+   }
+  ],
+  "perGuardCatchCount": {
+   "answerProvenance": 14,
+   "callProvenance": 10,
+   "differentialOracle": 9,
+   "supersededCrossCheck": 2,
+   "c2RouteScan": 3,
+   "introspectionScan": 3
+  },
+  "soleGuardVariants": [
+   {
+    "variant": "AX2-decoy-call-superseded-answer",
+    "soleGuard": "answerProvenance"
+   },
+   {
+    "variant": "AX4-commitment-only-substitution",
+    "soleGuard": "answerProvenance"
+   },
+   {
+    "variant": "AX6-stack-walking-witness-forgery",
+    "soleGuard": "introspectionScan"
+   },
+   {
+    "variant": "AX8-differential-sentinel-detector",
+    "soleGuard": "answerProvenance"
+   },
+   {
+    "variant": "AX9-obfuscated-witness-forgery",
+    "soleGuard": "introspectionScan"
+   },
+   {
+    "variant": "tag-forgery-at-install",
+    "soleGuard": "differentialOracle"
+   }
+  ],
+  "answerProvenanceOnlyCatches": [
+   "AX2-decoy-call-superseded-answer",
+   "AX4-commitment-only-substitution",
+   "AX8-differential-sentinel-detector"
+  ],
+  "whatNoGuardHereCovers": [
+   "a mutation outside the route region: the guards themselves, the pin table, the checking layer. Instrument removal is not excluded by any self-check.",
+   "inputs other than the seven pinned vectors, for every rule except the differential oracle's value equality over the census.",
+   "the correctness of check-c2-v4.py; see RES-EP11-09.",
+   "what any other consumer of EP6/EP8 routes; see RES-EP11-01."
+  ]
+ },
+ "evasionMeasurement": {
+  "measurementRule": "every variant is BUILT AND EXECUTED on every ordinary run and every guard is scored against it separately. The unflattering cells are published as measured, because refusing to state them is precisely the coverage claim over an unobserved region this corpus keeps shipping.",
+  "sourceVariantScope": "each source variant replaces ONLY the text between # ROUTE-REGION-BEGIN and # ROUTE-REGION-END; prefix and suffix are the checker's own bytes.",
+  "variantsDeclared": 19,
+  "variantsBuilt": 19,
+  "sourceVariantsBuilt": 12,
+  "objectAttacksBuilt": 7,
+  "caughtByAtLeastOneGuard": 19,
+  "escapedEveryGuard": [],
+  "declaredBlindSpotVariants": [],
+  "guardTamperOutcome": [
+   {
+    "variant": "AX6-stack-walking-witness-forgery",
+    "caughtBy": [
+     "introspectionScan"
+    ],
+    "defeatedAnswerProvenance": true
+   },
+   {
+    "variant": "AX9-obfuscated-witness-forgery",
+    "caughtBy": [
+     "introspectionScan"
+    ],
+    "defeatedAnswerProvenance": true
+   }
+  ],
+  "perVariant": [
+   {
+    "variant": "AX2-decoy-call-superseded-answer",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "AX3-verdict-only-substitution",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "AX4-commitment-only-substitution",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "AX5-probe-family-split-answers",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "AX8-differential-sentinel-detector",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "AX6-stack-walking-witness-forgery",
+    "class": "source",
+    "answerProvenance": false,
+    "callProvenance": false,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": true
+   },
+   {
+    "variant": "AX9-obfuscated-witness-forgery",
+    "class": "source",
+    "answerProvenance": false,
+    "callProvenance": false,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": true
+   },
+   {
+    "variant": "forged-ledger-entry-replay",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": true,
+    "introspectionScan": false
+   },
+   {
+    "variant": "R1-probe-whitelist-direct-module",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": true,
+    "introspectionScan": false
+   },
+   {
+    "variant": "R4-probe-whitelist-accessor-routed",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "accessor-c2v3",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "getattr-indirection",
+    "class": "source",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": true,
+    "introspectionScan": true
+   },
+   {
+    "variant": "poisoned-accessor",
+    "class": "object",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "unwrapped-module",
+    "class": "object",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": false,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "deinstalled-ledger",
+    "class": "object",
+    "answerProvenance": false,
+    "callProvenance": true,
+    "differentialOracle": false,
+    "supersededCrossCheck": true,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "getattr-proxy-accessor",
+    "class": "object",
+    "answerProvenance": true,
+    "callProvenance": true,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "tag-forgery-at-install",
+    "class": "object",
+    "answerProvenance": false,
+    "callProvenance": false,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "superseded-backed-shim",
+    "class": "object",
+    "answerProvenance": false,
+    "callProvenance": true,
+    "differentialOracle": true,
+    "supersededCrossCheck": false,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   },
+   {
+    "variant": "monkeypatched-recorder",
+    "class": "object",
+    "answerProvenance": true,
+    "callProvenance": false,
+    "differentialOracle": true,
+    "supersededCrossCheck": true,
+    "c2RouteScan": false,
+    "introspectionScan": false
+   }
+  ],
+  "headline": "the answer-substitution class — a real, recorded, correctly argumented call into the repaired module whose result is discarded — is caught by the answer-provenance guard and by nothing else this instrument runs. Under the predecessor it was caught by nothing at all."
+ },
+ "differentialOracle": {
+  "role": "RETAINED as an independent second layer over the live leaf-inclusive census, NOT as the routing guard and NOT as the answer-provenance guard",
+  "isSufficientAlone": false,
+  "computedOnPrivateInstance": true,
+  "drives": "the join and an independently instantiated repaired instrument over every enumerated position of the pinned PlanIntent, requiring the join's answer to equal the repaired instrument's at every position",
+  "executedCases": 1656,
+  "joinVsRepairedMismatches": 0,
+  "discriminatingCardinality": 4,
+  "discriminatingPositions": [
+   "$.schemaVersion=json-true",
+   "$.schemaVersion=json-float-one",
+   "$.analysis.admissionDescriptor.schemaVersion=json-true",
+   "$.analysis.admissionDescriptor.schemaVersion=json-float-one"
+  ],
+  "whyNotSufficient": "it can only witness a defect where the two instruments DISAGREE, its measured discriminating cardinality on this census is 4, and every whitelisting variant routes exactly those four to the repaired module. Measured this run: blind to AX2, AX4, AX5 and AX8."
+ },
+ "preservedMeasurements": {
+  "method": "check-evaluation-proof-v10.py is pinned by SHA-256, read once as inert bytes, verified, and EXECUTED from that verified in-memory snapshot. The measurements ep10.review-independent.json verified by independent re-derivation are neither transcribed nor rebuilt: they are produced here by the same bytes, and the pinned v10 candidate is additionally driven through v10's own checking layer on this run and required to produce zero findings.",
+  "why": "ep10.review-independent.json UPHELD these by independent re-derivation. Rebuilding them in a new spelling would put that verification at risk for no gain, and transcribing a rejected predecessor's bytes is not permitted. Executing its verified bytes is neither.",
+  "delegateSourceCacheSeeded": true,
+  "predecessorCheckingLayerFindings": 0,
+  "regimes": {
+   "A": {
+    "enumeratedPaths": 345,
+    "containerPaths": 93,
+    "scalarLeafPaths": 252,
+    "executedCases": 504,
+    "noOpInjections": 0,
+    "rejectedCount": 496,
+    "admittedCount": 8,
+    "admitted": [
+     {
+      "position": "$.activationManifest.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.activationManifest.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthoritySeal.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthoritySeal.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     }
+    ],
+    "baseline": {
+     "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358",
+     "admissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+     "indexFingerprint": "sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689",
+     "receiptCasRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+     "resolvedCasRef": "sha256:22b1a27031516ab43c1e7a0693c58d5e097665dfc0ce71ea2c4be044563c86e6",
+     "admissionCasRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78"
+    },
+    "regime": "A"
+   },
+   "B": {
+    "enumeratedPaths": 164,
+    "containerPaths": 51,
+    "scalarLeafPaths": 113,
+    "executedCases": 226,
+    "noOpInjections": 0,
+    "rejectedCount": 217,
+    "admittedCount": 9,
+    "admitted": [
+     {
+      "position": "$.admittedResolvedInputs.frozenPlanIntent.analysis.admissionDescriptor.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.frozenPlanIntent.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.snapshotDescriptor.entries[0].executable=json-true",
+      "classification": "legal-variant",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.admittedResolvedInputs.snapshotDescriptor.vcsState.sparseCheckout.enabled=json-true",
+      "classification": "legal-variant",
+      "movedIdentities": [
+       "evaluationAuthoritySealRef",
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "resolvedCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.evaluationAuthorityAdmission.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.planAuthorityReceipt.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [
+       "admissionRef",
+       "indexFingerprint",
+       "receiptCasRef",
+       "admissionCasRef"
+      ],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-float-one",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     },
+     {
+      "position": "$.schemaVersion=json-true",
+      "classification": "type-distinct-one",
+      "movedIdentities": [],
+      "storeContinuity": true,
+      "coldReconstructed": true
+     }
+    ],
+    "baseline": {
+     "evaluationAuthoritySealRef": "sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358",
+     "admissionRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78",
+     "indexFingerprint": "sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689",
+     "receiptCasRef": "sha256:48f3ad239dad96a14030cfd72699858d787b9743cceaee50fff86a880e4b365e",
+     "resolvedCasRef": "sha256:22b1a27031516ab43c1e7a0693c58d5e097665dfc0ce71ea2c4be044563c86e6",
+     "admissionCasRef": "sha256:3a31b3ec0d3729c035e9a2e79b809e29eab67612832a05d9035bc80fee3d8b78"
+    },
+    "regime": "B"
+   }
+  },
+  "identityMovingPositions": 5,
+  "identityMovingUnderByteIdenticalSeal": 3,
+  "identityMovingNote": "MEASURED, NOT REPAIRED — RES-EP11-07.",
+  "planIntentCommitmentStability": {
+   "vectors": 7,
+   "recomputedUnderV4": 7,
+   "reproducedUnderSupersededEncoder": 7,
+   "preimageByteIdentical": 7,
+   "distinctCommitments": [
+    "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85"
+   ],
+   "preimageByteLengths": [
+    2463
+   ],
+   "distinctFrozenPlanIntents": 1,
+   "distinctPlanDescriptors": 1
+  },
+  "distinctIntentFamily": {
+   "declaredPerturbations": 13,
+   "acceptedByRepairedInstrument": 14,
+   "distinctIntentsDriven": 14,
+   "rejectedPerturbations": 0,
+   "distinctCommitments": 14,
+   "injective": true,
+   "reproducedUnderSupersededEncoder": 14,
+   "preimageByteIdentical": 14
+  },
+  "lbC201ProbeFamily": {
+   "cases": 8,
+   "repairedAdmitted": 0,
+   "supersededAdmitted": 4,
+   "secondDigests": 2,
+   "admitThenRaise": 2,
+   "discriminatingCardinality": 4
+  },
+  "predecessorEvasionBattery": {
+   "variantsBuilt": 11,
+   "caughtByAstTripwire": 6,
+   "missedByAstTripwire": 2,
+   "caughtByDifferentialOracle": 7,
+   "missedByDifferentialOracle": 4,
+   "caughtByRoutingLedger": 11
+  }
+ },
+ "c2AuthorityJoin": {
+  "sourceArtifact": "c2-plan-stage-schema.v4.json",
+  "sourceSha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+  "checker": "check-c2-v4.py",
+  "checkerSha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+  "importedCheckerApis": [
+   "validate_plan_intent",
+   "plan_intent_commitment",
+   "canonical_plan_intent"
+  ],
+  "factPlaneArtifact": "fact-plane.v1.json",
+  "factPlaneSha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+  "expectedPlanIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+  "authorityRule": "v11 is the authority for this join. The commitment above is NEVER read as a literal: it is recomputed through the repaired instrument, reproduced under the superseded independent encoder, and required to be a member of this run's recomputed set. This checker's own text is measured to carry exactly its pin digests and no other 64-hex literal."
+ },
+ "c2AuthorityRepairJoin": {
+  "repairedContract": "c2-plan-stage-schema.v4.json",
+  "repairedContractSha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+  "repairedChecker": "check-c2-v4.py",
+  "repairedCheckerSha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+  "supersededContract": "c2-plan-stage-schema.v3.json",
+  "supersededContractSha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285",
+  "supersededChecker": "check-c2.py",
+  "supersededCheckerSha256": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3",
+  "repairAuthorisedBy": "c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+  "repairAuthorisedBySha256": "c74612ef4519750aa529db543c2f0cc81fce50d57c3d636486fd2f0ddc0c41f3",
+  "inheritedDefect": "LB-C2-01",
+  "ep6InnerJoinResidualId": "RES-EP11-01",
+  "ep6InnerJoinResidual": "v11 does not repair check-evaluation-proof-v6.py. EP6's inner C-2 join still executes against the defective check-c2.py bytes underneath EP8. v11 is a strictly stronger OUTER gate over it, not a replacement of its internals, and closing the inner join requires a v6 successor.",
+  "howTheOuterGateIsEstablished": "by ANSWER provenance: for every pinned vector the verdict, the commitment and the canonical preimage the join acts on are each shown to be the repaired module's own value, by independent recomputation on an unreachable instance, by object identity against a private witness, and by causal sentinel flow in both directions. The served-module ledger is retained beside it and establishes call provenance only."
+ },
+ "astScanScope": {
+  "isSoleGuardForAnyProperty": false,
+  "astOnlyProperties": [],
+  "routingScanCannotSeeWhichModuleServes": true,
+  "routingScanCannotSeeWhoseAnswerIsUsed": true,
+  "declaredScope": "each scan sees an ast node inside a top-level FunctionDef, except the introspection scan, which parses the whole route region text so that a helper the region defines is scanned too. No scan can see which module an accessor returns and no scan can see whose ANSWER the join used; that second blind spot is the whole of ep10.review-independent.json's blocking finding and is why the load-bearing guard here reads no source.",
+  "scans": [
+   {
+    "id": "c2-route",
+    "isTripwire": true,
+    "guardedProperty": "which top-level functions name a C-2 API and whether every C-2 site inside the join routes through an Authority accessor",
+    "behaviouralCounterpart": "answer_provenance_guard: A-1..A-5 over every pinned vector, reading no source at all",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "route-introspection",
+    "isTripwire": true,
+    "guardedProperty": "the route region names no primitive by which it could read or rewrite the guard's private state",
+    "behaviouralCounterpart": "global_binding_probe: every module-level function binding fingerprinted by object identity across the drive",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "selftest-dispatch",
+    "isTripwire": true,
+    "guardedProperty": "exactly one flag-guarded selftest dispatch positioned before any findings return",
+    "behaviouralCounterpart": "exit_matrix_probe: main() driven in-process, observing the declared exit codes behaviourally",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "integer-guard",
+    "isTripwire": true,
+    "guardedProperty": "no bare numeric comparison between a wire-sourced expression and a numeric literal",
+    "behaviouralCounterpart": "own_constant_leaf_battery: every int/bool scalar leaf of the candidate replaced by a type-distinct value and the whole checking layer re-run",
+    "counterpartExecutionWindow": "every ordinary run"
+   },
+   {
+    "id": "non-circularity",
+    "isTripwire": true,
+    "guardedProperty": "this checker's own text contains no digest literal that is not a pin",
+    "behaviouralCounterpart": "the declared commitment is compared against the digest-pinned EP8 artifact AND required to be a member of the set recomputed on this run",
+    "counterpartExecutionWindow": "every ordinary run"
+   }
+  ],
+  "nonCircularity": {
+   "rule": "no 64-hex literal may appear in this checker's own text that is not a pinned digest, so no literal in the instrument can make a candidate pass out of the instrument's own bytes",
+   "uniqueHexLiterals": 27,
+   "pinnedDigests": 27,
+   "literalsThatAreNotPins": []
+  },
+  "ownConstantLeafBattery": {
+   "declaredScope": "reads NO source. Every int/bool scalar leaf of this candidate is replaced in turn by JSON true, JSON false and JSON 1.0 and the COMPLETE checking layer is re-run.",
+   "executionWindow": "every ordinary run",
+   "silentlyAdmittedRule": "a leaf this checker constrains must produce a finding when the checking layer is re-run over the mutated candidate. A leaf it does not constrain IN THAT NESTED MODE is enumerated here and the set must match exactly on every run.",
+   "whyTheRemainingPositionsAreSilent": "they are the battery's own published numbers. The battery cannot re-run itself without non-terminating recursion, so its nested runs do not compare them; the top-level run does, which is how they got here. RES-EP11-10.",
+   "intBoolLeaves": 302,
+   "cases": 721,
+   "rejected": 709,
+   "silentlyAdmitted": 12,
+   "silentlyAdmittedPositions": [
+    "$.astScanScope.ownConstantLeafBattery.cases",
+    "$.astScanScope.ownConstantLeafBattery.intBoolLeaves",
+    "$.astScanScope.ownConstantLeafBattery.rejected",
+    "$.astScanScope.ownConstantLeafBattery.silentlyAdmitted"
+   ]
+  }
+ },
+ "scalarLeafTotality": {
+  "standingRequirement": "IMPLEMENTATION-FREEZE section 7",
+  "domain": "the root, every object key and every array index at unlimited depth, CONTAINER AND SCALAR LEAF alike",
+  "injectionValues": 17,
+  "aCountIsNotARecord": "IR-EP10-NB-03: the predecessor published silentAccepts as bare counts, so the composition of those positions could change entirely without changing the number. Both surfaces enumerate them here and the enumeration is required to match exactly and to agree with its own cardinality.",
+  "surfaces": [
+   {
+    "surface": "plan-intent",
+    "rejectionMode": "findings",
+    "enumeratedPaths": 98,
+    "containerPaths": 28,
+    "scalarLeafPaths": 70,
+    "enumeratedCases": 1666,
+    "noOpInjections": 10,
+    "executedCases": 1656,
+    "guardedEscapes": 0,
+    "silentAccepts": 7,
+    "silentAcceptPositions": [
+     "$.analysis.admissionDescriptor.contributions=json-empty-array",
+     "$.analysis.admissionDescriptor.contributions[0].parameters=json-object-leaf",
+     "$.analysis.admissionDescriptor.contributions[1].parameters=json-object-leaf",
+     "$.analysis.admissionDescriptor.contributions[2].parameters=json-object-leaf",
+     "$.analysis.admissionDescriptor.scope.requestedPaths=json-empty-array",
+     "$.analysis.admissionDescriptor.scope.requestedPaths[0]=json-control-char",
+     "$.analysis.admissionDescriptor.scope.requestedPaths[0]=json-text-one"
+    ]
+   },
+   {
+    "surface": "plan-descriptor",
+    "rejectionMode": "findings",
+    "enumeratedPaths": 88,
+    "containerPaths": 26,
+    "scalarLeafPaths": 62,
+    "enumeratedCases": 1496,
+    "noOpInjections": 11,
+    "executedCases": 1485,
+    "guardedEscapes": 0,
+    "silentAccepts": 41,
+    "silentAcceptPositions": [
+     "$.changeSpec.baseCommitId=json-control-char",
+     "$.changeSpec.baseCommitId=json-text-one",
+     "$.changeSpec.vcsAdapterId=json-long-text",
+     "$.contributions=json-empty-array",
+     "$.contributions[0].bundleId=json-long-text",
+     "$.contributions[0].contributionId=json-long-text",
+     "$.contributions[0].parameters=json-object-leaf",
+     "$.contributions[0].verificationEvidenceId=json-control-char",
+     "$.contributions[0].verificationEvidenceId=json-long-text",
+     "$.contributions[0].verificationEvidenceId=json-text-one",
+     "$.contributions[1].bundleId=json-long-text",
+     "$.contributions[1].contributionId=json-long-text",
+     "$.contributions[1].parameters=json-object-leaf",
+     "$.contributions[1].verificationEvidenceId=json-control-char",
+     "$.contributions[1].verificationEvidenceId=json-long-text",
+     "$.contributions[1].verificationEvidenceId=json-text-one",
+     "$.contributions[2].activationId=json-long-text",
+     "$.contributions[2].bundleId=json-long-text",
+     "$.contributions[2].contributionId=json-long-text",
+     "$.contributions[2].parameters=json-object-leaf",
+     "$.contributions[2].verificationEvidenceId=json-control-char",
+     "$.contributions[2].verificationEvidenceId=json-long-text",
+     "$.contributions[2].verificationEvidenceId=json-text-one",
+     "$.release.profileId=json-control-char",
+     "$.release.profileId=json-long-text",
+     "$.release.profileId=json-text-one",
+     "$.scope.requestedPaths=json-empty-array",
+     "$.scope.requestedPaths[0]=json-control-char",
+     "$.scope.requestedPaths[0]=json-long-text",
+     "$.scope.requestedPaths[0]=json-text-one",
+     "$.scope.workspaceUnitIds[0]=json-control-char",
+     "$.scope.workspaceUnitIds[0]=json-long-text",
+     "$.scope.workspaceUnitIds[0]=json-text-one",
+     "$.workflow.stages[0].relations[0]=json-control-char",
+     "$.workflow.stages[0].relations[0]=json-long-text",
+     "$.workflow.stages[0].relations[0]=json-text-one",
+     "$.workflow.stages[1].ruleIds[0]=json-control-char",
+     "$.workflow.stages[1].ruleIds[0]=json-long-text",
+     "$.workflow.stages[1].ruleIds[0]=json-text-one",
+     "$.workflow.stages[2].policyId=json-long-text",
+     "$.workflow.stages[2].stageId=json-long-text"
+    ]
+   }
+  ],
+  "evaluationAuthorityCandidateSurface": {
+   "coveredBy": "preservedMeasurements.regimes, which drive this surface through EP8's real public authorize_evaluation under both declared regimes",
+   "regimeAScalarLeafPaths": 252,
+   "regimeBScalarLeafPaths": 113
+  },
+  "understatingIsAFinding": true,
+  "contractRoot": {
+   "enumeratedPaths": 1003,
+   "containerPaths": 189,
+   "scalarLeafPaths": 814,
+   "dictPaths": 133,
+   "listPaths": 56
+  }
+ },
+ "delegationClosure": {
+  "verificationRule": "read once, SHA-256 verified, then executed or parsed from that verified byte string; no second disk read between verification and execution for anything v11 loads",
+  "verificationRuleScope": "this rule is about what v11 loads. The DELEGATED predecessor would re-open its own path to feed its scans and its battery; v11 seeds its self-source cache with the verified bytes before any of it runs and the seeding is measured (preservedMeasurements.delegateSourceCacheSeeded). Further back, EP6's admit_evaluation_authority re-reads c2-plan-stage-schema.v3.json and fact-plane.v1.json on every call and EP8's _ep7 sha_file()-verifies then loads from disk; both hash-verify what they re-read, so the trust order holds transitively, but v11 does not claim more than it enforces.",
+  "delegatedChecker": [
+   {
+    "file": "check-evaluation-proof-v10.py",
+    "sha256": "0606eae06088df67bc6cc25cfcff520160cf75f9db47ebde73c4f8962e8e07b1"
+   }
+  ],
+  "executables": [
+   {
+    "file": "check-evaluation-proof-v8.py",
+    "sha256": "c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769"
+   },
+   {
+    "file": "check-evaluation-proof-v7.py",
+    "sha256": "550a2231264ab6b308b3ddb752199c6496f7c2417a8dbeeb9f21c230569b36c4"
+   },
+   {
+    "file": "check-evaluation-proof-v6.py",
+    "sha256": "0a7ac122a598bb7b9454b1b3c46c586f6fd551a2a1ebcf5584665f875457c5f0"
+   },
+   {
+    "file": "check-evaluation-proof.py",
+    "sha256": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2"
+   },
+   {
+    "file": "check-c2-v4.py",
+    "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17"
+   },
+   {
+    "file": "check-evidence.py",
+    "sha256": "6933d2931912a43e3018dc6037068230af0bbc0c0a00d5d9429c155930bde1af"
+   },
+   {
+    "file": "check-retention-custody.py",
+    "sha256": "15816cd8f9d22221b1187b94a160d71f644f9ab8fccb82423931fe18f6fc38d7"
+   },
+   {
+    "file": "check-d9.py",
+    "sha256": "9f8e16a0000e59d2f1326f97f1b8afcc5c7121eb0c57b6c440d76b9c401346a7"
+   },
+   {
+    "file": "check-versioning.py",
+    "sha256": "67a45b275908afc4bd04cee6c15400f5d429f9f209854630c1caf5a43cf13227"
+   },
+   {
+    "file": "check-resolved-inputs.py",
+    "sha256": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0"
+   }
+  ],
+  "supersededIndependentEncoder": [
+   {
+    "file": "check-c2.py",
+    "sha256": "4f31d57cd1cd252d47eeb520aa31b5fe8c4fd3b0f0f067a6840b008b1fe176f3"
+   }
+  ],
+  "pinnedData": [
+   {
+    "file": "evaluation-proof.v10.json",
+    "sha256": "ba023d7eab2b9ed5f0aad49b103f77775b748dce1e706cfc46d4eee22b984cb8"
+   },
+   {
+    "file": "ep10.review-independent.json",
+    "sha256": "854c3defe17528ed237a3b1185ab61d1fc2a8e33ff9e282f631982a6235a8a55"
+   },
+   {
+    "file": "evaluation-proof.v9.json",
+    "sha256": "02f9955f4f90e91afd163a5fa8274eb8832aa5419221da7e9e825a1cbf17430b"
+   },
+   {
+    "file": "ep9.review-independent.json",
+    "sha256": "46b244235321c8a36549d0b92ebf843b1561ea6c37a5a7bcc49a498f7899c8cf"
+   },
+   {
+    "file": "evaluation-proof.v8.json",
+    "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303"
+   },
+   {
+    "file": "evaluation-proof.v7.json",
+    "sha256": "92d51e9232c6ee137b7228aa7885a2e32f668f9b4b108d7140fdb52dae864ef8"
+   },
+   {
+    "file": "evaluation-proof.v6.json",
+    "sha256": "74f35668afae2efb57070ff9a2897d373a91b42cc1cbbc87f3c673f872ca4bce"
+   },
+   {
+    "file": "evaluation-proof.v5.json",
+    "sha256": "e05f6d8d9dd5f1f98dc1972a178c7fe58981c71b06a69feb00a717e03475988b"
+   },
+   {
+    "file": "c2-plan-stage-schema.v4.json",
+    "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39"
+   },
+   {
+    "file": "c2-plan-stage-schema.v3.json",
+    "sha256": "3c488ff66a1ec9ab746e99e0701d59460aff3e1d66cd072d9d564a1382b9d285"
+   },
+   {
+    "file": "c2-plan-stage-schema.v4.review-independent-prefreeze.json",
+    "sha256": "c74612ef4519750aa529db543c2f0cc81fce50d57c3d636486fd2f0ddc0c41f3"
+   },
+   {
+    "file": "ep8-rt13.review-independent-cold-reconstruction.json",
+    "sha256": "f4599b32a9f1b93049111b9e86debd19419902c9c5f4fb886f8d0dc9c330567e"
+   },
+   {
+    "file": "fact-plane.v1.json",
+    "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d"
+   },
+   {
+    "file": "resolved-inputs.v2.json",
+    "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43"
+   },
+   {
+    "file": "versioning-policy.v4.json",
+    "sha256": "8e6933b287a8082ea27647860938bd9cdae93b37132bba21221c2c24b40069e6"
+   }
+  ],
+  "pinAgreementRule": "every predecessor pin table that exists is read back out of the executed module object and required to agree with v11's digit for digit — of those that expose one. Six of the eleven executables expose no pin-like table at all, so an 11/11 claim would quantify over a region the instrument cannot observe.",
+  "pinTablesCrossChecked": 5,
+  "recordingObligation": "IMPLEMENTATION-FREEZE 7.2: every input this verdict depends on is recorded here by filename AND SHA-256. A count is not a record and a prose assertion is not a record."
+ },
+ "checkerModeContract": {
+  "checker": "check-evaluation-proof-v11.py",
+  "declaredFlags": [
+   "--selftest"
+  ],
+  "exitCodes": {
+   "0": "candidate accepted / selftest passed",
+   "1": "findings",
+   "2": "unsupported invocation or refused pinned input",
+   "3": "--selftest refused over a dirty base"
+  },
+  "exitMatrixIsObservedBehaviourally": true,
+  "exitMatrixNote": "the three unsupported-invocation arms return before any pinned input is loaded and run on EVERY invocation; the dirty-base arm reaches main -> selftest -> refusal and observes exit 3, and is given the already-verified authority so the observation does not re-execute the pinned closure. The 0 and 1 arms run a complete ordinary check and run under --selftest."
+ },
+ "assurance": {
+  "state": "SPECIFIED",
+  "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+  "qualificationEvidenceIds": [],
+  "releaseEvidenceIds": [],
+  "candidateState": "NOT-APPLIED",
+  "nonClaims": [
+   "no seal, freeze, integration or product acceptance is declared",
+   "no production store, durable backend, host admission or transaction implementation is demonstrated",
+   "implementable is not discharged and not demonstrated",
+   "no signoff authority; CD-RT-5 remains BLOCKED_ON_PHASE_1A and unsigned",
+   "independent re-review is REQUIRED before any status changes",
+   "provenance is not correctness: the rules here establish whose answer was used, not that the answer is right"
+  ]
+ },
+ "knownLimitations": [
+  "RES-EP11-01. v11 does NOT repair check-evaluation-proof-v6.py, which is pinned by passed work and out of scope for edit. EP6's INNER C-2 join still executes against the defective check-c2.py bytes underneath EP8. v11 is a strictly stronger OUTER gate over that join, not a replacement of its internals: it independently re-validates every PlanIntent in the closure through C-2 v4, refuses anything v4 rejects, and now establishes that the ANSWER it acts on is v4's answer rather than merely that v4 was called. Closing the inner join requires a v6 successor and is not closed here. Carried forward unchanged from RES-EP10-01.",
+  "RES-EP11-02. The answer-provenance guard's declared hostile scope is the ROUTE REGION — the three marked functions through which every C-2 call this checker makes for authority is spelled, and the region the evasion battery is permitted to rewrite. A mutation that instead tampers with the GUARD is NOT closed here: a route region that walks the call stack with sys._getframe can read the guard's private witness and, under PEP 667, write the guard's own locals. This is measured rather than argued. Variant AX6 spells that walk plainly and variant AX9 spells it with every enumerated identifier assembled at run time; both defeat A-1 through A-5 completely and both are caught only by the introspection tripwire, which is a source scan and therefore an enumeration of spellings rather than a proof.",
+  "RES-EP11-03. Answer provenance is established over the seven pinned vectors, which carry one distinct PlanIntent, at 3 imported APIs each: 21 answers. Over the 1656-case live census the join's answers are held only to value equality with an independently computed repaired answer — A-1's property — and not to object provenance and not to sentinel-flow dependence. The strong property is measured at 21 points, not everywhere, and value equality is measured to be insufficient by the positive control in this very document.",
+  "RES-EP11-04. The source scans are tripwires with a declared blind spot, measured on this run. Every property a scan guards has an independent behavioural counterpart that is executed on every ordinary run, and the set of properties for which a scan has no executed counterpart is measured and required empty. That is not the same as saying no scan is anyone's sole catcher: the introspection tripwire IS the sole catcher of the guard-tamper class, which is published in guardInventory rather than left to be discovered.",
+  "RES-EP11-05. The instrument's own source is by construction not in its own pinned set, so the source scans analyse bytes that are not a verified snapshot. Unavoidable for a self-scan; recorded so the trust-order claim is not over-read to cover this checker's own source. Everything else v11 executes or parses, including the delegated predecessor, is read once and verified first.",
+  "RES-EP11-06. MEASURED, NOT REPAIRED, and NOT part of the `!= 1` class. Under producer consistency the two SEMANTIC records constrain schemaVersion only LEXICALLY: the EP5 decoder requires a canonical unsigned decimal but nothing requires the value to be 1, so $.activationManifest.schemaVersion and $.evaluationAuthoritySeal.schemaVersion admit any integer version. Reproduced here by execution of the pinned predecessor. Closing it requires an EP5 successor. Carried forward from RES-EP10-05, which ep10.review-independent.json confirmed is a genuinely distinct defect class.",
+  "RES-EP11-07. MEASURED, NOT REPAIRED. The `!= 1` class is present in the evaluation-proof chain's own exact-closed-record guards. Under producer consistency 5 positions move durable identity and 3 of them do so beneath a byte-identical EvaluationAuthoritySealRef, each cold-reconstructing with assert_store_continuity() true. v11 cannot repair it without editing pinned predecessors, so it re-derives the set by execution and makes any change to it a finding. Closing it requires v6/v8 successors.",
+  "RES-EP11-08. The distinct-intent family measures injectivity over 14 intents built by legal perturbation of one pinned PlanIntent, all confined to the admissionDescriptor subtree. That is a measurement over 14 intents, not a proof of injectivity over all PlanIntents.",
+  "RES-EP11-09. Provenance is not correctness. A-1 through A-5 establish that the answer the join acted on is check-c2-v4.py's answer. If check-c2-v4.py is itself wrong, these rules certify faithfully that its wrong answer was the one used. The repaired instrument's correctness rests on c2-plan-stage-schema.v4.review-independent-prefreeze.json, not on anything measured here.",
+  "RES-EP11-10. The own-constant-leaf battery cannot re-run itself without non-terminating recursion, so its own published numbers are guarded by the TOP-LEVEL run only and appear in silentlyAdmittedPositions. Every other int/bool leaf of this candidate is rejected by the checking layer re-run in nested mode. Stated rather than hidden.",
+  "RES-EP11-11. check-completeness.py and check-rust-provider-protocol-v4.py exit 1 for reasons that pre-exist this candidate: the cross-cutting open finding R2-FINAL-03, and the absence of an rg binary on PATH. Neither is attributable to v11 and neither is repaired here.",
+  "RES-EP11-12. SOLE GUARDS, enumerated because an undisclosed one is IR-EP10-NB-05. Measured on this run: answer_provenance_guard is the sole catcher of the answer-substitution class (AX2, AX4, AX8); the differential oracle is the sole catcher of tag forgery at install; the introspection tripwire is the sole catcher of the guard-tamper class (AX6, AX9). superseded_cross_check, which ep10.review-independent.json found to be the sole catcher of two classes while appearing in no published guard list, is a first- class member of guardInventory here with its own blind spot stated.",
+  "RES-EP11-13. The predecessor's injection helper deep-copies the subject but shares the mutable members of its injection table across every case, so a guard that mutates what it is handed changes what later cases inject and the surface counts become order-dependent. Measured: driving the predecessor's own oracle before v11's changes v11's plan-intent silent-accept count from 7 to 20 and its plan-descriptor count from 41 to 59. v11's injector deep-copies the injected value as well, which is why both surfaces here reproduce the predecessor's published numbers exactly. The predecessor's published numbers are correct because it measures those surfaces before its battery runs; the defect is latent, not active, and it is not repairable in pinned bytes.",
+  "RES-EP11-14. The served-module ledger's per-API reach against a HIDDEN call is asymmetric by accident of the pinned modules' internal call graph, not by design, and ep10.review-independent.json recorded it as IR-EP10-NB-04. validate_plan_intent makes no intra-module API call, so a hidden validate leaks nothing into the ledger; plan_intent_commitment reaches canonical_plan_intent through the module global the ledger rebound, so a naive hidden commit leaks a depth-1 superseded entry. Measured here rather than reasoned: variant AX5 leaks and is caught by call provenance, while variant AX4 substitutes the commitment through the unwrapped canonical preimage, leaks nothing, and is caught by answer provenance alone. The asymmetry would change silently under a C-2 v5, which is why v11 does not rest on it.",
+  "V11 remains unresolved; CD-RT-5 remains BLOCKED_ON_PHASE_1A and unsigned and G19 remains blocked; the candidate is not applied and has no seal or signoff authority."
+ ],
+ "sealRecommendation": "DO-NOT-SEAL"
+}

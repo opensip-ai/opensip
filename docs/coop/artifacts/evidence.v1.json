@@ -1,0 +1,1355 @@
+{
+  "artifact": "opensip.evidence",
+  "version": "v1",
+  "status": "CANDIDATE-UNREVIEWED",
+  "author": "agent-3",
+  "role": "The production evidence contract that retention-tiers.v4 handed off. v4 is the architecture; this is the contract A1-RTV4-01 required be bound to v4's counterexamples, and the construction A1-RTV4-02 required be demonstrated.",
+  "reviewStatus": "AUTHORED SOLO, NOT REVIEWED. The counterexample fixtures and the validator share one author. A1-RTV4-01 explicitly asked for second-author goldens; this does not supply them.",
+  "decisionDependencies": [
+    {
+      "claim": "ARCH.RETENTION-TIERS",
+      "status": "REOPENED",
+      "supplies": "RA-1..RA-9 and RA-CE-1..7, which this contract implements and must re-fail"
+    },
+    {
+      "claim": "C-2",
+      "status": "CANDIDATE (contract-complete)",
+      "supplies": "the Coverage key whose subjectScopeCommitment this contract finally specifies"
+    },
+    {
+      "claim": "FACT-PLANE",
+      "status": "CANDIDATE (contract-complete)",
+      "supplies": "completeness semantics; F5 constrains the verdict but could not prove the coverage value honest \u2014 this closes that"
+    },
+    {
+      "claim": "D9",
+      "status": "CANDIDATE (contract-complete)",
+      "supplies": "the termination classes an insufficient-evidence Run must produce"
+    },
+    {
+      "claim": "TM",
+      "status": "CANDIDATE",
+      "supplies": "the user-protection posture that makes source custody opt-in"
+    }
+  ],
+  "theProblemThisSolves": {
+    "statement": "The retention model proved FINDINGS. The claim the product gates on is the VERDICT \u2014 and in CI the verdict that matters most is PASS.",
+    "why": "A passing Run asserts a universal negative: nothing in this scope violates these rules. That is the strongest claim the system makes and the one with the most consequence, because it merges code. Under a finding-only model it is the only claim with NO evidence behind it at all.",
+    "consequence": "A proof attaches to an EVALUATION, not to a finding. Every activated evaluation yields evidence for its outcome, whether that outcome is a match, a no-match, an indeterminate, or an error.",
+    "theInversion": "A passing Run's proof is LARGER and more important than a failing Run's. Every size estimate built on 'retain what a finding cited' inherited the opposite assumption and is wrong."
+  },
+  "noMatchConstruction": {
+    "why": "A1-RTV4-02: architecture may REQUIRE privacy-acceptable authoritative no-match (RA-1/RA-2) while product cannot ship if no construction stays below source-archive cost. A1 kept this a seal blocker until one representative construction exists. This is that construction. It does not close the blocker \u2014 A1 asked for a demonstration, and this is a specification with a cost argument, not a measurement.",
+    "whatMustBeProved": "No subject in set S satisfies predicate P \u2014 without retaining source bytes.",
+    "whyItIsHarder": "Proving a MATCH needs a witness. Proving a NO-MATCH needs a completeness claim: that the subject set examined was the right one and was examined entirely. Otherwise 'we found nothing' is indistinguishable from 'we looked at nothing'.",
+    "construction": {
+      "subjectSetCommitment": {
+        "what": "A Merkle root over the SORTED list of subject identities, where a subject identity is the content digest of that subject's normalised fact tuple.",
+        "notSourceBytes": "The leaves are digests of FACTS, not of source. A fact tuple is already a lossy structural projection.",
+        "whySorted": "A sorted-leaf Merkle tree yields NON-membership proofs from adjacent-leaf paths. An unsorted root proves membership only, which is exactly the wrong half for a universal negative.",
+        "size": "32 bytes for the root, independent of |S|."
+      },
+      "predicateIdentity": {
+        "what": "rule version plus the digest of its resolved parameters",
+        "why": "a no-match is only meaningful relative to what was asked"
+      },
+      "coverageSufficiency": {
+        "what": "the Coverage entry id (C-2's compound key)",
+        "why": "a no-match over insufficient facts is not a no-match; it is an unavailable result wearing one"
+      },
+      "bundle": [
+        "subjectSetRoot",
+        "subjectCount",
+        "predicateId",
+        "coverageId",
+        "completeness"
+      ]
+    },
+    "costArgument": {
+      "perEvaluation": "root (32B) + predicateId (32B) + coverageId (32B) + counts \u2248 100 bytes, INDEPENDENT of subject count.",
+      "perRun": "~100 bytes \u00d7 number of activated evaluations. A 500-rule Run over a large repository costs ~50 KB of no-match evidence.",
+      "versusSourceArchive": "O(bytes of the repository). Three to five orders of magnitude larger, and it is the thing the threat model most wants not to retain.",
+      "theEnumerationCost": "Producing the commitment requires enumerating S. That enumeration is the cost the architecture ALREADY pays during planning \u2014 the fact partition is materialised regardless. The commitment is a fold over data that already exists, not new work.",
+      "honestCaveat": "This is an argument from structure, not a measurement. The Merkle fold over every subject of every evaluation is not free, and no one has run it. A1's blocker asks for a construction that stays below source-archive cost; this argues it does by three orders of magnitude, and that argument should be checked by measurement before anyone relies on it."
+    },
+    "whatItDependsOn": {
+      "factPartitionRetention": "Verification recomputes leaves from the retained fact partition. FACT RETENTION therefore becomes the load-bearing durability decision, replacing source retention. That is the trade, and it must be stated rather than discovered.",
+      "ifFactsArePurged": "The no-match becomes UNVERIFIABLE. It does not silently degrade to trusted \u2014 RA-CE-2 forbids exactly that, and E2 enforces it."
+    },
+    "privacyPosture": {
+      "improvement": "No source bytes are retained for a no-match. The strongest claim the system makes becomes provable without holding user content.",
+      "honestResidual": "Fact tuples contain identifiers and paths. Under the threat model those may themselves be personal data (U3). This construction removes SOURCE custody; it does not make the evidence non-personal, and claiming otherwise would be the 'defended the platform rather than the user' error again."
+    },
+    "verificationRequirement": {
+      "rule": "A sorted-leaf Merkle root commits the subject SET identity. It does NOT by itself prove that predicate P evaluated false for every subject. Independent verification of a verifiable no-match MUST re-check predicate results over the retained fact partition under the historical predicate identity, or retain an explicit per-subject result commitment with checkable semantics. The subjectSetRoot alone is insufficient.",
+      "requiredRetainedObjectsForVerifiable": [
+        "factPartitionRef (content-addressed)",
+        "predicateSemanticsRef (rule version + resolved parameters digest)",
+        "subjectSetRoot + subjectCount + completeness=complete"
+      ],
+      "costArgumentStatus": "STRUCTURAL_ONLY \u2014 A1-RTV4-02 remains open until fold+reverification is measured including fact custody",
+      "costArgumentLimitation": "The ~100-byte figure counts the commitment root and excludes the load-bearing retained fact partition and predicate artifacts required to check the universal negative."
+    }
+  },
+  "assuranceCapabilities": {
+    "note": "Working labels, deliberately NOT bound to the v3 C0/C1/C2 identities (A1-RTV4-04).",
+    "levels": [
+      {
+        "label": "recorded",
+        "promise": "records what was concluded and the identities of declared inputs; does not promise retained material can independently establish why",
+        "authority": "advisory only \u2014 never sufficient for an authoritative gate, baseline mutation, waiver decision, or compliance assertion"
+      },
+      {
+        "label": "verifiable",
+        "promise": "retained evidence establishes every evaluation outcome and the verdict relative to the sealed fact/Coverage view",
+        "authority": "the minimum for any durable authoritative Run"
+      },
+      {
+        "label": "replayable",
+        "promise": "the exact source-to-verdict derivation can be executed again offline for the promised period",
+        "authority": "explicit project opt-in \u2014 it requires source and executable-environment custody"
+      }
+    ],
+    "capabilityGating": "E2 and E7 bind only at 'verifiable' and above. 'recorded' explicitly does NOT promise that retained material can establish why, so demanding pinned facts of it would be enforcing a promise the label disclaims. E4 and E9 bind at every level: they are about whether a stated claim is honest, not about what was retained."
+  },
+  "bundleSchema": {
+    "EvidenceBundle": {
+      "required": [
+        "runId",
+        "assuranceCapability",
+        "verdict",
+        "requiredUniverse",
+        "activatedEvaluations",
+        "verdictDerivation",
+        "storageAdmission"
+      ],
+      "optional": [
+        "pinnedEvidenceUnits",
+        "replayClosure"
+      ]
+    },
+    "requiredUniverse": {
+      "required": [
+        "declaredCount",
+        "memberIds",
+        "universeCommitment"
+      ],
+      "rule": "An authoritative clean verdict requires declaredCount >= 1 AND exact activation. memberIds is the ordered list of required evaluation member identities (evaluationId + predicateId). universeCommitment is the domain-separated hash of the SORTED unique member identity set. Count equality alone is NOT exact activation (R2-EVIDENCE-01).",
+      "memberIdentity": "canonical member key = evaluationId + \"\\x1f\" + predicateId",
+      "commitmentAlgorithm": "sha256(\"opensip.evidence.universe.v1\" || length-prefixed sorted member keys joined)"
+    },
+    "EvaluationEvidence": {
+      "required": [
+        "evaluationId",
+        "predicateId",
+        "outcome",
+        "coverageId",
+        "proof"
+      ],
+      "outcomes": [
+        "match",
+        "no-match",
+        "indeterminate",
+        "error"
+      ],
+      "proofByOutcome": {
+        "match": {
+          "required": [
+            "witness"
+          ],
+          "rule": "a witness names the subject identity and span anchor"
+        },
+        "no-match": {
+          "required": [
+            "subjectSetRoot",
+            "subjectCount",
+            "completeness"
+          ],
+          "rule": "completeness must be 'complete'; a sampled or truncated witness cannot support an absence claim (RA-4)"
+        },
+        "indeterminate": {
+          "required": [
+            "reason"
+          ]
+        },
+        "error": {
+          "required": [
+            "reason"
+          ]
+        }
+      }
+    },
+    "verdictDerivation": {
+      "required": [
+        "outcomeSetDigest",
+        "coverageId",
+        "policyId",
+        "verdict"
+      ],
+      "optional": [
+        "baselineId",
+        "waiverIds"
+      ],
+      "rule": "Baseline comparison, waiver application and policy evaluation are THEMSELVES evaluations and carry their own proof obligations."
+    },
+    "storageAdmission": {
+      "required": [
+        "storageRoot",
+        "privacyClass",
+        "retentionPolicy"
+      ],
+      "rule": "No durable user-derived write occurs before all three are resolved (RA-6)."
+    },
+    "verdictSeparation": "`verdict` is what the Run concluded; `verdictDerivation` is the evidence for it. They are separate fields because RA-CE-1 \u2014 a passing Run with NO verdict evidence \u2014 is otherwise unrepresentable, and an unrepresentable counterexample cannot gate anything. The first draft nested verdict inside its own proof and the fixture silently validated."
+  },
+  "invariants": [
+    {
+      "id": "E1",
+      "implements": "RA-1",
+      "assert": "A clean authoritative verdict requires a non-empty required universe, exact activation of that universe by member-set identity (unique evaluationId+predicateId, recomputed universeCommitment match), evidence for every evaluation outcome, and verdict evidence including verdictDerivation.verdict. Count equality alone is not exact activation. findings=[] or activatedEvaluations=0 never discharges this."
+    },
+    {
+      "id": "E2",
+      "implements": "RA-2",
+      "assert": "A no-match proof is valid only while its subject material is recomputable \u2014 the fact partition is pinned by content-addressed ref \u2014 or a complete regeneration closure with non-empty locally resolvable objects is retained. A bare digest or a true boolean is not enough."
+    },
+    {
+      "id": "E3",
+      "implements": "RA-3",
+      "assert": "Proof adequacy is host-owned. A producer may not declare its own result local, or otherwise self-select a weaker obligation."
+    },
+    {
+      "id": "E4",
+      "implements": "RA-4",
+      "assert": "An incomplete, sampled, or truncated witness cannot support a complete or absence claim."
+    },
+    {
+      "id": "E5",
+      "implements": "RA-5",
+      "assert": "The sealed assurance capability is immutable in the Run's identity; availability is tracked externally at evidence-unit granularity."
+    },
+    {
+      "id": "E6",
+      "implements": "RA-6",
+      "assert": "No durable user-derived write occurs before storage root, privacy class and retention policy are resolved."
+    },
+    {
+      "id": "E7",
+      "implements": "RA-7",
+      "assert": "A retained authoritative Run pins every evidence unit its promised capability needs, until explicit expiry or purge."
+    },
+    {
+      "id": "E8",
+      "implements": "RA-8",
+      "assert": "A replayable Run retains an offline-executable derivation closure: non-empty content-addressed producer and environment object set with locallyResolvable=true. A bare offlineAvailable boolean is not a closure."
+    },
+    {
+      "id": "E9",
+      "implements": "RA-9",
+      "assert": "An indeterminate or error evaluation outcome cannot be ignored to produce an authoritative clean pass, however structurally complete the receipts are."
+    },
+    {
+      "id": "E10",
+      "implements": "C-2 handoff",
+      "assert": "Every subjectScopeCommitment referenced by a Coverage entry resolves to a subject-set commitment in this contract's form \u2014 the field C-2 declared but left unspecified."
+    }
+  ],
+  "counterexampleFixtures": {
+    "why": "A1-RTV4-01 required that any production evidence contract be incomplete until executable tests FAIL the RA-CE attempts. Each fixture is an evidence bundle that MUST be rejected, by the SPECIFIC invariant it names. A fixture rejected for an unnamed reason is evidence by coincidence.",
+    "fixtures": [
+      {
+        "id": "RA-CE-1",
+        "mustRejectBy": "E1",
+        "what": "a passing authoritative Run with two activated evaluations and no retained evaluation or verdict evidence, labelled verifiable",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 2,
+            "universeCommitment": "sha256:u"
+          },
+          "activatedEvaluations": [],
+          "verdictDerivation": null,
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-1b",
+        "mustRejectBy": "E1",
+        "what": "non-vacuity: zero required evaluations silently reading as clean",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 0,
+            "universeCommitment": "sha256:u"
+          },
+          "activatedEvaluations": [],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-2",
+        "mustRejectBy": "E2",
+        "what": "a no-match claim accepted from a subject-set digest after the subject material AND regeneration closure are gone",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "regenerationClosureRetained": false
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-3",
+        "mustRejectBy": "E3",
+        "what": "a relationship producer declaring its own result local and thereby satisfying a weaker host obligation",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "producerDeclaredObligation": "local",
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-4",
+        "mustRejectBy": "E7",
+        "what": "cache GC removing evidence referenced by a retained authoritative Run without an explicit retention transition",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "authoritative": true,
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "evidenceUnits": [
+                "u1",
+                "u2"
+              ],
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "pinnedEvidenceUnits": [
+            "u1"
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-5",
+        "mustRejectBy": "E6",
+        "what": "the first durable analysis writing source-derived material before storage root, privacy class and retention policy are resolved",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-6",
+        "mustRejectBy": "E8",
+        "what": "a Run called replayable while a historical producer or required environment artifact is unavailable offline",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "replayable",
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass",
+          "replayClosure": {
+            "closureId": "sha256:empty",
+            "objects": [],
+            "locallyResolvable": true
+          }
+        }
+      },
+      {
+        "id": "RA-CE-7",
+        "mustRejectBy": "E9",
+        "what": "all receipts structurally present, but an indeterminate evaluation ignored and the Run labelled clean pass",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 2,
+            "universeCommitment": "sha256:5bf078b03a2a9e89",
+            "memberIds": [
+              "e1|r1@1",
+              "e2|r2@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            },
+            {
+              "evaluationId": "e2",
+              "predicateId": "r2@1",
+              "outcome": "indeterminate",
+              "coverageId": "sha256:c",
+              "proof": {
+                "reason": "COVERAGE.PROVIDER_UNAVAILABLE"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-8",
+        "mustRejectBy": "E4",
+        "what": "a sampled witness supporting an absence claim",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 1,
+            "universeCommitment": "sha256:0a4b8c1b16f54e33",
+            "memberIds": [
+              "e1|r1@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "sampled"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-9",
+        "mustRejectBy": "E1",
+        "what": "activation that does not exactly satisfy the declared universe",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "requiredUniverse": {
+            "declaredCount": 2,
+            "universeCommitment": "sha256:wrong",
+            "memberIds": [
+              "e1|r1@1",
+              "e2|r2@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 100,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "authoritative": true,
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-10",
+        "what": "same-cardinality substitution: declaredCount matches activated count but one required evaluation is replaced by an undeclared evaluation so the member-set commitment differs",
+        "mustRejectBy": "E1",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "authoritative": true,
+          "requiredUniverse": {
+            "declaredCount": 2,
+            "memberIds": [
+              "e1|r1@1",
+              "e2|r2@1"
+            ],
+            "universeCommitment": "sha256:5bf078b03a2a9e89"
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 4120,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "evidenceUnits": [
+                "u1"
+              ],
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            },
+            {
+              "evaluationId": "e-rogue",
+              "predicateId": "r-rogue@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s3",
+                "subjectCount": 1,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-x"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r-rogue@1"
+              },
+              "evidenceUnits": [
+                "u2"
+              ]
+            }
+          ],
+          "pinnedEvidenceUnits": [
+            "u1",
+            "u2"
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-11",
+        "what": "duplicate evaluationId+predicateId in activated set while declaredCount equals len(activated) \u2014 exact activation requires unique member identities",
+        "mustRejectBy": "E1",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "authoritative": true,
+          "requiredUniverse": {
+            "declaredCount": 3,
+            "memberIds": [
+              "e1|r1@1",
+              "e2|r2@1",
+              "e1|r1@1"
+            ],
+            "universeCommitment": "sha256:5bf078b03a2a9e89"
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 4120,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "evidenceUnits": [
+                "u1"
+              ],
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            },
+            {
+              "evaluationId": "e2",
+              "predicateId": "r2@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s2",
+                "subjectCount": 88,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "evidenceUnits": [
+                "u2"
+              ],
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r2@1"
+              }
+            },
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 4120,
+                "completeness": "complete"
+              },
+              "factPartitionPinned": true,
+              "evidenceUnits": [
+                "u1"
+              ],
+              "factPartitionRef": {
+                "kind": "fact-partition",
+                "id": "sha256:fp-pinned"
+              },
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              }
+            }
+          ],
+          "pinnedEvidenceUnits": [
+            "u1",
+            "u2"
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "verdict": "pass"
+        }
+      },
+      {
+        "id": "RA-CE-12",
+        "what": "no-match claims regeneration closure retained but the closure object set is empty \u2014 availability boolean without content-addressed objects",
+        "mustRejectBy": "E2",
+        "bundle": {
+          "runId": "$R",
+          "assuranceCapability": "verifiable",
+          "authoritative": true,
+          "requiredUniverse": {
+            "declaredCount": 2,
+            "universeCommitment": "sha256:5bf078b03a2a9e89",
+            "memberIds": [
+              "e1|r1@1",
+              "e2|r2@1"
+            ]
+          },
+          "activatedEvaluations": [
+            {
+              "evaluationId": "e1",
+              "predicateId": "r1@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s",
+                "subjectCount": 4120,
+                "completeness": "complete"
+              },
+              "evidenceUnits": [
+                "u1"
+              ],
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r1@1"
+              },
+              "regenerationClosure": {
+                "closureId": "sha256:x",
+                "objects": [],
+                "locallyResolvable": true
+              }
+            },
+            {
+              "evaluationId": "e2",
+              "predicateId": "r2@1",
+              "outcome": "no-match",
+              "coverageId": "sha256:c",
+              "proof": {
+                "subjectSetRoot": "sha256:s2",
+                "subjectCount": 88,
+                "completeness": "complete"
+              },
+              "evidenceUnits": [
+                "u2"
+              ],
+              "predicateSemanticsRef": {
+                "kind": "predicate-artifact",
+                "id": "r2@1"
+              },
+              "regenerationClosure": {
+                "closureId": "sha256:x",
+                "objects": [],
+                "locallyResolvable": true
+              }
+            }
+          ],
+          "pinnedEvidenceUnits": [
+            "u1",
+            "u2"
+          ],
+          "verdictDerivation": {
+            "outcomeSetDigest": "sha256:o",
+            "coverageId": "sha256:c",
+            "policyId": "p",
+            "verdict": "pass"
+          },
+          "storageAdmission": {
+            "storageRoot": "/s",
+            "privacyClass": "structural",
+            "retentionPolicy": "P30D"
+          },
+          "verdict": "pass"
+        }
+      }
+    ]
+  },
+  "acceptingFixtures": [
+    {
+      "id": "clean-pass-with-no-match-proof",
+      "valid": true,
+      "what": "authoritative verifiable Run; required universe has two distinct evaluations; both outcomes no-match with complete subject-set roots; fact partitions pinned with content-addressed refs; verdictDerivation.verdict=pass; storage admitted; clean pass",
+      "bundle": {
+        "runId": "$R",
+        "assuranceCapability": "verifiable",
+        "authoritative": true,
+        "requiredUniverse": {
+          "declaredCount": 2,
+          "universeCommitment": "sha256:5bf078b03a2a9e89",
+          "memberIds": [
+            "e1|r1@1",
+            "e2|r2@1"
+          ]
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "e1",
+            "predicateId": "r1@1",
+            "outcome": "no-match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "subjectSetRoot": "sha256:s",
+              "subjectCount": 4120,
+              "completeness": "complete"
+            },
+            "factPartitionPinned": true,
+            "evidenceUnits": [
+              "u1"
+            ],
+            "factPartitionRef": {
+              "kind": "fact-partition",
+              "id": "sha256:fp-pinned"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-artifact",
+              "id": "r1@1"
+            }
+          },
+          {
+            "evaluationId": "e2",
+            "predicateId": "r2@1",
+            "outcome": "no-match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "subjectSetRoot": "sha256:s2",
+              "subjectCount": 88,
+              "completeness": "complete"
+            },
+            "factPartitionPinned": true,
+            "evidenceUnits": [
+              "u2"
+            ],
+            "factPartitionRef": {
+              "kind": "fact-partition",
+              "id": "sha256:fp-pinned"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-artifact",
+              "id": "r2@1"
+            }
+          }
+        ],
+        "pinnedEvidenceUnits": [
+          "u1",
+          "u2"
+        ],
+        "verdictDerivation": {
+          "outcomeSetDigest": "sha256:o",
+          "coverageId": "sha256:c",
+          "policyId": "p",
+          "verdict": "pass"
+        },
+        "storageAdmission": {
+          "storageRoot": "/s",
+          "privacyClass": "structural",
+          "retentionPolicy": "P30D"
+        },
+        "verdict": "pass"
+      }
+    },
+    {
+      "id": "failing-run-with-witness",
+      "valid": true,
+      "bundle": {
+        "runId": "$R",
+        "assuranceCapability": "verifiable",
+        "authoritative": true,
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "universeCommitment": "sha256:0a4b8c1b16f54e33",
+          "memberIds": [
+            "e1|r1@1"
+          ]
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "e1",
+            "predicateId": "r1@1",
+            "outcome": "match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "witness": {
+                "subjectId": "sha256:x",
+                "spanAnchor": "src/a.ts#L10-L20"
+              }
+            },
+            "factPartitionPinned": true,
+            "evidenceUnits": [
+              "u1"
+            ]
+          }
+        ],
+        "pinnedEvidenceUnits": [
+          "u1"
+        ],
+        "verdictDerivation": {
+          "outcomeSetDigest": "sha256:o",
+          "coverageId": "sha256:c",
+          "policyId": "p",
+          "verdict": "fail"
+        },
+        "storageAdmission": {
+          "storageRoot": "/s",
+          "privacyClass": "structural",
+          "retentionPolicy": "P30D"
+        },
+        "verdict": "fail"
+      },
+      "what": "authoritative verifiable Run; required universe has one evaluation with match witness; verdict=fail; storage admitted; authoritative gate fails with retained match evidence"
+    },
+    {
+      "id": "indeterminate-honestly-reported",
+      "valid": true,
+      "what": "authoritative Run reports verdict=indeterminate because a required evaluation is indeterminate; must not be labelled clean pass (positive form of RA-CE-7)",
+      "bundle": {
+        "runId": "$R",
+        "assuranceCapability": "verifiable",
+        "authoritative": true,
+        "requiredUniverse": {
+          "declaredCount": 2,
+          "universeCommitment": "sha256:5bf078b03a2a9e89",
+          "memberIds": [
+            "e1|r1@1",
+            "e2|r2@1"
+          ]
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "e1",
+            "predicateId": "r1@1",
+            "outcome": "no-match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "subjectSetRoot": "sha256:s",
+              "subjectCount": 100,
+              "completeness": "complete"
+            },
+            "factPartitionPinned": true,
+            "evidenceUnits": [
+              "u1"
+            ],
+            "factPartitionRef": {
+              "kind": "fact-partition",
+              "id": "sha256:fp-pinned"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-artifact",
+              "id": "r1@1"
+            }
+          },
+          {
+            "evaluationId": "e2",
+            "predicateId": "r2@1",
+            "outcome": "indeterminate",
+            "coverageId": "sha256:c",
+            "proof": {
+              "reason": "COVERAGE.PROVIDER_UNAVAILABLE"
+            },
+            "evidenceUnits": [
+              "u2"
+            ]
+          }
+        ],
+        "pinnedEvidenceUnits": [
+          "u1",
+          "u2"
+        ],
+        "verdictDerivation": {
+          "outcomeSetDigest": "sha256:o",
+          "coverageId": "sha256:c",
+          "policyId": "p",
+          "verdict": "indeterminate"
+        },
+        "storageAdmission": {
+          "storageRoot": "/s",
+          "privacyClass": "structural",
+          "retentionPolicy": "P30D"
+        },
+        "verdict": "indeterminate"
+      }
+    },
+    {
+      "id": "recorded-advisory-run",
+      "valid": true,
+      "what": "assuranceCapability=recorded, authoritative=false; advisory output only; may not be consumed as authoritative gate/baseline/waiver input",
+      "bundle": {
+        "runId": "$R",
+        "assuranceCapability": "recorded",
+        "authoritative": false,
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "universeCommitment": "sha256:0a4b8c1b16f54e33",
+          "memberIds": [
+            "e1|r1@1"
+          ]
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "e1",
+            "predicateId": "r1@1",
+            "outcome": "no-match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "subjectSetRoot": "sha256:s",
+              "subjectCount": 10,
+              "completeness": "complete"
+            }
+          }
+        ],
+        "verdictDerivation": {
+          "outcomeSetDigest": "sha256:o",
+          "coverageId": "sha256:c",
+          "policyId": "p",
+          "verdict": "pass"
+        },
+        "storageAdmission": {
+          "storageRoot": "/s",
+          "privacyClass": "structural",
+          "retentionPolicy": "P30D"
+        },
+        "verdict": "pass"
+      }
+    },
+    {
+      "id": "replayable-with-closure",
+      "valid": true,
+      "bundle": {
+        "runId": "$R",
+        "assuranceCapability": "replayable",
+        "authoritative": true,
+        "requiredUniverse": {
+          "declaredCount": 1,
+          "universeCommitment": "sha256:0a4b8c1b16f54e33",
+          "memberIds": [
+            "e1|r1@1"
+          ]
+        },
+        "activatedEvaluations": [
+          {
+            "evaluationId": "e1",
+            "predicateId": "r1@1",
+            "outcome": "no-match",
+            "coverageId": "sha256:c",
+            "proof": {
+              "subjectSetRoot": "sha256:s",
+              "subjectCount": 10,
+              "completeness": "complete"
+            },
+            "factPartitionPinned": true,
+            "evidenceUnits": [
+              "u1"
+            ],
+            "factPartitionRef": {
+              "kind": "fact-partition",
+              "id": "sha256:fp-pinned"
+            },
+            "predicateSemanticsRef": {
+              "kind": "predicate-artifact",
+              "id": "r1@1"
+            }
+          }
+        ],
+        "pinnedEvidenceUnits": [
+          "u1"
+        ],
+        "replayClosure": {
+          "closureId": "sha256:replay-1",
+          "objects": [
+            {
+              "kind": "producer",
+              "id": "tsx@1.0"
+            },
+            {
+              "kind": "environment",
+              "id": "sha256:env"
+            }
+          ],
+          "locallyResolvable": true
+        },
+        "verdictDerivation": {
+          "outcomeSetDigest": "sha256:o",
+          "coverageId": "sha256:c",
+          "policyId": "p",
+          "verdict": "pass"
+        },
+        "storageAdmission": {
+          "storageRoot": "/s",
+          "privacyClass": "structural",
+          "retentionPolicy": "P30D"
+        },
+        "verdict": "pass"
+      },
+      "what": "authoritative replayable Run; required universe size 1; no-match with pinned facts; replayClosure names non-empty content-addressed producer and environment objects that are locally resolvable offline"
+    }
+  ],
+  "resolves": {
+    "A1-RTV4-01": "RESOLVED \u2014 all seven RA-CE counterexamples are executable fixtures that must be rejected BY THE NAMED INVARIANT, plus two additional cases (RA-CE-8 sampled witness, RA-CE-9 inexact activation). check-evidence.py runs them. A rejection for an unnamed reason is reported as a failure, so a future wire contract cannot reintroduce zero-eval pass or outcome-blind pass under a green schema checker.",
+    "A1-RTV4-02": "PARTIALLY RESOLVED \u2014 a representative construction now exists with a cost argument three orders of magnitude below source archive, and it is specified rather than gestured at. It is NOT a measurement, which is what A1 asked for. The blocker should stay open, narrowed to 'measure the Merkle fold cost' rather than 'does any construction exist'.",
+    "A1-RTV4-04": "RESPECTED \u2014 working labels recorded/verifiable/replayable are used and are NOT bound to C0/C1/C2.",
+    "C-2 knownLimitation": "RESOLVED \u2014 subjectScopeCommitment is specified here as a sorted-leaf Merkle root over subject identities. C-2 declared the field and could not say what it was.",
+    "FACT-PLANE knownLimitation": "PARTIALLY RESOLVED \u2014 F5 constrains the verdict when coverage is unknown; E1/E4 now constrain what makes a 'complete' coverage value honest."
+  },
+  "peerReviewRequired": [
+    "Second-author goldens, which A1-RTV4-01 explicitly asked for and this does not supply. The fixtures and the validator share one author.",
+    "Is the sorted-leaf Merkle construction correct for non-membership, and is a Merkle root the right commitment at all versus an accumulator or a Bloom-style structure with explicit false-positive semantics?",
+    "The cost argument is structural, not measured. Someone should build the fold and time it before this closes A1-RTV4-02.",
+    "Is 'fact retention replaces source retention as the load-bearing durability decision' acceptable to product? It moves the purge conversation, it does not remove it."
+  ],
+  "knownLimitations": [
+    "A specification with a cost argument is not the demonstration A1-RTV4-02 asked for. The blocker narrows; it does not close.",
+    "Fact tuples may themselves be personal data. This removes SOURCE custody and does not make the evidence non-personal.",
+    "Verification depends on the retained fact partition. A user who purges facts loses explainability even though no source was ever stored \u2014 a trade that must be stated up front, not discovered.",
+    "Proof regeneration inherits the reproducibility problem: it works only while the producing toolchain and rule versions remain available (RA-CE-6 / E8).",
+    "CD-RT-5 (product sign-off on zero-implicit durable retention) and the sync/backup/real-deletion measurements are untouched here. They are not architecture questions.",
+    "Authored solo."
+  ],
+  "adjudicationRevision": {
+    "by": "agent-a",
+    "date": "2026-07-31",
+    "resolves": [
+      "R2-EVIDENCE-01",
+      "R2-EVIDENCE-02",
+      "R2-EVIDENCE-03",
+      "R2-EVIDENCE-04",
+      "R2-EVIDENCE-05"
+    ],
+    "note": "Exact activation via member set commitment; schema validation; typed content-addressed closures; no-match verification requires fact partition + predicate semantics; accepting fixture what prose completed."
+  }
+}

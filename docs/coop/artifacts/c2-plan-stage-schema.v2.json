@@ -1,0 +1,105 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema",
+  "version": 2,
+  "status": "CANDIDATE-UNREVIEWED",
+  "supersedes": 1,
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO in response to A2's v1 rejection. Not re-reviewed.",
+  "purpose": "Fix the durable logical Plan contract: a two-level boundary, compound Coverage keys, a testable operator-equivalence harness, mechanical capability denial, and requiredness that cannot yield a false pass.",
+
+  "resolves": {
+    "A2-C2-V1-01": "Two-level model adopted. An outer InvocationPlan covers pre-analysis host work (config resolution, admission, contribution resolution, snapshot capture, PlanId allocation). The inner ExecutionPlan is snapshot-bound and contains NO snapshot stage. The five kinds are now exhaustive for the inner Plan, which is what they were always plausibly exhaustive for.",
+    "A2-C2-V1-02": "Coverage is keyed by the compound tuple (relation, language/semanticUniverseId, subject-scope partition), with per-consumer consumption status. The mixed-language counterexample is now representable and is included as a test.",
+    "A2-C2-V1-03": "PS-07 rewritten: ONE public Plan fed to a test-only physical planner forced into two operator strategies. Equality preconditions stated — exact Coverage first, then digest. Resolves the contradiction where two public Plans differed in private operators.",
+    "A2-C2-V1-04": "Enum labelling cannot prove capability limits, so PS-09 is a runtime capability-DENIAL test: a rule-evaluation stage attempting process, network, or filesystem access fails, whatever it is labelled.",
+    "A2-C2-V1-05": "Requiredness made explicit. A fault or budget exhaustion in a REQUIRED rule becomes a Coverage entry and forces indeterminate. Only optional-rule faults are isolated."
+  },
+
+  "twoLevelPlan": {
+    "why": "v1 said the Snapshotter precedes the Planner and simultaneously listed a snapshot stage inside the Plan. Both cannot be true. The repair is to name the outer level rather than to delete the stage.",
+    "InvocationPlan": {
+      "custody": "host-only; never contributed",
+      "covers": ["resolve configuration and provenance", "resolve and admit contributions", "capability grant resolution", "project and scope resolution", "snapshot capture and sealing", "allocate PlanId and ExecutionId"],
+      "isNotAStage": "These are pre-analysis host activities. They are not Plan stages because they must complete before a snapshot-bound Plan can exist at all — a Plan is defined relative to a SnapshotId.",
+      "failureBefore": "Any failure here is pre-admission: request-rejected or operational, never a Run verdict."
+    },
+    "ExecutionPlan": {
+      "custody": "public contract; may be selected by a data-only profile",
+      "boundTo": "exactly one SnapshotId and one PlanId",
+      "containsSnapshotStage": false,
+      "stageKinds": ["fact-derivation", "rule-evaluation", "policy-evaluation", "probe"],
+      "exhaustiveness": "Closed for the inner Plan. An unknown kind is rejected, not ignored. A fifth public kind is a Plan schema major (see versioning-policy CONSUMER-CUSTODY)."
+    },
+    "note": "The snapshot stage listed in v1 becomes an InvocationPlan activity. The inner kind count therefore drops from five to four."
+  },
+
+  "coverageKey": {
+    "minimumKey": ["relation", "languageOrSemanticUniverseId", "subjectScopePartition"],
+    "why": "A single record per relation cannot say 'resolved-complete for TypeScript, unavailable for Go' in one Plan. Per-relation was necessary and not sufficient.",
+    "consumerStatus": {
+      "values": ["evaluated", "skipped-requirements-unmet", "budget-exceeded", "faulted"],
+      "rule": "Every rule and query records its status against the EXACT Coverage entries it consumed, not against a Plan-level summary."
+    },
+    "languageTierLink": "A syntax-tier language produces unavailable resolved-relation entries with reason COVERAGE.LANGUAGE_TIER_UNSUPPORTED — the mechanism by which the P-4 loud-tier decision becomes observable rather than editorial."
+  },
+
+  "requiredness": {
+    "rule": "Every rule in a Plan is REQUIRED or OPTIONAL, declared, never defaulted silently.",
+    "requiredFault": "A fault or budget exhaustion in a REQUIRED rule becomes a Coverage entry and forces policy indeterminate.",
+    "optionalFault": "Isolated, recorded as a diagnostic and a Coverage entry; does not force indeterminate.",
+    "whyThisWasABlocker": "v1 said 'rule fault is isolated and does not fail the plan.' Applied to a required rule that permits a passing verdict from an analysis that did not run — the exact false pass the sealed invariant forbids."
+  },
+
+  "privateOperators": {
+    "rule": "MUST NOT appear in the public ExecutionPlan schema.",
+    "examples": ["index materialisation", "cache layout and chunking", "fact-partition fusion", "query plan selection", "shard assignment"],
+    "plannerFreedom": "Insert, reorder, fuse, or elide freely, provided the logical stage contract and the resulting EvidenceDigest are unchanged under identical exact Coverage."
+  },
+
+  "domainResults": {
+    "contracts": [
+      {"name": "fact/graph query", "createsRun": false},
+      {"name": "rule findings", "createsRun": true},
+      {"name": "reduction candidates", "createsRun": true},
+      {"name": "probe observations", "createsRun": true}
+    ],
+    "queryNeverRunsAnalysis": "A query against a stored fact view returns a typed unavailable response naming the missing requirement. Only explicit admission creates a Run."
+  },
+
+  "conformanceTests": [
+    {"id": "PS-01", "assert": "Every stage kind in a serialised ExecutionPlan is one of the four declared kinds. An unknown kind is rejected."},
+    {"id": "PS-02", "assert": "No serialised ExecutionPlan contains any private operator. Round-tripping loses no logical information."},
+    {"id": "PS-03", "assert": "Coverage entries carry the full compound key. A Plan over TypeScript and Go reports resolved-complete for TypeScript and unavailable for Go in the same Run."},
+    {"id": "PS-04", "assert": "A rule whose declared requirements are unmet records skipped-requirements-unmet and is never evaluated against insufficient facts."},
+    {"id": "PS-05", "assert": "Budget exhaustion in rule-evaluation and provider unavailability in fact-derivation produce distinct Coverage reason codes."},
+    {"id": "PS-06", "assert": "A query against a fact view lacking required relations returns typed unavailable and creates no Run."},
+    {"id": "PS-07", "assert": "ONE schema-identical public ExecutionPlan is executed by a test-only physical planner forced into two distinct operator strategies. Assert exact Coverage identical FIRST; then assert EvidenceDigest equality. If the strategies exhaust different budgets, exact Coverage differs and the digest comparison is not performed — a Coverage divergence is reported instead.", "preconditions": ["deterministic producers", "identical Snapshot/Plan/toolchain/environment", "budgets sufficient for both strategies"]},
+    {"id": "PS-08", "assert": "A profile may raise a fact-quality floor; no profile label alone triggers materialisation."},
+    {"id": "PS-09", "assert": "CAPABILITY DENIAL: a stage labelled rule-evaluation that attempts process spawn, network, or filesystem access is denied at runtime and the attempt is recorded. Labelling does not confer authority, and mislabelling does not obtain it."},
+    {"id": "PS-10", "assert": "A REQUIRED rule that faults or exhausts its budget forces policy indeterminate. An OPTIONAL one does not."},
+    {"id": "PS-11", "assert": "An ExecutionPlan containing a snapshot stage is rejected — snapshot capture is InvocationPlan work."},
+    {"id": "PS-12", "assert": "Effectful work is representable only as a probe stage. A rule-evaluation stage requesting probe grants is rejected at plan validation, before execution."}
+  ],
+
+  "sealedPropertiesCovered": [
+    {"property": "physical storage schema stays private", "dischargedBy": ["PS-02", "PS-07"]},
+    {"property": "fact sufficiency is predicate-relative", "dischargedBy": ["PS-04", "PS-08"]},
+    {"property": "reads do not create Runs", "dischargedBy": ["PS-06"]},
+    {"property": "required partial coverage cannot yield pass", "dischargedBy": ["PS-03", "PS-05", "PS-10"]},
+    {"property": "effectful work is unrepresentable as a Rule", "dischargedBy": ["PS-09", "PS-12"]},
+    {"property": "the language capability tier is observable", "dischargedBy": ["PS-03"]}
+  ],
+
+  "peerReviewRequired": [
+    "Is the InvocationPlan / ExecutionPlan split the right repair, versus moving snapshot capture wholly outside any plan concept? A2 flagged medium confidence on which repair is better and this artifact chose one.",
+    "Is the three-part Coverage key sufficient, or does subject-scope partition need further decomposition for cross-file relations?",
+    "Does PS-09 belong here or in the capability matrix? It is a runtime property being asserted by a plan-schema artifact."
+  ],
+
+  "knownLimitations": [
+    "Field-level schemas for the four stage kinds are still unspecified.",
+    "PS-07 requires a test-only physical planner harness that does not exist; the test is specified, not implemented.",
+    "PS-09 assumes a runtime capability-denial mechanism the architecture requires but no artifact designs.",
+    "Dropping the inner kind count from five to four is a change to a previously reviewed shape; A2 approved five kinds for a Plan that included snapshot. The reduction follows from the two-level split but has not been re-reviewed."
+  ]
+}

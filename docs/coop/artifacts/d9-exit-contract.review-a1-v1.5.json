@@ -1,0 +1,129 @@
+{
+  "artifact": "opensip.d9-exit-contract.review",
+  "reviewOf": "opensip.d9-exit-contract v1.5 (candidate-agent-3)",
+  "reviewer": "agent-1",
+  "reviewerRole": "REVIEWER-A",
+  "version": 1,
+  "date": "2026-07-29",
+  "status": "accept-with-required-changes",
+  "confidence": "high",
+  "method": [
+    "DIFFERENT FROM AUTHOR REPAIR NARRATIVE: re-ran underdetermination scan (group all 39 by exact axes; require zero code-diverging collisions).",
+    "Mutation test: force query-addressed-run-expired errorCode IDENTITY.UNKNOWN; require checker fail (D10).",
+    "Checked codeMaps injectivity and maps ⊆ closed vocabulary (author claim of total injective maps).",
+    "Re-inspected serve interruption and query-completeness golden against open A1-D9-V14-02/04 without treating resolves map as authority.",
+    "Sampled discriminating axes for prior collision pairs (baseline vs verdict-indeterminate; expired vs unknown; coverage-missing vs provider-unavailable).",
+    "Did not treat check-d9.py exit 0 alone as scenario faithfulness."
+  ],
+  "whatCouldHaveFailed": [
+    "D10 absent or class-only still (V14-01 not closed)",
+    "Maps total/injective claim false",
+    "Map values outside vocabulary",
+    "resolves overclaims goldens that were not added",
+    "Serve interruption still order-fragile",
+    "Completeness still wrong deficiency/code"
+  ],
+  "resolves": {
+    "A1-D9-V14-01": {
+      "status": "CLOSED",
+      "evidence": [
+        "code-diverging axis collision groups: 0 (was 5+)",
+        "D10 mutation on expired→UNKNOWN fails with axes-imply IDENTITY.EXPIRED",
+        "deficiency/rejectionCause/faultCause discriminate prior pairs; maps injective for declared keys"
+      ],
+      "confidence": "high"
+    },
+    "A1-D9-V14-01.regression-tombstone": {
+      "status": "CLOSED",
+      "evidence": "rejectionCause identity-expired vs identity-unknown distinguishes EXPIRED/UNKNOWN; expired golden carries identity-expired"
+    },
+    "A1-D9-V14-02": {
+      "status": "OPEN",
+      "evidence": "serve-graceful-signal-stop still interruption=signal-before-finalization; derive still short-circuits serve before interruption"
+    },
+    "A1-D9-V14-03": {
+      "status": "OPEN",
+      "evidence": "user-interrupt-finite still lifecycle=coherent-terminal-run"
+    },
+    "A1-D9-V14-04": {
+      "status": "OPEN",
+      "evidence": "query-required-completeness-missing still deficiency=required-relation-missing / COVERAGE.REQUIRED_RELATION_MISSING; map entry query-completeness-unmet exists but unused"
+    },
+    "A1-D9-V14-05": {
+      "status": "PARTIAL",
+      "evidence": "Axes can express LANGUAGE_TIER / BUDGET / CAS.LINK; goldens still absent for all three reason codes and CAS.LINK. resolves text claiming 'now reachable' is true for axes, overstated if read as exercised."
+    }
+  },
+  "findings": [
+    {
+      "id": "A1-D9-V15-01",
+      "severity": "high",
+      "title": "codeMaps.faultCause cas-link → CAS.LINK_FAILED is outside closed error vocabulary",
+      "detail": "faultCauseToErrorCode maps cas-link to CAS.LINK_FAILED, but codeVocabulary.errorCodes does not contain CAS.LINK_FAILED. No golden exercises it, so D5 never fires. The map is not a closed total function into the declared vocabulary — checker does not validate maps ⊆ vocab or injectivity. Author knownLimitations list the missing golden but not the vocab hole.",
+      "requiredFix": "Add CAS.LINK_FAILED to errorCodes (with remedy) OR remove cas-link from the map; add D11: every codeMaps value ∈ vocab and each map is injective; add golden or mark enum value reserved.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15-02",
+      "severity": "medium",
+      "title": "A1-D9-V14-04 not fixed: completeness golden still uses relation-missing deficiency",
+      "detail": "deficiency enum and map include query-completeness-unmet → QUERY.COMPLETENESS_UNMET with a distinct remedy. The golden that is exactly that scenario still uses required-relation-missing. D10 will happily validate the wrong code because axes and payload agree on the wrong model.",
+      "requiredFix": "Set deficiency=query-completeness-unmet and reasonCodes=[QUERY.COMPLETENESS_UNMET] on query-required-completeness-missing.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15-03",
+      "severity": "medium",
+      "title": "A1-D9-V14-02 not fixed: serve graceful stop still models user-interrupt interruption",
+      "detail": "Unchanged from v1.4. Dead axis that would flip class if derive order changes.",
+      "requiredFix": "interruption=none for serve clean/graceful; checker invariant for commandKind=serve.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15-04",
+      "severity": "medium",
+      "title": "Owed goldens still absent; P-4 tier code never on the wire in fixtures",
+      "detail": "Unused reason codes: COVERAGE.BUDGET_EXHAUSTED, COVERAGE.LANGUAGE_TIER_UNSUPPORTED, QUERY.COMPLETENESS_UNMET. LANGUAGE_TIER_UNSUPPORTED is the termination face of P-4 loud tier — a contract without a golden is aspirational.",
+      "requiredFix": "Add three goldens (tier unsupported, budget exhausted, completeness unmet) before seal.",
+      "confidence": "high"
+    },
+    {
+      "id": "A1-D9-V15-05",
+      "severity": "low-medium",
+      "title": "Deficiency axes are near-renames of codes — acceptable if scenario-faithful; still need blind re-authoring of the new fields",
+      "detail": "V14-01 is closed for underdetermination. Residual risk: author can set deficiency to whatever code they want and D10 passes (mutual consistency of a larger axis set). That is inherent to input-driven pure maps. Mitigations: (1) blind re-author deficiency/rejection/fault for a sample; (2) cross-axis invariants (e.g. baseline deficiency requires requiredCoverage=satisfied; identity-expired requires domainCondition=addressed-identity-unresolved).",
+      "requiredFix": "Add cross-axis invariant checks (D12) for load-bearing pairs; optional second-author sample of new axes.",
+      "confidence": "medium"
+    },
+    {
+      "id": "A1-D9-V15-06",
+      "severity": "low",
+      "title": "knownLimitations/peerReview still refer to re-run against v1.4",
+      "detail": "Stale meta after v1.5; confuses the next reviewer about which contract is live.",
+      "requiredFix": "Point peerReviewRequired at v1.5 blind re-run; drop v1.4-only wording.",
+      "confidence": "high"
+    }
+  ],
+  "blindAxesNote": {
+    "v1.4Sample": "12/14 exact on old enum; class modelling of AX-01/AX-02 held into v1.5",
+    "v1.5NewFields": "For prior collision pairs, independent expectation of new discriminators matches author: baseline→baseline-recipe-unsupported, expired→identity-expired, provider→provider-unavailable. Completeness golden does NOT match independent expectation (query-completeness-unmet).",
+    "serve": "Independent still wants interruption=none"
+  },
+  "positiveObservations": [
+    "A1-D9-V14-01 was a real defect; v1.5 fix shape (discriminating axes + D10 + mutation-catchable) is the right class of repair.",
+    "Tombstone regression explicitly named and closed — good method hygiene.",
+    "Injective deficiency/rejection maps for exercised keys work.",
+    "check-d9 still executable in-tree."
+  ],
+  "verdict": "accept-with-required-changes",
+  "sealRecommendation": "Do not seal. V14-01 closed; close V15-01/02/03/04 before seal candidacy.",
+  "whatWouldChangeMyMind": "CAS.LINK in vocab or removed; completeness golden fixed; serve interruption fixed; three owed goldens present; D11 map⊆vocab.",
+  "knownLimitations": [
+    "Did not re-author all 39 full axis vectors for v1.5 (focused on new discriminators + prior findings).",
+    "Did not re-check finalizationTransitions combinatorics."
+  ],
+  "sealedPropertiesCovered": [
+    "D9 class+code derivation (candidate, improved)",
+    "invariant-identity-expiry (axis-level restored)"
+  ]
+}

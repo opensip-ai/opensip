@@ -1,0 +1,260 @@
+{
+  "artifact": "opensip.r1-lifetime-neutrality.conformance",
+  "version": "1.3",
+  "status": "CANDIDATE-UNREVIEWED",
+  "supersedes": "1.2",
+  "author": "agent-3",
+  "reviewStatus": "AUTHORED SOLO in response to A2's v1.1 rejection. Not re-reviewed.",
+  "purpose": "Close R-1 item (1) \u2014 core lifetime-neutrality \u2014 by defining the execution-core boundary, removing the duplicate storage authority, making ambient authority mechanically detectable, and correcting two over-claiming tests.",
+  "resolves": {
+    "A2-R1-06 / A2-R1-V11-01": "Execution-core boundary defined explicitly. Five previously unresolved authorities are each placed INSIDE (injected) or OUTSIDE (forbidden), with a reason. CoreDeps is no longer asserted exhaustive by fiat; exhaustiveness is now a consequence of the boundary plus LN-11's closure test.",
+    "A2-R1-V11-02": "LN-02 rewritten. It no longer claims completeness from a field list. LN-11 adds import/call-closure analysis and LN-12 adds runtime denial of ambient authority \u2014 the two methods that can detect what a field list cannot.",
+    "A2-R1-V11-03": "LN-06 corrected: both stores carry byte-identical authoritative ledger, baseline, evidence and derivation inputs, differing ONLY in disposable acceleration entries. The prior populated-vs-empty comparison could not distinguish a lifetime bug from missing authoritative data.",
+    "A2-R1-V11-04": "LN-09 corrected: the required outcome set now permits a typed busy-timeout after bounded retries. The prior 'both succeed' assertion over-claimed liveness the storage protocol never promised.",
+    "A2-R1-06.signatureDefect": "Duplicate storage authority removed. StoreHandle is supplied ONLY through CoreDeps; the analyze signature no longer takes it separately.",
+    "B-R1V12-01": "ACCEPTED. Deterministic ExecutionId was an error \u2014 it conflated the attempt anchor with content-derived result identity. LN-13 corrected: digests match, ExecutionIds differ. The injected ID source stays, because injection is what makes non-determinism testable rather than ambient."
+  },
+  "decisionDependencies": [
+    {
+      "id": "R-1",
+      "source": "architecture/08-surfaces-and-topology.md#topology-reopened",
+      "claim": "four separable decisions; only core lifetime-neutrality closable now"
+    },
+    {
+      "id": "ARCH.STORAGE.MULTIPROCESS",
+      "source": "architecture/03-execution-model.md#concurrency",
+      "claim": "contention resolved by busy-timeout, idempotent insert, write-then-link \u2014 integrity, not liveness"
+    },
+    {
+      "id": "ARCH.WARM-STATE",
+      "source": "architecture/08-surfaces-and-topology.md#what-is-not-in-doubt",
+      "claim": "warm state is an acceleration, never an evidence authority"
+    },
+    {
+      "id": "ARCH.DETERMINISM",
+      "source": "architecture/02-domain-model.md#determinism-stated-precisely",
+      "claim": "equality only for deterministic producers under identical identities and exact Coverage"
+    },
+    {
+      "id": "D9.LEDGER-BUSY",
+      "source": "artifacts/d9-exit-contract.v1.4.json",
+      "claim": "LEDGER.BUSY_TIMEOUT is a typed operational termination distinct from corruption"
+    }
+  ],
+  "executionCoreBoundary": {
+    "definition": "The execution core takes a sealed Snapshot and a validated Plan and produces a SealedRun. It performs no admission, no resolution, and no supervision.",
+    "inside": [
+      {
+        "authority": "fact derivation, rule evaluation, policy evaluation",
+        "why": "This is the core's job."
+      },
+      {
+        "authority": "budget accounting",
+        "why": "Budgets are Plan inputs and their exhaustion is Coverage, which the core must produce."
+      }
+    ],
+    "outside": [
+      {
+        "authority": "configuration and contribution resolution",
+        "why": "InvocationPlan work (c2-plan-stage-schema.v2). The core receives resolved identities."
+      },
+      {
+        "authority": "admission and capability granting",
+        "why": "Grants are fixed in PlanId before the core runs. A core that could grant could escalate."
+      },
+      {
+        "authority": "external process supervision and sandboxing",
+        "why": "Probe and scanner execution is supervised OUTSIDE the core. Placing a process supervisor inside would give the core spawn authority, defeating LN-12."
+      },
+      {
+        "authority": "transport, RPC, session lifecycle",
+        "why": "Host concerns. Their absence from the core is what makes lifetime-neutrality meaningful."
+      }
+    ],
+    "injectedNotAmbient": [
+      {
+        "authority": "ID and entropy source",
+        "resolution": "INJECTED and deterministic. RunId/ExecutionId are content-derived or supplied. Ambient random generation defeats replay and every equality test.",
+        "wasUnresolved": true
+      },
+      {
+        "authority": "rule and contribution resolver",
+        "resolution": "INJECTED as a resolved, immutable map. A Plan names work by identity; resolution happened outside. The core cannot look anything up.",
+        "wasUnresolved": true
+      },
+      {
+        "authority": "scheduler and resource meter",
+        "resolution": "INJECTED. The core requests execution through a supplied scheduler; it does not create threads or processes itself.",
+        "wasUnresolved": true
+      },
+      {
+        "authority": "diagnostics sink",
+        "resolution": "INJECTED and bounded. A no-op sink must be valid and must not change results (LN-10).",
+        "wasUnresolved": true
+      },
+      {
+        "authority": "external-process supervisor",
+        "resolution": "OUTSIDE the core entirely \u2014 see `outside`. Probe execution is host-supervised; the core receives observations as inputs.",
+        "wasUnresolved": true
+      }
+    ],
+    "exhaustiveness": {
+      "claimed": false,
+      "why": "v1.1 asserted CoreDeps exhaustive, which A2 correctly rejected: a field list cannot prove the absence of unlisted ambient access. Exhaustiveness is now the CONCLUSION of LN-11 and LN-12, not a premise."
+    }
+  },
+  "coreApi": {
+    "signature": "analyze(snapshot: SealedSnapshot, plan: ValidatedPlan, deps: CoreDeps) -> SealedRun",
+    "changeFromV1_1": "StoreHandle removed from the positional signature. It is supplied only via CoreDeps, so there is exactly one storage authority path (A2-R1-06).",
+    "coreDeps": [
+      "clock",
+      "cancellation",
+      "snapshotAccess",
+      "environmentIdentity",
+      "progressSink",
+      "diagnosticsSink",
+      "storeHandle",
+      "providerRegistry",
+      "ruleRegistry",
+      "idSource",
+      "scheduler",
+      "budgets"
+    ],
+    "explicitlyAbsent": [
+      "cachePolicy or any cold/warm discriminator",
+      "isResident / lifetime / hostKind",
+      "process-global singletons, ambient scope, thread-local context",
+      "process spawn, network, or filesystem access of any kind"
+    ]
+  },
+  "conformanceTests": [
+    {
+      "id": "LN-01",
+      "assert": "Two core instantiations in one process with disjoint deps produce results with no observable interference."
+    },
+    {
+      "id": "LN-02",
+      "assert": "The core constructs only when every CoreDeps member is supplied. Omitting any is a construction-time error, never a silent ambient fallback.",
+      "note": "REWRITTEN: this now claims only what it can prove \u2014 no fallback for LISTED members. Completeness is LN-11/LN-12's job."
+    },
+    {
+      "id": "LN-03",
+      "assert": "Concurrent Plans for different ProjectIds with distinct storage authorities produce independent SealedRuns."
+    },
+    {
+      "id": "LN-04",
+      "assert": "The core's public surface contains no parameter, field, or environment read distinguishing a one-shot from a resident host. Provable with no resident host in existence."
+    },
+    {
+      "id": "LN-05",
+      "assert": "Two sequential invocations in one process with identical Snapshot, Plan, toolchain and environment identities and identical exact Coverage yield byte-identical EvidenceDigests.",
+      "preconditions": [
+        "producers declared deterministic",
+        "identical identities",
+        "identical exact Coverage"
+      ]
+    },
+    {
+      "id": "LN-06",
+      "assert": "Two invocations against stores carrying BYTE-IDENTICAL authoritative ledger, baseline, evidence and derivation inputs, differing only in disposable acceleration entries, yield byte-identical EvidenceDigests. The core cannot observe store implementation, cache warmth, hit rate, or entry presence except through fact/CAS operations whose semantic result is identical.",
+      "note": "CORRECTED per A2-R1-V11-03. The prior populated-vs-empty form could not distinguish a lifetime bug from absent authoritative data."
+    },
+    {
+      "id": "LN-07",
+      "assert": "Cancelling the supplied token terminates the attempt with an honest terminal or abandoned state \u2014 never a sealed passing empty Run \u2014 and leaves no orphaned child process."
+    },
+    {
+      "id": "LN-09",
+      "assert": "Two concurrent Plans for the SAME ProjectId and storage authority: EACH contender either publishes one valid SealedRun or returns a typed LEDGER.BUSY_TIMEOUT after bounded retries. Every successful write remains reachable. No corrupt, partial, or lost publication is observable.",
+      "note": "CORRECTED per A2-R1-V11-04. Integrity is guaranteed; liveness for both contenders is not, and the protocol never promised it."
+    },
+    {
+      "id": "LN-10",
+      "assert": "Results and EvidenceDigest are identical whether a recording or a no-op progress/diagnostics sink is supplied."
+    },
+    {
+      "id": "LN-11",
+      "assert": "CLOSURE ANALYSIS: the import/call closure of the execution core reaches no filesystem, network, process-spawn, environment, ambient-random, signal-handler, thread-local, or global-registry API. A reachable one is a finding even if unused at runtime.",
+      "note": "NEW per A2-R1-V11-02. This is the method that detects what a field list cannot \u2014 and it is the same method that caught two earlier capability errors in this exercise."
+    },
+    {
+      "id": "LN-12",
+      "assert": "RUNTIME DENIAL: with ambient authorities revoked or stubbed to fail, the core completes a representative Plan successfully. Any attempt to reach environment, filesystem, network, spawn, or ambient entropy fails the test."
+    },
+    {
+      "id": "LN-13",
+      "assert": "For identical inputs, the core produces an identical EvidenceDigest while ExecutionIds DIFFER. ExecutionId is an ATTEMPT anchor allocated at admission and must be unique per attempt; RunId/EvidenceDigest are content-derived. The ID source is injected so both properties are testable.",
+      "correctedFrom": "v1.2 asserted identical RunId AND ExecutionId for identical inputs. That was wrong: if two attempts on identical inputs share an ExecutionId, a retry is indistinguishable from the original, crash recovery cannot mark one specific orphan abandoned, and two concurrent attempts on one project collide. Confirmed against B-R1V12-01."
+    }
+  ],
+  "productObligationsNotClosedHere": [
+    {
+      "id": "PO-01",
+      "obligation": "A full-capability one-shot host must exist for CI, offline use, and recovery.",
+      "why_separate": "A product/deployment obligation, not evidence of core re-entrancy."
+    }
+  ],
+  "sealedPropertiesCovered": [
+    {
+      "property": "warm state is an acceleration, never an evidence authority",
+      "dischargedBy": [
+        "LN-06"
+      ]
+    },
+    {
+      "property": "any evidence-writing host is multi-process safe (integrity, not liveness)",
+      "dischargedBy": [
+        "LN-09"
+      ]
+    },
+    {
+      "property": "equality only for deterministic producers under identical identities",
+      "dischargedBy": [
+        "LN-05",
+        "LN-06"
+      ]
+    },
+    {
+      "property": "crash/cancel never yields a passing empty Run",
+      "dischargedBy": [
+        "LN-07"
+      ]
+    },
+    {
+      "property": "telemetry is never evidence",
+      "dischargedBy": [
+        "LN-10"
+      ]
+    },
+    {
+      "property": "no ambient authority in the core",
+      "dischargedBy": [
+        "LN-11",
+        "LN-12",
+        "LN-13"
+      ]
+    }
+  ],
+  "peerReviewRequired": [
+    "Is placing the external-process supervisor OUTSIDE the core correct? It means Probe observations enter the core as inputs, which may be the wrong factoring if probes need to interleave with fact derivation.",
+    "Is LN-11's closure analysis achievable for a core that necessarily links a storage library, which itself touches the filesystem? The boundary may need to be drawn at the StoreHandle interface rather than at the link graph.",
+    "LN-13 assumes content-derived or injected identity. Does that hold for ExecutionId, which is allocated at admission before content is known?"
+  ],
+  "knownLimitations": [
+    "A conformance specification, not an implemented suite.",
+    "LN-11 has a real tension noted in peer review: a storage dependency legitimately touches the filesystem, so the closure boundary probably has to be the StoreHandle interface. This artifact does not resolve that and it may weaken LN-11 materially.",
+    "Nothing here measures performance. R-1 items (2)-(4) are untouched by a passing suite.",
+    "Authored solo; the boundary placement of five authorities is judgment, and A2 explicitly flagged medium confidence on which side each belongs.",
+    "Reviewer B raised six further findings (B-R1V12-02..07) covering the filesystem-port/closure contradiction, incomplete Plan API, suite scope, overclaimed exhaustiveness, typed completion, and the one-shot obligation bypassing reopened status. Only B-R1V12-01 is addressed in v1.3; the rest are accepted as filed and outstanding."
+  ],
+  "priorFindingDispositions": {
+    "A2-R1-01": "PARTIAL in v1 \u2014 LN-04 had the right negative shape but semantic neutrality was unproven until the capability boundary closed. CLOSED by executionCoreBoundary plus LN-11 (closure) and LN-12 (runtime denial).",
+    "A2-R1-02": "ACCEPT in v1 \u2014 no LN test intrinsically requires a resident host. Still true in v1.2.",
+    "A2-R1-03": "PARTIAL in v1 \u2014 LN-09 exercised the right contention case but over-asserted liveness. CLOSED by the corrected LN-09 required-outcome set permitting typed LEDGER.BUSY_TIMEOUT.",
+    "A2-R1-04": "ACCEPT in v1 \u2014 deterministic equality preconditions explicit. Retained and extended to LN-06.",
+    "A2-R1-05": "ACCEPT in v1 \u2014 cachePolicy removal correct. Retained; explicitlyAbsent now also bars any lifetime discriminator.",
+    "A2-R1-06": "REJECT in v1.1 \u2014 CoreDeps not exhaustive, two storage authorities. CLOSED: duplicate StoreHandle removed from the positional signature; exhaustiveness withdrawn as a premise and made a conclusion of LN-11/LN-12.",
+    "A2-R1-07": "ACCEPT in v1 \u2014 decision source paths resolvable. Retained.",
+    "A2-R1-08": "ACCEPT in v1 \u2014 one-shot availability separated as a product obligation. Retained as PO-01."
+  }
+}

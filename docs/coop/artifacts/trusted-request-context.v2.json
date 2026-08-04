@@ -1,0 +1,355 @@
+{
+  "artifact": "opensip.trusted-request-context",
+  "version": 2,
+  "date": "2026-08-01",
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "purpose": "Extract the minimum host-owned REQUEST-ID-V1 authority needed to pass an opaque TrustedRequestContextV2 across host components without making a raw RequestId, an observability envelope, or any downstream analysis contract into authority.",
+  "authorityBoundary": {
+    "owner": "orchestration host request-ingress adapter",
+    "type": "TrustedRequestContextV2",
+    "rule": "Only the trusted host ingress may mint this opaque capability, and only after canonical RequestId validation and successful atomic reservation. Downstream code may project its RequestId value for closed operational correlation records but cannot construct, replace, serialize, copy, unpickle, or reinterpret the capability.",
+    "nonAuthority": "This leaf does not define an event envelope, attempt identity, semantic record, storage transaction, analysis result, or product behavior.",
+    "modelBoundary": "The Python checker is an executable model of a trusted host constructor and process-local registry. It does not claim resistance to arbitrary same-process memory writes or debugger compromise. Production Rust module privacy owns the actual capability boundary."
+  },
+  "sourceAuthority": {
+    "artifact": "operability.v2.json",
+    "sha256": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+    "checker": "check-operability.py",
+    "checkerSha256": "925496916ef2c7075c02f7a767353aa6ff047cf55557304f3983e17e1c5256e2",
+    "jsonPointer": "/requestIdContract",
+    "sourceId": "REQUEST-ID-V1",
+    "extractionRule": "The checker loads the exact pinned OPERABILITY v2 artifact and recomputes sourceProjection from a closed path set. Every declared local executable dependency is authenticated by hashing its exact source bytes and compiling/executing those bytes in an isolated namespace; path/importlib loaders capable of selecting __pycache__ are not used. The source checker's whole-contract check is not invoked."
+  },
+  "sourceProjection": {
+    "id": "REQUEST-ID-V1",
+    "status": "IMPLEMENTABLE",
+    "authority": {
+      "allocationOwner": "orchestration host request-ingress adapter",
+      "callerRule": "Public callers MUST NOT supply requestId. An optional caller correlation token is accepted only in a separately typed clientCorrelationId field, is untrusted display/audit metadata, and never aliases or replaces RequestId.",
+      "propagationRule": "After allocation, the immutable typed RequestContext is the only source of RequestId for events, host-audit records, and child operations. Sinks, providers, stages, profiles, and projection adapters cannot mint, replace, or accept a raw RequestId."
+    },
+    "allocation": {
+      "point": "Immediately when a CLI/API/stored-view invocation crosses the first trusted host ingress, before request parsing, request validation, contribution/capability admission, project resolution, stored-Run lookup, event creation, ExecutionId allocation, or AttemptRecord creation.",
+      "allRequests": [
+        "requests later rejected during parse or request-validation",
+        "requests admitted as analysis attempts",
+        "stored-Run and stored-fact read/projection requests",
+        "host-mutation requests"
+      ],
+      "entropyBoundary": "Uses OS CSPRNG only as non-analysis host correlation metadata. RequestId is excluded from every analysis identity and semantic result, so this does not weaken the RESOLVED-INPUTS prohibition on entropy influencing analysis."
+    },
+    "representation": {
+      "raw": "16 uniformly random bytes from the OS CSPRNG",
+      "text": "req1_<32 lowercase hexadecimal characters>",
+      "regex": "^req1_[0-9a-f]{32}$",
+      "decode": "The 32 hexadecimal characters decode to exactly the 16 allocated bytes. Uppercase, padding, braces, UUID hyphens, alternate prefixes, empty values, or Unicode lookalikes are invalid rather than aliases.",
+      "schemaVersion": 1
+    },
+    "collisionAndRetry": {
+      "reservationAuthority": "host RequestId registry",
+      "reservationRule": "Before publishing RequestContext or any EventEnvelope, atomically reserve the candidate under a unique RequestId constraint. A host using durable audit/event custody reserves in the host request ledger transaction; an explicitly ephemeral invocation reserves in the process registry for its complete lifetime.",
+      "maximumCandidates": 8,
+      "onCollision": "Discard the colliding candidate, draw a fresh independent 16-byte candidate, and retry atomic reservation. Never reuse the colliding candidate with a suffix or overwrite the existing request.",
+      "externalRetry": "Every new CLI invocation, API call, transport retry, or stored-view read is a new request and receives a new RequestId. RequestId is not an idempotency key. A mutation uses its separately typed mutationId; an internal retry that remains inside one accepted host request retains the same RequestContext and RequestId.",
+      "collisionScope": "Uniqueness is enforced over the registry's custody lifetime. A durable ledger never reissues an ID present in that ledger; an explicitly ephemeral process prevents duplicates among its live/retained-in-process requests."
+    },
+    "custody": {
+      "requestContext": "Host-owned immutable value from successful reservation until every child operation and event sink closes.",
+      "operationalRecords": "May be retained in bounded progress/diagnostic/telemetry records and is required in HostAuditRecord. Retention follows the owning operational/audit plane, not analysis evidence custody.",
+      "redaction": "RequestId is opaque and contains no timestamp, project, user, path, or source content; it is still treated as correlation metadata in support bundles."
+    },
+    "semanticExclusion": {
+      "excludedFrom": [
+        "SnapshotId preimage",
+        "PlanId preimage",
+        "fact identity and fingerprints",
+        "FactViewId",
+        "EvidenceDigest and evaluation proofs",
+        "RunId derivation",
+        "sealed Run semantic manifest",
+        "Coverage, findings, verdict, policy and termination derivation",
+        "cache and regeneration keys"
+      ],
+      "rule": "Changing only RequestId while holding all semantic inputs and exact Coverage fixed cannot change SnapshotId, PlanId, any fact/finding identity, EvidenceDigest, RunId, Run content, verdict, or termination. RequestId may correlate operational records but never establishes evidence authority."
+    }
+  },
+  "dependencyClosure": {
+    "data": [
+      "operability.v2.json"
+    ],
+    "executable": [
+      "check-operability.py"
+    ],
+    "rule": "No other artifact or checker is loaded. Local executable dependencies must appear in the declared set, be hash-authenticated from source bytes, and execute only via compile of those exact bytes. Undeclared local imports are rejected. Timestamp-valid malicious .pyc images are never selected.",
+    "forbiddenBackEdges": [
+      "current OPERABILITY successor",
+      "analysis evidence contract",
+      "event-envelope contract",
+      "attempt-identity contract",
+      "delivery or projection contract",
+      "retention or D9 contract",
+      "E8 or OP6"
+    ]
+  },
+  "capabilityContract": {
+    "type": "TrustedRequestContextV2",
+    "opaque": true,
+    "serializable": false,
+    "copyable": false,
+    "publicConstructors": [],
+    "mintOwner": "HostRequestIngressV2",
+    "mintAuthority": "Process-local mint gate held only by HostRequestIngressV2. No module-global mint token is exported. Projection accepts only instances registered by that trusted constructor under the minting gate's private registry.",
+    "mintPreconditions": [
+      "the candidate decodes as exactly sixteen bytes under REQUEST-ID-V1",
+      "the candidate is atomically reserved under the host RequestId registry's unique constraint",
+      "the invocation has crossed trusted ingress and has not yet published a child operation"
+    ],
+    "forbiddenConstructionSources": [
+      "raw string",
+      "parsed JSON",
+      "public caller",
+      "event sink",
+      "provider",
+      "stage",
+      "profile",
+      "projection adapter",
+      "object.__new__ plus slot injection",
+      "copy or deepcopy",
+      "pickle dumps or loads",
+      "reconstructed lookalike",
+      "wrong-authority instance",
+      "registry substitution"
+    ],
+    "allowedProjection": {
+      "method": "request_id(TrustedRequestContextV2) -> RequestIdV1",
+      "fields": [
+        "requestId"
+      ],
+      "representation": "^req1_[0-9a-f]{32}$",
+      "persistence": "The projected value may enter only a downstream closed operational-correlation record. The capability, mint gate, and registry never serialize."
+    },
+    "tokenRule": "No module-global mint token exists. Mint authority is private to HostRequestIngressV2, process-local, nonserializable, absent from the RequestId projection, and never accepted as caller data."
+  },
+  "invocationLifecycle": {
+    "acceptedKinds": [
+      "CLI",
+      "API",
+      "recovery"
+    ],
+    "internalRetry": "An internal retry inside one accepted invocation receives the identical TrustedRequestContextV2 capability and identical RequestId; it performs no new allocation or reservation.",
+    "newInvocation": "Every new CLI, API, or recovery invocation allocates and reserves a new canonical RequestId and receives a distinct TrustedRequestContextV2. A prior capability cannot be supplied as the new invocation's authority.",
+    "transportRetry": "A transport retry that crosses trusted ingress is a new invocation. A retry wholly contained inside the accepted host invocation is internalRetry.",
+    "collision": "A reserved RequestId cannot mint a second context. Collision handling remains owned by the pinned REQUEST-ID-V1 source and never overwrites or aliases the existing reservation."
+  },
+  "semanticBoundary": {
+    "classification": "operational-correlation-only",
+    "rule": "Neither the capability nor its projected RequestId is an analysis input or evidence authority. Only explicitly downstream operational schemas may persist the projection.",
+    "forbiddenParticipation": [
+      "SnapshotId preimage",
+      "PlanId preimage",
+      "fact identity and fingerprints",
+      "FactViewId",
+      "EvidenceDigest and evaluation proofs",
+      "RunId derivation",
+      "sealed Run semantic manifest",
+      "Coverage, findings, verdict, policy and termination derivation",
+      "cache and regeneration keys"
+    ],
+    "downstreamSchemasDefinedHere": []
+  },
+  "positiveControls": [
+    {
+      "id": "TRC2-POS-01-CLI-MINT",
+      "assert": "A canonical unreserved candidate at trusted CLI ingress yields one opaque context and the exact RequestId projection."
+    },
+    {
+      "id": "TRC2-POS-02-INTERNAL-RETRY",
+      "assert": "Internal retry returns the identical capability without allocation or reservation."
+    },
+    {
+      "id": "TRC2-POS-03-API-NEW-CONTEXT",
+      "assert": "A new API invocation receives a distinct context with a distinct reserved RequestId."
+    },
+    {
+      "id": "TRC2-POS-04-RECOVERY-NEW-CONTEXT",
+      "assert": "A new recovery invocation receives a distinct context with a distinct reserved RequestId."
+    },
+    {
+      "id": "TRC2-POS-05-NONSERIALIZABLE",
+      "assert": "JSON, pickle, copy, and deepcopy reject the capability while its RequestId projection remains canonical text."
+    }
+  ],
+  "adversarialControls": [
+    {
+      "id": "TRC2-NEG-01-RAW-STRING",
+      "input": "raw string as context",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-02-PARSED-JSON",
+      "input": "parsed JSON object as context",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-03-CALLER-CONSTRUCTION",
+      "input": "public caller constructs context",
+      "expected": "TRUSTED_INGRESS_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-04-SINK-CONSTRUCTION",
+      "input": "event sink constructs context",
+      "expected": "TRUSTED_INGRESS_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-05-PROVIDER-CONSTRUCTION",
+      "input": "provider constructs context",
+      "expected": "TRUSTED_INGRESS_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-06-UPPERCASE",
+      "input": "uppercase RequestId",
+      "expected": "REQUEST_ID_INVALID_REPRESENTATION"
+    },
+    {
+      "id": "TRC2-NEG-07-UUID-ALIAS",
+      "input": "UUID-shaped alias",
+      "expected": "REQUEST_ID_INVALID_REPRESENTATION"
+    },
+    {
+      "id": "TRC2-NEG-08-COLLISION-REUSE",
+      "input": "already reserved RequestId",
+      "expected": "REQUEST_ID_COLLISION"
+    },
+    {
+      "id": "TRC2-NEG-09-INTERNAL-REMINT",
+      "input": "internal retry remints context",
+      "expected": "INTERNAL_RETRY_CONTEXT_DRIFT"
+    },
+    {
+      "id": "TRC2-NEG-10-EXTERNAL-CONTEXT-REUSE",
+      "input": "new invocation supplies prior context",
+      "expected": "NEW_INVOCATION_REQUIRES_NEW_CONTEXT"
+    },
+    {
+      "id": "TRC2-NEG-11-CAPABILITY-SERIALIZATION",
+      "input": "serialize opaque capability",
+      "expected": "TRUSTED_CONTEXT_NONSERIALIZABLE"
+    },
+    {
+      "id": "TRC2-NEG-12-SEMANTIC-PROJECTION",
+      "input": "project context into semantic input",
+      "expected": "REQUEST_ID_SEMANTIC_EXCLUSION_VIOLATION"
+    },
+    {
+      "id": "TRC2-NEG-13-OBJECT-NEW-FORGE",
+      "input": "object.__new__ plus mangled slot injection",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC2-NEG-14-COPY",
+      "input": "copy.copy of trusted context",
+      "expected": "TRUSTED_CONTEXT_NONCOPYABLE"
+    },
+    {
+      "id": "TRC2-NEG-15-DEEPCOPY",
+      "input": "copy.deepcopy of trusted context",
+      "expected": "TRUSTED_CONTEXT_NONCOPYABLE"
+    },
+    {
+      "id": "TRC2-NEG-16-PICKLE-CONTEXT",
+      "input": "pickle.dumps trusted context",
+      "expected": "TRUSTED_CONTEXT_NONSERIALIZABLE"
+    },
+    {
+      "id": "TRC2-NEG-17-UNPICKLE-LOOKALIKE",
+      "input": "unpickle reconstructed lookalike",
+      "expected": "TRUSTED_CONTEXT_REQUIRED"
+    },
+    {
+      "id": "TRC2-NEG-18-WRONG-AUTHORITY",
+      "input": "project context under a different mint gate",
+      "expected": "TRUSTED_CONTEXT_WRONG_AUTHORITY"
+    },
+    {
+      "id": "TRC2-NEG-19-REGISTRY-SUBSTITUTION",
+      "input": "module registry substitution with forged id",
+      "expected": "TRUSTED_CONTEXT_UNREGISTERED"
+    },
+    {
+      "id": "TRC2-NEG-20-NO-GLOBAL-MINT-TOKEN",
+      "input": "construct via leaked module-global mint token",
+      "expected": "TRUSTED_INGRESS_REQUIRED"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "TRC2-1",
+      "assert": "The source projection is recomputed from the exact pinned REQUEST-ID-V1 authority rather than trusted as authored presence."
+    },
+    {
+      "id": "TRC2-2",
+      "assert": "Only host ingress can mint TrustedRequestContextV2 and only after canonical validation plus successful reservation into a private registry."
+    },
+    {
+      "id": "TRC2-3",
+      "assert": "Raw strings, parsed JSON, callers, sinks, providers, stages, profiles, adapters, object.__new__ forgeries, copies, pickles, wrong-authority instances, and registry substitutions cannot substitute for the opaque capability."
+    },
+    {
+      "id": "TRC2-4",
+      "assert": "The capability exposes exactly one canonical RequestId projection and is itself nonserializable and noncopyable."
+    },
+    {
+      "id": "TRC2-5",
+      "assert": "Internal retry retains one context; every new CLI, API, or recovery invocation gets a distinct newly reserved context."
+    },
+    {
+      "id": "TRC2-6",
+      "assert": "RequestId remains operational-only and cannot influence any enumerated semantic identity or result."
+    },
+    {
+      "id": "TRC2-7",
+      "assert": "Declared local executables run only from hash-authenticated source bytes; timestamp-valid malicious .pyc images are never executed."
+    }
+  ],
+  "assurance": {
+    "state": "IMPLEMENTABLE_UNEXECUTED",
+    "checkerEvidence": "DESIGN-INTEGRITY-ONLY",
+    "runtimeImplementationExecuted": false,
+    "productQualified": false,
+    "productDemonstrated": false,
+    "applicationAuthorized": false
+  },
+  "retainedResiduals": [
+    {
+      "id": "INDEPENDENT-REVIEW",
+      "state": "REQUIRED",
+      "effect": "No consumer may treat this candidate as accepted authority until a reviewer independently reconstructs the source extraction, hash-exec path, and registry-based capability probes."
+    },
+    {
+      "id": "PRODUCTION-CAPABILITY-IMPLEMENTATION",
+      "state": "UNEXECUTED",
+      "effect": "The checker uses an in-process opaque design double. Production Rust module privacy owns the real capability boundary; this model does not demonstrate allocator, durable registry, restart, concurrency, or resistance to arbitrary same-process memory/debugger compromise."
+    },
+    {
+      "id": "ATOMIC-RESERVATION-RUNTIME",
+      "state": "UNEXECUTED",
+      "effect": "The checker models a single-process set update; it is not evidence of a durable atomic unique constraint or multi-thread behavior."
+    }
+  ],
+  "findingDispositions": [
+    {
+      "id": "TRC-PF-01-UNPINNED-PYC-EXECUTION",
+      "sourceReview": "trusted-request-context.v1.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-AND-REPAIRED-IN-V2",
+      "repair": "Executable dependencies are authenticated by hashing exact source bytes then compile()/exec() of that buffer in an isolated namespace. importlib path loaders and __pycache__ selection are not used. Retained probe TRC2-ADV-PYC proves a timestamp-valid malicious .pyc is ignored."
+    },
+    {
+      "id": "TRC-PF-02-CAPABILITY-ORACLE-FORGEABLE",
+      "sourceReview": "trusted-request-context.v1.review-independent-prefreeze.json",
+      "disposition": "ACCEPTED-AND-REPAIRED-IN-V2",
+      "repair": "Module-global mint token removed. Projection accepts only registry-registered instances minted by HostRequestIngressV2 under a private nonserializable mint gate. Retained probes cover object.__new__ forge, copy/deepcopy, pickle/unpickle, wrong authority, and registry substitution."
+    }
+  ],
+  "sealRecommendation": "DO-NOT-SEAL-OR-APPLY"
+}

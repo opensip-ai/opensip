@@ -1,0 +1,75 @@
+{
+  "artifact": "opensip.c2-analysis-collapse-challenge",
+  "version": 1,
+  "reviewer": "agent-1",
+  "date": "2026-07-29",
+  "status": "challenge",
+  "sealedPropertiesCovered": [
+    "graph is substrate not peer tool",
+    "Probe is distinct effectful stage",
+    "one evidence Run model",
+    "narrow producers"
+  ],
+  "question": "C-2 — Is 'there are not four analysis products' right, or a category error?",
+  "documentUnderReview": "architecture/05-rules-and-extensions.md",
+  "accepted": {
+    "fourPeerToolsIsWrongCenter": true,
+    "detail": "fit/graph/yagni as peer Tool universes force duplicate inventories and lateral deps. Graph-as-substrate and rules-over-facts are correct greenfield center."
+  },
+  "partiallyRejected": {
+    "claim": "one analysis stage over profiles + one Probe stage is the full story",
+    "problem": "Collapses two different architectural layers: (1) mechanism identity, (2) scheduling/stage identity. Differing cardinality, failure modes, and budgets are real — they belong to plan stages and profiles, not peer products."
+  },
+  "distinctions": [
+    {
+      "id": "DIST-1",
+      "name": "mechanism",
+      "areTheyDifferent": false,
+      "for": ["fitness rules", "graph rules", "reduction queries"],
+      "note": "Same fact store, FactQuery, rule IR, fingerprint/Coverage model"
+    },
+    {
+      "id": "DIST-2",
+      "name": "plan stages",
+      "areTheyDifferent": true,
+      "examples": [
+        "inventory/snapshot",
+        "syntax extract",
+        "semantic extract",
+        "index materialize (graph adjacency)",
+        "rule evaluate (pack selection)",
+        "probe"
+      ],
+      "note": "Index build is not 'just a query' in the scheduling sense — it is a materialization stage with its own cost, cache, and Coverage. Treating it only as presentation loses budget isolation."
+    },
+    {
+      "id": "DIST-3",
+      "name": "failure modes",
+      "areTheyDifferent": true,
+      "examples": [
+        "partial graph resolution vs rule policy fail vs advisory reduction confidence vs probe sandbox fail"
+      ],
+      "note": "Same HostTermination union can express them; they must remain distinct reasonCodes / Coverage facets — not flattened into one 'analysis failed' UX"
+    },
+    {
+      "id": "DIST-4",
+      "name": "user intent / presentation",
+      "areTheyDifferent": true,
+      "architectureBoundary": false,
+      "note": "Profiles and projections — not separate engines"
+    },
+    {
+      "id": "DIST-5",
+      "name": "effectful simulation",
+      "areTheyDifferent": true,
+      "architectureBoundary": true,
+      "note": "Probe remains correctly distinct"
+    }
+  ],
+  "agent1Recommendation": {
+    "choose": "mechanism-collapse + explicit stage kinds",
+    "sealCandidateWording": "There is one analysis mechanism (facts, queries, rules, Coverage, Runs). There is not one flat analysis stage: the planner composes typed stages (extract, semantic, index, rule-packs, optional probe). Fitness, graph inspection, and reduction are profiles and projections over that mechanism — not peer products and not a single undifferentiated stage. Simulation remains a separate Probe contract.",
+    "confidence": "high",
+    "riskIfUnamended": "Teams reintroduce graph-as-tool scheduling under a new name, or force all work into one budget pool and break agent-fast vs full-CI"
+  }
+}

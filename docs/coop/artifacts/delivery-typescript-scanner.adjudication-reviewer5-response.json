@@ -1,0 +1,91 @@
+{
+  "artifact": "opensip.delivery-typescript-scanner.reviewer5-response",
+  "version": 1,
+  "adjudicator": "provider/scope closure lane",
+  "date": "2026-07-31",
+  "status": "ADJUDICATED-RESOLVED",
+  "adjudicates": [
+    "artifacts/delivery-typescript-scanner.review-reviewer5.json"
+  ],
+  "scope": [
+    "R5-DLTS-01 closed TypeScript provider protocol and multi-stage semantics",
+    "R5-DLTS-03 retained DELIVERY checker escapes",
+    "R5-DLSCOPE-01 REQUEST-ID-V1 identity fate",
+    "R5-DLSCOPE-02 aggregate scanner-admission contradiction"
+  ],
+  "findingDispositions": [
+    {
+      "findingId": "R5-DLTS-01",
+      "decision": "ACCEPT",
+      "status": "RESOLVED",
+      "repair": "delivery.v2.json now binds a closed protocol-major-1 deterministic-CBOR wire schema for all sixteen frames. Every payload and nested record has a closed required-field set, unknown/duplicate fields reject, byte/count limits are exact, and frame direction/terminal status is typed. One worker receives exactly one Analyze containing all and only matching TypeScript stages in verified logical order; dependencies, per-stage deterministic budgets, non-interleaved FactBatch/Coverage attribution, terminal StageResult bijection, stream commitments and whole-Analyze host admission atomicity are exact.",
+      "crossContractJoins": [
+        "OpenUniverse uses the exact resolved-inputs TypeScriptSemanticUniverseV1 and key recipe",
+        "FactCandidateV1 remains candidate-only and FACT-IDENTITY host-minted",
+        "CoverageKeyV1 is field-for-field equal to live C-2",
+        "Unavailable/BudgetExhausted carry exhaustive per-stage/relation Coverage"
+      ],
+      "commitment": "sha256:15404994c5002bac3b8f70b0a153b4db3f3df1fc49e966841216c3717e65cc93"
+    },
+    {
+      "findingId": "R5-DLTS-03",
+      "decision": "ACCEPT",
+      "status": "RESOLVED",
+      "repair": "check-delivery.py now checks typed worker cardinality, host/worker ownership, the protocol state machine, clean Unavailable, deterministic work-unit BudgetExhausted, network posture, exact offline assets, environment closure and the committed wire schema. Retained mutations reproduce R5-PROBE-01 through R5-PROBE-08 and additional frame/payload/FACT-IDENTITY/Coverage/budget attacks.",
+      "retainedResult": "62/62 DELIVERY mutations rejected"
+    },
+    {
+      "findingId": "R5-DLSCOPE-01",
+      "decision": "ACCEPT",
+      "status": "RESOLVED",
+      "repair": "The rejection identity is closed and agrees with live OPERABILITY REQUEST-ID-V1: one canonical host-owned RequestId is allocated and atomically reserved at first trusted ingress before parsing. RequestId is PRESENT; ExecutionId, AttemptRecord, SnapshotId, PlanId, RunId and Run are ABSENT. RequestId has no semantic participation.",
+      "retainedControls": [
+        "missing RequestId rejects",
+        "optional RequestId rejects",
+        "late RequestId allocation rejects"
+      ]
+    },
+    {
+      "findingId": "R5-DLSCOPE-02",
+      "decision": "ACCEPT",
+      "status": "RESOLVED",
+      "repair": "The aggregate admission rule is a closed object joined to the scanner overlay and the total v1 overlay. It requires request-validation rejection before attempt-admission and forbids later/stub admission. The checker compares it exactly and cross-checks live OPERABILITY and D9.",
+      "retainedControls": [
+        "post-check scanner admission rejects",
+        "post-attempt scanner inspection rejects",
+        "scanner-private D9 vocabulary rejects"
+      ]
+    }
+  ],
+  "changedBindingArtifacts": [
+    "artifacts/delivery.v2.json",
+    "artifacts/check-delivery.py"
+  ],
+  "changedNarratives": [
+    "architecture/01-product-boundary.md",
+    "architecture/05-rules-and-extensions.md",
+    "architecture/08-surfaces-and-topology.md"
+  ],
+  "verification": [
+    {"command": "python3 artifacts/check-delivery.py", "result": "PASS"},
+    {"command": "python3 artifacts/check-delivery.py --selftest", "result": "PASS — 62/62 mutations rejected"},
+    {"command": "python3 artifacts/check-c2.py && python3 artifacts/check-c2.py --selftest", "result": "PASS — 31 PlanIntent fixtures; 19/19 mutations rejected"},
+    {"command": "python3 artifacts/check-d9.py && python3 artifacts/check-d9.py --selftest", "result": "PASS — 44 goldens; 13/13 mutations rejected"},
+    {"command": "python3 artifacts/check-resolved-inputs.py && python3 artifacts/check-resolved-inputs.py --selftest", "result": "PASS — 37/37 mutations rejected"},
+    {"command": "python3 artifacts/check-operability.py && python3 artifacts/check-operability.py --selftest", "result": "PASS — 21/21 mutations rejected"},
+    {"command": "python3 artifacts/check-assurance.py && python3 artifacts/check-assurance.py --selftest", "result": "PASS — 12/12 mutations rejected"},
+    {"command": "python3 artifacts/check-claims.py && python3 artifacts/check-claims.py --selftest", "result": "PASS"}
+  ],
+  "assurance": {
+    "architectureState": "IMPLEMENTABLE",
+    "releaseState": "NOT-DEMONSTRATED",
+    "note": "Closed contracts and mutation checks establish design integrity. They do not demonstrate provider binaries, supported-platform behavior, release packaging or product isolation."
+  },
+  "nonChanges": [
+    "No product code was implemented.",
+    "No sandbox or runtime-confinement claim was introduced.",
+    "The bundled pinned rustc_driver sidecar decision was not reopened.",
+    "No claim register, plan, blueprint, freeze, retention/V10, TM, C-2, resolved-inputs, OPERABILITY or storage contract was edited by this lane."
+  ],
+  "sealRecommendation": "SEAL-WITH-CHANGES"
+}
