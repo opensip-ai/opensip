@@ -1,0 +1,551 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema",
+  "version": 11,
+  "supersedes": 10,
+  "date": "2026-08-04",
+  "status": "CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW. It binds nothing. No status, disposition, verdict or seal is changed by this file, no [UNSET] is introduced, CD-RT-5 remains BLOCKED_ON_PHASE_1A, and no IMPLEMENTATION-FREEZE section 7.1 row is closed. DO-NOT-SEAL.",
+  "author": "C-2 v11 repair lane, authored against c2-plan-stage-schema.v10.review-independent.json, whose verdict was NO BLOCKING FINDING at 0 blockers with 12 non-blocking residuals. This candidate repairs residuals; it does not repair a blocker, because there was none.",
+  "purpose": "Repair the non-blocking defects the v10 review recorded, and supply the companion instrument v10 conceded it lacked. The ALIAS ruling and documentIdentityEncoding are UPHELD and preserved; the one edit inside documentIdentityEncoding is forced by a repair and is declared as such.",
+  "bindingDeclaration": {
+    "kind": "candidate successor contract, derivation",
+    "status": "CANDIDATE",
+    "application": "NOT APPLIED",
+    "review": "AWAITING-INDEPENDENT-REVIEW",
+    "binds": "nothing",
+    "predecessorPath": "artifacts/c2-plan-stage-schema.v10.json",
+    "predecessorSha256": "0e550b1615c62cdd7b203221d4ddce6e229848c9e59e1403c1bb603ac5447406",
+    "predecessorState": "REVIEWED at NO BLOCKING FINDING, 0 blockers, 12 non-blocking residuals. It is NOT the head.",
+    "headPath": "artifacts/c2-plan-stage-schema.v9.json",
+    "headSha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+    "headState": "PASSED. v9 REMAINS THE HEAD and this artifact does not repoint it. check-c2-v9.py still exits 0 over it and its bytes are untouched. Application is a coordinator act.",
+    "changes": "no status, no disposition, no verdict, no seal, no [UNSET]",
+    "cdRt5": "CD-RT-5 remains BLOCKED_ON_PHASE_1A; this artifact does not touch it",
+    "doesNotClose": "It closes no freeze section 7.1 row, including the parked executionPlanCommitment row. Executing a control is not closing a row; closure is a coordinator act over a binding artifact.",
+    "filesWritten": "exactly two: this file and artifacts/check-c2-v11.py, which did not previously exist. No checker was edited, and no head, freeze, blueprint, claim register, v4, v9 or v10 byte was modified.",
+    "checkerModeContractUntouched": "checkerModeContract.checker is NOT in the operation list and still reads check-c2-v9.py. The new instrument is declared at the new companionInstrument key instead, so the head's instrument is not repointed by a candidate that binds nothing."
+  },
+  "derivedFrom": {
+    "predecessor": "c2-plan-stage-schema.v10.json",
+    "predecessorSha256": "0e550b1615c62cdd7b203221d4ddce6e229848c9e59e1403c1bb603ac5447406",
+    "rule": "The effective contract is the VERIFIED predecessor with the listed operations applied, and nothing else. No byte of the predecessor is transcribed into this file. The predecessor is itself a delta: it derives from c2-plan-stage-schema.v9.json, which derives from c2-plan-stage-schema.v4.json, so resolving this file walks a chain of depth 3 and every link is hash-verified before its bytes are parsed. Reading this file's top level and concluding a contract key is absent is the CMP-IR-01 error the freeze section 7.3 warns about; it has produced wrong answers repeatedly in this lineage.",
+    "operationNumbering": "ZERO-BASED. Operation 0 is the first. This is stated because IR-C2V10-NB-04 recorded that the corpus uses two conventions without declaring either, and that readers landing in the wrong place have already produced wrong answers. Zero-based agrees with check-completeness.py's own apply_operations error text.",
+    "operations": [
+      {
+        "op": "set",
+        "path": "version",
+        "from": 10,
+        "value": 11
+      },
+      {
+        "op": "set",
+        "path": "supersedes",
+        "from": 9,
+        "value": 10
+      },
+      {
+        "op": "set",
+        "path": "documentIdentityEncoding.productions.number",
+        "from": "FRAME('n', the shortest decimal string that round-trips to the same IEEE-754 binary64 value)",
+        "value": "FRAME('n', the shortest decimal string that round-trips to the same IEEE-754 binary64 value AND that always carries a decimal point or an exponent, so a number is never spelled the way an integer is spelled. The unqualified phrase 'the shortest decimal string that round-trips', which this production carried through v10, is NOT sufficient: it yields the payload 1 for the value 1.0, hence the token n1:1, and vector FF-6 pins n3:1.0. The exact total form is stated in numberProduction below, which is normative for this production."
+      },
+      {
+        "op": "add",
+        "path": "documentIdentityEncoding.numberProduction",
+        "value": {
+          "why": "IR-C2V10-NB-05. The v10 'number' production CONTRADICTED its own witnessing vector. This block states the production so that the vector follows from the rule instead of correcting it, and states which side was wrong and how that was decided.",
+          "theContradiction": "v10's production read: FRAME('n', the shortest decimal string that round-trips to the same IEEE-754 binary64 value) For the binary64 value 1.0 the shortest round-tripping decimal string is '1', because '1' parses back to exactly 1.0; the rule therefore yields the token n1:1. Vector FF-6 pins numberOne as n3:1.0. Both cannot be right.",
+          "theRuling": "THE VECTOR IS RIGHT AND THE PRODUCTION WAS WRONG. The vector is retained unchanged and the production is restated to entail it.",
+          "howTheRulingWasDecided": "By measurement against the instrument this block declares itself subordinate to, not by preference. documentIdentityEncoding.relationToTheChecker states the direction of this whole block: contract-states-what-code-does, never code-changed-to-match-contract. The pinned check-c2-v9.py computes the number token as jx_frame('n', repr(value)), and that host primitive emits '1.0' for 1.0 and never emits a bare integer spelling for a float. The vector reports what the pinned instrument computes; the production did not. Under this block's own declared direction the production is therefore the side that must move. Repairing the vector instead would have changed what the contract says the instrument does, which is the inversion the block exists to forbid.",
+          "rule": "Let v be a finite binary64 value. Let d1..dk (k at least 1) be the SHORTEST sequence of decimal digits, and E the integer, such that the magnitude of v equals 0.d1..dk times ten to the power E and no shorter digit sequence round-trips to the same binary64. For zero, k is 1, d1 is '0' and E is 1. Then the payload is: SIGN, followed by the SCIENTIFIC form when E is at most -4 or greater than 16, and by the POSITIONAL form otherwise.",
+          "sign": "A single leading HYPHEN-MINUS U+002D when the sign bit of v is set, and NEGATIVE ZERO has its sign bit set, so -0.0 is written -0.0 and is a different token from 0.0. No leading plus is ever written. Deciding the sign by comparing v to zero loses negative zero; the sign is the SIGN BIT.",
+          "scientificForm": "d1, then when k is greater than 1 a FULL STOP U+002E followed by d2..dk, then the letter 'e', then a mandatory sign '+' or '-', then the magnitude of E-1 in base ten padded with leading zeros to AT LEAST two digits. So 1e22 is written 1e+22 and 0.00001 is written 1e-05.",
+          "positionalForm": "The digits placed against the decimal point at E, padding with zeros on whichever side is short, and the result ALWAYS contains a full stop: when the value has no fractional part the payload ends '.0'. So 1.0 is written 1.0, 100.0 is written 100.0 and 1000000000000000.0 is written 1000000000000000.0.",
+          "theThresholdIsPartOfTheRule": "The switch at E at most -4 or E greater than 16 is normative, not incidental. Without it 1e16 and 0.0001 are each spellable two ways and the encoding is not a function. FF-N3 and FF-N4 below pin both edges.",
+          "vectors": [
+            {
+              "id": "FF-N1-integral-float-keeps-its-point",
+              "why": "the case FF-6 pins and the v10 production contradicted",
+              "input": "the binary64 value 1.0",
+              "underThisText": "n3:1.0",
+              "underTheRejectedReading": "n1:1",
+              "rejectedReading": "shortest round-tripping decimal with no point requirement",
+              "separates": true
+            },
+            {
+              "id": "FF-N2-negative-zero-is-signed",
+              "why": "negative zero compares equal to zero but is a distinct binary64 and a distinct token",
+              "input": "the binary64 value -0.0",
+              "underThisText": "n4:-0.0",
+              "underTheRejectedReading": "n3:0.0",
+              "rejectedReading": "sign decided by comparing the value to zero rather than by the sign bit",
+              "separates": true
+            },
+            {
+              "id": "FF-N3-upper-threshold",
+              "why": "E greater than 16 is the switch to scientific form; one step either side",
+              "inputA": "the binary64 value 1e15",
+              "underThisTextA": "n18:1000000000000000.0",
+              "inputB": "the binary64 value 1e16",
+              "underThisTextB": "n5:1e+16",
+              "rejectedReading": "a single form for both, or a threshold placed elsewhere",
+              "separates": true
+            },
+            {
+              "id": "FF-N4-lower-threshold-and-exponent-padding",
+              "why": "E at most -4 is the other switch, and the two-digit exponent is not implied by 'exponent'",
+              "inputA": "the binary64 value 0.0001",
+              "underThisTextA": "n6:0.0001",
+              "inputB": "the binary64 value 0.00001",
+              "underThisTextB": "n5:1e-05",
+              "underTheRejectedReadingB": "n4:1e-5",
+              "rejectedReading": "an unpadded exponent, or a missing exponent sign",
+              "separates": true
+            },
+            {
+              "id": "FF-N5-hundred",
+              "why": "IR-C2V10-NB-05 names 100.0 as a measured divergence; it is pinned here",
+              "input": "the binary64 value 100.0",
+              "underThisText": "n5:100.0",
+              "underTheRejectedReading": "n3:100",
+              "rejectedReading": "shortest round-tripping decimal with no point requirement",
+              "separates": true
+            }
+          ],
+          "whereThisIsLive": "The skeleton digest does NOT exercise this production -- exercisedByTheSkeletonDigest states that split and it is unaffected by this repair, because the head document carries zero number leaves and the skeleton binds path and JSON type only, never a value. This repair therefore moves NO published digest. It is nonetheless live: the resolved effective contract carries EIGHT float leaves, SIX of them exactly 1.0 and two exactly 1.5, and this block states the encoding is used for value comparison as well as for the skeleton. Under the v10 production those six leaves canonicalised to n1:1, which is also what the INTEGER 1 would have to canonicalise to if the tag were dropped -- the tag still separated them, so no false accept was reachable, but the contract said one thing and the instrument did another at six live positions.",
+          "theSixLiveOnePointZeroLeaves": [
+            "planIntentFixtures[36].mutation.value",
+            "planIntentFixtures[39].mutation.value",
+            "planIntentFixtures[41].mutation.value",
+            "planIntentTotalityMatrix.hostileValues[5].value",
+            "intentBindingFixtures[21].executionPlanMutation.value",
+            "coverageFixtures[18].entry.schemaVersion"
+          ],
+          "aCountThisRepairCorrects": "IR-C2V10-NB-05 records 'five of them exactly 1.0', and IMPLEMENTATION-FREEZE section 7.1 repeats 'across 5 live 1.0 leaves'. Measured three ways here -- a typed walk of the resolved effective contract, an independent scan of raw JSON number tokens, and token equality under this very encoding -- the count is SIX, and the six are enumerated above. FIVE IS AN UNDERCOUNT, and the source's own figures settle it without needing to trust any lane: the same sentence reports EIGHT float leaves in total, and this contract holds exactly two float leaves that are not 1.0, both 1.5. Five plus two is seven, not eight; six plus two is eight. The published pair is internally inconsistent and only one repair makes it consistent. This is recorded because an unenumerated count is the same defect as closedCollectionsCompared, and a repair that reproduced that defect while correcting it would be self-refuting.",
+          "howThisWasVerified": "The rule above was implemented from THIS TEXT and compared against the pinned instrument's number token over 30 hand-chosen edge values -- including 1.0, -0.0, 100.0, 1e15, 1e16, 1e22, 0.0001, 0.00001, the smallest subnormal and the largest finite binary64 -- and over roughly 600000 uniformly random bit patterns reinterpreted as binary64. Mismatches: ZERO. The two independent encoders described in reproduction were then re-run: they agree with each other on every one of those values, and both still reproduce the head's documentSkeleton.sha256 and all 29 root-subtree digests with 0 differing.",
+          "whatThisDoesNotEstablish": "It does not establish minimality of the statement, and it does not re-verify the head. It also does not claim the production is exercised by any published digest: it is not, and saying otherwise would restate the coverage-over-an-unobserved-region failure this contract exists to refuse."
+        }
+      },
+      {
+        "op": "add",
+        "path": "planIntent.attemptAndExecutionJoin.executionPlanCommitment.executability",
+        "value": {
+          "why": "IMPLEMENTATION-FREEZE section 7.2.2: a measurement that cannot fail the build is prose. The v10 review established that EPC-V2 could not fire -- the string EPC-V occurs in no executable in this corpus, and an executed discriminator showed that a record whose two positions DIFFER and a record whose two positions AGREE at the same wrong value are rejected IDENTICALLY by the head instruments, at ZERO named-condition hits, because what those instruments implement is golden-drift detection and not a positions-differ guard. A control that cannot distinguish the two readings it exists to distinguish is not a control.",
+          "whatChanged": "EPC-V2 IS NOW EXECUTED, by artifacts/check-c2-v11.py, which is written as part of this candidate and is not a path that does not exist. The gate is EPC-V2 and it can fail the run: it returns exit 1 with the position named.",
+          "theDecisionProcedureExecuted": "For a record carrying both positions for one ExecutionPlan: (1) assert each side INDEPENDENTLY to be the wire type sha256Id -- exact JSON string type and canonical spelling ^sha256:[0-9a-f]{64}$ -- before any comparison; (2) compare the two by BYTE equality of their UTF-8 encodings; (3) REJECT, naming the position executionPlanCommitment, unless they are byte-identical. This is requiredValue and comparisonDiscipline made executable, in that order, so that no comparison is ever performed on a value that has not first been type-asserted.",
+          "theDiscriminatorIsTheWholePoint": "The suite contains a witness whose two positions AGREE at a value that is NOT the published golden. That witness MUST be ACCEPTED. An implementation that rejects it is detecting golden drift, not differing positions, and the checker fails itself by name when that happens. This is the named condition the v10 review measured at zero hits, and it now has a hit.",
+          "whatIsExecuted": "A positive witness at the golden commitment; the EPC-V2 negative, whose executionPlanCommitment is a well-formed sha256Id that is not the ExecutionPlan's planIntentCommitment; the agreeing-but-not-golden discriminator; the EPC-V4 exact-type matrix, injecting every JSON production other than string at each of the two positions; and the non-canonical spellings the block already enumerates.",
+          "whatIsNotExecuted": "The rule is executed over witnesses the checker GENERATES, not over a live ActivationManifestV1, EvaluationAuthoritySealV1 or TerminalRunV1 record. That is not an oversight and it is not fixable inside C-2: theDerivation.step1ClosedEnvelope states that executionPlan.closedTopLevel is true and the closed six-list does not contain executionPlanCommitment, so a conforming ExecutionPlan CANNOT carry the field and C-2's fixture surface cannot express the vector. The records that do carry it are declared in EVALUATION-PROOF and EVIDENCE bytes, which section 7.2 forbids editing and law 19 puts outside C-2's authority.",
+          "whatThisIsWorth": "It moves EPC-V2 from UNEXECUTED to EXECUTED-OVER-GENERATED-WITNESSES. That is strictly stronger than v10, where nothing executed it at all, and strictly weaker than executing it over a reviewed record of a surface that actually carries the field. It is recorded as the middle term it is. It does not discharge the freeze section 7.1 parked row and does not close it.",
+          "whatWouldDischargeItFully": "A cross-surface act C-2 cannot perform: a successor to EVALUATION-PROOF or EVIDENCE, authored by the surface that owns those records, carrying this rule as an admission gate over its own live records. Naming that is part of the finding, not a deferral of it."
+        }
+      },
+      {
+        "op": "add",
+        "path": "companionInstrument",
+        "value": {
+          "path": "artifacts/check-c2-v11.py",
+          "subject": "artifacts/c2-plan-stage-schema.v11.json, this file",
+          "why": "v10's declaredDependencies recorded 'a companion instrument for v10' as UNMET and deliberately not invented, because that task permitted one new file and a named-but-absent path would be a dead link in a binding artifact. This candidate writes the instrument, so the path above resolves. Freeze section 7.6 forbids EDITING a pinned checker; it does not forbid creating one, and no pinned checker is edited.",
+          "whatItDoes": "Hash-verifies its subject and exits 2 on drift BEFORE parsing; resolves the derivation through check-completeness.py's own reader rather than reading this delta as a document, and refuses when any predecessor digest mismatches; parses every JSON input through a duplicate-key-rejecting hook that names the offending key; recomputes documentSkeleton.sha256 and every subtree digest from the TEXT of documentIdentityEncoding rather than from a copy of the pinned encoder; executes EPC-V2 including its discriminator; enforces section 6 law 18 exact-type admission; and recomputes the hostileScalarLeafTotality.contractRoot census and compares it.",
+          "itCanFail": "Every gate above returns findings and a non-zero exit. --selftest mutates the subject and the decision procedures and requires each mutation to be refused FOR A NAMED REASON, so a gate that silently stopped measuring is itself a failure.",
+          "exitCodes": "0 clean or green selftest; 1 findings, each naming its position; 2 subject drift, unreadable input, or a pinned input that does not hash to its declared digest; 3 --selftest refused because the base subject is not clean, which can never be absorbed into a pass.",
+          "authorityBoundary": "A green run of this instrument is checker-scope evidence authored by the same lane that authored this candidate. It is NOT independent review, NOT qualification, NOT demonstration, NOT a seal and NOT product acceptance. checkerModeContract.checker is NOT repointed at it: check-c2-v9.py remains the head's instrument and this candidate binds nothing.",
+          "itDoesNotPinItsOwnDigestHere": "This block names the instrument by PATH and publishes no digest for it, deliberately. The instrument pins the digest of THIS file so it can refuse to run against drifted bytes; if this file also pinned the instrument's digest the two would be mutually unsatisfiable and neither could ever be written. The direction chosen is the one the corpus already uses everywhere: the checker pins its inputs."
+        }
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedPaths",
+        "from": 3621,
+        "value": 3704
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.containerPaths",
+        "from": 835,
+        "value": 845
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.scalarLeafPaths",
+        "from": 2786,
+        "value": 2859
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.dictPaths",
+        "from": 602,
+        "value": 610
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedCases",
+        "from": 25949,
+        "value": 26538
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.noOpInjections",
+        "from": 188,
+        "value": 193
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.executedCases",
+        "from": 25761,
+        "value": 26345
+      }
+    ]
+  },
+  "operationAccounting": {
+    "total": 13,
+    "identity": "operations 0 and 1: version and supersedes",
+    "numberProductionRepair": "operations 2 and 3: the corrected number production, and the numberProduction block that states it totally",
+    "epcV2Repair": "operation 4: the executability block on the ruling",
+    "companionInstrument": "operation 5: the new top-level companionInstrument key",
+    "censusCounters": "operations 6 to 12: the 7 census counters that MOVED because the document grew",
+    "howTheyWereMeasured": "By the pinned check-c2-v4.py's own node_census over CONTRACT_HOSTILE_VALUES, the same function the head's measurement path calls, applied to the fully resolved effective v11 document.",
+    "theFixpointIsINERT": "v10 described this census as 'a FIXPOINT computation ... iterated until the published numbers describe the document that holds them. It converged.' That is true and it is OVERSOLD, which IR-C2V10-NB-07 recorded and this candidate states plainly rather than repeating. The feedback the word 'fixpoint' implies DOES NOT FIRE for these values. Measured here: forcing EACH of the nine published counters in turn to 999999 leaves the recomputed noOpInjections at 193, unchanged in all nine cases. The loop can only fire when a counter's value happens to EQUAL one of the seven hostile injection values, and the only one reachable is the integer 0: forcing injectionValues to 0 moves noOpInjections to 194. No published counter is 0. Convergence therefore takes ONE step and the iteration is a formality, not a hard constraint. It is recorded as inert so no reader mistakes it for a gate.",
+    "countersThatMoved": [
+      "enumeratedPaths",
+      "containerPaths",
+      "scalarLeafPaths",
+      "dictPaths",
+      "enumeratedCases",
+      "noOpInjections",
+      "executedCases"
+    ],
+    "countersThatDidNotMove": [
+      "pathsNotRoundTripping",
+      "injectionValues"
+    ],
+    "whyTheUnchangedOnesAreNotInTheOperationList": "pathsNotRoundTripping and injectionValues are already correct in the predecessor, so a set restating them would be a no-op operation. v10 declared two such no-op sets; this candidate omits them instead, which keeps the operation list to operations that actually change something. Both values remain live and both are still recomputed and compared by comparisonRule on every run."
+  },
+  "theNumberProductionDefect": {
+    "finding": "IR-C2V10-NB-05, and the most substantive defect in the new text.",
+    "theContradiction": "The stated number production yields the token n1:1 for the binary64 value 1.0. Vector FF-6 pins numberOne as n3:1.0. Verified by reading both out of the resolved effective contract.",
+    "ruling": "THE PRODUCTION WAS WRONG; FF-6 WAS RIGHT. The vector is retained byte-for-byte and the production is restated so the vector follows from it.",
+    "decidedByMeasurement": "Not by preference. documentIdentityEncoding.relationToTheChecker declares the direction of the whole block: contract-states-what-code-does, never code-changed-to-match-contract. The pinned check-c2-v9.py computes the number token as jx_frame('n', repr(value)); that primitive emits 1.0 for the value 1.0 and never emits a bare integer spelling for a float. FF-6 reports the instrument; the production did not. Under the block's own declared direction the production is the side that must move.",
+    "whyThisIsLaw18Adjacent": "Section 6 law 18 is exactly the refusal to let 1, 1.0 and true collapse. FF-6 exists to witness that refusal, and the production that was supposed to entail it instead spelled the NUMBER 1.0 the way it spells the INTEGER 1. The type tag still separated i1:1 from n1:1, so NO false accept was reachable and no digest moved -- that is measured, not assumed. What was actually broken is the property section 7.1 cares about: an implementer reading the contract would have produced a different token from the instrument at six live positions. In the lineage that learned LB-C2-01 that is worth getting exactly right even when nothing observable moves.",
+    "scope": "Touches NO published digest. The head carries zero number leaves and the skeleton binds path and JSON type only, never a value; both encoders reproduce the head's documentSkeleton.sha256 and all 29 root-subtree digests, 0 differing, under the repaired text.",
+    "liveLeaves": "SIX float leaves of the resolved effective contract are exactly 1.0, and two more are 1.5. IR-C2V10-NB-05 says five; measured twice, by a typed walk and by an independent scan of raw JSON number tokens, it is six. The six are enumerated in documentIdentityEncoding.numberProduction.theSixLiveOnePointZeroLeaves.",
+    "whatItAlsoRepairs": "exercisedByTheSkeletonDigest.witnessed claims the four unexercised productions are witnessed by vectors. IR-C2V10-NB-05 objected that 'witnessed' was too strong for number, because the vector CONTRADICTED the production rather than following from it. With the production repaired the vector now follows, so that key becomes accurate WITHOUT being edited. It is deliberately not in the operation list."
+  },
+  "theEpcV2Control": {
+    "finding": "EPC-V2 was declared and nothing executed it. The string EPC-V occurs 10 times in the v10 delta bytes and 6 times in the resolved effective contract, and in NO executable in this corpus. An executed discriminator showed that differing positions and agreeing-but-wrong positions are rejected IDENTICALLY by golden-drift, at 0 named-condition hits.",
+    "whatIDid": "MADE IT EXECUTABLE. artifacts/check-c2-v11.py executes EPC-V2 as a gate that can fail the run, together with the discriminator that distinguishes the positions-differ guard from golden-drift detection, the EPC-V4 exact-type matrix, and the non-canonical spellings the block enumerates.",
+    "theHonestLimit": "It is executed over witnesses the checker GENERATES, not over a live record of a surface that carries the field. The reviewer's point that EPC-V2 is unexpressible in C-2's own closed fixture surface is CORRECT and is confirmed here from the contract's own text: executionPlan.closedTopLevel is true and the closed six-list omits executionPlanCommitment, so no conforming ExecutionPlan can carry the field. What that forbids is a C-2 FIXTURE; it does not forbid a checker from constructing the record the rule quantifies over, because requiredValue is stated as 'wherever a record carries a field named executionPlanCommitment', which is a quantifier, not a list.",
+    "soIsItAControl": "It is now a control over generated witnesses, and it is NOT yet a control over the corpus's live records. Both halves are true and the second is the one that would discharge the freeze row. Stating only the first would be the overstatement this lineage keeps repairing.",
+    "whatWouldMakeItOneFully": "A cross-surface act C-2 cannot perform: a successor to EVALUATION-PROOF or EVIDENCE, authored by the surface owning ActivationManifestV1, EvaluationAuthoritySealV1 and TerminalRunV1, carrying this rule as an admission gate over its own live records."
+  },
+  "theUnsoundStdoutEvidence": {
+    "finding": "IR-C2V10-NB-12. v10's selfVerification asserted that check-c2-v9.py's stdout is BYTE-IDENTICAL to its run before v10 existed. That property is NOT MEASURABLE on that instrument: its report embeds a wall-clock timing string, so stdout is not byte-stable across runs at all.",
+    "confirmedHere": "check-c2-v9.py's report template contains the literal '{sweepElapsedSeconds} seconds', and the checker's own RUNTIME_ONLY_FIELDS tuple names sweepElapsedSeconds alongside candidateDocumentBytes -- the instrument itself classifies that field as runtime-varying. A byte-identical-stdout comparison over it yields PASS or FAIL according to machine load.",
+    "thisCandidateDropsIt": "No claim of byte-identical stdout is made anywhere in this file.",
+    "theStructuralProofAdopted": "The head is undisturbed, established without reference to stdout: check-c2-v9.py can only read files it names. Its subject when invoked with no argument is HERE/BINDING where BINDING is the literal 'c2-plan-stage-schema.v9.json'; every other file it opens comes from its PINS table, which holds 25 entries; and it contains NO directory enumeration -- no glob, iterdir, listdir, scandir or os.walk anywhere in its source. Neither c2-plan-stage-schema.v11.json nor check-c2-v11.py is BINDING and neither is in PINS, so the instrument cannot read either file and cannot be affected by their existence.",
+    "strongerThanTheReviewsVersion": "IR-C2V10-NB-12 established the same conclusion by observing that the candidate is not among 33 filenames the checker references. That is a string-literal count and it is sound, but it does not by itself exclude a dynamically constructed path. The proof above closes that gap by also measuring the absence of directory enumeration. This candidate's own extraction of filename literals finds 32, not 33; the difference is an artefact of how literals are counted and neither number is load-bearing, which is why the proof does not rest on it.",
+    "theOnlyEffectOnAnyChecker": "check-package-coherence.py gains an observation about a newer c2-plan-stage-schema file on disk with no review, which is the correct record of an unreviewed candidate. No new finding class."
+  },
+  "theClosureCount": {
+    "finding": "IR-C2V10-NB-08. v10 published selfVerification.preservedByteForByte.closedCollectionsCompared as a bare integer 8 with no member list, so no reader could reproduce it without guessing the definition.",
+    "reDerived": "Under the stated definition -- an object carrying a boolean closure marker set true, that is a member named 'closed' or 'closedTopLevel' whose value is the JSON boolean true -- the resolved effective contract holds SEVENTEEN such objects, not 8. All seventeen are enumerated below by path, so the count is checkable rather than asserted.",
+    "definition": "'closed' true or 'closedTopLevel' true, matched by exact JSON boolean type. Keys whose names merely mention closure but whose values are prose or structure -- admitThenCommitClosure, closedJsonTypes, closedTaggedUnion, closure, step1ClosedEnvelope -- are NOT counted, because they are not closure marks. Counting them would give 22 and would be a different, looser measurement.",
+    "members": [
+      "coverageKey.entrySchema",
+      "executionPlan",
+      "planIntent.admissionDescriptorV1",
+      "planIntent.admissionDescriptorV1.capabilityGrant",
+      "planIntent.admissionDescriptorV1.changeSpec",
+      "planIntent.admissionDescriptorV1.contribution",
+      "planIntent.admissionDescriptorV1.release",
+      "planIntent.admissionDescriptorV1.resolvedConfigurationEntry",
+      "planIntent.admissionDescriptorV1.scope",
+      "planIntent.admissionDescriptorV1.workflow",
+      "planIntent.analysisIntentV1",
+      "planIntent.analysisIntentV1.repositoryExecution",
+      "planIntent.schema",
+      "planIntent.storedViewIntentV1",
+      "planIntent.storedViewIntentV1.retentionSelector",
+      "planIntent.storedViewIntentV1.target",
+      "planIntent.wireTypes.stageBudgetV1"
+    ],
+    "compared": 17,
+    "identical": 17,
+    "comparisonRule": "Compared under opensip-jx-canon-v1, which is type-exact, rather than by host equality: predecessor token equals successor token at every one of the seventeen paths.",
+    "whyABareCountIsTheDefect": "A count with no member list cannot fail. Any reader reproducing it must first guess the definition, and a guess that lands on a different number looks like a discrepancy in the artifact rather than in the reading. Enumeration is what makes it a measurement."
+  },
+  "theFreezeMisattribution": {
+    "finding": "IR-C2V10-NB-01. IMPLEMENTATION-FREEZE section 7.1 credited v10 with 'stating against itself' an objection and a concession that v10 does not contain. Measured in the v10 bytes: 'objection' 0, 'concede' 0, 'accommodation' 0.",
+    "whereItBelongs": "In the record, not in the artifact. The correction is a coordinator act, and it has ALREADY BEEN MADE: as of the bytes this candidate was authored against, section 7.1 carries an explicit CORRECTION paragraph stating that the attribution was wrong and reporting the same zero counts measured above. This candidate therefore records a defect that is already repaired upstream, so that the lineage's own account of what happened does not depend on the freeze's revision history. It does not edit the freeze and does not edit v10, whose bytes are reviewed and fixed.",
+    "whatThisCandidateDeliberatelyDoesNOTDo": "It does NOT retroactively insert into the lineage the concession the freeze described. Adding text to a successor so that an earlier document's mischaracterisation becomes true afterwards is a falsification of the record, and it is a worse defect than the misattribution it would paper over.",
+    "insteadTheseAreMyOwnObjections": [
+      {
+        "objection": "The ALIAS ruling's closed-envelope leg is the contestable one. If a reviewer denies that executionPlan.closedTopLevel is load-bearing -- for instance by holding that the records which actually carry executionPlanCommitment are not ExecutionPlans and so the closed envelope never applied to them -- then theDerivation step 1 does not constrain those records and the derivation must rest entirely on step 2 and on the reconstruction measurement.",
+        "myAnswer": "The ruling survives, because the reconstruction measurement is independent of step 1: both distinct corpus values were reconstructed as SHA-256 over a domain-tagged PlanIntent at 2463 bytes, and nothing in this corpus has ever computed a digest over an ExecutionPlan. IR-C2V10-NB-02 makes the same point from the other side, that the ruling's two legs are presented in the wrong order of strength.",
+        "whatIDidNotDo": "I did not reorder those legs. That edit is inside the ALIAS ruling, which the review upheld and this task preserves, and it is presentational rather than a defect in the bytes."
+      },
+      {
+        "objection": "Executing EPC-V2 over witnesses a checker generates is close enough to executing it over nothing that calling the residual discharged would be self-serving.",
+        "myAnswer": "Agreed, and that is why theEpcV2Control says the residual is NOT discharged, names the cross-surface act that would discharge it, and closes no row. What the gate does buy is real and narrow: the named condition that measured 0 hits now fires, and an implementation that silently degrades to golden-drift detection now fails by name."
+      },
+      {
+        "objection": "This candidate edits documentIdentityEncoding, which the review upheld and which the task asked to preserve.",
+        "myAnswer": "It does, at exactly two operations, and both are forced by the number/FF-6 repair. This is declared prominently in selfVerification.preservedByteForByte rather than left for a reader to discover. Every other part of the block, including all seven original FF vectors, the reproduction record, the digest boundary and the object ordering rule, is untouched, and the block's central property was re-verified rather than assumed."
+      }
+    ]
+  },
+  "selfVerification": {
+    "route": "RESOLVED, NOT READ. The predecessor was materialised by check-completeness.py's own derivation_declaration() and resolve_derivation(), which verified v10's bytes against its declared digest, discovered that v10 is itself a delta, resolved v10 to v9 and v9 to v4, and applied 13 then 13 operations. The v10 delta file was never read as a whole document to obtain the contract.",
+    "resolverUsed": "check-completeness.py resolve_derivation(), applied to this candidate",
+    "declarationErrors": 0,
+    "resolveErrors": 0,
+    "chainDepth": 3,
+    "chainResolvesThrough": "artifacts/c2-plan-stage-schema.v10.json then artifacts/c2-plan-stage-schema.v9.json then artifacts/c2-plan-stage-schema.v4.json",
+    "everyPredecessorDigestVerifiedBeforeParse": true,
+    "measuredPredecessorDigests": {
+      "artifacts/c2-plan-stage-schema.v10.json": "0e550b1615c62cdd7b203221d4ddce6e229848c9e59e1403c1bb603ac5447406",
+      "artifacts/c2-plan-stage-schema.v9.json": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+      "artifacts/c2-plan-stage-schema.v4.json": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39"
+    },
+    "structuralDiffAgainstTheEffectivePredecessor": {
+      "rule": "every leaf of the effective v10 contract compared to every leaf of the effective v11 contract, by PATH and by TYPE-EXACT value",
+      "leavesAdded": 73,
+      "leavesRemoved": 0,
+      "leavesChanged": 10,
+      "changedLeafPaths": [
+        "documentIdentityEncoding.productions.number",
+        "hostileScalarLeafTotality.contractRoot.containerPaths",
+        "hostileScalarLeafTotality.contractRoot.dictPaths",
+        "hostileScalarLeafTotality.contractRoot.enumeratedCases",
+        "hostileScalarLeafTotality.contractRoot.enumeratedPaths",
+        "hostileScalarLeafTotality.contractRoot.executedCases",
+        "hostileScalarLeafTotality.contractRoot.noOpInjections",
+        "hostileScalarLeafTotality.contractRoot.scalarLeafPaths",
+        "supersedes",
+        "version"
+      ],
+      "newTopLevelKeys": [
+        "companionInstrument"
+      ],
+      "reading": "Nothing is removed. Ten leaves change: two are successor identity, one is the repaired number production, and seven are census counters the predecessor's own comparisonRule requires to be recomputed when the document grows. The additions are the three blocks the repairs require and nothing else."
+    },
+    "preservedByteForByte": {
+      "rule": "compared under opensip-jx-canon-v1, which is type-exact, rather than by host equality",
+      "closedCollectionsCompared": 17,
+      "closedCollectionsIdentical": 17,
+      "closedCollectionsEnumerated": true,
+      "closedCollectionMembers": [
+        "coverageKey.entrySchema",
+        "executionPlan",
+        "planIntent.admissionDescriptorV1",
+        "planIntent.admissionDescriptorV1.capabilityGrant",
+        "planIntent.admissionDescriptorV1.changeSpec",
+        "planIntent.admissionDescriptorV1.contribution",
+        "planIntent.admissionDescriptorV1.release",
+        "planIntent.admissionDescriptorV1.resolvedConfigurationEntry",
+        "planIntent.admissionDescriptorV1.scope",
+        "planIntent.admissionDescriptorV1.workflow",
+        "planIntent.analysisIntentV1",
+        "planIntent.analysisIntentV1.repositoryExecution",
+        "planIntent.schema",
+        "planIntent.storedViewIntentV1",
+        "planIntent.storedViewIntentV1.retentionSelector",
+        "planIntent.storedViewIntentV1.target",
+        "planIntent.wireTypes.stageBudgetV1"
+      ],
+      "fiveFixtureArrays": {
+        "planIntentFixtures": 42,
+        "intentBindingFixtures": 22,
+        "storedViewBindingFixtures": 13,
+        "planFixtures": 14,
+        "coverageFixtures": 22
+      },
+      "fiveFixtureArraysTotalGoldens": 113,
+      "fiveFixtureArraysIdentical": true,
+      "planIntentCanonicalCommitmentIdentical": true,
+      "executionPlanBlockIdentical": true,
+      "law18AdmissionDiscipline": "untouched; no admission rule, wire type or totality matrix is in the operation list",
+      "DOCUMENTIDENTITYENCODINGISNOTFULLYPRESERVED": "DECLARED, because a repair forces it. Two operations fall inside documentIdentityEncoding: operation 2 SETS documentIdentityEncoding.productions.number, and operation 3 ADDS documentIdentityEncoding.numberProduction. Both are forced by the number/FF-6 contradiction, which cannot be repaired anywhere else, since the defect IS that production. NOTHING ELSE in the block is touched: the seven original FF vectors including FF-6, the frame, frameParts, objectOrdering, digestBoundary, documentSkeleton, exercisedByTheSkeletonDigest, theTwoEncodingsAreNotInterchangeable and reproduction are all absent from the operation list and canonicalise identically.",
+      "theBlocksCentralPropertyWasReVerifiedNotAssumed": "Two encoders written from the block's text -- as repaired -- reproduce the head's documentSkeleton.sha256 and all 29 root-subtree digests with 0 differing, and all nine published node and leaf-type counters. The section 7.1 lift the block exists to perform is intact under the repair."
+    },
+    "twoIndependentEncoders": {
+      "rule": "two implementations sharing no code, both written from the text of documentIdentityEncoding and reading no checker source",
+      "encoderA": "recursive canonicalisation, iterative pre-order walk, host formatter for decimals, host sort for object order",
+      "encoderB": "iterative post-order canonicalisation, recursive walk, code points counted by explicit loop, integers rendered by repeated division, object order by explicit code-point comparison and insertion sort, sign taken from the IEEE-754 sign bit, digest fed in chunks",
+      "headSkeletonDigestPublished": "aa0cd11e6f4328a3c43aaef81537730847dff7294f9bb0bc95b524c84d129520",
+      "encoderAReproducedIt": true,
+      "encoderBReproducedIt": true,
+      "rootSubtreeDigestsPublished": 29,
+      "encoderAReproducedSubtrees": 29,
+      "encoderBReproducedSubtrees": 29,
+      "rootSubtreeDigestsDiffering": 0,
+      "aDisagreementTheSecondLaneCaught": "The two encoders initially DISAGREED on one value: -0.0, where A produced n4:-0.0 and B produced n3:0.0, because B decided the sign by comparing the value to zero. B was wrong and was corrected to read the IEEE-754 sign bit. This is recorded because it is the entire justification for running two lanes, and because it is why numberProduction.sign states the rule in terms of the sign bit rather than a comparison.",
+      "agreementAfterTheFix": "A and B agree on every one of roughly 200000 random binary64 bit patterns plus the hand-chosen edge set, and on all 16 of the block's own vectors including the two FF-5 skeleton digests."
+    },
+    "leafCensusOfTheseOwnBytes": {
+      "rule": "every leaf of THIS FILE, classified by exact JSON type. Published because a sibling lineage reintroduced a JSON integer through the generator written to fix a blocker, and an unpublished census cannot catch that.",
+      "stringLeaves": 331,
+      "integerLeaves": 56,
+      "booleanLeaves": 14,
+      "numberLeaves": 0,
+      "nullLeaves": 0,
+      "noFloatLeaves": true,
+      "noNullLeaves": true,
+      "whyItMatters": "This file carries ZERO number leaves and ZERO null leaves. Every non-string leaf is an integer or a boolean and each is deliberate: the integers are version, supersedes, the counts and the census counter values carried in operation payloads; the booleans are explicit yes/no assertions. Under section 6 law 18 a stray 1.0 where 1 was meant is a different value, and this census is what makes that visible instead of silent."
+    },
+    "digestsHardCompared": "Every sha256 recorded in this file was compared against shasum -a 256 of the named bytes, not against recollection. No digest quoted to this lane by any other party was used without being re-measured; one count supplied to this lane, the number of live 1.0 leaves, was re-measured and found to be six rather than five.",
+    "jsonParsing": "Every JSON document read while authoring this candidate was parsed with a duplicate-key-rejecting object_pairs_hook, per freeze section 7.5.",
+    "checkersRun": "Run after this file was written. check-claims.py, check-product-dispositions.py, check-c2-v9.py, check-retention-custody-v24.py, check-d9-v1.14.py, check-delivery.py and check-r1-v1.5.py each exit 0, unchanged from their state before this file existed. check-package-coherence.py exits 1 with its pre-existing accounted findings and NO new finding class. artifacts/check-c2-v11.py, this candidate's own instrument, exits 0 over this file and its --selftest is green. NO claim of byte-identical stdout is made about any instrument; see theUnsoundStdoutEvidence for why that comparison is not measurable on check-c2-v9.py and what replaces it."
+  },
+  "documentSkeleton": {
+    "rule": "The PATH and the JSON TYPE of every NODE of THIS FILE'S OWN BYTES, container nodes included, canonicalised under opensip-jx-canon-v1 and hashed. It describes this delta document, NOT the effective contract.",
+    "encoding": "opensip-jx-canon-v1, as stated in the effective contract's documentIdentityEncoding",
+    "sha256": "fefe881b1c1a96bec0f42d738f3b00b0b5d3f22779178c18d2c9b86c17af9d73",
+    "nodes": 476,
+    "containers": 75,
+    "leaves": 401,
+    "nullLeaves": 0,
+    "booleanLeaves": 14,
+    "integerLeaves": 56,
+    "numberLeaves": 0,
+    "stringLeaves": 331,
+    "distinctPathTokens": 476,
+    "subtrees": {
+      "artifact": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "version": "5abb292c2ba2c5f6df7614f017b6c6c7d98e7c3fe1831ac8545a4f29635611fd",
+      "supersedes": "5abb292c2ba2c5f6df7614f017b6c6c7d98e7c3fe1831ac8545a4f29635611fd",
+      "date": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "status": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "author": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "purpose": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "bindingDeclaration": "4a52b9a62259cde34839a084bab3ab4c4c92e9087382a9a27e436886db6b3a1d",
+      "derivedFrom": "7e8196bf9e97ae64e098cf9315a8c34a04215b236b5663cbe499acf2f5e9347b",
+      "operationAccounting": "15c125cb3b81e0ac1a2bd6a530c5159194e0eced6319de61a76a187fbe8a2e2b",
+      "theNumberProductionDefect": "fa0c3dd270a1c4dd1daca6318732362289e5c3cd3c8562793a8bacb363f9b6e0",
+      "theEpcV2Control": "4ce7409244a7eaef32cf925a953eff3021ca42b15cfb885241f91c2ca4c7aa6c",
+      "theUnsoundStdoutEvidence": "d348e719d1589e26acad322dad4d81ac4ebdbc3de06aa927e6133b44bb07d421",
+      "theClosureCount": "f4e80b7861a0e447b1666abc6593c73c6d4276fb23b9893cdaab6c8a7827e2ff",
+      "theFreezeMisattribution": "b7afdc97b5f29f4c37ec073eee5d502cb72ff9e0c56b292112842079c3a6358c",
+      "selfVerification": "981be5307c9b9c05178fcb5e36f5feec23ae6df768c3f1724f652c5bc822b0e8",
+      "documentSkeleton": "107118f15d26929babdbc3532f18ff0b06aac349586c49215503e6fcef32c16c",
+      "declaredDependencies": "9e436a45dc93db9909b477e40e53df8872103f070d7160df2cca2f422d7e91af",
+      "recordedInputs": "01f8c402aa2f8196114f4e7902b374ca95534577c53e45caaa133efafb10b302",
+      "knownLimitations": "30327af870e9cd8b39cfec5ef98f1082cf45a9aa2801e1f892408be1ff2e12dc",
+      "residualsNotRepairedHere": "3bbe60f678cf4daa8b9e80b00cb878b29011fc50ae96c283bc8ca72dfa7300ba",
+      "scope": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3"
+    },
+    "rootSubtrees": 22,
+    "fixpointNote": "These digests are published inside the document they describe. That is sound because the skeleton binds PATH and JSON TYPE only, never a value, so filling a string-typed slot with its digest cannot change the skeleton. The clause is INERT rather than hard: it is self-satisfying under its own proviso and nothing in the corpus executes the proviso. What makes it hard is RECOMPUTATION, and artifacts/check-c2-v11.py recomputes these digests from the contract's own encoding text and fails the run when a published value disagrees -- which is exactly the case the fixpoint itself cannot detect, because editing a digest string leaves path and type unchanged."
+  },
+  "declaredDependencies": [
+    {
+      "dependency": "an independent review of these bytes",
+      "state": "UNMET",
+      "why": "This artifact is a candidate. Freeze section 7.1 and law 19 disqualify a checker, a record and a candidate from CLOSING a row; only a coordinator applying a binding artifact does that."
+    },
+    {
+      "dependency": "a companion instrument",
+      "state": "MET for the first time in this lineage",
+      "why": "artifacts/check-c2-v11.py is written by this candidate and the path resolves. v10 recorded this dependency as UNMET and deliberately not invented, because that task permitted one file. This task permits two.",
+      "consequence": "The blocks this candidate adds are SPECIFIED AND EXECUTED by a named instrument, not merely specified. The instrument is authored by the same lane as the contract, so a green run remains checker-scope evidence and is not independent review."
+    },
+    {
+      "dependency": "EPC-V2 executed over a live record of a surface that carries the field",
+      "state": "UNMET, and outside C-2's authority",
+      "why": "C-2's ExecutionPlan envelope is closed and cannot carry executionPlanCommitment, so the vector is unexpressible as a C-2 fixture. The records that carry it are EVALUATION-PROOF and EVIDENCE bytes. The checker executes the rule over generated witnesses instead, which is stronger than nothing and weaker than this."
+    },
+    {
+      "dependency": "a definition of the wire type 'Raw commitment'",
+      "state": "UNMET, and outside C-2's authority",
+      "why": "Used 18 times and defined nowhere; it belongs to EVALUATION-PROOF and EVIDENCE."
+    },
+    {
+      "dependency": "coordinator application, and the freeze section 7.1 row",
+      "state": "UNMET by construction",
+      "why": "The row stays parked until a coordinator applies a binding artifact."
+    }
+  ],
+  "recordedInputs": [
+    {
+      "path": "artifacts/c2-plan-stage-schema.v10.json",
+      "sha256": "0e550b1615c62cdd7b203221d4ddce6e229848c9e59e1403c1bb603ac5447406",
+      "role": "predecessor, resolved not read"
+    },
+    {
+      "path": "artifacts/c2-plan-stage-schema.v9.json",
+      "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+      "role": "head, reached through the chain; untouched and still PASSED"
+    },
+    {
+      "path": "artifacts/c2-plan-stage-schema.v4.json",
+      "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+      "role": "root of the chain, reached through the chain"
+    },
+    {
+      "path": "artifacts/c2-plan-stage-schema.v10.review-independent.json",
+      "sha256": "036393793bcc35c3ff2d08fdd3648af39b98080772ae202d96dfa1e552b625f5",
+      "role": "the review whose residuals this candidate repairs"
+    },
+    {
+      "path": "artifacts/check-completeness.py",
+      "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+      "role": "the derivation resolver used, unedited"
+    },
+    {
+      "path": "artifacts/check-c2-v4.py",
+      "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+      "role": "node_census, the pinned measurement function, unedited"
+    },
+    {
+      "path": "artifacts/check-c2-v9.py",
+      "sha256": "ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035",
+      "role": "the head's instrument; read for its number production and PINS, unedited"
+    },
+    {
+      "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+      "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "role": "confirmed unchanged; never opened for writing"
+    }
+  ],
+  "knownLimitations": [
+    "The companion instrument is authored by the same lane as this contract. A green run is checker-scope evidence, not independent review.",
+    "EPC-V2 is executed over GENERATED witnesses, not over a live ActivationManifestV1, EvaluationAuthoritySealV1 or TerminalRunV1 record. The residual is narrowed, not discharged.",
+    "The alias ruling remains a RULING, not a measurement. This candidate does not disturb it and adds no new evidence for it.",
+    "documentIdentityEncoding is shown SUFFICIENT to reproduce the head's digests, not MINIMAL. The repaired number production is likewise not claimed minimal.",
+    "The number production is verified against the pinned instrument over roughly 600000 random binary64 values and an edge set, which is a very large sample and not a proof of totality over all 2^64 bit patterns. Non-finite values do not arise because RFC 8259 has no syntax for them, and the production does not define them.",
+    "This candidate does not define the wire type 'Raw commitment' and closes no freeze section 7.1 row."
+  ],
+  "residualsNotRepairedHere": [
+    {
+      "id": "IR-C2V10-NB-02",
+      "what": "the ruling presents its contestable leg as primary and its decisive measurement as merely confirming",
+      "whyNotRepaired": "presentational, inside the upheld ALIAS ruling; editing it would disturb bytes the review upheld for no measurable gain"
+    },
+    {
+      "id": "IR-C2V10-NB-03",
+      "what": "a present-tense sentence in v10's cover note says EPC-V2 catches a two-commitment implementer",
+      "whyNotRepaired": "it is in v10's own delta bookkeeping, which is not part of the effective contract and cannot be edited by a successor; it is also now closer to true"
+    },
+    {
+      "id": "IR-C2V10-NB-06",
+      "what": "FF-1 separates code points from UTF-8 bytes only, not from UTF-16 code units or graphemes",
+      "whyNotRepaired": "the prose is unambiguous so the specification is sound; the witness set is incomplete. Repairing it means editing documentIdentityEncoding.vectors, which no repair in scope forces. It stands as a residual."
+    },
+    {
+      "id": "IR-C2V10-NB-09",
+      "what": "checkerModeContract.checker says check-c2-v9.py while invocation says check-c2-v4.py",
+      "whyNotRepaired": "pre-existing and inherited, identical in effective v9 and v10; not introduced here and not in scope. It is live in the contract a coordinator would apply and should be repaired by whoever repoints the head."
+    },
+    {
+      "id": "IR-C2V10-NB-10",
+      "what": "step4WhatFollowsForConsumers says 'Any record' with no scope qualifier",
+      "whyNotRepaired": "inside the upheld ALIAS ruling; no repair in scope forces it"
+    },
+    {
+      "id": "IR-C2V10-NB-11",
+      "what": "step2 attributes to equalityRule bindings that come from RESOLVED-INPUTS snapshotJoin",
+      "whyNotRepaired": "inside the upheld ALIAS ruling; the claim is defensible as written"
+    }
+  ],
+  "scope": "C-2 plan/stage schema. This artifact is a CANDIDATE derivation that binds nothing, closes nothing and repoints no head. v9 remains the head and check-c2-v9.py remains its instrument."
+}

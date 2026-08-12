@@ -67,7 +67,7 @@ none may create a second graph or analysis engine.
 historical anchor. The current v1 disposition is one-shot-only and no longer
 leaves a week-one topology fork.
 
-`r1-lifetime-neutrality.conformance.v1.5.json` is the current binding artifact,
+`r1-lifetime-neutrality.conformance.v1.6.json` is the current binding artifact,
 validated by `check-r1-v1.5.py`. Its independent pre-freeze review of exactly
 those bytes is PASS at zero blocking findings and zero findings of any severity;
 v1.5 self-declares `CANDIDATE-NOT-APPLIED`, so a passing review is not an applied
@@ -218,7 +218,7 @@ finite command `interrupted / 130` rather than relabelling the signal as a
 provider fault.
 
 The wire grammar, exact descriptor fields, frame order, VFS commitment and
-authority split are binding in `delivery.v2.json` and mutation-checked by
+authority split are binding in `delivery.v4.json` and mutation-checked by
 `check-delivery.py`. Numerical Node/TypeScript versions are release selections,
 not timeless architecture constants, but every release selects exactly one
 signed descriptor pair. Ranges and install-time substitution are forbidden.

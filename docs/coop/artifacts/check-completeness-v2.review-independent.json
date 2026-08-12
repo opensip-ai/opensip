@@ -1,0 +1,405 @@
+{
+  "artifact": "check-completeness-v2.review-independent",
+  "version": "1",
+  "date": "2026-08-10",
+  "role": "INDEPENDENT REVIEW of an instrument. Not authored by the subject's author; owes it nothing.",
+  "subject": "artifacts/check-completeness-v2.py",
+  "reviewOf": "artifacts/check-completeness-v2.py",
+
+  "verdict": {
+    "ruling": "ACCEPT",
+    "blockingFindings": 0,
+    "nonBlockingFindings": 12,
+    "requiredHardeningForASuccessor": 3,
+    "oneSentence": "The instrument does what it claims, every headline number reproduces except one, and its safety on this tree is real but is DISJOINTNESS rather than harmlessness -- which is the author's own answer and it is correct.",
+    "whatThisVerdictBinds": "The exact bytes b08824e8...dd7 executed under CPython 3.14.6 against the tree state recorded below. Per freeze section 7.2 it binds nothing else, and per the 2026-08-04 rider it is scoped to `whatIDidNotCheck` and must not be read as a statement about the file's whole surface."
+  },
+
+  "subjectIdentity": {
+    "declaredAtDispatch": {
+      "sha256Prefix": "b08824e86ea22720bdea649cdc663a39ef6d1fc4",
+      "lines": 1688
+    },
+    "measuredAtStart": {
+      "sha256": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+      "bytes": 83923,
+      "linesByWcAndSplitlines": 1687,
+      "endsWithNewline": true
+    },
+    "measuredAtEnd": {
+      "sha256": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+      "drift": false
+    },
+    "digestVerdict": "MATCHES. Reviewed bytes are the dispatched bytes; sha256AtStart equals sha256AtEnd (freeze section 7.2.1 clauses 2 and 3).",
+    "oneDiscrepancyRecorded": "The dispatch said 1688 lines. Measured 1687 by `wc -l` and by `len(bytes.splitlines())`, on a file that DOES end with a newline. Off by one; immaterial, since the digest is the identity and it matches. Recorded rather than absorbed (freeze section 7.2.1 clause 4).",
+    "manifestAgreement": "artifacts/freeze-payload-manifest.txt line 92 records this file at b08824e8...dd7 and 83923 bytes. Both agree with measurement."
+  },
+
+  "environment": {
+    "python": "CPython 3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0]",
+    "platform": "darwin 25.5.0",
+    "invocation": "python3 -I -B <path>",
+    "externalTools": "none. The subject shells out to nothing and imports only copy, hashlib, json, pathlib, re, sys. Unlike check-rust-provider-protocol-v*, this verdict is NOT environment-conditional on any external binary.",
+    "verdictIsEnvironmentConditionalOn": "CPython dict insertion-order iteration (used by declaration_identity and score_document) and json.loads' last-key-wins duplicate handling. Both are stable CPython behaviours, not documented by the subject."
+  },
+
+  "method": {
+    "primaryMetric": "FINDING-SET DELTA, not exit code. Stated explicitly because exit 1 is produced by four distinct situations in this instrument and reading the code alone conflates a measured incompleteness with a refused derivation.",
+    "definitionOfFindingSetDelta": "byte diff of full stdout between a baseline run and a mutated-tree run, plus the exit code recorded separately. A mutation that changes nothing in stdout is reported as ZERO DELTA regardless of what it did to the tree.",
+    "concurrencyDiscipline": "The tree is under concurrent edit by other lanes. A tar-level snapshot of the whole working directory was frozen BEFORE any global measurement and every corpus-wide figure below was taken against that snapshot (429 artifacts/*.json documents, all parsing as JSON objects). Live-tree drift during the review is recorded under `treeDriftDuringReview` and every conclusion was re-checked against the drifted tree.",
+    "independence": "The candidate-selection census, the three evidence tests, the ground-truth false-negative sweep and the closing-predicate search were REIMPLEMENTED from the subject's docstring rather than by calling its functions, so agreement is agreement between two statements of the rule. Where the subject's own functions were called (resolution, scoring, refusal text) that is stated at the row.",
+    "nonAttribution": "The subject was REMOVED from a copy of the tree and the predecessor re-run: stdout byte-identical to the baseline predecessor run. The subject attributes nothing to any other lane's measurement. It is referenced by exactly 2 files in the tree -- itself and freeze-payload-manifest.txt -- and by no checker."
+  },
+
+  "claimsTested": [
+    {
+      "claim": "The predecessor refused 4 derivations SILENTLY as (None, []), no error.",
+      "verdict": "REPRODUCED",
+      "measurement": "Ran the predecessor's derivation_declaration() over all 429 artifact JSON objects. Exactly 4 artifacts are recognised as declarations by the successor's candidate test and return (None, []) under the predecessor: v10-disposition.v2, v10-disposition.v3, versioning-policy.v14, versioning-policy.v15. The named four, no others."
+    },
+    {
+      "claim": "The cause is array-form operation paths plus a refusal branch guarded by the same predicate as the success branch.",
+      "verdict": "REPRODUCED at source level",
+      "measurement": "check-completeness.py:175-179 requires isinstance(item.get('path'), str). check-completeness.py:212 reads `if any(is_operation_list(v) for v in value.values()) and (names or digests)` -- the identical predicate. All four artifacts encode `path` as a JSON array with a sibling non-normative `pathDisplay`."
+    },
+    {
+      "claim": "Successor: silent refusals 4 -> 0.",
+      "verdict": "REPRODUCED",
+      "measurement": "Successor derivation_declaration() over the same 429 documents: 0 recognised declarations return (None, []). See finding CMPV2-F3 for the shape that still can."
+    },
+    {
+      "claim": "The four now RESOLVE.",
+      "verdict": "REPRODUCED",
+      "measurement": "All four resolve positively. v10-disposition.v2 -> 24 top-level keys (array paths, 26 ops, named identity); v10-disposition.v3 -> 25 keys (array paths, 27 ops, CONTENT identity, depth 2); versioning-policy.v14 and v15 -> 30 keys each (array paths, 8 ops, named)."
+    },
+    {
+      "claim": "retention-tiers.v27 and .v26 still refuse LOUDLY with byte-identical error strings.",
+      "verdict": "REPRODUCED, and the two refuse at DIFFERENT STAGES -- a distinction the claim does not draw",
+      "measurement": "v27 refuses at the DECLARATION stage, 1 error, string-identical between predecessor and successor. v26 refuses at the RESOLUTION stage, 30 errors, list-identical between predecessor and successor. Both loud, both named, both unchanged."
+    },
+    {
+      "claim": "17 declarations detected and exactly those four change state.",
+      "verdict": "REPRODUCED",
+      "measurement": "17 declared derivations in the frozen snapshot. State table pred->succ: 11 RESOLVED->RESOLVED, 1 REFUSED-DECL->REFUSED-DECL, 1 REFUSED-RESOLVE->REFUSED-RESOLVE, 4 SILENT->RESOLVED. No other transition."
+    },
+    {
+      "claim": "Full stdout byte-identical to the predecessor, both exit 1.",
+      "verdict": "REPRODUCED, twice",
+      "measurement": "Frozen snapshot: both 3249 bytes, sha256 eea4bf94aafc60926a33ad957a17202a2e3f0a942fb9cebb2912e19ed587784d, both exit 1, both stderr 0 bytes. Re-run on the DRIFTED live tree after two files appeared from other lanes: still byte-identical, still both exit 1."
+    },
+    {
+      "claim": "THE HARDER QUESTION -- is byte-identical output evidence of SAFETY, or evidence the new capability reaches nothing scored?",
+      "verdict": "THE LATTER. The author's own answer is correct and I verified it independently and more strictly than asked.",
+      "measurement": "The 13 scored surfaces bind 13 artifacts; none of the four newly-resolved is among them, and the four occur ZERO times anywhere in claim-register.v1.json. Stronger: I resolved the FULL chain of both derivation-scored surfaces -- C-2 = v11 -> v10 -> v9 -> v4, DELIVERY = v4 -> v2 -- and intersected the four against every document in either chain. Intersection is the EMPTY SET. Byte-identity is therefore a measurement of DISJOINTNESS between the repaired capability and the scored set, and carries no information about whether the repair is correct. Everything that establishes correctness is in --derivations and --selftest, neither of which the default run touches. A signer must not read the identical stdout as 'the change was safe'; the correct reading is 'the change is currently unreachable from the figures the freeze quotes'.",
+      "oneRelationWorthNaming": "versioning-policy.v8.json is simultaneously the VERSIONING binding artifact (scored 4/4 by its OWN key names) and the hash-verified predecessor of versioning-policy.v14 and v15. The relation is strictly one-way -- the two derivations read v8; nothing reads them -- so what they resolve to still cannot move VERSIONING. Disjointness holds, but it holds by direction, not by distance."
+    },
+    {
+      "claim": "declaration_candidate's three evidence tests each and in union select exactly the same 17 artifacts across 427 live JSON documents, zero false positives.",
+      "verdict": "SELECTION REPRODUCED INDEPENDENTLY; THE DENOMINATOR DOES NOT; AND THE ZERO-FALSE-POSITIVE CLAIM HAS SINCE BECOME FALSE ON THE LIVE TREE",
+      "measurement": "I reimplemented all three tests from the docstring without calling the subject. Over the frozen snapshot each of {op-member}, {any string value is a declared verb}, {>=2 of op/path/from/value} and their union selects EXACTLY the same 17 artifacts, symmetric difference empty. The `EMPTIED` branch fires on 0 blocks, as documented. Denominator: I count 429 artifacts/*.json, all parsing as JSON objects, not 427. False negatives: a deliberately wider ground-truth sweep (any top-level block with an identity string plus any list) returns 115 artifacts; I inspected all 98 non-selected ones and none is a derivation declaration -- they are referenceDerivation rule tables, d9Derivation mapping tables, and review artifacts describing somebody else's resolution. A deep sweep at ANY depth for operation-vocabulary lists returns 113 hits in non-selected files, all of them fixture/transition/mutation tables, none a declaration. So the selection is right. See finding CMPV2-F4 for the live false positive that has since appeared."
+    },
+    {
+      "claim": "Array-path tokens: str=key, int=index, bool tested BEFORE int so [True] is refused rather than read as index 1 (the section 7.4 class).",
+      "verdict": "REPRODUCED, and the guard is DOUBLED, which the file does not say",
+      "measurement": "array_path_steps([True]) -> None; ([1]) -> [1]; (['rows', True]) -> None; ([1.0]) -> None. has_step was ALSO hardened -- the predecessor read `isinstance(step, int) and 0 <= step < len(node)`, the successor adds `and not isinstance(step, bool)`. exact_equal(True, 1) is False and exact_equal(1, 1.0) is False. The whole 1.0==1 class is closed at three independent sites."
+    },
+    {
+      "claim": "Content addressing: every declared digest must be accounted for by a verified chain file or the canonical value of the resolved base, else loud refusal.",
+      "verdict": "REPRODUCED AND HELD UNDER EIGHT ATTACKS. This is the strongest thing in the file and the author undersells it.",
+      "measurement": "The live case v10-disposition.v3 declares THREE digests: dc0c40a5... which identifies no file at all, plus v1's and v2's file digests. The resolver locates v2 by measuring the tree, verifies it, recurses to v1 by name, verifies it, then INDEPENDENTLY RECOMPUTES the canonical digest of a resolved document that exists in no file and gets dc0c40a5... -- matching the artifact's published baseCanonicalSha256 exactly. That is a real, non-tautological measurement of an object with no bytes on disk. Attacks: (C1) flip one hex char of the not-on-disk digest -> LOUD named refusal; (C2) flip one hex char of a chain digest -> LOUD named refusal; (C5) copy the predecessor bytes to a second filename -> refused, 'the predecessor is not uniquely addressed'; (C6) delete the predecessor -> refused; (C7) add a stray 64-hex digest as a direct member -> LOUD named refusal. Three attacks did NOT refuse and each is correct or a disclosed bound: (C3) dropping to a single declared digest resolves -- see CMPV2-F5; (C4) renaming the predecessor file resolves, which is what content addressing MEANS; (C8) a digest nested one level below the declaration block is never collected -- see CMPV2-F6."
+    },
+    {
+      "claim": "Malformed sweep 42/42; behavioural equivalence 11/11 byte-identical effective contracts; 22/22 hostile rows with zero tracebacks and empty stderr; six distinct exit codes rendered from one EXIT dict.",
+      "verdict": "ALL FOUR REPRODUCED",
+      "measurement": "--selftest prints `measured: 42/42 derivation cases behaved as stated`, exit 0, stderr 0 bytes, 0 ESCAPE and 0 FAIL lines. Behavioural equivalence: for all 11 derivations both instruments resolve, and the effective contracts are BYTE-IDENTICAL under canonical JSON (I serialised both and compared digests, not objects). Hostile sweep: I drove 22 invocations -- no args, both modes, unknown flags, empty string, bare dash, double dash, -h, --help, -v, path traversal, a 5000-char argument, unicode, shell metacharacters, embedded JSON, `--selftest=1`, repeated flags, an embedded newline -- ALL exit within the declared table, ALL stderr 0 bytes, ALL traceback count 0. Exit codes: I reached every one of the six. 0 GREEN (--selftest, and a default run with an empty register); 1 FINDINGS (default run); 2 REFUSED (register absent; register not JSON); 3 SELFTEST-REFUSED (by injecting a RuntimeError into derivation_selftest -- the guard caught it and printed SELFTEST-NOT-RUN); 4 BAD-INVOCATION; 5 CLASS-SKIPPED (empty register plus operability.v2.json removed). Freeze section 7.8.1 rule 3 is satisfied: every code the docstring claims is a code the file produces."
+    },
+    {
+      "claim": "The section 7.8.1 repair at its exact site: the predecessor's `load_path(...) or {}` printed a product verdict from an ABSENT operability file; the successor skips the class by name and prints no verdict.",
+      "verdict": "REPRODUCED IN BOTH DIRECTIONS. This is a genuine repair of a genuine instance of the corpus's named defect.",
+      "measurement": "With artifacts/operability.v2.json removed: PREDECESSOR prints `product implementation/release qualification: NOT-RELEASE-QUALIFIED (0/0 required properties demonstrated)` -- a specific, plausible, substantive accusation about the product manufactured entirely by a missing input. SUCCESSOR prints `CLASS SKIPPED -- THIS CLASS DID NOT RUN`, names the missing input, and adds `an absent input is not a NOT-RELEASE-QUALIFIED measurement`. No product verdict at all.",
+      "oneCorrectionToTheDISPATCH": "The dispatch said the predecessor printed `(0/25)` from an absent file. Measured: an ABSENT file gives `(0/0)`; `(0/25)` is what the predecessor prints when the file IS present. The substance is unaffected -- both read NOT-RELEASE-QUALIFIED -- but the figure in the dispatch is wrong and the subject's own docstring has it right. Reported as measured, per the standing instruction to report the measurement over the expectation."
+    }
+  ],
+
+  "adjudications": [
+    {
+      "question": "THE PUBLISHED HOLE: an operations list of NON-DICTS is dropped silently and manufactures points. The author left it open because the only value-shape test reaching it fires on 15 further blocks including two binding artifacts of scored claims, judged a section 7.8.1 violation worse than the hole. IS THAT TRADE RIGHT? Can a predicate close it without those false positives?",
+      "ruling": "THE HOLE IS REAL AND REPRODUCES EXACTLY. THE JUSTIFICATION FOR LEAVING IT OPEN DOES NOT: THE COUNT IS WRONG AND THE IMPOSSIBILITY CLAIM IS FALSE. A ZERO-FALSE-POSITIVE PREDICATE EXISTS.",
+      "theHoleReproduced": "Same delta, three encodings of the same operation. HONEST dict ops -> source=derivation, score 2/4, own 4/4, 0 errors. NON-DICT ops (['set note changed']) -> source=own-keys, score 4/4, 0 ERRORS. Unknown path ENCODING -> source=own-keys/DERIVATION-UNRESOLVED, score 4/4, 1 named error, exit 1. Exactly as described.",
+      "onePrecisionTheDispatchOverstates": "The hole cannot manufacture points ABOVE the artifact's own key-name score. What it manufactures is (a) the difference between ownScore and the honest derivation score, +2 here, and (b) ZERO FINDINGS where every other malformation yields one. (b) is the sharper half: it is the only malformation in the whole space that is both unscored and unreported.",
+      "theAuthorsCOUNTdoesNotReproduce": "The published residual says the widening 'fires on 15 further blocks that declare no derivation ... Measured 2026-08-10 over 427 artifact JSON documents.' I measured 429 documents and, under TEN natural readings of the widening, never 15: {1 name + 1 digest + list with any non-dict} = 30 blocks / 28 artifacts; {... all non-dict} = 30/28; {name OR digest} = 99/69; {exactly one list} = 13/13; {block has no dict member} = 26/24; requiring the digest on disk, the name on disk, both on disk, or block-level rather than artifact-level exclusion = 30/28 in every case. The TWO NAMED EXAMPLES do reproduce -- evidence.v10.json .d9Mapping and rust-provider-protocol.v4.json .predecessorRejection are both in the set. So the examples are right and the count is roughly double. Under freeze section 7.2.2 a recorded measurement gets hard comparison, and this one fails it, inside a disclosure the file prints on every --derivations run.",
+      "directionOfThatError": "CONSERVATIVE. Understating the false positives makes the decision to decline look LESS well-founded than it actually is. The wrong number does not flip the argument; it is nonetheless the section 7.2.2 defect committed in a file that cites section 7.2.2 four times.",
+      "theTradeIsWRONGasSTATED": "A value-shape test exists that reaches the hole and fires on NOTHING. Predicate: `some non-empty list value whose EVERY item is a string of at least two whitespace-separated tokens whose FIRST token is a declared verb`. Measured over the frozen snapshot at ANY DEPTH in all 429 documents: ZERO hits. Fires TRUE on the subject's own `ops-not-dicts` selftest fixture ['set version 9', 'add fixtures']. Adding it to the candidate union is free: it changes the selection of all 17 artifacts by nothing and adds no false positive anywhere in the corpus.",
+      "whatMyPredicateDoesNOTclose": "It does not fire on the file's own KNOWN_SILENT_SHAPES example ['a', 'b'], and it should not: a list carrying no verb signal at all conveys no operations to a human reader either, and every test that reaches it is the one with 30 false positives. So the honest statement is: the REALISTIC half of the hole is closable at zero cost and the DEGENERATE half is not. The published residual should say that, and should name the shape it CAN close.",
+      "netGrade": "REQUIRED-HARDENING for a successor, NON-BLOCKING today. Non-blocking because I measured the live instance count: my refined predicate finds ZERO blocks corpus-wide, so no artifact in this corpus is currently in the hole. The hole is a latent authoring hazard, not an active misreading. It cannot be repaired in place -- freeze sections 7.2 and 7.6 make this file a new-version-only surface the moment this review is issued."
+    },
+    {
+      "question": "It publishes 7 ways to pass on a wrong artifact in 4 lanes, most inherited. FIND AN EIGHTH.",
+      "ruling": "EIGHTH FOUND, WITH A WORKING CONTROL, IN THE ONE LANE THE THREE NAMED EXAMPLES DO NOT TOUCH. Four further ones are recorded below with measurements; all are INHERITED and none is introduced by this file.",
+      "eighthWay": {
+        "id": "CMPV2-E8",
+        "lane": "registry integrity -- unregistered_current_reviews()",
+        "statement": "The guard that is supposed to notice a live review nobody registered is name-scoped TWICE, and both scopings miss the corpus's dominant convention. It globs `*.review-reviewer*.json`, which matches 19 of the 195 review-named files in artifacts/. It then reads the subject only from a STRING `reviewOf` or `reviews` key, and only 70 of those 195 files carry one -- the dominant subject-naming keys are `artifact` (125 files) and `subject` (34).",
+        "demonstrated": "CONTROL: an unregistered file `c2-plan-stage-schema.v11.review-reviewer9.json` containing {'reviewOf': 'artifacts/c2-plan-stage-schema.v11.json', 'verdict': 'REJECT'} -> the guard FIRES, one registry error. ESCAPE 1: byte-identical content renamed `c2-plan-stage-schema.v11.review-independent-2.json` -> ZERO FINDING-SET DELTA. ESCAPE 2: the caught filename, subject keyed as `artifact` instead of `reviewOf` -> ZERO FINDING-SET DELTA.",
+        "whyItMatters": "C-2 is 4/4, reviewed, 0 open, seal-ready Y. A live REJECT of C-2 can sit in artifacts/ under the corpus's own dominant naming and this instrument -- the only one that measures review registration -- reports nothing.",
+        "class": "This is CMP-IR-01 exactly: inferring a thing's NATURE from its NAME. Freeze section 7.6 records that class committed by a coordinator, and section 7.2.2's 2026-08-10 rider records it committed by a reviewer's methodology. This is a THIRD site, inside a checker, and it is named nowhere. It is fully inherited -- both functions are AST-identical to the predecessor -- so it is not this file's defect. It is this file's opportunity, declined without being named.",
+        "repair": "Derive the review set from the register and the tree rather than from a filename glob: any artifacts/*.json whose content names a binding artifact as its subject under ANY key, compared against the registered set. Freeze section 7.2.2's rider is the rule -- derive the row set from the artifact's own structure and publish the count of rows generated."
+      },
+      "furtherWaysMeasured": [
+        {
+          "id": "CMPV2-E9",
+          "lane": "independent-review completeness AND seal readiness",
+          "statement": "`reviewed` is bool(a loadable JSON file at the registered path). Nothing about its CONTENT is bound.",
+          "measured": "A registered review file of `{}` yields reviewed=True, findingCount=0, openIds=[], ready=True, 0 errors. So does `{'findings': []}`. So does `{'verdict': 'REJECT', 'blockers': ['fatal'], 'findings': []}`. AN EXPLICIT REJECTING REVIEW WITH BLOCKERS MAKES ITS SURFACE SEAL-READY, because findings are counted only from `findings[].id` and `resolves` keys."
+        },
+        {
+          "id": "CMPV2-E10",
+          "lane": "contract shape",
+          "statement": "Both content points are bought by key NAMES over EMPTY containers.",
+          "measured": "score_document({'schema': {}, 'cases': [0]}) returns schema=True, goldens=1. That artifact is 28 BYTES. With register-supplied invariants and any existing validator file it is 4/4. Demonstrated live: adding `properties: {}` and `extraFixtures: [null]` to trusted-request-context.v3.json moves TRUSTED-REQUEST-CONTEXT 2/4 -> 4/4 and contract-shape completeness 11/13 -> 12/13."
+        },
+        {
+          "id": "CMPV2-E11",
+          "lane": "contract shape, via the derivation reader -- the only one that is NEW capability rather than inherited",
+          "statement": "`add` operations MINT both content points inside the delta itself. No schema-rich predecessor is needed; the attacker authors the predecessor too.",
+          "measured": "I wrote artifacts/mint-base.json containing {'note': 'this predecessor carries no schema and no fixtures'}, declared a derivation from it with its true digest and two adds -- `inventedSchema: {}` and `inventedFixtures: [null]` -- and TRUSTED-REQUEST-CONTEXT went 2/4 -> 4/4, source=derivation, 0 errors, with the run printing `digest verified before use: d0b79c8e...`. The digest verification is real and entirely beside the point.",
+          "note": "This is strictly stronger than the dispatch's named rebadge attack, which I also reproduced: pointing a 2/4 delta at evidence.v10.json with its true digest and one legitimate `set` yields 2/4 -> 4/4, source=derivation, 0 errors, borrowing `canonicalWireGrammar` and 6 goldens. The mint needs no victim."
+        },
+        {
+          "id": "CMPV2-E12",
+          "lane": "contract shape -- the sharpest single number in this review",
+          "statement": "A binding artifact of a scored claim can be reduced to its KEY NAMES ALONE and the instrument reports nothing.",
+          "measured": "I rewrote artifacts/evidence.v10.json replacing every dict value with {} and every non-empty list with [null], preserving only the 43 top-level key names. 188,334 bytes -> 1,599 bytes (0.85% retained); 2,188 leaves -> 13 leaves. FINDING-SET DELTA: ZERO. EVIDENCE remains 4/4 and the run is byte-identical. Freeze section 7.8's standard for a companion instrument is that its assertions fire when content is REMOVED; on this axis this instrument scores zero."
+        },
+        {
+          "id": "CMPV2-E13",
+          "lane": "contract shape -- the checker point, confirming the dispatch",
+          "statement": "`checker` is a bare `(ROOT / validator).exists()`.",
+          "measured": "Truncating artifacts/check-c2-v12.py to ZERO BYTES: ZERO FINDING-SET DELTA, C-2 stays 4/4. DELETING it: C-2 drops to 3/4. So the predicate distinguishes existence from non-existence and nothing else."
+        }
+      ],
+      "fairnessStatement": "E8, E9, E10, E12 and E13 are ALL inherited: score_document, review_state, finding_ids, resolution_state, review_targets, unregistered_current_reviews and cross_cutting_state are AST-identical between predecessor and successor, which I verified function by function. E11 is reachable only through the derivation reader, which the PREDECESSOR also has -- the successor widens which artifacts can reach it, not what it does. This file introduces no new way to pass on a wrong artifact."
+    },
+    {
+      "question": "A deleted derivation predecessor drops a surface 4/4 -> 2/4 and exits 1, not a refusal code -- the reason is printed by name but the exit code alone reads as FINDINGS. GRADE IT.",
+      "ruling": "PARTIALLY COMPLIANT. The TEXT satisfies freeze section 7.8.1 completely. The EXIT CODE and the SCORE do not, and the inconsistency is with the file's own repair three functions away.",
+      "measured": "Deleting artifacts/c2-plan-stage-schema.v10.json: C-2 goes 4/4 -> 2/4, source becomes `own-keys/DERIVATION-UNRESOLVED`, the run prints `1 surface(s) declared a derivation that could NOT be resolved; each is a finding below and none was scored as if no derivation had been declared`, and the error list carries `C-2: derivation: declared predecessor is absent: artifacts/c2-plan-stage-schema.v10.json`. Exit 1. Corrupting the predecessor's bytes instead gives the identical shape with `predecessor digest mismatch`. Both are IDENTICAL in the predecessor -- this is inherited behaviour, not new.",
+      "whatIsRIGHT": "The missing file is NAMED. The surface is not scored as if no derivation had been declared -- the source string carries DERIVATION-UNRESOLVED. The score moves in the SAFE direction (down, to the delta's own honest key-name score) and the file's claim that an unresolved derivation 'cannot manufacture a point' holds. And the finding is attributed to C-2, whose own declaration names the absent file, so this is NOT the section 7.8.1 shape of an accusation against a DIFFERENT artifact.",
+      "whatIsWRONG": "The file's own docstring defines exit 1 as 'the run measured something that is not complete'. It did not measure; a per-class input was absent. The file HAS a code for that -- EXIT['CLASS-SKIPPED'] = 5 -- and applies it to a missing operability.v2.json while giving a missing derivation predecessor the FINDINGS code. Two missing per-class inputs, two different treatments, and only one of them is named as the repair. A CI system reading only the exit code cannot tell a real 2/4 from an absent file, and freeze section 7.8.1 rule 1 is that 'derived from nothing' and 'derived and found nothing' must never print the same -- here they print the same NUMBER (2/4) and differ only in a provenance string.",
+      "grade": "NON-BLOCKING. Scored by finding-set delta, which is my declared metric, the two ARE distinguished: the source string changes and a named error line appears. The defect is confined to the two channels that carry no text -- the score integer and the exit code. Repair for a successor: print the shape as `?/4` when the source carries DERIVATION-UNRESOLVED, or route it through CLASS-SKIPPED. Cost: it would move a figure the freeze quotes, which is exactly why it is a coordinator decision and not a patch."
+    },
+    {
+      "question": "Verify section 7.8.1 generally -- a MISSING or MALFORMED input must never present as a substantive finding about a different artifact.",
+      "ruling": "SATISFIED for every input class I could reach, with one caveat in the newest capability.",
+      "measured": "Register absent / unreadable / not JSON / no claims array / a claim with no string id -> Refusal, exit 2, prints THE CHECK DID NOT RUN and 'No statement is made about any artifact, surface or claim.' artifacts/ not a directory -> same. operability.v2.json absent or not a JSON object -> class skipped by name, no product verdict. A derivation predecessor absent or drifted -> named against the surface that declares it, never against another. A registered review or adjudication absent -> a per-claim error naming the path. Malformed JSON anywhere in artifacts/ -> skipped by the census, never scored. Zero tracebacks in 22 hostile invocations and in every mutation I ran.",
+      "theOneCaveat": "See CMPV2-F7: in the CONTENT-addressed lane a DELETED predecessor is reported as a digest-accounting defect rather than as a missing file. The refusal is loud, named and correct in outcome, but it names the wrong proximate cause and would send a reader to audit the declaration instead of the tree."
+    }
+  ],
+
+  "findings": [
+    {
+      "id": "CMPV2-F1",
+      "grade": "REQUIRED-HARDENING",
+      "blocking": false,
+      "title": "The published residual's count does not reproduce, and its impossibility claim is false.",
+      "detail": "KNOWN_SILENT_SHAPES states the widening 'fires on 15 further blocks ... Measured 2026-08-10 over 427 artifact JSON documents.' Measured: 429 documents, and 30 blocks / 28 artifacts under the most natural reading, with no reading among ten producing 15. The two named example artifacts do reproduce. Separately, a value-shape test exists that reaches the hole and fires on ZERO blocks corpus-wide at any depth (see the adjudication). The sentence 'the only value-shape test reaching it' is therefore false.",
+      "repair": "In a successor: correct the count with its definition attached, state the denominator as measured at run time rather than as a frozen literal, add the verb-prefixed-string predicate to the candidate union, and narrow the published residual to the degenerate shape it genuinely cannot close."
+    },
+    {
+      "id": "CMPV2-F2",
+      "grade": "ADVISORY",
+      "blocking": false,
+      "title": "The residual disclosure is a hard-coded literal that no run recomputes.",
+      "detail": "KNOWN_SILENT_SHAPES is a module constant printed verbatim by --derivations. Nothing compares it to the tree. Freeze section 7.2.2's rider -- 'a measurement that cannot fail the build is prose' -- applies directly, and the namespace successor's design move 6 is the reference: make the residual gate the build, so the disclosure fails if the measured residual and the published figure disagree in either direction. Had that been done, F1 would have been impossible.",
+      "repair": "Recompute the widening's false-positive count at --selftest time and fail if it disagrees with the published figure."
+    },
+    {
+      "id": "CMPV2-F3",
+      "grade": "REQUIRED-HARDENING",
+      "blocking": false,
+      "title": "(None, []) is still reachable for a COMPLETE, WELL-FORMED declaration -- nested one level deeper. The docstring says otherwise.",
+      "detail": "The docstring claims '(None, []) -- the predecessor's silent refusal -- is now reachable only for a block that carries no derivation signal at all. Two shapes still reach it and are named in KNOWN_SILENT_SHAPES.' Measured: declaration_candidate and derivation_declaration inspect TOP-LEVEL dict blocks only. A perfectly valid derivation declaration placed at `$.provenance.derivedFrom` instead of `$.derivedFrom` returns (None, []) -- the exact silent refusal being repaired. KNOWN_SILENT_SHAPES names one shape, not two, and this is a third that it does not name. The same shallowness is what produces the zero-false-positive result: v10-disposition.v1.json's live `deferredIntegrationPatch` block carries one artifact filename, one sha256, and edit lists with `op` and `path` -- it is NOT selected today only because those lists sit one level down inside `variantB_authorisedNow`. Hoist them and declaration_candidate returns OPERATION-SHAPED. Zero false positives and this silent hole are the same property seen from two sides.",
+      "repair": "Walk nested objects to a bounded depth for candidate detection, and re-measure the false-positive set at that depth before shipping it."
+    },
+    {
+      "id": "CMPV2-F4",
+      "grade": "ADVISORY -- and it is a LIVE instance, found by accident through concurrency",
+      "blocking": false,
+      "title": "declaration_candidate now has a false positive on a live artifact, and it misattributes the refusal reason.",
+      "detail": "artifacts/retention-tiers.v28.json was authored by a concurrent lane DURING this review. It carries, beside its real `derivedFrom`, a narrative comparison table `theSubstantiveDeltaIsPRESERVED` -- two sha256 values plus a list `theThreeREPAIRoperationsAreByteIdentical` whose items carry path/from/value/identicalToV27 and NO `op` member. is_operation_shaped fires on the >=2-vocabulary-members test, so declaration_candidate returns OPERATION-SHAPED on a block that is documentation, and derivation_declaration emits: \"'theSubstantiveDeltaIsPRESERVED' states a predecessor identity and a list that declares operations, but this resolver cannot execute that list: operation 0 carries no string verb (its 'op' member is NoneType).\" The PREDECESSOR reports ZERO errors on this artifact.",
+      "whyItIsNotWorse": "Both instruments refuse v28 in the end -- the predecessor refuses at the resolution stage on the retention-tiers.v26 chain link. So the OUTCOME class is unchanged and the score is unchanged. What changed is the stated REASON, which now points a reader at a narrative table rather than at the unexecutable chain link. And RETENTION is filtered out by SKIP_PREFIX ('ARCH.RETENTION-TIERS') and binds v24, so the default run is untouched -- re-verified byte-identical on the drifted tree.",
+      "whatItEstablishes": "The 'zero false positives across 427 documents' figure is a property of THAT CORPUS SNAPSHOT, not of the predicate. It went stale within hours, from an ordinary authoring act by another lane, in exactly the way freeze section 7.2.2's 2026-08-10 rider predicts when an enumeration is not derived from something the instrument controls. A signer should read the figure as 'no false positive was reachable on the bytes measured', never as 'this predicate has no false positives'.",
+      "repair": "Publish the false-positive census as a RUN-TIME measurement in --derivations rather than as a docstring literal, so the number is always about the tree in front of the reader."
+    },
+    {
+      "id": "CMPV2-F5",
+      "grade": "DISCLOSURE",
+      "blocking": false,
+      "title": "In the content lane the digest 'verification' and the single-digest accounting gate are both tautologies, and the output does not say so.",
+      "detail": "locate_content_predecessor sets provenance['declaredDigest'] = head, where head IS the sha256 of the file it just selected BY that sha256. resolve_derivation then compares sha256(raw) to provenance['declaredDigest'] -- a comparison that cannot fail. The run nevertheless prints 'digest verified before use: <digest>' identically for the named lane, where the comparison does real work, and the content lane, where it cannot. Separately, the section 7.2.2 accounting gate computes `accounted` as the verified chain digests plus the resolved base's canonical digest, and the head file's digest is always in that set -- so for a declaration carrying exactly ONE digest, `unaccounted` is always empty. I confirmed this by dropping v10-disposition.v3 to a single declared digest: it resolves, gate silent. The gate does real work only at two or more declared digests, which is the live case and is why it fires correctly there.",
+      "repair": "Print the lane and what the comparison established -- 'located BY digest (identity is definitional)' versus 'declared digest COMPARED to measured bytes' -- and state the accounting gate's arity precondition."
+    },
+    {
+      "id": "CMPV2-F6",
+      "grade": "DISCLOSURE",
+      "blocking": false,
+      "title": "'Every declared digest must be accounted for' is scoped to DIRECT string members of the declaration block.",
+      "detail": "declaration_identity collects digests from block.values() only. I added a stray digest one level down as {'nestedRecord': {'sha256': 'aaaa...'}} inside v10-disposition.v3's declaration: it is neither collected nor accounted for and the artifact resolves clean. The same stray digest as a direct member is caught loudly. The claim is true as implemented and wider than its wording.",
+      "repair": "Either state the scope in the message, or collect digests to the same bounded depth used for candidate detection."
+    },
+    {
+      "id": "CMPV2-F7",
+      "grade": "ADVISORY",
+      "blocking": false,
+      "title": "A deleted content-addressed predecessor is reported as a digest-accounting defect, not as a missing file.",
+      "detail": "Deleting artifacts/v10-disposition.v2.json makes on_disk fall back to v1, selects v1 as the chain head, verifies it, and only then fails the accounting gate: 'declaration records 3 digest(s) and 2 of them matches neither a verified file in the resolved chain nor the canonical value of the resolved base ... an uncompared recorded digest is not evidence.' The outcome is a correct refusal and the accounting gate is what produces it -- but a reader is told the DECLARATION is defective when in fact the TREE is missing a file. The named lane gets a much better message for the same event: 'declared predecessor is absent: <path>'.",
+      "repair": "When a declared digest identifies no file and the declaration is content-addressed, say so first and by name, before reporting accounting."
+    },
+    {
+      "id": "CMPV2-F8",
+      "grade": "REQUIRED-HARDENING",
+      "blocking": false,
+      "title": "The canonical form is fitted to a single datum and the refusal it produces does not name it.",
+      "detail": "canonical_bytes uses sort_keys=True, separators=(',',':'), ensure_ascii=False, UTF-8, no trailing newline. The docstring is honest that this 'is not inferred from prose: it is the form under which the one live artifact that declares such a digest reproduces its published value exactly'. Measured against the artifact's own declaration: v10-disposition.v3's resolutionAlgorithm.keyOrder declares ONLY 'The canonical serialisation sorts keys.' Separators, ensure_ascii and trailing-newline are the resolver's unilateral choice, reverse-engineered from ONE sample. A correct second content-addressed artifact using any other undeclared form will be refused with 'an uncompared recorded digest is not evidence' -- a substantive accusation about the artifact whose real cause is the resolver's own choice, and the message does not print the form it used.",
+      "repair": "Print the canonical form in the refusal, and require a content-addressed declaration to STATE its canonicalization so the resolver reads it rather than assuming it -- which is the same move the whole file makes for the declaration itself."
+    },
+    {
+      "id": "CMPV2-F9",
+      "grade": "ADVISORY",
+      "blocking": false,
+      "title": "The resolver does not implement the parse rule the artifact it resolves declares.",
+      "detail": "v10-disposition.v3's resolutionAlgorithm steps 1 and 3 require parsing v1 and v2 'with a duplicate-key-rejecting object_pairs_hook. Refuse on any duplicate', citing freeze section 7.5, and its `parsedWith` asserts the same. The subject uses plain json.loads at every site -- LAST KEY WINS. Measured: v1, v2 and v3 carry ZERO duplicate keys at any depth, so the divergence does not bite today and the canonical digest reproduces. It is nonetheless a declared-versus-implemented divergence inside the newest capability, and the safe direction (a divergent parse would produce a different canonical digest and a loud refusal) is luck rather than design.",
+      "repair": "Parse with a duplicate-rejecting hook in the derivation path, which is normative for every checker written during implementation anyway (freeze section 7.6, blueprint construction requirement)."
+    },
+    {
+      "id": "CMPV2-F10",
+      "grade": "ADVISORY",
+      "blocking": false,
+      "title": "Two sources of truth for one path, in a file whose thesis is that a document and a file must not disagree about a value.",
+      "detail": "Module constant OPERABILITY = ARTIFACTS / 'operability.v2.json' is DEAD -- never read. product_qualification() re-derives the same path from a string literal. The file renders its exit codes from one EXIT dict precisely so 'a document and a file cannot disagree about them'; it does not apply that discipline to its own input path.",
+      "alsoInherited": "product_qualification reads operability.v2.json while claim-register.v1.json binds OPERABILITY to operability.v10.json. Measured: both carry releaseDecision.state='BLOCKED', demonstratedPropertyCount=0, 25 required properties -- so the two agree today and nothing is visible. The hardcoded input does not track the register.",
+      "repair": "Read the path from the constant, and take the product input from the register's OPERABILITY binding rather than from a literal."
+    },
+    {
+      "id": "CMPV2-F11",
+      "grade": "DISCLOSURE",
+      "blocking": false,
+      "title": "has_step was changed and is named in neither WHAT MOVED nor WHAT DID NOT MOVE.",
+      "detail": "I diffed every top-level function at the AST level with docstrings excluded. Of the 13 functions the docstring implies are the predecessor's unchanged, 12 are code-identical -- score_document, finding_ids, resolution_state, review_state, review_targets, unregistered_current_reviews, cross_cutting_state, exact_equal, path_steps, resolve_steps, load_path, load_bytes -- and contract_shape is code-identical too. has_step is NOT: the successor adds `and not isinstance(step, bool)` to the list branch. The change is correct and in the safe direction, and it is the second half of the section 7.4 hardening the docstring credits only to array_path_steps. It is simply undisclosed.",
+      "repair": "One sentence in WHAT MOVED."
+    },
+    {
+      "id": "CMPV2-F12",
+      "grade": "DISCLOSURE",
+      "blocking": false,
+      "title": "Two published figures are stated as absolute where they are corpus-relative and already stale.",
+      "detail": "'427 artifact JSON documents' -- measured 429 at snapshot and 429 at end of review (the two files that appeared are a .py and a .json; the .json is retention-tiers.v28, which raises declared derivations 17 -> 18). 'the seventeen are exactly the artifacts that declare a derivation' -- 18 as of the end of this review. Neither figure is load-bearing for any conclusion; both are the section 7.2.2 pattern of publishing a corpus census as though it were a property.",
+      "repair": "Compute both at run time and print them; --derivations already prints `declared derivations: N` correctly and could source the docstring's claims from the same walk."
+    }
+  ],
+
+  "whatIsGENUINELYGOODhereAndShouldNotBeLostInTheFindingList": [
+    "The structural repair is the right one and it is the half that generalises. Giving the refusal path a test that shares NOTHING with the predicate whose failure it reports is the correct fix for 'a validity gate guarded by the predicate it exists to report on', and it is stated as a rule rather than as a patch. I could not construct any input where a recognised declaration fails silently EXCEPT by nesting it one level deeper (CMPV2-F3).",
+    "The three-evidence-test design is honest engineering: each test survives a different future authoring change (renaming `op`, dropping the verb, keeping neither), the union costs nothing measured, and all three independently reproduce the same selection when reimplemented from the docstring by a second party.",
+    "The content-addressed capability, which the dispatch told me to attack hardest, is the strongest thing in the file. It independently recomputes the canonical digest of a document that exists in no file and matches the artifact's published value, and it refused five of five falsification attempts with named, correct, non-generic messages. The three attacks it did not refuse are each either correct behaviour or a bound I have recorded.",
+    "The section 7.8.1 repair at product_qualification is a real repair of a real instance of the corpus's named dominant defect, reproduced in both directions, and it is scoped -- it skips one class by name and leaves the other three measuring, which is exactly the shape freeze section 7.8.1 rule 2 asks for.",
+    "The selftest pins the REASON for each refusal, not merely that a refusal occurred. That is the discipline that stops a mutation suite passing while measuring nothing, and it is stated in the code as the reason for the `refused(name, because)` helper.",
+    "`deletes-schema`, `empties-goldens` and `array-deletes-schema` are the cases that matter and they all pass: a derivation that removes the schema still LOSES the point. A resolver that trusted the declaration instead of scoring its result would manufacture seal-readiness, and this one does not.",
+    "The file discloses its own reach in its own output -- `reach: 2/13 surfaces scored from a resolved derivation` and 'CMP-IR-01 is NOT closed: the rename half of the class is untouched' -- every run, unprompted."
+  ],
+
+  "recordedInputs": {
+    "rule": "Freeze section 7.2 recording obligation: filename and sha256 of every input this verdict depends on. A count is not a record. Digests measured on the LIVE tree at the end of the review; corpus-wide COUNTS were taken against the frozen snapshot and any divergence is recorded under treeDriftDuringReview.",
+    "instrumentAndRequiredInputs": {
+      "artifacts/check-completeness-v2.py": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+      "artifacts/check-completeness.py": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+      "artifacts/claim-register.v1.json": "685259e76bf55d0eb1a3d3197f7ecd90a7ba737be13755137e167c8240b88b22",
+      "artifacts/operability.v2.json": "43e63e4bca8e238e933a6b3e0c91112fb29b52da5f92d64ff2438d79140e6f04",
+      "IMPLEMENTATION-FREEZE.md": "32fd8f472b1634fc5228ac99f1ae44edfcfee3a4bf7a5940e24e5b90b53bd55c",
+      "artifacts/freeze-payload-manifest.txt": "9afa3c2de70bb0190f706592719778d45da1b3f0e6ec1a924a1f49683020cb9e",
+      "artifacts/check-completeness.derivation-reader.review-independent.json": "97d47b1cf3d6598b989ed3e7ee9048bedb5e5fd0a85c55dea25bc7ce47af1916"
+    },
+    "declaredDerivationsExecutedByTheResolver": {
+      "artifacts/c2-plan-stage-schema.v5.json": "fe5748963db1724123dbc82b2381feb708d8f3836de6f99e10ca3134534547bd",
+      "artifacts/c2-plan-stage-schema.v6.json": "f9c25ccba272c8306610dd1f3886b0449cf554a369a3e91d0e01cec05faa8786",
+      "artifacts/c2-plan-stage-schema.v7.json": "51da54489618cc8af5946686e6b0a8a84d5725f421e7aa5ea3f8ecf8747906d1",
+      "artifacts/c2-plan-stage-schema.v8.json": "a7e309d4a58a89e117c0b84d06eccb093e1f087d4dcf8ff116062b754d7ec353",
+      "artifacts/c2-plan-stage-schema.v9.json": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+      "artifacts/c2-plan-stage-schema.v10.json": "0e550b1615c62cdd7b203221d4ddce6e229848c9e59e1403c1bb603ac5447406",
+      "artifacts/c2-plan-stage-schema.v11.json": "d35b677d6726a8f9b9fc70e2e0f3307af909eca876cd6670d238829ba95a81f8",
+      "artifacts/delivery.v3.json": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d",
+      "artifacts/delivery.v4.json": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121",
+      "artifacts/delivery.v5.json": "5d059db73369b4d3cee7f06095a3aca3536b70b470e8ce2d9bbfc05d50adbd34",
+      "artifacts/retention-tiers.v26.json": "a6546408fb38df95166f0ec41b1d9d9dae0dbda580684ff8a6e94f57145ad97e",
+      "artifacts/retention-tiers.v27.json": "d39800b7595f58ab42a65316d4880754ef9a14022d52f7ca68fdbab423e7314c",
+      "artifacts/retention-tiers.v28.json": "ccc1737d67a4e37bf913135c960f05ac62de23db4679632792bc0aacc1c95d20",
+      "artifacts/threat-model-storage-namespace.v4.json": "94b68f6d504967b61c9daf4884cad90d2e5de63af3b40aeda99d28b59513b5be",
+      "artifacts/v10-disposition.v2.json": "843e6528e128baa621169e4840d62eb4d82f0912eb305d53c276c178df129bd5",
+      "artifacts/v10-disposition.v3.json": "00895da99a28410a9d970e5ccb8c1d642709d9f3b921a54c0edff743b4ca44e3",
+      "artifacts/versioning-policy.v14.json": "39e3f41bafc7603b71441edb41a19834925d7a905d2afba88cada653fbc3cff9",
+      "artifacts/versioning-policy.v15.json": "9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f"
+    },
+    "resolutionChainPredecessorsHashVerifiedByTheResolver": {
+      "artifacts/c2-plan-stage-schema.v4.json": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+      "artifacts/delivery.v2.json": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "artifacts/retention-tiers.v25.json": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52",
+      "artifacts/threat-model.v3.json": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+      "artifacts/v10-disposition.v1.json": "acc74326c7c6cf999ad3c6efbccba31dcac8662e8b43cff4b3e733b42451caab",
+      "artifacts/versioning-policy.v8.json": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e"
+    },
+    "thirteenScoredBindingArtifacts": {
+      "artifacts/c2-plan-stage-schema.v11.json": "d35b677d6726a8f9b9fc70e2e0f3307af909eca876cd6670d238829ba95a81f8",
+      "artifacts/d9-exit-contract.v1.14.json": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+      "artifacts/delivery.v4.json": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121",
+      "artifacts/evidence.v10.json": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+      "artifacts/fact-identity-policy.v2.json": "10055004e6919a55b29c38d9c474857280fbbb6f561dfff6ed88b7e54efbd110",
+      "artifacts/fact-plane.v1.json": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+      "artifacts/operability.v10.json": "9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be",
+      "artifacts/r1-lifetime-neutrality.conformance.v1.6.json": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c",
+      "artifacts/resolved-inputs.v2.json": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+      "artifacts/rust-provider-protocol.v4.json": "3e34934720a78f823d3d4c7ceb73735d444f09a4a1ec964a894bd1ac5daf2909",
+      "artifacts/threat-model.v3.json": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+      "artifacts/trusted-request-context.v3.json": "bc53c2679a977fd2c2c8369ec9d5794f2295b0df5100b1e360a42c155d04008a",
+      "artifacts/versioning-policy.v8.json": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e"
+    },
+    "derivedOutputsRecordedAsMeasurements": {
+      "defaultRunStdoutBothInstruments": "eea4bf94aafc60926a33ad957a17202a2e3f0a942fb9cebb2912e19ed587784d",
+      "defaultRunStdoutBytes": 3249,
+      "defaultRunExitCodeBothInstruments": 1
+    }
+  },
+
+  "treeDriftDuringReview": {
+    "rule": "Freeze section 7.2.1 clause 4 -- drift discovered mid-review is a fact about that review's conditions and is recorded in it.",
+    "subjectDrift": "NONE. sha256AtStart == sha256AtEnd == b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7.",
+    "treeDrift": [
+      "artifacts/retention-tiers.v28.json APPEARED (an 18th declared derivation). Effect on this review: it produced finding CMPV2-F4, and it raises the corpus figures the subject publishes as literals (17 -> 18 declarations). It does NOT change the default run -- I re-verified predecessor/successor stdout byte-identity on the drifted tree.",
+      "artifacts/check-product-dispositions-v4.py APPEARED. No effect: it is not JSON, not a claim-register validator, and not read by the subject."
+    ],
+    "whichMeasurementsWereTakenAgainstWhich": "All corpus-wide COUNTS (429 documents, 17 declarations, the 30-block widening sweep, the zero-hit closing-predicate sweep, the 115/98 ground-truth sweep, the 113-hit deep sweep, the 19/195 and 70/195 review-file censuses) were taken against the FROZEN SNAPSHOT. All DIGESTS in recordedInputs and the byte-identity re-verification were taken against the LIVE tree at the end of the review. CMPV2-F4 is a live-tree finding and says so."
+  },
+
+  "whatIDidNOTCheck": [
+    "I did not verify that the four newly-resolved derivations resolve to SEMANTICALLY CORRECT effective contracts. I verified that they resolve, that every from-guard held, that every digest in the chain was verified, and that v10-disposition.v3's independently recomputed canonical base digest matches its published value. Whether the resulting documents are good contracts is not a question this instrument or this review asks.",
+    "I did not review the adjudication and seal-readiness logic for correctness beyond the escapes in CMPV2-E9. I verified those seven functions are AST-identical to the predecessor and that the whole default stdout is byte-identical; I did not re-derive what a correct adjudication semantics would be.",
+    "I did not verify the freeze's own quoted figures (contract-shape 11/13, seal readiness 9/13, reach 2/13) against sections 3 and 9.1. I measured what the instrument prints; I did not audit whether the freeze quotes it correctly. Note the freeze's CMP-IR-01 row records reach as 1/13 and the instrument now prints 2/13, which is DELIVERY having become a derivation since -- I did not trace that change.",
+    "I did not run any other checker in the corpus. Freeze section 7.6's rule -- 'before editing any checker, execute the checkers that might verify it' -- was not exercised, because I edited nothing. Whether adding this file breaks any other instrument's closure or manifest is unmeasured; I established only that it is referenced by 2 files (itself and freeze-payload-manifest.txt) and by no checker, and that removing it leaves the predecessor's output byte-identical.",
+    "I did not test any Python other than CPython 3.14.6, and the verdict is conditional on CPython dict insertion-order iteration and on json.loads' last-key-wins duplicate handling. Neither is documented by the subject.",
+    "I did not attempt to falsify the subject's PROSE in the way freeze section 7.8 describes -- keeping every required needle and appending a reversal. There is no companion instrument binding this file's docstring, so its narrative claims rest on this review's reading alone. Where I could measure a docstring claim I did, and CMPV2-F1, F3, F11 and F12 are the four I measured false.",
+    "I did not exhaustively enumerate the ways to pass on a wrong artifact. I found six and reproduced two of the dispatch's three named ones; the space is not closed and I make no completeness claim about it. Freeze section 7.2.2's 2026-08-10 rider is the reason I say so explicitly: my escape enumeration is HAND-DERIVED, not derived from the instrument's structure, and it is silent about every escape it does not contain.",
+    "I did not measure whether my proposed closing predicate remains zero-false-positive against corpora other than this one. It is zero over 429 documents at any depth on the frozen snapshot. Its known failure mode is a metadata list of bare verb NAMES: the unrefined form of it fires on retention-tiers.v27's `operationVerbsUsed: ['set']`, which is why the two-token refinement is the one I propose.",
+    "I did not attempt to forge a review artifact to launder a claim (the PD-IR-01 class). Nothing in this instrument authenticates review authorship, and CMPV2-E8 and E9 show it does not authenticate review CONTENT either, but I did not explore the forgery direction.",
+    "I did not adjudicate whether repairing this instrument SHOULD happen. Freeze section 7.2.2's CMP-IR-01 row records that it is not assurance-neutral and must be a deliberate reviewed act. This review is that act for the BYTES; whether to adopt them is the coordinator's decision, and the single most important input to it is that the default run's output is byte-identical for the reason stated in `claimsTested`, not because the change is inert."
+  ],
+
+  "forTheSigner": {
+    "readTheByteIdentityCorrectly": "Adopting these bytes moves NO figure this freeze quotes, on this tree, today. That is a measurement of disjointness between the repaired capability and the 13 scored surfaces -- verified against full resolution chains, not just binding artifacts -- and NOT a demonstration that the repair is harmless in general. The moment any of v10-disposition.v2/v3 or versioning-policy.v14/v15 becomes a binding artifact, or any binding artifact adopts array-form paths, this instrument and its predecessor diverge and the predecessor is the one that is wrong.",
+    "whatAGreenSelftestMeans": "42 of 42 declared derivation cases behave as stated, the reason for each refusal is pinned rather than merely the fact of it, and no recognised declaration in the suite refuses silently. It does NOT mean the corpus figures are right, does not mean the artifacts are non-degenerate, and does not mean an artifact reduced to its key names would be noticed -- I measured that it would not (CMPV2-E12).",
+    "theThreeThingsToFixInASUCCESSOR": [
+      "CMPV2-F1 -- correct the residual's count with its definition attached, and add the two-token verb-prefixed-string predicate, which closes the realistic half of the published hole at zero measured cost.",
+      "CMPV2-F3 -- (None, []) is still reachable for a well-formed declaration nested one level down; the docstring's claim that it is not is false.",
+      "CMPV2-F8 -- print the canonical form in the refusal, and require a content-addressed declaration to state its canonicalization, so the newest capability reads a declaration instead of assuming one."
+    ],
+    "andOneThingThatIsNOTthisFilesToFix": "The five ways to pass on a wrong artifact recorded here as E8-E10, E12 and E13 are all inherited from bytes this file did not touch, and the two most consequential of them -- a 28-byte artifact scoring both content points, and evidence.v10.json surviving reduction to 0.85% of its bytes with zero finding-set delta -- live in score_document, which is carried verbatim and deliberately. Fixing them would move figures the freeze quotes, which is a coordinator decision under the same rule that made this review necessary."
+  }
+}

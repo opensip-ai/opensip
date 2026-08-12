@@ -155,7 +155,12 @@ questions are now independent, and R-1 must be settled on its own evidence.
 
 ---
 
-**CANDIDATE (FACT-PLANE).** Contract-complete, unreviewed.
+**CANDIDATE (FACT-PLANE).** ~~Contract-complete, unreviewed.~~ **Review status is
+intentionally not maintained here; consult freeze §3 and blueprint §1.1.**
+
+*(The struck clause is withdrawn 2026-08-04. It was false — these bytes have been
+independently reviewed — and it is replaced by a pointer rather than by a fresh
+verdict, because a review state restated in narrative goes stale by construction.)*
 
 ## The fact contract
 

@@ -1,0 +1,486 @@
+{
+  "artifact": "evidence-identity-recipes.v2.review-independent.json",
+  "version": 1,
+  "date": "2026-08-04",
+  "author": "independent adversarial reviewer; did NOT author v1, v2, or any checker; NOT a signer",
+  "role": "INDEPENDENT-ADVERSARIAL-REVIEW",
+  "subject": {
+    "path": "artifacts/evidence-identity-recipes.v2.json",
+    "sha256": "fbdb51f184cea265f6f324046c062ba75e7f76da8ab2cd27d18b281088810ca1",
+    "digestRehashedBeforeAnyOtherWork": "YES -- measured from the live file, not adopted from the dispatch brief, and it MATCHES the digest the brief asserted. The brief instructed suspicion of its own asserted digest; the suspicion was applied and the assertion survived it.",
+    "status": "CANDIDATE",
+    "applicationState": "NOT-APPLIED",
+    "reviewState": "AWAITING-INDEPENDENT-REVIEW at the time this review began"
+  },
+  "verdict": "REJECT",
+  "blockerCount": 2,
+
+  "bindingDisclaimer": {
+    "rule": "This review binds nothing. It is a review verdict on candidate bytes. It applies no artifact, seals nothing, and confers no authority.",
+    "filesWritten": "exactly one -- this file. No checker was edited. No artifact, status, disposition, verdict or seal was changed.",
+    "productDecisionsUntouched": "CD-RT-5 remains BLOCKED_ON_PHASE_1A. No [UNSET] disposition was touched. This review takes no position on the V10 product default, purge semantics, retention tiering, or DIV-2's resolution.",
+    "architecturePlanUntouched": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was hash-confirmed at 47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e and was NOT opened for content and NOT modified.",
+    "parseDiscipline": "EVERY JSON FILE THIS REVIEW READ WAS PARSED WITH json.load UNDER AN object_pairs_hook THAT RAISES ValueError ON A REPEATED KEY (IMPLEMENTATION-FREEZE.md section 7.5). No duplicate key was encountered in any input, including the 218277-byte subject."
+  },
+
+  "closesNoSectionSevenOneRow": {
+    "ruling": "NO section 7.1 row is closed by v2, and NONE COULD BE, on three independent grounds -- any one of which suffices.",
+    "ground1_theRowsOwnRule": "IMPLEMENTATION-FREEZE.md section 7.1 states, measured in the live slice at b66ef194: 'Every row above must be closed by a binding artifact before signature. None may be closed by this record, by the blueprint, by a checker, or by an implementer.' v2 is CANDIDATE-NOT-APPLIED, binds nothing and recommends DO-NOT-SEAL. It is not a binding artifact.",
+    "ground2_bothSourcesAreUnapplied": "DUD-1 and DUD-2. Every recipe transcribes from evaluation-proof.v8 (CANDIDATE-NOT-APPLIED) and evidence.v10 (freeze section 3 disposition UNSET - BLOCKS FREEZE). A recipe cannot be more applied than its source.",
+    "ground3_theFieldCannotBeCOMPUTED": "measured at adjudication 7. Five of SemanticEvidenceV1's thirteen values -- not three -- are commitment- or CAS-ref-typed with no recipe in v2. R-1 establishes framing and field ordering and does not let a producer compute an EvidenceDigest for a real Run.",
+    "theOnlyLiteralRowAddressed": "'EvidenceDigest byte recipe', re-verified PRESENT in the live section 7.1 slice (2 occurrences). The other rows -- RunId derivation, sealed Run semantic manifest identity, Finding fingerprint recipe, FactViewId derivation, cache and regeneration key recipes, subjectScopeCommitment -- and the two related gaps policyOutcome.derivationDigest and capabilityManifestId are untouched by v2 and by this review."
+  },
+
+  "theFifthEncoder": {
+    "mandate": "the brief required a FIFTH encoder written from v2's prose alone, and stated that a fifth encoder that DISAGREES is the most valuable finding available.",
+    "howItWasBuilt": "written from sharedPrimitives, R-0 (TCMS-V5) steps 1-8, the three item record grammars, R-1's thirteen-field table, RawProofInventoryV1/ItemV1 and DomainEnvelopeV1, transcribed as prose into code. It shares no line with v1, with v2, with the v1 review, or with any check-*.py in this corpus. Python standard library only; hashlib, struct, unicodedata.",
+    "result": "ALL 30 VECTORS REPRODUCED. 68 assertions, 68 pass, 0 fail, FIRST RUN, NO VALUE ADJUSTED.",
+    "whatTheAssertionsCover": "26 carried-forward vectors plus the 4 new BND vectors; every published counterDigest (naive text sort x2, duplicate-last x2, no-bound-enforced, code-point-counting, silent-normalization); every published byte length; both ED-6 full preimage hexes; the SS-5 deduplicate/reject pair and its declared byte-equality; and every REJECT vector's SPECIFIC rejection condition string, asserted by name rather than by a non-zero exit.",
+    "rejectionConditionsAssertedByName": [
+      "SS-5: 'duplicate exact record bytes'",
+      "BND-2: 'text component exceeds 4096 bytes'",
+      "BND-3: 'text component exceeds 4096 bytes'",
+      "BND-4: 'text component is not NFC (reject, do not normalize)'"
+    ],
+    "independentSourceReproduction": {
+      "evidenceV10AcceptedGolden": "REPRODUCED BYTE-EXACTLY from the declared vector inputs alone, without reading acceptedGolden's hex. rawProofInventoryHex (2836 bytes), semanticEvidenceHex (3560 bytes), evidenceDigestPreimageHex (3599 bytes), semanticEvidenceCasRef and evidenceDigest all MATCH.",
+      "evaluationProofV8CommitmentGoldens": "ALL NINE reproduced -- EP5-COMMIT-UNIVERSE, EP5-COMMIT-SUBJECT-SET, EP5-COMMIT-OUTCOME-SET, EP5-COMMIT-WAIVER-SET, EP5-COMMIT-VERDICT-INPUT, EP6-COMMIT-ACTIVATION-MANIFEST, EP6-COMMIT-EVALUATION-AUTHORITY-SEAL, EP5-COMMIT-CAPABILITY-CLOSURE-GENERIC, EP5-COMMIT-SEMANTIC-CAPABILITY-CLOSURE-V3-GENERIC. For each: leafHashHex, merkleRootHex, outerPreimageHex and the commitment string were all independently recomputed and all matched. v2's claim of nine against v1's five is CONFIRMED.",
+      "whatThisMeans": "four prior encoders plus this fifth now agree. The recipes are not where the defects are. Both blockers below are defects of STATEMENT, not of encoding, which is precisely the class B-EIR-01 and B-EIR-02 were."
+    },
+    "whatAFIFTHAGREEMENTDoesAndDoesNotEstablish": "it establishes that v2's prose is sufficient to reconstruct the encoding, which is the blueprint section 5.1 standard for reproduction. It does NOT establish that a producer can compute the identity -- see blocker B-EIR2-01 -- and section 5.1 says so in its own words. This reviewer reproduced everything and still could not compute five of thirteen field values."
+  },
+
+  "blockers": [
+    {
+      "id": "B-EIR2-01",
+      "severity": "BLOCKER",
+      "title": "The blueprint section 5.1 trap count is FALSE IN BOTH DIRECTIONS, in the claim v2 itself calls the most consequential, and it has ALREADY propagated verbatim into IMPLEMENTATION-FREEZE.md section 7.1 as established fact.",
+      "whatV2SaysVerbatim": [
+        "R-1-EvidenceDigest.aGREENVECTORSUITEISNOTCOVERAGEOFTHEIDENTITY.THESAMETRAPAPPLIESTOR1: 'R-1 vectors hand the producer FIVE of the thirteen SemanticEvidenceV1 values as literals. R-2 and R-3 DERIVE two of them here -- universeCommitment and outcomeSetCommitment, which is what OBS-1 measures. THREE REMAIN HAND-SUPPLIED WITH NO RECIPE IN THIS ARTIFACT: verdictDerivationCommitment, evaluationProofBundleCasRef and semanticCapabilityClosureCommitment.'",
+        "recordedInputs.concurrentDriftDisclosure...andITNAMESATRAPTHATAPPLIESDIRECTLYHERE: 'R-1's vectors hand the producer five of the thirteen SemanticEvidenceV1 field values as literals ... THREE REMAIN HAND-SUPPLIED AND ARE NOT DERIVABLE FROM ANYTHING IN THIS ARTIFACT'"
+      ],
+      "measurementOne_theLiteralCountIsTWELVENotFIVE": {
+        "what": "testVectors.R-1-EvidenceDigest.sharedSemanticEvidenceFields was enumerated. Excluding its 'note' key it carries TWELVE field values, every one a literal: schemaVersion, projectId, planId, evaluationAuthoritySealRef, evaluationProofBundleCasRef, universeCommitment, outcomeSetCommitment, verdictDerivationCommitment, verdict, sealedCapability, semanticCapabilityClosureCasRef, semanticCapabilityClosureCommitment.",
+        "measured": "12 of 13. rawProofInventory is the ONLY field the vectors do not hand as a literal; it is built by R-1 from the separately declared items.",
+        "ruling": "'FIVE of the thirteen ... as literals' is FALSE AS MEASURED. The vectors hand twelve."
+      },
+      "measurementTwo_theRESIDUALIsFIVENotTHREE": {
+        "criterion": "taken from evidence.v10's OWN field type declarations at canonicalWireGrammar.records.SemanticEvidenceV1, so the classification is the source's and not this reviewer's.",
+        "commitmentOrCasRefTypedFields": [
+          "ordinal 4 evaluationAuthoritySealRef -- type SemanticCommitmentRef<evaluation-authority-seal-v1>",
+          "ordinal 5 evaluationProofBundleCasRef -- type RawCasRef<EP8.EvaluationProofBundleV5>",
+          "ordinal 6 universeCommitment -- type 'EP8 universe commitment'",
+          "ordinal 7 outcomeSetCommitment -- type 'EP8 outcome-set commitment'",
+          "ordinal 8 verdictDerivationCommitment -- type 'EP8 verdict-input commitment'",
+          "ordinal 12 semanticCapabilityClosureCasRef -- type RawCasRef<RT22.SemanticCapabilityClosureV3>",
+          "ordinal 13 semanticCapabilityClosureCommitment -- type 'RT22 semantic-capability-closure-v3 commitment'"
+        ],
+        "arithmetic": "SEVEN such fields. R-2 and R-3 derive two (ordinals 6 and 7). SEVEN minus TWO is FIVE. v2 published THREE.",
+        "theTwoV2OMITS": "ordinal 4 evaluationAuthoritySealRef and ordinal 12 semanticCapabilityClosureCasRef. Neither has a producedBy, a recipe, or any derivation anywhere in v2. Both are handed to the producer as literals exactly as the three v2 does count.",
+        "theOmissionIsNotDefensible": "v2 counts ordinal 13 semanticCapabilityClosureCommitment but not ordinal 12 semanticCapabilityClosureCasRef -- the two halves of one RT22 pair. It counts ordinal 5 evaluationProofBundleCasRef (a RawCasRef) but not ordinal 12 (also a RawCasRef). It counts ordinal 8 verdictDerivationCommitment but not ordinal 4 evaluationAuthoritySealRef, though BOTH are TCMS-V5 commitments over EP8-declared records at EP8-declared domains and are on identical footing in every respect.",
+        "ruling": "v2 appears to have used the post-subtraction number as the pre-subtraction number: it computed 5 minus 2 equals 3 where the total is 7 and the residual is 5."
+      },
+      "measurementThree_theMECHANISMOfTheOmission": {
+        "what": "the four field entries v2 counts are exactly the four that carry a prose annotation. Ordinal 5 carries a dependencyWarning and DUD-5. Ordinal 8 carries a producedBy naming notProposals. Ordinal 13 carries a producedBy naming RT22. Ordinals 6 and 7 carry producedBy R-2 and R-3. Ordinals 4 and 12 carry NO annotation at all -- only an encoding line and, for ordinal 4, an exampleFramedByteLength.",
+        "whyThisMatters": "the count was taken by scanning for annotations rather than by enumerating the field types. The two unannotated fields fell out of the count. THIS IS THE SAME MECHANISM AS B-EIR-02: a set was assembled from what was marked rather than from what was there, and everything unmarked was lost silently. v2 correctly identified that mechanism in v1's merge of two source sentences and then reproduced it one section later in its own count."
+      },
+      "measurementFour_theCLAIMOfNONDERIVABILITYIsAlsoTooStrong": {
+        "whatV2Says": "'THREE REMAIN HAND-SUPPLIED AND ARE NOT DERIVABLE FROM ANYTHING IN THIS ARTIFACT'",
+        "measured": "verdictDerivationCommitment sha256:f2d88bcc256644ed41b2f23f9b14109169c32188a444a68036ad34b9b2b22e83 IS evaluation-proof.v8's EP5-COMMIT-VERDICT-INPUT commitment, and evaluationAuthoritySealRef sha256:631726610089c3baca1a37802f318c262a333b953d823b89157587b378463358 IS its EP6-COMMIT-EVALUATION-AUTHORITY-SEAL commitment. This reviewer DERIVED BOTH with the fifth encoder using R-0's own TCMS-V5 construction at domains verdict-input and evaluation-authority-seal-v1. evaluation-proof.v8 declares VerdictInputV2 (recordTag 0x17, eight fields, explicit tags and order) and EvaluationAuthoritySealV1 (recordTag 0x1a, six fields) in full.",
+        "ruling": "the values are not unreachable; they are unauthored. v2's own R-1 field 8 says so correctly ('producedBy TCMS-V5 at domain verdict-input over a VerdictInputV2 record. NOT AUTHORED HERE'), and the section 5.1 passage then overstates the same fact as non-derivability. Two statements in one artifact about one value, and they do not agree."
+      },
+      "whyThisIsABLOCKERAndNotAnObservation": {
+        "leg1_theCorpusStandard": "B-EIR-02 was a blocker against v1 for ONE silently dropped clause that MOVED NO VECTOR, because it falsified a universal claim in a document whose warrant is that its statements are measured. This is a numeric claim that is false by a factor of 2.4 in one direction and understates the open surface by 2 in the other, in the section v2 itself names 'the most consequential' and 'the failure mode most likely to be misread as closure'.",
+        "leg2_ITHASALREADYPROPAGATED": "IMPLEMENTATION-FREEZE.md at 5d82d2e8, section 7.1, now states as established fact: 'Three of R-1's thirteen values -- verdictDerivationCommitment, evaluationProofBundleCasRef, semanticCapabilityClosureCommitment -- remain hand-supplied, so a green vector suite is not coverage of the identity.' That sentence entered the freeze from v2, before this review, and is wrong. THIS IS EXACTLY THE B-EIR-01 PROPAGATION PATTERN THE CORPUS HAS JUST FINISHED CORRECTING -- a candidate's unverified measurement absorbed by the record as fact -- reproduced in the successor written to repair it.",
+        "leg3_theDirectionOfTheError": "understating the number of underived inputs OVERSTATES coverage. A reader of the freeze concludes three inputs are open when five are. That is the one direction in which an error here is dangerous, and it is the direction this one runs."
+      },
+      "anINDEPENDENTPARALLELMEASUREMENTAlsoRejectsTHREE": {
+        "what": "artifacts/uncomputable-identity-fields.sweep.v1.json@6918c1f590343bbbcd9bde8f472dc9b49ee15efbb898b165c9c822a9e959c0fd LANDED ON DISK DURING THIS REVIEW. It is MEASUREMENT-ONLY, binds nothing, is not a review, and closes no row. It measures exactly this defect class corpus-wide.",
+        "whatItFinds": "of SemanticEvidenceV1's thirteen fields it classifies ELEVEN as computable or constant -- explicitly including evaluationAuthoritySealRef, verdictDerivationCommitment, semanticCapabilityClosureCommitment and semanticCapabilityClosureCasRef -- and TWO as blocking: planId (blocked on capabilityManifestId) and evaluationProofBundleCasRef (canonicalization undefined on the stating surface). It records reproducing evaluationAuthoritySealRef from an evaluation-proof record set, as this reviewer independently did. It states in its own bytes: 'Of the three fields named to this sweep as still hand-supplied, this is the one where that characterisation most nearly holds.'",
+        "howItRELATESToThisBlocker": "IT USES A DIFFERENT CRITERION AND REACHES A DIFFERENT NUMBER, AND NEITHER NUMBER IS THREE. This review measures against v2's OWN stated criterion, 'no recipe IN THIS ARTIFACT', and gets FIVE. That sweep measures against 'no rule anywhere in the corpus' and gets TWO. The two results are consistent with each other and both are inconsistent with v2's three.",
+        "theOVERLAPThatMatters": "it independently confirms the specific inconsistency this blocker rests on -- that evaluationAuthoritySealRef and verdictDerivationCommitment are on IDENTICAL footing, both reachable from evaluation-proof record grammars. v2 counts one and not the other. Two independent measurements, arrived at separately, agree on that point.",
+        "boundedAdoption": "ITS MEASUREMENTS ARE NOT ADOPTED AS THIS REVIEWER'S OWN. This review's number is FIVE and rests solely on this reviewer's own enumeration against evidence.v10's field type declarations, which is reproducible from this document alone. The sweep is recorded because a reviewer who finds it should know it was seen, that it points the same way, and that it was not leaned on. Its corpus-wide sweep of 384 documents and 63 positions was NOT verified here -- see whatIDidNotCheck."
+      },
+      "whatWouldRepairIt": "state the criterion, enumerate against evidence.v10's own type declarations, and publish the count that falls out. The CONCLUSION needs no change and is strengthened by the correct numbers: this reviewer reproduced all 30 vectors and all nine EP8 goldens and still cannot compute five of thirteen field values.",
+      "whatIsNOTBeingSaid": "the section 5.1 trap is correctly IDENTIFIED and correctly APPLIED to R-1. Neither v1 nor its review saw it. Recognising it is the single best piece of new reasoning in v2. The finding is that the measurement attached to the insight is wrong."
+    },
+    {
+      "id": "B-EIR2-02",
+      "severity": "BLOCKER",
+      "title": "The transcription fidelity sweep's stated METHOD is false as measured, and exhaustiveness is the only property that makes its headline result 'SILENTLY-DROPPED: 0' mean anything.",
+      "whatV2SaysVerbatim": "transcriptionFidelitySweep.method: 'every normative clause of BOTH source grammars was enumerated by structural walk -- evaluation-proof.v8#normativePreimageGrammar.{scalarEncoding, recordRules, commitment, domains} and #canonicalCommitmentGrammar, and evidence.v10#canonicalWireGrammar.{scalarEncoding, recordRules, domainEnvelope, records, commitments} -- and each was classified against this artifact into exactly one of five dispositions. Nothing was sampled. THE CLAUSE LIST IS THE SOURCE'S OWN KEY SET, NOT A LIST THIS AUTHOR CHOSE.'",
+      "measurementOne_theKeySetIs56NotThePublished59": {
+        "sourceA": "normativePreimageGrammar.scalarEncoding 6 keys + .recordRules 6 + .commitment 8 + .domains 1 + canonicalCommitmentGrammar 12 = 33 keys.",
+        "sourceB": "canonicalWireGrammar.scalarEncoding 5 + .recordRules 4 + .domainEnvelope 3 + .records 5 + .commitments 5 + .tagRegistry 1 = 23 keys.",
+        "total": "56 keys. The published table has 59 rows. The row set is therefore NOT the key set."
+      },
+      "measurementTwo_theGranularityIsAuthorChosenAndNonUniformInBOTHDirECTIONS": {
+        "splitIntoMultipleRows": [
+          "npg.scalarEncoding.text -> 5 rows (one per comma clause)",
+          "npg.recordRules.omission -> 3 rows (one per semicolon clause)",
+          "cw.scalarEncoding.text -> 5 rows",
+          "cw.recordRules.decoding -> 3 rows, from a source clause listing EIGHT rejection targets"
+        ],
+        "collapsedIntoOneRow": [
+          "npg.recordRules.nestedLists -> 1 row, from THREE semicolon clauses, the same punctuation that earned .omission three rows",
+          "npg.scalarEncoding.canonicalUnsignedDecimal -> 2 rows from FOUR semicolon clauses",
+          "canonicalCommitmentGrammar.{leaf, internal, oddNode, emptySet, outer} -> 5 keys collapsed into 1 row",
+          "cw.records.{RunIdentityPreimageV1, TerminalRunV1} -> 2 keys collapsed into 1 row",
+          "cw.scalarEncoding.{componentFrame, blobFrame} -> 2 keys collapsed into 1 row"
+        ],
+        "givenNOROWATALL": "canonicalCommitmentGrammar.version and canonicalCommitmentGrammar.domains. Two source keys are absent from a table that claims to be the source's key set. Each is arguably carried elsewhere -- 'version' by R-0's id TCMS-V5, 'domains' by the npg domains row -- but neither is IN the enumeration, so the enumeration is not exhaustive over the set it names.",
+        "andTheMETHODSOwnSectionListIsIncomplete": "the method sentence names five canonicalWireGrammar sections and does not name tagRegistry, yet the table CARRIES a tagRegistry row. The sweep is broader than its own stated scope, which is the same imprecision in the opposite direction."
+      },
+      "whatIDIDReDeriveAndItMatters": {
+        "theDenominatorReDerives": "YES. 34 source-A rows + 25 source-B rows = 59, counted from the published table. The disposition tally recomputed from the table is CARRIED 49, DECLARED-DEPARTURE 2, DECLARED-SIMPLIFICATION 2, OUT-OF-SCOPE-DECLARED 6, SILENTLY-DROPPED 0, summing to 59 and matching every published figure exactly. v2's statement that 'the per-disposition counts under result are computed from the table rather than written by hand' is TRUE.",
+          "andIReachedTHESAMEROWCOUNTFromTheSources": "34 and 25 are both reproducible from the source key sets ONCE v2's specific splits and collapses are adopted. The number is defensible. What is not defensible is the sentence claiming no choice was made."
+      },
+      "whyThisIsABLOCKER": {
+        "leg1_theSweepISTheRepair": "v2's own transcriptionFidelitySweep.why states it: 'Restoring one clause repairs the instance. IT DOES NOT REPAIR THE CLAIM. The claim is only repaired by doing the sweep and publishing it, SO A REVIEWER CHECKS A TABLE RATHER THAN TRUSTING A SENTENCE.' The sweep exists to convert a trusted sentence into a checked table. Attaching to it a false sentence about how the table was built re-creates, one level up, the exact posture the sweep was built to eliminate.",
+        "leg2_ZEROISONLYASSTRONGASEXHAUSTIVENESS": "'SILENTLY-DROPPED: 0' is a claim about the COMPLEMENT of the enumeration. It is meaningful only if the enumeration is exhaustive. 'The clause list is the source's own key set' is the ONLY warrant of exhaustiveness offered, and it is false as measured, with two source keys demonstrably absent.",
+        "leg3_sectionSevenTwoTwo": "IMPLEMENTATION-FREEZE.md section 7.2.2 classifies an uncompared recorded measurement as 'prose that looks like evidence'. A method statement that describes a procedure other than the one performed is that defect applied to a procedure."
+      },
+      "whatWouldRepairIt": "one honest sentence: state that clauses were enumerated at author-chosen granularity, name the two canonicalCommitmentGrammar keys given no row and why, add tagRegistry to the stated scope, and drop the claim that no choice was made. NO ROW NEED CHANGE and no disposition need change. The table survives this repair intact.",
+      "whatIsNOTBeingSaid": "the sweep's SUBSTANTIVE OUTPUT is sound and this reviewer independently confirms it. Both dropped clauses are real and are confirmed at zero occurrences in v1's bytes. No third consequential silent drop was found by an independent sweep. The sweep is the most valuable single addition in v2. The defect is that it describes itself inaccurately."
+    }
+  ],
+
+  "adjudications": {
+    "1-B-EIR-01-repair-and-the-surviving-residual": {
+      "theDecompositionVERIFIESEXACTLY": {
+        "measured": "'componentFrame' occurs 50 times in evaluation-proof.v8@4bb33f77, by raw file-text count AND by independent structural walk -- both return 50, so no occurrence hides inside a key name or a nested string.",
+        "decomposition": "1 DEFINITION (normativePreimageGrammar.scalarEncoding.componentFrame, present as a KEY, value 'uint8(tag) || uint32be(byteLength) || bytes') + 49 FIELD DECLARATIONS = 44 componentFrame(text) + 2 componentFrame(canonicalUnsignedDecimal) + 3 naming a type.",
+        "theThreeNamingTypes": "normativePreimageGrammar.records[10].fields[2] componentFrame(SemanticCommitmentRef), .fields[3] componentFrame(RawCasRef), .fields[4] componentFrame(text closed enum) -- all three in SemanticObjectBindingV1, exactly where v2 says they are.",
+        "arithmetic": "44 + 2 + 3 = 49; 49 + 1 = 50. v2's decomposition is CONFIRMED to the unit.",
+        "andTheSTATEDRULEIsThere": "canonicalCommitmentGrammar.component reads verbatim 'uint8(typeTag) || uint32be(len(utf8)) || utf8'. The token 'utf8' in the third position is what settles the reading, and it is a sentence, not an inference. v1's 'not read from any sentence in evaluation-proof.v8' was FALSE. B-EIR-01 is CORRECTLY REPAIRED and the PROPOSED-INFERENCE flag is correctly removed."
+      },
+      "theSurvivingResidualISREALAndIVerifiedIt": {
+        "measured": "evidence.v10#canonicalWireGrammar.records.SemanticEvidenceV1 declares thirteen fields carrying only 'const', 'type' or 'enum' keys and NO 'encoding' key on any of them. evidence.v10's own scalarEncoding.componentFrame reads '... || bytes' -- NOT '|| utf8' -- so within evidence.v10's four corners the framed byte string is genuinely undetermined between the textual form and the decoded 32 raw digest bytes.",
+        "ruling": "CONFIRMED. The owning surface does not state the rule. DUD-4 as rewritten is accurate."
+      },
+      "isCROSSREFERENCENOTADESIGNACTTheRightClassification": {
+        "ruling": "YES, and v2 UNDERSTATES ITS OWN GROUND.",
+        "whyItIsRight": "a design act would invent a rule no artifact states. Here the rule is stated verbatim in evaluation-proof.v8 and applied there at 49 declarations. Adopting it is citation.",
+        "theGroundV2FilesElsewhereAndShouldHaveFiledHere": "the discriminator is INSIDE EVIDENCE.V10 ITSELF. evidence.v10 pins semanticEvidenceLength 3560 and semanticEvidenceHex in its own acceptedGolden. This reviewer reproduced those 3560 bytes byte-exactly under the utf8 reading; the raw-bytes reading yields 2271. evidence.v10 therefore DETERMINES the rule in its own bytes EXTENSIONALLY, by a worked example, even though it does not STATE it INTENSIONALLY, by a sentence. v2 publishes this discriminator but files it under B-EIR-01's falsifier rather than under the residual, and so argues its residual from a cross-grammar citation when a same-artifact one was available.",
+        "theONECAVEATThatSurvives": "evaluation-proof.v8's stated rule sits in canonicalCommitmentGrammar, which governs COMMITMENT components. evidence.v10's SemanticEvidenceV1 is a WIRE RECORD under a different grammar in a different artifact. Reading one onto the other IS a cross-grammar move. It is warranted here only because evidence.v10's own golden independently settles it. A successor should state the rule in evidence.v10's own scalarEncoding rather than rely on that coincidence."
+      }
+    },
+
+    "2-B-EIR-02-repair-both-numbers": {
+      "theBoundIsGENUINELYINTheSourceAndGENUINELYABSENTFromV1": "evaluation-proof.v8#normativePreimageGrammar.scalarEncoding.text reads verbatim 'NFC-normalized UTF-8 with no BOM; persisted values are non-empty, <=4096 bytes, and exclude U+0000..U+001F and U+007F'. MEASURED: the string '4096' occurs ZERO times in evidence-identity-recipes.v1.json. The drop was total and silent. B-EIR-02 was correctly raised.",
+      "theSEVENTYSEVENBYTEMeasurementVERIFIES": {
+        "method": "every text component fed to a componentFrame across all 26 carried-forward vectors was enumerated -- member and outcome evaluationId/predicateId/outcome, every subject, all twelve shared SemanticEvidenceV1 scalars, all inventory recordCasRef/recordKind/requiredForCapability across every ED vector, both ED-6 domains and payloads, and the namespace and domain strings.",
+        "measured": "87 distinct text components. LONGEST = 77 bytes, the planId 'plan1:sha256:0c0604a8f58148ec4fd3b12fc3e72dd7b0a2e7687ae776694c66bf9db03e0d02'. Second longest 71 bytes (every sha256: ref). NOTHING exceeds 4096. Headroom is approximately 53x.",
+        "ruling": "77 CONFIRMED."
+      },
+      "movedNoVectorCONFIRMED": "the fifth encoder computed every carried digest WITH the bound enforced and reproduced all 26 unchanged, and separately reproduced BND-2's counterDigestNoBoundEnforced, which is what v1's rules as written would produce. v2's totals.carriedForwardDigestsThatDIFFEREDFromV1 = 0 is confirmed by independent recomputation.",
+      "correctOrVACUOUS": {
+        "ruling": "CORRECT, NOT VACUOUS -- and the distinction is made by the four new vectors, not by the restored prose.",
+        "why": "a bound restored into prose that nothing can check would repair the letter of B-EIR-02 and reproduce its spirit. v2 saw this and says so at testVectors.sharedPrimitives-textComponent.whatThisGroupIsFor. BND-1 pins the inclusive edge at exactly 4096, BND-2 pins rejection at 4097 AND publishes the digest a non-enforcing implementation produces, and BND-3 separates BYTES from CODE POINTS -- a discriminator that could not exist before, because every vector in v1 and in BOTH source artifacts is pure ASCII, where the two counts coincide. The bound is now falsifiable. That is what makes it non-vacuous.",
+        "wouldAPLAUSIBLEREALInputExceed4096": {
+          "measured": "NO, for every field type actually declared. The bound governs TEXT components. Every text-typed field in every record grammar in scope is a typed identity or a closed enum: PROJECT-ID-V1 (69 bytes), PLAN-ID-V1 (77), RawCasRef and SemanticCommitmentRef (71 each), RUN-ID-V1 (69), the verdict/sealedCapability/requiredForCapability/outcome enums (4-13 bytes), and RT22 recordKind values (4-34 bytes as carried in ED-1). All are structurally fixed or closed-vocabulary and cannot approach 4096.",
+          "theONEPLACEItCouldBite": "SubjectV1.value is FREE TEXT. evaluation-proof.v8's own EP5-REC-SUBJECT golden carries a filesystem path, 'src/a.ts'. A path can exceed 4096 bytes: POSIX PATH_MAX is commonly 4096 INCLUDING the terminator, but that bounds a single syscall argument, not a logical path, and nothing prevents a repository-relative path built from deeply nested directories from exceeding it. div2-subject-leaf-privacy.decision-brief.v1 measures 28,012 bytes of path text across 515 files on this repository -- a mean of 54 bytes, so the population is nowhere near the bound, but the bound is a hard REJECT and a single long path makes a subject set unencodable.",
+          "ruling": "the bound is not vacuous in principle for SubjectV1, and NO artifact states what a producer should do when a real subject path exceeds it. That is a genuine unaddressed edge, recorded below as OBS-R5. It is NOT a defect in v2 -- inventing a truncation or hashing rule is exactly the design act section 7.1 forbids -- and v2 could not have repaired it. It should have been NAMED."
+        }
+      }
+    },
+
+    "3-the-third-departure-its-mechanism-and-the-sweep-audit": {
+      "theTHIRDDEPARTUREIsREAL": "evidence.v10#canonicalWireGrammar.scalarEncoding.text reads verbatim 'NFC UTF-8, no BOM, non-empty, no U+0000..U+001F or U+007F; identifiers and enums retain their closed ASCII grammar'. MEASURED: the string 'closed ASCII' occurs ZERO times in evidence-identity-recipes.v1.json. A second silent drop, found by v2's own sweep and by neither v1 nor its review. CONFIRMED.",
+      "theMECHANISMCLAIMIsVERIFIEDAndIsSTRONGERThanV2States": {
+        "whatV2Claims": "'Both drops landed in one field because v1 merged two source sentences and lost the clause unique to each.'",
+        "howIVerifiedIt": "the two source sentences were decomposed into clause sets and compared against v1's field as a set operation.",
+        "sourceA": "{nfc-utf8, no-bom, non-empty, exclude-controls, <=4096 bytes}",
+        "sourceB": "{nfc-utf8, no-bom, non-empty, exclude-controls, closed-ascii-grammar}",
+        "v1sField": "{nfc-utf8, no-bom, non-empty, exclude-controls}",
+        "measured": "v1's field is EXACTLY the SET INTERSECTION of the two source sentences, and the two lost clauses are EXACTLY the SYMMETRIC DIFFERENCE -- one unique to each source, both lost, none of the shared clauses lost.",
+        "ruling": "CONFIRMED, and the mechanism is sharper than v2's wording. This is not 'two clauses were overlooked'. It is a MERGE-BY-INTERSECTION, which loses EVERY clause unique to EITHER source with perfect reliability and no symptom. It converts two incidents into one repeatable failure mode and PREDICTS the loss set from the sources alone, without inspecting v1. That predictive property is what makes it load-bearing, and v2 is right that it is the reason a clause-level sweep found what a reading did not.",
+        "oneNUANCEForAccuracy": "v1 DID carry one evidence.v10-unique clause -- 'a value that is not already NFC is REJECTED' -- but that clause comes from a DIFFERENT sentence, recordRules.decoding, not from scalarEncoding.text. The intersection mechanism holds exactly and only over the two scalarEncoding.text sentences, which is precisely the scope v2 claims for it."
+      },
+      "theSWEEPAudit": {
+        "didTheDenominatorReDerive": "YES. 34 + 25 = 59 counted from the published table; the disposition tally recomputed from the table is 49/2/2/6/0 summing to 59 and matching every published figure exactly. THE SWEEP IS NOT UNSOUND BY THE TEST THE BRIEF SET.",
+        "butTheMETHODSentenceIsFalse": "see blocker B-EIR2-02. The key set is 56, the table is 59 rows, granularity is author-chosen and non-uniform in both directions, two canonicalCommitmentGrammar keys get no row, and tagRegistry gets a row it is not scoped for.",
+        "didIFindATHIRDSILENTDROP": {
+          "answer": "NO consequential one. The sweep's substantive result stands.",
+          "theONECANDIDATEIProbed": "evidence.v10#recordRules.decoding lists EIGHT rejection targets: non-NFC, noncanonical decimal, tag/order/length mismatch, duplicate, omitted, unknown, trailing, OVERLONG. v2 maps 'overlong' onto R-0.fieldPresence's 'a component length that overruns the remaining buffer'. But 'length mismatch' is ALREADY named separately in the same source list, so 'overlong' as a distinct list member most naturally means OVERLONG UTF-8 SEQUENCES, which is a different condition entirely.",
+          "measured": "the two readings are distinguishable. The canonical SubjectV1 record for 'a' is 13050000000161; a record framing the overlong two-byte encoding c1a1 is 130500000002c1a1. They commit to sha256:30cfe857... and sha256:54b444b0... respectively -- DIFFERENT commitments for what a permissive decoder would call one logical value. That is a CANONICALITY failure (one value, two preimages), not an injectivity failure (two values, one preimage), so it does not touch v2's injectivity claim; it touches the recipe's core purpose, which is that two honest producers agree.",
+          "whyItIsNOTABlocker": "a strict RFC-3629 UTF-8 decoder rejects c1a1 outright, and 'UTF-8' in both source grammars means well-formed UTF-8. The clause is therefore carried implicitly by the word 'UTF-8'. v2 never says which reading it took, and its own fieldPresence list of seven conditions contains no overlong-UTF-8 rejection. Recorded as OBS-R3."
+        }
+      }
+    },
+
+    "4-R-4s-withdrawn-sorting-rationale": {
+      "ruling": "WITHDRAWAL IS CORRECT. All three of v2's grounds verify. But the sort HAS a second job in v2's own construction that v2 explicitly disclaims, so v2 under-claims.",
+      "ground1_noAuditPathFormatExists": {
+        "measured": "a corpus-wide search for auditPath, audit-path, audit path, inclusionProof, inclusion proof, siblingPath, sibling path, merkleProof, merkle-proof and merkleBranch across artifacts/*.json, architecture/*.md and the root markdown returns hits in only FIVE files: div2-subject-leaf-privacy.decision-brief.v1.json, evidence-identity-recipes.v1.review-independent.json, evidence-identity-recipes.v2.json itself, rust-provider-protocol.v4.review-independent-prefreeze.json (a different surface), and IMPLEMENTATION-FREEZE.md. EVERY hit discusses the ABSENCE of such a format. NO artifact DEFINES one.",
+        "ruling": "CONFIRMED. Specifying one would be a design act section 7.1 reserves."
+      },
+      "ground2_pathLengthsAreNonUniform": "CONFIRMED by construction. Under promote-unchanged with N=3 the leaves are L0,L1,L2; level 1 is {internal(L0,L1), L2}; the root is internal(internal(L0,L1), L2). The sibling path for L0 has length 2 and for L2 has length 1. A verifier cannot know a path's expected length without knowing N, and N is not committed.",
+      "ground3_NIsUnbound": "CONFIRMED independently. The fifth encoder's outer preimage is 0x30 || C(0x31,namespace) || C(0x32,domain) || C(0x33,root32) and contains no cardinality field at any position. This reproduced all nine EP8 goldens, so it is the source's frame and not v2's simplification. OBS-4 is accurate.",
+      "ESC08VerifiesExactly": "consumer-b-implementer-litmus.v1#escalations[7] carries id ESC-08 at severity FORK, titled 'SubjectSetCommitment Merkle construction has no implementable recipe', and its whatINeeded names 'the non-membership proof encoding' explicitly. v2's citation is accurate, and the input was recorded by neither v1 nor its review.",
+      "theJOBV2UnderClaims": {
+        "whatV2Says": "R-4.whatTheSORTISFORAndWhatItIsNOTFor.isFor: 'canonicalisation, and nothing else.'",
+        "measured": "the sort ALSO underwrites v2's own adopted REJECT duplicate rule. R-0 step 3 reads 'CANONICALISE THE SET. Sort the complete record byte strings ... Duplicates: see duplicateRule.' Duplicate detection by ADJACENT COMPARISON is only available on a sorted sequence; on unsorted input it needs a separate set structure. This reviewer's encoder detects duplicates exactly that way, and evidence.v10#recordRules.sets states the two operations in that order -- 'sort complete item record bytes unsigned; reject duplicates instead of silently deduplicating' -- whereas evaluation-proof.v8's itemSetRule puts deduplicate FIRST. v2 adopts evidence.v10's order, so in v2's construction the sort strictly precedes and enables the DIV-1 departure that makes a multiset inexpressible.",
+        "ruling": "'and nothing else' is too strong by one job. This is a MINOR under-claim, in the same direction v1 was criticised for, and it does not affect the withdrawal, which remains correct. Recorded as OBS-R2.",
+        "whyTheWithdrawalIsStillRight": "v2's whyThisIsARepairAndNotARetreat is sound: 'a stated reason that nothing implements is prose that looks like specification. R-4 loses no capability by withdrawing it, because R-4 never delivered non-membership proofs; it loses only the appearance of delivering them.' Withdrawing a rationale belonging to a source R-4 does not adopt is the correct disposition, and routing it to whoever adjudicates DIV-2 is the correct destination."
+      }
+    },
+
+    "5-OBS-8-nothing-bounds-a-blob-or-a-record": {
+      "measurementVERIFIES": {
+        "method": "a structural walk over evaluation-proof.v8#normativePreimageGrammar and #canonicalCommitmentGrammar and over evidence.v10#canonicalWireGrammar, matching every string value against a bound/limit/maximum/at-most/<= pattern.",
+        "result": "EXACTLY ONE HIT IN BOTH ARTIFACTS COMBINED: evaluation-proof.v8#normativePreimageGrammar.scalarEncoding.text's '<=4096 bytes'. evidence.v10's grammar contains NO length bound of any kind, anywhere.",
+        "ruling": "OBS-8 CONFIRMED. Nothing bounds a blob component, a nested complete-record payload, or a total record length in either grammar. v2's ED-1 measurements are also confirmed independently: the 0x9a inventory blob is 2836 bytes, the 0x8a items blob is 2750, the enclosing SemanticEvidenceV1 is 3560, and none is governed by any stated limit."
+      },
+      "severityRuling": {
+        "verdict": "REAL AS A SPECIFICATION GAP, THEORETICAL AS AN EXPLOIT AGAINST THESE RECIPES AS WRITTEN. Non-blocking, correctly not repaired.",
+        "whyRealAsASpecificationGap": "with uint32be component lengths the structural ceiling is 4294967295 bytes per component. Two conforming implementations may disagree on what is admissible, and a verifier that pre-allocates on a length prefix before comparing it against the actual buffer has a memory-exhaustion vector on hostile input.",
+        "whyTheoreticalAgainstTheseRecipes": "the recipes are PRODUCER-side over records that have already passed exact-type admission, and the decoder v2 exhibits bounds every read against the remaining buffer before consuming it. This reviewer's independent decoder does the same and rejected a record truncated by one byte with the specific condition 'component length overruns buffer'. Nothing here is exploitable as written.",
+        "whatV2MISSESAndItIsTheSharperPoint": "OBS-8 and OBS-4 are ONE gap seen from two sides, and v2 files them as unrelated observations. The items blob is a concatenation of length-framed text components each bounded at 4096, so the blob's size is bounded by (item count) x (per-item bound). The blob is unbounded PRECISELY BECAUSE CARDINALITY IS UNBOUNDED -- which is OBS-4. Connecting them would have shown that a single unstated invariant, a bound on N, closes both, and that under the adopted REJECT rule the leaf count already equals the distinct item count, so the invariant is measurable today. v2 gets within one sentence of this at OBS-4 ('an available invariant nobody has claimed') and does not join it to OBS-8.",
+        "andTHECORPUSALREADYWANTSIT": "evidence.v1#noMatchConstruction.verificationRequirement.requiredRetainedObjectsForVerifiable lists 'subjectSetRoot + subjectCount + completeness=complete'. The corpus has ALREADY stated that the root alone is insufficient and that cardinality must be retained beside it. v2 cites evidence.v1's verificationRequirement.rule but not this list, which is the strongest available support for OBS-4 and for OBS-8. Another under-claim."
+      }
+    },
+
+    "6-DIV-2-and-the-refused-misattribution": {
+      "theMEASUREMENTVERIFIESEXACTLY": {
+        "handlesOnly": "'handles only' occurs ZERO times in evidence-identity-recipes.v1.json.",
+        "eightPointOne": "'8.1' occurs ZERO times in evidence-identity-recipes.v1.json.",
+        "secret": "'secret' occurs TWELVE times, and ALL TWELVE are fixture strings: six occurrences of 'eval1:no-secret' and six of 'predicate1:no-secret'. Not one is a claim about secrets.",
+        "ruling": "CONFIRMED TO THE OCCURRENCE. The secrets-as-handles leg was NEVER v1's claim."
+      },
+      "whereItDidOriginate": "IMPLEMENTER-BLUEPRINT.md@711f68b5 does carry 'secrets represented by handles only' -- ONE occurrence, in section 8.1, exactly where v2 locates it. The charge attributed it to section 1.1 and to v1. IMPLEMENTATION-FREEZE.md at 5d82d2e8 now records the correction in its own bytes: 'Withdrawn: a path is not a credential, and that clause is 8.1, not 1.1.' The record has conceded the error was its own.",
+      "wasREFUSINGTheMisattributionTheRightCall": {
+        "ruling": "YES, UNAMBIGUOUSLY, AND IT IS THE SINGLE BEST-EXECUTED JUDGEMENT IN THE ARTIFACT.",
+        "reason1": "section 7.2.2's discipline is that a recorded measurement must be COMPARED, not carried. Accepting a charge whose bytes do not support it would be absorbing an uncompared measurement -- the precise defect the corpus has spent this whole lineage correcting, and the precise defect that produced B-EIR-01 in the opposite direction.",
+        "reason2": "the refusal is MEASURED, not argued. v2 counted occurrences and published the counts. This reviewer reproduced every count. A refusal backed by a reproducible count is not defensiveness.",
+        "reason3": "REFUSING ONE LEG WHILE CARRYING THE OTHER IS THE ACCURATE-IN-BOTH-DIRECTIONS BEHAVIOUR THE CORPUS ASKS FOR. The substantive ruling -- that the subject list is retained in plaintext at partitionContents[].members, defeating evidence.v1's own '~100 bytes independent of subject count' argument -- is carried forward undiminished.",
+        "andItDidNotSOFTENDIV2": "checked specifically, because a refusal is the natural place to smuggle a retreat. It does not. v2 keeps DIV-2 UNRESOLVED, declines to resolve it, defers to the parallel decision brief while explicitly NOT adopting its measurements, and ADDS a finding that cuts AGAINST the alternative design: evidence.v1's own costArgumentLimitation concedes the ~100-byte figure 'excludes the load-bearing retained fact partition', so BOTH designs retain O(|S|) and differ in what they retain and in whether they admit it. Verified verbatim in evidence.v1@251d76f3. That strengthens the divergence rather than softening it."
+      }
+    },
+
+    "7-the-section-5-1-trap-applied-to-R-1": {
+      "isTheCOUNTThree": "NO. See blocker B-EIR2-01. Measured against evidence.v10's own field type declarations, SEVEN of the thirteen values are commitment- or CAS-ref-typed; R-2 and R-3 derive two; FIVE remain hand-supplied with no recipe in v2. v2 published THREE and omitted evaluationAuthoritySealRef and semanticCapabilityClosureCasRef. Separately, the vectors hand TWELVE of thirteen values as literals, not five.",
+      "isTheCLAIMConsequential": "YES -- v2 is right that this is the most consequential thing in the artifact, and right about the direction of the consequence.",
+      "canTheROWCloseOnVectorsAlone": {
+        "ruling": "NO, AND MORE FIRMLY THAN v2 ARGUES.",
+        "theEvidenceIsThisReview": "this reviewer wrote a fifth encoder, reproduced all 30 vectors at 68 assertions with zero failures, reproduced all nine evaluation-proof.v8 commitment goldens, and reproduced evidence.v10's entire acceptedGolden byte-exactly -- AND STILL CANNOT COMPUTE FIVE OF THIRTEEN FIELD VALUES FOR A REAL RUN. A green suite of this size is compatible with total inability to produce the identity. That is blueprint section 5.1's trap demonstrated rather than described.",
+        "theBlueprintQuotesAreFAITHFUL": "verified at IMPLEMENTER-BLUEPRINT.md@711f68b5 with whitespace normalised, since the source is line-wrapped markdown: 'The trap: you can reproduce every vector and still be unable to compute the field' -- 1 occurrence. 'do not read a green vector suite as coverage of the identity' -- 1 occurrence. 'That is the standard the nine above have not met' -- 1 occurrence. Section 5.1 is titled 'Identity recipes and contract gaps that do not exist yet -- escalate, do not invent'. v2's quotations differ from the source only by the removal of markdown backticks. Its worked case is also reproduced faithfully: the blueprint says PLAN-ID-V1 'reproduces byte-exactly because the vectors supply capabilityManifestId as a literal'.",
+        "soTheINSIGHTIsRightAndTheARITHMETICIsWrong": "recognising that section 5.1's trap applies to R-1 is the best new reasoning in v2 and was seen by neither v1 nor its review. The count attached to it is false in both directions. Correcting the count does not weaken the conclusion; it strengthens it from three open inputs to five."
+      }
+    }
+  },
+
+  "additionalAttacks": {
+    "injectivity": {
+      "mandate": "construct two distinct logical values sharing one preimage, attacking where the author admits weakness -- no non-ASCII anywhere, and folds beyond the tested depth.",
+      "attack1_deepFolds": "N = 0 to 600 inclusive, one root per N. 601 distinct N produced 601 DISTINCT ROOTS, zero collisions. v2's vectors reach N=4 and the v1 review reached N=32; this extends the promote-unchanged fold nearly twenty times deeper with no degeneracy.",
+      "attack2_permutationAndSensitivityAtDepth": "on a 37-element set (which exercises promotion at three separate levels), 200 random permutations all produced the IDENTICAL root, and 37 single-element mutations produced 37 DISTINCT roots, none equal to the base. Order-independence was not bought by ignoring elements.",
+      "attack3_subsetLattice": "all 4096 subsets of a 12-element universe produced 4096 DISTINCT roots, zero collisions. This is four times the 1024-subset sweep the v1 review ran.",
+      "attack4_nonASCII_theAdmittedWeakSpot": {
+        "whatIAttacked": "the reject-non-NFC rule is the load-bearing half of injectivity STEP-2, and EVERY vector in v2 and in BOTH source artifacts is ASCII apart from the four new BND vectors. I attacked the Unicode cases that ASCII testing cannot reach.",
+        "nfcSingletons": "U+2126 OHM SIGN and U+212B ANGSTROM SIGN are NFC-unstable singletons -- NFC maps them to U+03A9 and U+00C5. BOTH WERE CORRECTLY REJECTED by the stated rule with the condition 'text component is not NFC (reject, do not normalize)'. Under a normalizing implementation each would collide with its canonical twin, giving two logical values one preimage. The rule defeats a collision class v2 never tested and never claimed.",
+        "compatibilityCharacters": "U+FB01 LATIN SMALL LIGATURE FI and the two-character 'fi', and U+00B5 MICRO SIGN and U+03BC GREEK SMALL LETTER MU, are all NFC-stable and were all ACCEPTED with DISTINCT byte strings. Correct: NFC does not apply compatibility mappings (that is NFKC), so these are genuinely distinct logical values and must not collide. An implementation using NFKC WOULD collide them. v2 says NFC and does not say 'not NFKC'.",
+        "result": "NO COLLISION FOUND. 13 distinct non-ASCII and compatibility strings produced 13 distinct byte strings. The framing survived every attack I could construct.",
+        "andV2UNDERSTATESHere": "v2 justifies reject-non-NFC solely with the NFD/NFC cafe pair at BND-4. The rule in fact defeats the ENTIRE NFC-unstable singleton class, which is a strictly larger and less obvious result, and the artifact does not claim it."
+      },
+      "attack5_theRECORDLayer": "the total decoder was reimplemented independently and run on ED-1's full 13-field SemanticEvidenceV1 including the nested RawProofInventoryV1 recovered from its 0x9a field, its 2750-byte items blob and all 23 item records. re-encode(decode(x)) == x held byte-exactly at every level. Targeted mutations were rejected with the SPECIFIC condition asserted by name: one trailing byte -> 'trailing byte after final declared field'; truncation by one byte -> 'component length overruns buffer'; flipped record tag -> 'record tag mismatch'. A non-zero exit was never accepted as evidence a guard fired.",
+      "attack6_crossGrammarTagCollision": "OBS-5 verified independently. evaluation-proof.v8 record tags are {0x10,0x11,0x12,0x13,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b}; evidence.v10 record tags including DomainEnvelopeV1 are {0x80,0x81,0x82,0x83,0x84,0x8e}. The intersection is EMPTY and the ranges do not even approach one another (max 0x1b against min 0x80). No record of one grammar can be read as a record of the other.",
+      "overallRuling": "I COULD NOT BREAK INJECTIVITY. The concatenation ambiguity is genuinely inexpressible -- every component carries its length before its bytes, so the field boundary set is a function of the byte string alone -- and node-type separation at byte 0 (0x00 leaf / 0x01 internal / 0x02 empty / 0x30 outer) makes the promote-unchanged rule safe where a bare Merkle would need duplicate-last or a length commitment. v2's two-step proof is sound and its repair of the v1 review's N-1 is real."
+    },
+
+    "theStrongestAttackICouldNotDefeat": {
+      "name": "the record-level sufficiency residual, at R-1.whyTwoDifferentLogicalValuesCannotShareAPreimage[5]",
+      "statement": "injectivity is proved on the RECORD. The record's field values are typed identities minted elsewhere. If two semantically distinct evaluations could ever produce identical values in all thirteen fields, they share one EvidenceDigest. Whether the thirteen fields are SUFFICIENT to distinguish semantically distinct evidence is a contract question about evidence.v10's field set, not an encoding question.",
+      "whyICouldNotDefeatIt": "no byte recipe and no vector can settle it, because it is a question about whether the CHOSEN FIELD SET captures everything that makes two evaluations different. Every attack I can construct either (a) changes a field value, which changes the digest correctly, or (b) presupposes an answer to the contract question. There is no experiment inside the encoding that decides it.",
+      "v2sHandling": "declared, attributed to the v1 reviewer who first named it, and explicitly 'carried forward unnarrowed'. That is the correct disposition. NARROWING it would have been the overclaim; v2 did not narrow it.",
+      "andITISNOTABlocker": "it is a live contract residual on evidence.v10, not a defect in v2. Naming it accurately is the most an identity recipe can do."
+    },
+
+    "theEightDeclaredDependencies": {
+      "ruling": "NONE IS FATAL. ALL EIGHT ARE CORRECTLY DECLARED AND ALL EIGHT REMAIN OPEN. v2's 'EIGHT DECLARED, EIGHT STILL OPEN' is confirmed -- no dependency was quietly closed, which is the specific temptation section 4.4 records.",
+      "DUD-1-and-DUD-2-theUnappliedSources": {
+        "measured": "CONFIRMED as stated. evaluation-proof.v8@4bb33f77 is CANDIDATE-NOT-APPLIED; evidence.v10@62a3a071 carries freeze section 3 disposition UNSET - BLOCKS FREEZE. Every recipe in v2 transcribes from one or both.",
+        "fatalOrDeclared": "DECLARED, NOT FATAL. They block APPLICATION, not the candidate's correctness, and v2 binds nothing. A recipe cannot be more applied than its source, and v2 says so on every recipe rather than implying otherwise. This is the correct posture for a candidate."
+      },
+      "DUD-5-theCLOSESTToFatalAndTheMostHONESTLYHandled": {
+        "what": "R-1's evaluationProofBundleCasRef is a canonical-JSON CAS ref. evidence.v10 names 'opensip-canonical-json-v1' and defines it nowhere -- the identifier occurs exactly once in evidence.v10, inside that one sentence. It is defined only at c2-plan-stage-schema.v4#planIntent.canonicalCommitment.encoding, a different surface.",
+        "theSHARPPart": "v2 states plainly that IT DID NOT reproduce v1's canonical-JSON measurement and treated the value as an OPAQUE INPUT, so this dependency 'rests on a single unreproduced measurement by v1', with v1's own caveat carried forward unnarrowed -- the bundle is pure ASCII, so it cannot distinguish escaping policies for non-ASCII, nor key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP. The v1 review did not verify it either. NEITHER DID THIS REVIEW.",
+        "isThisACONTRADICTIONOfTheHeadline": "NO, and I checked specifically. v2's headline is that all 30 DIGESTS were recomputed and none transcribed. testVectors.rule states explicitly that the vector INPUTS are transcribed from v1 unchanged 'because they are what the review reproduced'. evaluationProofBundleCasRef is an input, not a digest v2 computes. The claims are consistent.",
+        "fatalOrDeclared": "DECLARED. It affects ONE INPUT VALUE of R-1 and not R-1's framing, which the fifth encoder confirms by reproducing evidence.v10's acceptedGolden with the value treated as opaque. But it is the ONE place in the artifact where a load-bearing fact rests on a measurement no one has reproduced across three documents, and a reader should not lose that in the surrounding confidence."
+      },
+      "DUD-3-DUD-4-DUD-6-DUD-7-DUD-8": "all verified as declared. DUD-3 is correctly sharpened by WD-3's withdrawal -- with the non-membership rationale gone, R-4 no longer even appears to contribute to completeness, which makes the dependency load-bearing rather than decorative. DUD-4 is correctly rewritten from a false statement to a true remainder (adjudication 1). DUD-6 is correctly refused rather than claimed: subjectScopeCommitment's owner is c2-plan-stage-schema.v4#knownLimitations, the freeze slice confirms the row and its owner verbatim, and v2 does not claim it. DUD-7's distinction between a historical RENAME (which a superseded document can attest, hence WD-5) and a live closed ADMISSION VOCABULARY (which it cannot, hence DUD-7 stays open) is exactly right and is the discrimination an overcorrecting successor would have collapsed."
+    },
+
+    "theNoRetainedCheckerResidual": {
+      "v1sReviewRuling": "'a fair residual for a candidate, disqualifying for application.'",
+      "doesV2sLargerVectorSetChangeIt": {
+        "ruling": "NO. THE RULING STANDS UNCHANGED, AND THIS REVIEW STRENGTHENS IT WITH A MEASUREMENT TAKEN AFTER v2 WAS WRITTEN.",
+        "reason1_theNewVectorsAddNOCorpusPinning": "v2 says so itself at testVectors.sharedPrimitives-textComponent.corroboration: 'NONE. No artifact in this corpus pins a boundary-length or non-ASCII digest.' The four new vectors add falsifiability of the restored rules -- which is exactly what they were for and they succeed at it -- and add ZERO new anchoring to corpus artifacts. The exposure is unchanged in kind AND in count: SEVEN vectors pinned to TWO unapplied, actively-moving artifacts, and nothing notices when they move.",
+        "reason2_THECORPUSMOVEDAGAINUNDERV2": "v2 recorded IMPLEMENTATION-FREEZE.md at 59a413c2 and disclosed five prior transitions. MEASURED AT THIS REVIEW: the live file is 5d82d2e8c7d550b0964f5a5f9297fee327de296bb8f086f867876191a1ef9d0f at 205438 bytes -- A SIXTH TRANSITION, occurring AFTER v2 was written and BEFORE this review. Section 7.1 has grown again, from the 14709 bytes v2 measured to 18543. v2's own closing argument is thereby confirmed empirically within hours of being made: 'an instrument that hard-compares recordedInputs on every run would have reported both movements without an author having to remember to look.' It would have reported this one too.",
+        "reason3_theRulingsLogicIsUntouched": "the objection was never that the digests are wrong -- five encoders now agree they are right. It is that nothing MECHANICALLY NOTICES when a pinned input moves. A larger vector set does not supply an instrument. Only a retained checker does, and v2 correctly does not pretend otherwise."
+      }
+    }
+  },
+
+  "nonBlockingObservations": [
+    {
+      "id": "OBS-R1",
+      "title": "The corpus moved under v2 after it was written, and IMPLEMENTATION-FREEZE.md had ALREADY absorbed v2's claims as fact before this review existed.",
+      "measured": "IMPLEMENTATION-FREEZE.md read 5d82d2e8 when this review opened it (v2 recorded 59a413c2 -- a sixth transition) and 842f25bb by the time this review closed (a SEVENTH, during the review). IMPLEMENTER-BLUEPRINT.md moved from 711f68b5 to b7a09be9 in the same window. The section 7.1 slice, taken by v2's own definition from '### 7.1 Parked identity recipes' to '### 7.2 Standing rule', is b66ef1946e0caf506d52102052ec9a311a50750927319e5639afa94219aaf69a at 18543 bytes across BOTH freeze movements, against v2's recorded 566a034a at 14709 -- GROWTH OF 3834 BYTES since v2, then byte-stable through two further whole-file revisions. The new material is a narrative about v2 itself: the slice contains 'REPAIRED 2026-08-04 -- artifacts/evidence-identity-recipes.v2.json (fbdb51f1...)' and restates B-EIR-01, B-EIR-02, the third departure, WD-3, OBS-8, DIV-2 and the section 5.1 trap as established findings.",
+      "andTHEFALSECOUNTISVERBATIMInThere": "measured in the live slice at 842f25bb: the sentence beginning 'Three of' and containing 'remain **hand-supplied**' occurs once. The freeze has recorded v2's incorrect figure. B-EIR2-01 is therefore not merely a defect in a candidate -- it is a defect already sitting in the record, exactly as B-EIR-01's negative was.",
+      "whyThisMatters": "v2 is AWAITING-INDEPENDENT-REVIEW and the record has already written its claims down as repairs. One of those claims -- the section 5.1 count -- is FALSE, and it is now in the freeze. This is structurally identical to the B-EIR-01 propagation the freeze itself apologises for four paragraphs earlier in the same section. The freeze anticipates the hazard in its own words: 'section 7.1 now contains a narrative ABOUT the candidate, so it can no longer corroborate the candidate's claims.' That warning is correct and this review relied on it -- no freeze statement about v2 was treated as independent support for v2.",
+      "notAChargeAgainstV2": "v2 did not write the freeze and disclosed the drift discipline that detected the earlier movements. The finding is about the record's absorption tempo, not about v2's conduct."
+    },
+    {
+      "id": "OBS-R2",
+      "title": "R-4's sort has a second job in v2's own construction that v2's 'and nothing else' disclaims.",
+      "detail": "the sort strictly precedes and enables the adopted REJECT duplicate rule by adjacent comparison, which is v2's DIV-1 departure and the thing that makes a multiset inexpressible. See adjudication 4. Minor under-claim; does not affect the withdrawal."
+    },
+    {
+      "id": "OBS-R3",
+      "title": "evidence.v10's 'overlong' rejection clause is mapped onto a different condition, and the reading that makes it non-redundant is never addressed.",
+      "detail": "see adjudication 3. v2's R-0.fieldPresence maps it onto 'a component length that overruns the remaining buffer', but 'length mismatch' is separately named in the same source list. The overlong-UTF-8 reading is a canonicality exposure (one logical value, two preimages, two commitments -- measured at sha256:30cfe857 against sha256:54b444b0) that is closed only by reading 'UTF-8' as well-formed RFC-3629 UTF-8. v2 never says which reading it took, and its seven enumerated decoder conditions contain no overlong-UTF-8 rejection."
+    },
+    {
+      "id": "OBS-R4",
+      "title": "textComponent admits strings that have NO UTF-8 encoding, and the failure is undeclared.",
+      "measured": "a lone surrogate such as U+D800 satisfies EVERY clause of sharedPrimitives.textComponent -- it is NFC-stable, non-empty, far under 4096 bytes, not a BOM, and outside U+0000..U+001F and U+007F -- yet it has no UTF-8 encoding. In this reviewer's implementation it raised UnicodeEncodeError, which is NOT one of v2's declared rejection conditions.",
+      "whyItMatters": "the rule is not total: it admits inputs it cannot encode. In a language whose string type permits unpaired surrogates and whose encoder emits WTF-8 or CESU-8 rather than raising -- Java, JavaScript and several C++ stacks -- the same logical value would produce DIFFERENT BYTES on different platforms, and two honest producers would disagree. This lands exactly in the region the author flags as untested, since no vector anywhere in v2 or in either source exercises it.",
+      "whyNotABlocker": "neither source grammar addresses surrogates, so repairing it would require inventing a clause, which section 7.1 forbids. The correct action was to DECLARE it as a residual, and v2 does not. Compare v2's own careful handling of the reject-versus-normalize question at SIMP-2, which is the same class of gap and IS declared."
+    },
+    {
+      "id": "OBS-R5",
+      "title": "The restored 4096-byte bound is a hard REJECT on a free-text field, and no artifact says what a producer does when a real subject exceeds it.",
+      "detail": "see adjudication 2. SubjectV1.value is the one free-text position in scope, and evaluation-proof.v8's own golden carries a filesystem path. A path exceeding 4096 bytes makes a subject set unencodable with no stated recourse. v2 could not have repaired this without inventing a truncation or hashing rule, but naming it was available and would have connected the restored bound to a real operational consequence rather than leaving it a rule with 53x headroom on the vectors."
+    },
+    {
+      "id": "OBS-R6",
+      "title": "OBS-8 and OBS-4 are one gap filed as two, and the corpus already states the invariant that closes both.",
+      "detail": "see adjudication 5. The unbounded blob is unbounded precisely because cardinality is unbounded, and evidence.v1#noMatchConstruction.verificationRequirement.requiredRetainedObjectsForVerifiable already lists 'subjectSetRoot + subjectCount + completeness=complete'. Under the adopted REJECT rule the leaf count already equals the distinct item count, so the invariant is measurable today. v2 cites evidence.v1's verificationRequirement.rule but not this list."
+    },
+    {
+      "id": "OBS-R7",
+      "title": "The reject-non-NFC rule defeats a strictly larger collision class than v2 claims for it.",
+      "detail": "see additionalAttacks.injectivity.attack4. v2 justifies the rule solely with the NFD/NFC cafe pair at BND-4. Measured, it also rejects the entire NFC-unstable singleton class -- U+2126 OHM SIGN and U+212B ANGSTROM SIGN both rejected -- each of which would otherwise collide with its canonical twin. Recorded because it is a real strength the artifact leaves on the table, and because it is further evidence of the understating tendency the v1 review named."
+    },
+    {
+      "id": "OBS-R8",
+      "title": "v2 says NFC and never says NOT NFKC, and the distinction is digest-visible.",
+      "measured": "U+FB01 LATIN SMALL LIGATURE FI and the two-character 'fi' are both NFC-stable and were both ACCEPTED with distinct byte strings -- correct, because NFC does not apply compatibility mappings. An implementation using NFKC would map them together and collide two distinct logical values into one preimage. No vector distinguishes NFC from NFKC, and neither source grammar says 'not NFKC'.",
+      "whyNotABlocker": "'NFC' is unambiguous to a reader who knows Unicode Annex 15, and both sources say NFC. But the corpus's own standard is that a rule nothing can check is prose that looks like specification, and this one is checkable with a two-line vector that does not exist."
+    },
+    {
+      "id": "OBS-R9",
+      "title": "v2's own count-hygiene repair is undermined by the two counts this review overturns.",
+      "detail": "v2 correctly repaired v1's 'six terms under a count of seven' at R-0.fieldPresence, replacing a count with an enumerated list and writing: 'a count a reader cannot reconcile is the small end of the same class as a measurement nobody compared.' That sentence is right, and it indicts B-EIR2-01's 'FIVE ... as literals' (measured twelve) and 'THREE REMAIN' (measured five), and B-EIR2-02's key-set claim (measured 56 against 59 rows). The author identified the failure class precisely and then instantiated it three times in counts of its own."
+    },
+    {
+      "id": "OBS-R10",
+      "title": "v2 refused a coordinator-asserted digest it had not observed, and the freeze has since vindicated the refusal in its own bytes.",
+      "measured": "v2 records being told mid-pass that IMPLEMENTATION-FREEZE.md was at 1ce56f0a..., declined to record it because it never observed those bytes, and recorded 59a413c2 instead. IMPLEMENTATION-FREEZE.md at 5d82d2e8 now contains, verbatim: 'A fourth coordinator error, and the sharpest of the four, because it was not a stale measurement but an invented one. On 2026-08-04 a coordinator brief told an authoring lane that this record is now 1ce56f0a... presented as a live measurement. THAT DIGEST IS OF NOTHING.'",
+      "whyRecorded": "the dispatch brief for this review warned of exactly this and instructed that its own asserted digest be measured rather than trusted. It was, and it held. Recorded because refusing an unobserved digest is the behaviour that made the invention detectable at all, and because it is a point strongly in v2's favour in a review that rejects it."
+    }
+  ],
+
+  "whatV2GetsRight": {
+    "rule": "recorded because a REJECT that does not say what survived is not a review.",
+    "items": [
+      "B-EIR-01 is correctly and completely repaired. The 50-occurrence decomposition verifies to the unit and the stated rule is genuinely a sentence, not an inference.",
+      "B-EIR-02 is correctly repaired, the 77-byte measurement verifies, and the four new vectors make the restored rules falsifiable rather than merely stated -- which is the difference between repairing the letter and repairing the spirit.",
+      "The third departure is real, was found by v2's own sweep, and its mechanism is not only verified but STRONGER than v2 states: v1's field is exactly the set intersection of the two source sentences and the losses are exactly the symmetric difference.",
+      "All 30 vectors reproduce under a fifth independent encoder, at 68 assertions, first run, no value adjusted.",
+      "All nine evaluation-proof.v8 commitment goldens reproduce, against v1's five. The claim is exact.",
+      "evidence.v10's entire acceptedGolden reproduces byte-exactly from declared inputs alone.",
+      "The DIV-2 misattribution refusal is measured, correct, and does not soften DIV-2.",
+      "WD-3's withdrawal is correct on all three grounds, each independently verified.",
+      "OBS-8 is a real gap, correctly measured, and correctly NOT repaired.",
+      "Recognising that blueprint section 5.1's trap applies to R-1 is the best new reasoning in the artifact and was seen by neither v1 nor its review.",
+      "Eight dependencies declared, eight still open, none quietly closed.",
+      "The injectivity proof's second step is genuinely repaired -- the v1 review's N-1 is closed by making the value-encoding inverse explicit, not by changing any rule.",
+      "N-3 is closed: RawProofInventoryV1.schemaVersion and .projectId are now declared in every R-1 vector, and the vectors are reproducible strictly from declared inputs. This reviewer needed no inference outside the vector blocks."
+    ]
+  },
+
+  "doesV2OverOrUnderstateItself": {
+    "ruling": "BOTH, IN DIFFERENT PLACES -- AND THE OVERCORRECTION THE BRIEF ASKED ABOUT IS REAL BUT NARROW.",
+    "whereItUNDERSTATES": "the same tendency the v1 review named survives. It argues its B-EIR-01 residual from a cross-grammar citation when evidence.v10's own golden settles it in the same artifact (adjudication 1). It claims the sort does canonicalisation 'and nothing else' when the sort also underwrites its own duplicate rule (OBS-R2). It justifies reject-non-NFC with one NFD pair when the rule defeats the whole NFC-unstable singleton class (OBS-R7). It files OBS-8 and OBS-4 as unrelated when they are one gap, and does not cite the evidence.v1 line that already demands the invariant closing both (OBS-R6).",
+    "whereItOVERSTATES": "in exactly one place, and it is the place that matters most. The section 5.1 residual is published as THREE hand-supplied values when the measured figure is FIVE, and the vectors are described as handing FIVE of thirteen as literals when they hand TWELVE. Understating the number of underived inputs OVERSTATES coverage of the identity, in the artifact's own most-consequential claim, and that claim is already in the freeze.",
+    "andONEMETHODOVERSTATEMENT": "the sweep's 'the clause list is the source's own key set, not a list this author chose' describes a procedure other than the one performed.",
+    "theSHAPEOfIt": "v2 did NOT overcorrect broadly. It is scrupulous about not closing dependencies, not resolving DIV-2, not claiming subjectScopeCommitment, not transferring v1's reproduction result to its own bytes, and not adopting a digest it did not observe. The overcorrection is localised to the two places where it counted something instead of enumerating it -- which is precisely the failure mode it correctly diagnosed in v1 and then repeated."
+  },
+
+  "checkerVerification": {
+    "rule": "run, not assumed. Exit codes observed directly and the SPECIFIC content asserted, not merely the exit status.",
+    "beforeFilingThisArtifact": [
+      "check-claims.py -> EXIT 0. 'claim register OK -- 33 claims, 27/27 homes, 32/32 restatements, 8/8 artifact refs, CHK-0..CHK-5 clean'",
+      "check-product-dispositions.py -> EXIT 0. 'CD-RT-5 remains BLOCKED_ON_PHASE_1A; no artifact with standing (268 of 383 scanned) asserts a product decision the binding packet does not carry'",
+      "check-c2-v9.py -> EXIT 0. 'CD-RT-5 remains BLOCKED_ON_PHASE_1A'",
+      "check-retention-custody-v24.py -> EXIT 0. 'retention-tiers.v24.json: PASS ... CD-RT-5 BLOCKED_ON_PHASE_1A; V10 UNRESOLVED'",
+      "check-d9-v1.14.py -> EXIT 0. 'D9 v1.14 contract OK'",
+      "check-package-coherence.py -> EXIT 1, FINDINGS: 2, both PC-7-PINNED-ARTIFACT-IS-REJECTED (rust-provider-protocol.v2.json and threat-model.v3.json), pathsMissing 0"
+    ],
+    "afterFilingThisArtifact": {
+      "measuredNotPredicted": "all six were re-run AFTER this artifact was written to disk.",
+      "theFiveMustPass": "check-claims.py EXIT 0, check-product-dispositions.py EXIT 0, check-c2-v9.py EXIT 0, check-retention-custody-v24.py EXIT 0, check-d9-v1.14.py EXIT 0. UNCHANGED by this filing.",
+      "packageCoherence": "EXIT 1, FINDINGS: 2, pathsMissing 0. The two findings are the SAME two accounted PC-7-PINNED-ARTIFACT-IS-REJECTED rows as the baseline -- rust-provider-protocol.v2.json and threat-model.v3.json. NO THIRD FINDING WAS RAISED BY FILING THIS REJECT VERDICT.",
+      "whyNoThirdPC7": "PC-7 fires on a PINNED BINDING artifact whose independent review REJECTS those exact bytes. evidence-identity-recipes.v2.json is CANDIDATE-NOT-APPLIED and is not pinned as normative in either binding byte table; section 7.1 cites it BY PATH and the freeze states why -- 'Cited by path, not linked -- a candidate must not appear in a section 3 row's link set.' A REJECT on an unpinned candidate is the system working as designed, not a new incoherence.",
+      "theONLYDELTA": "pathsReferenced rose from 54 to 55 -- this artifact -- and pathsMissing stayed 0, confirming the new path resolves.",
+      "reportedNotAvoided": "per the brief, this result is reported as measured. No part of this verdict was shaped to keep the finding count at two."
+    },
+    "noCheckerWasEdited": "confirmed. IMPLEMENTATION-FREEZE.md section 7.6 records that several hash-verify their inputs at runtime and two self-pin. check-c2-v9.py reported its own bytes as sha256:ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035 and noted that a checker cannot pin itself; that value was recomputed independently and matches."
+  },
+
+  "verifiedInputs": {
+    "rule": "IMPLEMENTATION-FREEZE.md section 7.2 requires the filename and SHA-256 of every input this verdict depends on. Every digest below was COMPUTED from the live file by this reviewer, at the END of the pass, and hard-compared against the value measured at the start. None was transcribed from the dispatch brief or from v2.",
+    "inputs": [
+      { "path": "artifacts/evidence-identity-recipes.v2.json", "sha256": "fbdb51f184cea265f6f324046c062ba75e7f76da8ab2cd27d18b281088810ca1", "movedDuringThisReview": "NO", "readFor": "THE SUBJECT, in full" },
+      { "path": "artifacts/evidence-identity-recipes.v1.json", "sha256": "7661c58bcd039423f0f41db9a58a1b5edbec61b901494bfbb2ee6f9758b7b13a", "movedDuringThisReview": "NO -- VERIFIED UNTOUCHED as the brief required", "readFor": "sharedPrimitives.textComponent and canonicalUnsignedDecimal for the dropped-clause and mechanism measurements; occurrence counts for 4096, closed ASCII, handles only, 8.1 and secret" },
+      { "path": "artifacts/evidence-identity-recipes.v1.review-independent.json", "sha256": "c2856241f708a97ae00ea656561231f762cd4b180bd6bbfbb313af5d3d7af00d", "movedDuringThisReview": "NO", "readFor": "the two blockers and the no-retained-checker ruling this review re-adjudicates" },
+      { "path": "IMPLEMENTATION-FREEZE.md", "sha256": "842f25bb42494024b14b646d5042a90f098e2c02ac7df1f3bec6bc4ffd0b518b", "sha256AtReviewStart": "5d82d2e8c7d550b0964f5a5f9297fee327de296bb8f086f867876191a1ef9d0f", "movedDuringThisReview": "YES -- TWICE OVER. v2 recorded 59a413c2; the file read 5d82d2e8 at 205438 bytes when this review opened it (a SIXTH transition, before the review); and it moved AGAIN to 842f25bb at 208522 bytes DURING this review, at mtime 12:28:27 (a SEVENTH). Caught by re-hashing at the end, per the brief, not by chance.", "sectionSevenOneSliceSha256": "b66ef1946e0caf506d52102052ec9a311a50750927319e5639afa94219aaf69a", "sectionSevenOneSliceByteLength": "18543", "sliceMovedDuringThisReview": "NO -- THE SECTION 7.1 SLICE IS BYTE-IDENTICAL ACROSS BOTH WHOLE-FILE MOVEMENTS. The +3084 bytes landed elsewhere in the file. Every section 7.1 fact this verdict rests on was RE-VERIFIED at 842f25bb after the movement was detected: 'EvidenceDigest byte recipe' 2 occurrences, 'subjectScopeCommitment' 2, 'Every row above must be closed by a binding artifact before signature' 1, the v2 citation 'fbdb51f1' 1, the propagated 'Three of ... remain **hand-supplied**' sentence 1, the coordinator-error record naming 1ce56f0a 1. NOTHING THIS VERDICT DEPENDS ON MOVED.", "readFor": "section 7.1 in full at the live digest, section 3's v2 narrative, and the coordinator-error record naming 1ce56f0a" },
+      { "path": "IMPLEMENTER-BLUEPRINT.md", "sha256": "b7a09be93237793305115311e3fcc854d9b620260b3df4b0f8072c6784d4367b", "sha256AtReviewStart": "711f68b577fdc6793f68cb817239a6a93cb854ae00cfa819b2e7b4e082ad62ac", "movedDuringThisReview": "YES -- from 711f68b5 (the digest v2 recorded, and the digest at which this review read section 5.1) to b7a09be9 at 149758 bytes, mtime 12:29:12. Detected by the same end-of-pass re-hash.", "loadBearingFactsREVERIFIEDAt_b7a09be9": "ALL SURVIVE, each at exactly 1 occurrence with whitespace normalised: 'you can reproduce every vector and still be unable to compute the field'; 'do not read a green vector suite as coverage of the identity'; 'That is the standard the nine above have not met'; the section heading 'Identity recipes and contract gaps that do not exist yet'; the PLAN-ID-V1 worked case 'reproduces byte-exactly because the vectors supply'; section 8.1's 'secrets represented by handles only'; 'Build into the v1 spine'; and section 1.1's 'Normative byte set'. ADJUDICATIONS 6 AND 7 ARE UNAFFECTED.", "readFor": "section 5.1 in full, for the trap quotations and the standard; section 8.1 for the secrets-as-handles clause" },
+      { "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "movedDuringThisReview": "NO", "readFor": "HASH CONFIRMATION ONLY -- NOT opened for content, NOT modified. Confirmed at the digest the brief pinned." },
+      { "path": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4", "movedDuringThisReview": "NO", "readFor": "canonicalWireGrammar in full and acceptedGolden, for the independent byte-exact reproduction and the field-type classification behind B-EIR2-01" },
+      { "path": "artifacts/evaluation-proof.v8.json", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303", "movedDuringThisReview": "NO", "readFor": "normativePreimageGrammar and canonicalCommitmentGrammar in full, the componentFrame occurrence census, all eleven record grammars, and all nine preimageGoldens.commitments" },
+      { "path": "artifacts/evidence.v1.json", "sha256": "251d76f3cd272b2a48ce462d0f14d53a7c67865c9cc63f8ae8adebd9f7c46496", "movedDuringThisReview": "NO", "readFor": "noMatchConstruction -- subjectSetCommitment, whySorted, verificationRequirement and costArgumentLimitation, for DIV-2 and OBS-R6" },
+      { "path": "artifacts/consumer-b-implementer-litmus.v1.json", "sha256": "03af316ef256a9a0f6bb57ed3528b3b24a9f364822e3eb4614e76dc76f55e950", "movedDuringThisReview": "NO", "readFor": "escalations[7] ESC-08, verifying its FORK severity and its naming of the non-membership proof encoding" },
+      { "path": "artifacts/claim-register.v1.json", "sha256": "1a16f7510a9ab3347c5dae2a6d2c2c7b846ed3dfcdc6a582bb545cb44e8f3df9", "movedDuringThisReview": "NO", "readFor": "CONFIRMING NON-REGISTRATION ONLY. Independently recounted: 'evidence-identity-recipes' 0 occurrences, '7661c58b' 0, 'fbdb51f1' 0. v2's bindingDisclaimer.measuredNotAsserted is confirmed and extends to v2's own digest. NOT MODIFIED." },
+      { "path": "artifacts/evidence.v2.json", "sha256": "8d54839bfc30befa5fb21ec96165ad35f888a6f06453424d16b865e6ec72b2be", "movedDuringThisReview": "NO", "readFor": "recorded as an input v2 relies on for WD-5; SEE whatIDidNotCheck -- the outcomeSetDigest rename was NOT independently re-verified" },
+      { "path": "architecture/06-evidence-and-persistence.md", "sha256": "fd13a28393c0209fbc7585ef069a62715bcbfec359003bca072364e45947640a", "movedDuringThisReview": "NO", "readFor": "recorded as a WD-5 leg; SEE whatIDidNotCheck" },
+      { "path": "artifacts/phase1a-readiness-measurement.v1.json", "sha256": "86a672670e61332f947f915747ffd771490ef593203e142f2e40df750efc2f59", "movedDuringThisReview": "NO", "readFor": "recorded as a WD-5 leg; SEE whatIDidNotCheck" },
+      { "path": "artifacts/operability.v10.json", "sha256": "9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be", "movedDuringThisReview": "NO", "readFor": "recorded as the source of the section 7.1 parked disclaimer; read only as quoted inside the freeze slice" },
+      { "path": "artifacts/div2-subject-leaf-privacy.decision-brief.v1.json", "sha256": "d2cd307af39aaf06355a9b5a6973b7a64d802f1f3f9133b8145d1d6c4919c6d7", "movedDuringThisReview": "NO", "readFor": "its ROLE and DISPOSITION only, and its 28,012-bytes-across-515-files path measurement cited at adjudication 2. Its measurements were NOT adopted as this reviewer's own." },
+      { "path": "artifacts/check-claims.py", "sha256": "0226cfb5ab720e4e8b4696b2df4377cf17a143d84692001a6bc72fa53caaff4b", "readFor": "executed; NOT EDITED" },
+      { "path": "artifacts/check-product-dispositions.py", "sha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4", "readFor": "executed; NOT EDITED" },
+      { "path": "artifacts/check-c2-v9.py", "sha256": "ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035", "readFor": "executed; NOT EDITED. Self-reported digest matches this independent recomputation." },
+      { "path": "artifacts/check-retention-custody-v24.py", "sha256": "9a309302df6d2f1108f1fbfb4978bfc93b102eb0394c99ba7be7fc550d7fa909", "readFor": "executed; NOT EDITED" },
+      { "path": "artifacts/check-d9-v1.14.py", "sha256": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e", "readFor": "executed; NOT EDITED" },
+      { "path": "artifacts/check-package-coherence.py", "sha256": "8d56b5f56fed4fd031f4e9f602e63d4f90ac2a189e56b0b580498f20a107f2a6", "readFor": "executed before and after filing; NOT EDITED" }
+    ],
+    "driftStatement": "EVERY INPUT ABOVE WAS RE-HASHED AT THE END OF THIS REVIEW AND HARD-COMPARED AGAINST THE VALUE MEASURED AT THE START. TWO MOVED UNDER THIS REVIEWER WHILE THE REVIEW WAS IN PROGRESS. IMPLEMENTATION-FREEZE.md moved from 5d82d2e8 to 842f25bb (205438 -> 208522 bytes) and IMPLEMENTER-BLUEPRINT.md moved from 711f68b5 to b7a09be9 (149758 bytes), both at roughly 12:28-12:29, AFTER every measurement in this review had been taken against the earlier bytes. NEITHER MOVEMENT WAS DISCLOSED TO THIS REVIEWER; both were caught by the end-of-pass hard comparison the brief required, and one of them was surfaced incidentally by check-package-coherence.py printing the digests it computes. EVERY LOAD-BEARING FACT WAS THEN RE-VERIFIED AGAINST THE NEW BYTES AND ALL SURVIVED -- the section 7.1 slice is byte-identical at b66ef194 across both movements, and all eight blueprint facts are present at 1 occurrence each. NO ADJUDICATION AND NO BLOCKER CHANGES. EVERYTHING ELSE WAS STABLE: the subject held at fbdb51f1 throughout, v1 at 7661c58b was verified UNTOUCHED, ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md held at 47df412d, and evidence.v10, evaluation-proof.v8, evidence.v1, evidence.v2, claim-register.v1, operability.v10, consumer-b-implementer-litmus.v1, phase1a-readiness-measurement.v1, architecture/06-evidence-and-persistence.md, div2-subject-leaf-privacy.decision-brief.v1 and all six checkers were unchanged.",
+    "whatTheDriftDEMONSTRATES": "the two normative markdown surfaces moved a COMBINED THREE TIMES across the span of authoring v2 and reviewing it -- freeze 59a413c2 -> 5d82d2e8 -> 842f25bb and blueprint 711f68b5 -> b7a09be9 -- and NOT ONE of those movements announced itself. That is the eighth and ninth transition in this candidate's lineage. It is the strongest available argument for the retained checker v2 still does not carry, and it converts v2's own closing sentence from an argument into an observation: an instrument that hard-compared recordedInputs on every run would have reported all of them."
+  },
+
+  "whatIDidNotCheck": {
+    "rule": "stated plainly rather than left to inference, because a review's boundary is part of its result.",
+    "items": [
+      "WD-5's outcomeSetDigest identification. I hashed all three cited documents and confirmed they exist at the recorded digests, but I did NOT independently re-verify the parallel-structure argument in architecture/06-evidence-and-persistence.md or phase1a-readiness-measurement.v1.json, and did NOT re-read evidence.v2#removedTransitionalShortcuts[2]. Adjudication of WD-5 was not requested and I did not perform it. If the identification is wrong, R-3's coverage claim shrinks and nothing else in this review changes.",
+      "DUD-5's canonical-JSON measurement. I did NOT reproduce evaluationProofBundleCasRef sha256:cc27c2be... from evaluation-proof.v8's bundle under opensip-canonical-json-v1. v1 measured it once; the v1 review did not verify it; v2 explicitly did not; NEITHER DID I. THREE REVIEWS AND TWO AUTHORS HAVE NOW LEFT THIS UNREPRODUCED. It is treated as an opaque input throughout, which is what v2 declares, and R-1's framing is unaffected -- but a reader should not let the surrounding confidence obscure that this one value rests on a single unreplicated measurement.",
+      "evaluation-proof.v8's and evidence.v10's correctness AS CONTRACTS. I verified that v2 transcribes them faithfully and that its recipes reproduce their goldens. I did NOT assess whether either is a good design, whether its field sets are sufficient, or whether it should be applied. DUD-1 and DUD-2 remain live and unexamined on their merits.",
+      "The RT22 recordKind vocabulary (DUD-8) and the outcome vocabulary's provenance beyond confirming evidence.v2 is superseded (DUD-7).",
+      "Any section of IMPLEMENTATION-FREEZE.md other than 7.1 in full, the section 3 EVIDENCE narrative, and the coordinator-error record. Sections 1, 2, 5, 6, 8, 9, 10, 11 and most of 4 were NOT read at 5d82d2e8 or at any digest by this reviewer. Where v2 relies on section 6 law 18, sections 7.2, 7.2.1, 7.2.2, 7.5 or 7.6, I relied on v2's and the brief's quotation of them and did NOT verify those quotations against the live bytes.",
+      "Any section of IMPLEMENTER-BLUEPRINT.md other than 5.1 and the 8.1 obligation row.",
+      "opensip-canonical-json-v1's definition at c2-plan-stage-schema.v4, and the C-2 head at v9. Both are recorded by v2 as inputs; I hashed neither and read neither.",
+      "DIV-2's merits. I verified the misattribution refusal and the substantive leg's quotations. I took NO position on whether the subject leaf should carry the value or a digest, on the decision brief's measurements, or on the exposure's tier -- which is CD-RT-5 and BLOCKED_ON_PHASE_1A.",
+      "Whether any THIRD blocker exists in v2's correctionsOfRecord WD-1 through WD-5 prose beyond the specific claims the seven adjudications named. I read all five and checked the claims the brief directed me to; I did not audit every sentence of a 218KB artifact.",
+      "The 4096-vector BND-1 commitment against any external source. No corpus artifact pins a boundary-length digest, as v2 states; I reproduced it from the declared inputs and it is self-consistent, which is all it can be.",
+      "artifacts/uncomputable-identity-fields.sweep.v1.json@6918c1f5, which landed on disk DURING this review. I read its SemanticEvidenceV1 chain analysis and its totals and recorded that it points the same way as B-EIR2-01 by a different route. I did NOT verify its corpus-wide sweep -- 384 documents parsed, 906 digest-shaped keys, 63 positions classified, 30 LITERAL-ONLY -- and I did NOT adopt any of its numbers. If its classification of evaluationAuthoritySealRef or semanticCapabilityClosureCasRef as computable is wrong, THIS REVIEW'S FIVE IS UNAFFECTED, because five was measured independently against evidence.v10's own field type declarations and does not depend on that document at all.",
+      "Whether any of the other artifacts that appeared on disk during this review -- plan-and-policy-identity-recipes.v1.json and its review, duplicate-key-adoption.v2.json, threat-model-storage-namespace.v4.review-independent.json -- bear on this subject. They were not opened. This review's scope is evidence-identity-recipes.v2.json at fbdb51f1 and the inputs listed above."
+    ]
+  },
+
+  "reviewerPosition": {
+    "summary": "v2 repairs both of v1's blockers correctly, finds a third defect its predecessor and its reviewer both missed, and survives a fifth independent encoder at 68 assertions with zero failures plus every source golden in both grammars. The recipes are sound and I could not break them. It is REJECTED for two defects of STATEMENT -- the same class as the two it repairs -- one of which has already propagated into IMPLEMENTATION-FREEZE.md as fact and understates the artifact's own open surface by two field values.",
+    "whatWouldMakeAV3Acceptable": "both blockers are repairable by counting correctly and describing the sweep honestly. NO RULE, NO VECTOR, NO DIGEST AND NO DISPOSITION NEED CHANGE. A v3 that fixes two counts and one method sentence, and folds in OBS-R2 through OBS-R8 as declared residuals, should pass.",
+    "onTheNoRetainedChecker": "unchanged from the v1 review and reinforced by measurement: a fair residual for a candidate, disqualifying for application. The freeze moved a sixth time between v2's authoring and this review, and nothing noticed but a reviewer who remembered to look."
+  }
+}

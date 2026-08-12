@@ -36,15 +36,27 @@ all open questions. None was inherited.
 - **Not a complete product specification.** The evidence engine is settled;
   substantial product surface remains open, tracked in
   [09-open-decisions](09-open-decisions.md).
-- **Not durable, and deliberately not graduating into this repository.** These
+- ~~**Not durable, and deliberately not graduating into this repository.** These
   documents live in a gitignored tree. They describe a **hypothetical rebuild**, so
   they must **not** become ADRs in `docs/decisions/` — that log records decisions
   about the *shipping* product, and filling it with decisions about a system that
   does not exist would corrupt the real record. If this design is ever pursued, it
   gets its own home; until then this tree is working material and its impermanence
-  is a known, accepted risk. (The source briefs for this work were deleted from
+  is a known, accepted risk.~~ (The source briefs for this work were deleted from
   this tree mid-exercise with no history to recover them — that is the risk, not an
   argument for polluting the product's decision log.)
+
+  **Withdrawn 2026-08-04 — struck above rather than deleted.** Both premises are
+  now measurably false. This corpus has a durable tracked home at
+  `opensip/docs/coop`: `git ls-files` returns these documents and `git check-ignore`
+  matches none of them. It is the greenfield design for the product being built,
+  not a hypothetical rebuild of a system that does not exist.
+
+  **The rule the struck text carried survives the correction, on narrower
+  grounds.** This material must still **not** be copied into the shipping
+  TypeScript repository's `docs/decisions/` log. That rule never depended on this
+  tree being disposable — it depends on the two logs having different subjects,
+  which has not changed.
 
 ---
 

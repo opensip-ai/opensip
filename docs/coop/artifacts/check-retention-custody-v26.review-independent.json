@@ -1,0 +1,401 @@
+{
+  "artifact": "check-retention-custody-v26.review-independent.json",
+  "kind": "INDEPENDENT-REVIEW-OF-AN-INSTRUMENT",
+  "status": "COMPLETE",
+  "date": "2026-08-10",
+  "reviewer": "independent reviewer, not the author of the subject, not the author of retention-tiers.v26.json",
+  "subject": {
+    "path": "artifacts/check-retention-custody-v26.py",
+    "sha256AtDispatch": "7402759ff6d2b1378b61d4d76727648aebf2167 (prefix as dispatched)",
+    "sha256Measured": "7402759ff6d2b1378b61d4d76727648aebf216795dce965e37c2acf7647d18b9",
+    "bytes": 281127,
+    "lines": 5504,
+    "digestVerification": "MATCH. The dispatched prefix is a prefix of the measured digest, and the byte and line counts match exactly. Re-hashed at the end of the review: unchanged. Section 7.2.1 item 2 satisfied.",
+    "subjectArtifact": "artifacts/retention-tiers.v26.json at a6546408fb38df95166f0ec41b1d9d9dae0dbda580684ff8a6e94f57145ad97e, 297835 bytes, which is the digest the instrument records at SUBJECT_SHA256 -- so no RT26-SUBJECT-MOVED notice fires and every measurement below was taken against the reviewed subject bytes"
+  },
+
+  "verdict": {
+    "ruling": "ACCEPT_WITH_BLOCKERS",
+    "blockers": 3,
+    "nonBlocking": 9,
+    "exitOneIsCorrect": true,
+    "whatTheRulingMeans": "The instrument is real and its seven findings are sound. It executes what it says it executes: I re-ran every published coverage figure and every one reproduced. Its pin design is the best in this corpus that I have measured -- 12 of 12 attacks refused and 6 of 6 legitimate advances silent, including one UNPLANNED live advance during this review. It is nonetheless held back by three defects that the freeze legislates against by name and that the file's own docstring forbids in its own words.",
+    "whyNotACCEPT": "Two of the three blockers are the instrument breaking rules it states about itself. The docstring says 'never a traceback and never a finding' and 'Exit 1 is reserved for findings about the artifact'; 21 measured inputs produce an uncaught Python traceback at exit 1. Section 8's header says 'A flattering limits count is worse than none'; the published count is 13 and a measured class of 944 falsifiable positions -- including 20 digest leaves whose true values the instrument already holds -- is not among them.",
+    "whyNotREJECT": "Nothing measured here falsifies a finding it publishes, nothing it asserts about the artifact is wrong, and no repair requires discarding its design. All three blockers are additive: guard the two unguarded call sites, extend the count and digest tables from hand enumeration to derivation, and scope the finding text. A successor instrument fixes all three; none of them is a design error.",
+    "applicationDisposition": "This file NARROWS RT25-RES-01 and does not close it. The artifact's own $.retainedChecker remains NONE and this instrument does not change it. A signer may read a run of this file as: the reviewed bytes are the reviewed bytes for 14 gated inputs and drift stops the run; 20 vectors, 24 invariants, the leaf census, the type sweep, the quotation scoping and the CD-RT-5 property pin were all recomputed and agree; and 7 real defects in retention-tiers.v26.json are named. A signer may NOT read it as: the artifact's recorded digests are right, its self-measurements outside a 29-row table are right, or a non-zero exit means the artifact has findings."
+  },
+
+  "definitionOfCaught": {
+    "used": "FINDING-SET DELTA",
+    "statement": "A mutation is CAUGHT if and only if the run over the mutated input emits at least one finding string that is ABSENT from the baseline finding set. The exit code was never used, because the baseline is already red at exit 1 and every mutation therefore exits 1; scoring by exit code would have returned 100% on every sweep below and measured nothing.",
+    "note": "This is the same discipline the instrument applies to itself. selftest() at line 5129 computes `new = [f for f in findings if f not in base]` and requires `any(f.startswith(expected) for f in new)` -- so a mutation caught only by a DIFFERENT family is scored an escape for its own family. That is stricter than the definition I used, and it is correct.",
+    "baselineFindingSet": 7,
+    "baselineNoticeSet": 2
+  },
+
+  "environment": {
+    "interpreter": "CPython 3.14.6 (main, Jun 10 2026) [Clang 21.0.0], darwin arm64",
+    "invocation": "python3 -I -B artifacts/check-retention-custody-v26.py",
+    "cwd": "/Users/sb/code/opensip-ai/opensip/docs/coop",
+    "hostileWorkBench": "a byte-identical scratch MIRROR of the tree outside the repository. The mirror was proven to reproduce the real-tree baseline output byte-for-byte before any mutation was applied. NO FILE UNDER artifacts/ OR ANY .md IN THE REAL TREE WAS EDITED AT ANY POINT.",
+    "declaredPrerequisitesVerified": [
+      "CPython >= 3.9 -- enforced at line 183 before any import; a lower version exits 2 with RT26-UNSUPPORTED-INTERPRETER",
+      "python3 -I -B -- enforced at line 192 via sys.flags.isolated and sys.flags.dont_write_bytecode; without both, exit 2 RT26-UNSUPPORTED-INVOCATION",
+      "standard library only -- VERIFIED by AST import walk: copy, hashlib, itertools, json, pathlib, re, sys, typing, unicodedata, __future__. Zero non-stdlib imports.",
+      "no subprocess -- VERIFIED. The token 'subprocess' appears once, at line 133, inside the docstring. The token 'ripgrep' appears once, at line 134, inside the docstring. There is no os.system, no popen, no __import__, no importlib, no socket, no urllib. `rg` is a shell function on this host and is never invoked.",
+      "writes nothing -- VERIFIED BY MEASUREMENT, not by reading. A SHA-1 snapshot of all 594 files in the mirror tree taken before and after a full run is identical: no file changed, no file was created, no __pycache__ was written."
+    ]
+  },
+
+  "reviewConditions_7_2_1_item_4": {
+    "driftDuringThisReview": "IMPLEMENTER-BLUEPRINT.md MOVED WHILE THIS REVIEW WAS IN PROGRESS, from 370691f427e32d93... at the first baseline run to 94e773e548be73e8... at the last. It is one of the five ADVANCING (CITED-DIGEST-RECORDED-NOT-GATED) inputs.",
+    "whatHappened": "Nothing. The instrument printed RT26-PIN-ADVANCED with both digests, said NOT A FINDING, continued against the live bytes, and produced a BYTE-IDENTICAL seven-finding set across the two runs. The only difference between the two full outputs is the live digest inside that one notice line.",
+    "whyThisIsRecordedProminently": "This is the strongest single piece of evidence in the review and it was unplanned. Section 7.10 exists because check-versioning-v14.py hard-pinned a packet digest and went red inside forty minutes when the packet legitimately advanced. This instrument faced the identical event, mid-review, on a file it had classified ADVANCING in advance, and cost a re-read rather than a successor. The design is not merely argued here; it was exercised by the corpus.",
+    "measurementsAffected": "None. Every measurement in this review was taken against subject bytes 7402759f... and subject-artifact bytes a6546408..., both re-verified unchanged at the end."
+  },
+
+  "publishedCoverage_reRunNotRead": {
+    "method": "Every figure below was reproduced by EXECUTING the instrument or by independently recomputing the quantity from the subject's bytes with my own code. No figure was accepted from the banner.",
+    "rows": [
+      {"claim": "exit 1 with 7 findings, deliberately untuned", "measured": "exit 1, 7 findings", "status": "REPRODUCED"},
+      {"claim": "20/20 vectors executed, 20 rejected readings run, 0 vacuous", "measured": "banner reports exactly that; VECTOR_IDS is a frozen 20-tuple and equals [r['id'] for r in $.partC_retentionBounds.vectors.rows] in order; 15 explicit VACUOUS guards exist in the source and none fired", "status": "REPRODUCED"},
+      {"claim": "24/24 invariants from a frozen id list", "measured": "INVARIANT_IDS is a frozen 24-tuple, equals the artifact's invariant ids exactly, and INVARIANT_DRIVERS has 24 keys covering the set with no extras", "status": "REPRODUCED"},
+      {"claim": "294 assertion sites", "measured": "284 `out.append` + 10 `findings.append` = 294 static emission sites", "status": "REPRODUCED AS A STATIC COUNT. I did NOT prove all 294 reachable; see whatIDidNotCheck."},
+      {"claim": "0 vacuous", "measured": "no VACUOUS finding in the baseline output", "status": "REPRODUCED"},
+      {"claim": "160/160 mutations", "measured": "160/160 caught by their own named check, under delta discipline, exit 3", "status": "REPRODUCED. Runtime 28.4s."},
+      {"claim": "selftest refuses to certify over a dirty base", "measured": "SELFTEST-OVER-DIRTY-BASE printed, all 7 base findings and both notices echoed, exit 3, SELFTEST-NOT-CERTIFYING. Exit 3 is unconditional in that branch and distinct from 0/1/2.", "status": "REPRODUCED -- this is the check-evidence-v9.py reference behaviour section 7.2 asks for"},
+      {"claim": "966 type respellings, 0 admitted", "measured": "966 = 439 float + 178 bool-from-0|1 + 349 int-from-bool; 0 admitted", "status": "REPRODUCED"},
+      {"claim": "790 guarded int/bool, 0 unruled", "measured": "790 guarded, 0 unruled. INT_LEAF_NAMES 251 names, BOOL_LEAF_NAMES 171 names, intersection 0.", "status": "REPRODUCED"},
+      {"claim": "census 2935 = 439 int + 349 bool + 1 float + 6 null + 2140 string", "measured": "independently re-walked with my own code: int 439, bool 349, float 1, null 6, str 2140, scalar 2935, nonString 795. 439+349+1+6+2140 = 2935 exactly.", "status": "REPRODUCED INDEPENDENTLY"},
+      {"claim": "int-first control 788/0", "measured": "intFirstInt 788, intFirstBool 0, and 788 = 439 + 349, which is what the bool-subclasses-int ordering bug would produce", "status": "REPRODUCED. check_census hard-compares all seven census figures, both the float and null PATH LISTS, and the control -- this is the strongest driver in the file."},
+      {"claim": "11 of 11 freeze anchors under section 7.7 folding", "measured": "11/11 folded. INDEPENDENTLY: a RAW BYTE-LITERAL search finds only 7 of 11 on the live freeze, and only 3 of 11 after a reflow-plus-smart-quote advance. The folding is load-bearing and a raw search would manufacture 4 to 8 false ABSENT results.", "status": "REPRODUCED INDEPENDENTLY"},
+      {"claim": "the RT26-COUNT defect: $.corpusResiduals[0].measuredValues.recordedInputs declares 15, bytes hold 19", "measured": "len($.recordedInputs.recorded) = 19; $.recordedInputs.digestsRecordedCount = 19; the declared figure is 15 and the sibling prose restates 15", "status": "CONFIRMED INDEPENDENTLY. Both RT26-COUNT findings are true."}
+    ]
+  },
+
+  "pinDesign": {
+    "claim": "GATED (14) -> exit 2 nothing parsed; ADVANCING (5) -> named non-fatal notice, run continues on live bytes; DESTROYED (1) -> a file reappearing at the dead digest is refused. 12 of 12 attacks caught, 5 of 5 legitimate advances silent.",
+    "attacksRun": 12,
+    "attacksCaught": 12,
+    "advancesRun": 6,
+    "advancesSilent": 6,
+    "attackTable": [
+      {"id": "A1", "attack": "one key respelled inside a gated .json", "result": "exit 2 RT26-PIN-REFUSED, nothing parsed"},
+      {"id": "A2", "attack": "one trailing newline appended to a gated .json", "result": "exit 2 RT26-PIN-REFUSED"},
+      {"id": "A3", "attack": "gated v25 swapped for the real v24 artifact", "result": "exit 2 RT26-PIN-REFUSED"},
+      {"id": "A4", "attack": "one comment appended to a gated .py", "result": "exit 2 RT26-PIN-REFUSED"},
+      {"id": "A5", "attack": "gated input deleted", "result": "exit 2 RT26-INPUT-MISSING, path named, THE CHECK DID NOT RUN"},
+      {"id": "A6", "attack": "gated input truncated to half", "result": "exit 2 RT26-PIN-REFUSED"},
+      {"id": "A7", "attack": "one whitespace byte doubled in d9-exit-contract.v1.14.json", "result": "exit 2 RT26-PIN-REFUSED"},
+      {"id": "A8", "attack": "gated input replaced by a duplicate-key document", "result": "exit 2 RT26-PIN-REFUSED (the digest gate fires before the parse hook, so the duplicate-key hook is not even reached)"},
+      {"id": "A9", "attack": "the DESTROYED digest reappears on disk", "result": "exit 2 RT26-PIN-RESURRECTED. The preimage of 4bbcd6fa... is unrecoverable by construction, so the MECHANISM was exercised by re-pointing DESTROYED_PINS at a producible digest in a scratch COPY of the instrument. The real tree was not touched and the real instrument was not edited."},
+      {"id": "A10", "attack": "the subject's own bytes altered", "result": "RT26-SUBJECT-MOVED notice with both digests and both byte counts, run continues, 3 new findings. This is a NOTICE and not a refusal BY DECLARATION -- the docstring states the reason (refusing would hide every other finding behind one line) -- and I grade the choice correct. See NB-5."},
+      {"id": "A11", "attack": "the artifact downgrades a HARD-PIN row to CITED-DIGEST-RECORDED-NOT-GATED", "result": "CAUGHT, RT26-INPUTS, 'the classification must come from the artifact, not from here'. THIS IS THE IMPORTANT ONE: the GATED and ADVANCING tables are compared against the artifact's own $.recordedInputs.recorded[].gate strings IN BOTH DIRECTIONS on every run, so neither class can drift silently in either the artifact or the instrument."},
+      {"id": "A12", "attack": "the artifact records a falsified sha256 for a gated input", "result": "CAUGHT, RT26-INPUTS names both the artifact's value and the instrument's gate"}
+    ],
+    "advanceTable": [
+      {"id": "L1", "advance": "IMPLEMENTATION-FREEZE.md reflowed to a different wrap width", "result": "0 new findings; RT26-PIN-ADVANCED notice only"},
+      {"id": "L2", "advance": "freeze reflowed AND smart quotes, em-dashes and ellipses substituted", "result": "0 new findings. This is the case the dispatch asked me to reproduce and it reproduces: the digest pin is broken (199c2f77 -> 2014da98) and a raw byte-literal anchor search collapses from 7/11 to 3/11, while the instrument's fold finds 11/11 and emits nothing."},
+      {"id": "L3", "advance": "a whole new section 7.11 appended to the freeze", "result": "0 new findings"},
+      {"id": "L4", "advance": "IMPLEMENTER-BLUEPRINT.md reflowed and smart-quoted", "result": "0 new findings"},
+      {"id": "L5", "advance": "the binding product packet legitimately amended with a new field", "result": "0 new findings; RT26-PIN-ADVANCED and RT26-PACKET-ADVANCED notices only. The CD-RT-5 property pin survives an amendment, which is the whole point of section 7.10."},
+      {"id": "L6", "advance": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md appended to", "result": "0 new findings; RT26-PIN-ADVANCED and RT26-PLAN-ADVANCED notices"},
+      {"id": "L7-UNPLANNED", "advance": "IMPLEMENTER-BLUEPRINT.md actually advanced on disk mid-review", "result": "0 new findings, identical finding set, notice printed with both digests"}
+    ],
+    "derivedOrListed": {
+      "question": "Section 7.10's rider records a sibling instrument implementing the same asymmetry as `if name in UNSATISFIABLE_PINS`, a one-entry literal, which section 7.9's 'standing is DISCOVERED, not listed' forbids. Does this one derive its classes or list them?",
+      "answer": "MIXED, and the mix is exactly where the value is. GATED and ADVANCING are Python literals AND ARE CROSS-COMPARED IN BOTH DIRECTIONS against the artifact's own gate strings on every run (check_recorded_inputs, lines 3598-3639). A row the artifact gates and the instrument does not is a finding; a row the instrument gates and the artifact does not is a finding; a digest mismatch between the two records is a finding. Attack A11 and A12 confirm both directions fire. That satisfies 'discovered, not listed' in substance: the literal is a transcription that cannot silently disagree with its source.",
+      "exception": "DESTROYED_PINS IS THE CRITICISED SHAPE, UNCHANGED. It is a one-entry Python literal, read at exactly one place (line 479), and compared against NOTHING in the artifact. See NB-1."
+    }
+  },
+
+  "measuredHoleInItsCoverage": {
+    "headline": "The instrument's self-measurement checking is scoped by HAND ENUMERATION, not by key name and not by referent. It avoided the key-name trap section 7.2.2 records -- and inherited the enumeration trap section 7.9 forbids in its place.",
+    "theThirdDefect": {
+      "question": "Section 7.2.2 records a later referent-scoped sweep finding a third defect in retention-tiers.v26.json that both the artifact's reviewer and a key-name sweep missed: $.corpusResiduals[2].measuredBoundary says 'against 18 explicitly named as unchanged' while its own sibling value says 14, and 14 is right. Does this instrument share that defect?",
+      "answer": "YES. IT DOES NOT FIND IT.",
+      "verification": "I confirmed the defect independently on the live bytes. $.corpusResiduals[2].measuredValues.partBSurfacesLeftUnchanged is 14. $.inheritance.exhaustivePartitionOfV24.partB holds 16 rows, of which 14 are disposition UNCHANGED and 2 are CHANGED. So 14 is right and the prose's 18 is wrong -- 18 is $.inheritance.surfacesExplicitlyUnchangedCount, a figure with a DIFFERENT REFERENT (all surfaces, not Part B surfaces). The baseline run of the instrument emits no finding at that position.",
+      "mechanism": "check_counts compares exactly one prose sentence in the entire artifact, and it is hard-coded: `boundary = get_path(doc, '$.corpusResiduals[0].measuredBoundary')` with the literal regex `(\\d+) inputs recorded`. corpusResiduals[1], [2] and [3] have measuredBoundary sentences and none is read. The instrument found the first defect because the author put that one path in the table by hand, and missed the mirror defect because nobody put the other one in.",
+      "soTheShapeIsNotIDENTICALToTheReviewerS": "The subject's reviewer scoped by KEY NAME ('every integer leaf whose key ends in count') and could not reach a leaf called recordedInputs. This instrument does not scope by key name -- _self_referential_counts pairs a DECLARED PATH with a RECOMPUTED REFERENT, which is the right method. It scopes by ENUMERATION: the table has 29 rows, hand-written, and every self-measurement outside those 29 rows is unchecked. The failure mode is different and the blast radius is larger, because a key-name sweep at least grows automatically when a new *Count key is added, and a hand table does not grow at all."
+    },
+    "referentScopedSweep": {
+      "method": "54 rows, each stating a declared position, the referent IN WORDS ('what is this figure a measurement OF?'), and an independent recomputation. Prose figures extracted by regex and compared to the sibling value they restate.",
+      "rows": 54,
+      "rowsTheInstrumentHardCompares": 28,
+      "mismatchesFound": 3,
+      "mismatchDetail": [
+        {"path": "$.corpusResiduals[0].measuredValues.recordedInputs", "declared": 15, "recomputed": 19, "instrumentFindsIt": true},
+        {"path": "$.corpusResiduals[0].measuredBoundary", "declared": 15, "recomputed": 19, "instrumentFindsIt": true},
+        {"path": "$.corpusResiduals[2].measuredBoundary", "declared": 18, "recomputed": 14, "instrumentFindsIt": false, "note": "THE MIRROR DEFECT. Outside the 29-row table and outside the one hard-coded prose regex."}
+      ],
+      "twoRowsIAdjudicatedNOTDefects": [
+        "$.corpusResiduals[0].measuredValues.inputsActuallyGated declares 0 while 14 rows carry a HARD-PIN gate string. My row was MIS-SPECIFIED: the artifact's referent is inputs actually ENFORCED by a running checker, and the sibling prose says so verbatim ('0 gated, because gating requires a checker and there is none'). At authoring that was true. Reported here because the measurement is what matters, not the expectation.",
+        "$.quotationDiscipline.verbatimFieldsInTheseBytes declares 37 and my first walk measured 39. Reconciled: the instrument uses all_keys (dict keys) and finds 38 keys, 37 string-valued plus one list of two strings; my walk counted the two list ELEMENTS separately. The instrument's census is correct and its RT26-B4-CENSUS finding (38 keys vs 37 declared) is correct. My row was wrong, not the instrument's."
+      ]
+    },
+    "howWideTheHoleIs": {
+      "statement": "I measured it rather than characterised it. Every int and bool leaf, and every non-prose string leaf, was replaced ONE AT A TIME by a different value OF THE SAME JSON TYPE and scored by finding-set delta.",
+      "intAndBoolLeaves": {"positions": 788, "caught": 308, "escaped": 480, "escapeRate": "60.9%", "int": {"positions": 439, "caught": 199, "escaped": 240}, "bool": {"positions": 349, "caught": 109, "escaped": 240}},
+      "nonProseStringLeaves": {"positions": 856, "caught": 392, "escaped": 464, "escapeRate": "54.2%", "selection": "string leaves that are identifiers, digests, enum members, ids, dates, paths and short tokens -- prose was EXCLUDED deliberately, because residual 1 already concedes prose"},
+      "digestAndIdentityShapedLeaves": {"positions": 49, "caught": 29, "escaped": 20, "escapeRate": "40.8%"},
+      "totalMeasured": {"positions": 1644, "escaped": 944, "escapeRate": "57.4%"},
+      "checkerRaised": 0,
+      "contrastWithItsOwnPublishedFigure": "The instrument publishes '966 type respellings attempted, 0 admitted' and '790 guarded int/bool, 0 unruled' in its banner. Both are TRUE and both are about TYPE. The same 788 positions admit a false VALUE of the correct type at 480 of them. A reader who takes 966/0 and 790/0 as a coverage statement about the int/bool surface will be wrong by 61%."
+    }
+  },
+
+  "theFourteenthWayToPassOnAWrongArtifact": {
+    "id": "RES-14-RECORDED-MEASUREMENTS-OUTSIDE-THE-HAND-TABLES",
+    "statement": "A RECORDED DIGEST OR A SELF-MEASUREMENT AT ANY POSITION OUTSIDE THE INSTRUMENT'S THREE HAND-WRITTEN TABLES CAN BE SET TO AN ARBITRARY FALSE VALUE OF THE CORRECT TYPE AND THIS INSTRUMENT STAYS SILENT -- INCLUDING TWENTY sha256 LEAVES WHOSE TRUE VALUES THE INSTRUMENT IS ALREADY HOLDING IN MEMORY.",
+    "whyThisIsNotOneOfTheThirteen": "Residual 1 is scoped to prose and expressly carves out 'unless the sentence carries a number bound to a measurable source' -- a sha256 is bound to a measurable source and is not prose. Residual 8 is about a wrong TYPE classification in the frozen registry, not a wrong VALUE at a correctly typed position. Residual 11 is about quotations in fields NOT named *Verbatim. Residual 13 is the blanket 'there is probably another class', which is honest but is not a limits entry. None of 1 through 12 covers this.",
+    "whyItMattersMoreThanACount": "IMPLEMENTATION-FREEZE section 7.8 records this exact defect as MEASURED AND CLOSED elsewhere in this corpus: check-delivery-v4.py stayed green with 'a recordedInputs digest replaced by 64 f's -- which launders itself through the accountability gate', and check-delivery-v5.py closed it. It is live again here at 20 positions. A defect the corpus has already measured and repaired, reappearing in a new instrument, is the section 7.6 propagation failure observed from the inside.",
+    "workedEscapes_confirmedEndToEndThroughTheCLI": [
+      {"id": "D1", "mutation": "$.inheritance.predecessor.sha256 -> 64 f's", "note": "this is retention-tiers.v25.json, WHICH THE INSTRUMENT ITSELF GATES AT EXIT 2. It holds the true digest in GATED_PINS and does not compare it here.", "newFindings": 0},
+      {"id": "D2", "mutation": "$.inheritance.predecessorReview.sha256 -> 64 f's", "note": "also a GATED pin", "newFindings": 0},
+      {"id": "D3", "mutation": "$.inheritance.predecessorLineage[0..2].sha256 -> 64 f's", "note": "v24, v23, v22 -- all three are GATED pins", "newFindings": 0},
+      {"id": "D4", "mutation": "$.derivationFromThePredecessor.predecessorSha256 -> 64 f's", "note": "section 7.3's rider: 'Before applying ANY derivation, execute the resolver against it and require a POSITIVE resolution.' A falsified predecessor digest makes the derivation unresolvable and this instrument does not notice.", "newFindings": 0},
+      {"id": "D5", "mutation": "$.repairsAgainstTheV25Review.reviewSha256 -> 64 f's", "newFindings": 0},
+      {"id": "D6", "mutation": "$.partC_retentionBounds.identity.encoderControl.rows[*].publishedInV24 -> rpol1:sha256:64 f's", "note": "the GOLDEN the encoder control exists to reproduce. The instrument recomputes the golden from the pinned v24 and compares its own result to v24 -- it never compares the artifact's transcription of it.", "newFindings": 0},
+      {"id": "D7", "mutation": "$.partC_retentionBounds.identity.encoderControl.rows[*].agree -> false", "note": "the artifact now DECLARES ITS OWN ENCODER CONTROL FAILED while the instrument measures that it succeeded, and the disagreement is not reported. Section 7.8 move 1 is 'derive the verdict; do not encode it'; here the verdict is derived and then not compared to the encoded one.", "newFindings": 0},
+      {"id": "D8", "mutation": "ALL SEVEN AT ONCE, plus $.corpusResiduals[2].measuredValues.partBSurfacesLeftUnchanged -> 9999", "newFindings": 0, "exit": 1, "note": "every predecessor digest in the lineage falsified, the encoder control declaring its own failure, and a self-measurement falsified -- and the finding set is byte-identical to the baseline."}
+    ],
+    "furtherWorkedEscapes": [
+      {"mutation": "$.partC_retentionBounds.boundsRecord.closed -> false", "newFindings": 0, "note": "the closed-record claim Part C rests on"},
+      {"mutation": "$.postureResolution.theDerivation.isTotal -> false", "newFindings": 0},
+      {"mutation": "$.inheritance.predecessorReview.totalBlockingFindingCount 0 -> 9999", "newFindings": 0, "note": "a fact about a GATED pinned review file"},
+      {"mutation": "the three step1/step2/step3 .count values of the exception-set derivation -> 9999", "newFindings": 0, "note": "SHARPEST OF THESE. check_exception_set_closure COMPUTES step1 and step2 and derives step3 from them -- it produced two of the seven baseline findings out of exactly that derivation -- and never compares any of the three to the published counts. This is B-VER9R-01's shape (section 7.2.2): the evidence was gathered and then not used."},
+      {"mutation": "$.partA...askDecisionTable.cellCount 12 -> 9999", "newFindings": 0},
+      {"mutation": "$.partA...interactionOutcomes.count 7 -> 9999", "newFindings": 0},
+      {"mutation": "$.corpusResiduals[2].measuredBoundary prose figure -> 9999", "newFindings": 0},
+      {"mutation": "a freeze-attributed *Verbatim value replaced by a DIFFERENT genuine freeze sentence", "newFindings": 0, "note": "the quotation check is containment in the attributed source, so any true sentence from that file passes at any Verbatim position. Adjacent to residual 2 (containment is monotone) but distinct: this is substitution, not appending."},
+      {"mutation": "$.partA...noAskCasesReDerived[2].predecessorPropertiesVerbatim[0] 'closingTheDialogIsNotAnAnswer: true' -> '...: false'", "newFindings": 0, "note": "the list-valued Verbatim branch parses the member with _KEY_RENDERING, whose regex CAPTURES THE VALUE AS GROUP 2, and then tests only that group 1 -- the key NAME -- exists in the pinned v24. Group 2 is never read. A quotation of the predecessor's bytes can therefore assert the opposite boolean at a position the instrument specifically claims to handle."}
+    ]
+  },
+
+  "hostileInputMatrix": {
+    "priority": "The dispatch names this the priority and section 7.8 / litmus D-6 is the standard: a crash must not read as a finding. Section 7.8.1 adds that a MISSING or MALFORMED input must never present as a substantive finding about a DIFFERENT artifact.",
+    "shape": "20 declared inputs (14 GATED + 5 ADVANCING + the subject) x 12 to 14 mutations each = 252 runs, every one executed in the scratch mirror.",
+    "mutations": ["MISSING", "EMPTY", "TRUNCATED-HALF", "GARBAGE-BINARY", "BOM-PREFIX", "UTF16", "APPEND-NUL", "DIRECTORY", "UNREADABLE(chmod 000)", "JSON-EMPTY-OBJECT", "JSON-NULL", "JSON-ARRAY", "JSON-SCALAR", "JSON-DUPLICATE-KEYS", "TEXT-ONE-LINE"],
+    "exitCodeDistribution": {"exit0": 0, "exit1": 53, "exit2": 199, "exit3": 0, "byClass": {"GATED(180 runs)": {"exit2": 166, "exit1": 14}, "ADVANCING(58 runs)": {"exit2": 24, "exit1": 34}, "SUBJECT(14 runs)": {"exit2": 9, "exit1": 5}}},
+    "whatIsCORRECT": [
+      "MISSING: 20 of 20 inputs refuse at exit 2 with RT26-INPUT-MISSING, the path named, and the words THE CHECK DID NOT RUN. Section 7.8.1 rule 1 satisfied for the missing case.",
+      "DIRECTORY substituted for a file: 20 of 20 refuse at exit 2 (is_file() is false, so it takes the missing branch).",
+      "GATED corruption of every kind: exit 2 RT26-PIN-REFUSED, with an explicit statement that NOTHING WAS PARSED OR EXECUTED and that the exit 'says nothing whatever about retention-tiers.v26.json'. That sentence is the single best piece of D-6 hygiene in the file.",
+      "JSON-DUPLICATE-KEYS on the subject: exit 2 RT26-PARSE-REFUSED, THE CHECK DID NOT RUN.",
+      "Every exit-2 diagnostic I saw is NAMED with an RT26- code and every one says the check did not run. Zero unnamed refusals.",
+      "BOM-PREFIX and APPEND-NUL on the freeze and the blueprint: 0 new findings. The folding absorbs them, as designed."
+    ],
+    "blockerFindings": ["BLOCKER-1", "BLOCKER-3"],
+    "crashCannotReadAsFinding_D6": {
+      "result": "FAILS, AT 21 MEASURED SITES.",
+      "case1": "UNREADABLE (chmod 000) on ANY of the 20 declared inputs -- all 14 gated, all 5 advancing, AND the subject -- produces an UNCAUGHT PermissionError TRACEBACK on stderr, EMPTY stdout, and EXIT 1. The instrument's own docstring says, of a missing input, 'never a traceback and never a finding', and its exit matrix says 'Exit 1: findings about the artifact'. A CI system reading exit 1 concludes the artifact has findings. The cause is one line: verified_inputs() tests path.is_file() and then calls path.read_bytes() -- existence is checked, readability is not. verified_inputs()'s own docstring says 'A GATED mismatch OR AN INPUT THAT COULD NOT BE READ raises PinRefused'. It does not.",
+      "case2": "A subject document containing a JSON key with a '.' in it produces an uncaught KeyError traceback at exit 1 with empty stdout, from hostile_sweep -> set_path. I reproduced it by placing the live retention-tiers.v27.json bytes under the v26 filename: `KeyError: 'check-adjudication'`. run_all wraps every driver in try/except, but main() calls type_findings() and hostile_sweep() OUTSIDE any guard, and _banner() likewise.",
+      "measuredOnTheRealSubject": "retention-tiers.v26.json contains ZERO keys with a '.' and all 2935 scalar-leaf paths round-trip through get_path exactly. So case2 is LATENT on these bytes and does not corrupt any published figure. It is not hypothetical for the lineage: retention-tiers.v27.json has 112 such keys and 564 leaf paths that do not round-trip."
+    },
+    "missingOrMalformedAsSubstantiveFinding_7_8_1": {
+      "result": "PARTIALLY MITIGATED, NOT CURED. The measured behaviour is materially better than the sibling instrument section 7.8.1 records, and it is still the same class.",
+      "freezeCorrupted": {
+        "input": "IMPLEMENTATION-FREEZE.md emptied / UTF-16'd",
+        "newFindings": 7,
+        "namedAsAnInputProblem": 1,
+        "detail": "RT26-ANCHOR correctly reports 11 of 11 cited freeze passages absent -- a reader IS told something is wrong with the freeze. But the other six accuse retention-tiers.v26.json: three RT26-B4 findings say specific *Verbatim fields carry text that 'does NOT occur in that file', with the added and false gloss 'so this is a misquotation a predecessor already carried and this artifact inherited'; two RT26-COUNT findings say the artifact's quotation counts are wrong; and one flips a published property claim outright.",
+        "sharpestInstance": "With the freeze corrupted the run prints 'RT26-B4 the section 7.7 folding is not load-bearing on these bytes: every quotation would also have been found by a raw search' -- the exact OPPOSITE of what the same instrument prints on good input ('3 of 36 would read FALSE-ABSENT under a raw byte-literal search ... so the section 7.7 folding is load-bearing'). Corrupting an input flips a published property statement.",
+        "truncatedHalfIsWorse": "TRUNCATED-HALF gives only 4 new findings: 'RT26-ANCHOR 6 of 11 absent' reads like an ordinary legitimate freeze edit, and the remaining three are substantive accusations against the subject that a reader would act on."
+      },
+      "packetCorrupted": {
+        "input": "artifacts/product-dispositions.v1.json replaced by {}",
+        "newFindings": 12,
+        "namedAsAnInputProblem": 1,
+        "detail": "One finding correctly names the packet ('the binding packet carries no CD-RT-5 row at all ... DELETED rather than amended'). The other ELEVEN accuse retention-tiers.v26.json -- nine RT26-B4 misquotation findings against $.cdRt5DecisionRecord.theTermsAsDecided.* and two RT26-COUNT findings against the artifact's quotation totals. A reader would open v26 and start repairing quotations that are correct.",
+        "mitigation": "an RT26-PIN-ADVANCED notice for the packet does appear in the banner above the findings."
+      },
+      "theFalseCLAUSE": "The two RT26-COUNT findings that fire in BOTH cases carry the fixed sentence 'this is a measurement about the artifact's own contents, WHICH CAN NEVER LEGITIMATELY ADVANCE'. That is false for those two rows. $.quotationDiscipline.verifiedAgainstTheirAttributedSource and .notFoundInTheirAttributedSource are functions of five LIVE EXTERNAL FILES, three of which this instrument itself classifies ADVANCING and describes as under concurrent edit. _self_referential_counts's own docstring says 'Counts about the surrounding TREE are deliberately NOT in this table; they are reported as notices, because the tree is what the corpus is waiting to change.' Two of its 29 rows violate that rule. This is not hostile-only: any legitimate freeze edit that rewords one of the three freeze-attributed quotations produces a RT26-COUNT finding against the artifact whose own text asserts the figure could not have moved. Measured directly: truncating the freeze yields 'verifiedAgainstTheirAttributedSource declares 37 and these bytes measure 36'.",
+      "silentCases": "Corrupting ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md or IMPLEMENTER-BLUEPRINT.md or the CD-RT-5 amendment draft, in any of the seven non-fatal ways, produces 0 new findings and only a notice. That is the correct direction for a cited-not-gated input and I record it as correct."
+    }
+  },
+
+  "blockers": [
+    {
+      "id": "IR-RTC26-B1",
+      "title": "AN UNREADABLE INPUT CRASHES WITH A TRACEBACK AT EXIT 1 -- THE EXIT CODE THE FILE RESERVES FOR FINDINGS ABOUT THE ARTIFACT. 21 MEASURED SITES.",
+      "severity": "BLOCKING",
+      "rule": "IMPLEMENTATION-FREEZE section 7.8.1 rule 3: 'An exit code a document CLAIMS must be the exit code the file PRODUCES. An instrument that misreports its own exit code is lying in the one channel a CI system reads.' Litmus D-6: 'a crash looks like a failure looks like a finding.'",
+      "measured": "chmod 000 on any one of the 20 declared inputs: uncaught PermissionError, empty stdout, exit 1. 20 of 20. Plus a subject with any dotted JSON key: uncaught KeyError from hostile_sweep -> set_path, empty stdout, exit 1; reproduced with retention-tiers.v27.json's real bytes.",
+      "whyItIsBlockingAndNotPedantry": "The file's OWN docstring makes this promise twice, in its own words: 'A missing input is RT26-INPUT-MISSING at exit 2, naming the path -- NEVER A TRACEBACK AND NEVER A FINDING' and 'Every failure above exits 2 with a named diagnostic whose text says the check did not run. Exit 1 is reserved for findings about the artifact.' A verdict that binds an environment (section 7.2) must hold in that environment; a read-only or root-owned artifact directory is an ordinary CI condition, not an attack.",
+      "cause": "verified_inputs() lines 452-458 and 470-476 test path.is_file() and then call path.read_bytes() with no guard. check_freeze_anchors line 4387 calls read_text() the same way. main() calls type_findings() and hostile_sweep() outside every try/except; run_all()'s per-driver guard does not extend to them.",
+      "repairShape": "Wrap the reads in verified_inputs, _verbatim_sources, check_freeze_anchors and main's subject read in try/except OSError -> PinRefused, so an unreadable input takes the same exit-2 path as a missing one. Wrap main's type_findings/hostile_sweep/_banner calls the way run_all wraps its drivers, and give the wrapper a distinct RT26-SWEEP-REFUSED code at exit 2 rather than a finding. Both are additive and neither touches a measurement.",
+      "notRepairableInPlace": "Section 7.2 forbids editing these bytes once reviewed. The repair is check-retention-custody-v27.py."
+    },
+    {
+      "id": "IR-RTC26-B2",
+      "title": "THE PUBLISHED LIMITS COUNT OF 13 OMITS A MEASURED CLASS OF 944 FALSIFIABLE POSITIONS, INCLUDING 20 RECORDED DIGESTS WHOSE TRUE VALUES THE INSTRUMENT ALREADY HOLDS.",
+      "severity": "BLOCKING",
+      "rule": "The file's own Section 8 header, verbatim: 'A flattering limits count is worse than none.' IMPLEMENTATION-FREEZE section 7.8: 'an instrument must re-derive its constants from the artifact it checks, or it is testing its own transcription'; and section 7.9: 'standing is DISCOVERED, not listed.'",
+      "measured": "1644 same-type value falsifications, one position at a time, scored by finding-set delta: 944 escaped (57.4%). Int/bool 480 of 788. Non-prose strings 464 of 856. Digest and identity-shaped leaves 20 of 49. Eight of the sharpest applied SIMULTANEOUSLY -- every predecessor digest in $.inheritance, the derivation's predecessorSha256, the v25 review digest, both encoder-control goldens, both encoder-control agree flags, and a falsified self-measurement -- produce a finding set BYTE-IDENTICAL TO THE BASELINE at exit 1.",
+      "whyThisIsAFOURTEENTHAndNotAReReport": "Residual 1 is scoped to prose ('every `why`, `argument`, `rationale`, `whyItMatters` and `statedCost`') and expressly excludes anything 'bound to a measurable source'. A sha256 is bound to a measurable source. Residual 8 is about a wrong TYPE rule, not a wrong VALUE. Residual 11 is about quotations OUTSIDE *Verbatim fields. Residual 13 is a blanket admission that another class probably exists -- honest, and not a limits entry.",
+      "theCorpusHasAlreadyPaidForThis": "Section 7.8 records the identical defect measured on check-delivery-v4.py -- 'a recordedInputs digest replaced by 64 f's, which launders itself through the accountability gate' -- and closed in check-delivery-v5.py. It is live here at 20 positions. Section 7.6's thesis, observed from the inside: a repair confined to one lineage does not propagate.",
+      "sharpestSubCase": "check_exception_set_closure COMPUTES step1 (posture-sensitive fields) and step2 (fields differing absent vs present-durable) and derives step3 = step2 - step1. It emits two of the seven baseline findings out of exactly that derivation. It never compares any of the three to the artifact's published step1/step2/step3 .count values, all three of which accept 9999 in silence. That is B-VER9R-01's shape (section 7.2.2): the evidence was gathered and then not used.",
+      "repairShape": "Three moves, all additive. (1) Every string leaf matching ^[0-9a-f]{64}$ or ^(rpol1|rbnd1|sha256): is a RECORDED DIGEST; walk them and compare each against the digest table the instrument already builds, keyed by the nearest path/name sibling -- discovered, not listed. (2) Replace the 29-row _self_referential_counts table with a walk that pairs each figure to a referent, and at minimum extend the single hard-coded prose regex to every measuredBoundary in the document. (3) Compare the step1/step2/step3 counts and the encoderControl agree flags to the values the instrument has already computed.",
+      "whatThisDoesNotSay": "It does not say the instrument's own findings are wrong -- they are right. It says the number 13 is not the boundary and that the file's own standard for a limits count is not met by it."
+    },
+    {
+      "id": "IR-RTC26-B3",
+      "title": "A CORRUPTED CITED-NOT-GATED INPUT EMITS SUBSTANTIVE FINDINGS AGAINST THE SUBJECT, AND TWO OF THEM CARRY A CLAUSE THAT IS FALSE BY CONSTRUCTION.",
+      "severity": "BLOCKING",
+      "rule": "IMPLEMENTATION-FREEZE section 7.8.1: 'the absence of an input became a positive, specific, plausible accusation about a completely different artifact.' Rule 2: 'Refusal must be SCOPED and NAMED.'",
+      "measured": "Emptying IMPLEMENTATION-FREEZE.md: 7 new findings, 1 naming the input (RT26-ANCHOR), 3 accusing retention-tiers.v26.json of misquotation with the false gloss 'a misquotation a predecessor already carried', 2 accusing its quotation counts, and 1 flipping a published property claim to its opposite. Replacing artifacts/product-dispositions.v1.json with {}: 12 new findings, 1 naming the input, 11 accusing the subject. Truncating the freeze by half is the worst case: 4 new findings, of which the input-naming one ('6 of 11 anchors absent') reads exactly like an ordinary legitimate edit.",
+      "theFalseClause": "Both RT26-COUNT findings that fire in these cases end with 'this is a measurement about the artifact's own contents, WHICH CAN NEVER LEGITIMATELY ADVANCE'. $.quotationDiscipline.verifiedAgainstTheirAttributedSource and .notFoundInTheirAttributedSource are computed against five LIVE external files, three of which this instrument classifies ADVANCING and calls files under concurrent edit. _self_referential_counts's own docstring excludes tree-facts from that table for exactly this reason; two of its 29 rows are tree-facts.",
+      "notHostileOnly": "This fires on a LEGITIMATE freeze advance that rewords any of the three freeze-attributed quotations. The freeze moved twice during retention-tiers.v26.json's own authoring by the artifact's own record, and it moved again during this review. This is section 7.10's failure mode -- a measurement of a moment dressed as an invariant -- inside the count table of the instrument written to implement section 7.10.",
+      "mitigationsIAmCreditingHonestly": "Unlike the sibling instrument section 7.8.1 records, this one does say something: RT26-ANCHOR names the freeze, RT26-CDRT5 names a deleted packet row, and RT26-PIN-ADVANCED prints in the banner above every finding. That is real and it is why this is a blocker rather than the same blocker.",
+      "repairShape": "Reclassify the two quotation-count rows out of the self-measurement table into the notice channel where the docstring already says tree-facts belong; and gate the RT26-B4 and RT26-COUNT quotation families on the source having been readable and non-degenerate -- if the attributed source is empty or the anchors are absent, SKIP those classes by name at a distinct code rather than reporting them, which is the named-skip shape section 7.8.1 rule 2 prescribes."
+    }
+  ],
+
+  "nonBlockingObservations": [
+    {
+      "id": "NB-1",
+      "title": "DESTROYED_PINS is a one-entry Python literal, derived from nothing, and the artifact supplies enough to derive it.",
+      "detail": "GATED and ADVANCING are cross-compared against the artifact's own gate strings in both directions on every run. DESTROYED is not compared against anything. Section 7.10's rider names this exact shape as forbidden: 'the asymmetry is not derived at all -- it is `if name in UNSATISFIABLE_PINS`, a one-entry literal, which section 7.9's standing-is-discovered-not-listed forbids.' The artifact carries the dead digest at $.productAuthorityBoundary.amendmentDraft.itsPinHistoryIsBrokenAndThatIsRecordedRatherThanRepaired.whatHappened and the file's role at $.recordedInputs.recorded[18].role, so the classification was derivable.",
+      "secondDeadDigest": "The same artifact field records that the v25 review measured the draft at 872c67be307866a645d246104a61065d1ab6c6d812618e0a40bbd837c4b0edb0 -- a SECOND unrecoverable intermediate state. DESTROYED_PINS carries only 4bbcd6fa.... A file reappearing at 872c67be... would be welcomed, not refused.",
+      "whatIVerified": "The SUBSTANCE of the classification is right and I measured it against the recovery point rather than accepting it: `git show 7cc0f8a:artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json` returns nothing, so the file is genuinely absent from the 521-file recovery commit and both digests are genuinely unrecoverable. Section 7.10 rule 3 satisfied."
+    },
+    {
+      "id": "NB-2",
+      "title": "check_exception_set_closure takes its oracle out of the subject it is checking, which Section 1 of the same file forbids in its own words.",
+      "detail": "Line 4087: `exceptions = set((exception_block.get('step3_theExceptionSetIsStep2MinusStep1') or {}).get('measured') or [])`, with the instrument's own derivation used only as a FALLBACK when that list is empty. Section 1's header states: 'Re-implemented here from the artifact's own published text, never imported from it and never read out of it: an instrument that reads its answers out of the artifact it is checking measures nothing.'",
+      "exploitability": "Widening $.partA...step3...measured to the full posture-sensitive set SUPPRESSES both of the instrument's headline RT26-N01 findings. It is caught -- by a different family, RT26-A-INV-17, which compares the published step lists against the pinned v24 cells -- so this is a non-blocking defence-in-depth gap rather than an escape. But the artifact controls the input to a check about itself, and the finding it suppresses is one of the two the instrument exists to mechanise.",
+      "repair": "Derive the exception set unconditionally and compare the artifact's published set to it, rather than preferring the artifact's."
+    },
+    {
+      "id": "NB-3",
+      "title": "get_path/set_path have an unescapable path grammar: no JSON key may contain '.' or '['.",
+      "detail": "_walk_path_keys splits on '.' with no escaping. Measured on the subject: retention-tiers.v26.json has ZERO such keys and all 2935 scalar-leaf paths round-trip exactly, so no published figure is affected. Measured on the live successor: retention-tiers.v27.json has 112 dotted keys and 564 leaf paths that do not round-trip. This is CMP-IR-01's class -- a grammar to misparse -- and section 7.3's rider records array-token paths being adopted elsewhere in this corpus specifically to escape it. It is the mechanism behind IR-RTC26-B1 case 2.",
+      "whyOnlyNonBlocking": "On these bytes it is latent, and I verified that rather than assuming it."
+    },
+    {
+      "id": "NB-4",
+      "title": "The 29-row count table and the 160-case mutation suite are both hand enumerations, and their gaps are visible in each other.",
+      "detail": "The suite mutates $.recordedInputs.recorded[0].sha256 and $.theCompanionInstrumentForThePredecessor.sha256 -- two digest positions -- and 160/160 is a true statement about the 160 the author aimed. The value sweep shows what the aim did not cover: 20 other digest positions, 480 int/bool positions and the corpusResiduals[2] prose. A suite that enumerates its own targets measures the author's attention, not the surface."
+    },
+    {
+      "id": "NB-5",
+      "title": "SUBJECT_SHA256 is a notice, not a gate -- correctly, and with one consequence worth stating.",
+      "detail": "A subject that is not the reviewed bytes runs to completion and prints 'N finding(s) in retention-tiers.v26.json'. Replacing the subject with {} yields 152 such findings at exit 1. The RT26-SUBJECT-MOVED notice does fire and does say the independent verdict does not cover these bytes, which is the honest half. I grade the choice CORRECT -- refusing would hide every other finding behind one line, and the docstring says so -- but a reader who greps for 'finding(s) in' and not for the notice gets 152 findings attributed to an artifact that is not there."
+    },
+    {
+      "id": "NB-6",
+      "title": "A quotation is verified by CONTAINMENT in its attributed source, so any true sentence from that source passes at any *Verbatim position.",
+      "detail": "Replacing $.inheritance.section72Position.ruleVerbatim with a different genuine freeze sentence produces 0 new findings. Residual 2 covers appending a reversal to a required needle; substitution of one true quotation for another is adjacent and is not named. The scoping-by-attributed-source design is a real advance over a union search and I record it as such -- the instrument catches the INHERITED misquotation case that defeated the predecessor -- but containment cannot bind WHICH passage a field quotes."
+    },
+    {
+      "id": "NB-7",
+      "title": "_KEY_RENDERING captures the quoted VALUE as group 2 and never reads it.",
+      "detail": "Line 4187: `^([A-Za-z][A-Za-z0-9_]*): (true|false|null|-?\\d+|\\\".*\\\")$`. The list-valued Verbatim branch checks only that group 1 -- the key NAME -- exists in the pinned v24. 'closingTheDialogIsNotAnAnswer: false' therefore passes while v24 holds true. The value is parsed and discarded, at the one position where the instrument has the pinned predecessor in memory and could compare."
+    },
+    {
+      "id": "NB-8",
+      "title": "The PASS line does not name the --part scope.",
+      "detail": "The banner prints 'part=a' but the green line reads 'retention-tiers.v26.json: PASS (architecture-candidate scope; CANDIDATE-NOT-APPLIED; ...)' with no mention of which parts ran. Measured: --part a reports 6 findings, --part c 4, --part d 3, --part all 7 (the 'all'-scope drivers run in every part, so these do not partition). On these bytes every part exits 1, so nothing is hidden today; on a successor where only Part C were red, --part a would print PASS."
+    },
+    {
+      "id": "NB-9",
+      "title": "The instrument's own seven findings are all sound, and two of them are genuinely new.",
+      "detail": "I adjudicated each. RT26-COUNT x2 (recordedInputs 15 vs 19, and the sibling prose) are true and I confirmed both independently. RT26-B4-CENSUS (38 *verbatim keys vs 37 declared, the one outside being list-valued) is true and I reconciled my own first walk against it -- my count was wrong, the instrument's was right. RT26-B1-SCOPE, RT26-A and RT26-N01 x2 are internally consistent with the artifact's bytes and with the pinned v24. Nothing here is tuned and nothing is padded."
+    }
+  ],
+
+  "gradingTheHardCodedSUBJECT": {
+    "question": "SUBJECT = 'retention-tiers.v26.json' is a module constant. Is hard-coding the subject right, given it forces a new instrument per artifact version, while a subject-selection option is a surface?",
+    "ruling": "RIGHT, AND FOR A STRONGER REASON THAN THE ONE USUALLY GIVEN.",
+    "whatIVerified": "Passing 'retention-tiers.v27.json' or '--subject retention-tiers.v27.json' on the command line is refused at exit 2 with RT26-UNSUPPORTED-INVOCATION and THE CHECK DID NOT RUN. I record honestly that this is NOT a subject-selection check: it is the generic unknown-option branch, which refuses every positional argument and every unrecognised flag. There is no subject option to defeat because there is no subject option.",
+    "whyItIsRight": "Not because a flag is a surface -- a flag is a small surface. Because THE INSTRUMENT IS NOT SEPARABLE FROM ITS SUBJECT. Its 20 vector ids and 24 invariant ids are frozen tuples that must equal the artifact's ids in order; its 251 INT_LEAF_NAMES and 171 BOOL_LEAF_NAMES are transcribed from these bytes; its 29-row count table names paths that exist only in this document; its census expects exactly 1 float and 6 nulls at named paths; its 160 mutations target positions by literal path. A --subject flag would let all of that run against a document it does not describe and report the result as a measurement. Section 7.2 already says a verdict binds bytes; an instrument that accepts any subject invites a verdict that binds none.",
+    "theCostIsRealAndIsPaidCorrectly": "Section 7.6 measures the cost: 93 checkers, 88 pinned at current bytes, an editable surface of 4 files. Per-artifact instruments are why. But section 7.8's answer is the one that settles it -- 'a new checker is a new file and edits nothing' -- and this file exists because that route was taken. Per-version instruments are the price of a corpus where a verdict binds bytes.",
+    "theOneThingIWouldChange": "Not the constant. The FAILURE MODE when the wrong document arrives under the right name. Today that is either 152 findings 'in retention-tiers.v26.json' or, for a document with dotted keys, an uncaught traceback at exit 1 (IR-RTC26-B1). A cheap structural precondition -- a handful of top-level keys must exist, or the check refuses at exit 2 saying THE CHECK DID NOT RUN -- would convert both into the named refusal the file already knows how to write."
+  },
+
+  "corpusHygieneChecks": {
+    "standardLibraryOnly": "VERIFIED by AST walk. copy, hashlib, itertools, json, pathlib, re, sys, typing, unicodedata. Zero third-party.",
+    "noSubprocess": "VERIFIED. 'subprocess' and 'ripgrep' appear only in the docstring, at lines 133 and 134. No os.system, popen, __import__, importlib, socket or urllib anywhere.",
+    "writesNothing": "VERIFIED BY MEASUREMENT. 594-file digest snapshot identical before and after a full run.",
+    "noCorpusArtifactNamedWhereItClaimsToDERIVE": {
+      "result": "ONE VIOLATION, AND IT IS NB-2.",
+      "detail": "Section 1 claims its reference derivations are 'Re-implemented here from the artifact's own published text, never imported from it and never read out of it.' Every Section 1 function takes explicit arguments and reads nothing from the subject -- that claim holds for Section 1. It does NOT hold one level up: check_exception_set_closure reads $.partA...step3...measured out of the subject and uses it as the exception set for the very resolution whose result it then reports as a finding, with its own derivation demoted to a fallback. Everywhere else I looked -- the census, the type sweep, the encoder, the partition, the vectors, the invariants -- the instrument recomputes and compares rather than reading."
+    },
+    "duplicateKeyRejection": "VERIFIED. Every JSON input including the subject is parsed under object_pairs_hook=_pairs, which raises on any repeated key at any depth. A duplicate-key subject is refused at exit 2 RT26-PARSE-REFUSED.",
+    "exitMatrixDistinctness": "0 clean / 1 findings / 2 did-not-run / 3 selftest-not-certifying. All four observed. Exit 3 is unconditional over a dirty base, which is the check-evidence-v9.py behaviour section 7.2 asks for. The matrix is violated only by IR-RTC26-B1's crash paths."
+  },
+
+  "whatIDidNotCheck": [
+    "WHETHER THE REFERENCE DERIVATIONS MODEL THE RIGHT THING. effective_posture, ask_performed, resolve_and_maybe_persist, effective_capability, admit_bounds and the Cap algebra were verified to EXECUTE and to drive 20 vectors and 24 invariants. I did not verify that they model what an implementer would build. This is the instrument's own residual 4 and I did not narrow it by one line.",
+    "ANY D9 DERIVATION. I did not execute check-d9-v1.14.py and did not verify a single D9 triple. The instrument's residual 5 declares this reduction in scope and I inherit it whole.",
+    "THE 160 MUTATION CASES INDIVIDUALLY. I confirmed the delta discipline in the source, confirmed 160/160, and confirmed the aim requirement (a mutation caught only by a different family is scored an escape). I did not audit whether each of the 160 targets a position worth targeting; NB-4 is what I can say about their coverage.",
+    "REACHABILITY OF ALL 294 ASSERTION SITES. 294 is a static count of emission sites that I reproduced. 160 are exercised by name by the suite and 7 fire on the live bytes. The remaining ~127 I did not prove reachable, and 'no vacuous site' is therefore NOT established by this review.",
+    "PROSE STRING LEAVES. I deliberately EXCLUDED the ~1284 prose string leaves from the value sweep, because the instrument already concedes them at residual 1. The 944 escapes I report are all at non-prose positions. The true escape surface is larger than 944 and I did not measure it.",
+    "WHETHER THE 14 GATED DIGESTS ARE THE RIGHT BYTES. I verified all 14 match the live files exactly. I did not verify that each of those files is the independently-reviewed version it is presented as.",
+    "THE SUBJECT ARTIFACT ITSELF. This is a review of an instrument. I adjudicated retention-tiers.v26.json only where the instrument's seven findings required it and where the referent sweep touched it. I did not review Part A, Part C or Part D on their merits.",
+    "PORTABILITY. Everything was measured on CPython 3.14.6, darwin arm64. I did not run under 3.9, and the MIN_PYTHON guard was verified by reading, not by executing a 3.9 interpreter.",
+    "CONCURRENCY. I did not test the instrument against inputs changing mid-run, only against inputs changed between runs.",
+    "THE SUPPRESSION DIRECTION AT SCALE. My sweeps measure what can be ADDED to an artifact without being caught. I probed suppression only at NB-2 and did not sweep for mutations that REMOVE a true finding."
+  ],
+
+  "reportingTheMeasurementOverTheExpectation": {
+    "expectationsIWasGivenThatHELD": [
+      "the dispatched digest, byte count and line count -- exact match",
+      "exit 1 with 7 findings, and exiting 1 is correct here",
+      "20/20 vectors, 20 rejected readings, 0 vacuous; 24/24 invariants from frozen id lists that equal the artifact's",
+      "160/160 mutations under delta discipline; 966 respellings 0 admitted; 790 guarded 0 unruled",
+      "census 2935 = 439 + 349 + 1 + 6 + 2140 with an int-first control of 788/0 -- recomputed independently",
+      "11 of 11 freeze anchors under section 7.7 folding, with folding shown load-bearing (raw search finds 7/11 live and 3/11 after a reflow)",
+      "the RT26-COUNT defect is real: 15 declared against 19 recorded, confirmed independently",
+      "the hard-coded SUBJECT refuses retention-tiers.v27.json at exit 2 saying THE CHECK DID NOT RUN",
+      "the pin design catches 12 of 12 attacks and stays silent on legitimate advances -- I ran 6 planned advances and got a 7th for free when the blueprint moved mid-review"
+    ],
+    "expectationsIWasGivenThatDIDNOTHOLD": [
+      "'12 of 12 attacks caught and 5 of 5 legitimate advances silent' understates the advance half: I ran 6 constructed advances plus 1 real one, all silent. The claim is conservative, not flattering.",
+      "The v27 refusal is real but is NOT a subject check. It is the generic unknown-option branch. Any positional argument produces the same message.",
+      "'294 assertion sites, 0 vacuous' -- 294 reproduces as a static count; '0 vacuous' reproduces only in the sense that no VACUOUS guard fired on live bytes. It is not established that all 294 sites are reachable, and I say so rather than passing the figure along."
+    ],
+    "theThingIWasAskedForAndFound": "The dispatch asked for a fourteenth way to pass on a wrong artifact and said today's pattern was an instrument publishing four residuals against a measured 19 escapes in 30 attempts. This instrument publishes 13, and 13 is a serious, self-critical, worked list -- residual 8 and residual 13 in particular are the marks of an author who was not flattering himself. The measured answer is nonetheless 944 escapes in 1644 attempts at non-prose positions, and the fourteenth is a class rather than an instance: every recorded digest and every self-measurement outside three hand-written tables. Twenty of those are sha256 leaves whose true values the instrument is holding in memory when it declines to check them.",
+    "theThingIWasWarnedAboutAndConfirmed": "Section 7.2.2's newest rider says a sweep scoped by KEY NAME cannot reach a figure whose key is not named like a count, and asks whether this instrument shares that defect. It does not scope by key name -- it pairs declared paths with recomputed referents, which is the right method. It scopes by HAND ENUMERATION instead, and the hole is in the same place: $.corpusResiduals[2].measuredBoundary says 18 where its own sibling says 14, and this instrument is silent. The lesson generalises past both: a table you write by hand and a sweep you scope by name fail on the same figure, for different reasons, and only a walk that enumerates by REFERENT reaches it."
+  },
+
+  "recordedInputs": {
+    "obligation": "IMPLEMENTATION-FREEZE section 7.2: every input a verdict depends on is named with its digest. A count is not a record.",
+    "note": "All digests measured on 2026-08-10 in the working tree at /Users/sb/code/opensip-ai/opensip/docs/coop.",
+    "recorded": [
+      {"path": "artifacts/check-retention-custody-v26.py", "sha256": "7402759ff6d2b1378b61d4d76727648aebf216795dce965e37c2acf7647d18b9", "role": "THE SUBJECT OF THIS REVIEW", "startEqualsEnd": true},
+      {"path": "artifacts/retention-tiers.v26.json", "sha256": "a6546408fb38df95166f0ec41b1d9d9dae0dbda580684ff8a6e94f57145ad97e", "role": "the subject's subject", "startEqualsEnd": true},
+      {"path": "artifacts/retention-tiers.v25.json", "sha256": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52", "role": "GATED pin, matches the instrument's table"},
+      {"path": "artifacts/retention-tiers.v25.review-independent.json", "sha256": "479355a5b2d4338131d952f72db45e7382ab79bdda7a5aadd70bcd7a7dc2789d", "role": "GATED pin, matches"},
+      {"path": "artifacts/retention-tiers.v24.json", "sha256": "ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277", "role": "GATED pin, matches"},
+      {"path": "artifacts/retention-tiers.v24.review-independent.json", "sha256": "633301d5fb6400858a1e10acca50aefe8e58502ef346d5f3d06f6da5cff0084a", "role": "GATED pin, matches"},
+      {"path": "artifacts/retention-tiers.v23.json", "sha256": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "role": "GATED pin, matches"},
+      {"path": "artifacts/retention-tiers.v23.review-independent.json", "sha256": "039419b49d06999d4142346f8982eadb511ab6efc635b5e116f0694d6412719f", "role": "GATED pin, matches"},
+      {"path": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "GATED pin, matches"},
+      {"path": "artifacts/check-retention-custody-v24.py", "sha256": "9a309302df6d2f1108f1fbfb4978bfc93b102eb0394c99ba7be7fc550d7fa909", "role": "GATED pin, matches"},
+      {"path": "artifacts/check-retention-custody-v23.py", "sha256": "18e94f7603869e8fdf295664f8d7eb46d9075ea8fc1791769045fb194b4a96a8", "role": "GATED pin, matches"},
+      {"path": "artifacts/check-retention-custody-v25.py", "sha256": "8e7b86d59b3276dc9ee998c059684e834a82e2d9b9d9f4c200eb1e3da9b57d2d", "role": "GATED pin, matches"},
+      {"path": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "GATED pin, matches"},
+      {"path": "artifacts/check-product-dispositions-v2.py", "sha256": "71999471340e53389227a11ee1886865b9822f4f4229f5fc83c8a4b968d4daad", "role": "GATED pin, matches"},
+      {"path": "artifacts/threat-model.v3.json", "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499", "role": "GATED pin, matches"},
+      {"path": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4", "role": "GATED pin, matches"},
+      {"path": "artifacts/product-dispositions.v1.json", "sha256": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017", "role": "ADVANCING, equal to the instrument's recorded baseline -- no notice fired"},
+      {"path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json", "sha256": "c4bd85c62ee957ba04fd9d99f8b8f780138792409eb51b79a2aff2d35d334b12", "role": "ADVANCING, equal to baseline; NOT equal to either dead digest"},
+      {"path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "role": "ADVANCING, equal to baseline"},
+      {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "199c2f77c84d3bb4133de9562d393ad181e19b0a8f790171871c6d8643124236", "role": "ADVANCING, DRIFTED from the recorded 2fedf925... -- RT26-PIN-ADVANCED notice, correct behaviour. Stable across this review."},
+      {"path": "IMPLEMENTER-BLUEPRINT.md", "sha256": "94e773e548be73e8f930e8f82c8f252653a42a0728c4fa376cb35542efc526b9", "role": "ADVANCING, DRIFTED from the recorded 7b2efc2d... AND MOVED AGAIN DURING THIS REVIEW (370691f4... -> 94e773e5...). Finding set unchanged across the move. See reviewConditions_7_2_1_item_4."}
+    ]
+  },
+
+  "reproductionInstructions": {
+    "baseline": "cd docs/coop && python3 -I -B artifacts/check-retention-custody-v26.py",
+    "selftest": "python3 -I -B artifacts/check-retention-custody-v26.py --selftest   # 160/160, exit 3, ~28s",
+    "limits": "python3 -I -B artifacts/check-retention-custody-v26.py --limits",
+    "blocker1_caseA": "In a COPY of the tree: chmod 000 on any of the 20 declared inputs, then run. Expect an uncaught PermissionError traceback, empty stdout, exit 1.",
+    "blocker1_caseB": "In a COPY of the tree: cp artifacts/retention-tiers.v27.json artifacts/retention-tiers.v26.json, then run. Expect `KeyError: 'check-adjudication'` from hostile_sweep -> set_path, empty stdout, exit 1.",
+    "blocker2": "In a COPY: set $.inheritance.predecessor.sha256, $.inheritance.predecessorReview.sha256, all three $.inheritance.predecessorLineage[*].sha256, $.derivationFromThePredecessor.predecessorSha256, $.repairsAgainstTheV25Review.reviewSha256 and both encoderControl rows' publishedInV24 to 64 f's, and both encoderControl `agree` flags to false. Expect a finding set byte-identical to the baseline.",
+    "blocker3": "In a COPY: truncate IMPLEMENTATION-FREEZE.md to half its bytes and run. Expect 4 new findings, of which 3 accuse retention-tiers.v26.json, including two RT26-COUNT findings asserting the figure 'can never legitimately advance'.",
+    "theMissedMirrorDefect": "python3 -c \"import json; d=json.load(open('artifacts/retention-tiers.v26.json')); print(d['corpusResiduals'][2]['measuredValues']['partBSurfacesLeftUnchanged'], '|', d['corpusResiduals'][2]['measuredBoundary'])\"  # prints 14 alongside prose saying 18; the instrument reports nothing",
+    "valueSweep": "Load the module with the -I/-B guard neutralised, build ctx as main() does, and for every int/bool leaf replace it with 9999 / its negation and score run_all's output against the baseline SET. ~150s for 788 positions."
+  }
+}

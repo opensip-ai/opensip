@@ -1,0 +1,762 @@
+{
+ "artifact": "canonical-json-profile.v1",
+ "version": "1",
+ "date": "2026-08-12",
+ "documentClass": "RECOVERED-SPECIFICATION-CANDIDATE",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewState": "AWAITING-INDEPENDENT-REVIEW",
+ "sealDirective": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "authorityClaim": "NONE",
+ "changesNothing": "This lane wrote exactly one file: this one. No document, artifact, checker or record in docs/coop was edited, superseded or moved. Scratch code lived outside the repository.",
+ "purpose": "opensip-canonical-json-v1 is invoked at c2-plan-stage-schema.v4#planIntent.canonicalCommitment.preimage (and at PLAN-ID-V1 preimage field 13, and in every planIntentCommitment restatement) and is defined by prose fragments plus 41 pinned vectors, but by no single specification document. This file RECOVERS the function from that evidence. It does not design it: every rule below is either forced by a named vector, stated in named prose but untested by any vector, or declared UNDETERMINED. A rule with no forcing vector is never silently completed.",
+ "recoveryMethod": {
+  "parseDiscipline": "Every JSON document read during this recovery, and this file itself when re-walked, went through a duplicate-key-rejecting object hook (386-document corpus precedent: code-only-identity-rules.sweep.v1.json).",
+  "classificationDiscipline": "Every leaf classifier tests boolean BEFORE integer. In Python, True is an instance of int; an integer-first classifier emits 1 for true, and exactly one pinned vector (valid-explicit-general-authority-forms) catches it. This is not a style preference; it is the difference between reproducing 7/7 and 6/7.",
+  "derivationDiscipline": "c2-plan-stage-schema.v10 and delivery.v3/v4 are derivations and were READ RESOLVED via artifacts/check-completeness-v2.py::resolve_derivation, never as delta files. 0 resolve errors on all three.",
+  "forcingDiscipline": "A baseline encoder was written from the prose alone and reproduced every pinned vector. Then, for each rule, the encoder was re-run with that single rule flipped to a plausible alternative; a vector that fails under the flip FORCES the rule. A rule no flip could make fail is recorded as prose-stated-vector-untested or undetermined, never promoted.",
+  "numericDiscipline": "Adopted from plan-and-policy-identity-recipes.v1#numericRepresentationRule for this file's own bytes: no JSON number and no JSON boolean occurs at any leaf of this artifact; counts are canonical decimal strings; embedded example inputs appear as canonical text or hex, never as live JSON values."
+ },
+ "statusVocabulary": {
+  "VECTOR-FORCED": "at least one named pinned vector fails under at least one named plausible alternative to the rule. The alternative and the failing count are recorded.",
+  "PROSE-STATED-VECTOR-UNTESTED": "stated by named binding prose; NO pinned vector exercises it (or a rejection rule structurally admits no positive vector). An implementation that violates it still reproduces every pinned vector -- which is precisely why it is listed rather than assumed.",
+  "UNDETERMINED": "more than one reading survives all prose AND all vectors. The competing readings and the vector that would settle them are recorded. Choosing one here would be invention; none is chosen."
+ },
+ "theRecoveredFunction": {
+  "name": "opensip-canonical-json-v1",
+  "kind": "deterministic JSON text canonicalisation over a closed data model, always immediately followed by a domain-separated SHA-256 in every use the corpus contains",
+  "dataModel": "JSON objects, arrays, strings, booleans, signed integers and null ONLY. Floating-point numbers are forbidden. (Verbatim from the primary prose source.)",
+  "primaryProseSource": "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding -- the block survives all 39 operations of the v4->v9->v10->v11 derivation chain untouched and is therefore also the resolved head's text.",
+  "rules": [
+   {
+    "id": "CJ-R01",
+    "subject": "output encoding and envelope",
+    "rule": "The encoding of a value is the UTF-8 bytes of its canonical text. No byte-order mark, no trailing newline, no outer envelope of any kind. The digest input is exactly domainBytes || 0x00 || those bytes and nothing else.",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "all 7 planIntentCommitment vectors"
+    ],
+    "alternativesRefuted": {
+     "append one trailing 0x0a": "7/7 vectors fail",
+     "omit the 0x00 separator after the domain tag": "7/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.preimage",
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.strings (UTF-8 without BOM)"
+    ]
+   },
+   {
+    "id": "CJ-R02",
+    "subject": "whitespace",
+    "rule": "No insignificant whitespace anywhere: no spaces after ':' or ',', no newlines, no indentation.",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "all 7 planIntentCommitment vectors"
+    ],
+    "alternativesRefuted": {
+     "single space after ':' and ',': ": "7/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.objects (no insignificant whitespace)"
+    ]
+   },
+   {
+    "id": "CJ-R03",
+    "subject": "object key ordering",
+    "rule": "Object members are emitted in ascending order of the member key. The comparison plane stated by prose is ascending Unicode scalar value, which is identical to ascending unsigned UTF-8 byte order. Sorting is over the unescaped key, not its serialised spelling.",
+    "status": "VECTOR-FORCED",
+    "statusScope": "FORCED against length-first ordering and against as-parsed (insertion) ordering. The PLANE is not vector-separated: every key in every pinned vector is ASCII, where Unicode-scalar-value order, UTF-8-byte order and UTF-16-code-unit order coincide. See undeterminedRegister UR-1.",
+    "forcedBy": [
+     "all 7 planIntentCommitment vectors"
+    ],
+    "alternativesRefuted": {
+     "byte length first, then lexicographic (the CBOR-style order)": "7/7 vectors fail",
+     "insertion (as-parsed) order": "7/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.objects (ascending Unicode scalar-value order)"
+    ],
+    "corroboration": "CVE1 declares its map order as unsigned lexicographic order of NFC UTF-8 key bytes, the same total order, and DCM-1-core forces it there byte-exactly (reachability before references; length-first would reverse them)."
+   },
+   {
+    "id": "CJ-R04",
+    "subject": "integers",
+    "rule": "Integers are emitted in shortest base-10 form: no leading plus, no leading zero except the single digit 0 for zero, minus sign for negatives.",
+    "status": "VECTOR-FORCED",
+    "statusScope": "FORCED for positive integers over the exercised set {1, 4, 1000, 5000, 10000, 100000, 1048576}. The zero spelling, the negative spelling and any width bound are NOT exercised by any pinned vector: no zero and no negative integer occurs anywhere in the six families' positive vectors. See undeterminedRegister UR-2.",
+    "forcedBy": [
+     "all 7 planIntentCommitment vectors (zero-padding any integer fails 7/7)"
+    ],
+    "alternativesRefuted": {
+     "zero-pad integers to three digits": "7/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.integers"
+    ]
+   },
+   {
+    "id": "CJ-R05",
+    "subject": "booleans, and boolean/integer separation",
+    "rule": "true and false are emitted as the lowercase literals true and false. A boolean is never an integer: classification MUST test boolean before integer, because in host languages where booleans subtype integers (Python bool is a subclass of int) an integer-first test silently emits 1 for true and the digest is wrong while every non-boolean vector still passes.",
+    "status": "VECTOR-FORCED",
+    "statusScope": "FORCED for the literal true and for the boolean-before-integer classification order, by exactly one vector. The literal false occurs ZERO times in the JSON-family vectors and is prose-stated only there; it IS byte-forced in the sibling CVE1 encoding (type byte 0x01) by snapshot-id-v1-minimal (executable false, sparseCheckout.enabled false).",
+    "forcedBy": [
+     "valid-explicit-general-authority-forms (two true leaves; emitting 1 for true fails this single vector and no other)"
+    ],
+    "alternativesRefuted": {
+     "classify integer before boolean (true -> 1)": "1/7 vectors fail (valid-explicit-general-authority-forms)",
+     "capitalised True": "1/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.dataModel (booleans)"
+    ]
+   },
+   {
+    "id": "CJ-R06",
+    "subject": "null",
+    "rule": "null is emitted as the lowercase literal null. Explicit nulls are significant values and are never omitted.",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "valid-minimal-analysis-intent (4 null leaves)",
+     "valid-full-profile-semantic-providers (6 null leaves)"
+    ],
+    "alternativesRefuted": {
+     "uppercase NULL": "2/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.dataModel (null)"
+    ]
+   },
+   {
+    "id": "CJ-R07",
+    "subject": "empty containers",
+    "rule": "The empty array is the two bytes [] and the empty object is the two bytes {}, with no interior whitespace. Empty containers are PRESENT, never elided.",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "valid-minimal-analysis-intent",
+     "valid-full-profile-semantic-providers",
+     "valid-explicit-general-authority-forms (between them 5 empty arrays and 19 empty objects; emitting [ ] and { } fails exactly these 3)"
+    ],
+    "alternativesRefuted": {
+     "single interior space in empty containers": "3/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding (whitespace clause)"
+    ],
+    "corroboration": "CVE1 side: DCM-7-empty-collection pins the empty array as 05 00000000, present not omitted."
+   },
+   {
+    "id": "CJ-R08",
+    "subject": "string escaping",
+    "rule": "Strings are emitted between double quotes. Escapes are the shortest required, lowercase: \\\" for quote, \\\\ for backslash, \\b \\t \\n \\f \\r for their control characters, \\u00xx lowercase hex for other code points below U+0020, and NOTHING ELSE is escaped: solidus is emitted bare, and code points at U+0020 and above (including all non-ASCII) are emitted as literal UTF-8.",
+    "status": "PROSE-STATED-VECTOR-UNTESTED",
+    "statusScope": "Only ONE clause is vector-forced: solidus-not-escaped, by valid-minimal-analysis-intent (the single '/' inside a pinned string; emitting \\/ fails that one vector). Every other clause is untested: a census of every string leaf and key across all 7 JSON-family vectors finds NO double quote, NO backslash, NO control character and NO non-ASCII code point -- the only special character that occurs anywhere is '/'. The lowercase-hex clause never fires at all.",
+    "forcedBy": [
+     "valid-minimal-analysis-intent (solidus clause only)"
+    ],
+    "alternativesRefuted": {
+     "escape solidus as \\/": "1/7 vectors fail (valid-minimal-analysis-intent)"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.strings (JSON escapes are lowercase, shortest required escapes; solidus is not escaped)"
+    ],
+    "whatWouldSettleIt": "One pinned fixture whose strings contain a double quote, a backslash, U+0007, U+001F, a short-form control such as U+000A, an accented NFC character and a supplementary-plane character. Note the corpus DOES contain strings with embedded double quotes in the CVE1 plane (planid-v1-ci-full-providers cfg values like target_arch=\"aarch64\"), but CVE1 is length-framed raw UTF-8 and never escapes, so those bytes force nothing about JSON escaping."
+   },
+   {
+    "id": "CJ-R09",
+    "subject": "array order",
+    "rule": "Array element order is preserved exactly as given. The encoder never sorts, deduplicates or otherwise repairs an array; order-bearing versus set semantics is the owning schema's declaration, enforced at admission before encoding.",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "valid-minimal-analysis-intent",
+     "valid-full-profile-semantic-providers",
+     "valid-explicit-general-authority-forms"
+    ],
+    "alternativesRefuted": {
+     "reverse every array": "3/7 vectors fail",
+     "sort every array by encoded element text": "2/7 vectors fail (valid-explicit-general-authority-forms's arrays happen to be sorted already, which is why it survives the sort flip while failing the reverse flip)"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.arrays (order is preserved exactly)"
+    ],
+    "corroboration": "Record-framing side: PDD-ORD pins the digest an implementation produces if it accepts a mis-ordered exactCoverage list -- order is preserved, not repaired, there too."
+   },
+   {
+    "id": "CJ-R10",
+    "subject": "Unicode normalisation",
+    "rule": "Prose: object keys are NFC strings; string values are NFC before encoding; keys that collide after NFC normalisation are rejected.",
+    "status": "UNDETERMINED",
+    "statusScope": "TWO readings survive every pinned vector: (a) NORMALISE-THEN-ENCODE: inputs are NFC-normalised by the encoder, key collisions created by normalisation are rejected; (b) REJECT-NON-NFC: a non-NFC input is rejected outright, as CVE1, the canonical-CBOR payload profile and the record-framing textComponent all explicitly do ('rejected rather than silently normalised'). Every string in every JSON-family vector is ASCII, hence already NFC, so no pinned vector separates the readings. The prose leans (a) for this encoder while every sibling encoding states (b); that divergence is real and is left standing here.",
+    "forcedBy": [],
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.objects (Keys are NFC strings)",
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.strings (NFC before encoding)",
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.totalityBoundary (rejects ... keys that collide after NFC normalisation)",
+     "resolved-inputs.v2.json#planIdContract.canonicalValueEncoding.constraints (a non-NFC string is rejected rather than silently normalised)"
+    ],
+    "whatWouldSettleIt": "A pinned fixture whose input contains an NFD sequence (e.g. e + U+0301): a pinned commitment over it settles NORMALISE; a pinned rejection code settles REJECT. Additionally a two-key object whose keys are NFD/NFC spellings of the same string, with a pinned rejection, would force the collision clause."
+   },
+   {
+    "id": "CJ-R11",
+    "subject": "duplicate keys",
+    "rule": "Duplicate object keys are rejected by the parser before any value exists to encode. No last-wins, no first-wins.",
+    "status": "PROSE-STATED-VECTOR-UNTESTED",
+    "statusScope": "A rejection rule admits no positive golden vector (a duplicate-key input has no canonical form to pin). It is instrument-enforced corpus-wide: the section 7.5 duplicate-key parse hook, and code-only-identity-rules.sweep.v1.json measured 386 corpus documents through a duplicate-key-rejecting parse at 0 rejections. This file was likewise built and re-walked through such a hook.",
+    "forcedBy": [],
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.objects (Duplicate keys are rejected by the parser)"
+    ]
+   },
+   {
+    "id": "CJ-R12",
+    "subject": "floating point",
+    "rule": "Floating-point numbers are outside the data model and are rejected. There is no float spelling of any committed value: 1.0 is not a spelling of 1.",
+    "status": "VECTOR-FORCED",
+    "statusScope": "Forced on the REJECTION path: three pinned mutation fixtures inject the spelling 1.0 at declared-integer positions and pin rejection (violation C2I-02, totality class float-in-declared-integer-constant). In v4 the validator's declared-integer guards run before the encoder, so the encoder-level rejection is unreachable for admitted values (totalityBoundary states this and the measured admit-then-raise finding class it closes).",
+    "forcedBy": [
+     "reject-float-schema-version-before-attempt",
+     "reject-float-descriptor-schema-version-before-attempt",
+     "reject-float-stored-view-schema-version-before-attempt"
+    ],
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.encoding.dataModel (floating-point numbers are forbidden)",
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.totalityBoundary"
+    ],
+    "corroboration": "Sibling encoders reject a float where an integer is declared (plan-and-policy REJ-6) because canonicalUnsignedDecimal is total only on int; CVE1 forbids floats outright; the canonical-CBOR profile forbids floating point."
+   },
+   {
+    "id": "CJ-R13",
+    "subject": "non-string keys and non-model leaves",
+    "rule": "Object keys are strings; a non-string key is rejected. Any leaf outside the closed model (objects, arrays, strings, booleans, signed integers, null) is rejected.",
+    "status": "PROSE-STATED-VECTOR-UNTESTED",
+    "statusScope": "Unreachable from JSON text input (JSON syntax admits only string keys); binding for host-side constructors. Stated by totalityBoundary; no pinned vector exists or could exist from wire input.",
+    "forcedBy": [],
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment.totalityBoundary (rejects ... non-string object keys)"
+    ]
+   },
+   {
+    "id": "CJ-R14",
+    "subject": "domain-separated digest and text form",
+    "rule": "planIntentCommitment = SHA-256( UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent) ), rendered as sha256: followed by 64 lowercase hexadecimal digits. The NUL terminator after the domain label is structural (no admitted domain label may contain U+0000, so no two (domain, payload) pairs share a preimage).",
+    "status": "VECTOR-FORCED",
+    "forcedBy": [
+     "all 7 planIntentCommitment vectors (omitting the NUL fails 7/7)",
+     "CD-4 (the text form is byte-consequential downstream: a sha256:-prefixed capabilityManifestId where the bare form is declared lengthens the PLAN-ID-V1 preimage from 2500 to 2507 bytes and pins a different PlanId)"
+    ],
+    "alternativesRefuted": {
+     "UTF8(domain) || canonical bytes with no NUL": "7/7 vectors fail"
+    },
+    "proseSources": [
+     "c2-plan-stage-schema.v4.json#planIntent.canonicalCommitment (preimage, digest, textEncoding)",
+     "c2-plan-intent.adjudication-admission-storage-lane.v1.json#bindingRecipe"
+    ]
+   }
+  ]
+ },
+ "jcsHazardMeasured": {
+  "claim": "On the pinned inputs, RFC 8785 (JCS) is byte-indistinguishable from opensip-canonical-json-v1.",
+  "measurement": "A faithful JCS serializer (UTF-16 code-unit key ordering, ECMAScript number serialisation, no NFC treatment, float-tolerant data model) reproduces 7/7 planIntentCommitment vectors byte-exactly, because every pinned key is ASCII, every pinned integer is a positive integer far below 2^53, and no pinned string exercises normalisation or escaping beyond the solidus clause.",
+  "consequence": "Green vectors do NOT certify a JCS implementation as opensip-canonical-json-v1. The two functions differ on the ordering plane (Unicode scalar value versus UTF-16 code units -- divergent for keys mixing supplementary-plane characters with U+E000..U+FFFF), on the data model (floats rejected here, serialised there), and on NFC treatment (present here in one of two undetermined forms, absent there). All three differences live entirely in the vector-untested region, which is why this file lists them as UR-1, UR-2 and CJ-R10 rather than presenting a green suite as proof.",
+  "doNotDoThis": "Do not implement JCS (or RFC 8949, or any named standard) and check it against the vectors. Implement the rules above. The vectors cannot see the difference today; the first non-ASCII key or first NFD string in a committed PlanIntent will."
+ },
+ "orderingPlanes": {
+  "why": "The corpus canonicalises with THREE different member orders in three different encodings. They are not interchangeable, each is vector-forced in its own plane, and two of them look identical on small ASCII inputs. A recovery that unified them would reproduce zero families.",
+  "planes": [
+   {
+    "encoding": "opensip-canonical-json-v1 objects, and CVE1 string-keyed maps",
+    "order": "ascending unsigned lexicographic order of (NFC) UTF-8 key bytes == ascending Unicode scalar value of the key",
+    "forcedBy": "all 7 planIntentCommitment vectors (JSON side); DCM-1-core (CVE1 side: relations commit as calls, imports, reachability, references, types -- length-first would put references before reachability)"
+   },
+   {
+    "encoding": "canonical-CBOR relation payloads (FACT-ID-V1 tag 13)",
+    "order": "bytewise ascending order of the DETERMINISTIC ENCODINGS of the keys (RFC 8949 core deterministic). Because the CBOR text header embeds the byte length monotonically, this is extensionally length-first-then-lexicographic for text keys.",
+    "forcedBy": "fact-id-v1-typescript-declares: payload commits as declared(8), container(9), declarationKind(15); raw-key lexicographic order (container first) fails the vector"
+   },
+   {
+    "encoding": "R-A/R-B record-framing sorted lists (candidate lineage)",
+    "order": "ascending bytewise order of COMPLETE ITEM RECORD BYTES, compared BEFORE the item frame is applied (evaluation-proof.v8 sortedLists rule, carried by plan-and-policy sharedPrimitives). Because field frames carry uint32be lengths, this is length-first on the leading field.",
+    "forcedBy": "CAP-1-core: relations commit as file(4), calls(5), types(5), clones(6)...; raw-key lexicographic fails (calls would precede file) AND framed-item comparison fails (types' 25-byte record would precede calls' 37-byte record -- measured during this recovery as a first-attempt divergence, then corrected from the published record hex)"
+   }
+  ]
+ },
+ "liveContradictionConfronted": {
+  "site": "rust-provider-protocol.v2.json#canonicalCbor",
+  "theTwoTexts": {
+   "standard": "RFC 8949 core deterministic encoding",
+   "mapOrder": "Sort keys first by byte length of the deterministic-CBOR encoded text key, then lexicographically by those unsigned encoded bytes."
+  },
+  "whatTheVectorsSupport": "BOTH, simultaneously, because on this data model they are the SAME total order. Measured: re-encoding both FACT-ID-V1 decodedRelationPayloads under (a) RFC 8949 bytewise-encoded-key order and (b) the mapOrder sentence produces byte-identical output, both matching the pinned canonicalRelationPayloadHex; a third order (raw key text ignoring the header) separates and FAILS vector fact-id-v1-typescript-declares.",
+  "whyTheyCoincide": "For definite-length, minimal-header TEXT keys, the CBOR initial byte(s) encode the byte length monotonically, so bytewise comparison of encoded keys decides by length first and content second -- which is exactly the mapOrder sentence. The two texts diverge only where a map key is not a text string (for example a byte-string key: text 'z' encodes 617a, byte h'0000' encodes 420000; RFC 8949 orders the byte string first, the length rule orders the text first). The same block forbids non-text map keys, so the divergence is UNREACHABLE inside the declared model.",
+  "disposition": "NOT a byte-level contradiction on the closed model; an intensional double-description with an unreachable divergence. Neither reading is selected here. If a successor ever admits non-text keys, the two sentences MUST be reconciled first, and a single vector with a byte-string key would then separate them.",
+  "relatedButDistinct": "The R-A/R-B sorted-list order and the CVE1 map order (see orderingPlanes) are genuinely different orders from each other; that difference is vector-forced and is not part of this contradiction."
+ },
+ "siblingEncodings": {
+  "note": "These are NOT opensip-canonical-json-v1, but the 41-vector evidence set commits through them, they share the NFC/no-float/duplicate-reject discipline, and an implementer reproducing the full vector set needs all of them. Stated here exactly as the vectors force them.",
+  "CVE1": {
+   "source": "resolved-inputs.v2.json#planIdContract.canonicalValueEncoding (normative)",
+   "encodings": {
+    "null": "00",
+    "false": "01",
+    "true": "02",
+    "unsigned-64": "03 || u64be(value)",
+    "NFC-UTF8-string": "04 || u32be(byteLength) || UTF8(value)",
+    "array": "05 || u32be(elementCount) || elements",
+    "string-keyed-map": "06 || u32be(entryCount) || (CVE1(key) || CVE1(value))* sorted by unsigned lexicographic order of NFC UTF-8 key bytes",
+    "negative-signed-64": "07 || i64be(two's complement)"
+   },
+   "constraints": "strings must already be NFC (rejected otherwise); duplicate map keys rejected; floats and byte strings forbidden (a digest travels as its lowercase-hex string form); arrays preserve order unless the owning field declares set semantics, in which case the set is sorted and deduplicated BEFORE encoding",
+   "classificationTrap": "CVE1 is TOTAL on booleans and strings: true encodes as 02 and \"1\" as 04 00000001 31, both well-formed. Type admission is a gate BEFORE encoding, never a property of the encoder (delivery's ADM-TYPE; NEG-TYPE-1/2 publish the wrong ids a lax admitter mints).",
+   "forcedBy": "all 24 CVE1-family reproductions in the vector index, including the 1080/2500/8208/940/924-byte pinned preimage lengths and seven decode(encode(x))==x round-trips"
+  },
+  "canonicalCborPayload": {
+   "source": "rust-provider-protocol.v2.json#canonicalCbor (profile) with the payload vectors pinned at fact-plane.v1.json#factRecordContractV1.vectors",
+   "profile": "definite lengths only, minimal-length arguments, text-keyed maps, RFC 8949 core deterministic key order (see liveContradictionConfronted), no floats, no negative integers, no tags, NFC text, duplicate keys rejected, decode-reencode byte equality",
+   "entryIntoIdentity": "the payload bytes enter FACT-ID-V1 as LOWERCASE HEX TEXT at tag 13, because CVE1 deliberately has no byte-string type"
+  },
+  "recordFramingSuite": {
+   "source": "plan-and-policy-identity-recipes.v1.json#sharedPrimitives (adopting evaluation-proof.v8#normativePreimageGrammar), grammars at #R-A-capabilityManifestId.recordGrammars and #R-B-policyOutcomeDerivationDigest.recordGrammar",
+   "componentFrame": "C(t, b) = uint8(t) || uint32be(byteLength(b)) || b",
+   "recordShape": "BARE record tag byte (0x40/0x50/0x60/0x70/0x80/0x90/0xa0/0xb0/0xc0), NO length prefix, followed by the concatenated field frames -- stated in no grammar table, recoverable only from the published hex, and confirmed here against PDD-1's completeRecordHex (the same friction implementer-litmus.v4 IL4-03 records)",
+   "leafAndOuter": "root = SHA-256(0x00 || uint64be(byteLength(record)) || record); preimage = 0x30 || C(0x31, UTF8(namespace)) || C(0x32, ASCII(domain)) || C(0x33, root); digest = SHA-256(preimage)",
+   "textComponent": "NFC-normalised UTF-8, no BOM, non-empty, at most 4096 bytes, excludes U+0000..U+001F and U+007F; non-NFC input REJECTED not normalised",
+   "canonicalUnsignedDecimal": "ASCII digits, zero is the single byte 0x30, otherwise no leading zero, no sign/separators/exponent; total only on int (a float or boolean at an integer position raises)",
+   "sortedLists": "sort complete item record bytes ascending BEFORE item framing (see orderingPlanes plane 3)",
+   "lineageWarning": "R-A (record-framed capabilityManifestId, bare-hex e109fd46... for core) is the SUPERSEDED candidate; the applied DELIVERY head commits the SAME manifest via CVE1 to 508f24c7.... Both vector sets reproduce; only DELIVERY's is the live recipe. See discrepancyRegister DR-1."
+  },
+  "jxCanonExcluded": {
+   "name": "opensip-jx-canon-v1",
+   "why": "A THIRD JSON-adjacent canonicalisation exists at resolved c2 v10+ documentIdentityEncoding (FRAME(tag,payload) = tag || DECIMAL(N) || ':' || payload, member sort by key token) for document-skeleton digests. It is NOT opensip-canonical-json-v1, its number production was repaired between v10 and v11 (the n1:1 versus n3:1.0 defect), and nothing in this file describes it. Named here solely so no reader conflates the two."
+  }
+ },
+ "recipeRegistry": {
+  "note": "Every recipe the vector index commits through, with exact domain constants. All domains terminate in one NUL inside the preimage except where a length-framed component is declared instead (record-framing suite).",
+  "recipes": [
+   {
+    "id": "planIntentCommitment",
+    "preimage": "UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent)",
+    "digest": "SHA-256",
+    "text": "sha256:<64 lowercase hex>",
+    "owner": "C-2"
+   },
+   {
+    "id": "SNAPSHOT-ID-V1",
+    "preimage": "UTF8(\"opensip.snapshot-id\") || 0x00 || u16be(1) || CVE1(SnapshotDescriptorV1)",
+    "digest": "SHA-256",
+    "text": "snap1:sha256:<64 lowercase hex>",
+    "owner": "RESOLVED-INPUTS"
+   },
+   {
+    "id": "PLAN-ID-V1",
+    "preimage": "UTF8(\"opensip.plan-id\") || 0x00 || u16be(1) || u16be(13) || thirteen frames (uint8 tag || uint32be len || CVE1(value)) in ascending tag order: 1 snapshotId, 2 planSchemaMajor, 3 release, 4 invocationProfile, 5 resolvedConfiguration, 6 scope, 7 changeSpec, 8 contributions, 9 semanticUniverses, 10 capabilityGrants, 11 workflow, 12 budgets, 13 planIntentCommitment",
+    "digest": "SHA-256",
+    "text": "plan1:sha256:<64 lowercase hex>",
+    "owner": "RESOLVED-INPUTS"
+   },
+   {
+    "id": "FACT-ID-V1",
+    "preimage": "UTF8(\"opensip.fact-id\") || 0x00 || u16be(1) || u16be(14) || fourteen frames in ascending tag order: 1 snapshotId, 2 relation, 3 layer, 4 producer, 5 producerVersion, 6 schemaVersion, 7 resolution, 8 confidenceMillionths, 9 language, 10 sourceUniverseId, 11 targetUniverseId, 12 relationSchemaId, 13 canonicalRelationPayload (lowercase hex text of the canonical-CBOR payload), 14 anchors",
+    "digest": "SHA-256",
+    "text": "fact:sha256:<64 lowercase hex>",
+    "owner": "FACT-PLANE"
+   },
+   {
+    "id": "CAP-MANIFEST-ID-V1 (applied)",
+    "preimage": "UTF8(\"opensip.capability-manifest.v1\") || 0x00 || CVE1(CapabilityManifestV1)",
+    "digest": "SHA-256",
+    "text": "bare 64 lowercase hex, NO scheme prefix (fixed by PLAN-ID field 3's regex; CD-4 pins what the prefixed form costs)",
+    "owner": "DELIVERY"
+   },
+   {
+    "id": "POLICY-DERIVATION-DIGEST-V1",
+    "preimage": "0x30 || C(0x31, UTF8(\"opensip.r1-core.v1\")) || C(0x32, ASCII(\"policy-derivation-v1\")) || C(0x33, SHA-256(0x00 || uint64be(len(record)) || PolicyDerivationInputV1 record))",
+    "digest": "SHA-256",
+    "text": "sha256:<64 lowercase hex>",
+    "owner": "R-1 (applied into the v1.6 head 2026-08-05)"
+   }
+  ]
+ },
+ "vectorIndex": {
+  "readingRule": "expected values are transcribed from the named source artifacts; every one was reproduced byte-exactly by the recovery encoders described in reproductionLog. 'resolved' means the source is a derivation head materialised with artifacts/check-completeness-v2.py::resolve_derivation, per the corpus's own reading instruction.",
+  "families": [
+   {
+    "family": "planIntentCommitment",
+    "encoder": "opensip-canonical-json-v1 (the recovered function itself)",
+    "source": "c2-plan-stage-schema.v4.json#planIntentFixtures (the 7 fixtures carrying expectedCommitment; the recipe and fixtures survive unchanged into the resolved v11 head)",
+    "count": "7",
+    "vectors": [
+     {
+      "id": "valid-minimal-analysis-intent",
+      "expected": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+      "preimageBytes": "2463"
+     },
+     {
+      "id": "valid-full-profile-semantic-providers",
+      "expected": "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1",
+      "preimageBytes": "4084"
+     },
+     {
+      "id": "valid-explicit-general-authority-forms",
+      "expected": "sha256:74f45024004c331c2eaaeebc82b30cef696b10a76fd412091331c745e0922748",
+      "preimageBytes": "4210"
+     },
+     {
+      "id": "valid-stored-view-show-run-no-attempt",
+      "expected": "sha256:2f78d8b4c9901151baeb125705b2b76c89b05eb8c1f0c2ae877c433e76c3f9ee",
+      "preimageBytes": "522"
+     },
+     {
+      "id": "valid-stored-view-list-artifacts-no-attempt",
+      "expected": "sha256:3ecb262230775f010e3fe8f7852715fea6517666552a070ffa9dbb857f778f4c",
+      "preimageBytes": "532"
+     },
+     {
+      "id": "valid-stored-view-read-artifact-no-attempt",
+      "expected": "sha256:b10db096c1fb8056ba4c34ab473b5b7be7d7e2c233163beb4cfcaabf70054fc6",
+      "preimageBytes": "633"
+     },
+     {
+      "id": "valid-stored-view-read-fact-view-no-attempt",
+      "expected": "sha256:da8fcd27e6aae1321670d30fb65eae4de6eeb70d87b2dd70277604d35778e2d8",
+      "preimageBytes": "622"
+     }
+    ]
+   },
+   {
+    "family": "SNAPSHOT-ID-V1",
+    "encoder": "CVE1 over SnapshotDescriptorV1, domain opensip.snapshot-id",
+    "source": "resolved-inputs.v2.json#snapshotIdContract.goldenVectors (c2-plan-stage-schema.v4 binds this contract by reference at its snapshotId wire type)",
+    "count": "3",
+    "vectors": [
+     {
+      "id": "snapshot-id-v1-minimal",
+      "expected": "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6",
+      "preimageBytes": "1080"
+     },
+     {
+      "id": "snapshot-id-v1-file-content-changes-identity",
+      "expected": "snap1:sha256:4dd7c082ea64426dcb369ff97d33e316c93e234f8d9e6ff18a0610f2ed8e4c9f"
+     },
+     {
+      "id": "snapshot-id-v1-full-project",
+      "expected": "snap1:sha256:ef38e14b437c9208d7dc63c752023d11c2c41c97a157f13c9e0e50184b9c25b5"
+     }
+    ]
+   },
+   {
+    "family": "PLAN-ID-V1",
+    "encoder": "CVE1 field frames (13 tags), domain opensip.plan-id; field 13 carries the opensip-canonical-json-v1 commitment as a string, so every vector here transitively exercises the JSON profile",
+    "source": "resolved-inputs.v2.json#planIdContract.goldenVectors, plus the EPC-V1 separation vector at resolved c2-plan-stage-schema.v10#planIntent.attemptAndExecutionJoin.executionPlanCommitment.vectors[0]",
+    "count": "5",
+    "vectors": [
+     {
+      "id": "planid-v1-ci-minimal",
+      "expected": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+      "preimageBytes": "2500"
+     },
+     {
+      "id": "planid-v1-budget-changes-identity",
+      "expected": "plan1:sha256:ce413a1752b7ebc29fce10e6c24a70fe24c830fdb1490420d9292d3adcf24b9a"
+     },
+     {
+      "id": "planid-v1-local-layer4-keyed",
+      "expected": "plan1:sha256:1820fb587ce3d0a3f19d5bfb1737af9e8b8705948cbb39d4f38050684fee7c8b"
+     },
+     {
+      "id": "planid-v1-ci-full-providers",
+      "expected": "plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401",
+      "preimageBytes": "8208",
+      "note": "the nine admissionDescriptorEquality fields are taken verbatim from c2 fixture valid-full-profile-semantic-providers intent.analysis.admissionDescriptor, dropping schemaVersion; field 13 is that fixture's pinned JSON commitment sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1"
+     },
+     {
+      "id": "EPC-V1-snapshot-separation",
+      "expected": "armA plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4 unchanged, armB plan1:sha256:6dcb73e1819853cdc83a60164437510637fa8da26121294fe860ff586934b61d",
+      "note": "same PlanIntent, different snapshot: planIntentCommitment sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d byte-identical across arms, planId moves. Executes the alias ruling."
+     }
+    ]
+   },
+   {
+    "family": "FACT-ID-V1",
+    "encoder": "CVE1 field frames (14 tags), domain opensip.fact-id; tag 13 carries the canonical-CBOR relation payload as lowercase hex text",
+    "source": "fact-plane.v1.json#factRecordContractV1.vectors (the task brief reaches these through code-only-identity-rules.sweep.v1.json, which verifies the same contract)",
+    "count": "2",
+    "vectors": [
+     {
+      "id": "fact-id-v1-typescript-declares",
+      "expected": "fact:sha256:3e03d85a3782f4938182eaa5e850a9a84311107b6ed9d9855eccaa52803ba59e",
+      "preimageBytes": "940"
+     },
+     {
+      "id": "fact-id-v1-rust-cross-universe-call",
+      "expected": "fact:sha256:792bb5ba256aa994ecdcb9fd5a53834a362fdc6bf92af27085d53ac7bb56c49b",
+      "preimageBytes": "924"
+     }
+    ]
+   },
+   {
+    "family": "CAP-MANIFEST-ID-V1 (applied DELIVERY recipe)",
+    "encoder": "CVE1 over CapabilityManifestV1, domain opensip.capability-manifest.v1, bare-hex text form",
+    "source": "resolved delivery.v3.json#capabilityManifestIdentity.vectors.byId; the applied head delivery.v4.json re-pins six of the seven ids unchanged and REPLACES DCM-5-non-ascii with a successor (see discrepancyRegister DR-2)",
+    "count": "7",
+    "vectors": [
+     {
+      "id": "DCM-1-core",
+      "expected": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+      "committedBytes": "1129"
+     },
+     {
+      "id": "DCM-2-typescript-deep",
+      "expected": "9d8c187c6cf67e2e47c1b14c5f9e8faa230e2726a56b4dc6030d9fbe4ceca32b",
+      "committedBytes": "1211"
+     },
+     {
+      "id": "DCM-3-rust-deep",
+      "expected": "a0e6562e43a8d5c0edfdbb83a04da2fbb18cb4e69ec2e9faf4530b298828759e",
+      "committedBytes": "1193"
+     },
+     {
+      "id": "DCM-4-full",
+      "expected": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58",
+      "committedBytes": "1395"
+     },
+     {
+      "id": "DCM-5-non-ascii",
+      "expected": "99d6196ba7374896f8db3274b4c042a81b1206a5e23baeeda84b858069460f61",
+      "committedBytes": "414",
+      "note": "delivery.v3 generation; the v4 successor pins ee804335b57e49c37ff2f7a2626b3230d161a5558d5bdb061eba6bb5e9ba512e at 410 committed bytes -- both reproduce (see discrepancyRegister DR-2)"
+     },
+     {
+      "id": "DCM-6-sort-rule",
+      "expected": "f98f1a134a148b4dff2e9d80969fa0d04522d3a04f138b2ec6bade3bee8a71f2",
+      "committedBytes": "490"
+     },
+     {
+      "id": "DCM-7-empty-collection",
+      "expected": "0ff319483f20c5693b8830d2061b5db731e951b991b56834dd9a82394a53e586",
+      "committedBytes": "303"
+     }
+    ]
+   },
+   {
+    "family": "POLICY-DERIVATION-DIGEST-V1 candidate suite",
+    "encoder": "componentFrame record grammar (bare record tag, framed fields), leaf 0x00||uint64be(len)||record, outer 0x30 || C(0x31,namespace) || C(0x32,domain) || C(0x33,root)",
+    "source": "plan-and-policy-identity-recipes.v1.json#testVectors -- CANDIDATE-NOT-APPLIED lineage; the R-B recipe was applied into the R-1 head (r1-lifetime-neutrality.conformance.v1.6#policyDerivationIdentity) on 2026-08-05, while R-A was superseded by DELIVERY's CVE1 recipe (see discrepancyRegister DR-1)",
+    "count": "17",
+    "countReading": "8 PDD + PDD-ORD + XD-1..4 + CD-1..4. The same file also pins 6 candidate-era CAP vectors and 5 PID vectors; the CAP-1..6 set was additionally reproduced and is indexed under extras.",
+    "vectors": [
+     {
+      "id": "PDD-1",
+      "expected": "sha256:bfb1c51fdd19b1bce4779df579f8d772ca070f03232d29a2f9d8904b00b2f33b",
+      "recordBytes": "513"
+     },
+     {
+      "id": "PDD-2",
+      "expected": "sha256:07c2ab2f71af204bf37b458681325b454b47a1b0cbce20ef24c566bdca8b24e6",
+      "recordBytes": "542"
+     },
+     {
+      "id": "PDD-3",
+      "expected": "sha256:d7c3724ca6329e687fa3496329879ef0db9784192233d7332ba3c2525fdb0ae5",
+      "recordBytes": "542"
+     },
+     {
+      "id": "PDD-4",
+      "expected": "sha256:ed916ee9ae35aa2f626e6ad1fe8f2f27006f038320b5beb68d76549906d834cf",
+      "recordBytes": "550"
+     },
+     {
+      "id": "PDD-5",
+      "expected": "sha256:731219b5a524c936137ff33274297e2e9da6616a46832c826248e00e96d46827",
+      "recordBytes": "620"
+     },
+     {
+      "id": "PDD-6",
+      "expected": "sha256:3210eaa783e2bc1fc13a0bbd9cb44ea4fdac7b4a11fe97a496f0d0388d3dde4f",
+      "recordBytes": "539"
+     },
+     {
+      "id": "PDD-7",
+      "expected": "sha256:c62f1e5ebdeda56ba2d4799a5053c78a58e66300f836b831dce380ff271fd809",
+      "recordBytes": "606"
+     },
+     {
+      "id": "PDD-8",
+      "expected": "sha256:306f6f2109656255d6c403511d201cfda807e7a497d25c5eea78f7533a5c21d1",
+      "recordBytes": "513"
+     },
+     {
+      "id": "PDD-ORD",
+      "expected": "sha256:b16abd1bd9ddee42623179f9daab3db68bd9ab91b4bf46676670cbc0c92450da",
+      "note": "reversed exactCoverage -- order preserved, not repaired"
+     },
+     {
+      "id": "XD-1",
+      "expected": "8aea3a541e2833a7ea4fc415d110cce33f1fad8167772e9d75120c25b431beab",
+      "note": "PDD-1 record under (opensip.delivery.v1, capability-manifest-v1)"
+     },
+     {
+      "id": "XD-2",
+      "expected": "2cca5b9be4aec9a5258060bfddf6f7f3b6afdd2e6007e8450a02b7a24466a3eb",
+      "note": "CAP-1 record under (opensip.r1-core.v1, policy-derivation-v1)"
+     },
+     {
+      "id": "XD-3",
+      "expected": "7827e695088e3538b780681c234685300b2fc34974d606c486c4d6f887984468",
+      "note": "CAP-1 record under (opensip.delivery.v1, policy-derivation-v1)"
+     },
+     {
+      "id": "XD-4",
+      "expected": "fd0c081c7303f7a774320fed8bc33efdc09b70c4d8a21dd951acad9d0f3de643",
+      "note": "CAP-1 record under (opensip.evaluation-proof.v2, capability-manifest-v1)"
+     },
+     {
+      "id": "CD-1",
+      "expected": "ab3170f7b31c2eeac1e20be35e249efe9a829e719ecd314866a2f1dbaa747c57",
+      "note": "counter-digest: leaf length framed uint32be instead of uint64be -- the single easiest way to produce a plausible wrong digest"
+     },
+     {
+      "id": "CD-2",
+      "expected": "9f2c8eda303facbd26b7fe135bc9e6b4a7b4f2457937eb2bd035a77da5bea34b",
+      "note": "counter-digest: outer frame omits the domain component 0x32 entirely"
+     },
+     {
+      "id": "CD-3",
+      "expected": "6ed812ca9f7b4afc673eca70cc952791ecf8747f406038c2d7eedbc070c2f189",
+      "note": "counter-digest: the record is hashed directly, with no leaf frame and no outer frame -- i.e. the recordSha256 mistaken for the identity"
+     },
+     {
+      "id": "CD-4",
+      "expected": "plan1:sha256:7cfe5a2f0b90e14c7f800e490e98dbe2fb16fc23a78d3abd88f836b0e6eabba0 at 2507 preimage bytes; correct plan1:sha256:24eaf6d01b5466b9e1adfb0bfab66594de79b83197f2b4432e989c2a163a3bfe at 2500",
+      "note": "sha256:-prefixed capabilityManifestId in PLAN-ID field 3 versus the declared bare hex"
+     }
+    ]
+   }
+  ],
+  "extras": {
+   "candidateCapVectors": "All six reproduced (CAP-1..4 from the delivery.v2 authoring JSON, CAP-5/6 from their published record hex); these pin the SUPERSEDED R-A record-framing recipe, not the applied CVE1 recipe: CAP-1-core e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4 (914-byte record), CAP-2-typescript-deep 8971705a41019d89b4205b3d5c643d8eeeb5c12dbba34457caf5134bfa84b6a6 (953-byte record), CAP-3-rust-deep 3bbcf4321e98d89327ac0a56bc5bbb531f0f82d492e4b9c88348d3577e303942 (935-byte record), CAP-4-full bda5e9efb6598097f8681037bc7b1d5d2b6765b4e117045ce9278168b4084742 (1118-byte record), CAP-5-non-ascii 07c67f867cf2cf3c95c1646f7bbbf9c1e974106f67588b0f0369e587879fd4d4 (252-byte record), CAP-6-ordering ea6b719baa6b49784fbdf07a068dd1e505d610eac8503eb75e29b94dfbe121f3 (217-byte record)",
+   "deliveryV4Dcm5Successor": "ee804335b57e49c37ff2f7a2626b3230d161a5558d5bdb061eba6bb5e9ba512e over 410 committed bytes, reproduced. See discrepancyRegister DR-2."
+  }
+ },
+ "workedExamples": {
+  "rule": "Every value below was computed by the recovery encoders and equals its corpus pin byte-for-byte. A reviewer starts from bytes: re-derive each digest from the published hex with one SHA-256 and re-derive the hex from the stated input and rules.",
+  "WE-1-json-full-chain": {
+   "demonstrates": "opensip-canonical-json-v1 end to end on the smallest pinned fixture",
+   "fixture": "c2-plan-stage-schema.v4.json#planIntentFixtures id valid-stored-view-show-run-no-attempt",
+   "inputAsCanonicalText": "{\"intentKind\":\"stored-view\",\"schemaVersion\":1,\"storedView\":{\"projectId\":\"prj1-0000000000000000000000000000000000000000000000000000000000000000\",\"query\":{\"operation\":\"show-run\"},\"resultSelector\":\"run-manifest\",\"retentionSelector\":{\"onUnavailable\":\"typed-unavailable\",\"requiredState\":\"live\"},\"target\":{\"kind\":\"sealed-run\",\"runId\":\"run1:4444444444444444444444444444444444444444444444444444444444444444\",\"sealedManifestDigest\":\"sha256:5555555555555555555555555555555555555555555555555555555555555555\"}}}",
+   "inputNote": "the canonical text IS a faithful serialisation of the input value (that is the point of a canonical form); parse it to recover the input. Key order in the pinned fixture's authoring bytes differs; the commitment is over THIS ordering.",
+   "preimageHex": "6f70656e7369702e706c616e2d696e74656e742e7631007b22696e74656e744b696e64223a2273746f7265642d76696577222c22736368656d6156657273696f6e223a312c2273746f72656456696577223a7b2270726f6a6563744964223a2270726a312d30303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030222c227175657279223a7b226f7065726174696f6e223a2273686f772d72756e227d2c22726573756c7453656c6563746f72223a2272756e2d6d616e6966657374222c22726574656e74696f6e53656c6563746f72223a7b226f6e556e617661696c61626c65223a2274797065642d756e617661696c61626c65222c2272657175697265645374617465223a226c697665227d2c22746172676574223a7b226b696e64223a227365616c65642d72756e222c2272756e4964223a2272756e313a34343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434222c227365616c65644d616e6966657374446967657374223a227368613235363a35353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535353535227d7d7d",
+   "preimageStructure": "bytes 0..21 = UTF8(\"opensip.plan-intent.v1\"), byte 22 = 00, bytes 23..521 = UTF-8 of the canonical text (499 bytes; total 522)",
+   "digest": "sha256:2f78d8b4c9901151baeb125705b2b76c89b05eb8c1f0c2ae877c433e76c3f9ee",
+   "matchesPin": "byte-exact"
+  },
+  "WE-2-cve1-full-chain": {
+   "demonstrates": "CVE1 over a full descriptor: map sort, nested maps/arrays, null (00), false (01), unsigned-64 (03), empty array (05 00000000)",
+   "fixture": "resolved-inputs.v2.json#snapshotIdContract.goldenVectors.positive[0] id snapshot-id-v1-minimal",
+   "preimageHex": "6f70656e7369702e736e617073686f742d696400000106000000070400000007636170747572650600000006040000000e70617468436f6d70617269736f6e040000000e636173652d73656e736974697665040000000d70617468536570617261746f7204000000012f040000000c7265616453657450617468730500000001040000000a7372632f6c69622e7273040000000d73796d6c696e6b506f6c69637904000000157265636f72642d6c696e6b2d6e6f2d666f6c6c6f770400000014756e69636f64654e6f726d616c697a6174696f6e04000000174e46432d72656a6563742d6e6f6e63616e6f6e6963616c040000001076616c69646174696f6e4d6574686f64040000001c646f75626c652d726561642d737461742d616e642d636f6e74656e740400000007656e747269657305000000010600000005040000000a627974654c656e67746803000000000000000e040000000d636f6e74656e74536861323536040000004031366332666361396533373139333634353864303135373662346361333131633232643136366134353533396363626339313034383233643062313064623437040000000a65786563757461626c650104000000046b696e64040000000466696c65040000000470617468040000000a7372632f6c69622e7273040000000970726f6a6563744964040000004570726a312d3030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303004000000157265736f6c766564436f6e66696775726174696f6e0500000000040000000d736368656d6156657273696f6e030000000000000001040000000573636f70650600000003040000000a6368616e6765537065630600000005040000000c62617365436f6d6d6974496400040000001264697274794f7665726c6179506f6c6963790400000007696e636c75646504000000046d6f64650400000008776f726b74726565040000000f756e747261636b6564506f6c6963790400000007696e636c756465040000000c76637341646170746572496404000000066769743a7631040000000e72657175657374656450617468730500000001040000000a7372632f6c69622e72730400000010776f726b7370616365556e697449647305000000010400000009756e69743a726f6f74040000000876637353746174650600000006040000000961646170746572496404000000066769743a7631040000001264697274794f7665726c6179506f6c6963790400000007696e636c756465040000000c68656164436f6d6d6974496400040000000b696e64657854726565496400040000000e737061727365436865636b6f757406000000020400000007656e61626c65640104000000087061747465726e730500000000040000000f756e747261636b6564506f6c6963790400000007696e636c756465",
+   "preimageStructure": "bytes 0..19 = UTF8(\"opensip.snapshot-id\") || 00, bytes 20..21 = 0001 (u16be recipeVersion), bytes 22..1079 = CVE1(SnapshotDescriptorV1) beginning 06 00000007 (map of 7 entries) 04 00000007 63617074757265 (first key 'capture' -- byte-lexicographic minimum of the seven top-level keys)",
+   "digest": "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6",
+   "matchesPin": "byte-exact, including the pinned 1080-byte preimage length"
+  },
+  "WE-3-cbor-payload-breakdown": {
+   "demonstrates": "canonical-CBOR key order == RFC 8949 encoded-byte order == length-first for text keys",
+   "fixture": "fact-plane.v1.json#factRecordContractV1.vectors[0] canonicalRelationPayloadHex",
+   "payloadHex": "a3686465636c617265646e73796d3a66756e6374696f6e3a6669636f6e7461696e65727373796d3a6d6f64756c653a7372632f612e74736f6465636c61726174696f6e4b696e646866756e6374696f6e",
+   "byteByByte": "a3 (map,3) | 68 'declared' (text,8) -> 6e 'sym:function:f' (text,14) | 69 'container' (text,9) -> 73 'sym:module:src/a.ts' (text,19) | 6f 'declarationKind' (text,15) -> 68 'function' (text,8)",
+   "orderDemonstration": "committed key order declared(8) < container(9) < declarationKind(15): the 8949 comparison reads the header bytes 68 < 69 < 6f, which IS the length comparison; raw-text lexicographic order would begin with 'container' and fails the pin"
+  },
+  "WE-4-record-framing-full-chain": {
+   "demonstrates": "R-B record grammar: bare record tag, componentFrame fields, uint64be leaf frame, tagged outer preimage",
+   "fixture": "plan-and-policy-identity-recipes.v1.json#testVectors.derivationDigest.vectors[0] id PDD-1",
+   "recordHex": "808100000009636f6d706c6574656482000000477368613235363a31313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131830000000c756e6976657273653a6f6e6584000000477368613235363a32323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232850000002b8600000010870000000b73746167653a72756c65738600000011870000000c73746167653a706f6c696379880000005d890000005890910000000672756c653a6192000000477368613235363a333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333338a0000005aa0a100000008706f6c6963793a61a2000000477368613235363a343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434348b000000008d0000004e8e00000023c0c10000000f636f7665726167653a706f6c696379c2000000097361746973666965648e00000021c0c10000000d636f7665726167653a72756c65c200000009736174697366696564",
+   "recordLen": "513",
+   "recordSha256": "e7cb01b9b86ddb4f0b5a3bdeef2d044b37fc037c7c281e8140b2671c376a1c51",
+   "leafRootHex": "9654542004e881dc9c08d5033be3b3ad46a232b7ae08d911be836440e0bc75a8",
+   "leafRule": "root = SHA-256(00 || 0000000000000201 (uint64be 513) || record)",
+   "outerPreimageHex": "3031000000126f70656e7369702e72312d636f72652e76313200000014706f6c6963792d64657269766174696f6e2d763133000000209654542004e881dc9c08d5033be3b3ad46a232b7ae08d911be836440e0bc75a8",
+   "outerStructure": "30 | 31 00000012 'opensip.r1-core.v1' | 32 00000014 'policy-derivation-v1' | 33 00000020 root",
+   "digest": "sha256:bfb1c51fdd19b1bce4779df579f8d772ca070f03232d29a2f9d8904b00b2f33b",
+   "matchesPin": "byte-exact, including the published completeRecordHex"
+  }
+ },
+ "undeterminedRegister": [
+  {
+   "id": "UR-1",
+   "question": "Object-key ordering PLANE: Unicode scalar value (== UTF-8 bytes) or UTF-16 code units?",
+   "state": "Prose says scalar value; sibling CVE1 says UTF-8 key bytes (the same order); JCS-style UTF-16 ordering survives every pinned vector because every pinned key is ASCII. Recorded as undetermined AT THE VECTOR LEVEL while noting both prose witnesses agree on scalar-value/UTF-8.",
+   "settlingVector": "A pinned commitment over an object with keys U+E000 (private use, BMP) and U+10000 (LINEAR B SYLLABLE B008 A): scalar-value order emits U+E000 first; UTF-16 order emits U+10000 first (its surrogate pair starts D800 < E000)."
+  },
+  {
+   "id": "UR-2",
+   "question": "Integer edge forms: zero spelling, negative spelling, width bound.",
+   "state": "No pinned vector contains 0 or any negative integer; the largest exercised magnitude is 1048576. Prose gives 'no leading plus or leading zero except zero itself' and 'signed integers' with no width. CVE1 bounds ITS integers at u64/i64; whether the JSON profile shares that bound, is 2^53-bounded, or is unbounded is not determinable from any evidence in the corpus.",
+   "settlingVector": "Pinned commitments over fixtures containing 0, -1, 9223372036854775807, -9223372036854775808, and one value beyond each with a pinned accept-or-reject disposition."
+  },
+  {
+   "id": "UR-3",
+   "question": "NFC: normalise-then-encode or reject-non-NFC (CJ-R10)?",
+   "state": "See CJ-R10. Two readings survive; siblings uniformly reject; the JSON prose reads as normalise.",
+   "settlingVector": "An NFD-string fixture with either a pinned commitment (normalise) or a pinned rejection code (reject)."
+  },
+  {
+   "id": "UR-4",
+   "question": "String escaping beyond the solidus clause (CJ-R8): short-form escapes, lowercase \\u00xx, raw UTF-8 for non-ASCII.",
+   "state": "Prose-stated, zero vector coverage; a JCS-style or ASCII-only escaper is indistinguishable on today's pins except that ASCII-only escaping of non-ASCII never fires (no non-ASCII exists in the JSON family).",
+   "settlingVector": "The CJ-R08 fixture described at whatWouldSettleIt."
+  },
+  {
+   "id": "UR-5",
+   "question": "Behaviour on lone surrogates (\\ud800 unpaired in input text).",
+   "state": "Nothing in the corpus states or exercises it. The scalar-value ordering prose implies a scalar-value data model (surrogates are not scalar values), which implies rejection, but that is an implication, not a rule this file may mint.",
+   "settlingVector": "A fixture carrying an unpaired surrogate escape with a pinned rejection code."
+  }
+ ],
+ "discrepancyRegister": [
+  {
+   "id": "DR-1",
+   "what": "TWO recipes for capabilityManifestId exist. The candidate lineage (plan-and-policy R-A, record-framed) commits the core manifest to e109fd46...; the applied DELIVERY head (CVE1) commits the SAME logical manifest to 508f24c7....",
+   "disposition": "Both vector sets reproduce under their own recipes. The applied head is DELIVERY's; PLAN-ID field 3 joins to the DELIVERY value. Recorded so no implementer averages them."
+  },
+  {
+   "id": "DR-2",
+   "what": "delivery.v4 (applied head) re-pins six DCM ids unchanged (idIsUNCHANGEDfromDeliveryV3 true) and REPLACES DCM-5-non-ascii: the v3 input's katakana platformId is inadmissible under v4's DL-DOM-1 platform-id value domain, so the successor vector commits a different manifest (410 bytes, ee804335...) than v3's (414 bytes, 99d6196b...).",
+   "disposition": "Both generations reproduced here. An implementer validating against 'the 7 delivery vectors' must say WHICH head they mean."
+  },
+  {
+   "id": "DR-3",
+   "what": "The bare-record-tag framing (no length prefix on the record itself) is stated in no R-A/R-B grammar table and is recoverable only from published hex -- reconfirmed independently in this recovery (first-attempt encoder was wrong by exactly the frame difference), as implementer-litmus.v4 IL4-03 also records.",
+   "disposition": "Stated explicitly at siblingEncodings.recordFramingSuite.recordShape so the next implementer does not need the hex to learn it."
+  }
+ ],
+ "openDependencies": [
+  "EvidenceDigest: named as a dependent of opensip-canonical-json-v1 by the task and corpus, but NO byte recipe and NO pinned vector exists (implementer-litmus.v4 IL4-14/15; evidence.v10 carries a canonicalWireGrammar for its OWN domain envelope, not an EvidenceDigest recipe). Nothing here specifies it.",
+  "RunId: same standing -- no recipe, no vectors, not specified here.",
+  "FACT-IDENTITY levelVersion: fact-identity-policy.v2's byteGrammar requires the SHA-256 of a canonical level specification that does not exist in the corpus (uncomputable-identity-fields.sweep.v1 and implementer-litmus.v4 IL4-32 agree). Out of scope here; listed because it is the other place a canonicalisation document is load-bearing and absent.",
+  "The five undeterminedRegister settling vectors, should the owning surfaces choose to pin them."
+ ],
+ "reproductionLog": {
+  "encodersProvenance": "All encoders were written inside this recovery lane from the prose named in this file. No corpus checker code was imported except check-completeness-v2.py::resolve_derivation, used ONLY to materialise derivation heads (its documented purpose), never to produce a digest.",
+  "results": {
+   "planIntentCommitment": "7/7 byte-exact (preimages 2463, 4084, 4210, 522, 532, 633, 622 bytes)",
+   "SNAPSHOT-ID-V1": "3/3 byte-exact (1080-byte preimage pin confirmed)",
+   "PLAN-ID-V1": "5/5 byte-exact (2500 and 8208-byte preimage pins confirmed; EPC-V1 armA/armB both reproduced)",
+   "FACT-ID-V1": "2/2 byte-exact (940/924-byte preimage pins confirmed; both CBOR payloads re-encoded byte-exactly under both coincident orderings)",
+   "CAP-MANIFEST-ID-V1": "7/7 byte-exact on resolved delivery.v3 including decode(encode(x))==x on all seven, PLUS the delivery.v4 set (six unchanged + the DCM-5 successor) 7/7",
+   "policyDerivationSuite": "17/17 byte-exact (8 PDD from reconstructed inputs -- PDD-1 additionally matching the published completeRecordHex -- plus PDD-ORD, XD-1..4 under their stated namespace/domain pairs, CD-1..3 by implementing the specified wrong readings, CD-4 both arms with 2507/2500-byte preimages), PLUS the 6 candidate CAP vectors",
+   "flipBattery": "11 alternative-rule encoders run over the JSON family; per-rule failure counts recorded at each rule's alternativesRefuted",
+   "jcsControl": "7/7 -- see jcsHazardMeasured"
+  },
+  "honestFriction": "Two rules were NOT recovered from prose on the first attempt and needed published bytes: the bare record tag (DR-3), and the sorted-lists comparison point (unframed record bytes, not framed items -- orderingPlanes plane 3). Both are now stated in text so the next implementation does not repeat the round-trip."
+ },
+ "measuredSelfReport": {
+  "rule": "Counts below were re-walked from THIS FILE'S WRITTEN BYTES by a separate script (parse through the duplicate-key-rejecting hook, walk, count) AFTER the file was written, then compared to the published values; the build fails on mismatch. This file publishes no self-digest and no self-byte-length: a self-referential size or digest measured before attachment is wrong by its own size, and four corpus artifacts were rejected for exactly that.",
+  "rulesTotal": "14",
+  "rulesVectorForced": "10",
+  "rulesProseStatedVectorUntested": "3",
+  "rulesUndetermined": "1",
+  "vectorIndexFamilies": "6",
+  "vectorIndexPinnedVectors": "41",
+  "undeterminedRegisterEntries": "5",
+  "discrepancyRegisterEntries": "3",
+  "leafDiscipline": "no JSON number and no JSON boolean at any leaf of this file (verified by the same re-walk)"
+ }
+}

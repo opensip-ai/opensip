@@ -1,0 +1,240 @@
+{
+  "artifact": "check-narrative-packet-agreement.review-independent.json",
+  "role": "independent review of an INSTRUMENT, not of a document",
+  "subject": {
+    "path": "artifacts/check-narrative-packet-agreement.py",
+    "sha256": "6a2a3da526a5b6e4bb54cfb44dbf619d0c725d1506968a7053f7f88eae0d8148",
+    "bytes": 36114,
+    "sha256AtStart": "6a2a3da526a5b6e4bb54cfb44dbf619d0c725d1506968a7053f7f88eae0d8148",
+    "sha256AtEnd": "6a2a3da526a5b6e4bb54cfb44dbf619d0c725d1506968a7053f7f88eae0d8148",
+    "stable": true,
+    "dispatchDigestMatched": true
+  },
+  "verdict": "ACCEPT AS AN INSTRUMENT, WITH ONE BLOCKER AND ONE MATERIAL CLASS DEFECT -- 2 blocking, 7 non-blocking. The gap it closes is real and its derivation discipline is the best in the corpus for its size: not one of the five defect sites is written into it, and every class compares a derived set against a recorded set in both directions. It nevertheless commits, in its own error handling, the exact defect that litmus D-6 names and that its own NPA-4 description invokes as the reason NPA-4 must exist.",
+  "correctionToTheDispatch": {
+    "expected": "the dispatch states that neither subject exits 0",
+    "measured": "SUBJECT B EXITS 0. Verified repeatedly in the live tree and in an isolated lab: exit 0, 3 disagreements derived, 3 recorded, 0 findings, 4 narrative observations. --selftest also exits 0 at 7/7.",
+    "explanation": "The true positive the dispatch describes -- a freeze heading naming CD-RT-5 beside the word PENDING -- has since been repaired. Measured directly: IMPLEMENTATION-FREEZE.md today contains ZERO headings matching the instrument's UNRESOLVED_HEADING predicate, so no disagreement is derivable from it at all. The instrument caught a real defect, the defect was fixed, and the instrument correctly went green. That is the class working end to end.",
+    "rule": "Reported as measured. Freeze 7.2.2's discipline cuts both ways: an expectation carried into a review is still a measurement and is owed the same hard comparison as one written into a contract."
+  },
+  "environment": {
+    "python": "3.14.6 (CPython, darwin arm64)",
+    "invocation": "python3 -I -B artifacts/check-narrative-packet-agreement.py [--selftest]",
+    "externalTools": "none -- standard library only: hashlib, importlib.util, inspect, json, pathlib, re, sys, typing",
+    "executedClosure": "artifacts/check-package-coherence.py at 8d56b5f56fed4fd031f4e9f602e63d4f90ac2a189e56b0b580498f20a107f2a6, hash-verified before execution"
+  },
+
+  "adjudications": [
+    {
+      "class": "NPA-1 / NPA-2",
+      "question": "Grade the precision of the class that has already produced one true positive and one false positive on the coordinator's own writing.",
+      "ruling": "THE ARCHITECTURE IS RIGHT AND THE PREDICATES ARE COARSE. Two distinct false-positive modes reproduced from first principles, one of them not previously recorded. The both-ways symmetry is genuinely load-bearing and rescues the class from the failure mode I expected to find.",
+      "whatIsDerived": [
+        "The decision set is read from $.decisions BY STATUS (DECIDED or CONFIRMED), never by position. An id parked in $.pendingDecisions is correctly treated as open. Derived, 8 ids today, no id written into the file.",
+        "The document set is a declared authority scope (freeze, blueprint, v1-slice), not a defect list, and narrative documents are scanned and reported as OBSERVATIONS rather than suppressed -- so a reader still learns that architecture/09-open-decisions.md names four decided ids.",
+        "The register is parsed out of freeze 5.1 by table shape, and a row the parser cannot read simply does not enter the register, so the disagreement it was meant to record reads as UNRECORDED and NPA-1 fires. The instrument documents that this is the safe direction, and it is."
+      ],
+      "falsePositiveModes": [
+        {
+          "id": "POLARITY -- reproduced, and it is the documented one",
+          "measured": "A line stating `G3-SUBSTRATE` was DECIDED on 2026-08-05 and is no longer open -- a line RECORDING A CLOSURE -- placed inside v1-slice.md's section 6, raises NPA-1-UNRECORDED-PACKET-DISAGREEMENT. named_in tests whole-token containment with no polarity detection whatsoever. A line asserting openness and a line asserting closure are indistinguishable to it.",
+          "assessment": "Structural, not incidental. This is freeze 7.8's containment-monotonicity finding one level up: adding text can never remove a token. The corpus has already quantified this technique for prose leaves and the same arithmetic applies here."
+        },
+        {
+          "id": "INCIDENTAL MODAL -- reproduced, and NOT previously recorded",
+          "measured": "Inserting the two words 'Readers must note:' into v1-slice.md's P-1 row -- changing nothing about what the row asserts -- flips the derived grade from STATUS to CONTENT and raises NPA-1 at '(`P-1`, `v1-slice.md`): register says STATUS, measured CONTENT'. The KIND derivation is a single regex, `\\bmust\\b`, applied to the whole matched line.",
+          "assessment": "The docstring says KIND grades whether a line 'BINDS an implementer to the interim posture'. Measured, it grades whether the substring 'must' occurs anywhere on the line, for any reason, including in an editorial aside or a quotation. This is the sharper of the two modes because it does not require anyone to write a closure record -- ordinary prose maintenance can trip it, and the resulting finding accuses the register of the wrong grade."
+        }
+      ],
+      "falseNegativeBound": {
+        "measured": "UNRESOLVED_HEADING is a 7-alternative hardcoded regex. Rewording v1-slice.md's heading to any of 'Still to be settled', 'TBD before signature', 'Unsettled questions', 'Awaiting decision', 'Deferred items' or 'Questions not yet closed' takes the derived disagreement set from 3 to 0.",
+        "andHereIsWhyItIsNOTAnEvasion": "In every one of those six cases NPA-2-STALE-DISAGREEMENT-RECORD fires three times instead. The register still holds three rows and the derivation no longer supports them, so the class flips to the other direction rather than going silent. THE BOTH-WAYS HARD COMPARISON IS DOING EXACTLY THE WORK IT WAS DESIGNED TO DO, and this review set out to break the class that way and could not.",
+        "theResidualGapThatSymmetryCANNOTCOVER": "Symmetry protects RECORDED disagreements. It cannot protect UNRECORDED ones, which is NPA-1's entire purpose. Demonstrated with a clean control: an identical, normative, genuinely contradicting section -- 'G3-SUBSTRATE is not settled ... an implementer must build against the interim posture' -- is CAUGHT when headed '7. Open decisions' and COMPLETELY MISSED when headed '7. Unsettled questions'. No register row exists for it, so NPA-2 cannot go stale either. The contradiction is invisible in both directions.",
+        "assessment": "This is the honest bound on the class and it is disclosed nowhere -- not in the docstring, not in the banner. The vocabulary is described as 'structural phrases a document uses to say this is not settled yet', which is accurate about what the list IS and silent about the list being exhaustive of nothing."
+      },
+      "netPrecisionGrade": "Sound in architecture, coarse in predicate. Its false positives are LOUD and CHEAP -- they name a decision id and a document and a grade, and a human resolves one in under a minute. Its false negatives are SILENT. For an agreement instrument whose findings are advisory and whose scope note explicitly disclaims any opinion about whether a disagreement is acceptable, that is the correct direction to be wrong in, and the instrument argues for exactly that trade in its own docstring."
+    },
+    {
+      "class": "NPA-3",
+      "question": "It hash-verifies and EXECUTES check-package-coherence.py, reusing reviews_naming / review_state_of so it cannot disagree with PC-7. Sound, or a coupling hazard?",
+      "ruling": "SOUND, AND THE STATED REASON IS THE RIGHT ONE. The coupling hazard is real, is a different hazard from the one the question implies, and is aggravated by a defect found elsewhere in this review.",
+      "whyItIsSound": [
+        "Freeze 7.3 permits executing a verified closure and requires the hash to hold before the bytes run. The instrument does this in the correct order -- read bytes, hash, compare, THEN exec -- verified in code and by experiment.",
+        "The stated reason is not convenience, it is correctness: NPA-3 measures whether the documents disclose what THAT derivation finds. A second private copy of the derivation could disagree with PC-7 and neither instrument would be able to see the disagreement. That is a real argument and this review agrees with it. Re-implementing would have been the worse choice.",
+        "The subject set is derived, not listed: ARTIFACTS.glob('*.json'), filtered by the executed module's own REVIEW_MARKERS and by appearing in BOTH package documents. 30 subjects graded, 4 REJECT, this run. No artifact name is written into the file for this class."
+      ],
+      "theRealCouplingHazard": "It is not that PC-7 might be wrong. It is WHICH file was chosen to pin. Freeze 7.6 measures that check-package-coherence.py is one of only five checkers in the corpus carrying no current-byte pin -- i.e. one of the few that is still editable -- and 7.6's own worked example is check-completeness.py, which was edited on 2026-08-04 and silently invalidated eleven review artifacts. This instrument has pinned the most movable instrument in the corpus. When it moves, this instrument stops.",
+      "aggravation": "That stop is not clean. See IR-NPA-B2: the pin refusal exits 1, which is this instrument's FINDINGS code, and its own refusal text says 'Exit 2.' So a reader who meets a moved check-package-coherence.py sees exit 1 and a message promising exit 2.",
+      "secondaryFinding": "The disclosure test itself is containment without polarity: `re.search(r'REJECT', text[start-600 : start+600])`. A document saying an artifact was NOT rejected, or that an earlier REJECT was withdrawn, satisfies it identically. The 600-character window is an undisclosed magic constant. Same class as NPA-1's polarity gap, in a class that is otherwise the best-derived of the six."
+    },
+    {
+      "class": "NPA-4",
+      "question": "The v5 false positive is documented as unfixable. Is it fixable without weakening the class, or is a static scan structurally unable to see runtime substitution? Do not propose a fix that special-cases v5.",
+      "ruling": "THE DOCUMENTED ANSWER IS HALF RIGHT, AND THE HALF THAT IS WRONG IS FIXABLE. The false positive has TWO INDEPENDENT CAUSES with OPPOSITE repair status, and the corpus currently records only one of them.",
+      "groundTruthReEstablished": "check-rust-provider-protocol-v5.py exits 0 under `env -i PATH=/nonexistent HOME=/tmp` with the interpreter invoked by absolute path. Nothing at all was reachable through PATH in that run -- not even /bin/sh. The dependency is false. Confirmed independently, not accepted.",
+      "causeOne": {
+        "tool": "curl",
+        "mechanism": "PURE STATIC-SCAN IMPRECISION. EXTERNAL_CALL is a plain-text regex applied to raw source. Every one of its five matches in v5 is in NON-EXECUTABLE TEXT: one is inside the MODULE DOCSTRING, in a sentence describing what v2 does; the other four are inside BYTE-STRING LITERALS in v5's own mutation suite, which are negative probes asserting that such code must be REFUSED. v5 contains no executable curl call of any kind.",
+        "fixable": "YES, WITHOUT WEAKENING THE CLASS AND WITHOUT NAMING v5.",
+        "fixVerified": "Replacing the direct-call predicate with an AST match -- ast.Call nodes whose func resolves to subprocess.run/Popen/check_output/check_call with a literal string argv[0] -- was implemented and run over all 107 checkers with the instrument's own transitive-closure logic unchanged. Result: curl disappears entirely, and ALL THREE TRUE POSITIVES ARE PRESERVED -- v2 direct, v3 and v4 transitively, all still ['rg']. String and bytes constants and docstrings drop out for free because they are not Call nodes. This is a repair to the predicate, not a carve-out.",
+        "corpusGap": "curl occurs ZERO times in IMPLEMENTER-BLUEPRINT.md and ZERO times in IMPLEMENTATION-FREEZE.md, yet this instrument reports externalTools ['curl','rg'] on every run. The blueprint's caution row documents the rg false positive carefully and does not mention curl at all. Half of NPA-4's own known false positive is undocumented."
+      },
+      "causeTwo": {
+        "tool": "rg on v5",
+        "mechanism": "STRUCTURAL, AND NOT REPAIRABLE STATICALLY. Under the AST predicate v5 has NO direct call, and still resolves to ['rg'] transitively -- correctly, on the evidence available to a static reader. v5 really does exec(compile(...)) v2's bytes, and v2 really does contain subprocess.run(['rg','--files',...]). The edge is real. What makes it inert is that v5 installs a stand-in subprocess module inside the executed closure and satisfies the call from the standard library. That is a fact that exists only at execution time.",
+        "fixable": "NO. This is freeze 7.6's shape stated exactly: 'Which files record this digest is a TEXT question; which checkers compare this digest at runtime is a CODE question, and only the second establishes whether an edit is safe. A static scan finds the manifest entries either way and cannot distinguish recorded from enforced.' Substitute 'declares an external call' for 'records a digest' and the sentence is unchanged. 7.6 also states the only sound method -- 'Before editing any checker, execute the checkers that might verify it. Do not scan for its digest and conclude' -- and executing v5 is precisely how this review settled it.",
+        "conclusion": "NPA-4 should keep reporting v5 as an rg dependent. It is reporting the truth available to it, and the blueprint is right to record the counter-measurement rather than satisfy the instrument. That exchange is the corpus working correctly and should not be tidied away."
+      },
+      "correctionToTheRecord": "The blueprint's row describes NPA-4's mechanism as 'an AST closure over exec/importlib edges'. It is not an AST anything -- the direct-call predicate is a text regex and the closure is built from regex-detected filename mentions. The distinction is not pedantic: it is exactly the distinction that makes curl fixable and rg not, and describing the instrument as already doing AST analysis conceals the available repair."
+    },
+    {
+      "class": "NPA-4",
+      "question": "Does the class do what its name says?",
+      "ruling": "NO. THIS IS THE LARGER NPA-4 FINDING AND IT IS NOT THE FALSE POSITIVE. See IR-NPA-B1."
+    },
+    {
+      "class": "NPA-5 / NPA-6",
+      "question": "Oracle exports from the D9 contract's own referenceDerivation; golden-vector completeness from live preimageFields.",
+      "ruling": "GENUINELY DERIVED. The best-constructed pair of the six.",
+      "measured": [
+        "NPA-5 walks the contract for a referenceDerivation of the form <path>.py::<export>+<export>, and first_impl handles BOTH shapes the key takes across revisions -- a bare string and an object with an implementation member -- with a comment explaining that a reader assuming one shape would report the contract as having no reference derivation, 'which is a false negative on the very field this class depends on'. That is a checker anticipating its own blind spot.",
+        "The oracle's expected digest is NOT transcribed into the instrument. It is scraped from the package documents themselves, within 400 characters of the oracle's filename, with the stated reason that 'a pin copied into this file would advance silently when the D9 head advances'. This is freeze 7.10's rule -- pin what you depend on and re-extract it -- applied correctly and unprompted.",
+        "Signatures are rendered from the EXECUTED module via inspect.signature, so the recorded signature is compared against what the live module actually exposes, not against what anyone believed it exposed.",
+        "NPA-6's preimage container is chosen by INTERSECTION with the contract's declared preimageFields rather than by key name, with the reason given: the two live vectors call it 'input' and 'planInputConstruction' and a third could call it something else again.",
+        "Degradation is graceful and named: emptying the D9 contract to {} produces NPA-5-ORACLE-SIGNATURE-UNRECORDED 'the D9 contract no longer names a reference derivation', at exit 1, with no traceback."
+      ]
+    },
+    {
+      "class": "--selftest",
+      "question": "Reportedly rejects 7/7 mutations by the class named for each. Reproduce.",
+      "ruling": "REPRODUCED EXACTLY. 7/7, each rejected by the class named for it, base green, exit 0.",
+      "cases": [
+        "NPA-1: delete the 5.1 register heading",
+        "NPA-1: downgrade a CONTENT register row to STATUS",
+        "NPA-2: add a register row for a disagreement that does not exist",
+        "NPA-3: strip every REJECT token from the blueprint",
+        "NPA-4: rename the environment-prerequisites heading",
+        "NPA-5: corrupt a recorded oracle signature",
+        "NPA-6: corrupt the recorded golden-vector completeness figure"
+      ],
+      "designCredit": [
+        "The dirty-base guard is real and correctly placed: if the base is not green the suite REFUSES with SELFTEST-REFUSED at exit 3, on the stated ground that an admitted mutation could not then be distinguished from a pre-existing finding. This is the EVIDENCE-v8 dead-selftest defect correctly avoided, and unlike that case the refusal is a distinct observable.",
+        "Mutations are applied through a Reader overlay to IN-MEMORY copies. Nothing is written to the tree. The instrument states the bound this creates against its own interest -- 'this suite proves the classes FIRE, not that the tree is safe to edit -- run the checker normally after any edit' -- which is the correct and unflattering statement.",
+        "7 mutations for 6 classes is thin, and the instrument does not claim otherwise. Each is a REMOVAL or a CORRUPTION. None is freeze 7.8's harder standard -- 'for every assertion, exhibit an input that is WRONG rather than merely EMPTY'. The two false-positive modes this review reproduced would not have been found by this suite."
+      ]
+    }
+  ],
+
+  "blockingFindings": [
+    {
+      "id": "IR-NPA-B1",
+      "title": "UNDECLARED-EXTERNAL-TOOL tests undeclared-CHECKER, not undeclared-TOOL. A tool named nowhere in the corpus passes silently.",
+      "severity": "BLOCKING against the instrument.",
+      "measured": [
+        "The declaration test is `if fname not in env_section` -- pure filename containment in the blueprint's environment-prerequisites section. THE TOOL NAME IS NEVER COMPARED AGAINST ANYTHING.",
+        "Consequence: once a checker's filename appears anywhere in that section for any reason, that checker may acquire any number of further external dependencies and NPA-4 will never raise.",
+        "DEMONSTRATED: a real, executable, top-level subprocess.run(['jq','-r','.x']) call site was added to a lab copy of check-rust-provider-protocol-v5.py, filename unchanged. `jq` occurs ZERO times in the blueprint and ZERO times in the freeze. The instrument derived it correctly -- externalTools became ['curl','jq','rg'] -- and exited 0 with no finding, because v5's filename was already in the section.",
+        "THE LIVE TREE IS ALREADY AN INSTANCE. curl is derived as a required external tool by this instrument on every run and is documented in neither package document. NPA-4 has been silent about it since it was written."
+      ],
+      "whyThisMattersMoreThanTheFalsePositive": "The class was written because 'a checker that aborts before evaluating any contract property has measured nothing, and a signer who meets its exit 1 unaccounted reads it as a finding'. That signer is protected only if the TOOL is declared. A section that names the checker and not the binary tells the signer nothing about what to install.",
+      "repair": "Compare the derived tool set for each dependent against the tools named in the section, not the dependent's filename. Both sets are already computed -- counts['externalTools'] is printed in the banner on every run."
+    },
+    {
+      "id": "IR-NPA-B2",
+      "title": "A CRASH READS AS A FINDING. The instrument commits the litmus D-6 defect it was written to help detect, and its pin refusal exits 1 while its own message says 'Exit 2.'",
+      "severity": "BLOCKING against the instrument.",
+      "measured": [
+        "TRACEBACK AT EXIT 1, case 1: artifacts/product-dispositions.v1.json made invalid JSON. json.decoder.JSONDecodeError propagates out uncaught. Full Python traceback on stderr, process exit code 1.",
+        "TRACEBACK AT EXIT 1, case 2: v1-slice.md removed. FileNotFoundError propagates out of main()'s input-digest print loop uncaught. Full traceback, exit 1. Note that evaluate() itself survives this -- derive_disagreements catches OSError -- so the crash happens AFTER the analysis, in the reporting block, which makes it harder to notice, not easier.",
+        "PIN REFUSAL ALSO EXITS 1: load_pinned_module raises SystemExit with a STRING argument. Python prints the string and exits 1. The string's own last words are 'Exit 2.' Verified in isolation: `python3 -c 'raise SystemExit(\"m\")'` exits 1.",
+        "So exit 1 currently carries three meanings: findings, integrity refusal, and uncaught crash. The docstring declares four codes and promises 2 for 'bad invocation, or a pinned executed input drifted'. Exit 2 is delivered for bad invocation only."
+      ],
+      "whyThisIsTheSharpestFindingHere": "This is not a generic robustness nit. Litmus D-6 is named in this instrument's own reason for existing, and NPA-4's class description is the sentence 'a signer who meets its exit 1 unaccounted reads it as a finding.' The instrument states the hazard, builds a class to detect it in other checkers, and then exhibits it. Freeze 7.2's own reference remedy is quoted in the same corpus: check-evidence-v9.py makes 'the suite did not run' a distinct observable with a distinct code.",
+      "mitigations": "The refusal IS distinguishable by TOKEN -- NPA-PIN on stderr, and the absence of the 'FINDINGS: N' stdout block -- so a reading human is not misled. A script keyed on exit codes is.",
+      "repair": "Return 2 from main() for the pin refusal rather than raising SystemExit(str), and wrap evaluate() and the reporting block so that an unexpected exception exits on a code that is not 1 with a named token. The docstring's exit matrix is already correct; only the code disagrees with it."
+    }
+  ],
+
+  "nonBlockingFindings": [
+    {
+      "id": "IR-NPA-N1",
+      "title": "The KIND derivation is a one-word regex and is described as something stronger.",
+      "detail": "`\\bmust\\b` anywhere on the matched line grades it CONTENT. The docstring says it grades whether a line BINDS an implementer to the interim posture. Reproduced as a false positive above. 'shall', 'is required to' and 'implementers are to' are not detected at all, so the mode runs in both directions."
+    },
+    {
+      "id": "IR-NPA-N2",
+      "title": "UNRESOLVED_HEADING's 7-alternative vocabulary is the reach of NPA-1 and is disclosed nowhere.",
+      "detail": "Six ordinary synonyms each take the derived set to 0. Symmetry converts that into NPA-2 findings for RECORDED disagreements, which is the class working; it cannot do so for a NEW unrecorded disagreement, demonstrated with a matched control. The banner reports authorityDocsScanned but not headingsMatched, so a reader cannot see when the predicate found nothing to look at."
+    },
+    {
+      "id": "IR-NPA-N3",
+      "title": "NPA-3's disclosure test is containment without polarity, over an undisclosed 600-character window.",
+      "detail": "A document stating an artifact was NOT rejected satisfies it identically to one disclosing the REJECT. Same class as NPA-1's polarity gap. The window size is a magic constant with no stated derivation."
+    },
+    {
+      "id": "IR-NPA-N4",
+      "title": "The instrument pins the single most movable checker in the corpus.",
+      "detail": "Freeze 7.6 lists check-package-coherence.py among the five checkers carrying no current-byte pin, and records that a sibling in that list was edited and silently invalidated eleven review artifacts. The choice to execute rather than reimplement is correct; the fragility it buys should be stated in the banner."
+    },
+    {
+      "id": "IR-NPA-N5",
+      "title": "The selftest's 7 mutations are all removals or corruptions.",
+      "detail": "Freeze 7.8's stated repair -- 'for every assertion, exhibit an input that is WRONG rather than merely EMPTY' -- is not met. Neither false-positive mode found by this review would be caught by the suite. The instrument's own bound statement is about in-memory mutation, not about this."
+    },
+    {
+      "id": "IR-NPA-N6",
+      "title": "curl is derived on every run and documented nowhere.",
+      "detail": "Recorded separately from IR-NPA-B1 because it is a live corpus gap as well as an instrument gap: a reader of the banner sees externalTools ['curl','rg'] and finds no explanation in either package document."
+    },
+    {
+      "id": "IR-NPA-N7",
+      "title": "The banner reports externalToolDependents as a bare count.",
+      "detail": "4 dependents, 2 tools, no mapping. A reader cannot tell from the output which checker needs which tool, which is the fact NPA-4 exists to make visible."
+    }
+  ],
+
+  "whatIsGenuinelyStrongHere": [
+    "NOT ONE OF THE FIVE DEFECT SITES IS WRITTEN INTO THE FILE. This was the central thing to verify and it holds. Decision ids come from $.decisions by status; register rows from freeze 5.1 by table shape; NPA-3's subjects from a glob filtered by the executed module's own markers and by presence in both documents; NPA-5's oracle path, exports AND expected digest from the D9 contract and the package documents; NPA-6's fields from live preimageFields. The only listed things are an authority SCOPE, a heading vocabulary, and one executed pin -- and each is a category, not a defect.",
+    "Every class compares a DERIVED set against a RECORDED set in BOTH directions. Delete a row from a record and the derivation puts it back as a finding; repair the underlying document and the stale record is a finding too. This review attacked the class from the record side and from the document side and the symmetry held both times.",
+    "Executing check-package-coherence.py under a hash pin rather than reimplementing its derivation is the right call for the right reason, and the reason is stated: a second private copy could disagree with PC-7 invisibly.",
+    "The hash is verified BEFORE the bytes run, in that order, verified in code and by experiment. Tampering the pinned module stops execution.",
+    "It does NOT pin the documents it reads, and argues for that correctly from freeze 2 and 7.10 -- pinning them would make every legitimate edit a failure and train the next author to regenerate a pin instead of reading a diff. Confirmed live: IMPLEMENTATION-FREEZE.md moved during this review and the instrument absorbed it correctly rather than refusing.",
+    "The scope boundary is a stated JUDGEMENT, labelled as one, and implemented as reporting rather than suppression: narrative documents are scanned and their disagreements printed as observations. Four are printed today. A reader learns what the instrument declined to raise.",
+    "The banner states the bound: it measures AGREEMENT and holds no opinion about whether a recorded disagreement is acceptable. That is the correct scope statement for this instrument and it does not overclaim past it.",
+    "The dirty-base selftest guard is correctly placed and gives a distinct observable at exit 3.",
+    "first_impl's shape-discovery, and the comment explaining that assuming one shape would be a false negative on the very field the class depends on, is the single best-reasoned passage in either subject."
+  ],
+
+  "whatIDidNotCheck": [
+    "Whether the three disagreements it currently derives OUGHT to be recorded, or whether freeze 5.1's grades are right. That is a judgement the instrument explicitly disclaims and this review does not supply.",
+    "check-package-coherence.py itself. Its reviews_naming and review_state_of derivations were executed as a black box and their correctness is inherited, not verified. If PC-7 is wrong, NPA-3 is wrong in exactly the same way -- which is the instrument's deliberate design, and it means this review's acceptance of NPA-3 is conditional on a file it did not audit.",
+    "NPA-6 end to end. The golden-vector completeness path was read and exercised only through the selftest mutation and the empty-contract degradation. No golden vector was independently recomputed.",
+    "The 30 subjects NPA-3 grades and the 4 it finds REJECT were not individually verified against their review artifacts.",
+    "Whether the AST repair proposed for NPA-4 would hold across the whole corpus in edge cases -- it was verified to produce identical results on all 107 checkers for the tools currently in play, not proven equivalent in general. In particular it would still miss a call whose argv[0] is a variable rather than a literal, which the existing regex also misses.",
+    "Any interpreter other than CPython 3.14.6. The SystemExit(str) exit-code behaviour is CPython-defined and stable, but the traceback findings were measured on one interpreter only.",
+    "Concurrency. IMPLEMENTATION-FREEZE.md moved once during this review; no attempt was made to run the instrument against a file being written underneath it."
+  ],
+
+  "recordedInputs": {
+    "note": "Freeze 7.2 recording obligation. Measured at the end of the review.",
+    "artifacts/check-narrative-packet-agreement.py": "6a2a3da526a5b6e4bb54cfb44dbf619d0c725d1506968a7053f7f88eae0d8148",
+    "artifacts/check-package-coherence.py": "8d56b5f56fed4fd031f4e9f602e63d4f90ac2a189e56b0b580498f20a107f2a6",
+    "artifacts/product-dispositions.v1.json": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+    "artifacts/d9-exit-contract.v1.14.json": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+    "IMPLEMENTATION-FREEZE.md": "6fe0ba907a9a566ae2126922dfc12e44371dd9c37910d6fce5388105d3296b10",
+    "IMPLEMENTER-BLUEPRINT.md": "7b2efc2d3bcdbd5ba0cdbb05b450e258299976b54242dca9d740e2eb673c817d",
+    "v1-slice.md": "6b8717fef545fe73f0de5879a7389fbc0c7c499c70e06b344789e5150478bee3",
+    "artifacts/check-rust-provider-protocol-v5.py": "read and executed as ground truth for NPA-4; exits 0 under env -i PATH=/nonexistent"
+  },
+  "conditionsOfThisReview": {
+    "note": "Freeze 7.2.1 item 4.",
+    "freezeDriftDuringReview": "IMPLEMENTATION-FREEZE.md read 7669ce0721e653d0acfd3af420eb147f665631f1d2cf92ae9d275462c88ddda9 at the first measurement and 6fe0ba907a9a566ae2126922dfc12e44371dd9c37910d6fce5388105d3296b10 at the last.",
+    "effectOnMeasurements": "None. The instrument was re-run after the drift: still exit 0, still 3 derived and 3 recorded. Its deliberate refusal to pin the documents it reads is what made this a non-event, which is a live vindication of that design choice rather than a claim about it.",
+    "subjectFrozen": "The subject was digest-identical at the first and last measurement.",
+    "isolation": "All mutation was performed in an isolated lab copy verified to reproduce the live run byte-identically. The real corpus was written to only for this deliverable, confirmed by git status and by digest comparison of every file touched."
+  },
+
+  "readingRule": "Freeze 7.8 governs. A green run of this instrument means: the package documents and the corpus AGREE on the six measured classes, the derived disagreement set equals the recorded one in both directions, and the pinned executed instrument is the reviewed one. It does NOT mean the recorded disagreements are acceptable -- freeze 2's authority order decides that -- and it does not mean the documents are true about anything the six classes do not measure. Given IR-NPA-B2, a signer must additionally not read this instrument's exit 1 as 'findings' without looking at stderr for NPA-PIN or a traceback.",
+  "reviewer": "independent instrument review lane",
+  "reviewedOn": "2026-08-05"
+}

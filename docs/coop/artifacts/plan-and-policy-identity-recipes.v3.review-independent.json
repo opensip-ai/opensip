@@ -1,0 +1,399 @@
+{
+ "artifact": "plan-and-policy-identity-recipes.v3.review-independent",
+ "version": "1",
+ "date": "2026-08-04",
+ "role": "INDEPENDENT ADVERSARIAL REVIEW of artifacts/plan-and-policy-identity-recipes.v3.json. This review binds nothing, closes nothing, and changes no status, disposition, verdict or seal.",
+ "subjectPath": "artifacts/plan-and-policy-identity-recipes.v3.json",
+ "subjectSha256": "1d0c8e2a849a02b5e458746eceb0ff8c1dda423303c3d61a411af357b620392e",
+ "status": "REVIEW COMPLETE",
+ "binds": "NOTHING",
+ "sealRecommendation": "DO-NOT-SEAL-OR-APPLY",
+ "verdict": "REJECT FOR REPAIR -- DO NOT APPLY AS WRITTEN. ONE BLOCKER, arithmetic and one pointer, repairable without touching a single digest. THE IDENTITY ARITHMETIC IS CORRECT AND WAS INDEPENDENTLY REPRODUCED IN FULL: a sixth encoder written for this review from the recipe prose alone reproduced every published value of the entire vector set -- 7 CAP ids under all three readings, CAP-REV under both, 9 PDD digests, PDD-ORD, 4 separation controls, 4 counter-digests including the new CD-5 over five inputs, and every record byte length, record SHA-256 and outer preimage hex -- with ZERO mismatches and nothing adjusted. A seventh encoder written from r1-lifetime-neutrality.conformance.v1.6's own grammar table reproduced that artifact's PDD-01..PDD-04 byte-for-byte including completeRecordHex, and the claimed 41-byte constant offset holds at every vector. The blocker is that the file's own leaf-type census is a measurement of a DIFFERENT object than the one that was written: it declares 1352 leaves and the written file has 1383. The deficit is exactly 31 and measuredSelfReport contributes exactly 31, so the gate demonstrably ran BEFORE assembly completed -- the precise failure mode a sibling lineage was rejected for. The substantive law-18 property nevertheless HOLDS and I verified it independently on the written bytes: all 1383 leaves are str, 0 non-string keys, 0 numbers, 0 booleans, 0 nulls. Nothing else in this file is in question.",
+ "blockerCount": "1",
+ "blockers": [
+  {
+   "id": "B-IRV3-01",
+   "severity": "BLOCKER -- a stated measurement about the artifact's own bytes that does not reproduce, in the one place the artifact asserts a GATE rather than a report",
+   "where": "leafTypeCensus.totalLeaves, leafTypeCensus.rule, leafTypeCensus.verifiedAfterWriting, measuredSelfReport.leafTypeCensusRunBeforeWriting, measuredSelfReport.emittedBytesReparsedUnderTheHook",
+   "theCLAIMS": {
+    "totalLeaves": "1352",
+    "rule_verbatim": "This is a census of THESE EXACT BYTES, produced by a recursive walk of the emitted object and re-run against the file after it was written.",
+    "verifiedAfterWriting_verbatim": "YES -- see measuredSelfReport.",
+    "method_verbatim": "every leaf at every depth is classified by Python type name; every dict key is checked for being a string. The emitter RAISES and refuses to write if any leaf is not a str.",
+    "gateFraming_verbatim": "A census that is computed and printed can be computed and ignored. This one is a precondition of the write: if it is non-empty, no file exists."
+   },
+   "whatIMEASURED": {
+    "method": "the artifact's own stated method, applied to the live written bytes at 1d0c8e2a849a02b5e458746eceb0ff8c1dda423303c3d61a411af357b620392e, parsed under a duplicate-key-rejecting object_pairs_hook: recursive walk, every non-dict non-list node counted and classified, every dict key type-checked.",
+    "totalLeavesMEASURED": "1383",
+    "byTypeMEASURED": "str 1383, and nothing else",
+    "nonStringLeavesMEASURED": "0",
+    "nonStringKeysMEASURED": "0",
+    "deficit": "31"
+   },
+   "ANDTHEMECHANISMISEXACTNOTAPPROXIMATE": {
+    "measurement": "I removed the single top-level key measuredSelfReport from the parsed object and re-walked. The result is 1352 -- EXACTLY the declared value.",
+    "measuredSelfReportLeafCount": "31",
+    "arithmetic": "1383 minus 1383-minus-measuredSelfReport equals 31, and 1352 plus 31 equals 1383. The match is exact at both ends and is not a coincidence.",
+    "whatFOLLOWS": "the census walked the object at a moment when measuredSelfReport had not yet been attached. THE GATE RAN BEFORE ASSEMBLY COMPLETED. 31 leaves were written to disk without ever passing the gate the artifact says is a precondition of the write."
+   },
+   "andASECONDPOINTERINTHESAMESECTIONDANGLES": {
+    "what": "measuredSelfReport.emittedBytesReparsedUnderTheHook reads verbatim: \"SEE selfVerificationAfterWriting.\"",
+    "measured": "the key selfVerificationAfterWriting does not exist anywhere in the file. I searched every key at every depth: ZERO occurrences.",
+    "whyITCOMPOUNDS": "the post-write reparse is the other half of the same claim, and it points at nothing. So the file asserts two post-write self-verifications; one is falsified by measurement and the other has no evidence to point at."
+   },
+   "whyTHISISBLOCKERGRADEANDNOTANOBSERVATION": "because the artifact does not merely REPORT the census -- it elevates it to a GATE, states three times that it was run against the written file, and explains at andWHYTHISISGATEDRATHERTHANREPORTED that a computed-and-printed census is precisely what cannot be trusted. The distinction the artifact itself draws between a gate and a report is the distinction it fails. This is also the exact defect class the whole lineage exists to police: a measurement written about bytes other than the bytes that shipped. A reviewer who read 1352 without walking the file would have been misled, and I was told a sibling lineage was rejected for a gate that ran before assembly and missed 60 leaves. This one missed 31 by the same mechanism.",
+   "whatISNOTWRONG_STATEDSOTHEREPAIRISNOTOVERSCOPED": "the SUBSTANCE holds. I verified independently on the written bytes that every one of the 1383 leaves is a str, that there are 0 non-string keys, and that there are 0 JSON numbers, booleans and nulls. Law 18 and section 7.4 are SATISFIED by these bytes. No digest, no vector, no recipe and no finding depends on the leaf count. The 31 unchecked leaves are all in measuredSelfReport and all happen to be strings.",
+   "theREPAIR": "recompute the census after full assembly and publish 1383; and either add the selfVerificationAfterWriting section the pointer names or repoint it. Both are mechanical. No digest moves."
+  }
+ ],
+ "adjudications": [
+  {
+   "item": "1",
+   "subject": "PPIR-V2-01 repaired. Verify BOTH R1V15-POS-05.partialFindings and its exhaustionCompletion carry one FindingValue. Reproduce the R-1 v1.6 corroborating arithmetic and the 41-byte offset.",
+   "ruling": "UPHELD IN FULL. Every element reproduced.",
+   "theTWOFINDINGLISTS": {
+    "source": "r1-lifetime-neutrality.conformance.v1.5.json at 557b9f973c22b7ea959a884f56d5bac81c5383e227cac73a47605c1be317a815, positiveVectors[4], parsed under the duplicate-key-rejecting hook.",
+    "expectedCompletion.partialFindings.length": "1",
+    "exhaustionCompletion.partialFindings.length": "1",
+    "theMEMBER": "ruleId rule:a, findingId finding:a, valueDigest sha256:7777777777777777777777777777777777777777777777777777777777777777 -- byte-identical in both completion objects.",
+    "soTHEVARIANTEXCUSEISUNAVAILABLE": "CONFIRMED. Both completion objects carry the member, so the omission cannot be attributed to a choice between them. v2 declared this vector's findings EMPTY and the vector's own bytes carry one."
+   },
+   "theCORROBORATINGARITHMETIC": {
+    "method": "I implemented R-1 v1.6's PolicyDerivationInputV1 from its own published recordGrammar table -- tags 0x81..0x91, nested 0xa0/0xb0/0xc0/0xd0, both CanonicalValueRef kind leaves -- as a SEVENTH independent encoder, and ran it on the same inputs.",
+    "faithfulPOS05": "690 bytes -- REPRODUCED, and its digest sha256:5cad93e1fc0b6496fa3cc81a66ddd7f434a9259e339aa02d60fb42e4468de4d8 matches.",
+    "findingsDropped": "583 bytes -- REPRODUCED, digest sha256:ec37dd9ec2d6d8c36c5cecc09fe6460d13807d4218772d3ffc1ff9cdc422ca88 matches.",
+    "POS04": "583 bytes -- REPRODUCED, digest sha256:d0c069da3a23cab77c975924e3bc37eba5c00ee5c5d05349f99a7e7f889b5e48 matches.",
+    "POS01": "554 bytes -- REPRODUCED, digest sha256:567284c2b1bff1b5c2c502f49147033d19be83b07888b80574da35e179dd3cf4 matches.",
+    "theEQUALITY": "findings-dropped 583 EQUALS POS-04 583; faithful POS-05 690 equals NEITHER. v2's 542/542 equality was indeed reproduced for the wrong reason.",
+    "PDD01to04ByteForByte": "CONFIRMED. My implementation reproduces r1-lifetime-neutrality.conformance.v1.6's PDD-01, PDD-02, PDD-03 and PDD-04 record byte lengths, record SHA-256s, outer preimage hexes, derivationDigests AND their published completeRecordHex strings byte-for-byte. 4 vectors, 5 values each, 0 mismatches."
+   },
+   "theFORTYONEBYTEOFFSET": {
+    "components": "C(tag, UTF8(\"observation-set\")) is 1+4+15 = 20 bytes; C(tag, UTF8(\"coverage-context\")) is 1+4+16 = 21 bytes; sum 41. CONFIRMED by construction.",
+    "measuredAtEVERYVECTOR": "POS-01 554 vs 513; POS-04 583 vs 542; POS-05 faithful 690 vs 649; POS-05 dropped 583 vs 542. The offset is 41 at all four and the set of observed offsets is exactly {41}.",
+    "theRECONCILIATION": "583 minus 41 is 542, which is v2's PDD-3 record length; 690 minus 41 is 649, which is v3's repaired PDD-3 record length. Both framings agree about the defect and differ by a constant. CONFIRMED."
+   },
+   "andTHEPDD5JUSTIFICATIONCENSUS": {
+    "claim": "of the TEN v1.5 positive vectors, FOUR declare a finding list in their own bytes -- POS-01 (findings, 0), POS-04 (partialFindings, 0), POS-05 (partialFindings, 1), POS-06 (partialFindings, 0) -- and the other SIX inherit through cloneOf.",
+    "measured": "CONFIRMED EXACTLY by a recursive walk for any key named findings or partialFindings at any depth of each vector. 4 of 10 declare one; exactly ONE is non-empty and it is POS-05; the other 6 carry none of their own. POS-06 declares its list under completionTemplate rather than expectedCompletion, which a scan restricted to the two completion objects would miss -- my first pass did miss it and the recursive pass found it. The artifact's count is right.",
+    "soTHEWITHDRAWNSENTENCEISINDEEDFALSE": "CONFIRMED. POS-05 is policy-bearing -- its expectedCompletion carries a policyOutcome with policyId, verdict and derivationDigest -- so \"R-1's corpus has no non-empty FindingList in a policy-bearing vector\" is falsified by the same vector PDD-3 mismodelled."
+   }
+  },
+  {
+   "item": "2",
+   "subject": "Exactly one digest moved (PDD-3), and PDD-9 was added carrying the exact byte string v2 published as PDD-3, relabelled SYNTHETIC. Rule on whether preserving the accidental control this way is sound.",
+   "ruling": "BOTH CONFIRMED. The preservation is SOUND, not dressing up a mistake.",
+   "theONEDIGESTTHATMOVED": {
+    "method": "I extracted every digest-shaped string in v2 and in v3 with its full JSON path, then compared the two files vector-by-vector across every published table -- CAP vectors, PDD vectors, separation controls and counter-digests.",
+    "result": "PDD-3 is the ONLY id present in both files whose published value changed: sha256:d7c3724ca6329e687fa3496329879ef0db9784192233d7332ba3c2525fdb0ae5 -> sha256:c07c04f15024fb3dc6b3bf44372976384a59106145880b77d883d4ddf4524b11, with recordBytes 542 -> 649 and recordSha256 a79e8e23... -> a609aa30.... All six CAP vectors carried from v2 are unchanged under all published readings; PDD-1, -2, -4, -5, -6, -7, -8 and PDD-ORD are unchanged; XD-1..XD-4 are byte-identical; CD-1, CD-2 and CD-3 are byte-identical.",
+    "newIDs": "CAP-7-frame-boundary and PDD-9, both labelled NEW. CD-5 is a new counter-digest."
+   },
+   "thePDD9PRESERVATION": {
+    "reproduced": "I built PDD-9 from its stated construction -- PDD-2's inputs with the two exactCoverage states transposed -- with my own encoder. Its record SHA-256 is a79e8e238064cfdd0a7cb1dcff7b21af44ad66aa86d54be42946d86983c12422, which is BYTE-IDENTICAL to the recordSha256 v2 published for PDD-3, and its derivationDigest is sha256:d7c3724ca6329e687fa3496329879ef0db9784192233d7332ba3c2525fdb0ae5, which is the value v2 published for PDD-3. The bytes were relabelled, not lost.",
+    "theCONTROLISINDEEDPRESERVED": "PDD-2 is 542 bytes and PDD-9 is 542 bytes -- EQUAL -- and their digests differ. The equal-length separation control survives intact.",
+    "andITWOULDINDEEDHAVEBEENDESTROYED": "the repaired PDD-3 is 649 bytes against PDD-2's 542. Correcting the vector in place, without retaining the byte string, would have removed the only equal-length pair in the table."
+   },
+   "THERULINGONSOUNDNESS": {
+    "verdict": "SOUND.",
+    "reasoning": "the defect v2 committed was a false CLAIM about what a byte string modelled, not a wrong byte string. The bytes were always a valid encoding of a valid input -- POS-04's inputs with a transposed but individually legal CoverageState assignment -- and I confirmed they decode cleanly under a total decoder and re-encode to themselves. Repairing the sentence while retaining the bytes under an honest label repairs exactly what was wrong and destroys no evidence. Deleting them would have discarded a control that was TRUE independently of the mislabel.",
+    "andWHATWOULDHAVEMADEITDRESSINGUP": "if PDD-9 had been presented as modelling an R-1 vector, or if its synthetic status had been soft-pedalled, or if the artifact had not said plainly that these are the bytes v2 mislabelled. It does all three correctly: PDD-9 reads \"SYNTHETIC AND MODELS NO R-1 VECTOR\" and names its provenance explicitly. The relabel is the repair, and the artifact says so.",
+    "theONECAVEATWORTHSTATING": "the control is now a live vector paired with a synthetic one rather than two live vectors. As a BYTE-LEVEL separation control -- which is all it was ever used as -- that is exactly as strong. As evidence about R-1's corpus it is weaker, and the artifact does not claim otherwise."
+   },
+   "andONESCOPENOTEONTHECLAIM": "ACCURATE BUT WORTH A READER'S ATTENTION: \"exactly one digest moved\" is true of ids present in both files. v3 is also a NARROWER republication than v2 -- it drops v2's PLAN-ID-V1 vector table (PID-D1/D2/D3 under both readings), planIdVectors, CD-4 and the injectivity attack ids. Every one of those drops is DECLARED (DUD-4.andTHISFILEDOESNOTREPUBLISHITSPLANIDVECTORS, counterDigests.CD-4_NOTREPUBLISHED, knownLimitations[5]) and none is silent, so this is not a finding. It is recorded so \"exactly one digest moved\" is not read as \"the vector set is unchanged\"."
+  },
+  {
+   "item": "3",
+   "subject": "OBS-V3-1 disambiguated by ORD-BOUNDARY-V3. Rule on the claimed entailment from EP8's canonicalCommitmentGrammar.ordering, and verify no digest moves.",
+   "ruling": "THE READING IS CORRECT AND NO DIGEST MOVES -- BOTH CONFIRMED. BUT THE DECISIVE LEG IS MIS-IDENTIFIED: leg1 is NOT an entailment, and leg2 is. This is a non-blocking observation, not a blocker, because the conclusion it supports is right and is independently established by leg2.",
+   "theQUOTESAREVERBATIM": {
+    "canonicalCommitmentGrammar.ordering": "VERBATIM EXACT on evaluation-proof.v8 at 4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303: \"deduplicate exact record bytes then sort unsigned bytewise ascending\".",
+    "recordRules.sortedLists": "VERBATIM EXACT: \"sort complete item record bytes unsigned bytewise ascending before item framing\".",
+    "recordRules.nestedLists": "VERBATIM EXACT: \"outer blob occurs once; every item is separately item-tagged; item records are complete record bytes\".",
+    "recordRules.programOrder": "VERBATIM EXACT: \"PolicyV2.evaluationOrder preserves the declared program order and is not sorted\"."
+   },
+   "THERULINGONTHEENTAILMENT": {
+    "theCLAIM": "that under the framed reading dedup and sort would act on different operands, which no artifact describes -- and that this is \"THE DECISIVE LEG ... an internal-coherence argument, not a preference\".",
+    "whatISTRUE": "the textual half is TRUE. The sentence names exactly one operand, \"exact record bytes\", and continues \"then sort\" without renaming it. Reading the sort as consuming framed bytes requires supplying an operand the sentence does not supply. That is a real and correct textual observation.",
+    "whyITISNOTANENTAILMENT_ONE": "the clause quoted governs a DIFFERENT operation from the clause in dispute. canonicalCommitmentGrammar.ordering orders the item set of a MERKLE COMMITMENT, whose items are consumed by leafHash and never item-framed at all. recordRules.sortedLists orders a NESTED LIST inside a record, whose items are item-framed. They sit in different sections and govern different machinery. Calling the first the \"SISTER CLAUSE\" of the second is an analogy, and an analogy can corroborate a reading but cannot entail it.",
+    "whyITISNOTANENTAILMENT_TWO": "the claimed INCOHERENCE does not actually arise. For a fixed item tag the frame C(itemTag, r) is injective in r, so two items have equal record bytes if and only if they have equal framed bytes. Deduplicating on record bytes and deduplicating on framed bytes are EXTENSIONALLY IDENTICAL operations. The framed reading is therefore textually unsupported but not incoherent, and \"two operands for one pipeline\" overstates what follows.",
+    "whyITISNOTANENTAILMENT_THREE": "this artifact's own adopted duplicateRule is REJECT, not deduplicate (sharedPrimitives.duplicateRule, following the freeze's DIV-1 adjudication). So the pipeline the rule actually governs HAS NO DEDUP STEP in which the incoherence could arise. The decisive leg is drawn from a clause whose operative verb this file does not implement.",
+    "andWHICHLEGISDECISIVE": "LEG 2, and it is close to dispositive on its own. nestedLists explicitly separates the item TAG from the item RECORD and DEFINES the latter -- \"every item is separately item-tagged; item records are complete record bytes\". sortedLists then names that defined object as its operand, verbatim, in the same section of the same grammar: \"sort complete item record bytes\". The operand is named and the name is defined to exclude the tag. That is a direct textual entailment about the RIGHT clause, and leg3's adverb points the same way.",
+    "soTHENETEFFECT": "the RULING IS CORRECT and I adopt it. What is wrong is the ranking: the leg the artifact calls decisive is the weakest of the three, and the one that actually carries the conclusion is presented as supporting. No digest depends on which leg is decisive, and the artifact publishes all three plus a falsifier vector, so no implementer is misled.",
+    "andWHYIRECORDITATLENGTH": "because it is the same shape this file WITHDRAWS at item 7 -- reproducing a quotation verbatim and then accepting its entailment without testing it. The file catches that error in its own earlier assessment of delivery.v3's leg4 and commits a milder version of it one section away, in the leg it labels decisive. Held to the standard the file sets for itself."
+   },
+   "andNODIGESTMOVES": {
+    "claim": "v2 already implemented the unframed reading, so the repair moves nothing.",
+    "measured": "CONFIRMED. My encoder, implementing ORD-BOUNDARY-V3's three steps literally, reproduces all four live CAP ids, both synthetic CAP ids, CAP-REV under both readings, all four separation controls and all three carried counter-digests at their v2 values. Not one moved."
+   }
+  },
+  {
+   "item": "4",
+   "subject": "The falsifier CAP-7-frame-boundary. Reproduce, and confirm the invariance under the open set/sequence question.",
+   "ruling": "FULLY REPRODUCED. It is a genuine falsifier and it does isolate one variable.",
+   "whatIREPRODUCED": {
+    "method": "decoded the published completeRecordHex with my own total decoder, reconstructed the manifest value, and re-encoded it under all three readings with my own encoder.",
+    "adopted_sortBeforeFraming": "40a51244a3ebfb877d795b6abc1840c6b0fd9067d36ae378729cf716fb99c430 -- MATCHES.",
+    "rejected_sortAfterFraming": "748f71c16bb8a53cad77860b5db6a5346f50403331df1086a8a3d78f4e6121e3 -- MATCHES.",
+    "sequenceReading": "40a51244a3ebfb877d795b6abc1840c6b0fd9067d36ae378729cf716fb99c430 -- MATCHES, and EQUALS the adopted value.",
+    "recordSha256_ADOPTED": "867c98e5d60e174c49eace791426c36b31aae6193be20a1a996ccf2bce96b795 -- MATCHES.",
+    "recordSha256_REJECTED": "b2350ab565ac1a8dce78ab8a9846008a4b3ce2c23fe3b99d9383736ec3cced32 -- MATCHES.",
+    "literalRoundTrip": "YES -- the published record decodes and re-encodes to itself byte-for-byte."
+   },
+   "theCONSTRUCTIONISWHATITSAYS": {
+    "providerRecordByteLengths": "provider \"b\" encodes to 134 bytes; provider \"aa\" encodes to 89 bytes. MEASURED by my encoder.",
+    "soTHESHORTERIDBELONGSTOTHELONGERRECORD": "CONFIRMED -- providerId \"b\" is 1 byte and sits on the 134-byte record; \"aa\" is 2 bytes and sits on the 89-byte record.",
+    "andTHETWOKEYSDISAGREE": "CONFIRMED by execution. Sorting the UNFRAMED record bytes yields [\"b\", \"aa\"]; sorting the FRAMED item strings yields [\"aa\", \"b\"]. The orders are genuinely opposite, which is what CAP-6 cannot do because its two providers differ only in providerId and the two keys agree there."
+   },
+   "theTHREEASSERTIONS": {
+    "adoptedDIFFERSfromRejected": "CONFIRMED -- 40a51244... against 748f71c1.... An implementation that sorts framed items lands on a published value and is IDENTIFIED rather than merely failed, because that same value is also published as counter-digest CD-5.",
+    "adoptedEQUALSsequence_THEINVARIANCE": "CONFIRMED. The declared input order [\"b\", \"aa\"] IS the adopted reading's sorted order, so preserving input order and sorting under the adopted rule produce identical bytes. The vector is therefore INVARIANT under DUD-7 and cannot be confounded with the set-versus-sequence question. This is the property that makes it isolate exactly one variable, and it holds.",
+    "recordLengthIDENTICALunderBOTH": "CONFIRMED -- 269 bytes under the adopted reading and 269 under the rejected one. No length check anywhere can separate them, which is precisely why a vector is required and an assertion is not."
+   },
+   "andITSADMISSIBILITY": "I did not re-verify every relation key and rung against fact-plane.v1#relationRegistry; see whatIDidNotCheck. The vector uses only \"file\"/\"enumerated\", which the artifact states resolves, and nothing in my adjudication depends on it."
+  },
+  {
+   "item": "5",
+   "subject": "The divergence census: 28 list positions, 10 by item-order permutation, 12 by emitted bytes, 2 array-only. Re-derive all three numbers.",
+   "ruling": "ALL THREE RE-DERIVED INDEPENDENTLY AND EXACTLY -- and the POSITION NAMES match too, not merely the counts.",
+   "method": "I enumerated every list position across the four live capability manifests from delivery.v2 -- providers, each provider's relations map and platformIds, coverageForAbsent, and each absent entry's relationIds -- then recomputed each position's item order and emitted bytes under the sort-before-framing and sort-after-framing conventions with my own encoder.",
+   "results": {
+    "positionsEnumerated": "28 -- MATCHES. 20 arrays and 8 relations maps.",
+    "ruleA_itemOrderPermutes": "10 -- MATCHES, and my set of 10 position names is identical to the artifact's published list with no element on either side unmatched.",
+    "ruleB_emittedBytesDiffer": "12 -- MATCHES, and my set of 12 position names is identical to the artifact's published list with no element on either side unmatched.",
+    "arrayOnly_excludingTheRelationsMap": "2 -- MATCHES: rust-deep/providers and full/providers, the only ARRAY positions whose order permutes.",
+    "andAISASUBSETOFB": "CONFIRMED. Rule B adds exactly the four providers positions, whose item order is unchanged in core and typescript-deep but whose bytes move because a nested relations list reorders underneath them. The artifact's explanation of the difference is exactly right."
+   },
+   "andTHELOADBEARINGHALF": "CONFIRMED under every count: providers itself permutes in rust-deep and full, and its bytes differ in all four. delivery.v3's sentence survives the counting-rule ambiguity it exposes."
+  },
+  {
+   "item": "6",
+   "subject": "Its assessments of the two owning surfaces -- the DELIVERY framing concession, the R-1 every-leaf concession, the injectivity-safety measurement, the empty intersection, and the decision not to re-emit under a third field set.",
+   "ruling": "ALL UPHELD. Every measured leg reproduced; the two concessions are argued rather than deferred, and the restraint is correct.",
+   "theCLOSEDMAPLEG": {
+    "source": "resolved-inputs.v2.json at 0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43 -- hash CONFIRMED.",
+    "preimageFields2_shape": "VERBATIM EXACT: \"closed map {manifestId, capabilityManifestId, profileId}\", at tag 3, name \"release\".",
+    "andTHECHARACTERISATIONISACCURATE": "the map has THREE members and the artifact's claim is that manifestId and capabilityManifestId are TWO MEMBERS OF ONE CLOSED MAP. That is exactly right and is not a claim that the map has two members. Two canonicalisations inside one closed map that is one field of one preimage is a real structural objection, and it carries the concession."
+   },
+   "theEVERYLEAFCONCESSIONANDTHEINJECTIVITYMEASUREMENT": {
+    "theMEASUREMENT": "CONFIRMED on r1-lifetime-neutrality.conformance.v1.5 at 557b9f97.... closedTypes.CanonicalValueRef.kind is an enum over [\"observation-set\", \"coverage-context\"], and closedTypes.SealedStageInput pins BOTH positions: .observationSet carries requiredKind \"observation-set\" and .coverageContext carries requiredKind \"coverage-context\".",
+    "soTHECONCLUSIONHOLDS": "at the two positions R-B encodes, kind is SCHEMA-CONSTANT. No two distinct admitted SealedStageInput values can differ in kind alone, so v2's exclusion was INJECTIVITY-SAFE and v2 was not wrong. The artifact is right to insist this is an authority ruling on RULE QUALITY and not a defect finding, and right that letting the supersession be read as a defect would misdescribe both artifacts.",
+    "andTHEASSESSMENTOFTHERULEITSELF": "I agree with it on the artifact's own reasoning: the pin that makes the exclusion safe lives in SealedStageInput while the leaf lives in CanonicalValueRef, so a mechanical walk of the type carrying the leaf cannot see the pin. A rule whose safety is non-local is the shape that goes stale. Conceding this is correct."
+   },
+   "theEMPTYINTERSECTION": {
+    "claim": "the intersection of this file's 10 R-B digests with R-1 v1.6's 17 is empty.",
+    "measured": "CONFIRMED. The R-B set is PDD-1..PDD-9 plus PDD-ORD, which is 10 -- I verified the count of 10 reconciles that way, since the vector table declares 9 and the order control is the tenth. R-1 v1.6 pins 17. The intersection computed over the two digest sets is EMPTY.",
+    "andTHATISNOTADISAGREEMENTABOUTARITHMETIC": "CONFIRMED independently. My implementation of R-1 v1.6's grammar reproduces its PDD-01..PDD-04 exactly while my implementation of R-B reproduces all ten R-B values exactly. The two encoders agree perfectly about what each grammar computes; the grammars compute different things because the field sets differ by two leaves and 41 bytes."
+   },
+   "theRESTRAINT": "CORRECT AND WORTH ENDORSING. Declining to re-emit R-B under a third field set is the right call: a third digest table for one field -- neither v2's nor R-1 v1.6's -- would be exactly the divergence supersession exists to remove. The artifact states the reason and does not take the path. Likewise its refusal to adopt delivery.v3's SET ruling as if applied, which it explains as the same error in the opposite direction.",
+   "andTHESTANDINGOFTHECARRIERS": "ACCURATELY RECORDED. I confirmed both review verdicts on their live bytes: delivery.v3.review-independent (7791ef39...) is REJECT FOR REPAIR at 1 blocker, IR-V3-B1, a closure clause unrelated to the framing or ordering departure; r1-lifetime-neutrality.conformance.v1.6.review-independent (e6b3f043...) is ACCEPT-AS-CANDIDATE at 0 blockers. The artifact's handling of the asymmetry -- that neither outcome is evidence about the departures -- is right."
+  },
+  {
+   "item": "7",
+   "subject": "It withdrew its own earlier assessment that DELIVERY v3's leg 4 was sound. Verify the withdrawal is actually in the bytes, not just in a report.",
+   "ruling": "THE WITHDRAWAL IS IN THE BYTES, AT THREE SITES, AND IS CONSISTENTLY APPLIED. CONFIRMED.",
+   "theTHREESITES": {
+    "one": "supersession.R_A_SUPERSEDEDBYDELIVERY.ANDONELEGISWITHDRAWNAFTERTHEREVIEW -- carries whatTHISFILEORIGINALLYWROTE, WITHDRAWN, whatSTANDS and andWHATITCHANGESINTHISFILESCONCESSION.",
+    "two": "theSUCCESSORSWEREREVIEWEDDURINGTHISAUTHORING.ANDTHEREVIEWCORRECTEDONETHINGTHISFILEHADALREADYWRITTEN -- carries THISFILEACCEPTSTHECORRECTIONANDWITHDRAWSITSOWNSENTENCE.",
+    "three": "declaredUnresolvedDependencies DUD-7.theRULINGTHATEXISTS.assessment -- reads \"THIS FILE'S EARLIER ASSESSMENT AGREED WITH delivery.v3 AND IS WITHDRAWN\". This matters because the withdrawal text names supersession AND DUD-7 as the two sites to correct, and the correction is present at both."
+   },
+   "andTHEWITHDRAWNSENTENCEISNOTSTILLASSERTED": "CONFIRMED by search. The string \"ARGUMENT IS SOUND AND THE LEG IS WHERE ITS STRENGTH LIES\" occurs exactly ONCE in the whole file, and that occurrence is inside ANDTHEREVIEWCORRECTEDONETHINGTHISFILEHADALREADYWRITTEN.what as a QUOTATION OF WHAT WAS WITHDRAWN. It appears nowhere as a live assertion. The file does not both withdraw and keep the claim.",
+   "andTHEREVIEWERSRULINGISQUOTEDVERBATIM": "CONFIRMED against the live bytes of delivery.v3.review-independent.json at 7791ef39abe51b6646df3113353187e6c4b8350ac9299a599ecac780fc077796. adjudications[0].ruling reads exactly: \"THE ENTAILMENT AS STATED DOES NOT HOLD, AND 'DISPOSITIVE' IS AN OVER-READ -- BUT IT IS NOT BLOCKER-GRADE.\" The artifact quotes it word for word.",
+   "andTHESELFDESCRIPTIONISHONEST": "the sentence \"I verified the quote and accepted the entailment without testing it\" is present in substance at ANDONELEGISWITHDRAWNAFTERTHEREVIEW.WITHDRAWN -- \"This author reproduced leg4's QUOTE verbatim and then accepted its ENTAILMENT without testing it.\" That is an accurate description of the error and it is recorded rather than smoothed. I note at item 3 that the same shape recurs one section away in leg1 of ORD-BOUNDARY-V3, which is why I do not treat the withdrawal as evidence the class has been eliminated."
+  },
+  {
+   "item": "8",
+   "subject": "Two findings neither prior review named: OBS-V3-2 (EP8's sortedLists rule has zero exercised witnesses in EP8's own goldens) and the line-wrap trap.",
+   "ruling": "OBS-V3-2 HOLDS EXACTLY. The line-wrap trap REPRODUCES EXACTLY. Both are real and both are correctly scoped.",
+   "OBS_V3_2": {
+    "method": "my own recursive walk of every value object of all twelve preimageGoldens.records in evaluation-proof.v8, recording every JSON array at every depth with its length, plus the item set size of all nine preimageGoldens.commitments.",
+    "everyARRAYFOUND": "FIVE arrays across all twelve record goldens, and my list is identical to the artifact's: EP5-REC-BASELINE-COMPARISON.matchedMembers length 1; EP5-REC-POLICY.evaluationOrder length 6; EP5-REC-VERDICT-INPUT.waivers length 0; EP5-REC-VERDICT-INPUT.policy.evaluationOrder length 6; EP6-REC-ACTIVATION-MANIFEST.members length 1.",
+    "withTWOORMOREMEMBERS": "EXACTLY TWO, and both are PolicyV2.evaluationOrder -- once directly and once nested inside VerdictInputV2. That is the ONE field normativePreimageGrammar.recordRules.programOrder EXEMPTS from sorting, verbatim: \"PolicyV2.evaluationOrder preserves the declared program order and is not sorted\".",
+    "everyCOMMITMENT": "ALL NINE are singletons -- itemEncodedHex has exactly one member in every one of EP5-COMMIT-UNIVERSE, -SUBJECT-SET, -OUTCOME-SET, -WAIVER-SET, -VERDICT-INPUT, EP6-COMMIT-ACTIVATION-MANIFEST, -EVALUATION-AUTHORITY-SEAL, EP5-COMMIT-CAPABILITY-CLOSURE-GENERIC and EP5-COMMIT-SEMANTIC-CAPABILITY-CLOSURE-V3-GENERIC.",
+    "THECOUNT": "ZERO. Across twelve record goldens and nine commitments, evaluation-proof.v8 contains NO sorted list with two or more members. The rule R-A inherits has no exercised witness anywhere in the artifact that states it. CONFIRMED INDEPENDENTLY.",
+    "whatFOLLOWSANDWHATDOESNOT": "I agree with the artifact's scoping. A rule with no exercised witness in its own source cannot be disambiguated by its own source, so a consumer transcribing it faithfully inherits an untested rule and cannot discover the problem by checking against the source. That is the structural explanation for why OBS-V3-1 survived two authoring rounds and an ACCEPT. It is equally right that this is NOT a blocker against evaluation-proof.v8: EP8's own published values are correct under either reading precisely because none of them exercises the rule. The artifact claims no more than that, and directs the repair to EVALUATION-PROOF's successor, which is the only surface that may make it.",
+    "andITISGENUINELYNEW": "neither the v1 review nor the v2 review names it, and neither successor measured it. It is the part of this lineage that survives both supersessions."
+   },
+   "theLINEWRAPTRAP": {
+    "claim": "a byte-literal count of \"None may be closed by this record, by the blueprint, by a checker, or by an implementer\" in the live freeze returned ZERO, and the sentence is present, wrapping after \"None may\".",
+    "measured": "REPRODUCED EXACTLY on the live IMPLEMENTATION-FREEZE.md. Byte-literal count: 0. Whitespace-normalised count: 2. The wrap is where the artifact says it is -- a source line ends with \"None may\" and the sentence continues on the next line.",
+    "andITSGENERALISATION": "the artifact draws the right lesson and adopts v2's reviewer's method rather than reinventing it: whitespace-normalise before declaring a quotation absent. A false ABSENCE produces a confident wrong statement about a governing document, which is the more dangerous direction because it manufactures a change that did not happen. I used the same method throughout this review.",
+    "andIHITTHESAMECLASSMYSELF": "twice, and both are recorded here rather than smoothed. My first finding-list census scanned only expectedCompletion and exhaustionCompletion and reported POS-06 as declaring none; a recursive pass found it under completionTemplate and the artifact's count of four was right. And I first read the DUD-7 collision exhibit's two JSON digests as unreproducible because I canonicalised with sorted keys; without sorting, both reproduce exactly. Neither is a defect in the artifact and both would have been reported as one by a less patient pass."
+   }
+  }
+ ],
+ "alsoAdjudicated": {
+  "theLEAFCENSUSANDWHETHERTHEGATEISREAL": {
+   "ruling": "THE GATE IS REAL BUT INCOMPLETE, AND THE PUBLISHED COUNT IS WRONG. This is blocker B-IRV3-01 -- see blockers.",
+   "shortForm": "measured 1383 leaves, all str, 0 non-string keys, 0 numbers, 0 booleans, 0 nulls. The artifact declares 1352. The deficit is exactly the 31 leaves of measuredSelfReport, so the gate ran before assembly completed -- the sibling-lineage failure mode exactly. The substantive law-18 property nevertheless HOLDS on the written bytes.",
+   "andTHENUMBERINMYBRIEFWASRIGHTANDTHEARTIFACTSWASNOT": "I was given 1383 and told not to trust it. I measured it myself before comparing: 1383 is what the file contains."
+  },
+  "DUD_7_MUSTREMAINOPEN": {
+   "ruling": "CONFIRMED OPEN. NOT CLOSED.",
+   "itsSTATEverbatim": "OPEN AS A ROW -- A RULING EXISTS IN A CANDIDATE THAT HAS SINCE BEEN INDEPENDENTLY REVIEWED AND REJECTED FOR REPAIR ON AN UNRELATED CLAUSE. NOT APPLIED. NOT CLOSED.",
+   "andTHECARRIERSSTANDINGISACCURATE": "delivery.v3.review-independent is REJECT FOR REPAIR at one blocker, and that blocker (IR-V3-B1, DL-CLOSED-1's catch-all closure clause) is NOT the ordering ruling. The artifact says so and it is right.",
+   "andNOOTHERROWISCLOSED": "I checked all seven DUD entries: none reads CLOSED. declaredUnresolvedDependenciesClosed is 0, section51RowsClosed is 0, section71RowsClosed is 0."
+  },
+  "MYOWNENCODER": {
+   "whatIWROTE": "a sixth independent encoder for this lineage, written from v3's recipe prose alone -- sharedPrimitives, R-A.recordGrammars, R-B.recordGrammar and ORD-BOUNDARY-V3 -- plus a total cursor-based decoder, plus a seventh encoder for r1-lifetime-neutrality.conformance.v1.6's grammar table. I worked in an isolated directory so that no earlier lane's encoder in the shared scratchpad could be read or imported.",
+   "andONETHINGTHERECIPEDOESNOTSTATE": "the RECORD FRAMING. recordGrammars declares a recordTag for each record type but never says whether the complete record byte string is C(recordTag, fields) or the bare tag byte followed by the field frames. I implemented the former first and missed every value by exactly 4 bytes per record; decoding the published completeRecordHex settled it as the latter. It IS recoverable from the artifact -- sharedPrimitives.setCommitment.theConsequenceIMPLEMENTATIONSGETWRONG says the induced order is FIRST-FIELD-LENGTH-MAJOR, which is only true of the bare-tag form -- and the completeRecordHex strings make it decidable. So this is NOT a blocker and not a defect in the arithmetic. It is recorded as the one place an implementer working from the grammar tables alone will stumble, and a successor could fix it with one sentence.",
+   "result": "after that correction, EVERY published value reproduced on the next execution with nothing adjusted."
+  }
+ },
+ "whatIREPRODUCED": {
+  "rule": "every value below was COMPUTED by my own encoder from live source bytes and hard-compared against the artifact's published string. Nothing is transcribed and nothing is recalled.",
+  "capabilityManifestId": "7 vectors. For the 4 LIVE ones (from delivery.v2#installProfiles.profiles[0..3]) I compared record byte length, record SHA-256, complete outer preimage hex, and the id under all THREE readings -- set/sort-before-framing, sequence, and sort-after-framing. 24 equalities, 0 mismatches. For the 3 SYNTHETIC ones I decoded the published completeRecordHex and re-encoded: all reproduced.",
+  "CAP_REV": "both readings reproduced -- set bda5e9efb6598097f8681037bc7b1d5d2b6765b4e117045ce9278168b4084742 equals CAP-4, sequence 6af8db231a497e83e3b61c2b70ca1595b506bdd5ad352a7517251001c407f20b does not.",
+  "derivationDigest": "9 vectors plus PDD-ORD. Record byte length, record SHA-256, outer preimage hex and the digest for each. 40 equalities, 0 mismatches. PDD-3 moved exactly as declared and PDD-9 is byte-identical to v2's PDD-3.",
+  "separationControls": "XD-1, XD-2, XD-3 and XD-4 all recomputed by committing the right record under the wrong namespace/domain pair. All four match v2 and v3 identically. The six-distinct assertion holds.",
+  "counterDigests": "CD-1 (uint32be leaf length), CD-2 (outer omits the domain component) and CD-3 (record hashed directly) all reproduced at their v2 values. CD-5, new in v3, reproduced over CAP-7 AND over all four live manifests -- 5 values, all matching.",
+  "r1V16CrossCheck": "PDD-01..PDD-04 record byte lengths, record SHA-256s, outer preimage hexes, derivationDigests and completeRecordHex strings -- 4 vectors, 5 values each, 0 mismatches -- plus the 41-byte offset at four vectors.",
+  "theDUD7COLLISION": "reproduced on live delivery.v2 bytes. Document A and document B are 959 canonical JSON bytes each with distinct SHA-256s f1b2dac8... and 04930ef7... (both matching), the SET reading gives one id for both, the SEQUENCE reading gives af1f488e... and 340824bb... (both matching), and the record byte length is 914 under both.",
+  "rejectionControls": "all ELEVEN run through my own encoder. All eleven RAISED, and all eleven raised for the stated reason rather than incidentally -- I matched the exception against the contract, not merely the exit.",
+  "decoderTotality": "all FIVE attacks run through my own total decoder. All five REFUSED, each with the class of error the artifact names.",
+  "roundTripCensus": "R-A literal 3 of 7 and canonical 7 of 7 -- both claims reproduced exactly. The three literal successes are the synthetic vectors, whose declared order already is the canonical order; the four failures are the live manifests, whose arrays must be sorted because DELIVERY had stated no order. The artifact's reading of that split as a fact about authority rather than craft is sound.",
+  "totalIndependentEqualitiesChecked": "150 or more, across two encoders and one decoder written for this review. ZERO unexplained mismatches."
+ },
+ "nonBlockingObservations": [
+  {
+   "id": "IRV3-O1",
+   "what": "ORD-BOUNDARY-V3 mis-ranks its own legs. leg1 is labelled \"THE DECISIVE LEG ... an internal-coherence argument, not a preference\", but it argues from a clause governing MERKLE SET ordering to a clause governing NESTED LIST ordering, and the incoherence it alleges does not arise, because framing with a fixed item tag is injective and so dedup on record bytes and dedup on framed bytes are extensionally identical. The artifact's own duplicateRule is REJECT, so its pipeline has no dedup step at all. leg2 IS a direct entailment about the correct clause and carries the conclusion by itself.",
+   "severity": "NON-BLOCKING. The RULING is correct, no digest depends on it, and the artifact publishes all three legs plus the CAP-7 falsifier.",
+   "whyRECORDED": "it is the same shape the file withdraws at item 7 -- verifying a quotation and then accepting its entailment untested -- committed one section away in the leg it calls decisive. A successor should demote leg1 to corroboration and promote leg2."
+  },
+  {
+   "id": "IRV3-O2",
+   "what": "knownLimitations[6] reads \"THE TWO SUCCESSORS ARE UNREVIEWED. Every supersession recorded here rests on a candidate that binds nothing.\" That sentence is STALE and is contradicted inside the same file: theSUCCESSORSWEREREVIEWEDDURINGTHISAUTHORING records both reviews with paths, hashes and verdicts (delivery.v3 REJECT FOR REPAIR at 1 blocker; r1-lifetime-neutrality.conformance.v1.6 ACCEPT-AS-CANDIDATE at 0 blockers), and supersession folds both back into the assessments.",
+   "severity": "NON-BLOCKING. The rest of the file handles the reviews correctly and at length; this is one sentence left behind when the late-arriving reviews were absorbed.",
+   "whyRECORDED": "it is the section 7.2.2 shape -- a true-at-drafting statement that a later measurement in the same document falsifies -- and a reader who stops at knownLimitations gets the wrong standing for both carriers."
+  },
+  {
+   "id": "IRV3-O3",
+   "what": "the record framing is not stated in the grammar tables. recordGrammars gives each record type a recordTag but never says the complete record byte string is the bare tag byte followed by the concatenated field frames, with NO length prefix around the record. An implementer who reads recordTag as naming a component frame produces records 4 bytes longer at every level and misses every published digest.",
+   "severity": "NON-BLOCKING. It is recoverable from the artifact -- the FIRST-FIELD-LENGTH-MAJOR statement at sharedPrimitives.setCommitment is only true of the bare-tag form, and the four published completeRecordHex strings settle it by decoding -- and it is why publishing completeRecordHex matters.",
+   "whyRECORDED": "it is the single place my independent implementation went wrong, and it cost one iteration. One sentence in a successor removes it."
+  },
+  {
+   "id": "IRV3-O4",
+   "what": "v3 is a NARROWER republication than v2, not merely a repaired one. It drops v2's PLAN-ID-V1 vector table (PID-D1, PID-D2 and PID-D3 under both readings), planIdVectors, counter-digest CD-4 and the injectivityOverTheCanonicalForm attack ids. v2 carries 100 distinct digest-shaped values and v3 carries 89.",
+   "severity": "NON-BLOCKING AND FULLY DECLARED. Each drop is named with its reason -- DUD-4.andTHISFILEDOESNOTREPUBLISHITSPLANIDVECTORS, counterDigests.CD-4_NOTREPUBLISHED and knownLimitations[5] -- and the reason (field 3's rule is superseded, so a PlanId derived from it is derived from a superseded recipe) is correct.",
+   "whyRECORDED": "so that \"exactly one digest moved\" is not read as \"the vector set is unchanged\". Both statements are true and they are different statements."
+  },
+  {
+   "id": "IRV3-O5",
+   "what": "the freeze has moved again since this artifact was finalised. The artifact records IMPLEMENTATION-FREEZE.md at 5bfd2f4a... at first read and ad41f3e2... at finalisation; the live file is now 26ee9e4c....",
+   "severity": "NON-BLOCKING AND NOT THE ARTIFACT'S FAULT. It discloses the volatility explicitly and says the freeze has moved four times across this lineage.",
+   "whyRECORDED": "I re-verified the two freeze-dependent measurements against the CURRENT bytes and both still hold: the section 7.1 prohibition sentence is present under normalised comparison, and OBS-V3-6's counts still measure 1 occurrence of \"plan-and-policy\" and 2 of \"PDD-3\"."
+  }
+ ],
+ "checkerRuns": {
+  "rule": "executed as data, nothing edited. IMPLEMENTATION-FREEZE.md section 7.6 -- I created, edited and deleted NO checker.",
+  "exitZeroAsREQUIRED": {
+   "check-claims.py": "0",
+   "check-product-dispositions.py": "0",
+   "check-c2-v9.py": "0",
+   "check-retention-custody-v24.py": "0",
+   "check-d9-v1.14.py": "0",
+   "check-delivery.py": "0",
+   "check-r1-v1.5.py": "0"
+  },
+  "check-package-coherence.py": {
+   "exit": "1 -- expected; this checker is known to exit 1",
+   "atTHESTARTOFTHISREVIEW": {
+    "findings": "4",
+    "breakdown": "2 PC-7-PINNED-ARTIFACT-IS-REJECTED (rust-provider-protocol.v2, threat-model.v3) and 2 PC-5-STALE-HEAD (c2-plan-stage-schema v9 vs v10, r1-lifetime-neutrality.conformance v1.5 vs v1.6).",
+    "note": "exactly the state I was briefed to expect."
+   },
+   "atFINALISATION": {
+    "findings": "6",
+    "breakdown": "2 PC-7-PINNED-ARTIFACT-IS-REJECTED -- UNCHANGED -- and 4 PC-5-STALE-HEAD.",
+    "theTWOTHATAPPEARED": "PC-5-STALE-HEAD for c2-plan-stage-schema v9 vs v11, and PC-5-STALE-HEAD for delivery v2 vs v4."
+   },
+   "ANDTHECAUSEISNOTTHISREVIEW_MEASURED": {
+    "rule": "a count that moves during a review must be attributed, not absorbed. I attributed it before reporting it.",
+    "cause": "TWO CONCURRENT LANES WROTE REVIEW FILES WHILE THIS REVIEW WAS RUNNING, each of which flipped a successor already on disk into the \"reviewed-passing successor exists\" state that PC-5 tests for.",
+    "theTWOFILES": "artifacts/c2-plan-stage-schema.v11.review-independent.json, written at 17:36:46, and artifacts/delivery.v4.review-independent.json, written at 17:46:16. Neither existed when I took the opening measurement and neither was written by me.",
+    "myOWNFILE": "artifacts/plan-and-policy-identity-recipes.v3.review-independent.json, written at 17:44:39 -- the ONLY file this review created.",
+    "andITCANNOTBETHECAUSE": "every PC-5 finding names c2-plan-stage-schema, delivery or r1-lifetime-neutrality.conformance. NOT ONE names plan-and-policy-identity-recipes, and the subject of this review is not a package head. My verdict is REJECT FOR REPAIR, which is the opposite of the \"records no blocking findings\" condition PC-5 fires on, so this file could not create a PC-5 even for its own lineage."
+   },
+   "NONEWCLASSADDED": "CONFIRMED, which is the thing I was asked to confirm. The CLASS SET is unchanged and is still exactly {PC-7-PINNED-ARTIFACT-IS-REJECTED, PC-5-STALE-HEAD}. No third class appeared, the PC-7 count is identical at 2, and no finding of any class names this review or its subject.",
+   "recordedNOTABSORBED": "I was briefed to expect 4 and I measured 6 at finalisation. Reporting 4 because I was told 4 would be the exact defect this lineage exists to police, so the moved count is published with its cause and its timestamps."
+  }
+ },
+ "verifiedInputs": {
+  "rule": "every digest below was produced by `shasum -a 256` on the live file and hard-compared. NOTHING here is recalled, and I re-hashed the whole set again after finishing all computation.",
+  "theSUBJECT": {
+   "path": "artifacts/plan-and-policy-identity-recipes.v3.json",
+   "sha256": "1d0c8e2a849a02b5e458746eceb0ff8c1dda423303c3d61a411af357b620392e",
+   "matchesTheBriefedValue": "YES -- exact."
+  },
+  "theLINEAGE_ALLUNTOUCHED": {
+   "rule": "IMPLEMENTATION-FREEZE.md section 7.2 forbids editing reviewed bytes. I hashed all four at the start of this review and again at the end; all four are IDENTICAL at both points and identical to the values the artifact itself publishes.",
+   "v1": "2673896b34136d52ee0363324bf9a612f85763a34e76445259326272a53365c3",
+   "v1Review": "ff44ca7faed99241ae3946fa50f8a68347d59ce5b7e66902c030a2592ee330dc",
+   "v2": "24bd4846d4666680b6275d29b9901ce903883620e6eea1339cdadf346ba3567c",
+   "v2Review": "6280df2e8c2737a274065d8626aa91a19b6611d1f0d01e8a85055fb948be7996",
+   "v2ReviewVerdict": "ACCEPT-AS-CANDIDATE at 0 blockers -- confirmed on the live bytes."
+  },
+  "theOWNINGSURFACESANDTHEIRREVIEWS": {
+   "delivery.v2": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3 -- NOT independently rehashed by me beyond reading it as the live input to every CAP vector; see whatIDidNotCheck.",
+   "delivery.v3": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d",
+   "delivery.v3.review-independent": "7791ef39abe51b6646df3113353187e6c4b8350ac9299a599ecac780fc077796",
+   "r1-lifetime-neutrality.conformance.v1.5": "557b9f973c22b7ea959a884f56d5bac81c5383e227cac73a47605c1be317a815",
+   "r1-lifetime-neutrality.conformance.v1.6": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c",
+   "r1-lifetime-neutrality.conformance.v1.6.review-independent": "e6b3f04314066afc84707986a379702c5457b12b27b78f2ccd17cceef0a751ce",
+   "evaluation-proof.v8": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+   "resolved-inputs.v2": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43"
+  },
+  "theARCHITECTUREPLAN": {
+   "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+   "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "confirmed": "YES -- exact match to the required value, hashed at start and at finalisation. NEVER OPENED AND NEVER MODIFIED."
+  },
+  "theFREEZE": {
+   "path": "IMPLEMENTATION-FREEZE.md",
+   "sha256AtThisReview": "26ee9e4cbc62beabc9568054f4d0a235c85faf9dfa0c80a1d3cad05704c80215",
+   "note": "this differs from the values the artifact records at first read and at finalisation. See IRV3-O5 -- I re-verified the freeze-dependent measurements against these current bytes and they still hold."
+  },
+  "parseDiscipline": "IMPLEMENTATION-FREEZE.md section 7.5. EVERY JSON file read in this review -- the subject, v1, v2, both their reviews, delivery.v2, delivery.v3 and its review, r1-lifetime-neutrality.conformance v1.5 and v1.6 and its review, evaluation-proof.v8 and resolved-inputs.v2 -- was parsed with a duplicate-key-REJECTING object_pairs_hook that raises on the first repeated key. It never raised. I say so explicitly because I was asked to.",
+  "quotationDiscipline": "IMPLEMENTATION-FREEZE.md section 7.7. Every quotation in this review was re-verified against the live bytes of its source WITH WHITESPACE NORMALISED before any conclusion about presence or absence was drawn. I did not declare any quotation absent on a byte-literal search."
+ },
+ "whatIDidNotCheck": {
+  "rule": "IMPLEMENTATION-FREEZE.md section 7.2's rider. AN ACCEPT -- OR A REJECT -- BINDS WHAT THE REVIEWER EXAMINED, NOT THE ARTIFACT'S WHOLE SURFACE. v2 passed at 0 blockers and two other lanes then found substantive defects in regions its reviewer never entered. This list exists so the same thing is harder to do to this review. Read my verdict as scoped to what is NOT in this list.",
+  "theSCOPEIDIDEXAMINE": "the full published vector set and its arithmetic under an independently written encoder and decoder; the two findings and their repairs; the ordering rule and its falsifier; the divergence census; the leaf and key census; the supersession assessments and every quoted leg I could reach; the withdrawal; DUD-7's state; and the eight checker runs.",
+  "entries": [
+   "THE COMPONENTFRAME PARTITION. v2 re-derived evaluation-proof.v8's componentFrame partition at 50 occurrences in six forms. v3 CITES that measurement rather than reclaiming it, and I did NOT re-derive it either. If v2's partition is wrong, nothing in my review would have caught it.",
+   "v2's 69-ASSERTION FRAMING GATE. Same reason -- cited, not reclaimed, and not re-executed here.",
+   "THE FULL ADMISSIBILITY PRECONDITION OF EVERY CAP VECTOR. R-A requires that every relation key and every resolution rung resolve in fact-plane.v1#relationRegistry. I did NOT open fact-plane.v1 and did not verify that registry for any vector, including CAP-7. I verified the ENCODING of every vector, not its ADMISSIBILITY.",
+   "DELIVERY.V3's OWN RECIPE AND ITS SEVEN COMMITTED VECTORS. I did not implement CVE1 and did not reproduce any DCM value. My adjudication of the R-A supersession rests on the four legs I could measure on resolved-inputs.v2 and delivery.v2, plus delivery.v3's own reviewer's reproduction, which I read but did not repeat.",
+   "R-1 v1.6's OTHER THIRTEEN PINNED VECTORS. I implemented its grammar and reproduced PDD-01 through PDD-04 and confirmed the 17-member digest set is disjoint from R-B's 10. I did NOT recompute PDD-05..PDD-17, nor its four equivalence controls, five separation controls or fifteen rejection controls.",
+   "THE NEGATIVE CLAIM THAT NO ARTIFACT STATES A DERIVATION FOR EITHER FIELD. That is a search over identifier spellings across the whole corpus. I did not perform it and I take no position on it.",
+   "delivery.v2's OWN SHA-256. I read delivery.v2 as the live input to every CAP vector and my encoder consumed its bytes directly, but I did not independently hash it and compare against the value v3 records at leg2. Every CAP value I reproduced came from those live bytes regardless.",
+   "THE FIVE PREFIX-FORM SITES IN delivery.v2 (OBS-V3-5) AND THE planIntentCommitment CITATION CORRECTION (OBS-V3-4). I verified preimageFields[2].shape and predicateRelativeFacts verbatim on resolved-inputs.v2, but I did NOT re-run the five-site sweep of delivery.v2 and did NOT count occurrences in c2-plan-stage-schema.v9. Both corrections run in favour of the artifact's conclusion, so an error there would weaken its case rather than mine.",
+   "THE LAW 19 SLICE DIGEST. OBS-V3-6 claims the section 6 law 19 slice hashes to aeb72fd2... over 3084 bytes and is byte-identical to what v2 recorded. I did not extract that slice and did not verify it; the slice boundaries are not stated in a form I could reproduce without guessing.",
+   "THE EIGHT CHECKERS' INTERNAL CORRECTNESS. I executed them and read their exit codes and findings. I did not audit what any of them actually verifies, and a checker that exits 0 without testing anything would look identical to me. I edited none of them.",
+   "WHETHER THE EMITTER SOURCE EXISTS OR SAYS WHAT THE ARTIFACT SAYS IT SAYS. My blocker is derived entirely from the WRITTEN BYTES -- the declared count does not match the file, and the deficit matches measuredSelfReport exactly. I did not see the emitter and I do not claim to know its control flow. If some other mechanism produced the same arithmetic, the blocker's conclusion (the published count is wrong and the post-write verification claim is false) stands unchanged and only its named mechanism would need restating.",
+   "THE OTHER SIX DUD ENTRIES' SUBSTANCE. I confirmed that none of the seven reads CLOSED and that DUD-7 in particular does not. I did not adjudicate whether DUD-1 through DUD-6 are correctly characterised.",
+   "EVERY NON-DIGEST PROSE CLAIM IN recordedInputs, environment, scope, bindingDisclaimer AND strongestObjectionTheAuthorExpects. I read them; I did not verify them line by line."
+  ]
+ },
+ "whatIDidNotChange": {
+  "filesWritten": "1",
+  "theOnlyFile": "artifacts/plan-and-policy-identity-recipes.v3.review-independent.json",
+  "checkersCreatedEditedOrDeleted": "0",
+  "ARCHITECTURE_TO_IMPLEMENTATION_PLAN_md": "NEVER OPENED, NEVER MODIFIED -- hashed only, at start and at finalisation, both times 47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e.",
+  "section51RowsClosed": "0",
+  "section71RowsClosed": "0",
+  "declaredUnresolvedDependenciesClosed": "0",
+  "statusesOrDispositionsOrVerdictsOrSealsChanged": "0",
+  "CD_RT_5": "BLOCKED_ON_PHASE_1A -- untouched and unread as anything but a constraint.",
+  "unsetDispositionsTouched": "0",
+  "predecessorsOrTHEIRREVIEWSMODIFIED": "0 -- all four re-hashed at finalisation and byte-identical to their values at the start of this review."
+ },
+ "driftDisclosure": {
+  "rule": "IMPLEMENTATION-FREEZE.md section 7.2.2. Anything that moved under this review while it was running is recorded here rather than absorbed.",
+  "theSUBJECTDIDNOTMOVE": "artifacts/plan-and-policy-identity-recipes.v3.json hashed to 1d0c8e2a849a02b5e458746eceb0ff8c1dda423303c3d61a411af357b620392e at first read and to the same value at finalisation.",
+  "theLINEAGEDIDNOTMOVE": "v1, its review, v2 and its review were hashed at first read and again at finalisation. All four are byte-identical at both points.",
+  "whatDIDMOVE": "the check-package-coherence.py finding count, from 4 to 6, caused by two review files written by other lanes during this review. See checkerRuns.check-package-coherence.py for the attribution, the timestamps and why neither is this review.",
+  "andTHEFREEZEHASMOVEDSINCETHEARTIFACTWASWRITTEN": "IMPLEMENTATION-FREEZE.md is now 26ee9e4cbc62beabc9568054f4d0a235c85faf9dfa0c80a1d3cad05704c80215, against the 5bfd2f4a... and ad41f3e2... the artifact records. I re-verified both freeze-dependent measurements against the current bytes and both still hold. See IRV3-O5."
+ },
+ "closingNote": "The arithmetic in this file is sound and I could not break it. A sixth encoder written from its prose reproduced every published value in the whole vector set, a seventh reproduced the raising artifact's grammar, the 41-byte offset holds at every vector, the divergence census re-derives to the position name, and OBS-V3-2 -- the finding neither prior review named -- is exactly true. The two concessions to the owning surfaces are argued rather than deferred, the injectivity measurement that keeps the supersession from being misread as a defect is correct, and the withdrawal at item 7 is genuinely in the bytes at all three sites the withdrawal itself names. PDD-9 is the right way to repair a mislabel without destroying the evidence it was attached to. What fails is smaller and more exact: the file's own leaf-type census describes an object that is 31 leaves short of the object that was written, and the deficit is precisely the last section to be assembled. The artifact argues, correctly and at length, that a census which is computed and printed can be computed and ignored, and that its own is a precondition of the write rather than a report. On these bytes it was a report. That is a one-line arithmetic repair and one dangling pointer, and it moves no digest -- but it is the one claim in the file that a reviewer could only falsify by doing the thing the file says it already did."
+}

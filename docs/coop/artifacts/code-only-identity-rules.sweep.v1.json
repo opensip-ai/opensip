@@ -1,0 +1,516 @@
+{
+  "artifact": "code-only-identity-rules.sweep.v1.json",
+  "version": 1,
+  "date": "2026-08-04",
+  "documentClass": "MEASUREMENT-ONLY",
+  "binds": "NOTHING",
+  "constitutesDecision": "NONE",
+  "isNotAReview": "This document reviews no artifact, declares no subject, and carries no verdict, decision, blockingFindingCount or sealRecommendation. It must not be read as a review of any surface, of any checker, or of the predecessor sweep it composes with.",
+  "changesNoStatusDispositionVerdictOrSeal": true,
+  "proposesNoRecipe": true,
+  "closesNoRow": true,
+  "escalatesNothing": true,
+  "authority": "None. This file is an instrument reading, not a contract. Nothing here may be cited to close a parked recipe, to justify authoring one, or to change any surface disposition. CD-RT-5 remains BLOCKED_ON_PHASE_1A; no [UNSET] was touched. Freeze section 7.6 relies on measurement-only documents being mechanically distinguishable from pins; the six fields above are that distinction.",
+
+  "purpose": "Close the single largest declared blind spot of artifacts/uncomputable-identity-fields.sweep.v1.json, which recorded verbatim: 'RULES IN EXECUTABLE CODE. This sweep read *.py only to confirm two specific absences from JSON. It did NOT systematically sweep the 94 checkers for derivations that exist only in code. rawBytesCommitment, fixtureCommitment and indexFingerprint were each found this way, so the class is known to be non-empty and its true size in the checker corpus is UNMEASURED. That is the single largest known blind spot in this document.' This document measures that class.",
+
+  "theQuestionMeasured": "For every identity/digest-typed field in the corpus, does a producing rule exist only inside checker Python? A rule living only in a .py file is invisible to every contract reader, and freeze section 7.2 pins those checkers' bytes, so the rule is simultaneously load-bearing and uncitable. An implementer reading only the contracts, as the litmus requires, cannot find it.",
+
+  "compositionWithThePriorSweep": {
+    "predecessor": "artifacts/uncomputable-identity-fields.sweep.v1.json",
+    "predecessorDigestExpected": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a",
+    "predecessorDigestMeasured": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a",
+    "predecessorDigestMatch": true,
+    "digestWasMeasuredNotTrusted": "The brief supplied this digest as '8e7294b0...'. It was re-measured with shasum -a 256 before the file was read. It matched. No digest asserted to this sweep was accepted without measurement, because a coordinator brief in this same session asserted a digest that was of nothing.",
+    "vocabularyAdopted": "The predecessor's identity type vocabulary (Digest, ContentDigest, OpaqueId, Sha256Text, RawCasRef<...>, SemanticCommitmentRef<...>, the eighteen wire patterns, the EP/RT prose-named commitment types) is adopted unchanged. No new type vocabulary was needed: this sweep enters the corpus from the CODE side and asks which of those declared positions have their producing rule only there.",
+    "threeStateVocabularyAdopted": "This sweep classifies RULES, where the predecessor classified POSITIONS. The two are composable because every rule here names the position(s) it produces. The predecessor's five position states (COMPUTABLE, DELEGATED, LITERAL-ONLY, COMPUTABLE-BY-ALLOCATION, LABEL-NOT-DIGEST) are used unchanged when this document refers back to a predecessor row."
+  },
+
+  "departuresFromThePredecessor": {
+    "preamble": "Stated explicitly, as instructed. Three departures, one of them consequential.",
+    "one_checkerCountIsNinetyThreeNotNinetyFour": {
+      "statement": "The brief and the predecessor both say '94 checkers'. Measured: artifacts/ holds 93 files matching check-*.py and 94 files matching *.py. The 94th is make-freeze-manifest.py, which is not a checker.",
+      "corroboration": "IMPLEMENTATION-FREEZE.md section 7.6 states, of its own independent measurement, '93 checkers    88 pinned at their CURRENT bytes    5 carry no current-byte pin'. The freeze agrees with this measurement and the brief's 94 does not.",
+      "consequence": "Immaterial to coverage: this sweep read all 94 *.py files, so the extra file is inside the swept set either way. Recorded because an uncorrected count propagates."
+    },
+    "two_documentSelfMeasurementIsNotAlwaysComputableByConstruction": {
+      "statement": "THIS IS THE CONSEQUENTIAL DEPARTURE. The predecessor excluded a whole category from its 63 positions at scope.excludedWithReason.documentSelfMeasurement, verbatim: 'Structures such as c2-plan-stage-schema.v9#/documentSkeleton/subtrees map a top-level key name to the sha256 of that subtree. Computable by construction; excluded for the same reason.'",
+      "measurement": "It is not computable by construction. The digest is taken over jx_canon of the node's STEPS LIST, and jx_canon's byte format -- tag letter, decimal length, ':' delimiter -- is defined only in check-c2-v9.py:520-523. The head describes it qualitatively ('length-framed, type-tagged', 'invertible') and never states the frame. See row CO-13.",
+      "whatThisSweepDoesNotDo": "It does not assert the predecessor is in error about its OWN scope: excluding a category is a scoping choice, and the predecessor named the category rather than hiding it. What is recorded is that the stated REASON ('computable by construction') is measurably false for this instance, and that the exclusion therefore removed 30 real positions from view on a binding head."
+    },
+    "three_ruleGranularityRatherThanPositionGranularity": {
+      "statement": "The predecessor counted declared field POSITIONS. This sweep counts producing RULES, because one rule can produce many positions (the rt15 fixture builder produces seven commitment positions per golden) and one position can be produced by no rule at all. Totals in the two documents are therefore not addable without the union table given below."
+    }
+  },
+
+  "method": {
+    "parseDiscipline": "Every .json file under artifacts/ was parsed with json.loads(text, object_pairs_hook=H) where H raises ValueError on any repeated key, per freeze section 7.5. Measured at the classification pass: 386 documents, 0 parse failures, 0 duplicate-key rejections. The corpus held 386 .json files including the predecessor sweep; this file is the 387th. The predecessor recorded the corpus moving from 383 to 386 during its own run; it has been stable at 386 across every pass of this one.",
+    "pinnedPlanDigestConfirmed": {
+      "file": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+      "expected": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "measured": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "match": true,
+      "note": "Measured, not taken on trust. The file was hashed and never opened for writing. It is pinned in 40 files including 7 checkers; seven check-retention-custody-v16..v22.py exit 2 with AuthorityError before examining any contract if it moves by one byte."
+    },
+    "noCheckerWasEdited": "Every .py file was opened read-only, and additionally parsed with ast.parse, which does not write. No checker was modified, moved, or executed with arguments that mutate. Several hash-verify their inputs at runtime and two self-pin; editing them is self-defeating and was not attempted.",
+
+    "howTheProducingRuleShapesWereDerived": {
+      "principle": "Not assumed from the brief's list. The brief named preimage constructions, domain separators, hashlib call sites, framing helpers and encode_*/commit*/derive_* functions. That set was used only to widen the net; the operative shapes were derived from the code by four independent mechanical axes whose UNION was taken, so a rule missed by one axis is still caught.",
+      "axis1_directHashCallSites": "ast.walk over all 94 *.py collecting every Call whose func is an Attribute on the Name 'hashlib', with its enclosing function resolved through a class/function stack. Measured: 225 call sites in 83 files. 11 of the 94 files contain no hashlib call at all.",
+      "axis2_transitiveReachability": "A per-file call graph was built and closed transitively, because the sharpest rules delegate: _raw_bytes_commitment contains no hashlib call and reaches one only through domain_digest. Measured: 189 functions contain a direct hashlib call; 1142 functions reach one transitively. This axis was necessary and is the reason the first two passes of this sweep UNDERCOUNTED -- recorded because the same omission would silently shrink any repetition of this measurement.",
+      "axis3_domainSeparatorLiterals": "Every str/bytes Constant in every *.py was collected by ast (33335 distinct), then normalised by stripping trailing framing bytes (NUL, '/', '|', ':') because separators are written as 'opensip.rt15.fixture-run.v1\\u0000' and 'opensip.rt15.fixture-semantic-binding.v1/' rather than bare. 184 are domain-separator shaped. THIS NORMALISATION WAS LOAD-BEARING: without it, five of the eight rt15 domains were invisible, including three this sweep newly reports.",
+      "axis4_nulBearingLiterals": "Any literal CONTAINING a NUL byte is a domain-separated preimage prefix by construction. This axis is representation-level and completely name-independent, so no identifier spelling can hide from it. Measured: 23 such literals. It independently caught opensip.proof-obligation.v1, which axis 3 also caught, and confirmed that the rt15 bytes-closure and resolution-fixture domains are NOT NUL-bearing literals (the NUL is added inside domain_digest), which is why both axes were needed.",
+      "axis5_framingPrimitives": "Regex census over the same functions for u64be/u32be/u16be/u8 length framing (to_bytes(n,'big'), struct.pack('>...')), NUL separators, json.dumps(sort_keys=...), separators=(',',':'), ensure_ascii, deterministic CBOR, and Merkle folds. This axis catches producing rules that carry NO domain separator, which axes 3 and 4 cannot see. It is how availabilityCanonicalSha256 and the C-2 skeleton digest were found.",
+      "whyThatSetAndNotTheBriefs": "The brief's set is name-driven and would have been defeated three times over in this corpus: by _semantic_ref (a producing rule whose name suggests a lookup), by _host_ref (three pinned identities behind a name that suggests a handle), and by document_skeleton_digest (a rule the predecessor had already excluded by category). Axes 3, 4 and 5 are representation-level and name-independent for exactly this reason."
+    },
+
+    "howAbsenceWasEstablished": {
+      "standard": "No negative claim in this document rests on assumption. For every rule classified CODE-ONLY, absence was established by a search that is described here and reproducible: (a) the exact domain-separator string, and each of its normalised prefixes, was substring-searched across all 386 parsed .json documents and all 31 markdown surfaces (root *.md, architecture/, steering/, cleansheet/, deltas/); (b) the identity's field name was searched both as an object KEY and inside every string VALUE corpus-wide; (c) the value-side intersection was taken against the predecessor's rule vocabulary (preimage, domainSeparator, domainUtf8, domainTag, domainBytes, canonicaliz, SHA-256(, is computed, derived as, recipe, byte recipe, encoding, framing, 0x00). A rule is CODE-ONLY only when (a) returns zero non-measurement documents AND (c) is empty or contains solely input-set statements rather than byte constructions.",
+      "theMeasurementArtifactExclusion": "The predecessor sweep QUOTES two of these domain separators in its own evidence text. A naive substring test over artifacts/*.json therefore reports them as 'present in a JSON artifact'. They are not present in any CONTRACT: they are present in one measurement-only document that binds nothing. All cross-references in this sweep exclude artifacts/uncomputable-identity-fields.sweep.v1.json and this file. This is recorded because the naive test was run first and gave the wrong answer, and because it is exactly the shape of error that produced the 'nowhere stated' claim the freeze had to correct.",
+      "quoteBeforeConcludingAbsence": "Where a contract DOES say something adjacent, it is quoted in the row rather than suppressed, even when the quotation weakens the finding. evidence.v3 states the INPUT SET for proofObligationId and delivery.v2 states the CONSTRUCTION for cbor_commitment; both are quoted verbatim below, and they move those rows to different states."
+    },
+
+    "rulesWereExecutedNotOnlyRead": "Every CODE-ONLY row that produces a value the corpus pins was IMPLEMENTED FROM THE CHECKER SOURCE and executed against the contract's own pinned goldens. A rule that could not be executed is reported as read-but-unverified, not as confirmed. 41 independent value reproductions were performed and all 41 matched byte-exactly on the first attempt; they are listed in reproductionsPerformed. This is what distinguishes 'a function that looks like a producer' from 'the function that actually produced the pinned bytes'.",
+
+    "namesAreNotNatures": "Classification is by what the code and the contracts DO. Applied in both directions and it changed the answer in both. REJECTED as producing rules despite identity-shaped domain literals: opensip.snapshot-id.v2 (check-resolved-inputs.py:2086), opensip.plan-intent.v2 (check-c2-v4.py:2628) and opensip.bodyhash.alternate (check-fact-identity.py:679) are all NEGATIVE-CONTROL MUTATIONS -- functions named _m_change_snapshot_domain, _m_change_intent_domain and _m_closure_changes_domain that corrupt a domain tag to prove the checker rejects it. Each is a domain separator appearing in zero JSON, and each would have been a false positive for a name- or domain-driven sweep. Also rejected: EP11/EP12/EP13-SENTINEL (poisoning values for mutation testing) and _code_fingerprint (a behavioural fingerprint of a served module, not a corpus identity). ADMITTED despite non-identity names: _semantic_ref and _host_ref, which produce five pinned digest-typed positions between them."
+  },
+
+  "states": {
+    "STATED-IN-CONTRACT": "The checker implements a byte construction that a contract already states. The code is a reader of the contract, not its source. An implementer who never opens the .py can compute the value.",
+    "CODE-ONLY": "The rule exists nowhere but in Python. No contract, review, adjudication or markdown surface states the domain separator, the framing, or the canonicalisation that produces the value. THIS IS THE CLASS.",
+    "CODE-ONLY-BUT-DERIVABLE": "A contract states enough that the code is a faithful realisation rather than the sole source, but the assembly is not stated under the name the head uses, or one ingredient is reachable only through a golden vector rather than through a grammar. Distinguished carefully because it is the state most likely to be misjudged in either direction: over-calling it hides a real gap, under-calling it manufactures one."
+  },
+
+  "rules": {
+    "codeOnly": [
+      {
+        "id": "CO-01",
+        "identityProduced": "the shared domain-framing primitive under CO-02, CO-03, CO-04, CO-06 and CO-08",
+        "checker": "check-retention-custody-v15.py:178 through check-retention-custody-v22.py:565 (8 files, one identical body)",
+        "function": "domain_digest(domain, data)",
+        "ruleAsWritten": "'sha256:' + SHA-256( ASCII(domain) || 0x00 || u64be(len(data)) || data )",
+        "state": "CODE-ONLY",
+        "evidenceOfAbsence": "The u64be length-framing of the DATA half appears in no retention contract. retention-tiers v15-v22 carry the token 'u64be' only inside RT13 RawObjectKeyV1 encoding text, never attached to a commitment preimage. The v22 block that would carry it, #/verifiedSemanticRtApiContract/rawObjectResolutionConformance/fixtureAlgorithm, has nine keys and states recordBytes, recordCasRef, proofRefs, units, semanticClosure, operationalProjection, snapshot and forbidden -- and states no domain separator and no length framing for any of them.",
+        "whyItMattersSeparately": "It is not a field; it is the primitive four pinned commitments are built on. Lifting any one of CO-02..CO-08 into a contract without also stating this framing would produce a contract that still cannot be implemented."
+      },
+      {
+        "id": "CO-02",
+        "identityProduced": "rawBytesCommitment",
+        "position": "retention-tiers v15-v22 #/verifiedSemanticRtApiContract/rawObjectResolutionConformance/fixtureGoldens/*/commitments/rawBytesCommitment",
+        "checker": "check-retention-custody-v15.py:534 through check-retention-custody-v22.py:1632 (8 files, one identical body)",
+        "function": "_raw_bytes_commitment(rows)",
+        "ruleAsWritten": "domain_digest('opensip.rt15.raw-object-bytes-closure.v1', concat over rows sorted by row['request']['recordCasRef'] of u64be(len(rawBytes)) || rawBytes)",
+        "state": "CODE-ONLY",
+        "evidenceOfAbsence": "The domain separator opensip.rt15.raw-object-bytes-closure.v1 occurs in 8 checker .py files and in ZERO contracts, ZERO reviews and ZERO markdown surfaces. Its only non-.py occurrence corpus-wide is inside artifacts/uncomputable-identity-fields.sweep.v1.json, which is measurement-only and binds nothing. Independently re-measured here after excluding that file.",
+        "confirmsPredecessor": "This is one of the two rules the predecessor found incidentally. Its finding is CONFIRMED and now additionally verified by execution.",
+        "reproduced": "YES -- both pinned goldens, byte-exact, first attempt.",
+        "subtlety": "The sort key is request.recordCasRef, which is NOT the encoded RawObjectKeyV1 used as the sort key elsewhere in the same grammar. Two implementers who both guessed 'sorted' would still fork."
+      },
+      {
+        "id": "CO-03",
+        "identityProduced": "fixtureCommitment",
+        "position": "sibling of rawBytesCommitment in the same fixtureGoldens commitments objects",
+        "checker": "check-retention-custody-v22.py:1820 (inside build_fixture, defined at :1641); same in v15-v21",
+        "function": "build_fixture(...) -> commitments['fixtureCommitment']",
+        "ruleAsWritten": "domain_digest('opensip.rt15.raw-object-resolution-fixture.v1', compact_sorted_json(commitment_input)) where commitment_input is the seven-key object {proofBundleCasRef, semanticClosureCasRef, semanticClosureCommitment, availabilityCanonicalSha256, operationalProjectionRef, operationalProjectionDigest, rawObjectSnapshotId} and compact_sorted_json is json.dumps(ensure_ascii=False, sort_keys=True, separators=(',',':'))",
+        "state": "CODE-ONLY",
+        "evidenceOfAbsence": "The domain separator occurs in 8 .py files and zero contracts, by the same search as CO-02. The seven-key membership of the commitment input is stated nowhere: no contract enumerates which sub-identities the fixture commitment covers.",
+        "confirmsPredecessor": "The second of the predecessor's two incidental finds. CONFIRMED and verified by execution.",
+        "reproduced": "YES -- both pinned goldens, byte-exact, first attempt."
+      },
+      {
+        "id": "CO-04",
+        "identityProduced": "rawObjectSnapshot.snapshotId",
+        "position": "retention-tiers v15-v22 #/.../fixtureGoldens/*/rawObjectSnapshot/snapshotId, and carried into fixtureCommitment as rawObjectSnapshotId",
+        "checker": "check-retention-custody-v22.py:1801-1804 (inside build_fixture); same in v15-v21",
+        "function": "build_fixture(...) -> snapshot_id",
+        "ruleAsWritten": "'snapshot1:sha256:' + SHA-256( b'opensip.rt15.raw-object-snapshot.v1' || 0x00 || u64be(len(preimage)) || preimage ) where preimage = compact_sorted_json([{recordCasRef, rawBytesHex} per row])",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "The domain separator opensip.rt15.raw-object-snapshot.v1 occurs in 8 checker .py files and in ZERO .json and ZERO .md anywhere in docs/coop -- including zero occurrences in the predecessor sweep, so unlike CO-02 and CO-03 there is not even a measurement-only mention. The one adjacent contract sentence is v22 fixtureAlgorithm.snapshot, verbatim: 'Embed every exact raw byte vector keyed by its derived CAS; snapshot identity commits to the complete ordered byte map.' That states WHAT is committed and states no domain, no framing and no ordering rule.",
+        "reproduced": "YES -- both pinned goldens, byte-exact, first attempt.",
+        "note": "The wire pattern ^snapshot1:[0-9a-f]{64}$ is in the predecessor's derived pattern vocabulary, so the POSITION was within its net; only the rule was out of reach."
+      },
+      {
+        "id": "CO-05",
+        "identityProduced": "the fixture RunId (unitAvailabilityRecords[*].runId and availabilityFixtures[*].runId)",
+        "position": "retention-tiers v15-v22 #/.../fixtureGoldens/*/unitAvailabilityRecords/*/runId",
+        "checker": "check-retention-custody-v22.py:1768; same in v15-v21",
+        "function": "build_fixture(...) -> run_id",
+        "ruleAsWritten": "'run1:' + SHA-256( UTF8('opensip.rt15.fixture-run.v1' || 0x00 || fixtureId) )",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "opensip.rt15.fixture-run.v1 occurs in 8 checker .py files and zero .json, zero .md, zero measurement documents.",
+        "reproduced": "YES -- both pinned goldens, byte-exact, first attempt.",
+        "interactionWithAParkedRow": "This produces a value matching ^run1:[0-9a-f]{64}$ -- the RunId wire shape -- by a rule ENTIRELY UNRELATED to the RunIdentityPreimageV1 grammar that evidence.v10 states for the product RunId, and while freeze section 7.1 parks 'RunId derivation' as having no binding recipe. The two are different things and this sweep does NOT claim the park is wrong; it records that the corpus contains a second, undocumented, executable construction emitting the same wire type, and that nothing in any contract distinguishes them."
+      },
+      {
+        "id": "CO-06",
+        "identityProduced": "semanticObjectBindings[*].semanticRef and semanticRoots[*].semanticRef",
+        "position": "retention-tiers v15-v22 #/.../fixtureGoldens/*/semanticClosure/semanticObjectBindings/*/semanticRef and /semanticRoots/*/semanticRef",
+        "checker": "check-retention-custody-v15.py:530 through check-retention-custody-v22.py:1628 (8 files)",
+        "function": "_semantic_ref(domain, raw_bytes)",
+        "ruleAsWritten": "domain_digest('opensip.rt15.fixture-semantic-binding.v1/' + semanticDomain, rawBytes) where semanticDomain is itself constructed as 'rt15-fixture-' + recordKind + '-v1'",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "opensip.rt15.fixture-semantic-binding.v1 occurs in 8 checker .py files and zero .json, zero .md. The composite form -- a fixed prefix concatenated with a per-record semantic domain through a '/' -- is stated nowhere; the semanticDomain values themselves (rt15-fixture-fact-v1, rt15-fixture-coverage-v1, rt15-fixture-resolved-activation-graph-v1) ARE pinned in the goldens as data, which makes the absence of the outer rule easy to miss.",
+        "reproduced": "YES -- all four bindings across both goldens, byte-exact, first attempt.",
+        "note": "These are SemanticCommitmentRef-family values, a type in the predecessor's derived vocabulary."
+      },
+      {
+        "id": "CO-07",
+        "identityProduced": "availabilityCanonicalSha256",
+        "position": "retention-tiers v15-v22 #/.../fixtureGoldens/*/availabilityCanonicalSha256, and carried into fixtureCommitment",
+        "checker": "check-retention-custody-v22.py:1781-1784; same in v15-v21",
+        "function": "build_fixture(...) -> availability_sha",
+        "ruleAsWritten": "SHA-256( compact_sorted_json({'unitAvailabilityRecords': availability, 'availabilityFixtures': availability_fixtures}) ) -- bare lowercase hex, NO domain separator and NO sha256: prefix, unlike every sibling in the same object",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "The field name occurs 3 times per file in retention-tiers v15-v22 and nowhere else in the corpus. All 3 occurrences per file are a key with a literal value or a member of the fixtureCommitment input; intersecting the name against rule vocabulary corpus-wide returns ZERO producing statements. No contract states the two-key wrapper object, its key order, or that the canonicalisation is sorted rather than insertion-order.",
+        "reproduced": "YES -- both pinned goldens, byte-exact, first attempt.",
+        "whyThisOneIsEasilyMissed": "It carries no domain separator at all, so axes 3 and 4 cannot see it. It was found only by axis 5 (framing primitives) and by reading build_fixture end to end. Any repetition of this sweep that relies on domain-separator search alone will miss this row and will not know it."
+      },
+      {
+        "id": "CO-08",
+        "identityProduced": "VerifiedSemanticRTSnapshotV1.snapshot_id (the in-process capability identity)",
+        "checker": "check-retention-custody-v16.py:2432",
+        "function": "_VerifiedSemanticRTSnapshot.__init__",
+        "ruleAsWritten": "domain_digest('opensip.verified-semantic-rt-snapshot.v1', pretty(candidate)) where pretty is json.dumps(indent=2, ensure_ascii=True, sort_keys=False) + newline",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "opensip.verified-semantic-rt-snapshot.v1 occurs in exactly one .py file and zero .json. Its successors DO appear: opensip.verified-semantic-rt-snapshot.v2 and .v3 each occur in one contract. So the corpus states the v2 and v3 domains and never the v1 domain, while a live checker still computes with it.",
+        "reproduced": "NOT REPRODUCED. This identity is constructed over an in-memory candidate at runtime and is not pinned in any contract, so there is no golden to reproduce against. Reported as read-but-unverified, and it is the weakest row in this class.",
+        "severityNote": "Lower consequence than CO-02..CO-07 because no published value depends on it. Recorded because it is a producing rule with a domain separator no contract carries, which is the measured class."
+      },
+      {
+        "id": "CO-09",
+        "identityProduced": "proofObligationId",
+        "position": "evidence.v3.json #/recordSchemas/EvaluationEvidence/fields/proofObligationId (type string, pattern ^sha256:[0-9a-f]{64}$; a required member at /required/7), pinned at 3 positiveFixtures",
+        "checker": "check-evidence.py:378-384, using the framing helper at check-evaluation-proof.py:337-352",
+        "function": "_proof_obligation_id(ep, predicate_id, claim_shape, coverage_ref)",
+        "ruleAsWritten": "'sha256:' + SHA-256( b'opensip.proof-obligation.v1' || 0x00 || frame(0x02, predicateId) || frame(0x08, claimShape) || frame(0x09, coverageRefId) ) where frame(tag, value) = u8(tag) || u32be(len(UTF8(value))) || UTF8(value)",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "theContractQuotedInFull": "evidence.v3.json #/invariants/2/assert states verbatim: 'proofObligationId is host-derived from predicateId + claimShape + exact Coverage identity.'",
+        "whyThatQuoteDoesNotMakeItStated": "That sentence names the INPUT SET and states no byte construction. It gives no domain separator, no component tags, no length framing, no ordering and no encoding. The domain separator opensip.proof-obligation.v1 occurs in exactly one .py file and ZERO .json. The three tag bytes 0x02, 0x08 and 0x09 appear in no contract in connection with this identity. Two implementers reading only that sentence -- one concatenating with a pipe, one hashing sorted canonical JSON -- both satisfy it and neither interoperates. This is the corpus's own predicted failure, and the row is CODE-ONLY rather than CODE-ONLY-BUT-DERIVABLE precisely because an input list is not a preimage.",
+        "reproduced": "YES -- all 3 pinned positiveFixture values in evidence.v3, byte-exact, first attempt.",
+        "notInThePredecessorAtAll": "proofObligationId appears in none of the predecessor's 63 classified positions, in any state. It is a new position as well as a new rule."
+      },
+      {
+        "id": "CO-10",
+        "identityProduced": "projectMarkerRef",
+        "position": "evaluation-proof.v7/v8/v9 #/positiveVectors/*/trustedStoreFixture/hostAdmissionEvidence/projectMarkerRef",
+        "checker": "check-evaluation-proof-v7.py:155-157 and check-evaluation-proof-v8.py:163-165; called at v8:587 and v8:890",
+        "function": "_host_ref(domain, project, fixture_id)",
+        "ruleAsWritten": "'sha256:' + SHA-256( ASCII('opensip.test.project-marker.v1') || 0x00 || ASCII(projectId) || 0x00 || ASCII(fixtureId) )",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "opensip.test.project-marker.v1 occurs in 3 checker .py files and ZERO .json, ZERO .md. Corpus-wide the name projectMarkerRef appears in evaluation-proof.v7/v8/v9 only, at 24 sites each. Intersecting every string VALUE in those three documents against rule vocabulary returns exactly two adjacent statements and neither is a construction: #/projectStoreAuthorityContract/boundIdentity/2 is the bare string 'projectMarkerRef' inside a list, and #/activationAuthority/producerAuthority reads 'ProjectStoreAuthorityV1 only after host project-marker/registry/open-root admission; no caller JSON, owner string, boolean or ref is authority', which governs admission ORDER and not derivation. On the binding head evaluation-proof.v13.json the name does not occur at all.",
+        "reproduced": "YES -- 7 vectors x 3 fields = 21 of 21 values in evaluation-proof.v8, byte-exact, first attempt.",
+        "placeholderTell": "ABSENT -- every value is a realistic-looking digest (e.g. sha256:2357278eb35111a7457d4309380c324d53b6cce364be98d097c3e3f14eca578b). The tell that fires on capabilityManifestId does not fire here."
+      },
+      {
+        "id": "CO-11",
+        "identityProduced": "projectRegistryRef",
+        "position": "evaluation-proof.v7/v8/v9 #/positiveVectors/*/trustedStoreFixture/hostAdmissionEvidence/projectRegistryRef",
+        "checker": "check-evaluation-proof-v7.py:155-157, check-evaluation-proof-v8.py:163-165; called at v8:588 and v8:891",
+        "function": "_host_ref(domain, project, fixture_id)",
+        "ruleAsWritten": "identical to CO-10 with domain 'opensip.test.project-registry.v1'",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "Same search as CO-10. opensip.test.project-registry.v1 occurs in 3 .py and zero .json/.md. projectRegistryRef is not even a member of the boundIdentity list that names its two siblings.",
+        "reproduced": "YES -- included in the 21 of 21 above."
+      },
+      {
+        "id": "CO-12",
+        "identityProduced": "openedRootRef",
+        "position": "evaluation-proof.v7/v8/v9 #/positiveVectors/*/trustedStoreFixture/hostAdmissionEvidence/openedRootRef",
+        "checker": "check-evaluation-proof-v7.py:155-157, check-evaluation-proof-v8.py:163-165; called at v8:589 and v8:892",
+        "function": "_host_ref(domain, project, fixture_id)",
+        "ruleAsWritten": "identical to CO-10 with domain 'opensip.test.opened-root.v1'",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "Same search as CO-10. opensip.test.opened-root.v1 occurs in 3 .py and zero .json/.md. The one contract mention is #/projectStoreAuthorityContract/boundIdentity/4, the bare string 'openedRootRef' in a list.",
+        "reproduced": "YES -- included in the 21 of 21 above.",
+        "sharedNote_CO10_CO11_CO12": "These three are the checker's fixture-only host admission bridge, and the checker says so at check-evaluation-proof-v8.py:575: 'Fixture-only bridge; ordinary JSON never reaches the production constructor.' That is an honest scoping of the CODE. It is not a scoping of the CONTRACT: evaluation-proof.v7/v8/v9 publish 72 realistic-looking digest values that no reader of those contracts can compute or check, inside vectors those contracts present as their positive evidence. The E-NS-1 storage-root escalation concerns the same conceptual object (root identity and authority-record creation) and does not cover these three refs."
+      },
+      {
+        "id": "CO-13",
+        "identityProduced": "documentSkeleton.sha256 (1 position) and documentSkeleton.subtrees.* (29 positions) = 30 digest-typed positions on a BINDING HEAD",
+        "position": "c2-plan-stage-schema.v9.json #/documentSkeleton/sha256 and #/documentSkeleton/subtrees/*; c2-plan-stage-schema.v8.json #/documentSkeleton/sha256 under the predecessor rule",
+        "checker": "check-c2-v9.py:4030 (document_subtree_skeletons) and :4039 (document_skeleton_digest), over document_skeleton at :3856, resting on jx_canon at :526 and jx_frame at :520-523",
+        "function": "document_skeleton_digest(c) / document_subtree_skeletons(c)",
+        "ruleAsWritten": "sha256( jx_canon( [[jx_canon(steps_list), json_type] for every node incl. containers] ) ), where jx_frame(tag, payload) = tag + decimal_str(len(payload)) + ':' + payload and jx_canon tags are z(null) b(boolean,'1'/'0') i(integer,str) n(number,repr) s(string) a(array,concat) o(object,sorted (canonKey,canonValue) pairs concatenated)",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "departsFromPredecessorExclusion": true,
+        "theContractQuotedInFull": "c2-plan-stage-schema.v9.json #/documentSkeleton/rule states verbatim: 'The PATH and the JSON TYPE of every NODE of this document, container nodes included, canonicalised and hashed into one digest. The path is bound as jx_canon of the STEPS LIST, not as a rendering of it...'. #/thePrimitive/whatItIs adds: 'jx_canon, a total, length-framed, type-tagged canonical encoding of a JSON value, and everything else defined in terms of it.' #/theSkeletonDefect/whatTheRepairIs adds: 'it is length-framed, so concatenation is decodable; it is type-tagged, so an array INDEX and an object KEY spelled with the same digits are different tokens; and jx_decanon inverts it'.",
+        "whyThatIsNotEnough": "Those are PROPERTIES, not bytes. 'Length-framed and type-tagged' is satisfied equally by 's5:hello', 's:5:hello', 'STR' || u32be(5) || 'hello' and a hundred others, all invertible, all type-tagged, all producing DIFFERENT digests. The tag alphabet, the decimal length encoding and the ':' delimiter are stated in no binding contract. Measured: the token jx_frame occurs in exactly one .json in the corpus, artifacts/c2-plan-stage-schema.v9.review-independent.json, which is a review and not a contract; the head c2-plan-stage-schema.v9.json names jx_canon 18 times and never states its frame.",
+        "reproduced": "YES -- documentSkeleton.sha256 reproduced as aa0cd11e6f4328a3c43aaef81537730847dff7294f9bb0bc95b524c84d129520, byte-exact, first attempt, and the published node count 1124 reproduced exactly. The rule as transcribed from check-c2-v9.py is demonstrably the producer of the head's pinned value.",
+        "whyThisIsTheHighestStructuralConsequenceRowHere": "c2-plan-stage-schema.v9.json is one of the 21 binding surfaces in freeze section 3. Its own totality argument -- that every leaf of the document is bound by a published digest -- is carried by 30 values whose producing rule is not in the corpus. The document is self-verifying only to a reader who also has check-c2-v9.py, and the freeze pins that checker's bytes."
+      },
+      {
+        "id": "CO-14",
+        "identityProduced": "owner1:<32 hex> and live1:<32 hex> operational identifiers",
+        "checker": "check-evidence-v8.py:1275-1283",
+        "function": "_operational_id(prefix, *parts) and _owner_identity(execution_id, generation)",
+        "ruleAsWritten": "prefix + ':' + SHA-256( UTF8('\\u0000'.join(parts)) ).hexdigest()[:32] -- a TRUNCATED digest, 128 bits",
+        "state": "CODE-ONLY",
+        "newFinding": true,
+        "evidenceOfAbsence": "No contract states an owner or liveness identifier construction. The prefixes owner1: and live1: occur in retention-tiers v10-v22 only as literal values, and every such value corpus-wide is a repeated-nibble placeholder (owner1:2222...2222, owner1:5555...5555, live1:3333...3333, live1:6666...6666). No realistic value exists, and no rule vocabulary attaches to either name.",
+        "reproduced": "NOT REPRODUCED -- there is no realistic pinned value to reproduce against; the checker builds these over runtime fixtures.",
+        "severityNote": "The WEAKEST row in this class and recorded as such. Because every corpus value is a placeholder, no published identity depends on this rule, and it may be purely checker-internal scaffolding. It is included because it is a producing rule with a 128-bit truncation policy stated nowhere, and because omitting it would make this sweep's count depend on a judgement it has not earned. A reader tightening the class to 'rules producing a value some contract pins' should exclude CO-08 and CO-14 and read the count as 12."
+      }
+    ],
+
+    "codeOnlyButDerivable": [
+      {
+        "id": "CD-01",
+        "identityProduced": "indexFingerprint",
+        "position": "evaluation-proof.v13.json (BINDING HEAD) #/preservedMeasurements/regimes/A/baseline/indexFingerprint and /regimes/B/baseline/indexFingerprint, plus 7 movedIdentities references; same in v10/v11/v12",
+        "checker": "check-evaluation-proof-v7.py:488, check-evaluation-proof-v8.py:638, check-evaluation-proof-v10.py:930 and :1143",
+        "function": "raw_record_ref('EvaluationAuthorityIndexV1', row) at check-evaluation-proof-v6.py:202, over raw_record_bytes at :194 and canonical_json at :188, with the domain table at :93-98",
+        "ruleAsWritten": "'sha256:' + SHA-256( ASCII('opensip.evaluation-authority-index.v1') || 0x00 || canonical_json({schemaVersion, projectId, evaluationAuthoritySealRef, evaluationAuthorityAdmissionRef}) ) where canonical_json is sort_keys=True, separators=(',',':'), ensure_ascii=False",
+        "state": "CODE-ONLY-BUT-DERIVABLE",
+        "isAReclassification": true,
+        "predecessorState": "LITERAL-ONLY, described as the predecessor's 'Second-highest unparked finding'",
+        "theContractQuotedInFull": "evaluation-proof.v9.json and evaluation-proof.v7.json #/rawAuthorityRecordGrammar state, verbatim: encoding = 'UTF8(domainUtf8) || 0x00 || opensip-canonical-json-v1(closed record)'; canonicalJson = 'NFC strings/keys; signed-64 integers; booleans/null; arrays retain order; objects UTF-8 key sort; compact UTF-8; no floats, NaN, BOM or trailing bytes'; digest = 'RawCasRef = sha256(exact encoded bytes)'. evaluation-proof.v7.json #/evaluationAuthorityStoreIndex states type 'EvaluationAuthorityIndexV1' and required ['schemaVersion','projectId','evaluationAuthoritySealRef','evaluationAuthorityAdmissionRef'] with optional []. evaluation-proof.v6/v7/v8 #/positiveVectors/*/authorityGoldens/evaluationAuthorityStoreIndexRaw state domainUtf8 = 'opensip.evaluation-authority-index.v1' together with value, encodedHex, byteLength and rawCasRef.",
+        "whatThisSweepMeasuredAgainstThePredecessor": "The predecessor recorded, verbatim: 'check-evaluation-proof-v7.py, check-evaluation-proof-v8.py and check-evaluation-proof-v10.py bind the name to a RawCasRef over EvaluationAuthorityIndexV1. No JSON artifact states that equation. An implementer reading only the contracts cannot compute it.' Measured here: an implementer reading only the contracts CAN compute it. Working from the quoted grammar alone, this sweep reproduced sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689 -- the exact value pinned as a hard baseline on the binding head evaluation-proof.v13.json -- byte-exactly, on the first attempt. It also reproduced evaluation-proof.v7's own pinned encodedHex (352 bytes, exact) and rawCasRef for the store-index golden.",
+        "whatIsGenuinelyCodeOnlyHere": "Only the NAMING BINDING. Nothing in any contract says that the field evaluation-proof.v13 calls indexFingerprint is the raw record ref of EvaluationAuthorityIndexV1. That equation is stated in three checkers and nowhere else. What is NOT code-only is the construction itself.",
+        "twoResidualsThatKeepThisFromBeingSTATED-IN-CONTRACT": [
+          "EvaluationAuthorityIndexV1 is ABSENT from #/rawAuthorityRecordGrammar/records, which has exactly three entries (AdmittedResolvedInputsV1, PlanAuthorityReceiptV1, EvaluationAuthorityAdmissionV1) while the checker's DOMAIN_BY_TYPE at check-evaluation-proof-v6.py:93-98 has FOUR. The predecessor observed this absence correctly. The domainUtf8 is therefore reachable only through a golden vector, not through the grammar's own record table -- a vector, not a rule.",
+          "The projectId is not carried in v13's own preservedMeasurements baseline. This sweep supplied prj1-aaaa...aaaa (the corpus's test project id, one of only two prj1- values in the whole .py corpus) and confirmed it by matching; prj1-bbbb...bbbb yields sha256:1103ae64... and does not match. So the value is derivable given one input the head does not pin."
+        ],
+        "whyTheReclassificationDoesNotDissolveThePredecessorsFinding": "The predecessor's finding is real and its CLASS was misidentified. On the head alone, evaluation-proof.v13.json, the value is not computable -- v13 has 32 top-level keys and none is rawAuthorityRecordGrammar, and the name projectMarkerRef/hostAdmissionEvidence does not occur there either. This is exactly the predecessor's own structuralFinding_headsHaveShedTheirGrammars, not a missing rule. The repair differs accordingly: this needs a carriedFragments pointer or a derivedFrom declaration, not a new recipe. That change in what closing it costs is the value of the reclassification.",
+        "reproduced": "YES -- twice: the v7 store-index golden (encodedHex byte-identical at 352 bytes, and rawCasRef sha256:19f712bd3cc4fb8fa48c7ff34698fd8e1a7791a3e07bc089afacfbf26c051092) and the v13 baseline value itself."
+      },
+      {
+        "id": "CD-02",
+        "identityProduced": "semanticCapabilityClosureCasRef (and the sibling proofBundleCasRef)",
+        "checker": "check-retention-custody-v22.py, inside build_fixture at :1641 -- closure_bytes = compact(closure, sort_keys=True); closure_ref = cas(closure_bytes)",
+        "state": "CODE-ONLY-BUT-DERIVABLE",
+        "theContractQuotedInFull": "retention-tiers.v22.json #/operationalCustodyProjectionContract/sourceAuthority/joinRules/2 states verbatim: 'source closure CAS hashes the exact semantic closure canonical bytes'.",
+        "whatIsCodeOnly": "The word 'canonical' is never defined for SemanticCapabilityClosureV3 in the retention lineage. The checker supplies sort_keys=True and separators=(',',':') and ensure_ascii=False. The contract states the INTENT and the code supplies the CHOICE.",
+        "agreementWithThePredecessor": "The predecessor reached the same conclusion from the contract side and classified it 'NO -- SILENTLY FORKING', recording that sorted-keys reproduces the pin and insertion-order does not. This sweep confirms from the code side which branch the checker takes, and adds that the named profile opensip-canonical-json-v1 -- which WOULD supply the missing definition -- occurs in 10 corpus files and none of them is a retention-tiers artifact.",
+        "state_rationale": "DERIVABLE rather than CODE-ONLY because a contract does state that the input is the closure's canonical bytes and does state the digest function; only the canonicalisation profile is missing. A reader who additionally adopts opensip-canonical-json-v1 from c2-plan-stage-schema.v4 reaches the right answer. That the corpus never instructs them to is the residual."
+      },
+      {
+        "id": "CD-03",
+        "identityProduced": "subjectScopeCommitment and the RequestedCoverageDomainV1 / TypeScriptSemanticUniverseKey family",
+        "checker": "check-delivery.py:361-364",
+        "function": "cbor_commitment(domain, value)",
+        "ruleAsWritten": "'sha256:' + SHA-256( UTF8(domain) || 0x00 || deterministic_cbor(value) )",
+        "state": "CODE-ONLY-BUT-DERIVABLE",
+        "theContractQuotedInFull": "delivery.v2.json states, verbatim, for SubjectScopeV1.subjectScopeCommitment: \"Sha256Text = SHA-256(UTF8('opensip.coverage.subject-scope.v1') || 0x00 || deterministic-CBOR(sorted SnapshotFileSubjectV1 array))\".",
+        "whatIsCodeOnly": "Only the deterministic-CBOR PROFILE. The checker's deterministic_cbor implements one specific encoder; delivery.v2 cites RFC 8785 for JSON two blocks away and cites no CBOR profile here.",
+        "state_rationale": "The construction is fully stated on a BINDING head; the code is a faithful realisation, not the source. This is the clearest STATED-adjacent row in the corpus and is recorded to show the classification boundary from the other side.",
+        "agreementWithThePredecessor": "The predecessor reproduced the pinned fixture from this quoted rule byte-exactly and recorded the same uncited-CBOR residual, plus the measurement that RFC 7049 and RFC 8949 key orderings coincide for text keys shorter than 24 bytes so no fixture can discriminate them. Nothing here disturbs that."
+      },
+      {
+        "id": "CD-04",
+        "identityProduced": "evaluationProofBundleCasRef",
+        "checker": "reached through the same compact/sort_keys canonical form used across check-evidence*.py and check-retention-custody-v22.py",
+        "state": "CODE-ONLY-BUT-DERIVABLE",
+        "theContractQuotedInFull": "evidence.v10.json #/canonicalWireGrammar/commitments/canonicalJsonRawCas names the profile 'opensip-canonical-json-v1'; the profile's definition lives on a different surface, c2-plan-stage-schema.v4.json #/planIntent/canonicalCommitment/encoding.",
+        "whatIsCodeOnly": "No artifact STATES that this field uses canonicalJsonRawCas; it is inferred from the RawCasRef<...> type, and the checker encodes that inference.",
+        "agreementWithThePredecessor": "The predecessor classified this DELEGATED / INCOMPLETE for the same reason and recorded that its one reproduction was over a pure-ASCII bundle. This sweep adds only the code-side confirmation and takes no different position."
+      }
+    ],
+
+    "statedInContract": [
+      {"id": "SC-01", "identity": "raw record refs for the three grammar-listed authority records (AdmittedResolvedInputsV1, PlanAuthorityReceiptV1, EvaluationAuthorityAdmissionV1)", "checker": "check-evaluation-proof-v6.py:188-203", "contract": "evaluation-proof.v7/v9 #/rawAuthorityRecordGrammar -- encoding, canonicalJson and digest all stated; all three record names, domains and required-field sets present in #/records", "verified": "reproduced the v7 store-index golden encodedHex and rawCasRef from the quoted text"},
+      {"id": "SC-02", "identity": "FACT-ID-V1", "checker": "check-fact-plane.py:394-404", "contract": "fact-plane.v1.json #/factRecordContractV1/factIdContract/preimageFraming, verbatim: domainBytes 'UTF-8 bytes 6f70656e7369702e666163742d696400 (ASCII opensip.fact-id followed by one NUL byte)', fieldFrame 'one unsigned 8-bit tag || unsigned 32-bit big-endian CVE1 byte length || CVE1(value)', preimage 'domainBytes || u16be(1) || u16be(14) || fourteen field frames in ascending tag order', digest 'SHA-256 over the exact preimage bytes'", "note": "The checker READS the contract's own preimageFields and raises if they drift, which is the shape of a contract-driven implementation rather than a contract-bearing one."},
+      {"id": "SC-03", "identity": "SNAPSHOT-ID-V1", "checker": "check-resolved-inputs.py:974-983", "contract": "resolved-inputs.v2.json #/snapshotIdContract/preimageFraming, verbatim: preimage 'domainBytes || u16be(recipeVersion=1) || CVE1(SnapshotDescriptorV1)'"},
+      {"id": "SC-04", "identity": "PLAN-ID-V1 framing", "checker": "check-resolved-inputs.py:1259", "contract": "resolved-inputs.v2.json #/planIdContract/preimageFraming plus the closed CVE1 encoding", "note": "Framing stated and computable; the VALUE remains blocked at preimage tags 3 and 9, exactly as the predecessor recorded. Nothing here changes that."},
+      {"id": "SC-05", "identity": "planIntentCommitment", "checker": "check-c2-v4.py / check-c2-v9.py plan_intent_commitment", "contract": "c2-plan-stage-schema.v4.json #/planIntent/canonicalCommitment, with domainTagUtf8 and the full opensip-canonical-json-v1 definition inline"},
+      {"id": "SC-06", "identity": "UNIT-ID-V3 (unitId)", "checker": "check-retention-custody-v22.py:1405 derive_unit_id", "contract": "domain opensip.semantic-custody-unit-id.v3 stated in 17 corpus documents including the retention-tiers lineage; component tags 0x72/0x74 and the object-refs blob stated with it"},
+      {"id": "SC-07", "identity": "semanticCapabilityClosureCommitment", "checker": "check-retention-custody-v22.py:1440 semantic_closure_commitment plus _merkle at :1424", "contract": "retention-tiers.v22.json #/semanticBasisProjection/semanticClosureGrammar (SEMANTIC-CAPABILITY-CLOSURE-GRAMMAR-V3) plus evaluation-proof.v5.json #/normativePreimageGrammar/commitment; domains opensip.evaluation-proof.v2 (15 documents) and semantic-capability-closure-v3 (32 documents)", "note": "The predecessor reproduced this from prose alone. Confirmed from the code side."},
+      {"id": "SC-08", "identity": "operationalProjectionRef and operationalProjectionDigest", "checker": "check-retention-custody-v22.py:1450 derive_operational_projection", "contract": "retention-tiers.v22.json #/operationalCustodyProjectionContract/identityTypes; domain opensip.operational-custody-projection.v1 stated in 8 documents", "note": "The predecessor recorded that these grammars were DROPPED at v23/v24 while the literals were retained. That remains true and is a head-shedding observation, not a code-only one."},
+      {"id": "SC-09", "identity": "R-1 conformance projection commitment", "checker": "check-r1-v1.5.py:569-577 _projection_commitment", "contract": "r1-lifetime-neutrality.conformance.v1.5.json #/evidenceIdentity/conformanceCommitmentGrammar, verbatim: 'SHA-256 over UTF-8 bytes of prefix opensip:r1-v1.5:projection\\u0000 followed by strict JSON of the declared variant projection: keys in the listed order, arrays in contract order, no whitespace, ensure_ascii=false, no floats. This is a conformance equality oracle only, not a replacement EvidenceDigest grammar.'", "note": "A model row: the contract states the prefix, the NUL, the key order, the whitespace policy, the ascii policy and the float policy. The checker adds nothing. Recorded to show what STATED-IN-CONTRACT looks like when the corpus does it well -- and note this is the SAME artifact that carries seventeen LITERAL-ONLY positions in the predecessor's table."},
+      {"id": "SC-10", "identity": "TCMS Merkle fold (universeCommitment, outcomeSetCommitment, waiverSetCommitment, verdictDerivationCommitment)", "checker": "check-evaluation-proof.py _merkle and check-retention-custody-v22.py:1424", "contract": "evaluation-proof.v5/v9 #/normativePreimageGrammar and #/canonicalCommitmentGrammar -- leaf, internal, oddNode and truncation all stated explicitly", "note": "The predecessor reproduced these from the contracts. Confirmed."},
+      {"id": "SC-11", "identity": "RETENTION-POLICY-ID-V1 and consentRecordRef", "checker": "check-retention-custody-v24.py retention_policy_id / consent_record_ref", "contract": "retention-tiers.v24.json -- domains opensip.project-retention-policy.v1 and opensip.retention-consent-record.v1 each stated in the head", "note": "The predecessor called retentionPolicyId 'the best-specified identity measured, fully self-contained on the head'. Confirmed from the code side."},
+      {"id": "SC-12", "identity": "RunAuthorityIndexV1 raw golden", "checker": "check-evidence-v5.py raw_golden", "contract": "domain opensip.run-authority-index.v1 stated in evidence.v5 through v10 (6 documents)"}
+    ]
+  },
+
+  "reclassificationsAgainstThePriorSweep": {
+    "headline": true,
+    "preamble": "The highest-value output of this sweep. A field the predecessor marked LITERAL-ONLY that has a rule here is a reclassification. Three of its rows move, one of them in the direction that REDUCES the finding, and that one was the harder measurement to make honestly.",
+    "count": 3,
+    "rows": [
+      {
+        "field": "indexFingerprint",
+        "predecessorState": "LITERAL-ONLY",
+        "predecessorRank": "'Second-highest unparked finding; it is pinned as a baseline on a binding head.'",
+        "newState": "CODE-ONLY-BUT-DERIVABLE",
+        "direction": "REDUCES the finding",
+        "basis": "The producing construction IS stated -- evaluation-proof.v7/v9 #/rawAuthorityRecordGrammar gives encoding, canonicalJson and digest; evaluation-proof.v7 #/evaluationAuthorityStoreIndex gives the closed field set; evaluation-proof.v6/v7/v8 authorityGoldens give the domainUtf8. This sweep reproduced the exact pinned baseline sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689 from that text, first attempt.",
+        "whatSurvives": "The naming binding (that v13's indexFingerprint IS that ref) exists only in three checkers; EvaluationAuthorityIndexV1 is absent from the grammar's three-entry records list so the domain is reachable only via a golden; and the projectId is not pinned on v13's baseline. On the HEAD alone it is still not computable.",
+        "whatChangesAboutClosingIt": "It is a head-shedding defect, not a missing-recipe defect. The lawful repair is a derivedFrom or carriedFragments pointer from v13 to the grammar-bearing predecessor -- which is what C-2 v9 already does correctly -- rather than authoring a new recipe. Authoring one would DUPLICATE an existing rule and risk forking it.",
+        "explicitNonClaim": "This sweep does not assert the predecessor erred. It classified from the contract side under a stated method and recorded the .py evidence it had; the .py sweep it declined to do is the one that moves the row. That is the blind spot working as documented."
+      },
+      {
+        "field": "rawBytesCommitment",
+        "predecessorState": "LITERAL-ONLY",
+        "newState": "CODE-ONLY",
+        "direction": "CONFIRMS and strengthens",
+        "basis": "The predecessor identified the rule's location by inspection. This sweep transcribed it, executed it against retention-tiers.v22's own two pinned goldens, and matched both byte-exactly on the first attempt, establishing that _raw_bytes_commitment is not merely present in the checker but is the actual producer of the pinned bytes.",
+        "addition": "The sort key is request.recordCasRef and NOT the encoded RawObjectKeyV1 used elsewhere in the same grammar -- so even an implementer who correctly guessed 'sorted' would fork."
+      },
+      {
+        "field": "fixtureCommitment",
+        "predecessorState": "LITERAL-ONLY",
+        "newState": "CODE-ONLY",
+        "direction": "CONFIRMS and strengthens",
+        "basis": "Same: transcribed and executed against both pinned goldens, matched byte-exactly first attempt.",
+        "addition": "The seven-key membership of the commitment input object is itself unstated. A contract that supplied the domain separator and the canonicalisation but not that membership would still not be implementable."
+      }
+    ],
+    "noRowMovedOutOfCOMPUTABLE": "No position the predecessor classified COMPUTABLE, DELEGATED, COMPUTABLE-BY-ALLOCATION or LABEL-NOT-DIGEST was found to rest on a code-only rule. Every checker implementing those rules was checked against the contract text the predecessor cited, and in each case the contract states the construction. The predecessor's COMPUTABLE column survives this sweep intact.",
+    "positionsAddedRatherThanReclassified": {
+      "count": 11,
+      "note": "These are NOT reclassifications, because the predecessor never classified them in any state. They are positions its two sweep axes did not reach, found here because this sweep enters from the code side.",
+      "list": [
+        "rawObjectSnapshot.snapshotId (CO-04)",
+        "fixture RunId (CO-05)",
+        "semanticObjectBindings[*].semanticRef and semanticRoots[*].semanticRef (CO-06)",
+        "availabilityCanonicalSha256 (CO-07)",
+        "VerifiedSemanticRTSnapshotV1.snapshot_id (CO-08)",
+        "proofObligationId (CO-09)",
+        "projectMarkerRef (CO-10)",
+        "projectRegistryRef (CO-11)",
+        "openedRootRef (CO-12)",
+        "documentSkeleton.sha256 and its 29 subtree digests (CO-13, counted as one position family)",
+        "owner1/live1 operational identifiers (CO-14)"
+      ]
+    }
+  },
+
+  "totals": {
+    "corpusDocumentsParsedWithDuplicateKeyRejection": 386,
+    "duplicateKeyRejections": 0,
+    "parseFailures": 0,
+    "markdownSurfacesSearched": 31,
+    "pythonFilesRead": 94,
+    "checkFilesRead": 93,
+    "directHashlibCallSites": 225,
+    "filesContainingAtLeastOneHashlibCall": 83,
+    "filesContainingNone": 11,
+    "functionsWithADirectHashlibCall": 189,
+    "functionsReachingHashlibTransitively": 1142,
+    "distinctPythonStringOrBytesLiterals": 33335,
+    "domainSeparatorShapedLiteralsAfterNormalisation": 184,
+    "nulBearingLiterals": 23,
+    "rulesClassified": 30,
+    "byState": {
+      "CODE-ONLY": 14,
+      "CODE-ONLY-BUT-DERIVABLE": 4,
+      "STATED-IN-CONTRACT": 12
+    },
+    "countingRule": "rulesClassified counts distinct (identity produced, byte construction) pairs, deduplicated across checker versions -- the eight retention checkers v15..v22 carry byte-identical bodies for CO-01..CO-07 and contribute one rule each, not eight. STATED-IN-CONTRACT is a REPRESENTATIVE sample and not a census: it covers the twelve rule families this sweep verified against quoted contract text, and there are further stated rules in the corpus that were confirmed present and not itemised, because the class this document measures is the other one. The CODE-ONLY and CODE-ONLY-BUT-DERIVABLE counts ARE intended as exhaustive over the shapes searched.",
+    "alternativeStricterCount": "If the class is tightened to 'rules producing at least one value some contract pins', CO-08 and CO-14 drop out and CODE-ONLY is 12. Both readings are given because the choice is a judgement and should not be buried in a number.",
+    "digestTypedPositionsAffectedByCodeOnlyRules": 40,
+    "positionsCountingRule": "40 = 30 on c2-plan-stage-schema.v9 (1 skeleton digest + 29 subtree digests) + 6 declared in retention-tiers v15-v22 fixtureGoldens (rawBytesCommitment, fixtureCommitment, rawObjectSnapshot.snapshotId, runId, semanticRef, availabilityCanonicalSha256) + 1 in evidence.v3 (proofObligationId) + 3 in evaluation-proof.v7/v8/v9 (projectMarkerRef, projectRegistryRef, openedRootRef). Counted as DECLARED FIELD POSITIONS, not occurrence sites: the two retention goldens, the three evidence fixtures and the 72 host-admission sites are occurrences of these 40, not additional positions. CO-08 and CO-14 contribute ZERO positions because neither produces a value any contract pins, which is why the stricter rule count excludes them.",
+    "reproductionsAttempted": 41,
+    "reproductionsMatchedByteExactly": 41,
+    "reproductionsMatchedOnFirstAttempt": 41
+  },
+
+  "unionWithThePriorSweep": {
+    "predecessorPositionsExamined": 63,
+    "predecessorMembersNotParked": 22,
+    "positionsThisSweepAdds": 11,
+    "positionsThisSweepReclassifies": 3,
+    "unionOfClassifiedPositions": 74,
+    "unionCountingRule": "74 = the predecessor's 63 + this sweep's 11 additions. The 3 reclassified rows are already inside the 63 and are not double-counted. The two documents are composable at this granularity because every rule row here names the position(s) it produces and every added position was checked for absence from the predecessor's tables.",
+    "unionOfMembersNotParkedAgainstFreeze71": {
+      "count": 33,
+      "arithmetic": "22 (predecessor) + 11 (this sweep) = 33. None of this sweep's 11 additions appears in freeze section 7.1's nine parked rows, in the two related gaps named beneath the table, or in blueprint section 5.1's nine items. Each was independently checked against all three lists by name.",
+      "caveat": "indexFingerprint is inside the predecessor's 22 and this sweep moves its STATE without removing it from the unparked set: it remains unparked and remains not computable from the head alone. The count does not change."
+    },
+    "concentrationObserved": "Of this sweep's 14 CODE-ONLY rules, 8 sit in the retention-custody lineage, 4 in the evaluation-proof / evidence lineage and 1 in C-2. The predecessor's concentration finding was that 16 of its 22 unparked members sat on r1-lifetime-neutrality.conformance.v1.5 and resolved-inputs.v2. The two concentrations are DISJOINT: the surfaces richest in literal-only positions are not the surfaces richest in code-only rules. Neither sweep alone would have shown that."
+  },
+
+  "checkerImmutabilityOfTheseRules": {
+    "whyThisSectionExists": "A code-only rule inside a self-pinned checker cannot be lifted into a contract without a successor, which changes what closing it costs. Measured here rather than assumed.",
+    "methodAndItsCorrection": "Self-pinning was first detected by a regex that flagged any checker naming itself, and it returned six files. FOUR WERE FALSE POSITIVES -- check-evaluation-proof-v10/v11/v12/v13.py name themselves only in a docstring and a usage line. The corrected test requires the file's own basename to appear as the ARGUMENT of a hashing call in its own source. Recorded because the uncorrected figure disagreed with freeze section 7.6 and the disagreement was the instrument, not the corpus.",
+    "selfPinningCheckers": ["check-phase1a-a-prime-successor-v2.py", "check-phase1a-a-prime-successor-v3.py"],
+    "agreementWithFreeze76": "Exactly reproduces the freeze's statement 'Two of them self-pin', and the self-pin site is confirmed at check-phase1a-a-prime-successor-v3.py:166, verbatim: \"sha256\": sha_file(\"check-phase1a-a-prime-successor-v3.py\").",
+    "doAnyCodeOnlyRulesSitInsideASelfPinnedChecker": "NO. Neither phase1a checker contains any of the 14 CODE-ONLY rules or the 4 CODE-ONLY-BUT-DERIVABLE rules. This is the one piece of good news in this document: no rule measured here is in the strongest-immutability class, so none is unliftable for that reason.",
+    "runtimeHashVerification": {
+      "measured": "71 of the 93 checkers contain an explicit runtime drift comparison (a computed digest compared against an expected constant, reported as 'protected input changed', 'dependency hash drift' or an expected/actual inequality).",
+      "allEightRetentionCheckersVerifyAtRuntime": "check-retention-custody-v15..v22.py all hash-verify their dependencies at execution. This is the mechanism freeze section 7.6 describes when it records that seven of them exit 2 with AuthorityError before examining any contract if ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md moves by one byte.",
+      "consequenceForCO01throughCO08": "The eight rt15 rules live in eight runtime-verifying checkers. They cannot be edited in place, but they are not self-pinned, so a successor contract could STATE them without touching the checkers at all -- the checkers would continue to pass, because stating a rule in a contract does not change the checker's inputs."
+    },
+    "pinDensityOfTheRuleBearingCheckers": {
+      "note": "Count of OTHER files in docs/coop recording the checker's CURRENT bytes, excluding the seven self-declared measurement-only or record-only documents, per freeze section 7.6's own exclusion.",
+      "check-evaluation-proof-v8.py": 57,
+      "check-evaluation-proof.py": 56,
+      "check-evaluation-proof-v7.py": 44,
+      "check-evaluation-proof-v6.py": 43,
+      "check-evidence.py": 26,
+      "check-retention-custody-v22.py": 21,
+      "check-retention-custody-v15.py": 16,
+      "check-retention-custody-v16.py": 15,
+      "check-evaluation-proof-v10.py": 13,
+      "check-c2-v9.py": 7,
+      "check-retention-custody-v17.py": 6,
+      "check-retention-custody-v18.py": 5,
+      "check-retention-custody-v19.py": 5,
+      "check-retention-custody-v20.py": 5,
+      "check-retention-custody-v21.py": 4,
+      "interpretation": "Every checker carrying a code-only rule is pinned by at least four other documents. None can be edited. Lifting any of these rules is therefore necessarily an authoring act on a CONTRACT, never a repair of the checker -- which is consistent with this sweep proposing no recipe."
+    },
+    "aLiveCorpusObservationAboutTheFreezesOwnFigures": {
+      "freezeStates": "'93 checkers    88 pinned at their CURRENT bytes    5 carry no current-byte pin', naming check-adjudication.py, check-completeness.py, check-method-dispositions.py, check-package-coherence.py and check-retention-v3.py.",
+      "measuredHere": "Also 5 with no current-byte pin, but a DIFFERENT set: check-adjudication.py, check-fact-identity.py, check-fact-plane.py, check-method-dispositions.py and check-retention-v3.py. Three overlap. check-completeness.py and check-package-coherence.py have since acquired current-byte pins; check-fact-identity.py and check-fact-plane.py no longer carry one.",
+      "identifiedCause": "At least partly the exclusion set. The freeze excluded 'the three documents that declare themselves measurement-only'; this sweep measured SEVEN such documents in the corpus now (duplicate-key-adoption.v1 and v2, evidence-identity-recipes.v1 and v2, plan-and-policy-identity-recipes.v1 and its review, and the predecessor sweep). artifacts/duplicate-key-adoption.v1.json is the sole recorder of check-adjudication.py's current bytes, so counting it moves that file across the line.",
+      "whyRecorded": "Not as a defect and not as a correction to the freeze. It is a measurement whose reproduction depends on an exclusion set that has itself grown, and the predecessor recorded its document count the same way for the same reason. A signer re-running the freeze's arithmetic today will not get the freeze's numbers, and should know why before concluding something moved.",
+      "changesNothing": "No status, disposition, verdict or seal is affected."
+    }
+  },
+
+  "whatThisSweepCannotSee": {
+    "preamble": "A false negative here reads as coverage, which is this corpus's dominant failure mode -- freeze section 7 records 10+ instances. These are the boundaries of what this measurement establishes, stated so that the next lane inherits a named gap rather than an unearned sense of completeness.",
+    "limits": [
+      "RULES BUILT FROM COMPUTED STRINGS. Every axis here reads LITERALS. A domain separator assembled at runtime from a variable, an f-string, a config lookup or a table join would be invisible to all five axes. This is not hypothetical in this corpus: CO-06's separator is a CONCATENATION ('opensip.rt15.fixture-semantic-binding.v1/' + semanticDomain) and was caught only because its constant prefix is a literal. A rule whose separator has NO literal prefix would be missed entirely, and this sweep cannot bound how many such rules exist.",
+      "SEMANTIC EQUIVALENCE OF FRAMING. Reproducing a pinned value proves the transcribed rule produces those bytes. It does not prove the transcription is the only rule that would, nor that the checker's rule is the RIGHT one, nor that it agrees with an unwritten intent. Where a golden cannot discriminate two readings, this sweep inherits the predecessor's nonDiscriminatingVectors finding unchanged and adds nothing.",
+      "THE STATED-IN-CONTRACT COLUMN IS A SAMPLE, NOT A CENSUS. Twelve rule families were verified against quoted contract text. The corpus contains more stated rules that were confirmed present and not itemised. A reader must NOT compute 'total rules minus stated equals code-only' from this document; the CODE-ONLY count is exhaustive over the searched shapes, the STATED count is not.",
+      "ABSENCE WAS TESTED BY SUBSTRING, NOT BY MEANING. A contract that states a rule in prose WITHOUT using the domain separator string or the field name -- for example by describing the construction narratively under a different heading -- would be scored absent. The predecessor recorded the mirror-image of this gap (unitSetCommitment is computable via a sibling key and has zero prose occurrences of its own name) and it is equally live here. Every CODE-ONLY row in this document is a claim that no such prose was found, not a proof that none exists.",
+      "CHECKER EXECUTION PATHS WERE NOT TRACED. Rules were read and re-implemented, not observed by instrumenting a run. A function that is defined but never reached, or reached only on a branch no vector exercises, is classified here as a rule on equal footing with one that produces a pinned value. CO-08 and CO-14 are the two rows where this most likely overstates: neither was reproduced against a pinned value, and the alternativeStricterCount exists so a reader can discount them.",
+      "NO CHECKER WAS EXECUTED AND NO EXIT CODE IS CITED AS EVIDENCE. This sweep ran only its own transcriptions, in scratch, against parsed contract data. It asserts no result about any checker's behaviour, and in particular it does not claim that any guard fired or did not fire.",
+      "SUPERSEDED LINEAGES WERE SWEPT FOR RULES, NOT CLASSIFIED EXHAUSTIVELY. All 94 .py files were read for producing rules, but where a rule recurs across a version lineage only the latest body was transcribed and executed, after confirming body-identity by normalised hash. A version whose body DIFFERS in a way the normalisation hid would be misattributed. Measured: for CO-01 through CO-07 all eight retention bodies hash identically after comment and whitespace normalisation; for CO-10..CO-12 the v7 and v8 bodies are identical.",
+      "MARKDOWN WAS SEARCHED, NOT READ. 31 markdown surfaces were substring-searched for every domain separator and identity name. They were not read for narrative statements of a rule that name neither. A rule stated only in freeze or blueprint prose, in terms matching neither the separator nor the field name, would be missed.",
+      "A LIVE CORPUS. 386 .json documents at every pass of this sweep, stable throughout, and 94 .py. Any artifact changed after this file was written is outside what it establishes. All digests quoted here were measured at read time.",
+      "NO INDEPENDENT REPLICATION. The 41 reproductions were performed once, by this sweep, with encoders transcribed from checker source by one reader. The two-encoder standard set by evidence-identity-recipes is NOT met by this document. A transcription error that happened to reproduce a pinned value is vanishingly unlikely 41 times, but the reproductions are not independent of each other: CO-02, CO-03, CO-04 and CO-06 all share the CO-01 primitive, so a misreading of domain_digest would have failed all of them together rather than being caught by one.",
+      "THE THREE-STATE BOUNDARY IS A JUDGEMENT AT ONE PLACE. CD-01 (indexFingerprint) and CO-09 (proofObligationId) sit on opposite sides of the same line: both have a contract that says SOMETHING. CD-01's contract states a byte construction and a closed field set, so the code realises it; CO-09's states an input list only, so the code is the sole source of the bytes. A reader who disagrees with that boundary should move CO-09 to DERIVABLE and read CODE-ONLY as 13. The evidence for both is quoted in full in the rows so the judgement can be checked rather than inherited."
+    ]
+  },
+
+  "reproductionsPerformed": [
+    {"what": "rawBytesCommitment (CO-02)", "against": "retention-tiers.v22 fixtureGoldens RT15-RAW-BYTES-PRIMARY-V1 and -ALTERNATE-V1", "result": "2 of 2 byte-exact, first attempt"},
+    {"what": "rawObjectSnapshot.snapshotId (CO-04)", "against": "same two goldens", "result": "2 of 2 byte-exact, first attempt"},
+    {"what": "fixture RunId (CO-05)", "against": "same two goldens", "result": "2 of 2 byte-exact, first attempt"},
+    {"what": "semanticObjectBindings semanticRef (CO-06)", "against": "same two goldens, 4 bindings total", "result": "4 of 4 byte-exact, first attempt"},
+    {"what": "availabilityCanonicalSha256 (CO-07)", "against": "same two goldens", "result": "2 of 2 byte-exact, first attempt"},
+    {"what": "fixtureCommitment (CO-03)", "against": "same two goldens", "result": "2 of 2 byte-exact, first attempt"},
+    {"what": "proofObligationId (CO-09)", "against": "evidence.v3 positiveFixtures", "result": "3 of 3 byte-exact, first attempt"},
+    {"what": "projectMarkerRef / projectRegistryRef / openedRootRef (CO-10, CO-11, CO-12)", "against": "evaluation-proof.v8 positiveVectors trustedStoreFixture", "result": "21 of 21 byte-exact, first attempt"},
+    {"what": "documentSkeleton.sha256 (CO-13)", "against": "c2-plan-stage-schema.v9 #/documentSkeleton", "result": "byte-exact first attempt (aa0cd11e6f4328a3c43aaef81537730847dff7294f9bb0bc95b524c84d129520); published node count 1124 also reproduced exactly"},
+    {"what": "EvaluationAuthorityIndexV1 raw record ref FROM QUOTED CONTRACT TEXT ONLY (CD-01)", "against": "evaluation-proof.v7 authorityGoldens evaluationAuthorityStoreIndexRaw", "result": "encodedHex reconstructed byte-identically at 352 bytes; rawCasRef sha256:19f712bd3cc4fb8fa48c7ff34698fd8e1a7791a3e07bc089afacfbf26c051092 exact, first attempt"},
+    {"what": "indexFingerprint baseline pinned on the BINDING HEAD (CD-01)", "against": "evaluation-proof.v13 #/preservedMeasurements/regimes/A/baseline/indexFingerprint", "result": "sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689 exact, first attempt, from the v7/v9 grammar text plus the corpus test projectId"},
+    {"what": "predecessor sweep digest", "against": "the value asserted in the brief", "result": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a -- measured, matched"},
+    {"what": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md digest", "against": "the value asserted in the brief", "result": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e -- measured, matched, file not opened for writing"},
+    {"what": "duplicate-key parse discipline", "against": "all artifacts/*.json", "result": "386 documents, 0 duplicate-key rejections, 0 parse failures"},
+    {"what": "checker self-pin census", "against": "all 93 check-*.py", "result": "2 self-pinning, reproducing freeze section 7.6 exactly, after correcting 4 false positives from a first-pass regex"}
+  ],
+
+  "verificationOfThisFile": {
+    "checkersNotEdited": "No checker was opened for writing, modified, moved or executed. All 94 .py files were read and ast-parsed only.",
+    "pinnedPlanUntouched": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was hashed to confirm 47df412d... and never opened for writing.",
+    "filesChanged": "Exactly one: this file. Nothing else in the repository was created, edited or deleted.",
+    "inertByConstruction": "This filename contains none of check-package-coherence.py's REVIEW_MARKERS (review, adjudication, rereview, litmus, closure-coordinator), so its reviews_naming lane skips it and it cannot become a spurious PC-7 subject. Its base is named in neither IMPLEMENTATION-FREEZE.md nor IMPLEMENTER-BLUEPRINT.md, so PC-5 does not examine it. It introduces no link to either document, so PC-1 pathsMissing is unaffected. It names no product decision id and asserts no closure, so the check-product-dispositions assertion lane finds nothing in it.",
+    "noStatusChanged": "CD-RT-5 remains BLOCKED_ON_PHASE_1A. No [UNSET] was read for modification or written. No verdict, disposition, seal or sealRecommendation anywhere in the corpus is referenced as changed by this document.",
+    "noRecipeProposed": "Every row states what EXISTS and where. No row states what a rule SHOULD be, and no row is closed. Authoring is a separate act under review."
+  }
+}

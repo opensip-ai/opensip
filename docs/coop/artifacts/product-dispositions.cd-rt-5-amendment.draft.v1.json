@@ -1,0 +1,116 @@
+{
+  "artifact": "product-dispositions.cd-rt-5-amendment.draft",
+  "version": 1,
+  "date": "2026-08-05",
+  "documentClass": "PROPOSED-AMENDMENT-DRAFT",
+  "role": "PREPARED-FOR-PRODUCT-AUTHORITY-CONFIRMATION",
+  "status": "DRAFT — NOT APPLIED",
+  "constitutesADecision": false,
+  "bindsAnything": false,
+  "amendsAnything": false,
+  "preparedBy": "coordinator, at the product owner's explicit instruction to prepare (not apply) this amendment",
+
+  "whyThisIsADraftAndNotAnEdit": {
+    "rule": "IMPLEMENTATION-FREEZE.md section 4.5: a product decision is constituted only by product-dispositions.v1.json or an explicit amendment by the product authority. A coordinator recording that an authority decided is not the authority deciding.",
+    "precedent": "Section 4.4 is the forensic record of what happened when that line was crossed here once: an independent reviewer's RECOMMENDATION was converted into a declaration of accomplished product acceptance, dated, and carried into the claim register, where it survived three days before a provenance investigation struck it.",
+    "soThisFileDoesNothing": "It contains the exact proposed replacement bytes and changes no state. Applying it is a separate, explicit act.",
+    "howToApply": "Replace product-dispositions.v1.json#/pendingDecisions/CD-RT-5 with the object at $.proposedReplacement below, move the entry from pendingDecisions to decisions if the authority intends it settled, then re-pin product-dispositions.v1.json's digest wherever it is recorded and re-run check-product-dispositions.py."
+  },
+
+  "target": {
+    "artifact": "artifacts/product-dispositions.v1.json",
+    "jsonPath": "$.pendingDecisions.CD-RT-5",
+    "digestAtDrafting": "measure before applying; this draft deliberately records no digest for a file it does not read as an input to any computation"
+  },
+
+  "currentValue": {
+    "status": "BLOCKED_ON_PHASE_1A",
+    "question": "Accept or replace the V10/retention architecture candidate's default durable-custody posture, including whether any durable retention is implicit.",
+    "ruleWhilePending": "No implementer may choose a retention default and no freeze may claim V10 resolved.",
+    "unblocksWhen": "Phase 1A supplies an independently reviewed evaluation-proof, verification/regeneration closure, degradation model, and purge semantics."
+  },
+
+  "provenanceOfTheProposedText": {
+    "source": "Stated directly by the product owner in session on 2026-08-05, in two exchanges, and recorded as intent at IMPLEMENTATION-FREEZE.md section 4.5.",
+    "statedTerms": "Retention is bounded by time AND by size, both configurable. Tombstones survive. Retention is DURABLE BY DEFAULT and unbounded unless configured — implicit durable retention is YES.",
+    "postureAnsweredSeparatelyAndLater": {
+      "what": "The bounds decision was given first. The posture question — CD-RT-5's actual question, 'whether any durable retention is implicit' — was answered afterwards, once this draft flagged that bounds and posture are orthogonal and that the bounds answer alone would narrow CD-RT-5 rather than close it.",
+      "howItWasPut": "Two options with their costs side by side. The entire difference: someone runs the tool having configured nothing and the run needs durable evidence — refuse and write nothing, or run and write to their disk. No middle option exists: retention-tiers.v24's own whyNotSimplyProceedEphemeral records that silently producing ephemeral evidence for a durable-authoritative request is 'a durability failure reporting authoritative success, which freeze law 14 forbids'.",
+      "chosen": "run and write",
+      "soThisDraftNowCloses": "the posture question as well as the bounds question. The caveat recorded below under sharpestThingTheAuthorityShouldKnow is therefore DISCHARGED, and is retained as history rather than deleted."
+    },
+    "countDimensionIsRecoveredNotProposed": "The owner named time and size. A read-only investigation of the shipping opensip-cli found count is in fact the PRIMARY implemented dimension (keep: 200 / maxAgeDays: 60 / maxSizeMb: 150, per-project). Count is therefore carried in as a recovered decision, not a coordinator addition, and is flagged here so the authority can strike it if that recovery is unwanted.",
+    "aCoordinatorFramingTheOwnerCorrected": "The coordinator distinguished 'user-initiated' purge from 'automatic' eviction and recommended restricting the latter. The owner objected that a user who configures a bound has authorised what happens when it fires. That objection was correct, the distinction does not discriminate, and it is withdrawn. It was also moot: under this corpus's degradation model neither one deletes."
+  },
+
+  "proposedReplacement": {
+    "status": "DECIDED",
+    "decidedOn": "2026-08-05",
+    "decidedBy": "sfbreen",
+    "attributionProvenance": "The product authority was asked, in session on 2026-08-05, how this decision should be attributed, and chose its git identity 'sfbreen' over a full name. The coordinator did not select or infer either field. This matters because section 4.4 is this corpus's forensic record of a fabricated authority attribution, and check-product-dispositions-v2.py FAILS on a bracketed placeholder in either field precisely so that an unfilled amendment can never read as a taken decision.",
+    "question": "Accept or replace the V10/retention architecture candidate's default durable-custody posture, including whether any durable retention is implicit.",
+    "decision": {
+      "boundedRetention": "Retention is bounded. The bounds are configurable per project.",
+      "dimensions": [
+        "time",
+        "size",
+        "count"
+      ],
+      "dimensionsAreIndependent": "Disabling one dimension must not disable another. The shipping product's size bound is parasitic on its count bound and silently deletes nothing when count pruning is off; that defect is explicitly not adopted.",
+      "whatFiringABoundDoes": "A bound firing transitions the affected record to the EXISTING PURGED state. It is not a deletion model. The record remains addressable, its recordCasRef is retained, and effective capability degrades.",
+      "tombstonesSurvive": "A tombstone outlives the bytes it describes. Absence is therefore always explainable, and 'purged under policy' is never indistinguishable from 'never existed'.",
+      "reasonCodeRequired": "A PURGED state must carry why: aged out, size pressure, count pressure, or user request.",
+      "correctionWithdrawingAFalseClosureClaim": {
+        "date": "2026-08-05",
+        "whatThisDraftUsedToSay": "that the reason code CLOSES residual RT23-B-RES-01, which measured 0 of 9 deficiency members, 0 of 9 reason codes and 0 of 19 error codes naming retention loss.",
+        "measuredVerdict": "FALSE, and withdrawn. Measured against live d9-exit-contract.v1.14.json bytes while authoring retention-tiers.v25: closing RT23-B-RES-01 requires D9 vocabulary members naming retention loss to become non-zero. A reason code carried on the availability transition adds no D9 vocabulary member. The residual still measures 0 of 9, 0 of 9, and 0 of 19.",
+        "arithmeticNuanceWorthKeeping": "The 19 error codes come from codeVocabulary.errorCodes. The union of the two cause-to-code maps is 18 — SYSTEM.OUTCOME.ILLEGAL_STATE is in neither map. Recorded so the 18/19 discrepancy is not rediscovered as a defect.",
+        "whatTheReasonCodeDOESClose": "a different, previously unnamed gap: the PURGED state was itself silent about why it was entered. That is worth having, and it is not RT23-B-RES-01.",
+        "residualStatus": "RT23-B-RES-01 remains OPEN. Applying this amendment does not close it.",
+        "howThisErrorArose": "the coordinator drafting this file asserted a closure it had not measured. The measurement was made later, by the lane authoring retention-tiers.v25, which reported the measurement over the expectation."
+      }
+    },
+    "defaultPosture": {
+      "durableDefault": "DURABLE_RETAINED",
+      "implicitDurableRetention": "YES",
+      "meaning": "A project with no configured retention policy retains durably and unboundedly. A durable-authoritative request with no policy PROCEEDS AND WRITES rather than refusing.",
+      "consequenceStatedPlainly": "The tool writes analysis evidence into a user's project before that user has been asked. This is the intended behaviour, not a side effect.",
+      "overridesAStandingArchitecturalRecommendation": {
+        "recommendation": "retention-tiers.v22#recommendedDefaultPosture, verbatim: 'no managed durable user-derived write without an explicit project storage and retention policy', whenPolicyMissing 'advisory/ephemeral only, or reject durable/authoritative evidence request', status AWAITING-PRODUCT-DISPOSITION.",
+        "disposition": "OVERRIDDEN by the product authority.",
+        "whyThatIsLegitimate": "The recommendation's own status was AWAITING-PRODUCT-DISPOSITION. Architecture recommends; the product authority decides; the authority is not bound by the preference. This is the mechanism working, and it is recorded as an override rather than an oversight precisely so a later reader cannot mistake it for one."
+      },
+      "whatItOverturns": "retention-tiers.v24 Part A rests on the opposite premise. hasNoDefaultField, absenceIsADistinctState and the ABSENT posture state no longer hold, and all three noAskCases lose their refusal paths — CI's REQUEST.UNSATISFIABLE, case 2's REFUSE-TO-START-UNTIL-ANSWERED, and case 3's write-no-policy-on-dismissal are moot once a default exists. Repair belongs in retention-tiers.v25.",
+      "whatSurvives": "Freeze law 14 still forbids silent demotion — the default removes the NEED to refuse, not the prohibition on quietly doing less than asked. Purge remains degradation rather than deletion. Tombstones survive. Bounds remain independent."
+    },
+    "whatThisDecisionDoesNOTDo": {
+      "phase1A": "It does not supply the section 3.1 Phase-1A packet, and does not by itself unblock EVIDENCE or TM.",
+      "sealing": "It seals nothing and applies no candidate."
+    },
+    "ruleAfterDecision": "An implementer may implement bounded retention against the accepted retention artifact once that artifact exists and is applied. No implementer may still choose a retention DEFAULT.",
+    "supersedes": "The BLOCKED_ON_PHASE_1A entry recorded above under $.currentValue."
+  },
+
+  "whatTheAuthorityShouldCheckBeforeApplying": [
+    "That 'count' belongs in the dimension list. It was recovered from the shipping product, not stated by the owner.",
+    "SUPERSEDED 2026-08-05 — retained as history rather than deleted. This item said durableDefault was left UNSELECTED and that applying the draft would answer a NARROWER question than CD-RT-5 poses. The authority answered the posture question afterwards; $.proposedReplacement.defaultPosture now records DURABLE_RETAINED with implicitDurableRetention YES. The draft closes CD-RT-5 in full, and this checklist item no longer describes the document it is attached to.",
+    "That RT23-B-RES-01 is NOT closed by this amendment. An earlier draft of $.proposedReplacement.decision.reasonCodeRequired claimed it was; that claim was measured false and is withdrawn in place. If the authority was relying on that closure, it should know it does not exist.",
+    "That moving the entry from pendingDecisions to decisions is intended, versus leaving it pending with an updated status.",
+    "Whether unblocksWhen should be retained in some form, since Phase-1A is still owed regardless of this decision."
+  ],
+
+  "sharpestThingTheAuthorityShouldKnow": "DISCHARGED 2026-08-05, retained as history. This paragraph warned that the draft carried BOUNDS but not POSTURE and so narrowed CD-RT-5 rather than closing it. The posture was then given — DURABLE_RETAINED, implicit durable retention YES — and $.proposedReplacement.defaultPosture records it, so the warning no longer applies. The live sharpest thing is different and is stated at $.proposedReplacement.defaultPosture.consequenceStatedPlainly: the tool writes analysis evidence into a user's project before that user has been asked, by design and not by accident.",
+  "secondSharpestThing": "This draft carried a FALSE claim for part of its life — that the reason code closes residual RT23-B-RES-01. It does not, and the claim is withdrawn in place at $.proposedReplacement.decision.correctionWithdrawingAFalseClosureClaim. The authority should read that correction before applying, and should treat the survival of a false closure claim inside a prepared amendment as evidence about how carefully the rest of this file was checked.",
+
+  "downstreamWorkThisEnables": {
+    "immediately": "artifacts/retention-tiers.v25.json — a successor adding bound triggers to the existing PURGED transition plus the reason code. Already in flight against the intent recorded at section 4.5; it does not depend on this amendment being applied and does not claim CD-RT-5 resolved.",
+    "afterIndependentReview": "The section 3.1 Phase-1A packet, which needs this plus an evaluation-proof, a verification/regeneration closure and a degradation model."
+  },
+
+  "verification": {
+    "checkersRun": "none — this file is a draft and is read by nothing",
+    "duplicateKeyHook": "this document was emitted and then re-read from disk through a duplicate-key-rejecting object_pairs_hook; no duplicate key at any depth",
+    "statusesChanged": "none",
+    "unsetFieldsTouched": "none — the two [UNSET] tokens inside proposedReplacement are placeholders for the authority to fill and are not freeze section 11 signature fields"
+  }
+}

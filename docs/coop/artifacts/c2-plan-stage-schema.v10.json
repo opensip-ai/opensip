@@ -1,0 +1,568 @@
+{
+  "artifact": "opensip.c2-plan-stage-schema.v10",
+  "version": 10,
+  "supersedes": 9,
+  "date": "2026-08-04",
+  "status": "CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW",
+  "author": "repair lane; not review, not qualification, not a seal",
+  "purpose": "A successor to the C-2 head c2-plan-stage-schema.v9.json, scoped to exactly two findings and to nothing else. FINDING 1: executionPlanCommitment is required in three closed records and has no stated semantics anywhere in this corpus; artifacts/execution-plan-commitment.investigation.v1.json ruled the question UNDETERMINED, it is a freeze section 7.1 parked row, and freeze section 6 law 19 places the ruling in this artifact and nowhere else. This candidate rules it an ALIAS of planIntentCommitment, derives that ruling from the closed ExecutionPlan envelope rather than from a list of records, acknowledges the resulting duplication normatively, and publishes the separating vector the freeze records as stated and unexercised -- executed here rather than asserted. FINDING 2: the head's documentSkeleton.sha256 and its 29 root-subtree digests depend on a frame format that exists only inside check-c2-v9.py, while the head describes it only as 'length-framed, type-tagged', which many mutually incompatible encodings satisfy. The head's totality argument was therefore carried by digests no contract reader could recompute, which is the property freeze section 7.1 names. This candidate lifts that frame format into the contract as normative text and demonstrates sufficiency by reproducing the head's published digests with two encoders written from the new text alone. It is a DERIVATION in the shape the head itself uses: the effective contract is the verified predecessor with the listed operations applied and nothing else. It binds nothing.",
+  "bindingDeclaration": {
+    "kind": "candidate successor contract, derivation",
+    "status": "CANDIDATE",
+    "application": "NOT APPLIED",
+    "review": "AWAITING-INDEPENDENT-REVIEW",
+    "binds": "nothing",
+    "predecessorPath": "artifacts/c2-plan-stage-schema.v9.json",
+    "predecessorSha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+    "predecessorState": "PASSED at 0 blockers; it remains the head and this artifact does not repoint it. Application is a coordinator act.",
+    "changes": "no status, no disposition, no verdict, no seal, no [UNSET]",
+    "cdRt5": "CD-RT-5 remains BLOCKED_ON_PHASE_1A; this artifact does not touch it",
+    "doesNotClose": "It does not close the freeze section 7.1 parked row for executionPlanCommitment. A parked row is closed by a coordinator applying a binding artifact, not by the candidate proposing one.",
+    "filesWritten": "exactly one: this file. No checker, no head, no freeze, no blueprint and no register was edited.",
+    "checkerModeContractUntouched": "checkerModeContract.checker is NOT in the operation list and still reads check-c2-v9.py. Repointing it at a v10 instrument that does not exist would put a dead path in a binding artifact; see declaredDependencies."
+  },
+  "derivedFrom": {
+    "artifact": "c2-plan-stage-schema.v9.json",
+    "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+    "rule": "The effective v10 contract is the VERIFIED predecessor document with the operations below applied in order, and nothing else. No byte of the predecessor is transcribed into this file. Every set operation restates, type-exactly, the value it replaces, and a resolver refuses the derivation if the verified predecessor does not actually hold that value. The predecessor is ITSELF a derivation, from c2-plan-stage-schema.v4.json; a resolver must resolve that link first and apply these operations to the RESOLVED effective v9 contract, not to the v9 delta file's own bytes.",
+    "whyDerivedFromV9AndNotFromV4": "c2-plan-stage-schema.v9.json is PASSED at 0 blockers and is the head, so unlike v5, v6, v7 and v8 -- each of which was REJECTED and none of which a successor could inherit -- it is a lawful base. Deriving from the head rather than re-deriving from v4 keeps the thirteen operations that converged the lineage out of this file entirely: they are inherited by resolution, not restated, which is freeze section 7.3's anti-transcription discipline applied to a chain two links long.",
+    "preservedByConstruction": "planIntentCommitment's seven pinned vectors, the closed stage schemas, the five fixture arrays and their 113 goldens, and the law-18 admission discipline are NOT in the operation list and therefore cannot be altered by this derivation. That is a structural guarantee, not a promise: a derivation can only change what its operations name.",
+    "operations": [
+      {
+        "op": "set",
+        "path": "version",
+        "from": 9,
+        "value": 10,
+        "why": "successor identity"
+      },
+      {
+        "op": "set",
+        "path": "supersedes",
+        "from": 8,
+        "value": 9,
+        "why": "successor identity"
+      },
+      {
+        "op": "add",
+        "path": "planIntent.attemptAndExecutionJoin.executionPlanCommitment",
+        "value": {
+          "ruling": "ALIAS. executionPlanCommitment is not a second commitment. It is a second WIRE POSITION carrying the value this contract already defines at planIntent.canonicalCommitment: the planIntentCommitment of the ExecutionPlan in question. C-2 mints no ExecutionPlan commitment namespace and no ExecutionPlan domain separator, because the ExecutionPlan already has a commitment over itself, and it is planId.",
+          "authority": "IMPLEMENTATION-FREEZE.md section 6 law 19 reserves an identity namespace and its domain separator to the surface that owns the identity, in that surface's own binding artifact. C-2 owns ExecutionPlan. This block is that surface speaking. artifacts/execution-plan-commitment.investigation.v1.json ruled the question UNDETERMINED, recorded that it can be settled only here, and measured that this contract contained the string zero times; this block is the response to that measurement.",
+          "requiredValue": "Wherever a record carries a field named executionPlanCommitment for an ExecutionPlan, its value MUST be byte-identical to that ExecutionPlan's planIntentCommitment, computed by planIntent.canonicalCommitment and by nothing else. There is no second recipe, no second preimage and no second domain separator.",
+          "theDerivation": {
+            "why": "The ruling is derived from a structural property of the closed ExecutionPlan envelope, not from a list of the records that happen to carry the field today. A property quantified over the closed field set stays true for records this contract has never seen; a list does not.",
+            "step1ClosedEnvelope": "executionPlan.closedTopLevel is true and executionPlan.requiredFields is the closed six-list [snapshotId, planId, projectId, planIntentCommitment, planIdentityInputs, stages]; attemptAndExecutionJoin.executionPlanRequired states the same six. An ExecutionPlan therefore cannot carry a member named executionPlanCommitment at all -- the envelope is closed and the name is not in it. That is a positive statement of this contract, not silence about the field.",
+            "step2PlanIdIsAlreadyTheCommitment": "Every one of the six closed fields is bound, by this contract's own attemptAndExecutionJoin.equalityRule together with the joined PLAN-ID-V1 preimage, to a field of that preimage: snapshotId to preimage tag 1; projectId to descriptor.scope.projectId and scope is tag 6; planIntentCommitment to tag 13; planIdentityInputs to the thirteen preimage fields themselves; stages to descriptor.workflow.stages and workflow is tag 11; and planId to the digest of that preimage, which PLAN-ID-V1 excludes from its own input so the definition is not recursive. Two ExecutionPlans carrying the same planId are therefore equal at every field a closed ExecutionPlan has.",
+            "step3Conclusion": "planId IS a commitment over the ExecutionPlan. A distinct executionPlanCommitment would be a second digest over the same closed envelope, computed from the same inputs under a different framing -- a redundant second identity for one object, in a corpus whose section 8 failure list already names inventing a second authority for one thing. Law 19 permits C-2 to mint an ExecutionPlan identity; it does not oblige C-2 to mint a second one, and there is no information the second could carry that the first does not.",
+            "step4WhatFollowsForConsumers": "Any record that identifies an executed plan already identifies it by planId, because planId is the ExecutionPlan's identity in the surface that owns ExecutionPlan and PLAN-ID-V1 is this corpus's only ExecutionPlan identity. A record carrying executionPlanCommitment but NOT planId would be identifying an execution by a commitment this contract does not define, and is INVALID under this ruling until C-2 defines one.",
+            "confirmingMeasurement": "Measured on the corpus as it stands, and offered as a confirmation of the derived property rather than as its basis: the three records that require the field each carry planId in the same record, adjacent to both commitment positions -- ActivationManifestV1 fieldOrder [schemaVersion, projectId, planId, planIntentCommitment, executionPlanCommitment, ...], EvaluationAuthoritySealV1 the same, and TerminalRunV1 at tags 0xb3 planId, 0xb4 planIntentCommitment, 0xb5 executionPlanCommitment. The separating input is therefore already separated inside those very records, by planId. Nothing a new commitment could add is missing."
+          },
+          "whyNotTheOtherLawfulShape": {
+            "shapeConsidered": "A distinct recipe with its own domain separator, minted here under law 19, plus a vector in which two ExecutionPlans share a planIntentCommitment and differ.",
+            "itIsLawful": "It is lawful. Law 19 permits C-2 to mint it and no sentence in the corpus forbids it. It is rejected on the merits, not on authority.",
+            "reason1Redundancy": "It would give one closed object two commitments derived from the same inputs. theDerivation step 2 shows planId already separates exactly the ExecutionPlans a second commitment would separate.",
+            "reason2ItWouldFalsifyEveryExistingSite": "A distinct domain separator makes the two values differ ALWAYS, not merely sometimes. The investigation measured 139 sites over 16 files carrying this field, 132 of them alongside a planIntentCommitment, with 132 equal and 0 differing. Minting a distinct recipe declares all 139 sites wrong at once, in reviewed bytes that section 7.2 forbids editing in place. A ruling that invalidates every existing instance of the thing it rules on should be reached only when the evidence forces it, and here the evidence points the other way: the investigation reconstructed BOTH distinct values and found each to be SHA-256 over a domain-tagged PlanIntent at 2463 bytes. Nothing in this corpus has ever computed a commitment over an ExecutionPlan.",
+            "reason3TheTagsDoNotImplyIt": "Distinct wire tags prove two framed POSITIONS in one record. Under the componentFrame TLV grammar each field is independently framed, so two tags carrying one value is exactly as well-formed as two tags carrying two. Inferring difference from tag distinctness is the inference the freeze row explicitly withdraws, and this ruling does not make it.",
+            "reason4NameIsNotNature": "This contract's own intentBindingFixtures already contain a fixture named reject-execution-plan-commitment-substitution whose mutation sets the ExecutionPlan's planIntentCommitment. In this corpus the phrase 'execution plan commitment' has already been used to mean 'the commitment field carried ON the execution plan'. That is a reading of the NAME which the alias ruling makes coherent and a distinct recipe would make ambiguous."
+          },
+          "duplicationAcknowledged": {
+            "statement": "This ruling leaves a REDUNDANT REQUIRED FIELD in three closed records. The redundancy is real, it is a defect, and stating it is part of the ruling rather than an aside. A ruling that made the corpus tidy by pretending the second position carries information would be the failure this lineage keeps repairing.",
+            "whatItCosts": "Each record frames one value twice at two distinct tags. A verifier that treats the two positions as independent inputs believes it has checked two things when it has checked one. That is a false assurance, and it is the concrete harm of the duplication.",
+            "whatIsRequiredOfAConsumer": "The two positions MUST carry one value. A record in which they differ is INVALID and MUST be REJECTED. Under this ruling equality is the field's DEFINITION, not an incidental property of the fixtures -- which is precisely the status it did not have before, when three checkers asserted it and no generation produced it.",
+            "migrationDirection": "A future major of any record carrying both SHOULD carry planId and planIntentCommitment and drop executionPlanCommitment. C-2 does not schedule that and cannot: the tag assignments live in EVALUATION-PROOF and EVIDENCE bytes, and section 7.2 forbids editing reviewed bytes. This is a direction recorded for whoever writes those successors, not an instruction this artifact can execute.",
+            "whatThisRulingDoesNotDo": "It does not edit, re-pin, re-verdict or re-seal any record that declares the tags, and it does not close the freeze section 7.1 parked row. It binds nothing until applied by a coordinator."
+          },
+          "comparisonDiscipline": {
+            "rule": "Two commitments are compared by BYTE EQUALITY performed after an INDEPENDENT TYPE ASSERTION on each side. Neither side may be compared by host-language equality, under which 1, 1.0 and true are one value, and under which a set membership or subset test silently coerces.",
+            "why": "freeze section 6 law 18. This class defeated this lineage at v3, v5, v6, v7 and v8 successively, each time inside the repair's own self-certification. The vectors below are stated so that they cannot be passed by a comparison that coerces.",
+            "admission": "The value is wire type sha256Id: a JSON STRING matching ^sha256:[0-9a-f]{64}$. Admission is by exact JSON type and canonical spelling. Every other production of the JSON data model, and every non-canonical spelling of the same digest, is REJECTED rather than coerced. The coverage of that statement is the JSON data model itself, not a list of types this author happened to think of."
+          },
+          "vectors": [
+            {
+              "id": "EPC-V1-snapshot-separation",
+              "kind": "positive, and the separating input the freeze row records as stated and unexercised",
+              "valid": true,
+              "why": "Admit the SAME PlanIntent against DIFFERENT repository content. snapshotId is absent from the PlanIntent preimage, so planIntentCommitment is byte-identical; snapshotId is PLAN-ID-V1 preimage tag 1, so planId must move. This is the input that distinguishes a commitment over the ExecutionPlan from an alias, and it had never been run.",
+              "basis": "resolved-inputs.v2.json#planIdContract.goldenVectors.positive[0], the live PLAN-ID-V1 golden. Arm A is that vector unmodified. Arm B is that vector with snapshotId, and only snapshotId, replaced.",
+              "armASnapshotId": "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6",
+              "armBSnapshotId": "snap1:sha256:0000000000000000000000000000000000000000000000000000000000000001",
+              "planIntentCommitmentBothArms": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+              "planIntentCommitmentIsByteIdentical": true,
+              "armAPlanId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+              "armBPlanId": "plan1:sha256:6dcb73e1819853cdc83a60164437510637fa8da26121294fe860ff586934b61d",
+              "planIdDiffers": true,
+              "requiredExecutionPlanCommitment": "In BOTH arms, byte-identical to planIntentCommitment above. That is what this ruling requires and what a distinct recipe would violate.",
+              "executed": "Not asserted. Both arms were computed this session by two independent PLAN-ID-V1 encoders written from resolved-inputs.v2.json#planIdContract text alone, sharing no code with each other or with any checker. Arm A reproduces the published expectedPlanId and the published expectedPreimageByteLength of 2500 exactly, which is what qualifies the encoders to be believed about arm B. Both encoders agree on arm B byte for byte.",
+              "whatItProves": "The alias loses nothing. The two ExecutionPlans ARE distinguishable, and they are distinguished by planId, in the same record that carries both commitment positions."
+            },
+            {
+              "id": "EPC-V2-differing-positions-rejected",
+              "kind": "NEGATIVE CONTROL -- fails under the rejected reading",
+              "valid": false,
+              "why": "A record whose executionPlanCommitment differs from the planIntentCommitment of the same ExecutionPlan MUST be REJECTED. Under the rejected distinct-recipe reading this record is not merely legal but MANDATORY, because a distinct domain separator makes the two values differ always. An implementer who minted a second commitment fails this vector at every record they produce.",
+              "closesTheMeasuredGap": "The freeze row records that sibling equality is 132 of 132 with 0 differing and that therefore NO negative control exists anywhere that a one-commitment implementer would fail. Under this ruling the gap inverts and this vector is the control the corpus lacked: nothing today catches a TWO-commitment implementer, and this does.",
+              "mutation": "take any record carrying both fields for one ExecutionPlan; replace executionPlanCommitment with any sha256Id value that is not that ExecutionPlan's planIntentCommitment",
+              "expected": "REJECT, naming the position"
+            },
+            {
+              "id": "EPC-V3-same-planid-different-snapshot-rejected",
+              "kind": "NEGATIVE CONTROL -- fails under a careless reading of this ruling",
+              "valid": false,
+              "why": "Two ExecutionPlans whose snapshotId differs but whose planId is equal MUST be REJECTED. This catches the implementer who reads 'alias' as 'the two plans are indistinguishable' and stops separating them at all. The alias ruling is safe only because planId separates; a run in which planId does NOT separate breaks the derivation this ruling rests on.",
+              "basis": "PLAN-ID-V1 preimage tag 1 is snapshotId, and its ownerAndLifecycle.retryRule states that a changed semantic field yields a different PlanId. EPC-V1 executes exactly that.",
+              "expected": "REJECT, naming planId"
+            },
+            {
+              "id": "EPC-V4-exact-type-admission",
+              "kind": "NEGATIVE CONTROL -- law 18, exact-type admission",
+              "valid": false,
+              "why": "The commitment positions are wire type sha256Id. A value that host-language equality or a lax parser would accept in place of the canonical string MUST be REJECTED. This is the class that defeated this lineage five times, each time inside the repair's own self-certification, and it applies to these vectors as much as to the contract they extend.",
+              "coverage": "Every production of the JSON data model other than the string production, injected at either commitment position: null, boolean, integer, number, array and object. The coverage is the data model's, not a list of spellings; a JSON type this author did not think of falls into the same refusal rather than out of the enumeration.",
+              "alsoRejected": "non-canonical spellings of a well-formed digest: uppercase hexadecimal, the 64 hex characters without the sha256: prefix, a plan1:sha256: prefix in a commitment position, surrounding whitespace, and any value equal to another only after coercion",
+              "expected": "REJECT at every injected position, naming the position and the offending JSON type"
+            }
+          ],
+          "scopeHonesty": {
+            "whatIsSettled": "What the field commits over, inside the surface that owns ExecutionPlan, together with the equality that is now its definition and the three controls that make the two readings distinguishable by test for the first time.",
+            "whatIsNotSettled": "The type string 'Raw commitment' remains used 18 times and defined nowhere; defining it belongs to EVALUATION-PROOF and EVIDENCE, not to C-2, and this ruling does not define it. Neither does this ruling close the freeze section 7.1 parked row -- closure is a coordinator act over a binding artifact, and this artifact is a candidate that binds nothing.",
+            "ifThisRulingIsWrong": "The vector that would falsify it is a record, generated rather than asserted, in which executionPlanCommitment is demonstrably NOT the PlanIntent commitment. The investigation searched for one and found none: both distinct values in the corpus were reconstructed as domain-tagged PlanIntent commitments. If such a record is produced, EPC-V2 fails loudly rather than quietly, which is the property this block exists to create."
+          }
+        },
+        "why": "the executionPlanCommitment ruling, at the position artifacts/execution-plan-commitment.investigation.v1.json names as the only one where it can be settled, and which held the string zero times"
+      },
+      {
+        "op": "add",
+        "path": "documentIdentityEncoding",
+        "value": {
+          "why": "freeze section 7.1 states the property that a rule which exists only inside a checker's Python is not a binding artifact. The head publishes documentSkeleton.sha256 and 29 root-subtree digests, and describes the encoding that produces them only as 'length-framed, type-tagged'. Many mutually incompatible encodings satisfy that phrase; four of them are exhibited in the vectors below together with the byte at which they diverge. The head's totality argument -- that an added, removed, renamed, reparented or retyped node anywhere is a named finding -- is therefore carried by digests no contract reader could recompute. This block is the encoding stated normatively, so that an independent implementer reproduces those digests from the contract alone.",
+          "name": "opensip-jx-canon-v1",
+          "authority": "Minted by C-2 under freeze section 6 law 19: this is C-2's own document-identity encoding, in C-2's own binding artifact. It extends no other surface's closed vocabulary, so law 19's authority requirement is not engaged. It states what the pinned instrument already computes; it does not change it.",
+          "relationToTheChecker": "check-c2-v9.py is PINNED and several checkers hash-verify it at runtime (section 7.6), so it is not edited and this candidate does not edit it. The direction of this block is contract-states-what-code-does, never code-changed-to-match-contract.",
+          "produces": "a CHARACTER STRING -- a sequence of Unicode scalar values -- and not a byte string. Bytes appear only at the digest boundary, which is stated separately below. Conflating the two is the first way an implementer reproduces the wrong digest.",
+          "dataModel": "The seven productions of the JSON data model: null, boolean, integer, number, string, array, object. A JSON number written with no fractional part and no exponent is an INTEGER; any other number is a NUMBER. Booleans are classified BEFORE integers. A value outside these seven is refused by name rather than guessed at.",
+          "typeTags": {
+            "null": "z",
+            "boolean": "b",
+            "integer": "i",
+            "number": "n",
+            "string": "s",
+            "array": "a",
+            "object": "o"
+          },
+          "frame": "FRAME(tag, payload) = tag || DECIMAL(N) || ':' || payload, where N is the number of UNICODE CODE POINTS in payload.",
+          "frameParts": {
+            "tag": "exactly one character, taken from typeTags",
+            "length": "N in base ten as ASCII digits U+0030 to U+0039, shortest form: no leading zero unless N is zero, in which case the single character '0'. No sign, no padding, no digit separators.",
+            "lengthIsCountedInCodePoints": "N counts UNICODE CODE POINTS of the payload string. It is NOT the UTF-8 byte length, NOT the UTF-16 code-unit length and NOT a count of grapheme clusters. This is the single most under-determined point in the phrase 'length-framed', and it is the reason this block exists: the head document is pure ASCII, so its own digests cannot distinguish the readings. Vector FF-1 does.",
+            "separator": "exactly one COLON, U+003A",
+            "payload": "the production body below, emitted verbatim -- no escaping, no quoting, no normalisation, no whitespace"
+          },
+          "productions": {
+            "null": "FRAME('z', '') -- the empty payload, so the token is z0:",
+            "boolean": "FRAME('b', '1') for true and FRAME('b', '0') for false",
+            "integer": "FRAME('i', shortest base-ten form: a single leading '-' for negative values, no leading '+', and no leading zeros except the single character '0' for zero itself)",
+            "number": "FRAME('n', the shortest decimal string that round-trips to the same IEEE-754 binary64 value)",
+            "string": "FRAME('s', the character sequence itself, verbatim and unescaped)",
+            "array": "FRAME('a', the concatenation of the tokens of the elements in ascending index order)",
+            "object": "FRAME('o', the concatenation of key-token followed by value-token over the members, in the order objectOrdering states)"
+          },
+          "objectOrdering": {
+            "rule": "Members are ordered by ascending (KEY TOKEN, VALUE TOKEN), compared as sequences of Unicode code points. The ordering key is the CANONICAL TOKEN of the key, not the raw key.",
+            "theTrap": "Those two orders are NOT the same, because the token places the length before the payload. Keys 'b' and 'ab' produce tokens s1:b and s2:ab, so 'b' precedes 'ab' under this rule while raw-key order puts 'ab' first. An implementer who sorts by raw key -- the order opensip-canonical-json-v1 uses for a different purpose -- produces a different token for the same object. Vector FF-2 is exactly that case.",
+            "totality": "The value token breaks ties. After duplicate-key rejection there are no ties, and the tie-break is stated so the order is total rather than merely usually-total."
+          },
+          "digestBoundary": "SHA-256 over the UTF-8 encoding of the token, with no byte-order mark, no trailing newline and no outer envelope in the digest input. Rendered as 64 lowercase hexadecimal characters.",
+          "documentSkeleton": {
+            "walk": "Every NODE of the document, container nodes included, in pre-order depth-first order: a node is emitted before its children; object members are visited in the order the JSON text presents them, duplicate keys having been rejected by the parser; array elements are visited in ascending index order.",
+            "path": "The path of a node is the ARRAY of steps from the document root to it. An object member contributes its key as a STRING step; an array element contributes its zero-based index as an INTEGER step. The root's path is the empty array.",
+            "row": "[ the token of the path array , the JSON type name of the node ] -- a two-element array of two strings",
+            "skeleton": "the array of rows, in walk order",
+            "sha256": "the digest, as digestBoundary defines it, of the token of the skeleton array",
+            "whyThePathIsCanonicalisedAndNotRendered": "IR-C2V8-01. A rendering of the path is not injective: a '/'-join with no escaping maps ['a','b'] and ['a/b'] to one text, and maps the array index 0 and the object key '0' to one text. Canonicalising the steps ARRAY is injective by construction, because the encoding is length-framed and invertible. Vectors FF-3 and FF-5 are the two collisions the rendering admits.",
+            "subtreeDigest": "For each member of the root object, the same computation applied to that member's VALUE, with paths taken relative to that value, so the subtree root's path is the empty array. Its purpose is localisation: a change reported only against a whole-document digest names no position.",
+            "fixpoint": "The skeleton binds PATH and JSON TYPE only, never a value. Publishing these digests inside the document they describe therefore cannot change what they describe, provided the publishing keys are present with values of unchanged JSON type."
+          },
+          "exercisedByTheSkeletonDigest": {
+            "measurement": "A skeleton row is [string, string] and a path array holds strings and integers. The skeleton digest therefore exercises exactly three productions -- string, integer and array -- and does NOT exercise null, boolean, number or object.",
+            "whyTheOtherFourAreSpecifiedAnyway": "Because opensip-jx-canon-v1 is TOTAL and is used for value comparison as well as for the skeleton, and because an encoding specified only where it is currently exercised is exactly the coverage-claim-over-an-unobserved-region that this contract's hostileScalarLeafTotality section exists to refuse. Stating the split is the point; a specification silently covering only what today's document happens to contain is how this corpus has repeatedly shipped a totality it could not observe.",
+            "witnessed": "Vectors FF-2, FF-6 and FF-7 exercise the four otherwise-unexercised productions directly, so the specification is witnessed even where the head's own digest does not reach it."
+          },
+          "theTwoEncodingsAreNotInterchangeable": {
+            "statement": "opensip-jx-canon-v1 is NOT opensip-canonical-json-v1, and neither may be substituted for the other.",
+            "differences": "opensip-canonical-json-v1 (planIntent.canonicalCommitment.encoding) emits JSON text, sorts object keys by ascending Unicode scalar value of the KEY, applies NFC normalisation, escapes strings, and FORBIDS floating-point values. opensip-jx-canon-v1 emits a framed token, sorts by the canonical TOKEN of the key, applies no normalisation and no escaping, and is TOTAL over floating-point values because it must be able to name one in order to refuse it elsewhere.",
+            "consequence": "A commitment computed with the wrong one of these is a different digest. They serve different purposes: one commits to a PlanIntent on the wire, the other identifies the shape of a contract document."
+          },
+          "vectors": [
+            {
+              "id": "FF-1-length-is-code-points",
+              "why": "one non-ASCII code point: 1 code point, 2 UTF-8 bytes. The head document is pure ASCII and cannot distinguish the readings.",
+              "input": "\u00e9",
+              "underThisText": "s1:\u00e9",
+              "underTheRejectedReading": "s2:\u00e9",
+              "rejectedReading": "length counted in UTF-8 bytes",
+              "separates": true
+            },
+            {
+              "id": "FF-2-object-order-is-by-token",
+              "why": "keys 'b' and 'ab': the token order and the raw-key order are opposite",
+              "input": {
+                "b": 1,
+                "ab": 2
+              },
+              "underThisText": "o17:s1:bi1:1s2:abi1:2",
+              "underTheRejectedReading": "o17:s2:abi1:2s1:bi1:1",
+              "rejectedReading": "object members sorted by raw key, as opensip-canonical-json-v1 sorts them",
+              "separates": true
+            },
+            {
+              "id": "FF-3-index-is-not-a-digit-key",
+              "why": "the array index 0 and the object key '0' render to the same text and must not share a token",
+              "inputStepsArrayA": [
+                0
+              ],
+              "inputStepsArrayB": [
+                "0"
+              ],
+              "underThisTextA": "a4:i1:0",
+              "underThisTextB": "a4:s1:0",
+              "underTheRejectedReadingBothBecome": "0",
+              "rejectedReading": "each step rendered as text and joined",
+              "separates": true
+            },
+            {
+              "id": "FF-4-framing-is-load-bearing",
+              "why": "without the length frame the concatenation is ambiguous and two distinct arrays collide",
+              "inputA": [
+                "asb",
+                "c"
+              ],
+              "inputB": [
+                "a",
+                "bsc"
+              ],
+              "underThisTextA": "a10:s3:asbs1:c",
+              "underThisTextB": "a10:s1:as3:bsc",
+              "underTheRejectedReadingBothBecome": "asasbsc",
+              "rejectedReading": "type-tagged but not length-framed",
+              "separates": true
+            },
+            {
+              "id": "FF-5-reparenting-across-a-slash",
+              "why": "IR-C2V8-01 retained as a vector: the defect that reached exit 0 with a full green banner on an 11-byte edit",
+              "inputA": {
+                "a": {
+                  "b": 1
+                }
+              },
+              "inputB": {
+                "a": {},
+                "a/b": 1
+              },
+              "skeletonDigestA": "45efc6747d243db7bf3623ee08d6289fc7418ba1fbe373436075a4a26fdb237a",
+              "skeletonDigestB": "37ee61f4b7b9c154db5f1e220926a09b038156850373b2599a0e4e7803829319",
+              "underTheRejectedReading": "the two skeletons are IDENTICAL",
+              "rejectedReading": "path rendered as a '/'-join with no escaping",
+              "separates": true
+            },
+            {
+              "id": "FF-6-law-18-exact-type",
+              "why": "host-language equality makes 1, 1.0 and true one value; this encoding makes them three. The vectors of this block are themselves subject to law 18.",
+              "integerOne": "i1:1",
+              "numberOne": "n3:1.0",
+              "booleanTrue": "b1:1",
+              "hostEqualityWouldConflateAllThree": true,
+              "distinctTokens": 3,
+              "separates": true
+            },
+            {
+              "id": "FF-7-degenerate-and-decimal-forms",
+              "why": "empty payloads and a two-digit length pin the decimal form, which 'length-framed' does not",
+              "emptyString": "s0:",
+              "emptyArray": "a0:",
+              "emptyObject": "o0:",
+              "null": "z0:",
+              "tenCharacterString": "s10:0123456789",
+              "rejectedReading": "a zero-length payload written with an empty length, or a zero-padded fixed-width length",
+              "separates": true
+            }
+          ],
+          "reproduction": {
+            "claim": "An implementer who reads only the text of this block, and no checker source, reproduces the head's published digests.",
+            "howThisWasTested": "Two encoders were written from this text alone in the session that authored this candidate. They share no code with each other and read no line of any checker in this corpus. Encoder A canonicalises recursively and walks iteratively; encoder B canonicalises with an iterative post-order machine, walks recursively, counts code points with an explicit loop, renders decimals without the host's integer formatter and feeds the digest in chunks.",
+            "subject": "c2-plan-stage-schema.v9.json, the PASSED head, parsed with a duplicate-key-rejecting object_pairs_hook per freeze section 7.5",
+            "subjectSha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+            "publishedDocumentSkeletonSha256": "aa0cd11e6f4328a3c43aaef81537730847dff7294f9bb0bc95b524c84d129520",
+            "encoderAReproducedIt": true,
+            "encoderBReproducedIt": true,
+            "rootSubtreeDigestsPublished": 29,
+            "rootSubtreeDigestsReproduced": 29,
+            "rootSubtreeDigestsDiffering": 0,
+            "publishedCountsAlsoReproduced": {
+              "nodes": 1124,
+              "containers": 167,
+              "leaves": 957,
+              "nullLeaves": 0,
+              "booleanLeaves": 4,
+              "integerLeaves": 228,
+              "numberLeaves": 0,
+              "stringLeaves": 725,
+              "distinctPathTokens": 1124
+            },
+            "whatThisEstablishes": "The text above is SUFFICIENT: it determines the head's digests uniquely, from the contract alone, with no access to the checker.",
+            "whatThisDoesNotEstablish": "It does not establish that the text is MINIMAL, and it does not re-verify the head. check-c2-v9.py remains the head's instrument, it still exits 0 over the head, and this candidate leaves its bytes untouched."
+          }
+        },
+        "why": "lifts the frame format of the encoding that produces documentSkeleton.sha256 and the 29 root-subtree digests out of check-c2-v9.py lines 520-523 and into the contract as normative text, so the head's totality argument stops being carried by digests no contract reader can recompute"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.containerPaths",
+        "from": 797,
+        "value": 835,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.dictPaths",
+        "from": 570,
+        "value": 602,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedCases",
+        "from": 24342,
+        "value": 25949,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.enumeratedPaths",
+        "from": 3396,
+        "value": 3621,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.executedCases",
+        "from": 24172,
+        "value": 25761,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.injectionValues",
+        "from": 7,
+        "value": 7,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.noOpInjections",
+        "from": 170,
+        "value": 188,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.pathsNotRoundTripping",
+        "from": 3,
+        "value": 3,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      },
+      {
+        "op": "set",
+        "path": "hostileScalarLeafTotality.contractRoot.scalarLeafPaths",
+        "from": 2599,
+        "value": 2786,
+        "why": "republished at the value measured over the EFFECTIVE v10 document; the inherited figure was measured over the effective v9 document and this derivation adds two blocks to it"
+      }
+    ]
+  },
+  "operationAccounting": {
+    "total": 13,
+    "identity": 2,
+    "additions": 2,
+    "republishedCounters": 9,
+    "whyTheCountersMove": "hostileScalarLeafTotality.contractRoot describes every position of the contract document ITSELF, and its comparisonRule states that the pinned instrument recomputes every number in the section on every run and that understating the space is a finding. A derivation that adds a block to the effective contract and leaves those numbers alone publishes a census of a document that no longer exists. The predecessor moved them for exactly this reason when it added one block; this candidate adds two.",
+    "howTheyWereMeasured": "By the pinned check-c2-v4.py's own node_census over CONTRACT_HOSTILE_VALUES, the same function the head's measurement path calls, applied to the fully resolved effective v10 document. The census is a FIXPOINT computation, because noOpInjections depends on the leaf VALUES and the counters are themselves leaves: it was iterated until the published numbers describe the document that holds them. It converged.",
+    "notInTheOperationList": [
+      "planIntentFixtures",
+      "planIntentTotalityMatrix",
+      "intentBindingFixtures",
+      "storedViewBindingFixtures",
+      "planFixtures",
+      "coverageFixtures",
+      "stageSchemas",
+      "planIntent.canonicalCommitment",
+      "conformanceTests",
+      "checkerModeContract.checker"
+    ]
+  },
+  "theCommitmentQuestion": {
+    "finding": "executionPlanCommitment is required in three closed records, is typed 'Raw commitment' -- a type used 18 times and defined nowhere -- and has no stated semantics anywhere in this corpus.",
+    "priorState": "artifacts/execution-plan-commitment.investigation.v1.json (0b8bb3dec4a08b8559aae751a6c0ebc3f6d59a32f74e5a4770ccdb6ff1b9a2fa, measurement-only) ruled it UNDETERMINED and it became a freeze section 7.1 parked row.",
+    "ruling": "ALIAS",
+    "where": "the effective contract at planIntent.attemptAndExecutionJoin.executionPlanCommitment, added by operation 2",
+    "shortRationale": "The ExecutionPlan envelope is CLOSED and does not contain the name, so an ExecutionPlan cannot carry the field. Every field it does carry is bound by this contract's own equalityRule to a field of the PLAN-ID-V1 preimage, so planId is ALREADY a commitment over the whole ExecutionPlan. A distinct executionPlanCommitment would be a second digest over the same closed envelope from the same inputs -- a redundant second identity -- and would declare all 139 existing sites wrong in bytes section 7.2 forbids editing.",
+    "theSeparatingVectorIsPublishedAndExecuted": "EPC-V1 in that block. Same PlanIntent, different repository content: planIntentCommitment byte-identical, planId moves from plan1:sha256:613866ac... to plan1:sha256:6dcb73e1..., computed by two independent PLAN-ID-V1 encoders that first reproduce the published golden exactly.",
+    "theMissingNegativeControlIsSupplied": "EPC-V2. The freeze records that sibling equality is 132/132 with 0 differing, so no control exists that a one-commitment implementer would fail. Under this ruling the gap inverts: nothing caught a TWO-commitment implementer, and EPC-V2 does."
+  },
+  "theFrameFormatDefect": {
+    "finding": "documentSkeleton.sha256 and 29 subtree digests on the head depend on a frame format that exists only at check-c2-v9.py lines 520-523, verbatim tag + str(len(payload)) + ':' + payload, while the head states only 'length-framed, type-tagged'.",
+    "whyThatIsADefect": "Many mutually incompatible encodings satisfy that phrase. Four are exhibited as vectors, each with the input at which it diverges. The head's totality argument is carried by digests no contract reader can recompute, which fails the property freeze section 7.1 states: a rule that exists only inside a checker's Python is not a binding artifact.",
+    "repair": "the effective contract at documentIdentityEncoding, added by operation 3",
+    "demonstrated": "Two encoders written from the new text alone, sharing no code with each other and reading no checker source, reproduce the head's documentSkeleton.sha256 aa0cd11e6f4328a3c43aaef81537730847dff7294f9bb0bc95b524c84d129520, all 29 root-subtree digests with 0 differing, and all nine published node and leaf-type counts.",
+    "theCheckerWasNotTouched": "check-c2-v9.py is pinned, several checkers hash-verify it at runtime (section 7.6), and it still exits 0 over the head. The contract now states what the code already does."
+  },
+  "selfVerification": {
+    "route": "BOTH. The predecessor was resolved by EXECUTING check-c2-v9.py, which exited 0 over the head, and independently by check-completeness.py's own derivation_declaration() and resolve_derivation(), which materialised the effective v9 contract from the verified v4 bytes plus the thirteen declared operations. The v9 delta file was never read as a whole document. Freeze section 7.3: executing a verified closure is how a derivation is obtained; transcribing a predecessor is not.",
+    "resolverUsed": "check-completeness.py resolve_derivation(), the corpus's own reader, applied to THIS candidate",
+    "declarationErrors": 0,
+    "resolveErrors": 0,
+    "chainDepth": 1,
+    "chainResolvesThrough": "artifacts/c2-plan-stage-schema.v9.json then artifacts/c2-plan-stage-schema.v4.json",
+    "predecessorDigestVerifiedBeforeParse": true,
+    "structuralDiffAgainstTheEffectivePredecessor": {
+      "rule": "every leaf of the effective v9 contract compared to every leaf of the effective v10 contract, by PATH and by TYPE-EXACT value",
+      "leavesAdded": 187,
+      "leavesRemoved": 0,
+      "leavesChanged": 9,
+      "changedLeafPaths": [
+        "hostileScalarLeafTotality.contractRoot.containerPaths",
+        "hostileScalarLeafTotality.contractRoot.dictPaths",
+        "hostileScalarLeafTotality.contractRoot.enumeratedCases",
+        "hostileScalarLeafTotality.contractRoot.enumeratedPaths",
+        "hostileScalarLeafTotality.contractRoot.executedCases",
+        "hostileScalarLeafTotality.contractRoot.noOpInjections",
+        "hostileScalarLeafTotality.contractRoot.scalarLeafPaths",
+        "supersedes",
+        "version"
+      ],
+      "newTopLevelKeys": [
+        "documentIdentityEncoding"
+      ],
+      "reading": "Nothing is removed. The additions are the two blocks the two findings require -- one new top-level key, documentIdentityEncoding, and one new member of planIntent.attemptAndExecutionJoin -- and nothing else. Every changed leaf is named above: two are successor identity, and seven are census counters the predecessor's own comparisonRule requires to be recomputed when the document grows. Two of the nine republished counters, injectionValues and pathsNotRoundTripping, were restated at values that did not move, so they are declared in the operation list but do not appear as changed leaves.",
+      "operationsThatRestatedAnUnchangedValue": [
+        "hostileScalarLeafTotality.contractRoot.injectionValues",
+        "hostileScalarLeafTotality.contractRoot.pathsNotRoundTripping"
+      ]
+    },
+    "preservedByteForByte": {
+      "rule": "compared under opensip-jx-canon-v1, which is type-exact, rather than by host equality",
+      "closedCollectionsCompared": 8,
+      "closedCollectionsIdentical": 8,
+      "fiveFixtureArraysTotalGoldens": 113,
+      "planIntentCanonicalCommitmentIdentical": true,
+      "sevenPinnedCommitmentVectors": "untouched; planIntent.canonicalCommitment is not in the operation list",
+      "law18AdmissionDiscipline": "untouched; no admission rule, wire type or totality matrix is in the operation list"
+    },
+    "encoderIndependence": "Every digest and count published in this file was computed twice, by two implementations that share no code: opensip-jx-canon-v1 encoders A and B for the skeleton work, and two PLAN-ID-V1 encoders for the separating vector. Both PLAN-ID-V1 encoders reproduce the published golden expectedPlanId and its expectedPreimageByteLength of 2500 before being trusted about anything new.",
+    "digestsHardCompared": "Every sha256 recorded in this file was compared against shasum -a 256 of the named bytes, not against recollection.",
+    "jsonParsing": "Every JSON document read while authoring this candidate was parsed with a duplicate-key-rejecting object_pairs_hook, per freeze section 7.5.",
+    "checkersRun": "After this file was written: check-claims.py, check-product-dispositions.py, check-c2-v9.py, check-retention-custody-v24.py and check-d9-v1.14.py each exit 0, and check-package-coherence.py exits 1 with exactly its two pre-existing accounted PC-7 findings, pathsMissing 0, digestsVerified 40 of 40 and no dead link. check-c2-v9.py's stdout is BYTE-IDENTICAL to its run before this file existed, which is the property that matters: the head is undisturbed. check-completeness.py's stdout is likewise byte-identical to its pre-existing run. The only difference this file makes anywhere is one new coherence OBSERVATION -- 'c2-plan-stage-schema: documents name v9, disk has v10 -- successor review state NONE; head correctly unchanged' -- which is the correct record of an unreviewed candidate that has not been applied."
+  },
+  "documentSkeleton": {
+    "rule": "The PATH and the JSON TYPE of every NODE of this document, container nodes included, canonicalised and hashed into one digest under opensip-jx-canon-v1 as the effective contract now defines it at documentIdentityEncoding. Unlike the predecessor's, this digest is reproducible from the contract alone; that is the whole point of operation 3.",
+    "encoding": "opensip-jx-canon-v1",
+    "sha256": "608ea59cd5f07b1cd6b48568a9dbc96061da101c544ae1a50cd8beff9ee64ea6",
+    "nodes": 488,
+    "containers": 81,
+    "leaves": 407,
+    "nullLeaves": 0,
+    "booleanLeaves": 18,
+    "integerLeaves": 65,
+    "numberLeaves": 0,
+    "stringLeaves": 324,
+    "distinctPathTokens": 488,
+    "rootSubtrees": 18,
+    "subtrees": {
+      "artifact": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "version": "5abb292c2ba2c5f6df7614f017b6c6c7d98e7c3fe1831ac8545a4f29635611fd",
+      "supersedes": "5abb292c2ba2c5f6df7614f017b6c6c7d98e7c3fe1831ac8545a4f29635611fd",
+      "date": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "status": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "author": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "purpose": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3",
+      "bindingDeclaration": "9f3846e21277dce7f5d1f80e72aaffad6695d183173e59cdf22cd14989e729fb",
+      "derivedFrom": "e2e4e9283af87586cf7c5cba2e5a409c403345dcbc60e9f0176388ffe0f0d5fa",
+      "operationAccounting": "4473867a14de2745d73454d476d2e8f3813c0675ba8c807e2f9ec9c0683538a9",
+      "theCommitmentQuestion": "4a6952d608655bffdf9bbc1b7a598438882d513b19f0feb5b6c7d277e349bbb0",
+      "theFrameFormatDefect": "07beaf8fa6cc6965d9bd8e02c8bc1b0ebb472e03e39b08a74f0ec5fc06a96179",
+      "selfVerification": "da267c1e146ff9d29cc6628c918e59aac051abf5d449038418edd3700ee76c80",
+      "documentSkeleton": "688d3428bebdc44caf244c9daddee9d7369504d912cc8eb83362f83809e32a99",
+      "declaredDependencies": "a44e427e072209a51e1760d9c21b0189ee7f2466f9523ed8eab3346cf4527820",
+      "recordedInputs": "e263bd11a9960e70da278fedc64a011e30c8422b5d3d323af207adeb7f870a5c",
+      "knownLimitations": "69994b97a0867f79a51c2cd433a5c26ad1bf75144fbadf844a91221093105e49",
+      "scope": "7df6bbc058804b2c8cef8396c1d71efbce8607e19aa0953d653f786c714e29a3"
+    }
+  },
+  "declaredDependencies": [
+    {
+      "dependency": "an independent review of these bytes",
+      "state": "UNMET",
+      "why": "This artifact is a candidate. Freeze section 7.1 and law 19 both disqualify a checker, a record and a candidate from CLOSING a row; only a coordinator applying a binding artifact does that. Nothing here is closed."
+    },
+    {
+      "dependency": "a companion instrument for v10",
+      "state": "UNMET, and deliberately not invented",
+      "why": "This task permits exactly one new file and forbids editing any checker. No instrument validates the two blocks this candidate adds, and none is named as a path anywhere in it, because naming a file that does not exist would put a dead link in a binding artifact. The inherited layers remain validated by check-c2-v9.py over the predecessor, which still exits 0.",
+      "consequence": "The two added blocks are SPECIFIED and UNEXECUTED by any registered checker. Their vectors were executed in the authoring session, by encoders described in the blocks themselves, and that is a strictly weaker form of evidence than a registered instrument. It is recorded as weaker rather than presented as equal."
+    },
+    {
+      "dependency": "a definition of the wire type 'Raw commitment'",
+      "state": "UNMET, and outside C-2's authority",
+      "why": "The type is used 18 times and defined nowhere. It is declared in EVALUATION-PROOF and EVIDENCE records; under law 19 C-2 cannot define another surface's type. The alias ruling does not need it, but a reader should not mistake this candidate for having supplied it."
+    },
+    {
+      "dependency": "coordinator application, and the freeze section 7.1 row",
+      "state": "UNMET by construction",
+      "why": "The row stays parked until a coordinator applies a binding artifact. This candidate proposes; it does not close."
+    }
+  ],
+  "recordedInputs": [
+    {
+      "filename": "c2-plan-stage-schema.v9.json",
+      "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+      "role": "the verified predecessor; resolved, never transcribed, and the subject of the frame-format reproduction"
+    },
+    {
+      "filename": "c2-plan-stage-schema.v4.json",
+      "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+      "role": "the predecessor's own predecessor; the chain resolves through it and its digest was verified before its bytes were parsed"
+    },
+    {
+      "filename": "execution-plan-commitment.investigation.v1.json",
+      "sha256": "0b8bb3dec4a08b8559aae751a6c0ebc3f6d59a32f74e5a4770ccdb6ff1b9a2fa",
+      "role": "the measurement-only investigation that ruled the question UNDETERMINED and named this artifact as the only place it can be settled"
+    },
+    {
+      "filename": "resolved-inputs.v2.json",
+      "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+      "role": "PLAN-ID-V1: the preimage framing, CVE1, and the positive golden vector that qualifies the separating vector's encoders"
+    },
+    {
+      "filename": "check-c2-v9.py",
+      "sha256": "ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035",
+      "role": "the predecessor's pinned instrument; READ ONLY, never edited, and re-run to exit 0 after this file was written"
+    },
+    {
+      "filename": "check-c2-v4.py",
+      "sha256": "54ff764d155f5582bc66fd7bf8138b7eaed5f90f46b92975c4bc7a85ffb3df17",
+      "role": "the pinned measurement oracle whose node_census recomputed the nine contractRoot counters"
+    },
+    {
+      "filename": "check-completeness.py",
+      "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+      "role": "the corpus's own derivation reader; used to resolve this candidate and to report declaration and resolve errors"
+    }
+  ],
+  "knownLimitations": [
+    "No registered checker validates this candidate's two added blocks. See declaredDependencies.",
+    "The alias ruling is a RULING, not a measurement. The corpus is consistent with both readings at the byte level; that is what UNDETERMINED meant. What this candidate adds is a derivation from the closed envelope, and three controls that make the readings distinguishable by test for the first time. If a record is ever produced in which executionPlanCommitment is demonstrably not the PlanIntent commitment, EPC-V2 fails loudly.",
+    "documentIdentityEncoding is shown SUFFICIENT to reproduce the head's digests. It is not shown MINIMAL, and no claim of minimality is made.",
+    "The four productions the skeleton digest does not exercise -- null, boolean, number, object -- are specified and witnessed by vectors, but they are not exercised by the head's own published digest. That split is stated in the block rather than smoothed over.",
+    "This candidate does not define the wire type 'Raw commitment' and does not close the freeze section 7.1 parked row."
+  ],
+  "scope": "Candidate-scope evidence only; SPECIFIED / IMPLEMENTABLE_UNEXECUTED; CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW; independent re-review REQUIRED; no seal, freeze, integration or product acceptance is declared; no head is repointed; CD-RT-5 remains BLOCKED_ON_PHASE_1A."
+}

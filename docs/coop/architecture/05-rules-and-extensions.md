@@ -82,7 +82,7 @@ scenario-effectful execution, and network-granted analysis at admission with
 `FEATURE.REQUIRES_CAPABILITY_RUNTIME`.
 
 The v1 decision is a total product-admission overlay, not a partial list of
-special cases. `delivery.v2.json#initialProductScope.v1PlanIntentOverlay` is the
+special cases. `delivery.v4.json#initialProductScope.v1PlanIntentOverlay` is the
 closed, ordered `ALLOW` / `ALLOW_IF` / `DENY` matrix over every
 exclusion-bearing C-2 path: topology, workflow, network and remote computation,
 all four repository-execution switches, contribution origin and authority,
@@ -119,7 +119,7 @@ typed domain detail is
 `extension-admission-rejected / EXTENSION.ADMISSION_REJECTED`. It does not grow
 the D9 vocabulary or misreport the exclusion as `ARCH.PROBE-CONTRACT`.
 
-That exclusion is binding in `delivery.v2.json`. A narrow method signature or a
+That exclusion is binding in `delivery.v4.json`. A narrow method signature or a
 stage label is not a runtime authority boundary, and an implementation may not
 keep one of these features while treating `ARCH.PROBE-CONTRACT` as a harmless
 future hardening task.
@@ -180,7 +180,7 @@ cannot resolve references fails differently from a rule that exceeds its query
 budget, and the plan must be able to say so.
 
 **CANDIDATE (C-2).** Binding artifact:
-[`c2-plan-stage-schema.v9.json`](../artifacts/c2-plan-stage-schema.v9.json),
+[`c2-plan-stage-schema.v11.json`](../artifacts/c2-plan-stage-schema.v11.json),
 validated by `check-c2-v9.py`. The independent adversarial review of exactly those
 bytes is PASS at zero blocking findings, with five non-blocking observations
 (`OBS-C2V9-01`..`05`). v9 self-declares `CANDIDATE-NOT-APPLIED`, and its own

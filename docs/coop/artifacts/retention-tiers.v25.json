@@ -1,0 +1,2057 @@
+{
+ "artifact": "retention-tiers.v25",
+ "version": 25,
+ "status": "CANDIDATE-NOT-APPLIED/AWAITING-INDEPENDENT-REVIEW",
+ "date": "2026-08-05",
+ "claimId": "ARCH.RETENTION-TIERS",
+ "supersedesAsArchitectureCandidate": "retention-tiers.v24",
+ "retainedChecker": "NONE",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "role": "A successor to retention-tiers.v24 designing against two pieces of product intent recorded on 2026-08-05. First: retention is bounded by time, size and count, the bounds are per-project and configurable, tombstones survive, and a PURGED state must say why. Second, and overturning the premise v24's Part A was built on: retention is DURABLE BY DEFAULT and unbounded unless configured, so a project with no configured policy retains durably and a durable-authoritative request with no policy proceeds and writes rather than refusing. This artifact adds TRIGGERS to the existing PURGED transition, closes the cause partition so absence is explainable, and repairs the three surfaces of Part A that the posture decision overturns. It is not a deletion model: purge here is already capability degradation on a record that stays addressable.",
+ "authority": {
+  "candidateState": "NOT-APPLIED",
+  "authorityClaim": "NONE",
+  "mayCiteAProductDecision": true,
+  "mayConstituteAProductDecision": false,
+  "mayAmendD9Vocabulary": false,
+  "mayAmendOperabilityGates": false,
+  "mayAmendThreatModel": false,
+  "mayAmendTheProductDispositionPacket": false,
+  "mayApplyTheCdRt5AmendmentDraft": false,
+  "productionExecutionClaim": "NONE",
+  "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+  "whatThisArtifactChangedOnDisk": "Wrote retention-tiers.v25.json and nothing else. No checker, no review, no freeze row, no blueprint row, no register entry, no status, no disposition, no verdict and no seal was written, edited or moved. product-dispositions.v1.json was read and is unamended. product-dispositions.cd-rt-5-amendment.draft.v1.json was read and is unapplied.",
+  "rule": "An architecture artifact may cite a product decision and may never constitute one. Product intent recorded conversationally is a shape to design against, not a decision to implement, and a prepared amendment draft is not an amendment.",
+  "bindsNothing": true,
+  "whatBindsNothingMeans": "No downstream artifact is required to read this file, no checker gates on it, no freeze or blueprint row names it, and nothing in the corpus changes if it is deleted. It acquires standing only through an independent review of these exact bytes."
+ },
+ "integrationState": {
+  "candidateState": "NOT-APPLIED",
+  "externalClosureClaim": "NONE",
+  "evidenceGrade": "IMPLEMENTABLE_UNEXECUTED",
+  "productIntegration": "NONE",
+  "independentAcceptance": "NOT-GRANTED",
+  "V10": "UNRESOLVED",
+  "CD-RT-5": "BLOCKED_ON_PHASE_1A",
+  "G19": "BLOCKED"
+ },
+ "productAuthorityBoundary": {
+  "CD-RT-5": "BLOCKED_ON_PHASE_1A",
+  "durableDefault": "UNSELECTED",
+  "packetStateReadLiveFrom": "product-dispositions.v1.json#pendingDecisions.CD-RT-5",
+  "packetStateAsMeasured": "BLOCKED_ON_PHASE_1A",
+  "packetRuleWhilePendingVerbatim": "No implementer may choose a retention default and no freeze may claim V10 resolved.",
+  "theTensionThisArtifactMustHoldOpen": {
+   "statement": "The recorded product intent of 2026-08-05 names a default posture. The binding packet still records CD-RT-5 as BLOCKED_ON_PHASE_1A, and its rule while pending forbids an implementer choosing a retention default. Those two facts are both true at the same time and this artifact refuses to collapse them.",
+   "howItIsHeldOpen": "durableDefault above is the PACKET's value and it remains UNSELECTED, because the packet has selected nothing. The posture this artifact designs against is recorded separately, below, as intent, and is never written into a field whose meaning is a product selection. An implementer reading this artifact for permission to choose a default finds none: the design is contingent on an amendment that has not been applied.",
+   "recordedIntentPosture": "DURABLE_RETAINED",
+   "recordedIntentPostureIsNotAPacketValue": true,
+   "whyBothFieldsExist": "Collapsing them into one would force a choice between designing against the intent and reporting the packet honestly. Keeping them separate lets a reader see exactly which is which, and lets the packet field flip to a selected value the day the amendment is applied without any other field in this artifact needing to change.",
+   "isThisArtifactBlockedByThat": false,
+   "whyNot": "Designing against a shape is not choosing it. If the authority never applies the amendment, this artifact is a rejected design and nothing has been implemented on the strength of it. That is the whole reason for keeping candidates NOT-APPLIED."
+  },
+  "amendmentDraft": {
+   "path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json",
+   "sha256": "4bbcd6fa9113a689063ce880611e98dcf3599eaa0f5846419886deb4033922ea",
+   "state": "DRAFT-NOT-APPLIED",
+   "readAs": "INPUT-ONLY",
+   "appliedByThisArtifact": false,
+   "whatItWouldDoIfApplied": "replace product-dispositions.v1.json#/pendingDecisions/CD-RT-5 with a DECIDED row carrying durableDefault DURABLE_RETAINED and implicitDurableRetention YES",
+   "twoInternalStalenessObservations": {
+    "note": "Recorded as observations about a declared input, not as changes to it. This artifact does not edit the draft and has no authority over it.",
+    "observations": [
+     "$.whatTheAuthorityShouldCheckBeforeApplying[1] reads 'That leaving durableDefault UNSELECTED is intended. This amendment deliberately does not answer the default-posture question.' That is no longer true of the draft's own bytes: $.proposedReplacement.defaultPosture.durableDefault is DURABLE_RETAINED.",
+     "$.sharpestThingTheAuthorityShouldKnow states that applying the text narrows CD-RT-5 rather than closing it because the decision is about bounds and not posture. $.provenanceOfTheProposedText.postureAnsweredSeparatelyAndLater records that caveat as DISCHARGED and retained as history, but the checklist item and the sharpest-thing paragraph still read as live."
+    ],
+    "whyThisIsWorthRecording": "A reader who skims the checklist rather than the proposed replacement would conclude the posture question is still open in the draft, which is the opposite of what the draft proposes. This artifact designs against the proposed replacement, which is the operative text.",
+    "thisIsNotABlockerOnTheDraft": true
+   }
+  }
+ },
+ "recordedInputs": {
+  "rule": "IMPLEMENTATION-FREEZE.md section 7.2 recording obligation: filename and SHA-256 for every input this artifact read, measured with shasum at authoring time and recorded verbatim.",
+  "howMeasured": "shasum -a 256, cross-checked against an independent hashlib walk of the same bytes",
+  "digestsRecordedCount": 15,
+  "recorded": [
+   {
+    "path": "artifacts/retention-tiers.v24.json",
+    "sha256": "ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277",
+    "role": "predecessor architecture candidate; independently reviewed PASSED on both parts at 0 blockers; inherited BY-REFERENCE and never edited",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/retention-tiers.v24.review-independent.json",
+    "sha256": "633301d5fb6400858a1e10acca50aefe8e58502ef346d5f3d06f6da5cff0084a",
+    "role": "the independent review that PASSED both parts; quoted, never paraphrased into a stronger claim",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/retention-tiers.v23.json",
+    "sha256": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b",
+    "role": "origin of the Part B purge semantics carried through v24",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/retention-tiers.v23.review-independent.json",
+    "sha256": "039419b49d06999d4142346f8982eadb511ab6efc635b5e116f0694d6412719f",
+    "role": "the review that first PASSED Part B at 0 blockers and carried the V10 item 3 discharge",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/retention-tiers.v22.json",
+    "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1",
+    "role": "source of the availability fixtures including AF-03-VERIFY-PURGED, and of the recommendedDefaultPosture this artifact records as OVERRIDDEN",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/check-retention-custody-v24.py",
+    "sha256": "9a309302df6d2f1108f1fbfb4978bfc93b102eb0394c99ba7be7fc550d7fa909",
+    "role": "predecessor retained checker; carries FREEZE_ANCHORS and is NOT modified by this artifact",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/check-retention-custody-v23.py",
+    "sha256": "18e94f7603869e8fdf295664f8d7eb46d9075ea8fc1791769045fb194b4a96a8",
+    "role": "the checker that measures the D9 vocabulary gap live; NOT modified by this artifact",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/d9-exit-contract.v1.14.json",
+    "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+    "role": "the closed D9 vocabulary this artifact measures and may not amend",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/product-dispositions.v1.json",
+    "sha256": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c",
+    "role": "the only place a product decision is constituted; read for CD-RT-5 state and left unamended",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json",
+    "sha256": "4bbcd6fa9113a689063ce880611e98dcf3599eaa0f5846419886deb4033922ea",
+    "role": "a PREPARED-NOT-APPLIED amendment draft; read as the operative statement of recorded intent and NOT applied",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/threat-model.v3.json",
+    "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+    "role": "source of V10 requiredResolution item 3 and of the DeletionProtocol protection-domain boundary",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "artifacts/evidence.v10.json",
+    "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+    "role": "source of the availabilityDifferential lists and of sealedCapabilityContract.finalization",
+    "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN"
+   },
+   {
+    "path": "IMPLEMENTATION-FREEZE.md",
+    "sha256": "3e0b0195890720b1592dd3a589c42ec3fab64992334ed33ccee1ca25063a2463",
+    "role": "sections 4.4, 4.5, 4.6, 6 laws 6, 8, 14 and 18, 7.2, 7.5 and 7.7 read as data; NOT edited, because check-retention-custody-v23.py and -v24.py carry FREEZE_ANCHORS that are verbatim excerpts of it and both must keep exiting 0",
+    "gate": "CITED-DIGEST-RECORDED-NOT-GATED"
+   },
+   {
+    "path": "IMPLEMENTER-BLUEPRINT.md",
+    "sha256": "f6963a5c35758e7c80483f140bb08934d236e1f132ba373798848b4bbbbc9b5f",
+    "role": "read for the head artifact set; NOT edited",
+    "gate": "CITED-DIGEST-RECORDED-NOT-GATED"
+   },
+   {
+    "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+    "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+    "role": "confirmed unchanged and never opened for writing",
+    "gate": "CITED-DIGEST-RECORDED-NOT-GATED"
+   }
+  ],
+  "parsingRule": "IMPLEMENTATION-FREEZE.md section 7.5. Every JSON input above was parsed with json.load under an object_pairs_hook that raises on any repeated key at any depth, so a document that says one thing to a reader and another to an instrument is refused rather than silently last-wins resolved. No input was parsed without the hook. The emitted bytes of this artifact were re-parsed under the same hook after the write.",
+  "duplicateKeysFound": 0,
+  "digestsAreMeasuredNotTranscribed": "Every digest above is computed from the bytes on disk at the moment this artifact was serialised, and each was then hard-compared against shasum -a 256 by a separate verification pass. None was copied from another document. The predecessor's recorded digests were also re-measured rather than inherited.",
+  "citedDigestsThatMovedDuringAuthoring": {
+   "count": 2,
+   "files": [
+    "IMPLEMENTATION-FREEZE.md",
+    "IMPLEMENTER-BLUEPRINT.md"
+   ],
+   "whatHappened": "Both files were re-hashed partway through authoring and both had changed since the first measurement, because the posture decision was being recorded into them by another lane while this artifact was being written. The digests above are the later measurement.",
+   "whyThisIsNotARefusal": "These two are recorded-not-gated precisely because they are under concurrent edit. A digest recorded for a file under concurrent edit is false the moment it is written, so gating on it would make this artifact fail for a reason that has nothing to do with its own correctness. The predecessor reached the same conclusion and recorded it the same way.",
+   "whatIsGatedInstead": "the twelve artifacts/ inputs, which are not under concurrent edit and whose digests are stable across the whole authoring session.",
+   "consequenceForAReviewer": "re-hash both before finalising. A mismatch on these two is a re-baseline and a fact about the review's conditions, not a finding against this artifact. A mismatch on any of the other thirteen is a finding.",
+   "planDigestConfirmedUnchanged": true,
+   "planDigestVerbatim": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e"
+  },
+  "whyTheFreezeIsCitedAndNotGated": "This artifact retains no checker, so nothing here can gate at exit 2 on anything. The gate column records what a checker WOULD pin if one is ever written, and is labelled so it cannot be read as a claim that gating happened.",
+  "noInputWasWritten": true,
+  "filesWrittenByThisArtifact": 1
+ },
+ "inheritance": {
+  "predecessor": {
+   "artifact": "retention-tiers.v24.json",
+   "sha256": "ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277"
+  },
+  "predecessorReview": {
+   "artifact": "retention-tiers.v24.review-independent.json",
+   "sha256": "633301d5fb6400858a1e10acca50aefe8e58502ef346d5f3d06f6da5cff0084a",
+   "overallVerdictVerbatim": "PASS (both parts), 0 blocking findings",
+   "partADecision": "PASS",
+   "partABlockingFindingCount": 0,
+   "partBDecision": "PASS",
+   "partBBlockingFindingCount": 0,
+   "totalBlockingFindingCount": 0,
+   "reviewedCandidateState": "CANDIDATE-NOT-APPLIED/AWAITING-INDEPENDENT-REVIEW"
+  },
+  "mode": "BY-REFERENCE",
+  "modeRule": "This artifact does not copy v24's bytes and does not re-verify v24's surfaces. It names them by path and digest and states exactly which it changes. Copying 209890 bytes of independently reviewed surface into a successor creates two places a sentence can drift and verifies nothing the digest does not already verify.",
+  "predecessorIsNotEdited": true,
+  "theUncomfortableFactAboutThisInheritance": "v24 passed independent review on BOTH parts at 0 blockers, and this artifact nevertheless overturns three of its Part A claims. That is not a defect found in v24 and it is not a reviewer error. v24 was correct on the premise available to it: CD-RT-5 was unanswered, so no default could be chosen and absence had to be a distinct state. The product authority has since answered. A PASSING review does not immunise an artifact against the premise it rested on being decided differently, and saying so plainly is cheaper than pretending the repair is a refinement.",
+  "section72Position": {
+   "ruleVerbatim": "An independent review verdict binds the exact bytes reviewed and the environment in which they were executed. Changing either invalidates the verdict for the changed subject. A change to reviewed bytes requires a version bump and a new verdict; it may never be made in place.",
+   "howThisArtifactComplies": "v24 is not touched. Every change is expressed as a new version, v25, carrying its own request for an independent verdict.",
+   "whatTheV24VerdictDoesAndDoesNotCover": "The v24 PASS binds v24's bytes and does not travel here. Where this artifact leaves a v24 surface untouched, the v24 verdict still describes that surface AS IT SITS IN v24; it attests nothing about this file. Where this artifact changes a v24 surface, the v24 verdict does not describe the changed shape at all, and each such surface is named below."
+  },
+  "surfacesThisArtifactChanges": [
+   {
+    "surface": "$.partA_firstRunRetentionConsent.policyObject.hasNoDefaultField",
+    "changeKind": "CLAIM-NARROWED-AND-ITS-JUSTIFICATION-REPLACED",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded posture intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partA_firstRunRetentionConsent.policyObject.absenceIsADistinctState",
+    "changeKind": "CLAIM-SPLIT: SURVIVES-AS-PROVENANCE, WITHDRAWN-AS-POSTURE",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded posture intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partA_firstRunRetentionConsent.noAskCases",
+    "changeKind": "ALL-THREE-CASES-RE-DERIVED",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded posture intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partA_firstRunRetentionConsent.askDecisionTable.cells",
+    "changeKind": "2-OF-12-CELLS-CHANGE-OUTCOME",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded posture intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partA_firstRunRetentionConsent.interactionOutcomes.outcomes",
+    "changeKind": "4-OF-7-OUTCOMES-CHANGE-TERMINAL-BEHAVIOUR",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded posture intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partB_purgeSemantics.ledger.entryOrderedFields[6] (cause)",
+    "changeKind": "EXISTING-FIELD-GIVEN-A-CLOSED-VALUE-PARTITION",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "the recorded bounds intent of 2026-08-05"
+   },
+   {
+    "surface": "$.partB_purgeSemantics.effectiveCapabilityDerivation.forbiddenInputs",
+    "changeKind": "MONOTONE-STRENGTHENING-ONLY",
+    "predecessorVerdictStillApplies": false,
+    "overturnedBy": "not overturned; strengthened to make P5 checkable"
+   }
+  ],
+  "surfacesChangedCount": 7,
+  "surfacesThisArtifactDoesNotChange": [
+   "$.partA_firstRunRetentionConsent.policyObject.orderedFields",
+   "$.partA_firstRunRetentionConsent.policyObject.postureEnum",
+   "$.partA_firstRunRetentionConsent.policyObject.forbiddenFields",
+   "$.partA_firstRunRetentionConsent.identity",
+   "$.partA_firstRunRetentionConsent.consentRecord",
+   "$.partA_firstRunRetentionConsent.disclosure",
+   "$.partA_firstRunRetentionConsent.askProtocol",
+   "$.partA_firstRunRetentionConsent.planIdExclusion",
+   "$.partB_purgeSemantics.availabilityStateLattice",
+   "$.partB_purgeSemantics.ledger.entryOrderedFields",
+   "$.partB_purgeSemantics.ledger.appendOnly",
+   "$.partB_purgeSemantics.effectiveCapabilityDerivation.signature",
+   "$.partB_purgeSemantics.effectiveCapabilityDerivation.inputs",
+   "$.partB_purgeSemantics.effectiveCapabilityDerivation.algorithm",
+   "$.partB_purgeSemantics.effectiveCapabilityDerivation.derivedProperties",
+   "$.partB_purgeSemantics.purgeMutationBoundary",
+   "$.partB_purgeSemantics.vectors",
+   "$.partB_purgeSemantics.invariants"
+  ],
+  "surfacesExplicitlyUnchangedCount": 18
+ },
+ "recordedProductIntent": {
+  "kind": "RECORDED-PRODUCT-INTENT-NOT-A-CONSTITUTED-DECISION",
+  "authorityRule": "IMPLEMENTATION-FREEZE.md section 4.5: a product decision is constituted only by product-dispositions.v1.json or an explicit amendment by the product authority. Neither has happened. A coordinator recording that an authority decided is not the authority deciding.",
+  "forensicPrecedent": "Section 4.4 is the record of what happened the one time this line was crossed here: an independent reviewer's RECOMMENDATION was converted into a declaration of accomplished product acceptance, dated, and carried into the claim register, where it survived three days before a provenance investigation struck it. That is why the two clauses below are recorded as intent even though the second of them is the answer to the very question CD-RT-5 asks.",
+  "clauses": [
+   {
+    "id": "INTENT-2026-08-05-BOUNDS",
+    "recordedOn": "2026-08-05",
+    "statedShape": [
+     "Retention is bounded by time AND size, both configurable, per project.",
+     "Count is also a dimension, and in the shipping product it is the primary one; it is recovered from that product rather than stated by the owner.",
+     "Tombstones survive: when a bound fires the record transitions to PURGED, bytes may be reclaimed, and the tombstone remains so absence is always explainable.",
+     "A PURGED state must carry why: aged out, size pressure, count pressure, or user request."
+    ]
+   },
+   {
+    "id": "INTENT-2026-08-05-POSTURE",
+    "recordedOn": "2026-08-05",
+    "recordedAfter": "INTENT-2026-08-05-BOUNDS, once it was flagged that bounds and posture are orthogonal and that the bounds answer alone would narrow CD-RT-5 rather than close it",
+    "statedShape": [
+     "Retention is durable by default, and unbounded unless configured.",
+     "Implicit durable retention is YES.",
+     "A project with no configured policy retains durably.",
+     "A durable-authoritative request with no policy PROCEEDS AND WRITES rather than refusing."
+    ],
+    "howTheChoiceWasPut": "Two options with their costs side by side. The entire difference: someone runs the tool having configured nothing and the run needs durable evidence -- refuse and write nothing, or run and write to their disk. No middle option existed, because v24's own whyNotSimplyProceedEphemeral records that silently producing ephemeral evidence for a durable-authoritative request is a durability failure reporting authoritative success, which freeze law 14 forbids.",
+    "chosen": "run and write",
+    "consequenceTheOwnerWasToldAndAccepted": "The tool writes analysis evidence into a user's project before that user has been asked. This is the intended behaviour, not a side effect."
+   }
+  ],
+  "whatThisArtifactDoesWithThem": "designs against both shapes",
+  "whatThisArtifactDoesNotDoWithThem": [
+   "It does not mark CD-RT-5 decided; CD-RT-5 remains BLOCKED_ON_PHASE_1A.",
+   "It does not amend product-dispositions.v1.json, which is unamended and was read only.",
+   "It does not apply product-dispositions.cd-rt-5-amendment.draft.v1.json, which remains DRAFT-NOT-APPLIED.",
+   "It does not set durableDefault, which remains UNSELECTED in the packet.",
+   "It does not claim V10 resolved, or item 3 discharged on these bytes.",
+   "It does not claim that architecture recommended this posture. Architecture recommended the opposite, and that is recorded below."
+  ]
+ },
+ "overriddenArchitecturalRecommendation": {
+  "why": "The posture intent recorded above is the direct opposite of a standing architectural recommendation that had been awaiting exactly this disposition. That must be recorded as an override, quoted rather than paraphrased, so a later reader cannot mistake it for an oversight or believe architecture proposed it.",
+  "theRecommendation": {
+   "source": "retention-tiers.v22.json#/custodyPolicy/recommendedDefaultPosture",
+   "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1",
+   "recommendationVerbatim": "no managed durable user-derived write without an explicit project storage and retention policy",
+   "whenPolicyMissingVerbatim": "advisory/ephemeral only, or reject durable/authoritative evidence request",
+   "statusVerbatim": "AWAITING-PRODUCT-DISPOSITION",
+   "authorityVerbatim": "product-dispositions.v1.json#pendingDecisions.CD-RT-5",
+   "currentProductStateVerbatim": "BLOCKED_ON_PHASE_1A",
+   "durableDefaultVerbatim": "UNSELECTED",
+   "quotedNotParaphrased": true
+  },
+  "theDisposition": {
+   "disposition": "OVERRIDDEN",
+   "overriddenBy": "the product authority",
+   "overriddenOn": "2026-08-05",
+   "recordedIn": "IMPLEMENTATION-FREEZE.md section 4.5 as intent, and in product-dispositions.cd-rt-5-amendment.draft.v1.json as a prepared, unapplied amendment",
+   "constitutedInTheBindingPacket": false
+  },
+  "whyTheOverrideIsLegitimate": "The recommendation's own declared status was AWAITING-PRODUCT-DISPOSITION. Architecture recommends and the product authority decides; the authority is not bound by the preference and a recommendation that could not be overridden would not be a recommendation. This is the mechanism working.",
+  "whatTheOverrideCosts": {
+   "statement": "The recommendation existed for a reason and the reason does not evaporate because it was overruled. v22's position was that no managed durable user-derived write should happen without an explicit policy. Under the new default exactly that happens, on first run, before any question is asked.",
+   "namedExposures": [
+    "A user who runs the tool once, having configured nothing, has analysis evidence written durably into their project without having been asked first.",
+    "Combined with bounds defaulting to unbounded, the default configuration is MAXIMAL retention: keep everything, forever, until someone configures otherwise.",
+    "Combined with the append-only ledger, which no bound may touch, a project that is never configured grows monotonically and without limit."
+   ],
+   "whatMitigatesThem": [
+    "The ask still happens at the first local-interactive durable-authoritative run, so the un-asked window is bounded by the first interactive use rather than lasting forever.",
+    "The default is never persisted, so a user who is later asked answers a genuinely open question rather than confirming something already written on their behalf.",
+    "Purge remains available and remains degradation rather than deletion, so retention is reversible in the capability sense even though the tombstone is not."
+   ],
+   "whatDoesNotMitigateThem": "Nothing here reduces what is written before the first ask. The exposure is real, it was stated to the authority in those terms, and the authority accepted it. This artifact records it rather than softening it.",
+   "declaredAs": "DEP-RT25-07"
+  },
+  "whatArchitectureMayNotDoAboutIt": "It may not re-litigate the decision by designing a mechanism that quietly restores the recommendation -- for instance by defaulting bounds aggressively so that durable-by-default becomes durable-briefly. Bounds default to unbounded precisely so that this artifact does not smuggle back the position the authority rejected."
+ },
+ "postureResolution": {
+  "id": "RT25-PART-D",
+  "problem": "A default posture now exists. It must live somewhere. The three candidate homes are a schema field on the policy record, a resolution rule, or a stated fallback in prose. This artifact chooses the resolution rule and says why.",
+  "choice": "RESOLUTION-RULE",
+  "theDerivation": {
+   "signature": "effective_posture(policyOrAbsent: ProjectRetentionPolicyV1 | ABSENT) -> (posture: Posture, provenance: PostureProvenance)",
+   "isTotal": true,
+   "neverReturnsAbsent": true,
+   "isPure": true,
+   "readsNoClock": true,
+   "readsNoOtherProject": true,
+   "rows": [
+    {
+     "input": "ABSENT",
+     "posture": "DURABLE_RETAINED",
+     "provenance": "DEFAULTED",
+     "note": "the overridden case; this row IS the product decision"
+    },
+    {
+     "input": "policy.posture == DURABLE_RETAINED",
+     "posture": "DURABLE_RETAINED",
+     "provenance": "CONSENTED",
+     "note": "a person was asked and said retain"
+    },
+    {
+     "input": "policy.posture == EPHEMERAL_ONLY",
+     "posture": "EPHEMERAL_ONLY",
+     "provenance": "CONSENTED",
+     "note": "a person was asked and said no; this is the only way to reach EPHEMERAL_ONLY"
+    }
+   ],
+   "rowCount": 3,
+   "postureEnum": [
+    "DURABLE_RETAINED",
+    "EPHEMERAL_ONLY"
+   ],
+   "postureEnumIsClosed": true,
+   "postureEnumMembersAdded": 0,
+   "provenanceEnum": [
+    "CONSENTED",
+    "DEFAULTED"
+   ],
+   "provenanceEnumIsClosed": true,
+   "admissionRule": "posture and provenance are closed string scalars admitted by exact JSON type before content comparison, per freeze section 6 law 18."
+  },
+  "theKeyProperty": {
+   "id": "EPHEMERAL_ONLY-IS-ALWAYS-CONSENTED",
+   "statement": "EPHEMERAL_ONLY is reachable only with provenance CONSENTED. There is no input for which the resolution returns (EPHEMERAL_ONLY, DEFAULTED).",
+   "whyItMatters": "It is what makes the surviving refusal path defensible. After this change the only request that is still refused for retention reasons is a durable-authoritative request under EPHEMERAL_ONLY, and this property says that case always means a person was asked and declined. The tool never refuses on the strength of a posture nobody chose.",
+   "isDerivedFromTheTable": true
+  },
+  "whyAResolutionRuleAndNotASchemaField": [
+   "A default field on ProjectRetentionPolicyV1 would replicate the default into every project's record, so changing it would mean migrating N records rather than editing one function.",
+   "It would also make the record's field set depend on the default's existence, which changes the record shape and therefore its identity recipe -- the freeze law 6 problem the bounds record already avoids.",
+   "Worst, it would make the default indistinguishable from a choice once written. A field holding DURABLE_RETAINED cannot say whether a person typed it."
+  ],
+  "whyNotAStatedFallback": "A fallback stated only in prose is exactly the thing that drifts. It cannot be computed, cannot be tested, and cannot be pointed at by a second reader. The corpus has a standing answer to this shape and it is to make the value derived.",
+  "patternPrecedent": {
+   "statement": "this is the sealedCapability / effectiveCapability shape, reused unchanged",
+   "correspondence": [
+    "sealedCapability is recorded and immutable; policy.posture is recorded and consent-bearing",
+    "effectiveCapability is derived at read time and always defined; effectivePosture is derived at read time and always defined",
+    "the cause of a capability degradation is carried separately in currentAvailability and typedRefusal; the provenance of a posture is carried separately in provenance"
+   ],
+   "whyReusingItIsTheRightMove": "The corpus has now solved the same shape three times: a recorded value plus a derived value plus a separately carried explanation. effectiveCapability was independently verified in that shape. AvailabilityTransitionV1.cause is the same shape applied to purge. effectivePosture is the same shape applied to consent. A fourth invention would have been the surprising choice."
+  },
+  "theDefaultIsNeverPersisted": {
+   "rule": "no code path writes a ProjectRetentionPolicyV1 whose posture came from the default",
+   "policyPersistingOutcomesUnchanged": 2,
+   "whyThisMattersMost": "It keeps ABSENT a real storage state. A user who has never been asked has no policy on disk, so when they are eventually asked they answer an open question rather than confirming a record already written in their name. Persisting the default would manufacture consent provenance that no human supplied, which is the CONSENTED/DEFAULTED distinction collapsing at exactly the point it is load bearing.",
+   "secondConsequence": "Because the default is never persisted, reversing this product decision later requires changing one function and migrating nothing. Had the default been written into each project's record, a reversal would have to distinguish records that hold DURABLE_RETAINED because someone chose it from records that hold it because the tool wrote it -- a distinction that would no longer exist.",
+   "reversibilityIsAFeatureOfTheDesignNotAPredictionAboutTheProduct": true
+  },
+  "whatIsOverturnedAndWhatSurvives": {
+   "hasNoDefaultField": {
+    "predecessorValue": true,
+    "successorValue": true,
+    "valueUnchanged": true,
+    "butTheClaimItCarriedIsWithdrawn": true,
+    "predecessorJustificationVerbatim": "A default field is a place a durable-retention default can be written without a product decision. CD-RT-5 owns that choice and remains BLOCKED_ON_PHASE_1A, so the schema does not provide the field.",
+    "whyThatJustificationIsDead": "It rested on the choice being unmade. The authority has now made it. The reason the field is still absent is completely different and must not be allowed to inherit the old sentence.",
+    "replacementJustification": "The record still has no default field, because a default belongs in a total resolution function where it is stated once and derived, not replicated into every project's record where it could not be told apart from a choice.",
+    "whatIsExplicitlyWithdrawn": "the stronger reading that no default exists anywhere in the system. A default now exists. It lives in effective_posture and is named DEFAULTED.",
+    "restatedNotDeleted": true
+   },
+   "absenceIsADistinctState": {
+    "predecessorValue": true,
+    "successorValue": true,
+    "valueUnchanged": true,
+    "claimSplit": true,
+    "withdrawnAsAPostureClaim": "Absence no longer means there is no posture. It resolves to DURABLE_RETAINED, the same posture a consenting user would produce.",
+    "survivesAsAProvenanceClaim": "ABSENT and a recorded DURABLE_RETAINED remain genuinely different states. They agree on posture and differ on provenance: DEFAULTED against CONSENTED. The distinction moved from the posture axis to the provenance axis; it did not disappear.",
+    "whyItMustSurviveSomewhere": "Consent provenance is the whole subject of Part A. If ABSENT and CONSENTED DURABLE_RETAINED became the same state, the system would lose the ability to say whether anyone was ever asked, and the first-run ask would become unobservable in its own outputs.",
+    "absenceStateName": "ABSENT",
+    "absenceStateNameRetained": true
+   },
+   "postureEnum": {
+    "predecessorMembers": [
+     "DURABLE_RETAINED",
+     "EPHEMERAL_ONLY"
+    ],
+    "successorMembers": [
+     "DURABLE_RETAINED",
+     "EPHEMERAL_ONLY"
+    ],
+    "unchanged": true,
+    "whyNoThirdMember": "ABSENT was never a posture enum member and does not become one. It is the absence of a record, and it is now an INPUT to the resolution rather than an output of it. Adding it to the enum would make every consumer branch on a state the resolution exists to remove."
+   }
+  },
+  "lawFourteenPosition": {
+   "lawVerbatim": "A durability failure cannot report authoritative success; a provider fault cannot become a finding; a policy failure cannot become a host error.",
+   "whatTheDefaultRemoves": "the NEED to refuse a durable-authoritative request when no policy exists",
+   "whatTheDefaultDoesNotRemove": "the prohibition on silent demotion",
+   "silentDemotionIsStillForbidden": true,
+   "theRefusalPathSurvivesAndMoves": {
+    "before": "refused when policy is ABSENT and the request is durable-authoritative",
+    "after": "refused when the effective posture is EPHEMERAL_ONLY and the request is durable-authoritative",
+    "d9": {
+     "derivedClass": "request-rejected",
+     "derivedExitCode": 2,
+     "derivedErrorCode": "REQUEST.UNSATISFIABLE",
+     "unchangedFromThePredecessor": true,
+     "sourceOfTheseValues": "carried unchanged from v24's existing reviewed rows for the PRESENT-EPHEMERAL_ONLY cells, which this artifact does not change"
+    },
+    "whyItCannotBeDeleted": "By the EPHEMERAL_ONLY-IS-ALWAYS-CONSENTED property, that case always means a person was asked and declined. Proceeding durably would override a recorded human answer. Proceeding ephemerally while reporting authoritative success is law 14's first clause exactly. Refusing is the only remaining honest option, so the refusal is not a leftover -- it is the case the refusal was always for.",
+    "netEffect": "The refusal moves from the un-consulted case to the consulted-and-declined case. It becomes rarer and better justified. It does not disappear, and an implementation that deleted it would violate law 14 in the direction the default was never meant to license."
+   },
+   "theDemotionThatIsStillForbidden": {
+    "shape": "a durable-authoritative request producing ephemeral evidence and reporting success",
+    "forbiddenBy": [
+     "freeze section 6 law 14",
+     "evidence.v10.json#/sealedCapabilityContract/finalization"
+    ],
+    "isItReachableUnderTheNewDefault": false,
+    "why": "Under DURABLE_RETAINED, whether defaulted or consented, a durable request writes durably. Under EPHEMERAL_ONLY it is refused. There is no branch that accepts a durable request and produces ephemeral evidence, which is why the default removes a refusal without opening a demotion."
+   }
+  }
+ },
+ "partA_repairsForcedByThePostureDecision": {
+  "id": "RT25-PART-A-PRIME",
+  "scope": "only the Part A surfaces the posture decision overturns. Everything else in Part A is inherited BY-REFERENCE and unchanged.",
+  "theOneRuleThatGeneratesAllOfIt": {
+   "rule": "every ABSENT row now behaves exactly as the corresponding PRESENT-DURABLE_RETAINED row, except that no policy is persisted and the provenance is DEFAULTED",
+   "isDerivedFromEffectivePosture": true,
+   "whyThisIsTheWholeRepair": "effective_posture maps ABSENT to DURABLE_RETAINED, so every consumer that branches on posture sees the two cases identically. The only places anything changes are the places that branched on ABSENCE rather than on posture, and those are enumerable BY MEASUREMENT rather than by search. This is why the repair is 2 cells and 4 outcomes rather than a rewrite of Part A.",
+   "derivedNotEnumerated": true
+  },
+  "askDecisionTable": {
+   "cellCount": 12,
+   "cellCountUnchanged": true,
+   "askPerformedCellCountBefore": 1,
+   "askPerformedCellCountAfter": 1,
+   "cellsChanged": 2,
+   "cellsUnchanged": 10,
+   "howTheChangedCellsWereFound": "by measurement over v24's own 12 cells: exactly the cells whose policyPresence is ABSENT and whose requestedCustody is DURABLE_AUTHORITATIVE",
+   "changedCells": [
+    {
+     "invocationProfile": "ci",
+     "policyPresence": "ABSENT",
+     "requestedCustody": "DURABLE_AUTHORITATIVE",
+     "outcomeBefore": "REFUSE",
+     "outcomeAfter": "PROCEED-DURABLE",
+     "d9Before": {
+      "derivedClass": "request-rejected",
+      "derivedExitCode": 2,
+      "derivedErrorCode": "REQUEST.UNSATISFIABLE"
+     },
+     "d9After": {
+      "derivedClass": "NOT-A-TERMINATION",
+      "derivedExitCode": -1,
+      "derivedErrorCode": "NONE"
+     },
+     "d9AfterIsStructuralNotAuthored": "the cell no longer terminates the request, and v24's own sentinel for a non-terminating cell is NOT-A-TERMINATION / -1 / NONE, used by the six other non-terminating cells. No D9 class was authored and no D9 derivation was run.",
+     "policyPersistedByThisCell": false,
+     "provenance": "DEFAULTED",
+     "whatSurvivesUnchanged": "CI never prompts, never writes a policy and never infers one; it remains read-only with respect to the policy"
+    },
+    {
+     "invocationProfile": "local-interactive",
+     "policyPresence": "ABSENT",
+     "requestedCustody": "DURABLE_AUTHORITATIVE",
+     "outcomeBefore": "ASK, and refuse if not answered",
+     "outcomeAfter": "ASK, and proceed durable under DEFAULTED if not answered",
+     "askStillPerformed": true,
+     "whyTheAskSurvives": "the ask exists to obtain consent provenance, not to obtain a posture the system would otherwise lack. With a default in place the ask stops being a gate and remains the only way to reach CONSENTED.",
+     "policyPersistedByThisCell": false,
+     "policyPersistedOnlyByTheAnswer": true
+    }
+   ],
+   "unchangedCellsSpotCheck": "the four EPHEMERAL_OR_ADVISORY cells under ABSENT and PRESENT-DURABLE_RETAINED all read PROCEED-EPHEMERAL both before and after, because an ephemeral request proceeds ephemeral whatever the posture. The two PRESENT-EPHEMERAL_ONLY DURABLE_AUTHORITATIVE cells both read REFUSE both before and after, and are the surviving refusal path."
+  },
+  "interactionOutcomes": {
+   "count": 7,
+   "countUnchanged": true,
+   "policyPersistingOutcomeIdsBefore": [
+    "PA-INT-01-ANSWERED-RETAIN",
+    "PA-INT-02-ANSWERED-EPHEMERAL"
+   ],
+   "policyPersistingOutcomeIdsAfter": [
+    "PA-INT-01-ANSWERED-RETAIN",
+    "PA-INT-02-ANSWERED-EPHEMERAL"
+   ],
+   "policyPersistingOutcomeCountUnchanged": true,
+   "outcomesChanged": 4,
+   "outcomesUnchanged": 3,
+   "unchanged": [
+    {
+     "id": "PA-INT-01-ANSWERED-RETAIN",
+     "why": "an answered retain persists DURABLE_RETAINED with provenance CONSENTED and does not terminate; nothing about it depended on the default"
+    },
+    {
+     "id": "PA-INT-02-ANSWERED-EPHEMERAL",
+     "why": "an answered no persists EPHEMERAL_ONLY and terminates a durable-authoritative request; this is the surviving refusal and it is unchanged"
+    },
+    {
+     "id": "PA-INT-07-NOT-ASKED",
+     "why": "already non-terminating"
+    }
+   ],
+   "changed": [
+    {
+     "id": "PA-INT-03-DISMISSED-TIMEOUT",
+     "terminatesBefore": true,
+     "terminatesAfter": false
+    },
+    {
+     "id": "PA-INT-04-DISMISSED-EOF",
+     "terminatesBefore": true,
+     "terminatesAfter": false
+    },
+    {
+     "id": "PA-INT-05-DISMISSED-MALFORMED-EXHAUSTED",
+     "terminatesBefore": true,
+     "terminatesAfter": false
+    },
+    {
+     "id": "PA-INT-06-DISMISSED-SIGINT",
+     "terminatesBefore": true,
+     "terminatesAfter": "NOT-DECIDED-HERE"
+    }
+   ],
+   "allFourStillPersistNoPolicy": true,
+   "d9DerivationsAreNotRecomputedHere": {
+    "statement": "v24's rule is that every termination class, code and exit is DERIVED from the pinned D9 v1.14 reference derivation and none is authored. Three of the four changed outcomes stop terminating, so their previous request-rejected / 2 / REQUEST.UNSATISFIABLE values no longer describe them.",
+    "outcomesNeedingRecomputation": 4,
+    "outcomesRecomputedHere": 0,
+    "whyZero": "recomputing requires executing the pinned reference derivation, and this artifact retains no checker",
+    "declaredAs": "DEP-RT25-08"
+   },
+   "theSigintCaseIsNotMerelyARecomputation": {
+    "id": "PA-INT-06-DISMISSED-SIGINT",
+    "question": "if the user presses Ctrl-C while the retention question is on screen, does the run abandon, or does it proceed durably under the default?",
+    "answeredHere": false,
+    "whyNotAnsweredHere": "The recorded intent says a dismissal no longer refuses. It does not say that an interrupt is a dismissal. Treating SIGINT as a dismissal means Ctrl-C causes a durable write the user was in the middle of not answering, which is a surprising enough behaviour that it should be decided rather than inherited from a general rule about dismissals.",
+    "whyItIsFlaggedRatherThanGuessed": "The other three dismissals are passive: a timeout, an EOF, an exhausted reprompt count. SIGINT is the one active signal that the person at the terminal wants this to stop. Folding it in with the passive three would answer a product question by grouping.",
+    "additionalComplication": "v24 records that the pinned D9 derivation returns request-rejected at exit 2 for a signal arriving while admission is rejected, because exit 130 requires admission=admitted. If dismissal no longer rejects admission, the premise of that derivation changes, and residual RT23-A-RES-03 may no longer describe the situation it was written for.",
+    "declaredAs": "DEP-RT25-09"
+   }
+  },
+  "noAskCasesReDerived": [
+   {
+    "case": 1,
+    "name": "CI and every other non-interactive invocation",
+    "predecessorDecisionVerbatim": "CI never prompts, never writes a policy and never infers one. It is read-only with respect to the policy. With no policy present, an ephemeral or advisory request proceeds ephemeral and a durable-authoritative request is refused at request-validation.",
+    "whatSurvives": [
+     "CI never prompts.",
+     "CI never writes a policy.",
+     "CI never infers one -- and this is now sharper, not weaker: resolving ABSENT to DURABLE_RETAINED is not inference, because the resolution is total, stated once, and identical everywhere. Inference would be CI guessing from context.",
+     "CI remains read-only with respect to the policy: the ABSENT state on disk is unchanged by any CI run.",
+     "An ephemeral or advisory request still proceeds ephemeral.",
+     "The A1-RI-04 consistency argument survives intact, including that mere file presence must not become a CI denial-of-service switch."
+    ],
+    "whatChanges": "a durable-authoritative request with no policy is no longer refused; it proceeds and writes durably with provenance DEFAULTED",
+    "whyTheRefusalWasThereBefore": "v24's reason was that proceeding would mean choosing a retention default. That was correct while no default existed. A default now exists and was chosen by the authority, so proceeding no longer chooses anything.",
+    "whatIsNowExposedThatWasNotBefore": "CI runs on machines nobody is sitting at, and CI is the profile that can never be asked. So CI is precisely where durable evidence is now written with provenance DEFAULTED and no prospect of the provenance ever becoming CONSENTED by that path. This is the sharpest edge of the posture decision and it is named rather than left implicit.",
+    "declaredAs": "DEP-RT25-07",
+    "refusalStillReachableInCi": true,
+    "whenRefusalIsStillReachableInCi": "when a policy IS present and records EPHEMERAL_ONLY, and the request is durable-authoritative. That cell is unchanged."
+   },
+   {
+    "case": 2,
+    "name": "the run that triggers the prompt",
+    "predecessorChoiceVerbatim": "REFUSE-TO-START-UNTIL-ANSWERED, with the ask relocated to request-validation",
+    "whatSurvives": [
+     "The relocation of the ask to request-validation survives completely.",
+     "Its justification never rested on the default. It rested on the admission boundary: asking at request-validation means there is no ExecutionId, no AttemptRecord, no SnapshotId, no PlanId, no ExecutionPlan and no Run at ask time, so there is nothing to buffer and nothing to discard.",
+     "Both rejected alternatives stay rejected for their original reasons: buffering leaves user-derived evidence in host memory reaching swap and the page cache, which DeletionProtocol cannot erase; discard-and-re-run doubles the work and leaves a partial execution unrecorded.",
+     "The ask remains a host effect at request-validation, so freeze law 5 is untouched and the core still never sees the policy or the prompt."
+    ],
+    "whatChanges": "REFUSE-TO-START-UNTIL-ANSWERED becomes ASK-BUT-DO-NOT-BLOCK. The question is still asked at the same point; not answering it no longer stops the run.",
+    "whyTheRelocationStillMattersEvenWithoutTheRefusal": "This is the part most at risk of being discarded as collateral. The relocation was never a mechanism for refusing; it was a mechanism for ensuring the question is asked at a point where the answer can still govern everything that follows. With a default in place the answer governs whether provenance becomes CONSENTED and whether a policy is persisted at all, both of which still need to be settled before an ExecutionId exists. Asking later would mean a run that had already written durably under DEFAULTED asking a question whose answer could no longer change what it did.",
+    "soTheAskIsStillStrictlyBeforeAttemptAdmission": true,
+    "executionIdAllocatedWhileTheQuestionIsOpen": false
+   },
+   {
+    "case": 3,
+    "name": "dismissal",
+    "predecessorPropertiesVerbatim": [
+     "closingTheDialogIsNotAnAnswer: true",
+     "noDismissalPathWritesAPolicy: true"
+    ],
+    "whatSurvives": [
+     "Closing the dialog is still not an answer.",
+     "No dismissal path writes a policy. This survives and becomes MORE important, not less.",
+     "dismissalSuppressesTheNextAsk stays false.",
+     "A non-TTY stdout or a non-terminal stdin still forces profile ci rather than being a dismissal, and a controlling terminal still never promotes an invocation to local-interactive."
+    ],
+    "whatChanges": "a dismissal no longer terminates the request; the run proceeds durably under DEFAULTED",
+    "thePolarityReversalThatMattersMost": {
+     "predecessorReasonVerbatim": "A dismissal that silenced the next ask would become EPHEMERAL_ONLY by attrition.",
+     "successorReason": "A dismissal that silenced the next ask would become DURABLE_RETAINED by attrition: the user is never asked again, and their project is retained durably and unboundedly forever without anyone ever having consented.",
+     "theRiskDirectionHasReversed": true,
+     "fromUnderRetentionToUnconsentedRetention": true,
+     "whyThisStrengthensTheRuleRatherThanWeakeningIt": "Under the old default, attrition drifted toward retaining less than the user might have wanted -- an annoyance. Under the new default, attrition drifts toward retaining data the user was never asked about -- a consent failure. The same rule, dismissalSuppressesTheNextAsk false, now guards a materially more serious failure, so an implementer tempted to relax it for user-experience reasons should read this paragraph first.",
+     "isThisANewRule": false,
+     "isThisANewReason": true
+    },
+    "whyNoDismissalPathWritingAPolicyMattersMoreNow": "If a dismissal wrote DURABLE_RETAINED, it would manufacture CONSENTED provenance from a person declining to answer. The posture would be the same either way, which is exactly what makes the error easy to commit and hard to see: only the provenance field would be wrong, and only the provenance field records whether anyone was asked."
+   }
+  ],
+  "noAskCaseCount": 3,
+  "noAskCasesReDerivedCount": 3,
+  "noAskCasesSilentlyDeleted": 0
+ },
+ "partC_retentionBounds": {
+  "id": "RT25-PART-C",
+  "subject": "the triggers that fire the already-specified PURGED transition, the closed cause partition that makes a PURGED state say why, and the subordinate closed record that carries the configured bounds",
+  "whyThisIsSmallerThanItLooks": {
+   "claim": "Purge in this corpus is not deletion. It is capability degradation on a record that stays addressable. The transition, the terminal state, the tombstone, the read-time derivation and the typed refusal all already exist and were independently verified. What did not exist is what makes the transition FIRE, and what makes it SAY WHY.",
+   "evidenceInThePredecessor": [
+    "AF-03-VERIFY-PURGED is a state PURGED override that keeps its recordCasRef, so the record is still named after the purge.",
+    "The availability state lattice already carries PURGED as its single terminal state, with reversibility false.",
+    "UnitAvailabilityLedgerV1 is already append-only, and its terminal rule already makes a PURGED entry permanent.",
+    "AvailabilityTransitionV1 already carries a cause field in ordered position 7.",
+    "The typed refusal kind RETENTION_EVIDENCE_PURGED already exists and already has refusal precedence over MISSING-DEPENDENCY and OUTAGE."
+   ],
+   "measuredDeltas": {
+    "availabilityStatesBefore": 4,
+    "availabilityStatesAfter": 4,
+    "terminalStatesBefore": 1,
+    "terminalStatesAfter": 1,
+    "ledgerEntryOrderedFieldsBefore": 7,
+    "ledgerEntryOrderedFieldsAfter": 7,
+    "ledgerEntryTypesBefore": 1,
+    "ledgerEntryTypesAfter": 1,
+    "purgeMutatesExactlyBefore": 2,
+    "purgeMutatesExactlyAfter": 2,
+    "purgeDoesNotMutateBefore": 16,
+    "purgeDoesNotMutateAfter": 16,
+    "effectiveCapabilityInputsBefore": 3,
+    "effectiveCapabilityInputsAfter": 3,
+    "effectiveCapabilityForbiddenInputsBefore": 11,
+    "effectiveCapabilityForbiddenInputsAfter": 12,
+    "typedRefusalKindsBefore": 3,
+    "typedRefusalKindsAfter": 3,
+    "newRecordTypesIntroduced": 1,
+    "reviewedRecordShapesEdited": 0,
+    "newAvailabilityStatesIntroduced": 0,
+    "newLedgerMutationsIntroduced": 0
+   },
+   "howToReadTheDeltas": "Every count describing the purge MECHANISM is unchanged. The two that move are one added forbidden input, which only narrows what a function may read, and one added record type, which is configuration and touches no reviewed shape."
+  },
+  "boundsRecord": {
+   "type": "ProjectRetentionBoundsV1",
+   "closed": true,
+   "orderedFields": [
+    "schemaVersion",
+    "projectId",
+    "retentionPolicyId",
+    "maxAgeSeconds",
+    "maxTotalBytes",
+    "keepCount",
+    "boundsRevision",
+    "retentionBoundsId"
+   ],
+   "fieldCount": 8,
+   "fieldTypes": {
+    "schemaVersion": "integer constant 1",
+    "projectId": "PROJECT-ID-V1 string",
+    "retentionPolicyId": "RETENTION-POLICY-ID-V1 string; names the consent-bearing policy this record is subordinate to",
+    "maxAgeSeconds": "unsigned integer, minimum 0",
+    "maxTotalBytes": "unsigned integer, minimum 0",
+    "keepCount": "unsigned integer, minimum 0",
+    "boundsRevision": "unsigned integer, minimum 1",
+    "retentionBoundsId": "RETENTION-BOUNDS-ID-V1 string"
+   },
+   "hasNoDefaultField": true,
+   "absenceIsADistinctState": true,
+   "absenceStateName": "ABSENT",
+   "theDefaultIsUnbounded": {
+    "statedBy": "the recorded product intent of 2026-08-05: retention is durable by default, and UNBOUNDED unless configured",
+    "resolution": "effective_bounds(ABSENT) = (maxAgeSeconds 0, maxTotalBytes 0, keepCount 0), provenance DEFAULTED",
+    "soNoBoundEverFiresUntilSomeoneConfiguresOne": true,
+    "whyTheDefaultIsNotWrittenIntoTheRecord": "Same reasoning as the posture default: a default written into every project's record cannot be told apart from a choice, and changing it would mean migrating records rather than editing one function. The bounds resolution mirrors the posture resolution exactly.",
+    "whyUnboundedRatherThanTheShippingProductsValues": "The authority said unbounded unless configured. Adopting 200 / 60 days / 150 MB as silent defaults would mean a user who configured nothing nevertheless has evidence purged on a schedule they never chose. It would also quietly restore the position the authority overrode, by making durable-by-default mean durable-for-sixty-days."
+   },
+   "effectiveBoundsResolution": {
+    "signature": "effective_bounds(boundsOrAbsent: ProjectRetentionBoundsV1 | ABSENT) -> (maxAgeSeconds, maxTotalBytes, keepCount, provenance: BoundsProvenance)",
+    "isTotal": true,
+    "provenanceEnum": [
+     "CONFIGURED",
+     "DEFAULTED"
+    ],
+    "provenanceEnumIsClosed": true,
+    "rows": [
+     {
+      "input": "ABSENT",
+      "values": "0 / 0 / 0",
+      "provenance": "DEFAULTED"
+     },
+     {
+      "input": "a persisted record",
+      "values": "its own three values",
+      "provenance": "CONFIGURED"
+     }
+    ],
+    "absentAndAllZeroAgreeOnValuesAndDifferOnProvenance": true,
+    "whyKeepTheDistinctionWhenBothPurgeNothing": "The observable purge behaviour is identical today, which is exactly why the distinction must be structural rather than behavioural. If ABSENT were collapsed into all-zero, then the day anyone introduces a non-zero default upstream, every project that never configured retention silently acquires it. Keeping the states distinct means a bound can only ever arrive by someone writing a value into a record someone created. It is also the same consent-provenance shape Part A needs, applied to configuration.",
+    "provenanceIsNeverPersisted": true,
+    "theDefaultIsNeverWrittenToDisk": true
+   },
+   "owner": "HOST",
+   "scope": "ONE-PROJECT-ID",
+   "callersCannotSupplyIt": true,
+   "atMostOnePerProject": true,
+   "residence": {
+    "store": "host-owned project storage under projects/<ProjectId>/, alongside the project retention policy and the availability ledger",
+    "notInTheWorktree": true,
+    "notAResolvedConfigurationLayer": true,
+    "notUnderTheAnalysisSnapshotRoot": true,
+    "why": "This is where the shipping product's shape is NOT adopted. The product keeps these knobs in a configuration file. In this corpus a resolved configuration layer is a place CI cannot see: the freeze records that CI and non-interactive mode never load or resolve layer 4. Bounds in a resolved layer would mean the same project retains different amounts of evidence depending on how it was invoked, invisibly. Host-owned project storage is neither a resolution layer nor inside the analysis snapshot root, so the PlanId exclusion is structural and the value is identical under every invocation profile."
+   },
+   "forbiddenFields": [
+    "planId",
+    "snapshotId",
+    "runId",
+    "executionId",
+    "requestId",
+    "evidenceDigest",
+    "sealedCapability",
+    "effectiveCapability",
+    "runSealRef",
+    "planIntentCommitment",
+    "posture",
+    "consentRecordRef"
+   ],
+   "whyPostureAndConsentAreForbiddenHere": "Two provenances must not be mixed in one record. posture and consentRecordRef are CONSENT-derived: they exist because a human was asked a question whose exact text digests into the consent record. maxAgeSeconds, maxTotalBytes and keepCount are CONFIGURATION-derived: nobody is asked. Letting a configuration record carry a posture would let configuration answer the consent question."
+  },
+  "identity": {
+   "id": "RETENTION-BOUNDS-ID-V1",
+   "textPattern": "^rbnd1:sha256:[0-9a-f]{64}$",
+   "domainUtf8": "opensip.project-retention-bounds.v1",
+   "recipeVersion": 1,
+   "fieldCount": 6,
+   "preimage": "UTF8(domainUtf8) || 0x00 || u16be(recipeVersion=1) || u16be(fieldCount=6) || frame(0x01, projectId) || frame(0x02, retentionPolicyId) || 0x03 || u32be(8) || u64be(maxAgeSeconds) || 0x04 || u32be(8) || u64be(maxTotalBytes) || 0x05 || u32be(8) || u64be(keepCount) || 0x06 || u32be(8) || u64be(boundsRevision)",
+   "digest": "SHA-256 over the complete preimage; textual form is rbnd1:sha256:<64 lowercase hex>",
+   "excluded": [
+    "schemaVersion",
+    "retentionBoundsId",
+    "posture",
+    "consentRecordRef",
+    "planId",
+    "snapshotId",
+    "runId",
+    "executionId",
+    "requestId",
+    "wall-clock time",
+    "the current footprint of the project",
+    "any field of any other project's bounds record"
+   ],
+   "separateIdentityRule": "Freeze law 6: separate identities keep separate descriptors and separate recipes. This is why the bounds are NOT added as a seventh field of ProjectRetentionPolicyV1. Adding a field there would change that record's field set while RETENTION-POLICY-ID-V1 declares recipeVersion 1 over fieldCount 3, so either the recipe stops describing the record, or the policy identity is re-minted every time an operator adjusts a storage knob.",
+   "whyReMintingThePolicyIdentityWouldBeWrong": "retentionPolicyId is the identity of a CONSENT-bearing record: it is what consentRecordRef and policyRevision hang from. If changing maxTotalBytes re-minted it, an operator lowering a disk cap would produce a new policy identity, and either the consent record would have to be re-obtained for a storage tweak, or the same consent would be re-pointed at a new identity."
+  },
+  "referenceDirection": {
+   "direction": "BOUNDS-NAMES-POLICY",
+   "statement": "ProjectRetentionBoundsV1 carries retentionPolicyId. ProjectRetentionPolicyV1 carries no reference to the bounds.",
+   "whyNotTheOtherDirection": "A pointer from the policy to the bounds would put a mutable configuration digest inside the consent-bearing record, re-minting the policy identity on every knob change. Pointing the other way keeps the mutable thing downstream of the stable thing.",
+   "whatThisEnforces": [
+    "Bounds cannot exist without a policy: a bounds record whose retentionPolicyId names no persisted policy for this projectId is refused at admission.",
+    "Bounds cannot outlive the consent they were configured under: when the policy is revised its retentionPolicyId changes, and a bounds record naming the superseded identity is refused until re-stated against the current policy.",
+    "Configuration can never answer the consent question, because configuration is the side that must NAME the answer, not the side that supplies it."
+   ],
+   "interactionWithTheDefaultedPosture": {
+    "case": "a project with no policy at all, whose posture therefore resolves DURABLE_RETAINED with provenance DEFAULTED",
+    "canItHaveBounds": false,
+    "why": "There is no persisted policy for a bounds record to name, so no bounds record can be admitted. A defaulted posture is not a persisted policy and does not become one.",
+    "consequence": "The default configuration -- durable, unbounded, unasked -- is also the UNBOUNDABLE configuration until someone answers the retention question. A user cannot cap their disk usage without first being asked, or asking, about retention.",
+    "isThatAcceptable": "IT IS A CONSEQUENCE, NOT A CHOICE MADE HERE",
+    "whyItIsFlagged": "It is the least obvious interaction between the two recorded intents, and it points the wrong way: the configuration most in need of a bound is the one that cannot have one. An alternative -- letting bounds name a projectId rather than a policy identity -- would fix it and would also let configuration exist with no consent record behind it. This artifact does not choose between those; it names the tension.",
+    "declaredAs": "DEP-RT25-10"
+   },
+   "statedCost": "Re-consenting forces bounds to be re-stated. That is deliberate: a bounds record silently surviving a change of posture would be a configuration outliving the consent that justified it."
+  },
+  "protectedSet": {
+   "derivation": "A record is protected exactly when purging it would violate an invariant that already holds. This artifact therefore introduces NO protected list: the protected set is already fully determined by the independently verified Part B.",
+   "membersAndTheInvariantThatProtectsThem": [
+    {
+     "member": "every entry of UnitAvailabilityLedgerV1, which is to say every tombstone",
+     "protectedBy": "RT23-B-INV-06 and ledger.appendOnly / entriesAreNeverEditedOrRemoved"
+    },
+    {
+     "member": "every one of the 16 members of purgeMutationBoundary.doesNotMutate, including the sealed Run, the closure commitment, the evidence digest, PlanId and SnapshotId",
+     "protectedBy": "RT23-B-INV-04, which states that purge mutates exactly two things and no member of doesNotMutate"
+    },
+    {
+     "member": "ProjectRetentionPolicyV1 and ProjectRetentionBoundsV1 themselves",
+     "protectedBy": "they are not raw objects in the project CAS; purge acts only on raw object bytes under projects/<ProjectId>/objects/"
+    }
+   ],
+   "whyDerivingItMattered": "An enumerated protected list would be a second place the truth is written, and the two would drift. Deriving it from doesNotMutate means the protected set changes only when the mutation boundary changes, and the mutation boundary is what a reviewer already checks.",
+   "protectedSetIsNotEvictableByAnyBound": true,
+   "noBoundCanShrinkIt": true
+  },
+  "evictableSet": {
+   "definition": "the raw objects under projects/<ProjectId>/objects/ whose current folded availability state is AVAILABLE, in the ledger of exactly this ProjectId",
+   "whyFoldedStateAndNotDiskContents": "The ledger fold is the authority on what state a raw key is in. A record already PURGED has no bytes to reclaim and re-purging is idempotent, so including it would inflate every demand without freeing anything. A record in MISSING-DEPENDENCY is already absent from CAS. A record in OUTAGE is present but unreadable now.",
+   "outageIsNeverEvictable": true,
+   "whyOutageIsNeverEvictable": "OUTAGE is reversible and PURGED is terminal. A sweep that evicted during an outage would turn a transient store problem into permanent evidence loss, and the ledger would honestly record it as an authorized retention action, which it was not. This is law 14 applied directly: a provider fault must not become something else."
+  },
+  "sweep": {
+   "signature": "retention_sweep(bounds: EffectiveBounds, evictable: [RawObjectKeyV1], now: UtcSeconds) -> [AvailabilityTransitionV1]",
+   "isATriggerNotAGate": true,
+   "theCentralStructuralProperty": "A bound is a purge TRIGGER, not an admission GATE. Bounds select what to purge; they have no authority over whether a write is admitted. Everything else in this section follows from that one sentence, including what happens when a bound cannot be satisfied.",
+   "emitsOnly": "AvailabilityTransitionV1 entries with toState PURGED",
+   "emitsNoOtherToState": true,
+   "appendsToTheExistingLedger": true,
+   "introducesNoNewMutation": true,
+   "mutationBoundaryUnchanged": "purgeMutationBoundary.mutatesExactly still has exactly two members. The sweep is a new CALLER of that boundary, not a new boundary.",
+   "neverRunsWhenBoundsAreDefaulted": {
+    "statement": "with provenance DEFAULTED the three values are 0, every demand is 0, and the sweep emits nothing",
+    "soTheDefaultConfigurationNeverPurges": true
+   },
+   "evictionOrder": {
+    "order": "ascending atSequence of the raw key's most recent AVAILABLE-entering ledger entry, tiebroken by recordCasRef lexicographic ascending",
+    "isTotal": true,
+    "isDeterministic": true,
+    "readsNoClock": true,
+    "sameOrderForEveryDimension": true,
+    "adoptedFrom": "the shipping product's oldest-first eviction, ordered (timestamp, id) ASC",
+    "departedIn": "the ordering key is the project ledger's atSequence, not a wall-clock timestamp",
+    "whyLedgerSequenceRatherThanAClock": "atSequence is already specified as strictly increasing by exactly one, with a break refused, so the ledger already carries a total order that is durable, host-owned, monotone and clock-free. A wall clock is none of those: it moves under NTP correction, is not monotone across a restart, and makes eviction order depend on a value no reviewer can reproduce. The tiebreak on recordCasRef makes the order total rather than a preorder, so two hosts folding the same ledger evict the same prefix in the same order.",
+    "whySameOrderForEveryDimension": "Derived from the composition requirement, not chosen for efficiency. With ONE order the set each bound wants removed is a PREFIX, and prefixes are totally ordered by inclusion, so the union of several demands is exactly the longest of them. With per-dimension orders the evicted set would be a union of incomparable sets, and disabling one bound could change WHICH records another bound removes rather than merely how many. Independence of bounds is a consequence of the single order.",
+    "statedCostOfTheSingleOrder": "Oldest-first is not size-optimal. Freeing N bytes may evict many small old records where one large recent record would have sufficed. Accepted deliberately: evicting largest-first would mean a user's most recent analysis disappears because it was big, which is harder to explain and destroys the prefix property. The shipping product also uses oldest-first for its size pruning, so this is agreement rather than departure."
+   },
+   "demands": {
+    "definition": "each bound independently computes a DEMAND: the length of the prefix of the eviction order it requires to be removed",
+    "rows": [
+     {
+      "dimension": "count",
+      "configuredBy": "keepCount",
+      "demand": "max(0, len(evictable) - keepCount)",
+      "disabledWhen": "keepCount == 0",
+      "satisfiableToday": true,
+      "whySatisfiable": "len(evictable) is a fold of the ledger and needs no input that does not exist"
+     },
+     {
+      "dimension": "size",
+      "configuredBy": "maxTotalBytes",
+      "demand": "the smallest k such that total_bytes(evictable[k:]) <= maxTotalBytes, or len(evictable) if no such k exists",
+      "disabledWhen": "maxTotalBytes == 0",
+      "satisfiableToday": true,
+      "whySatisfiable": "the byte length of a raw object is the length of the bytes at projects/<ProjectId>/objects/<recordKind>/sha256/<digestHex>, which the host measures directly; no schema field is required and none is added"
+     },
+     {
+      "dimension": "time",
+      "configuredBy": "maxAgeSeconds",
+      "demand": "the number of leading members of the eviction order whose admission time is older than now - maxAgeSeconds",
+      "disabledWhen": "maxAgeSeconds == 0",
+      "satisfiableToday": false,
+      "whyNotSatisfiable": "no reviewed surface in this corpus records a per-raw-object admission time; see DEP-RT25-01"
+     }
+    ],
+    "composition": "evictionCount := max(demand_count, demand_size, demand_time)",
+    "evictedSet": "the first evictionCount members of the eviction order",
+    "whyMaxAndNotSum": "Each demand is a prefix LENGTH, not a set. Removing the longest demanded prefix satisfies every shorter demand simultaneously, because a shorter prefix is contained in a longer one. Summing would evict records no bound asked for."
+   },
+   "boundIndependence": {
+    "property": "each demand is a pure function of exactly two things: the eviction order, and that one bound's own configured value",
+    "readsNoOtherBoundsValue": true,
+    "isAlgebraicallyMonotone": true,
+    "proof": "Disabling a bound sets its demand to 0. max is monotone in each argument, so max(0, d_size, d_count) >= d_size and >= d_count hold unconditionally. Disabling any one dimension therefore cannot reduce what any other dimension demands. No expression contains one bound's value inside another bound's demand, so there is nothing to short-circuit.",
+    "theDefectThisRefusesToInherit": {
+     "observedIn": "the shipping product's evidence store",
+     "shape": "the size bound is computed inside the count bound's branch, guarded by a test of the form: if the aggressive keep is <= 0 or the configured keep is <= 1, return early",
+     "consequence": "with keep set to 0 or 1, maxSizeMb silently deletes nothing; a user who disables count pruning loses size pruning and is not told",
+     "whyAListOfPlacesWouldNotHaveFixedIt": "The defect is not that one guard sits in the wrong place. It is that the size demand was expressed in terms of the count configuration at all. Enumerating branches to fix leaves the shape that produced them intact. Making each demand a pure function of its own configured value and the shared order makes the class unrepresentable: there is no term in which another bound's value could appear.",
+     "structuralPropertyThatReplacesTheList": "demand_X depends on X's configured value and the eviction order, and on nothing else"
+    }
+   },
+   "disableSemantics": {
+    "zeroDisables": true,
+    "zeroMeans": "this dimension contributes demand 0",
+    "adoptedFrom": "the shipping product, where 0 disables a dimension",
+    "agreesWithTheDefault": "the defaulted bounds are 0 / 0 / 0, so the default is expressible in the same vocabulary a user would type",
+    "negativeOrNonIntegerIsRefusedNotDefaulted": true,
+    "whatTheProductDoes": "a negative or non-finite configured value silently reverts to the built-in default, not to 0",
+    "whyThatIsRefusedHere": "Silently substituting a default for an invalid value means a user who typed -1 intending to disable a dimension gets the default bound instead, and their evidence is purged by a rule they explicitly tried to switch off. The failure is silent, the direction is toward MORE deletion, and nothing reports it.",
+    "structuralRepair": "There is no code path mapping an invalid value to a valid one, because admission rejects the record before any mapping exists. This is not a check an implementer must remember to write; it is the absence of the substitution.",
+    "howAnInvalidConfigurationIsReported": {
+     "class": "request-rejected",
+     "exitCode": 2,
+     "errorCode": "CONFIG.INVALID",
+     "vocabularySource": "d9-exit-contract.v1.14.json#/codeVocabulary/errorCodes",
+     "codeAlreadyExistsInTheLiveVocabulary": true,
+     "measuredPresent": true,
+     "whyNoNewCodeIsRequested": "CONFIG.INVALID is already a member of the live closed D9 error-code vocabulary, measured from the pinned bytes. An invalid retention bound is an invalid configuration and needs no new spelling."
+    },
+    "anUnsatisfiableBoundIsRefusedNeverIgnored": {
+     "rule": "if maxAgeSeconds is non-zero while no per-raw-object admission time exists, the bounds record is REFUSED at admission with CONFIG.INVALID",
+     "notSilentlySkipped": true,
+     "why": "Silently ignoring a bound the system cannot evaluate is the parasitic size bound wearing different clothes: the user configures a limit, the limit does nothing, and nothing says so. Refusing makes the missing input forcing, so the time dimension cannot ship until DEP-RT25-01 is resolved.",
+     "consequenceStatedPlainly": "Until DEP-RT25-01 resolves, maxAgeSeconds can only be 0. The time dimension is specified and unusable. Count, which the shipping product reports as primary, and size are both usable today."
+    }
+   },
+   "whenTheBoundCannotBeSatisfied": {
+    "question": "a bound is reached, and the protected set alone exceeds it. Refuse the write, or proceed degraded?",
+    "answer": "PROCEED. The write is admitted. The sweep evicts everything evictable and stops, because it has run out of things to purge.",
+    "theProductHasTwoOppositeAnswers": {
+     "evidenceStore": "warns and proceeds, recording oversize_unresolved",
+     "graphSnapshotStore": "throws and refuses the write",
+     "neitherIsAdoptedUnchanged": true
+    },
+    "whyNotRefuseTheWrite": [
+     {
+      "reason": "it is a law 14 violation",
+      "lawVerbatim": "A durability failure cannot report authoritative success; a provider fault cannot become a finding; a policy failure cannot become a host error.",
+      "argument": "A retention bound is a POLICY dimension: it sits in a host-owned, project-scoped record subordinate to a consent-bearing policy. Refusing an analysis write because a retention bound cannot be satisfied converts a policy failure into a host error, which is law 14's third clause named exactly."
+     },
+     {
+      "reason": "refusal reclaims nothing",
+      "argument": "After the refusal the bound is still exceeded, byte for byte. Refusal trades a real and recorded degradation for a total loss of function while leaving the storage condition unchanged."
+     },
+     {
+      "reason": "the condition is structurally unfixable, so it cannot be a gate",
+      "argument": "The protected set is exactly the ledger plus the 16 members of doesNotMutate, and RT23-B-INV-04 states purge mutates none of them. So when the protected set alone exceeds the bound, no retention policy whatsoever can bring the project under it. A gate whose condition no configuration can satisfy is not a gate, it is an outage with a policy-shaped excuse."
+     }
+    ],
+    "whyNotWarnAndProceedEither": "A warning is not an addressable state. It goes to a log, it is not derivable by a second reader, and nothing can be asserted about it. The product's oversize_unresolved is a string in a stream.",
+    "whatIsDoneInstead": {
+     "mechanism": "DERIVED, NOT RECORDED",
+     "predicate": "over_bound(project) := footprint(project) > maxTotalBytes AND evictable(project) is empty",
+     "newRecordTypes": 0,
+     "newLedgerEntries": 0,
+     "newAvailabilityStates": 0,
+     "why": "Both operands are already readable: the footprint is measurable from the project store and the evictable set is a fold of the ledger. A recorded shortfall event would be a fourth thing that can go stale.",
+     "consistencyWithSection46": "This is the identical move section 4.6 verified for capability: do not record a derived fact, derive it at read time from state that cannot go stale. A second reader computes the same over_bound answer from the same bytes without consulting anything this artifact writes."
+    },
+    "overBoundDoesNotLowerCapability": {
+     "statement": "being over bound is not an evidence-semantics condition and must not touch effectiveCapability",
+     "why": "Over bound with nothing evictable means the project holds MORE evidence than it asked to keep. Every object is still AVAILABLE, so every unit_satisfied predicate still holds and the derivation still returns the sealed ceiling. Nothing is missing, nothing is refused, no caller is misled. It is a disk-space fact and belongs to operability.",
+     "operabilityPosition": "G5 remains IMPLEMENTABLE and unclaimed, as RT23-B-RES-03 already states; this artifact makes no operability claim."
+    }
+   },
+   "scope": {
+    "perProject": true,
+    "global": false,
+    "isDerivedNotPreferred": true,
+    "derivation": "A global bound is structurally unrepresentable in this corpus, not merely undesirable. Computing a global demand requires aggregating across project ledgers. UnitAvailabilityLedgerV1 is one ProjectId per ledger, matching freeze law 8, and effectiveCapabilityDerivation.forbiddenInputs already names ledgerSequenceOfAnyOtherProject. There is no global ledger to fold and reading another project's is already forbidden.",
+    "supportingFacts": [
+     "ProjectRetentionPolicyV1.scope is ONE-PROJECT-ID and its owner is HOST",
+     "UnitAvailabilityLedgerV1.projectScope: one ProjectId per ledger; a purge in one project never reaches an identical digest in another",
+     "effectiveCapabilityDerivation.forbiddenInputs includes ledgerSequenceOfAnyOtherProject"
+    ],
+    "agreesWithTheShippingProduct": true,
+    "statedConsequence": "There is no global disk ceiling and this artifact does not supply one. N projects each configured with maxTotalBytes M can occupy N*M. Under durable-by-default and unbounded-by-default, N unconfigured projects occupy an unbounded total. That is declared here rather than discovered later.",
+    "declaredAs": "DEP-RT25-03"
+   }
+  },
+  "causeVocabulary": {
+   "field": "AvailabilityTransitionV1.cause",
+   "orderedPosition": 7,
+   "positionUnchanged": true,
+   "fieldIsNotNew": true,
+   "whatChanges": "the field's VALUE SET is closed for toState PURGED. No field is added, renamed or reordered.",
+   "admissionRule": "cause is admitted as a JSON string at exact type before its content is compared, per freeze section 6 law 18. A boolean is not a string, a number is not a string and null is not a string, at any depth, including inside records the host only forwards.",
+   "closedPartitions": [
+    {
+     "toState": "PURGED",
+     "closed": true,
+     "members": [
+      "RETENTION_AGE_BOUND",
+      "RETENTION_SIZE_BOUND",
+      "RETENTION_COUNT_BOUND",
+      "RETENTION_USER_REQUEST"
+     ],
+     "memberCount": 4,
+     "meanings": {
+      "RETENTION_AGE_BOUND": "the record was older than maxAgeSeconds when the sweep ran",
+      "RETENTION_SIZE_BOUND": "the record was in the prefix the size demand required in order to bring the project under maxTotalBytes",
+      "RETENTION_COUNT_BOUND": "the record was in the prefix the count demand required in order to leave keepCount records",
+      "RETENTION_USER_REQUEST": "a person asked for this record to be purged; no bound fired"
+     },
+     "attributionRuleWhenSeveralDemandsCover": {
+      "rule": "when more than one demand covers the same record, the cause recorded is the one belonging to the LARGEST demand, and ties break in the fixed order RETENTION_AGE_BOUND, RETENTION_SIZE_BOUND, RETENTION_COUNT_BOUND",
+      "isDeterministic": true,
+      "why": "The eviction count is the max of the demands, so the demand that actually decided the boundary is the largest one. Recording a smaller demand's name would tell a user to raise a knob that was not binding, which is worse than silence because it is actionable and wrong. The tiebreak is fixed so two hosts folding the same ledger record the same cause.",
+      "exactlyOneCausePerEntry": true,
+      "whyNotASetOfCauses": "A ledger entry records one transition of one raw key. A set would make the field's type depend on how many demands happened to overlap, defeating exact-type admission and giving a reader no single answer to why this record is gone."
+     }
+    }
+   ],
+   "unclosedPartitions": [
+    {
+     "toState": "OUTAGE",
+     "closed": false,
+     "reason": "this artifact has no product intent behind an outage cause vocabulary and does not invent one",
+     "declaredAs": "DEP-RT25-04"
+    },
+    {
+     "toState": "MISSING-DEPENDENCY",
+     "closed": false,
+     "reason": "same; the transition already exists and its cause vocabulary is not this artifact's to close",
+     "declaredAs": "DEP-RT25-04"
+    },
+    {
+     "toState": "AVAILABLE",
+     "closed": false,
+     "reason": "same",
+     "declaredAs": "DEP-RT25-04"
+    }
+   ],
+   "whyOnlyThePurgedPartitionIsClosed": "The recorded product intent concerns retention bounds and why a purged record is gone. It says nothing about outages or missing dependencies. Closing those partitions here would be inventing vocabulary with no authority behind it, and a closed enum is far harder to reopen than an open one is to close. The property the intent asks for -- a PURGED state always says why -- is fully delivered by closing exactly one partition.",
+   "everyPurgedEntryCarriesACause": true,
+   "aPurgedEntryWithNoCauseIsRefused": true,
+   "aPurgedEntryWithACauseOutsideThePartitionIsRefused": true,
+   "tombstoneAlwaysExplainsAbsence": {
+    "statement": "for every raw key whose folded state is PURGED there is a ledger entry, it is permanent, and it names one of exactly four reasons",
+    "soAbsenceIsNeverUnexplained": true,
+    "thisIsTheProductIntentDelivered": true
+   },
+   "aPurgeCausedByAPostureChangeHasNoMember": {
+    "case": "the posture is revised from DURABLE_RETAINED to EPHEMERAL_ONLY and existing durable evidence is purged as a result",
+    "hasACauseMember": false,
+    "nowMoreLikelyThanBefore": "Under durable-by-default this case stops being hypothetical. Every project starts DURABLE_RETAINED by default, so the first time a user is asked and answers EPHEMERAL_ONLY, there may already be durable evidence on disk that was written under the default. What happens to it is exactly this unresolved case, and the posture decision makes it the common path rather than an edge case.",
+    "couldItBeFoldedIntoUserRequest": "arguably, since a person changed the policy",
+    "whyItIsNotFoldedHere": "Whether opting out of durable retention deletes evidence already retained is a product question, not an architecture one, and it is adjacent to the CD-RT-5 choice that remains BLOCKED_ON_PHASE_1A. Folding it into RETENTION_USER_REQUEST would answer that question by naming, which is the mechanism section 4.5 exists to prevent.",
+    "declaredAs": "DEP-RT25-02"
+   }
+  },
+  "d9ReasonCodePosition": {
+   "authority": "D9 owns the closed termination vocabulary; this artifact may not amend a vocabulary it does not own, and does not.",
+   "measuredLiveFromPinnedD9Bytes": {
+    "source": "d9-exit-contract.v1.14.json",
+    "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+    "deficiencyMemberCount": 9,
+    "reasonCodeCount": 9,
+    "errorCodeCount": 19,
+    "retentionTokenPredicate": [
+     "PURGE",
+     "PURG",
+     "DELET",
+     "RETENTION",
+     "ERAS",
+     "TOMBSTONE",
+     "WITHDRAW"
+    ],
+    "deficiencyMembersMatchingPredicate": 0,
+    "reasonCodesMatchingPredicate": 0,
+    "errorCodesMatchingPredicate": 0,
+    "measuredStatement": "0 of 9 deficiency members, 0 of 9 reason codes and 0 of 19 error codes name retention-driven read-time unavailability",
+    "unchangedFromThePredecessor": true,
+    "howMeasured": "reason codes and error codes counted from codeVocabulary.reasonCodes and codeVocabulary.errorCodes; deficiency members from codeMaps.deficiencyToReasonCode keys; the token predicate applied to each name uppercased",
+    "whyTheCountsAreTakenFromCodeVocabularyAndNotTheMaps": "the union of the two cause-to-error-code maps has 18 distinct values, because SYSTEM.OUTCOME.ILLEGAL_STATE appears in codeVocabulary.errorCodes and in neither map. The predecessor's figure of 19 is the codeVocabulary count and is the correct one; this artifact measured both and records the difference so a later reader does not have to rediscover it."
+   },
+   "howManyReasonCodesAreRequested": 1,
+   "whyOneAndNotFour": {
+    "question": "the cause partition has four members. Does the D9 request become four reason codes?",
+    "answer": "No. One reason code, four causes.",
+    "d9OwnRuleVerbatim": "two codes with the same remedy are a smell and two remedies behind one code are a defect",
+    "derivation": "The remedy behind all four causes is identical: the evidence was removed by an authorized project retention action, cannot be restored by this tool, and the analysis must be re-run to produce new evidence. Four codes carrying one remedy is precisely the smell D9's own rule names. What differs between the four is not the remedy but the EXPLANATION, and an explanation of a cause is what a cause field is for. The four-way split therefore belongs on AvailabilityTransitionV1.cause and the single remedy on the reason code.",
+    "consequence": "The predecessor's single proposed reason code is confirmed unchanged, now with a derivation behind it rather than an absence of alternatives."
+   },
+   "requestedSuccessorNotAdded": {
+    "owner": "D9",
+    "state": "REQUESTED-NOT-ADDED",
+    "authority": "this artifact may not amend a closed vocabulary it does not own",
+    "proposedDeficiencyId": "evidence-purged",
+    "proposedReasonCode": "RETENTION.EVIDENCE_PURGED",
+    "proposedRemedy": "the evidence was removed by an authorized project retention action and cannot be restored by this tool; re-run the analysis to produce new evidence",
+    "unchangedFromThePredecessor": true,
+    "whatThisArtifactAddsToTheRequest": "the remedy text may now render the specific cause, because the cause is a closed four-member partition rather than an unstated string. That refines the request's payload; it does not change the number of codes.",
+    "codesAddedByThisArtifact": 0,
+    "deficiencyMembersAddedByThisArtifact": 0,
+    "errorCodesAddedByThisArtifact": 0
+   },
+   "doesThisCloseRT23BRES01": {
+    "answer": "NO",
+    "theRecordedIntentSaysItDoes": "The prepared amendment draft states, under reasonCodeRequired, that the reason-code requirement 'closes residual RT23-B-RES-01'. Measured against the live pinned D9 bytes that is not what happens, and this artifact reports the measurement rather than the expectation.",
+    "measuredJustification": "RT23-B-RES-01's closing condition is d9VocabularyMembersNamingRetentionLoss becoming non-zero. Measured live from the pinned D9 bytes at authoring time it is 0, exactly as the predecessor measured it. This artifact adds nothing to D9, so it cannot and does not move that number.",
+    "residualClosesWhen": "a D9 successor adds one deficiency member and one reason code. Still not addable here.",
+    "whatThisArtifactDoesCloseInstead": "a different and previously unnamed gap: the PURGED STATE itself carried no reason. Before this artifact a purged record was terminal, permanent and silent about why. After it, every PURGED ledger entry names one of four causes. That is the architecture-side half of explainability and is wholly within this artifact's authority. The D9-side half remains open.",
+    "whyItWouldBeWrongToClaimOtherwise": "Claiming closure would require either adding a D9 member without authority, or restating the residual so its measured boundary no longer describes what it was measuring. The predecessor declined to pick a dishonest in-vocabulary code and this artifact declines to pick a dishonest closure.",
+    "carriedForwardUnchanged": true
+   }
+  },
+  "section46DischargePreservation": {
+   "obligationVerbatim": "State how purge changes current evidence availability without rewriting the sealed Run",
+   "whatWasIndependentlyVerified": [
+    "both sealed unitIds recompute byte-exactly, two-sided control holds",
+    "the unit-set commitment matches",
+    "all four of v22's fixtures including AF-03-VERIFY-PURGED derive and agree",
+    "P1, P2 and P5 reproduced at 276/276, 276/276 and 46/46",
+    "P4 verified in the strong form: result equals min(sealed, best) at all 276",
+    "purge never raises capability across 40,000 randomised multi-position trials, zero counterexamples",
+    "append-only survived hostile ledgers: terminal reversal, sequence break, restart and non-1 start all refused"
+   ],
+   "doesTheDischargeSurvive": "YES, BY CONSTRUCTION, AND UNVERIFIED ON THESE BYTES",
+   "theTwoHalvesOfThatAnswerAreDifferent": true,
+   "constructionArgument": {
+    "triggers": {
+     "claim": "triggers cannot disturb any verified property",
+     "argument": "effective_capability takes exactly three inputs: sealedCapability, units and availabilityRecords. A trigger changes only WHICH AvailabilityTransitionV1 entries come to exist and WHEN. It adds no input, changes no input's type, and touches no term of the algorithm. P1, P2, P3 and P4 are statements about the function and the function is unchanged."
+    },
+    "neverRaisesCapability": {
+     "claim": "a sweep can only lower or preserve effectiveCapability, never raise it",
+     "argument": "A sweep emits entries with toState PURGED and no other toState. unit_satisfied requires EVERY state in the unit's position map to be AVAILABLE. Moving any position from AVAILABLE to PURGED can only falsify unit_satisfied for the units containing it and can falsify no fewer. satisfied() is downward closed in rank by P3, so the set of satisfied capabilities can only shrink and its maximum can only fall or stay. Monotone by construction; no trials needed.",
+     "requiresNoNewTrials": true
+    },
+    "causeVocabulary": {
+     "claim": "closing the cause partition cannot change any derived capability",
+     "argument": "The fold rule states the current state of a raw key is the toState of its last entry. cause is not toState and the algorithm reads no other field of a ledger entry. cause is already unreachable from the derivation, and adding members to a field the function never reads changes nothing it can compute.",
+     "isTheRiskiestPartOfThisChange": true,
+     "whyItIsTheRiskiest": "P5-CAUSE-BLIND is the one verified property whose subject matter this artifact touches. P5 states cause-blindness ACROSS STATES. Introducing sub-causes of PURGED raises the adjacent question of blindness WITHIN a state, which P5 does not state."
+    }
+   },
+   "p5Extended": {
+    "id": "RT25-C-INV-05",
+    "statement": "any two ledger entries agreeing on toState and differing only in cause derive the same effectiveCapability",
+    "relationToP5": "STRICTLY STRONGER: P5 is blindness across states, this is blindness across causes within a state",
+    "isItAlreadyTrue": true,
+    "whyAlreadyTrue": "the algorithm reads only toState from a ledger entry, so cause has no path into the result",
+    "howItIsMadeStructuralRatherThanIncidental": "cause is added to effectiveCapabilityDerivation.forbiddenInputs, taking that list from 11 members to 12. It was already unread; naming it forbidden makes the property checkable by a reviewer who greps the derivation rather than inferrable from the absence of a mention.",
+    "monotonicityOfTheChange": "Adding a member to forbiddenInputs can only reduce the set of inputs the function may read. It can never admit an input previously refused. So the change cannot weaken P1, P2, P3, P4 or P5, and this direction holds without re-running anything."
+   },
+   "thePostureDecisionDoesNotTouchPartB": {
+    "statement": "the durable-by-default decision changes Part A and changes nothing in Part B",
+    "why": "Part B is about what happens to evidence that exists. The posture decides whether evidence comes to exist. No availability state, no ledger rule, no term of effective_capability and no member of the mutation boundary mentions the posture, and none needs to.",
+    "partBSurfacesTouchedByThePostureDecision": 0
+   },
+   "whatIsNotClaimed": [
+    "That the 40,000-trial result travels to these bytes. It was run by an independent reviewer over the predecessor's bytes and is bound to those digests. This artifact re-ran nothing.",
+    "That V10 item 3 discharges on these bytes. The discharge is the predecessor's, on the predecessor's digests.",
+    "That any construction argument above has been verified by an instrument. This artifact retains no checker.",
+    "That an independent reviewer will agree the construction arguments are sufficient. They are arguments, offered for review."
+   ],
+   "saidLoudlyAsRequired": "The single place this change could disturb section 4.6's discharge is P5-CAUSE-BLIND, because sub-classifying PURGED is the only thing here touching a verified property's subject matter. The claim is that it does not disturb it, that the reason is structural rather than empirical, and that the claim is UNVERIFIED ON THESE BYTES because this artifact retains no checker. A reviewer who disagrees with the structural argument should treat this as a blocker rather than an observation."
+  },
+  "vectors": {
+   "purpose": "Executable rows for a checker that does not yet exist. Every row states an expectation and, where it is a negative control, the DIFFERENT result the rejected reading produces.",
+   "executed": false,
+   "whyNotExecuted": "this artifact retains no checker; see RT25-RES-01",
+   "count": 16,
+   "negativeControlCount": 15,
+   "nonControlRowCount": 1,
+   "rows": [
+    {
+     "id": "PC-V-01-COUNT-ONLY",
+     "isNegativeControl": false,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 0,
+      "keepCount": 2
+     },
+     "evictableCount": 5,
+     "expectedEvictionCount": 3,
+     "expectedCauses": [
+      "RETENTION_COUNT_BOUND"
+     ],
+     "note": "the primary dimension in the shipping product, working alone"
+    },
+    {
+     "id": "PC-V-02-PARASITISM-CONTROL-KEEP-ZERO",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 100,
+      "keepCount": 0
+     },
+     "evictableCount": 5,
+     "evictableTotalBytes": 500,
+     "expectedEvictionCount": 4,
+     "expectedCauses": [
+      "RETENTION_SIZE_BOUND"
+     ],
+     "rejectedReading": "the size demand is computed inside the count branch and returns early when keepCount is 0 or 1",
+     "resultUnderRejectedReading": 0,
+     "whyThisFailsUnderTheRejectedReading": "with keepCount 0 the product's guard returns before the size bound is evaluated, so nothing is evicted and 100 bytes of headroom is silently exceeded"
+    },
+    {
+     "id": "PC-V-03-PARASITISM-CONTROL-KEEP-ONE",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 100,
+      "keepCount": 1
+     },
+     "evictableCount": 5,
+     "evictableTotalBytes": 500,
+     "expectedEvictionCount": 4,
+     "expectedCauses": [
+      "RETENTION_SIZE_BOUND"
+     ],
+     "rejectedReading": "the same early return, on the <= 1 arm rather than the <= 0 arm",
+     "resultUnderRejectedReading": 0,
+     "whyBothArmsAreControlled": "the product's guard is a disjunction; a control exercising only one arm would pass against a half-repaired implementation"
+    },
+    {
+     "id": "PC-V-04-INDEPENDENCE-MAX-NOT-SUM",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 300,
+      "keepCount": 2
+     },
+     "evictableCount": 5,
+     "evictableTotalBytes": 500,
+     "expectedEvictionCount": 3,
+     "expectedCauses": [
+      "RETENTION_COUNT_BOUND"
+     ],
+     "rejectedReading": "demands are summed rather than maxed",
+     "resultUnderRejectedReading": 5,
+     "note": "the size demand is 2 and the count demand is 3; max is 3 and sum is 5, which would evict the whole set"
+    },
+    {
+     "id": "PC-V-05-SILENT-REVERT-CONTROL",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 0,
+      "keepCount": -1
+     },
+     "expectedAdmission": "REFUSED",
+     "expectedErrorCode": "CONFIG.INVALID",
+     "expectedEvictionCount": 0,
+     "rejectedReading": "a negative value silently reverts to the built-in default",
+     "resultUnderRejectedReading": "ADMITTED with keepCount 200, a live bound the operator explicitly tried to switch off"
+    },
+    {
+     "id": "PC-V-06-EXACT-TYPE-BOOL",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 0,
+      "keepCount": true
+     },
+     "expectedAdmission": "REFUSED",
+     "expectedErrorCode": "CONFIG.INVALID",
+     "refusedBefore": "any comparison of the value",
+     "rejectedReading": "a bare equality or ordering test, where True == 1 and True >= 0 both hold",
+     "resultUnderRejectedReading": "ADMITTED as keepCount 1",
+     "law": "freeze section 6 law 18"
+    },
+    {
+     "id": "PC-V-07-EXACT-TYPE-FLOAT",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 0,
+      "keepCount": 200.0
+     },
+     "expectedAdmission": "REFUSED",
+     "expectedErrorCode": "CONFIG.INVALID",
+     "rejectedReading": "a bare equality test, where 200.0 == 200 holds",
+     "resultUnderRejectedReading": "ADMITTED as keepCount 200",
+     "law": "freeze section 6 law 18",
+     "noteOnSpelling": "this row's keepCount is the artifact's ONLY JSON float leaf, and it is one deliberately: a control that spelled the value as an integer would not be a control"
+    },
+    {
+     "id": "PC-V-08-EXACT-TYPE-NUMERIC-STRING",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 0,
+      "keepCount": "200"
+     },
+     "expectedAdmission": "REFUSED",
+     "expectedErrorCode": "CONFIG.INVALID",
+     "rejectedReading": "coercion at admission",
+     "resultUnderRejectedReading": "ADMITTED as keepCount 200",
+     "law": "freeze section 6 law 18"
+    },
+    {
+     "id": "PC-V-09-UNSATISFIABLE-AGE-BOUND",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 5184000,
+      "maxTotalBytes": 0,
+      "keepCount": 0
+     },
+     "expectedAdmission": "REFUSED",
+     "expectedErrorCode": "CONFIG.INVALID",
+     "rejectedReading": "an unsatisfiable dimension is silently skipped",
+     "resultUnderRejectedReading": "ADMITTED, and the configured 60-day bound evicts nothing forever without saying so",
+     "note": "5184000 seconds is the shipping product's 60-day default expressed exactly; the value is refused because DEP-RT25-01 is unresolved, not because the number is wrong"
+    },
+    {
+     "id": "PC-V-10-PROTECTED-SET-EXCEEDS-BOUND",
+     "isNegativeControl": true,
+     "bounds": {
+      "maxAgeSeconds": 0,
+      "maxTotalBytes": 1,
+      "keepCount": 0
+     },
+     "evictableCount": 0,
+     "expectedWriteAdmission": "ADMITTED",
+     "expectedEvictionCount": 0,
+     "expectedOverBound": true,
+     "rejectedReading": "the store throws and refuses the write when a bound cannot be satisfied",
+     "resultUnderRejectedReading": "the write is refused, no byte is reclaimed, and a policy failure is reported as a host error in violation of law 14"
+    },
+    {
+     "id": "PC-V-11-CAUSE-BLINDNESS-WITHIN-PURGED",
+     "isNegativeControl": true,
+     "ledgerA": "one entry, toState PURGED, cause RETENTION_SIZE_BOUND, at the AF-03-VERIFY-PURGED position",
+     "ledgerB": "identical bytes except cause RETENTION_USER_REQUEST",
+     "expectedEffectiveCapabilityA": "recorded",
+     "expectedEffectiveCapabilityB": "recorded",
+     "expectedEqual": true,
+     "rejectedReading": "cause reaches the derivation",
+     "resultUnderRejectedReading": "the two ledgers derive different capabilities, and a user-requested purge and a size-driven purge become different kinds of loss at the one place a consumer branches on what it can do",
+     "anchor": "AF-03-VERIFY-PURGED, whose expected effectiveCapability is recorded in the predecessor's own fixtures"
+    },
+    {
+     "id": "PC-V-12-ABSENT-BOUNDS-RESOLVE-TO-UNBOUNDED",
+     "isNegativeControl": true,
+     "boundsRecordPresent": false,
+     "expectedResolvedBounds": "0 / 0 / 0",
+     "expectedProvenance": "DEFAULTED",
+     "expectedEvictionCount": 0,
+     "rejectedReading": "absent bounds are read as the shipping product's values, keep 200 / maxAgeDays 60 / maxSizeMb 150",
+     "resultUnderRejectedReading": "a project that configured nothing begins purging on a schedule nobody chose, which also quietly restores the position the product authority overrode by making durable-by-default mean durable-for-sixty-days"
+    },
+    {
+     "id": "PC-V-13-ABSENT-POLICY-RESOLVES-DURABLE",
+     "isNegativeControl": true,
+     "policyPresent": false,
+     "expectedPosture": "DURABLE_RETAINED",
+     "expectedProvenance": "DEFAULTED",
+     "expectedDurableAuthoritativeOutcome": "PROCEED-DURABLE",
+     "expectedPolicyPersisted": false,
+     "rejectedReading": "the predecessor's premise, under which absence has no posture and a durable-authoritative request is refused",
+     "resultUnderRejectedReading": "REFUSE at request-validation, D9 request-rejected exit 2 REQUEST.UNSATISFIABLE",
+     "note": "this control fails under v24's reviewed behaviour, which is the point: it is the row that distinguishes the two premises"
+    },
+    {
+     "id": "PC-V-14-EPHEMERAL-IS-ALWAYS-CONSENTED",
+     "isNegativeControl": true,
+     "policyPresent": true,
+     "policyPosture": "EPHEMERAL_ONLY",
+     "expectedPosture": "EPHEMERAL_ONLY",
+     "expectedProvenance": "CONSENTED",
+     "expectedDurableAuthoritativeOutcome": "REFUSE",
+     "expectedErrorCode": "REQUEST.UNSATISFIABLE",
+     "rejectedReading": "the default removes every retention refusal",
+     "resultUnderRejectedReading": "the durable request proceeds and overrides a recorded human answer, or is silently demoted to ephemeral while reporting success, which freeze law 14 forbids",
+     "whyThisRowIsRequired": "it is the control proving the default removed the NEED to refuse rather than the prohibition on demotion"
+    },
+    {
+     "id": "PC-V-15-DEFAULT-IS-NEVER-PERSISTED",
+     "isNegativeControl": true,
+     "policyPresent": false,
+     "sequence": "run a durable-authoritative request to completion under the defaulted posture, then inspect project storage",
+     "expectedPolicyOnDiskAfter": "ABSENT",
+     "expectedProvenanceOnNextRun": "DEFAULTED",
+     "rejectedReading": "the resolution persists what it resolved",
+     "resultUnderRejectedReading": "a ProjectRetentionPolicyV1 exists carrying DURABLE_RETAINED that no human answered, so a later ask is suppressed and CONSENTED provenance is manufactured from a default"
+    },
+    {
+     "id": "PC-V-16-DISMISSAL-DOES-NOT-SUPPRESS-THE-NEXT-ASK",
+     "isNegativeControl": true,
+     "sequence": "local-interactive, policy ABSENT, durable-authoritative request, user dismisses; then the same request again",
+     "expectedFirstRunAskPerformed": true,
+     "expectedFirstRunOutcome": "PROCEED-DURABLE under DEFAULTED, no policy written",
+     "expectedSecondRunAskPerformed": true,
+     "rejectedReading": "a dismissal suppresses the next ask",
+     "resultUnderRejectedReading": "the user is never asked again and the project is retained durably and unboundedly forever with provenance DEFAULTED, which under the new posture is unconsented retention rather than the under-retention the predecessor's rule guarded against"
+    }
+   ],
+   "whatTheVectorsDoNotCover": [
+    "no vector is executed, because no checker is retained",
+    "no vector exercises a real store, a real unlink, an fsync or a crash",
+    "no vector exercises more than one project, because a global bound is unrepresentable and there is nothing to exercise",
+    "no vector exercises the age dimension end to end, because DEP-RT25-01 makes it unsatisfiable and PC-V-09 asserts the refusal rather than the behaviour",
+    "no vector recomputes a D9 termination for the four changed dismissal outcomes; that needs the pinned reference derivation and a checker to run it"
+   ]
+  },
+  "invariants": [
+   {
+    "id": "RT25-C-INV-01",
+    "statement": "A sweep emits only AvailabilityTransitionV1 entries with toState PURGED, and therefore can never raise effectiveCapability."
+   },
+   {
+    "id": "RT25-C-INV-02",
+    "statement": "Each bound's demand is a function of the eviction order and that bound's own configured value only; no bound's value appears in another bound's demand."
+   },
+   {
+    "id": "RT25-C-INV-03",
+    "statement": "The evicted set is a prefix of a single total eviction order, and the eviction count is the maximum of the demands, never their sum."
+   },
+   {
+    "id": "RT25-C-INV-04",
+    "statement": "Every ledger entry with toState PURGED carries exactly one cause drawn from the closed four-member partition; an absent or out-of-partition cause is refused."
+   },
+   {
+    "id": "RT25-C-INV-05",
+    "statement": "Any two ledger entries agreeing on toState and differing only in cause derive the same effectiveCapability."
+   },
+   {
+    "id": "RT25-C-INV-06",
+    "statement": "No ledger entry is ever removed, rewritten or expired, so a tombstone is permanent and absence is always explainable."
+   },
+   {
+    "id": "RT25-C-INV-07",
+    "statement": "A bound is never an admission gate: no configured bound and no unsatisfiable bound can refuse a write."
+   },
+   {
+    "id": "RT25-C-INV-08",
+    "statement": "An invalid or unsatisfiable bounds record is refused at admission and is never silently defaulted or silently skipped."
+   },
+   {
+    "id": "RT25-C-INV-09",
+    "statement": "Every closed scalar of ProjectRetentionBoundsV1 is admitted by exact JSON type at any depth before its content is compared."
+   },
+   {
+    "id": "RT25-C-INV-10",
+    "statement": "An absent bounds record and an all-zero bounds record agree on every bound value and differ on provenance; neither purges anything."
+   },
+   {
+    "id": "RT25-C-INV-11",
+    "statement": "A sweep reads no ledger, footprint or bounds record of any other ProjectId."
+   },
+   {
+    "id": "RT25-C-INV-12",
+    "statement": "purgeMutationBoundary.mutatesExactly still has exactly two members and no member of doesNotMutate is touched by any sweep."
+   },
+   {
+    "id": "RT25-C-INV-13",
+    "statement": "A record in OUTAGE is never evictable, so a reversible fault is never converted into a terminal loss."
+   },
+   {
+    "id": "RT25-C-INV-14",
+    "statement": "This artifact adds no D9 deficiency member, reason code or error code, and the measured retention gap remains 0 of 9, 0 of 9 and 0 of 19."
+   },
+   {
+    "id": "RT25-D-INV-01",
+    "statement": "effective_posture is total: every input, including ABSENT, yields exactly one posture and exactly one provenance."
+   },
+   {
+    "id": "RT25-D-INV-02",
+    "statement": "EPHEMERAL_ONLY is reachable only with provenance CONSENTED; no input yields (EPHEMERAL_ONLY, DEFAULTED)."
+   },
+   {
+    "id": "RT25-D-INV-03",
+    "statement": "No code path persists a ProjectRetentionPolicyV1 whose posture came from the default, so ABSENT survives on disk until a person answers."
+   },
+   {
+    "id": "RT25-D-INV-04",
+    "statement": "A durable-authoritative request is refused if and only if the effective posture is EPHEMERAL_ONLY; it is never silently demoted to ephemeral."
+   },
+   {
+    "id": "RT25-D-INV-05",
+    "statement": "The posture enum retains exactly two members and ABSENT is never one of them."
+   }
+  ],
+  "invariantCount": 19
+ },
+ "shippingProductEvidence": {
+  "source": "an investigation of /Users/sb/code/opensip-ai/opensip-cli, read-only, performed outside this artifact",
+  "reRunByThisArtifact": false,
+  "standingOfTheseFindings": "RECORDED, NOT INDEPENDENTLY RE-MEASURED HERE. They are treated as reported evidence about a separate codebase, not as verified facts of this corpus. A reviewer who needs them verified must go to that repository; no design element here depends on them being true, because every adoption is justified on this corpus's own grounds as well.",
+  "adopted": [
+   {
+    "shape": "three dimensions: count, age and size",
+    "productSpelling": "keep: 200, maxAgeDays: 60, maxSizeMb: 150",
+    "adoptedBecause": "the recorded intent names time and size, and count is recovered from the shipping product where it is the primary dimension",
+    "thisCorpusSpelling": "keepCount, maxAgeSeconds, maxTotalBytes"
+   },
+   {
+    "shape": "per-project scope",
+    "adoptedBecause": "it agrees with what freeze law 8 and the one-ledger-per-ProjectId rule already force; agreement, not adoption"
+   },
+   {
+    "shape": "no environment variable and no command-line flag",
+    "adoptedBecause": "a flag is request-scoped and retention is project-scoped and durable; the policy object already declares callersCannotSupplyIt true and bounds inherit it"
+   },
+   {
+    "shape": "0 disables a dimension",
+    "adoptedBecause": "it is a clear convention, composes correctly with max-of-demands, and is the same vocabulary the defaulted bounds are expressed in"
+   },
+   {
+    "shape": "oldest-first eviction",
+    "productSpelling": "(timestamp, id) ASC",
+    "adoptedBecause": "keeping the newest evidence is the retention semantic a user expects, and a single order is what makes the demands compose as prefixes"
+   }
+  ],
+  "departed": [
+   {
+    "productBehaviour": "the size bound is parasitic on the count bound: with keep 0 or 1, maxSizeMb silently deletes nothing",
+    "departure": "each demand is a pure function of its own configured value and the shared eviction order",
+    "why": "a user disabling count pruning must not lose size pruning, and must certainly not lose it silently",
+    "controlledBy": [
+     "PC-V-02-PARASITISM-CONTROL-KEEP-ZERO",
+     "PC-V-03-PARASITISM-CONTROL-KEEP-ONE"
+    ]
+   },
+   {
+    "productBehaviour": "a negative or non-finite configured value silently reverts to the default, not to 0",
+    "departure": "refused at admission with CONFIG.INVALID; there is no substitution path",
+    "why": "the silent direction is toward MORE deletion than the operator asked for, the worst possible direction for a silent failure",
+    "controlledBy": [
+     "PC-V-05-SILENT-REVERT-CONTROL"
+    ]
+   },
+   {
+    "productBehaviour": "two opposite answers to 'bound reached and still over': the evidence store warns and proceeds with oversize_unresolved, the graph snapshot store throws and refuses the write",
+    "departure": "one answer. Proceed. The condition is derived at read time, not warned about and not thrown on.",
+    "why": "refusing violates law 14 and reclaims nothing; warning is not an addressable state. The ambiguity itself was the defect: two stores in one product disagreeing means neither answer was derived.",
+    "controlledBy": [
+     "PC-V-10-PROTECTED-SET-EXCEEDS-BOUND"
+    ]
+   },
+   {
+    "productBehaviour": "knobs live in a configuration file",
+    "departure": "the bounds record lives in host-owned project storage, not in a resolved configuration layer",
+    "why": "CI and non-interactive invocations never load or resolve layer 4, so a configuration-layer bound would silently differ between invocation profiles for the same project",
+    "controlledBy": []
+   },
+   {
+    "productBehaviour": "units of days and megabytes",
+    "departure": "integer seconds and integer bytes",
+    "why": "maxSizeMb invites 1.5 and maxAgeDays invites calendar reasoning across DST. Integer seconds and integer bytes have no meaningful fractional spelling, so law 18's exact-type refusal of a float rejects a value that was never sensible rather than one a user reasonably wrote.",
+    "controlledBy": [
+     "PC-V-07-EXACT-TYPE-FLOAT"
+    ]
+   },
+   {
+    "productBehaviour": "the eviction order key is a wall-clock timestamp",
+    "departure": "the key is the project ledger's atSequence",
+    "why": "atSequence is already durable, monotone, host-owned and clock-free, and a reviewer can reproduce the order from the ledger alone",
+    "controlledBy": []
+   },
+   {
+    "productBehaviour": "the product's default values are live defaults: keep 200, maxAgeDays 60, maxSizeMb 150",
+    "departure": "bounds default to unbounded, 0 / 0 / 0",
+    "why": "the recorded intent says unbounded unless configured. Adopting the product's values as silent defaults would purge on a schedule nobody chose and would quietly restore the position the authority overrode, by making durable-by-default mean durable-for-sixty-days.",
+    "controlledBy": [
+     "PC-V-12-ABSENT-BOUNDS-RESOLVE-TO-UNBOUNDED"
+    ]
+   }
+  ],
+  "notInheritedAndNotDeparted": [
+   "the product's default VALUES appear in this artifact only inside PC-V-09 and PC-V-12, as the values a rejected reading would produce"
+  ]
+ },
+ "answeredQuestions": [
+  {
+   "n": 1,
+   "question": "What fires when a bound is reached and the protected set alone exceeds it? Refuse the write, or proceed degraded?",
+   "answer": "Proceed. The write is admitted, the sweep evicts everything evictable and stops, and the over-bound condition is derived at read time rather than recorded or warned.",
+   "justification": "a bound is a trigger, not a gate. Refusing converts a policy failure into a host error against law 14, reclaims no bytes, and gates on a condition that RT23-B-INV-04 makes structurally unsatisfiable. Deriving rather than recording the shortfall is the same move section 4.6 verified for effectiveCapability.",
+   "answeredAt": "$.partC_retentionBounds.sweep.whenTheBoundCannotBeSatisfied",
+   "isOpen": false
+  },
+  {
+   "n": 2,
+   "question": "Is the trigger per-project or global?",
+   "answer": "Per-project, and this is derived rather than preferred.",
+   "justification": "a global bound requires aggregating across project ledgers; UnitAvailabilityLedgerV1 is one ProjectId per ledger by freeze law 8, and ledgerSequenceOfAnyOtherProject is already a forbidden input. There is no global ledger to fold. The consequence — no global disk ceiling, and under durable-and-unbounded-by-default an unbounded aggregate across unconfigured projects — is declared as DEP-RT25-03.",
+   "answeredAt": "$.partC_retentionBounds.sweep.scope",
+   "isOpen": false
+  },
+  {
+   "n": 3,
+   "question": "What is the eviction order, and is it the same for every dimension?",
+   "answer": "Ascending atSequence of the raw key's most recent AVAILABLE-entering ledger entry, tiebroken by recordCasRef ascending. One order, shared by every dimension.",
+   "justification": "oldest-first is adopted from the shipping product; the ordering KEY departs from it, using the ledger sequence rather than a wall clock so the order is monotone, durable and reproducible. The sharing is derived: with one order each demand is a prefix length, prefixes are totally ordered by inclusion, and the union of demands is exactly the longest — which is what makes the bounds independent. Per-dimension orders would let disabling one bound change which records another removes.",
+   "answeredAt": "$.partC_retentionBounds.sweep.evictionOrder",
+   "isOpen": false
+  },
+  {
+   "n": 4,
+   "question": "Does the tombstone itself ever expire?",
+   "answer": "No. Never. A tombstone is a ledger entry and the ledger is append-only, so expiring one would violate an invariant that already holds and was independently verified against hostile ledgers.",
+   "justification": "this needs no new rule: RT23-B-INV-06 and ledger.entriesAreNeverEditedOrRemoved already forbid it. If a tombstone expired, a purged record would become indistinguishable from a record that never existed, and P2-FLOOR — that no availability state removes the sealed record — would be violated in substance even where it held in letter.",
+   "storageConsequenceStatedHonestly": {
+    "theLedgerGrowsWithoutBound": true,
+    "bytesAreReclaimedFromObjectsNeverFromTheLedger": true,
+    "whatMaxTotalBytesActuallyBounds": "the object store, NOT the project's total footprint. A project under sustained retention pressure has a monotonically growing ledger that no bound touches.",
+    "theRatioIsFavourableButItIsARatioNotABound": "an AvailabilityTransitionV1 is a fixed seven-field record dominated by one digest, while the objects it replaces are arbitrary in size. So the store shrinks dramatically under sweeping. It does not shrink to zero and it never stops growing.",
+    "noNumberIsInvented": "this artifact states no byte size for a tombstone, because that requires an encoding this artifact does not specify. The ratio is claimed qualitatively and no figure is asserted.",
+    "growthIsBoundedOnlyBy": "the number of purge events, which is bounded by the number of distinct raw keys ever admitted to the project — finite at any instant, unbounded over time",
+    "compoundedByThePostureDecision": "durable-by-default and unbounded-by-default mean the default project accumulates objects and never sweeps, so the ledger grows only when someone configures a bound. The unbounded growth therefore arrives with the first configured bound rather than on day one — later, and after the user has opted into retention management, which is the better of the two orderings.",
+    "whyThisIsTheCorrectTradeAnyway": "the recorded intent is that absence is always explainable. An explanation that can itself be purged is not an explanation. Unbounded ledger growth is the price of that guarantee and it is the right price, but it must be sized by whoever operates it.",
+    "compactionIsNotDesignedHere": "a compaction scheme would have to decide what may be forgotten, which is the tombstone-survival question the recorded intent answers no to. So the residual is a consequence of the decision, not a defect in it.",
+    "declaredAs": "DEP-RT25-05"
+   },
+   "answeredAt": "$.partC_retentionBounds.causeVocabulary.tombstoneAlwaysExplainsAbsence and $.answeredQuestions[3]",
+   "isOpen": false
+  },
+  {
+   "n": 5,
+   "question": "Are bounds independent? Disabling one must not silently disable another.",
+   "answer": "Yes, by construction. Each demand is a pure function of the shared eviction order and that bound's own configured value, and the demands compose by max.",
+   "justification": "max is monotone in each argument, so setting any one demand to 0 cannot reduce what the others require. The shipping product's defect is not repaired by fixing branches but by removing the shape that let one bound's value appear inside another's expression. Disabling is explicit (0), and an invalid or unsatisfiable value is refused rather than defaulted or skipped, so the two other ways a bound can silently stop working are closed as well.",
+   "answeredAt": "$.partC_retentionBounds.sweep.boundIndependence",
+   "isOpen": false
+  }
+ ],
+ "closedRecordExtension": {
+  "declaration": "DELIBERATE EXTENSION OF A CLOSED SURFACE, DECLARED AS SUCH",
+  "whatWasExtended": "the POLICY SURFACE governing project retention, in two ways: a subordinate configuration record, and a total resolution rule that gives absence a posture",
+  "whatWasNotExtended": "ProjectRetentionPolicyV1's record shape",
+  "precisely": {
+   "orderedFieldsBefore": 6,
+   "orderedFieldsAfter": 6,
+   "fieldsAdded": 0,
+   "fieldsRemoved": 0,
+   "fieldsReordered": 0,
+   "postureEnumMembersBefore": 2,
+   "postureEnumMembersAfter": 2,
+   "identityRecipeVersionBefore": 1,
+   "identityRecipeVersionAfter": 1,
+   "recordsAddedToTheSurface": 1,
+   "resolutionRulesAddedToTheSurface": 2
+  },
+  "propertiesAndTheirFate": [
+   {
+    "property": "hasNoDefaultField",
+    "fate": "VALUE RETAINED, JUSTIFICATION REPLACED, STRONGER READING WITHDRAWN",
+    "detail": "the record still has no default field, but no longer because no default exists. A default now exists and lives in effective_posture."
+   },
+   {
+    "property": "absenceIsADistinctState",
+    "fate": "SPLIT: WITHDRAWN AS A POSTURE CLAIM, RETAINED AS A PROVENANCE CLAIM",
+    "detail": "ABSENT and recorded DURABLE_RETAINED agree on posture and differ on provenance, DEFAULTED against CONSENTED."
+   },
+   {
+    "property": "ABSENT",
+    "fate": "RETAINED AS A STORAGE STATE AND AS AN INPUT TO THE RESOLUTION",
+    "detail": "it is never a posture enum member and never persisted; it is what the resolution consumes."
+   },
+   {
+    "property": "binary postureEnum",
+    "fate": "UNCHANGED",
+    "detail": "two members, no third; posture is forbidden on the bounds record entirely, so there is no second place a posture could be spelled."
+   }
+  ],
+  "theAlternativeThatWasRejected": {
+   "alternative": "add a seventh field to ProjectRetentionPolicyV1 and bump it to ProjectRetentionPolicyV2, and/or add a default field",
+   "rejectedBecause": [
+    "RETENTION-POLICY-ID-V1 declares recipeVersion 1 over fieldCount 3; changing the record's field set means either the recipe stops describing the record or a new recipe must be minted, and freeze law 6 requires separate identities to keep separate recipes",
+    "the policy is CONSENT-derived and bounds are CONFIGURATION-derived; one record carrying both provenances lets configuration change a consent-bearing identity",
+    "adjusting a storage knob would re-mint retentionPolicyId, which consentRecordRef and policyRevision hang from, so an operational tweak would demand re-consent or re-point existing consent at a new identity",
+    "a default written into the record could not be told apart from a choice, which destroys exactly the provenance distinction the posture decision makes load-bearing"
+   ],
+   "whatWasDoneInstead": "a separate closed record with its own identity recipe pointing AT the policy, plus two total resolution rules that supply the defaults without persisting them",
+   "aReviewerMayDisagree": true,
+   "whatDisagreementWouldLookLike": "A reviewer who holds that bounds belong inside the policy record should treat the reference direction as the disputed decision. A reviewer who holds that a default belongs in the schema should treat the resolution rule as the disputed decision. Both turn on whether consent provenance and configuration provenance may share a record, and this artifact makes that judgement explicitly rather than by omission."
+  },
+  "whyExtendingAtAllIsDeliberate": "ProjectRetentionPolicyV1 is declared closed and was independently reviewed as part of a PASSING Part A. Adding anything to the surface it governs, and overturning two of its stated properties, is a change a reviewer must adjudicate. It is declared at the top level rather than mentioned inside a subsection. Section 7.2 applies: the v24 Part A verdict binds v24's bytes and does not describe this shape.",
+  "noPostureEnumMemberIsAdded": true,
+  "durableDefaultInThePacketRemains": "UNSELECTED",
+  "theDefaultDesignedAgainstIsRecordedIntentNotAPacketValue": true
+ },
+ "separability": {
+  "rule": "A reviewer must be able to adjudicate Part C (bounds), Part D (posture resolution) and Part A-prime (the forced Part A repairs) separately, and all three separately from the Parts A and B inherited BY-REFERENCE and unchanged on disk.",
+  "partCInvariantPrefix": "RT25-C-INV-",
+  "partDInvariantPrefix": "RT25-D-INV-",
+  "partCFixturePrefix": "PC-V-",
+  "residualPrefix": "RT25-RES-",
+  "dependencyPrefix": "DEP-RT25-",
+  "whatEachPartOwnsAlone": {
+   "partC": "the bounds record and its identity, the evictable and protected sets, the sweep and its demands, the eviction order, the cause partition, and the over-bound derivation",
+   "partD": "effective_posture, the provenance enum, the never-persisted rule, and the law 14 position on the surviving refusal",
+   "partAPrime": "the re-derived noAskCases, the two changed decision-table cells and the four changed interaction outcomes"
+  },
+  "theDependencyBetweenThem": "Part A-prime is DOWNSTREAM of Part D: every one of its changes is generated by effective_posture mapping ABSENT to DURABLE_RETAINED. Rejecting Part D therefore rejects Part A-prime. The converse does not hold: a reviewer may accept effective_posture and dispute a specific re-derived cell. Part C is independent of both and would stand unchanged if the posture decision were reversed tomorrow, because a bound operates on evidence that exists however it came to exist.",
+  "partCDependsOnPartD": false,
+  "partAPrimeDependsOnPartD": true,
+  "rejectingAnyOfThemDoesNotDisturbTheInheritedPartsAOrB": "Parts A and B are not reproduced here and their bytes are unchanged on disk in retention-tiers.v24.json. Rejecting this artifact leaves them exactly as their own independent review found them.",
+  "theOnlyWayThisArtifactReachesIntoPartB": "the cause partition and the added forbidden input. Both are named in inheritance.surfacesThisArtifactChanges and both are argued monotone. A reviewer who rejects those two changes can reject them without rejecting the bounds design."
+ },
+ "retainedResiduals": [
+  "RT24-A-RES-01",
+  "RT24-A-RES-02",
+  "RT24-A-RES-03",
+  "RT24-A-RES-04",
+  "RT24-A-RES-05",
+  "RT24-A-RES-06",
+  "RT24-A-RES-07",
+  "RT24-A-RES-08",
+  "RT23-B-RES-01",
+  "RT23-B-RES-02",
+  "RT23-B-RES-03",
+  "RT23-B-RES-04",
+  "RT23-B-RES-05",
+  "RT24-RES-CORPUS-01",
+  "RT24-RES-CORPUS-02",
+  "RT24-RES-CORPUS-03",
+  "RT24-RES-CORPUS-04"
+ ],
+ "retainedResidualCount": 17,
+ "retainedResidualRule": "Every residual the predecessor published is carried forward. None is closed by this artifact, and RT23-B-RES-01 in particular is measured unchanged at 0 of 9, 0 of 9 and 0 of 19. A residual list that shrinks without a measurement is how a corpus forgets what it owes.",
+ "retainedResidualsWhoseBasisMoved": [
+  {
+   "id": "RT24-A-RES-03",
+   "why": "it records that the SIGINT exit code is derived rather than chosen, on the premise that a dismissal rejects admission. Under the re-derived case 3 a dismissal no longer rejects, so the residual's premise may no longer hold.",
+   "closedByThisArtifact": false,
+   "restatedByThisArtifact": false,
+   "declaredAs": "DEP-RT25-09"
+  }
+ ],
+ "newResiduals": [
+  {
+   "id": "RT25-RES-01",
+   "statement": "This artifact retains NO checker. Nothing here is executed, measured by an instrument, or defended against mutation. Every invariant and every vector is a statement offered for review, not a verified property.",
+   "measuredValues": {
+    "retainedCheckers": 0,
+    "vectorsDeclared": 16,
+    "vectorsExecuted": 0,
+    "invariantsDeclared": 19,
+    "invariantsMechanicallyChecked": 0,
+    "mutationSweepsRun": 0
+   },
+   "measuredBoundary": "0 of 16 vectors and 0 of 19 invariants are exercised by any instrument. The predecessor retained check-retention-custody-v24.py, which hard-pins 37 inputs and runs a full scalar mutation sweep; this artifact retains nothing comparable and the gap is total, not partial.",
+   "whyItIsThisWay": "the authoring instruction was to write exactly one new file. A checker is a second file. The consequence is stated rather than hidden.",
+   "howItWouldClose": "a check-retention-custody-v25.py that hard-pins retention-tiers.v24.json, d9-exit-contract.v1.14.json and product-dispositions.v1.json, executes the 16 vectors including all 15 negative controls, and runs the scalar exact-type sweep the predecessor runs.",
+   "severityIfUnaddressed": "a reviewer should weigh every claim in this artifact as unverified prose, at the same grade the corpus applies to any unexecuted declaration"
+  },
+  {
+   "id": "RT25-RES-02",
+   "statement": "The claim that section 4.6's discharge survives is argued from structure, not reproduced. The 40,000 randomised trials, the 276 exhaustive derivations and the 46 cause comparisons were run by an independent reviewer over the predecessor's bytes and were not re-run here.",
+   "measuredValues": {
+    "randomisedTrialsReRunHere": 0,
+    "exhaustiveDerivationsReRunHere": 0,
+    "causeComparisonsReRunHere": 0,
+    "structuralArgumentsOffered": 3,
+    "verifiedPropertiesTouched": 1
+   },
+   "measuredBoundary": "1 of the 5 derived properties, P5-CAUSE-BLIND, has its subject matter touched. 3 structural arguments are offered in its place and 0 trials are re-run.",
+   "howItWouldClose": "re-running the reviewer's cause-comparison arm with the cause partition populated, which requires the checker RT25-RES-01 names."
+  },
+  {
+   "id": "RT25-RES-03",
+   "statement": "The size dimension is specified against a byte length the host measures from the object store at sweep time. No vector measures a real object, and the relationship between an object's stored byte length and its contribution to a project's footprint — block size, compression, deduplication across recordKinds sharing a digest — is not modelled.",
+   "measuredValues": {
+    "realObjectsMeasured": 0,
+    "footprintModelsSpecified": 0,
+    "deduplicationCasesConsidered": 0
+   },
+   "measuredBoundary": "0 real objects measured. The size demand is exact over a declared byte length and says nothing about physical occupancy.",
+   "relationToThePredecessor": "the same class as RT23-B-RES-03: read-time semantics are specified and no storage engine is demonstrated."
+  },
+  {
+   "id": "RT25-RES-04",
+   "statement": "The shipping-product evidence is recorded from an investigation this artifact did not perform and did not re-run.",
+   "measuredValues": {
+    "productClaimsRecorded": 7,
+    "productClaimsReMeasuredHere": 0,
+    "adoptionsWithAnIndependentCorpusJustification": 5,
+    "adoptionsRestingOnlyOnProductEvidence": 0
+   },
+   "measuredBoundary": "7 recorded claims about the other codebase, 0 re-measured. 5 of 5 adoptions carry a justification from this corpus that stands without them."
+  },
+  {
+   "id": "RT25-RES-05",
+   "statement": "The Part A repairs are derived from one rule — every ABSENT row behaves as the corresponding PRESENT-DURABLE_RETAINED row — and were located by reading v24's own tables. No instrument confirmed that the 2 changed cells and 4 changed outcomes are ALL the places that branch on absence rather than on posture.",
+   "measuredValues": {
+    "decisionTableCells": 12,
+    "cellsFoundChanged": 2,
+    "interactionOutcomes": 7,
+    "outcomesFoundChanged": 4,
+    "partASurfacesSearchedByInstrument": 0
+   },
+   "measuredBoundary": "12 cells and 7 outcomes read by hand; 0 surfaces searched mechanically. A Part A surface that branches on absence somewhere this artifact did not look would be missed, and the by-reference inheritance means it would stay missed.",
+   "howItWouldClose": "a checker walking v24's Part A for every site that tests policy presence, and comparing that set against the 6 sites repaired here."
+  }
+ ],
+ "newResidualCount": 5,
+ "declaredDependencies": [
+  {
+   "id": "DEP-RT25-01",
+   "need": "a per-raw-object admission time",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNeeded": "the time dimension of the recorded bounds intent cannot be evaluated without one",
+   "whyItIsNotSuppliedHere": "AvailabilityTransitionV1 has exactly seven ordered fields and none is a time. Adding one changes an independently verified record shape, which section 7.2 forbids doing in place. No other reviewed surface carries a per-object admission time.",
+   "whyAtSequenceIsNotASubstitute": "atSequence is ordinal, not temporal. A hundred events may span a minute or a year. Reading it as an age would be a lie with the shape of a measurement.",
+   "whyMtimeIsNotASubstitute": "filesystem mtime is not durable state under this corpus's rules: it is rewritten by restore, copy and backup tooling, and the host is the sole durable-state authority.",
+   "consequenceUntilResolved": "maxAgeSeconds must be 0; any other value is refused at admission by PC-V-09. The time dimension is specified and unusable.",
+   "whatIsNotBlocked": "count, which the shipping product reports as primary, and size are both usable today.",
+   "ownedBy": "whoever owns the availability ledger record shape"
+  },
+  {
+   "id": "DEP-RT25-02",
+   "need": "a disposition for purge caused by a posture change from DURABLE_RETAINED to EPHEMERAL_ONLY",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNotAnsweredHere": "whether opting out of durable retention deletes evidence already retained is a product question adjacent to CD-RT-5, which remains BLOCKED_ON_PHASE_1A",
+   "urgencyRaisedByThePostureDecision": "under durable-by-default every project begins DURABLE_RETAINED, so the first EPHEMERAL_ONLY answer will routinely arrive after durable evidence already exists. This moves from an edge case to the common path.",
+   "consequenceUntilResolved": "that case has no cause member; the closed partition covers bound-driven and user-requested purges only",
+   "ownedBy": "the product authority"
+  },
+  {
+   "id": "DEP-RT25-03",
+   "need": "a global disk ceiling across projects, if one is wanted",
+   "state": "DECLARED-UNRESOLVED-AND-STRUCTURALLY-BLOCKED",
+   "whyItIsNotSuppliedHere": "it is unrepresentable under freeze law 8's one-ledger-per-ProjectId rule and the existing forbidden input ledgerSequenceOfAnyOtherProject",
+   "consequenceUntilResolved": "N projects each capped at maxTotalBytes M can occupy N*M, and N unconfigured projects occupy an unbounded total under durable-and-unbounded-by-default",
+   "whatResolvingItWouldRequire": "a cross-project authority that does not exist in this corpus, and a decision about whether one project's retention may be shortened by another project's growth",
+   "ownedBy": "unassigned"
+  },
+  {
+   "id": "DEP-RT25-04",
+   "need": "cause vocabularies for the OUTAGE, MISSING-DEPENDENCY and AVAILABLE partitions",
+   "state": "DECLARED-UNRESOLVED-DELIBERATELY",
+   "whyItIsNotSuppliedHere": "no product intent stands behind them and inventing a closed enum is far harder to undo than leaving one open",
+   "consequenceUntilResolved": "cause is admitted as an exact-typed string in those partitions and its value set is not constrained",
+   "ownedBy": "whoever owns the availability ledger record shape"
+  },
+  {
+   "id": "DEP-RT25-05",
+   "need": "a sizing or compaction answer for unbounded availability-ledger growth",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNotSuppliedHere": "compaction requires deciding what may be forgotten, which is the tombstone-survival question the recorded intent answers no to",
+   "consequenceUntilResolved": "maxTotalBytes bounds the object store and not the project footprint; the ledger grows monotonically and forever under sustained sweeping",
+   "ownedBy": "the product authority, since it is a consequence of the tombstone decision rather than a defect in the mechanism"
+  },
+  {
+   "id": "DEP-RT25-06",
+   "need": "an independent review of these bytes, and a retained checker",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNotSuppliedHere": "an artifact cannot review itself and the authoring instruction was to write exactly one file",
+   "consequenceUntilResolved": "this candidate binds nothing and has no standing; see RT25-RES-01",
+   "ownedBy": "an independent reviewer"
+  },
+  {
+   "id": "DEP-RT25-07",
+   "need": "an accepted position on durable evidence written before anyone is asked, especially in CI",
+   "state": "DECLARED-UNRESOLVED-BUT-ACCEPTED-IN-PRINCIPLE",
+   "whyItIsNotAnsweredHere": "the product authority has accepted the consequence in general terms — the tool writes analysis evidence into a user's project before that user has been asked, stated as intended behaviour — but CI is the profile where the provenance can never become CONSENTED by any path, and that specific case was not put separately",
+   "whatWouldChangeIfItWereRevisited": "only the CI cell. The local-interactive cell reaches an ask on the first durable run; the CI cell never does.",
+   "consequenceUntilResolved": "CI writes durable evidence with provenance DEFAULTED indefinitely",
+   "ownedBy": "the product authority"
+  },
+  {
+   "id": "DEP-RT25-08",
+   "need": "recomputed D9 terminations for the four changed dismissal outcomes",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNotSuppliedHere": "v24's rule is that every class, code and exit is derived from the pinned D9 v1.14 reference derivation and none is authored; running it requires a checker and this artifact retains none",
+   "outcomesAffected": 4,
+   "outcomesRecomputed": 0,
+   "consequenceUntilResolved": "the four dismissal outcomes carry the predecessor's request-rejected / 2 / REQUEST.UNSATISFIABLE values, which no longer describe them",
+   "ownedBy": "the successor that retains a checker"
+  },
+  {
+   "id": "DEP-RT25-09",
+   "need": "a decision on whether SIGINT during the retention ask abandons the run or proceeds under the default",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItIsNotAnsweredHere": "the recorded intent says a dismissal no longer refuses; it does not say an interrupt is a dismissal. Treating Ctrl-C as consent to proceed durably is surprising enough to be decided rather than inherited from a general rule.",
+   "secondOrderEffect": "v24's RT24-A-RES-03 records that the SIGINT exit code is derived on the premise that a dismissal rejects admission. If dismissal no longer rejects, that premise moves.",
+   "ownedBy": "the product authority for the behaviour, and a checker-retaining successor for the derivation"
+  },
+  {
+   "id": "DEP-RT25-10",
+   "need": "whether a project with a defaulted posture may configure bounds",
+   "state": "DECLARED-UNRESOLVED",
+   "whyItArises": "a bounds record must name a persisted retentionPolicyId, and a defaulted posture persists no policy, so the default configuration cannot be bounded until someone answers the retention question",
+   "whyItPointsTheWrongWay": "the configuration most in need of a cap — durable, unbounded, unasked — is the one that cannot have one",
+   "theAlternativeNotChosenHere": "letting bounds name a projectId rather than a policy identity, which would fix it and would also allow configuration to exist with no consent record behind it",
+   "ownedBy": "an independent reviewer, then the product authority if the tradeoff is real"
+  }
+ ],
+ "declaredDependencyCount": 10,
+ "corpusResiduals": [
+  {
+   "id": "RT25-RES-CORPUS-01",
+   "statement": "This candidate is unreviewed at its own head, NOT-APPLIED, and retains no instrument. It is strictly weaker than its predecessor in evidential grade.",
+   "measuredValues": {
+    "recordedInputs": 15,
+    "inputsActuallyGated": 0,
+    "independentReviewsOfThisArtifact": 0,
+    "retainedCheckers": 0,
+    "predecessorRetainedCheckers": 1,
+    "predecessorHardPinnedInputs": 37
+   },
+   "measuredBoundary": "15 inputs recorded with a digest and 0 gated, because gating requires a checker and there is none."
+  },
+  {
+   "id": "RT25-RES-CORPUS-02",
+   "statement": "The leaf census published here is a statement about this artifact's own emitted bytes under one walk. It is not a mutation sweep: no leaf was respelled as a float, a boolean or a numeric string and re-admitted, because no instrument exists to admit it.",
+   "measuredValues": {
+    "censusWalksPerformed": 1,
+    "mutationArmsRun": 0,
+    "predecessorMutationArmsRun": 3
+   },
+   "measuredBoundary": "1 census walk over the written bytes, 0 mutation arms. The predecessor ran 3 arms over 485 int and bool leaf positions."
+  },
+  {
+   "id": "RT25-RES-CORPUS-03",
+   "statement": "V10 item 3 was discharged by an independent review of retention-tiers.v23's bytes and carried by v24, bound to the digests those reviews recorded. These bytes are not those bytes. This artifact does not carry Part B byte-identically at all — it inherits by reference and proposes two changes to it — so it has strictly less claim to that discharge than v24 had.",
+   "measuredValues": {
+    "independentReviewsOfTheseBytes": 0,
+    "partBSurfacesProposedForChange": 2,
+    "partBSurfacesLeftUnchanged": 18
+   },
+   "measuredBoundary": "0 independent reviews of these bytes. 2 Part B surfaces proposed for change against 18 explicitly named as unchanged."
+  },
+  {
+   "id": "RT25-RES-CORPUS-04",
+   "statement": "This artifact reads product intent recorded conversationally on 2026-08-05 and designs against it. If that record is inaccurate, the design is aimed at the wrong shape. Nothing here verifies that the recorded intent is what the product owner meant, and no mechanism in this corpus could. The posture clause in particular reverses a standing architectural recommendation, so an inaccurate record would be expensive rather than merely wrong.",
+   "measuredValues": {
+    "intentClausesRecorded": 2,
+    "intentClausesConstitutedAsDecisions": 0,
+    "productPacketAmendments": 0,
+    "amendmentDraftsApplied": 0,
+    "architecturalRecommendationsOverridden": 1
+   },
+   "measuredBoundary": "2 recorded intent clauses, 0 constituted as decisions, 0 amendments to product-dispositions.v1.json, 0 drafts applied, 1 standing architectural recommendation recorded as overridden."
+  }
+ ],
+ "v10Item3Position": {
+  "item": 3,
+  "obligationVerbatim": "State how purge changes current evidence availability without rewriting the sealed Run",
+  "statusPerTheFreeze": "DISCHARGES on retention-tiers.v24, per IMPLEMENTATION-FREEZE.md section 4.6",
+  "claimedStatusForTheseBytes": "NO CLAIM MADE",
+  "whyNoClaimIsMade": "The discharge is the predecessor's, bound to the predecessor's digests. This artifact does not re-derive item 3, does not re-run its verification, and is unreviewed. It extends the mechanism the discharge was granted over, which is a reason for a reviewer to check the discharge is not disturbed, not a reason to claim it again.",
+  "whatThisArtifactAsksAReviewerToCheck": [
+   "that adding triggers to the PURGED transition disturbs no property of effective_capability",
+   "that closing the cause partition does not breach P5-CAUSE-BLIND, in the extended within-state form",
+   "that adding cause to forbiddenInputs is monotone in the safe direction",
+   "that the sweep introduces no new mutation, so purgeMutationBoundary is untouched",
+   "that the posture decision touches Part B nowhere at all, as this artifact claims"
+  ],
+  "notClaimed": [
+   "DISCHARGED on these bytes.",
+   "That V10 as a whole is resolved; items 1 and 2 are untouched by this artifact.",
+   "That CD-RT-5 is unblocked, answerable, or answered.",
+   "That any implementation exists.",
+   "That the recorded product intent of 2026-08-05 is a decision.",
+   "That the prepared CD-RT-5 amendment draft has been or may be applied by this artifact."
+  ],
+  "statusChangesMadeByThisArtifact": "NONE"
+ },
+ "leafCensus": {
+  "scope": "every scalar leaf of retention-tiers.v25.json, re-walked from the bytes written to disk after the write, never from the in-memory object that produced them",
+  "method": "a recursive walk descending dicts and lists. bool is tested BEFORE int, because in Python bool is a subclass of int and testing int first would silently classify every boolean as an integer. That mis-ordering is the same exact-type class freeze section 6 law 18 exists to prevent, applied to the census instrument itself.",
+  "walkedFrom": "WRITTEN-BYTES",
+  "reParsedWithDuplicateKeyRejectingHook": true,
+  "scalarLeafPositions": 1416,
+  "nonStringLeafPositions": 381,
+  "intLeafPositions": 196,
+  "floatLeafPositions": 1,
+  "boolLeafPositions": 184,
+  "nullLeafPositions": 0,
+  "stringLeafPositions": 1035,
+  "censusIncludesItsOwnIntegers": true,
+  "whyThatMatters": "The census block's own values are integer leaves and are counted. Two artifacts in this corpus published a census taken before assembly finished; one undercounted by exactly the size of its own self-report. The count here is iterated to a fixed point: injecting the census changes the values of its integers, never how many there are, so a second serialisation converges and the published numbers describe the bytes that carry them.",
+  "fixedPointReached": true,
+  "floatLeafPaths": [
+   "$.partC_retentionBounds.vectors.rows[6].bounds.keepCount"
+  ],
+  "nullLeafPaths": [],
+  "everyFloatIsDeliberate": true,
+  "whyThereIsExactlyOneFloat": "PC-V-07-EXACT-TYPE-FLOAT is the law 18 negative control for a float admitted where an integer is required. Its payload MUST be spelled as a JSON float, because a control that spelled 200.0 as the integer 200 would not be a control at all. An earlier draft of this census asserted that floats were deliberately absent while the walk measured one; that claim was false on the artifact's own bytes and was the same class of defect as v23's Part A blocker, so it was replaced with the measured path list above.",
+  "whyThereAreNoNulls": "measured, not asserted: the null path list above is empty. No leaf in this artifact is null, so no admission comparison here can confuse null with absence.",
+  "booleanLeavesUsedAsWireValues": [
+   "$.partC_retentionBounds.vectors.rows[5].bounds.keepCount is the boolean payload of PC-V-06-EXACT-TYPE-BOOL and is deliberately a JSON boolean for the same reason the float above is a float. Every other boolean leaf in this artifact is an ordinary declarative flag."
+  ],
+  "exactTypeRule": "Where this artifact declares a wire contract — ProjectRetentionBoundsV1's six closed scalars, AvailabilityTransitionV1.cause, posture and provenance — the contract states exact-type admission before content comparison, per freeze section 6 law 18. The three deliberate type-variant leaves above are the negative controls for that rule and are the only non-integer, non-boolean-flag scalars in the file.",
+  "whatThisCensusDoesNotClaim": "It is not a mutation sweep. No leaf was respelled and re-admitted, because this artifact retains no instrument that could admit it. String leaves carrying prose are counted and not otherwise guarded. See RT25-RES-CORPUS-02."
+ },
+ "freezeDeclaration": {
+  "rule": "IMPLEMENTATION-FREEZE.md#7.2.1",
+  "state": "FROZEN-AT-AUTHORING",
+  "frozenArtifacts": [
+   "retention-tiers.v25.json"
+  ],
+  "frozenArtifactCount": 1,
+  "statement": "This file is frozen as of the SHA-256 digest its author reports alongside it. Continuing work belongs in a successor, not in these bytes. A reviewer must re-hash it before finalising; a mismatch is a re-baseline and is recorded in the review as a fact about that review's conditions, not absorbed by re-running.",
+  "whyTheDigestIsNotCarriedHere": "An artifact cannot carry its own digest without changing it. The digest is reported out of band by the author and is recomputable from disk by anyone.",
+  "constitutesASealOrSignature": false,
+  "changesAnyStatus": false,
+  "changesAnyOtherArtifact": false,
+  "filesEdited": 0,
+  "filesCreated": 1,
+  "whatItIsNot": "Not a seal, not a signature, not an application, not a product decision and not a status change. sealRecommendation remains DO-NOT-SEAL, status remains CANDIDATE-NOT-APPLIED/AWAITING-INDEPENDENT-REVIEW, CD-RT-5 remains BLOCKED_ON_PHASE_1A and durableDefault remains UNSELECTED in the binding packet.",
+  "filesExplicitlyNotTouched": [
+   "artifacts/retention-tiers.v24.json",
+   "artifacts/check-retention-custody-v23.py",
+   "artifacts/check-retention-custody-v24.py",
+   "IMPLEMENTATION-FREEZE.md",
+   "IMPLEMENTER-BLUEPRINT.md",
+   "artifacts/product-dispositions.v1.json",
+   "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json",
+   "artifacts/claim-register.v1.json",
+   "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md"
+  ],
+  "unsetFieldsTouched": 0,
+  "whyTheFreezeAndTheCheckersAreNotTouched": "check-retention-custody-v23.py and check-retention-custody-v24.py each carry FREEZE_ANCHORS: verbatim excerpts of IMPLEMENTATION-FREEZE.md compared against the live file on every run. Editing the freeze breaks both checkers, and both must keep exiting 0. Freeze section 7.7 records the adjacent hazard, that narrative prose in these documents is load-bearing for claim status."
+ }
+}

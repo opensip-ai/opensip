@@ -1,0 +1,571 @@
+{
+ "artifact": "delivery.v4.review-independent.json",
+ "surface": "DELIVERY",
+ "date": "2026-08-04",
+ "role": "INDEPENDENT ADVERSARIAL REVIEW OF A PAIR: the candidate artifact artifacts/delivery.v4.json AND the companion instrument artifacts/check-delivery-v4.py written beside it by the same lane. The pairing is the subject. This reviewer shares no code with either and re-implemented CVE1, PLAN-ID-V1, CAP-MANIFEST-ID-V1 and all four admission gates from the prose of resolved-inputs.v2 before comparing a single published value.",
+ "status": "REVIEW",
+ "applicationState": "NOT APPLIED",
+ "binds": "NOTHING",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "headRepointing": "NONE. DELIVERY's head remains delivery.v2.json. This review closes no row, repoints no head, changes no status, disposition, verdict or seal, and leaves CD-RT-5 at BLOCKED_ON_PHASE_1A.",
+ "subjectsRehashedAndDeclared": {
+  "rule": "IMPLEMENTATION-FREEZE.md section 7.2.1. Every digest below was measured by this reviewer with hashlib and hard-compared against shasum -a 256. No digest supplied to this reviewer was trusted without measurement.",
+  "artifacts/delivery.v4.json": {
+   "declaredToMe": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121",
+   "measuredByMe": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121",
+   "agrees": true,
+   "byteLength": 220882
+  },
+  "artifacts/check-delivery-v4.py": {
+   "declaredToMe": "c422c2f168ffd95921d46eef593857e2613120796ae6f16db72a27e1646e6d3d",
+   "measuredByMe": "c422c2f168ffd95921d46eef593857e2613120796ae6f16db72a27e1646e6d3d",
+   "agrees": true,
+   "byteLength": 79129
+  },
+  "artifacts/delivery.v2.json": {
+   "measuredByMe": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+   "role": "the binding predecessor and derivation base",
+   "untouchedByThisReview": true
+  },
+  "artifacts/delivery.v3.json": {
+   "measuredByMe": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d",
+   "role": "the REJECTED candidate this artifact repairs"
+  },
+  "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md": {
+   "measuredByMe": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "confirmedUnchangedAndNEVERTOUCHED": true
+  }
+ },
+ "verdict": "ACCEPT AS A CANDIDATE -- NO BLOCKERS AGAINST THE ARTIFACT. Blocker IR-V3-B1 is REPAIRED and the repair is a sound property, not an exemption: independently reproduced at 4-of-4 admitted under the repaired reading against 0-of-4 under delivery.v3's literal catch-all, with the word `relations` absent from the property. Every published value this reviewer could recompute -- all seven committed vectors' byte strings, byte lengths, committed-byte SHA-256s and capabilityManifestIds; both pinned PLAN-ID-V1 goldens; all three derived PlanIds with their differing-byte counts and spans; every negative control's minted value; the fourteen-position scalar census; the leaf census including its 108-element integerLeafPaths list; and the 21-operation derivation against delivery.v2 -- reproduced EXACTLY, with an encoder written from the prose and sharing no code with the subject's. The four live capabilityManifestIds and PID-D1/D2/D3 are byte-identical to delivery.v3's, as claimed. SEPARATELY, the companion instrument is REJECTED FOR REPAIR: see instrumentAssessment. A green run of check-delivery-v4.py is NOT evidence for this verdict and was not used as such; the verdict rests on this reviewer's own recomputation.",
+ "blockers": [],
+ "blockerCount": 0,
+ "whyZEROANDNOTONE": "This reviewer looked hard for a blocker and records the strongest candidate it found -- OBS-1, the artifact's overstatement of what its retained instrument verifies -- as NON-BLOCKING rather than blocking, for a reason of CALIBRATION that is stated so a later reader can overrule it. The independent review of delivery.v3 graded TWO evidentiary overclaims NON-BLOCKING (the `dispositive` over-recording of the ordering ruling's leg 4, and DL-INJ-1's claim to find the third channel) and reserved BLOCKER for the one defect that made the artifact's own stated property refuse 100 per cent of its live data. OBS-1 is of the first species, not the second: DL-DOM-1 is sound, the census 6 + 8 = 14 is CORRECT (re-derived here from the three record key sets, independently of both the artifact and the checker), every published registry membership is CORRECT against live bytes, and no id moves. Grading it a blocker would apply a stricter standard to this document than its predecessor's review applied to delivery.v3.",
+ "adjudications": {
+  "item1_theBlockerRepairAsAProperty": {
+   "question": "Reproduce the DL-CLOSED-1 repair and NEG-CLOSED-3, and try to find a reachable object the new property still misclassifies.",
+   "grade": "REPAIRED -- REPRODUCED IN FULL, NO MISCLASSIFICATION FOUND",
+   "whatIMeasured": {
+    "v3sTextQuotedFromLiveBytes": "EVERY JSON OBJECT REACHABLE FROM A COMMITTED CapabilityManifestV1 IS CLOSED: the record itself, every element of every declared collection, every value of every declared map, and every object a later successor adds at any depth carries EXACTLY its declared key set, each key exactly once, with no undeclared member. A reachable object type that declares no key set is a schema defect and is inadmissible until it declares one.",
+    "theDefectConfirmed": "the enumeration reaches a declared map's VALUES (which for ProviderCapability.relations are scalars, so it never bites) while the catch-all reaches the MAP itself, which declares no key set. Read literally, every ProviderCapability is inadmissible.",
+    "admittedUnderV3sLiteralCatchAll": 0,
+    "admittedUnderTheRepairedProperty": 4,
+    "outOf": 4,
+    "howIExecutedIt": "I implemented BOTH readings myself and ran them over the four live committed manifests canonicalised from delivery.v2#installProfiles. The catch-all reading refuses all four at ProviderCapability.relations; the repaired reading admits all four with an empty violation list.",
+    "relationsKeySetSizes": [
+     6,
+     7,
+     11
+    ],
+    "distinctRelationsKeySets": 3,
+    "perProviderMeasuredIndependently": [
+     [
+      "core",
+      "syntax-all",
+      11
+     ],
+     [
+      "typescript-deep",
+      "syntax-all",
+      7
+     ],
+     [
+      "typescript-deep",
+      "typescript-semantic",
+      6
+     ],
+     [
+      "rust-deep",
+      "syntax-all",
+      7
+     ],
+     [
+      "rust-deep",
+      "rust-semantic",
+      6
+     ],
+     [
+      "full",
+      "syntax-all",
+      7
+     ],
+     [
+      "full",
+      "typescript-semantic",
+      6
+     ],
+     [
+      "full",
+      "rust-semantic",
+      6
+     ]
+    ],
+    "andTHETWOSIZESIXSETSARETHESAMESET": "MEASURED: typescript-semantic and rust-semantic carry an IDENTICAL six-key set, which is why THREE distinct sets have sizes [6, 7, 11] and not four. The artifact's wording 'three DIFFERENT key sets ... of sizes [6, 7, 11]' is exactly right and is not a loose count.",
+    "theWordRelationsInTheProperty": "MEASURED ABSENT, case-insensitively, from the whole of DL-CLOSED-1. The repair is a property and not an exemption, as claimed."
+   },
+   "myAttemptToBREAKTHEPROPERTY": {
+    "whatITried": [
+     "an empty relations map {} -- classified MAP, closes nothing, ADMITTED. Correct.",
+     "a relations map whose value is an OBJECT rather than a scalar -- the property's recursive clause makes it an undeclared object type and therefore inadmissible; ADM-TYPE also refuses it. Two independent refusals, consistent, no misclassification.",
+     "a ProviderCapability with empty relations AND empty platformIds -- ADMITTED, correctly, since neither collection is required to be non-empty by any rule.",
+     "every one of the four reachable object types against the RECORD/MAP trichotomy -- all four are classified, none falls in the 'declares neither' defect class."
+    ],
+    "result": "NO reachable object type is misclassified by the repaired property on today's schema, and the property states the rule a successor must follow rather than enumerating today's answer."
+   }
+  },
+  "item2_noDigestMoved": {
+   "question": "Verify with your own encoder that no live id moved.",
+   "grade": "CONFIRMED -- ALL SEVEN IDS AND ALL THREE PlanIds REPRODUCED BYTE-EXACTLY",
+   "myEncoder": "written from resolved-inputs.v2#planIdContract.canonicalValueEncoding prose alone, sharing no code with check-delivery-v4.py or with the artifact. Independent CVE1 encoder, CVE1 decoder, four admission gates, canonicaliser, and a PLAN-ID-V1 preimage framer.",
+   "liveIdsUNCHANGEDfromDeliveryV3": {
+    "DCM-1-core": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+    "DCM-2-typescript-deep": "9d8c187c6cf67e2e47c1b14c5f9e8faa230e2726a56b4dc6030d9fbe4ceca32b",
+    "DCM-3-rust-deep": "a0e6562e43a8d5c0edfdbb83a04da2fbb18cb4e69ec2e9faf4530b298828759e",
+    "DCM-4-full": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58",
+    "allFourMatchDeliveryV3sPublishedValues": true,
+    "andIRecomputedThemFromDeliveryV2sLIVEBytes": true
+   },
+   "alsoReproduced": {
+    "committedByteLengths": [
+     1129,
+     1211,
+     1193,
+     1395,
+     410,
+     490,
+     303
+    ],
+    "committedBytesSha256AllSeven": "MATCHED",
+    "committedBytesHexAllSeven": "MATCHED character for character",
+    "completeAuthoringFormViolationLists": "MATCHED as ORDERED LISTS, not merely as counts, in the declared traversal order of admission.traversalOrder: 5, 2, 3, 1 for the four live vectors and 1 each for DCM-5 and DCM-6. The artifact's claim that these are COMPLETE and not FIRST is true.",
+    "literalRoundTrip": "decode(encode(x)) == x holds value-exactly on all 7 of 7 committed vectors under my own decoder.",
+    "DCM-6-encodedByteSortWouldMint": "9572717cd792f595110d6b3c11cce03accbe3dc37dc76b2d50e33d7748275fc4 -- reproduced; the encoded-item-byte sort is length-major and orders ['b','aa'], as claimed.",
+    "DCM-7-empty-collection": "coverageForAbsent encodes as 05 00000000, PRESENT and never omitted. Confirmed in the hex."
+   },
+   "planIds": {
+    "pinnedGoldenMinimal": {
+     "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+     "preimageBytes": 2500,
+     "reproducedByMe": true
+    },
+    "pinnedGoldenFullProviders": {
+     "planId": "plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401",
+     "preimageBytes": 8208,
+     "reproducedByMe": true,
+     "andTHEC2AMBIGUITYISIMMATERIAL": "I materialised this vector through check-resolved-inputs.py::_materialize_plan_vector under BOTH c2-plan-stage-schema.v3.json and c2-plan-stage-schema.v4.json. The materialised PlanDescriptorV1 records are IDENTICAL and both give an 8208-byte preimage and the pinned PlanId. The artifact's claim on this point is confirmed."
+    },
+    "PID-D1": {
+     "planId": "plan1:sha256:83f5fc2075340b4a12f8a8b9102a22d2b0560c53a3e79aafd8062b5a9cf8d29c",
+     "preimageBytes": 2500,
+     "differingBytePositions": 60,
+     "differingSpan": [
+      161,
+      224
+     ],
+     "reproducedByMe": true
+    },
+    "PID-D2": {
+     "planId": "plan1:sha256:686c1bd14eea5ecd70374cd3ec9c5448ebd3a4cc82d1779c9eace4ba0f047302",
+     "preimageBytes": 8208,
+     "differingBytePositions": 183,
+     "differingSpan": [
+      161,
+      5280
+     ],
+     "reproducedByMe": true
+    },
+    "PID-D3": {
+     "planId": "plan1:sha256:506c81af34071c6f88e6ff9eda41bd3d2e2fc03b10d92fed65e35d2ff3295e51",
+     "preimageBytes": 8208,
+     "differingBytePositions": 61,
+     "differingSpan": [
+      161,
+      224
+     ],
+     "reproducedByMe": true
+    },
+    "allThreeMatchDeliveryV3sPublishedValues": true
+   }
+  },
+  "item3_theLaw2Regrounding": {
+   "question": "Verify the quote is character-exact and the entailment now holds.",
+   "grade": "CONFIRMED -- QUOTE EXACT MODULO LINE WRAPPING, ENTAILMENT HOLDS",
+   "theQuoteAsPublished": "Resolution uses neutralise/key/forbid. Only declared analysis inputs may affect `PlanId`; CI does not read layer 4.",
+   "howIChecked": "I normalised ALL whitespace in the live IMPLEMENTATION-FREEZE.md and in the quotation before comparing, because line wrapping produced false 'absent' results twice in this session (freeze section 7.7). Under raw byte search the quotation is ABSENT; under whitespace-normalised search it is PRESENT, exactly once, at section 6 law 2. The artifact says so itself and edits nothing. Reporting 'absent' here would have been the third false negative of the session.",
+   "andITISTHEFIRSTTWOSENTENCES": "CONFIRMED against the live bytes. Law 2 continues 'Layer 4 is the **untracked local override** layer; it and the other five configuration precedence layers are defined at the end of section 5.' -- which is the clause section 7.7 records as added on 2026-08-04, the edit that took check-retention-custody-v24.py from exit 0 to exit 1. The artifact quotes the first two sentences and stops, which is precisely the anchored text.",
+   "theEntailment": {
+    "premise1": "capabilityManifestId is a PLAN-ID-V1 preimage field. VERIFIED against resolved-inputs.v2#planIdContract.preimageFields: tag 3 is named `release` with shape 'closed map {manifestId, capabilityManifestId, profileId}'.",
+    "premise2": "under the SEQUENCE reading, a release builder's JSON array emission order changes CVE1 bytes, therefore changes capabilityManifestId, therefore changes PlanId.",
+    "premise3": "a release builder's JSON emission order is a declared analysis input of NOTHING. I checked: it is named in no artifact, resolved by no configuration layer, and appears in no preimage field or descriptor. resolved-inputs.v2#planIdContract.keyedInputBindings does not contain it.",
+    "conclusion": "law 2's 'Only declared analysis inputs may affect `PlanId`' forbids it DIRECTLY. THE ENTAILMENT HOLDS. This is a genuine improvement over delivery.v3's ground and not a relabelling."
+   },
+   "theDemotionIsCorrect": "delivery.v3 grounded the leg on predicateRelativeFacts, whose live text I read: 'No global fact tier, provider tier, or profile rank is a PlanId field. ... semanticUniverses identify providers without ordering their fact sufficiency globally.' The prior review's ruling that a SERIALISATION ORDER is not a TIER or RANK is correct, and this artifact accepts it without argument and demotes the citation to supporting. Correct handling.",
+   "andTHEMEASUREMENTABOUTV3ISTRUE": "MEASURED on delivery.v3's live bytes: it cites 'section 6 law' 3 (x2), 4, 6, 17, 18 (x3) and 19 (x6), and cites law 2 ZERO times. The artifact's claim is exact."
+  },
+  "item4_theDomainCensusAndTheFourthGate": {
+   "question": "Re-derive the census. Is 14 the true count? Is any OPEN declaration hiding a position that should be bound? Rule on providerId.",
+   "grade": "CENSUS CONFIRMED EXHAUSTIVE AND CORRECT; providerId OPEN IS DEFENSIBLE",
+   "howIREDERIVEDIT": "NOT by reading the artifact's list and NOT by reading the checker's constants. I took the three record key sets from delivery.v2#capabilityManifestSchema -- CapabilityManifestV1 {schemaVersion, profile, providers, coverageForAbsent}, ProviderCapability {providerId, language, providerVersionSource, toolchainIdentitySource, relations, platformIds}, AbsentCapability {providerId, language, relationIds, coverageState, deficiency} -- and counted the scalar type-positions each contributes.",
+   "myDerivation": {
+    "CapabilityManifestV1": {
+     "scalarPositions": 2,
+     "which": [
+      "schemaVersion",
+      "profile"
+     ],
+     "note": "providers and coverageForAbsent are collections of records, not scalars"
+    },
+    "ProviderCapability": {
+     "scalarPositions": 7,
+     "which": [
+      "providerId",
+      "language",
+      "providerVersionSource",
+      "toolchainIdentitySource",
+      "platformIds[]",
+      "relations key",
+      "relations value"
+     ]
+    },
+    "AbsentCapability": {
+     "scalarPositions": 5,
+     "which": [
+      "providerId",
+      "language",
+      "coverageState",
+      "deficiency",
+      "relationIds[]"
+     ]
+    },
+    "total": 14,
+    "matchesTheArtifact": true,
+    "boundMeasured": 6,
+    "openMeasured": 8,
+    "andTHEOBJECTCENSUSTOO": "4 reachable object types, 3 RECORDS and 1 MAP, matching selfMeasurement exactly."
+   },
+   "isAnyOPENDeclarationHidingABoundPosition": {
+    "answer": "NO. I checked each of the eight against the live corpus for an existing registry and found none that constrains it as a capability-manifest scalar.",
+    "theTWOWORTHRECORDING": [
+     "CapabilityManifestV1.profile is declared OPEN 'as a registry' while DL-CUST-3 fixes it to the owning ProfileEntry's profileId. That is an honest and useful distinction, not a hidden binding: the constraint is a release-time join, not a value domain, and the artifact says exactly that.",
+     "CapabilityManifestV1.schemaVersion is OPEN with only the live value 1. A type named CapabilityManifestV1 arguably fixes its own schemaVersion to 1, and no artifact says so. This is NOT an injectivity channel -- two manifests differing in schemaVersion are different data and correctly mint different ids -- so it is recorded as a nit at OBS-6, not as a hidden binding."
+    ]
+   },
+   "theProviderIdRuling": {
+    "ruling": "DEFENSIBLE, AND CORRECTLY DECLARED. I do not ask for it to be closed.",
+    "whatIMeasuredFirst": {
+     "liveProviderIdValues": [
+      "rust-semantic",
+      "syntax-all",
+      "typescript-semantic"
+     ],
+     "itIsIndeedASortKey": "declaredSortKeys binds BOTH CapabilityManifestV1.providers and CapabilityManifestV1.coverageForAbsent to providerId, unique.",
+     "theConcreteCost": "CONSTRUCTED AND MEASURED. A manifest carrying BOTH 'syntax-all' and 'Syntax-All' as separate providers passes all four gates: 'Syntax-All' (0x53) sorts before 'syntax-all' (0x73), so strict ascent holds. The manifest names one provider twice in a way a reader would call the same provider, and mints one id for it. A case-variant PAIR of manifests mints two ids.",
+     "soTHEGUARANTEEISBYTELEVEL": "DL-ORD-1's 'strict ascent makes an exact duplicate unrepresentable' is a BYTE-level uniqueness guarantee, not an IDENTITY-level one, and it is only as strong as the key's domain. That is worth a reader knowing."
+    },
+    "whyITISSTILLDEFENSIBLE": [
+     "No registry of capability-manifest provider identifiers exists anywhere in this corpus. I looked.",
+     "Inventing one would invent an upstream input, which is the discipline this lineage is built on, and provider identity is a FACT-PLANE or DELIVERY-product question rather than a wire-format one -- section 6 law 19 governs who may mint it.",
+     "Binding it would be the delivery.v3 failure mode in mirror image: a rule with no live witness, or one that refuses live data.",
+     "It is DECLARED, twice, and specifically: DL-DOM-1's declaredOPEN names it, and DUD-V4-8 names it AS A SORT KEY and states the exact consequence in the artifact's own words -- 'a case variant there is a second spelling of what a reader would call the same provider'. The artifact reached this reviewer's finding before this reviewer did.",
+     "That declaration IS the change from the predecessors. In delivery.v2 and delivery.v3 the position was silent, which is how the platformIds channel survived two reviews."
+    ],
+    "theONESENTENCEIWOULDNARROW": "declaredOPEN says of ProviderCapability.providerId: 'OPEN. No provider registry exists in this corpus.' That is slightly too absolute. resolved-inputs.v2#planIdContract.semanticUniverseSchemas selects its two provider schemas by 'semanticUniverses[].providerId=typescript-semantic' and '=rust-semantic' -- a partial, position-specific vocabulary for SEMANTIC providers. It does not cover the live value 'syntax-all', it binds a RESOLVED-INPUTS field rather than a DELIVERY one, and importing it would both forbid live data and cross a law-19 boundary. So the CHOICE is right and only the justification is over-absolute. Recorded at OBS-4, non-blocking."
+   }
+  },
+  "item5_theHonestBoundAndTheFourthChannel": {
+   "question": "Verify the silence claim by construction, then try to find a fourth channel neither the equation nor DL-DOM-1 catches.",
+   "grade": "SILENCE CLAIM CONFIRMED BY CONSTRUCTION; A FOURTH CHANNEL EXISTS AND THE ARTIFACT ALREADY DISCLOSES IT",
+   "theSilenceClaimVerified": {
+    "construction": "x1 = DCM-7-empty-collection with platformIds ['all-supported']; x2 = identical with ['ALL-SUPPORTED']. Built and run through my own encoder and decoder.",
+    "idOfX1": "0ff319483f20c5693b8830d2061b5db731e951b991b56834dd9a82394a53e586",
+    "idOfX2": "c884fab408e8e1824ccb5a411e9f6bce9ed16994fc883cc02ad4c7158ebba910",
+    "idsDiffer": true,
+    "bothAdmittedUnderDeliveryV3sThreeGates": true,
+    "decodeEncodeX1EqualsX1": true,
+    "decodeEncodeX2EqualsX2": true,
+    "theEquationFiredOnNEITHER": true,
+    "conclusion": "THE SILENCE CLAIM IS TRUE AND I CONFIRMED IT BY CONSTRUCTION RATHER THAN BY READING. The round-trip equation is provably silent on the case-variance channel. Under this artifact's four gates x2 is refused at ADM-DOMAIN with the named condition \"ProviderCapability.platformIds: 'ALL-SUPPORTED' is not a member of PLATFORM-ID-DOMAIN-V1\". The symmetric family is closed at that position by DECLARATION AND REGISTRY, exactly as stated, and not by a test.",
+    "andNEGPLAT2Reproduced": "the whitespace variant 'linux-x86_64-gnu ' mints fa0c88ec407e0c0fffedf40d202b011639cf113470de2bdaf7e8ee36639e09a8 and is refused at ADM-DOMAIN. Reproduced exactly. It is a good control because no case-folding implementation would catch it either."
+   },
+   "isThereAFourthChannel": {
+    "answer": "YES -- AN INTRA-REGISTRY ALIASING CHANNEL, AT A BOUND POSITION. And the artifact declares it before I got there.",
+    "theConstruction": "x_A = DCM-7-empty-collection with platformIds ['all-supported']; x_B = identical with the FIVE supported platformMatrix rows enumerated in sorted order. Both values are members of PLATFORM-ID-DOMAIN-V1, so ADM-DOMAIN admits both. Both round-trip literally, so the equation is silent on both. Today they denote the same set.",
+    "idOfAggregateToken": "0ff319483f20c5693b8830d2061b5db731e951b991b56834dd9a82394a53e586",
+    "idOfExplicitEnumeration": "6a6eed54bba72216adb837b20b25d8c185f094446e27c2c6d2eb71c23e16e233",
+    "bothAdmittedUnderALLFOURGates": true,
+    "bothRoundTripLiterally": true,
+    "whyITISAFOURTHANDNOTTHETHIRD": "the third channel is a value OUTSIDE the registry. This one is TWO VALUES INSIDE it that denote the same thing. DL-DOM-1 closes the first by membership and CANNOT close the second by membership, because both are members. It is therefore reachable at a BOUND position, which is the part worth stating.",
+    "andTHEARTIFACTALREADYSAYSSO": "PLATFORM-ID-DOMAIN-V1.theRESIDUALTHISDOESNOTCLOSE states it precisely, characterises it correctly as SYMMETRIC, says 'It is NOT closed here and it is not claimed closed', and records that refusing the enumeration was CONSIDERED AND REJECTED because it would forbid a producer from saying 'exactly these five, and do not grow with the matrix'. I agree with that reasoning. knownLimitationsV4 also tells the reviewer to assume a fourth channel exists and to look for it with a construction, which is what I did.",
+    "soWHATISLEFT": "only an imprecision, recorded at OBS-2: ADM-DOMAIN.boundsSTATED says DL-DOM-1 'closes the value-domain channel at the SIX bound positions', which is true of out-of-domain values and NOT true of this in-domain alias at one of those six. The fuller registry note is the accurate one."
+   },
+   "otherCandidatesITriedAndREJECTEDasChannels": [
+    "the same providerId in BOTH providers[] and coverageForAbsent[] -- CONSTRUCTED and ADMITTED by all four gates, producing a manifest that says one provider is simultaneously capable and unavailable. This is a CONSISTENCY gap, not an injectivity channel, and it is already declared at DUD-V4-3 with the correct measurement that the four live manifests are disjoint by providerId.",
+    "NFC-stable compatibility variants at a declared-OPEN scalar (U+FB01 'fi' ligature versus 'fi' in `profile`) -- both admitted, both round-trip, two ids. These are genuinely DIFFERENT strings rather than two spellings of one value, and the position is declared OPEN and bound by DL-CUST-3 to profileId. Inside the declared residual of DUD-V4-8, not a new channel.",
+    "CVE1 tag 03 versus tag 07 for a non-negative integer -- the type names 'unsigned-64' and 'negative-signed-64' make the choice total and unambiguous, and schemaVersion is the only integer position. Not reachable."
+   ]
+  },
+  "item6_thePublishedCost_DCM5": {
+   "question": "Is invalidating a predecessor's published vector acceptable, or does it indicate the gate is too tight?",
+   "grade": "ACCEPTABLE. THE GATE IS NOT TOO TIGHT.",
+   "whatIMeasured": {
+    "v3sDCM5PlatformIds": [
+     "all-supported",
+     "プラットフォーム"
+    ],
+    "v3sPublishedId": "99d6196ba7374896f8db3274b4c042a81b1206a5e23baeeda84b858069460f61",
+    "iRecomputedV3sIdFromItsOwnCommittedManifest": true,
+    "andItMatches": true,
+    "underDLDOM1": "REFUSED at ADM-DOMAIN: the second platformId is not a member of PLATFORM-ID-DOMAIN-V1. I confirmed the refusal with my own gate.",
+    "isV3sIdRepublishedInV4": false,
+    "iGreppedForIt": "the string 99d6196b... does not occur anywhere in delivery.v4.json. The claim is exact."
+   },
+   "theRuling": [
+    "The vector was SYNTHETIC and authored by delivery.v3 itself. It was never live data and bound nothing.",
+    "delivery.v3 is REJECT. Its bytes bind nothing, so the vector had no standing to preserve.",
+    "The value it carried is a Japanese common noun meaning 'platform'. It is not a platform IDENTIFIER under any reading. A value-domain gate that admitted it would not be a gate, and DL-DOM-1's whole purpose is to refuse exactly this.",
+    "MEASURED: 0 of 4 live manifests use any platformId but 'all-supported', so no live id moves under this gate and none did -- all four are byte-identical to delivery.v3's.",
+    "The coverage the vector existed to provide is PRESERVED, not lost. DCM-5's committed form still carries a non-ASCII NFC string exercising multi-byte length framing -- profile 'café-日本語' at 410 committed bytes -- moved to a position DL-DOM-1 declares OPEN. I verified the hex.",
+    "The cost is PUBLISHED rather than absorbed, in the vector's own whatCHANGEDfromDeliveryV3sVectorOfTheSameName."
+   ],
+   "theOnlyResidual": "whether the domain should include best-effort rows at all is genuinely open and is declared at DUD-V4-9. It does not bear on DCM-5 either way, since the refused value is in neither list."
+  },
+  "item7_derivationForm": {
+   "question": "It derives from delivery.v2 at 21 operations while declaring v3 separately as a lineage predecessor. Rule on that.",
+   "grade": "CORRECT, AND THE ONLY SOUND CHOICE AVAILABLE",
+   "whatIExecuted": "I replayed all 21 operations against the verified delivery.v2 bytes with my own resolver. 7 `set` and 14 `add`, totalling 21. ZERO declaration errors and ZERO resolve errors: every `set` target exists in the predecessor, every declared `from` value equals the predecessor's actual value, every `set` restates the predecessor's value TYPE exactly, and every `add` target is absent from the predecessor with a resolving parent. selfMeasurement's 21 / 7 / 14 and everySetRestatesItsPredecessorValueTypeExactly=true are all confirmed.",
+   "theRuling": "Deriving from the REJECTED bytes would make delivery.v3's defects part of this document's declared base, and a resolver walking the chain would have to resolve through a document whose own independent review says do not apply it. Deriving from the binding predecessor and declaring v3 separately at candidatePredecessor keeps the derivation base clean while making the repair lineage explicit. The artifact's three stated reasons are sound and its whatISNOTCLAIMED is appropriately narrow -- it does not claim v3 is void.",
+   "andTHECOSTISDECLARED": "the cost is that every value delivery.v3 also computed is restated rather than inherited, which is why this document is larger than a delta against v3 would be. The artifact says so. I checked that the restatements are correct rather than assuming it: all four live ids and all three PlanIds match v3's."
+  },
+  "item8_theTwoFindingsAgainstV3": {
+   "question": "Verify both findings by recomputation.",
+   "grade": "BOTH CONFIRMED BY MY OWN RECOMPUTATION",
+   "FV4-1_NEGDUP1Mislabelled": {
+    "verdict": "CONFIRMED. The finding is correct and is a real defect in delivery.v3.",
+    "whatDeliveryV3Published": "one value, 8d2f6f3885a92b26356468bfbb4dc05c2bb4559918dc14964763a3db00ec6811, under the key 'aDEDUPLICATINGIMPLEMENTATIONWouldMint'. Quoted from v3's live bytes.",
+    "whatIComputed": {
+     "idOfTheDocumentWithTheDUPLICATERETAINED": "8d2f6f3885a92b26356468bfbb4dc05c2bb4559918dc14964763a3db00ec6811",
+     "idOfTheDocumentAFTERDEDUPLICATION": "1acf5ee353ebffdd890bc6d71dea03849aab518b83fc5da670060e7a1e8bd56b",
+     "conclusion": "delivery.v3's published value is the DUPLICATE-RETAINED id, which is what a duplicate-TOLERATING implementation mints. The label was wrong. delivery.v4 publishes BOTH values under correct labels and I reproduced both."
+    },
+    "andTHEBASEISNOWREPRODUCIBLE": "delivery.v3 published no base manifest; delivery.v4 publishes the complete one. That the reconstructed base reproduces v3's value byte-exactly is itself strong evidence the reconstruction is v3's actual base.",
+    "andTHECONTROLSFORCEISUNCHANGED": "confirmed -- DL-ORD-1's strict ascent refuses the input either way. I ran it: 'CapabilityManifestV1.providers: not strictly ascending by declared key'."
+   },
+   "FV4-2_TwoValuesUnreproducibleFromV3sBytes": {
+    "verdict": "CONFIRMED, AND I FAILED TO RECOVER THEM TOO.",
+    "NEG-DUP-2": {
+     "v3sValue": "7e06c1cd71e264d7d8b4b2e7a2644623a102615e67c4fcb24413e9a55c98175a",
+     "v4sValueFromAPublishedBase": "dc75bd1e874ec16026a3abb2c1044e2721f39f970b8d99508c1c128dfb92eea1",
+     "myOwnRecoveryAttempt": "I brute-forced 875,781 candidate base manifests -- every string of length 1 to 3 over [a-z0-9A-Z_-.*] plus a set of plausible words, substituted independently at providerVersionSource, toolchainIdentitySource and language of the second provider entry -- and recovered NOTHING. v3's value is not reproducible from v3's bytes.",
+     "andV4sHANDLINGISCORRECT": "v4 does not republish the unreproduced value. It publishes a COMPLETE base manifest and a value computed from it, which I reproduced exactly. The gap is closed by construction rather than by argument."
+    },
+    "NEG-CLOSED-2AbsentHalf": {
+     "v3sValue": "09962fc6f968f6aa31edb31a464d7605ef2914cbbeab17bfe58681ec07c316aa",
+     "v3sDeclaredByteLength": 1197,
+     "myArithmeticCheck": "a CVE1 map entry adds (1 + 4 + len(key)) + (1 + 4 + len(value)) bytes. With key 'undeclaredAbsentKey' at 19 bytes and a 1129-byte baseline, 1197 implies a value of EXACTLY 39 bytes -- which is why the prior review searched 39-character windows. Independent arithmetic corroboration that v3's declared length is self-consistent and that the value simply is not in the corpus.",
+     "v4sHalves": {
+      "provider": "107d1b5c8dadd53078a7eda3876dbf273f3e485e0ae1e4246a10435b8baa94ba at 1175 bytes",
+      "absent": "c341fbf26c93f350792e338300623b3d945b06c6858f7593b454005021008c50 at 1173 bytes",
+      "baseline": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b at 1129 bytes",
+      "allThreeReproducedByMe": true,
+      "andTHEPROVIDERHALFCONFIRMSV3": "the value 'anything at all' reproduces delivery.v3's provider-half id 107d1b5c... byte-exactly, which corroborates that v4 recovered v3's construction correctly on the half it could recover."
+     }
+    }
+   }
+  }
+ },
+ "instrumentAssessment": {
+  "subject": "artifacts/check-delivery-v4.py",
+  "sha256": "c422c2f168ffd95921d46eef593857e2613120796ae6f16db72a27e1646e6d3d",
+  "verdict": "REJECT FOR REPAIR -- ONE BLOCKER. It is an excellent RECOMPUTATION engine and a weak DECLARATION checker, and the gap is not disclosed.",
+  "blockerCount": 1,
+  "runsAsReceived": {
+   "plainRun": "EXIT 0, FINDINGS: 0. 8 inputs hash-verified before parsing. Counters: DV4-CONTROL 32, DV4-COUNT 12, DV4-DERIV 2, DV4-LEAF 9, DV4-OBS 11, DV4-ORACLE 4, DV4-PLANID 12, DV4-PREFIX 5, DV4-VECTOR 41, anchorsVerified 7, boundPositions 6, collisionsCanonicalised 1, controlsExecuted 17, cve1Refusals 2, digestsAccountedFor 65, duplicateKeyProbes 1, hexReEncodes 7, mapsWalked 12, namedConditionsMatched 12, openPositions 8, operationsApplied 21, recordsClosed 23, roundTrips 7, standingChecks 7, symmetricChannelsConfirmed 1.",
+   "selftest": "EXIT 0. 'SELFTEST OK -- 17 mutations, each failing for its named reason', plus an unmutated control run at 0 findings. All 17 reported PASS with the expected position seen."
+  },
+  "whatIVERIFIEDABOUTIT_ANDITHOLDS": [
+   "FAILS CLOSED ON SUBJECT DRIFT. main() calls verify_pins() BEFORE run_all() and returns 2 on any mismatch, printing 'EXIT 2 -- refusing to parse bytes this checker has not verified.' This is structural in the control flow, not a convention. Confirmed by reading and by the SUBJECT_DRIFT mutation.",
+   "DUPLICATE KEY REJECTED BY NAME. _hook_factory raises DuplicateKey(key, where) carrying the key and the document. The DUP_KEY_HOOK_OFF mutation produces 'a duplicate JSON key was ADMITTED', so the guard is live.",
+   "LAW-18 EXACT TYPE, WITH BOOL TESTED BEFORE INT. encA tests `type(v) is bool` at line 183 BEFORE `type(v) is int` at line 189, and _cve1_type_name does the same at lines 232 and 234; adm_type uses `type(x) is int`, never isinstance. The EXACT_TYPE_OFF mutation flips exactly that and the run fails at NEG-TYPE-1. Verified by reading the source, not only by the mutation's own report.",
+   "THE LEAF CENSUS METHOD MATTERS AND THE NUMBERS ARE RIGHT. I walked the artifact with an exact-type walk of my own: 1272 strings, 108 int, 31 bool, 0 float, 0 null, 0 non-string keys, and the published 108-element integerLeafPaths list is IDENTICAL to mine element by element. 108 + 31 = 139, so an isinstance walk reports 139 integers -- exactly what LEAF_CENSUS_BLIND claims. Confirmed arithmetically and by execution.",
+   "THE DIGEST LEDGER IS REAL AND ITS COUNT IS RIGHT. I counted the 64-hex literals myself with the same anchored pattern: 113 occurrences, 65 DISTINCT. The artifact and the run both say 65. NO_RECOMPUTE_LEDGER produces 40 findings, matching the claim. gate_digest_accountability subtracts recomputed, declared and recorded sets and reports every remainder, so no literal escapes all three categories. I PROVED the gate bites: injecting a fabricated 64-hex string into a prose field produces DV4-ACCOUNT naming that literal.",
+   "ALL SEVEN FREEZE ANCHORS ARE PRESENT IN THE CURRENT LIVE BYTES. I re-checked each one myself under whitespace normalisation. All seven found, one occurrence each. This matters because IMPLEMENTATION-FREEZE.md has DRIFTED AGAIN since this artifact was emitted (see OBS-8) and the anchors survived, which is the design working as section 7.2.2 intends.",
+   "THE RECOMPUTATION IS GENUINE. Every id, byte length, hex string, PlanId and count it claims to recompute, I recomputed independently and got the same answer. It is not comparing stored strings to stored strings."
+  ],
+  "howITESTEDIT": {
+   "method": "I imported check-delivery-v4.py as a module WITHOUT EDITING IT, wrote mutated copies of the artifact to scratch, and re-pointed the module's SUBJECT and PINNED at the scratch path so that EVERY gate -- including gate_digest_accountability, which re-reads the subject from disk -- saw the same mutated bytes. I validated the harness first: a verbatim copy at a new path gives exit 0 / 0 findings, and the artifact's own emission style (json.dumps indent=1, ensure_ascii=False, trailing newline) re-emits byte-identically, so mutations differ only where I made them differ.",
+   "mutationsThatWereCORRECTLYCAUGHT": "flipping any published capabilityManifestId, committedByteLength, committedBytesHex, PlanId, control-minted value, selfMeasurement count, leafCensus count, derivedFrom.sha256, NEG-DUP-1 baseManifest, or a committedManifest scalar; dropping a declaredOPEN position; retyping a vector's schemaVersion to bool; injecting or flipping any 64-hex literal; and every standing field (status, binds, sealRecommendation). Each named its own position and its own condition."
+  },
+  "blockers": [
+   {
+    "id": "IR-V4-INSTR-B1",
+    "grade": "BLOCKER AGAINST THE INSTRUMENT",
+    "title": "The instrument verifies recomputable VALUES but not the artifact's normative DECLARATIONS, and it cannot evidence the one repair this version exists to make.",
+    "theDECISIVEDEMONSTRATION": "I replaced delivery.v4's DL-CLOSED-1 with delivery.v3's REJECTED text -- the exact catch-all formulation that earned blocker IR-V3-B1 and that refuses 100 per cent of the live data -- and left everything else untouched. THE RUN EXITS 0 WITH FINDINGS: 0. The checker implements the record/map property from its own hardcoded CM_KEYS / PC_KEYS / AC_KEYS and _reachable_objects and never reads the artifact's statement of it. An instrument retained beside a repair, which passes the unrepaired text, is not evidence of the repair.",
+    "theSAMEHOLESELSEWHERE_ALLMEASURED": [
+     "DL-DOM-1's statement replaced by its negation ('no registry constrains any position') -- exit 0, 0 findings.",
+     "DL-ORD-1 reversed to say a consumer SORTS rather than REJECTS -- exit 0, 0 findings.",
+     "DL-INJ-1's detector claim reversed to assert it finds all three channels, which is the precise overclaim this version repaired -- exit 0, 0 findings.",
+     "PLATFORM-ID-DOMAIN-V1.memberCount changed from 8 to 99 -- exit 0. memberCount is never read by any gate.",
+     "a real platform member replaced with the invented 'freebsd-x86_64-INVENTED' -- exit 0. Likewise an invented relation member and an invented deficiency member. The checker builds the TRUE registries from live delivery.v2 and fact-plane.v1 bytes and uses them for admission, but NEVER compares the artifact's PUBLISHED member lists against them -- and the published lists are the normative content an implementer would build from.",
+     "AbsentCapability.relationIds[] REBOUND from the relation registry to the deficiency vocabulary -- exit 0. gate_domain_census flattens all boundPositions into one multiset and compares that; the position-to-registry assignment is never checked.",
+     "the artifact's own verbatim quotation of freeze section 6 law 2 replaced with a fabrication -- exit 0. FREEZE_ANCHORS holds the CHECKER's copy and verifies it against the live freeze; the ARTIFACT's copy is never compared to anything.",
+     "the minted domain label changed to 'opensip.SOMETHING-ELSE.v1' in closedDomainVocabulary, and independently in recipe.oneLine -- exit 0 both times, even though the checker's own DOMAIN constant still says 'opensip.capability-manifest.v1'. Artifact and instrument may disagree about the one string this document mints and the run stays green.",
+     "DCM-1 and DCM-2's profileId labels swapped, so each vector claims the other profile while its committed manifest's `profile` field says otherwise, contradicting DL-CUST-3 -- exit 0.",
+     "a recordedInputs digest replaced with sixty-four 'f' characters -- exit 0. Worse, gate_digest_accountability builds its `recorded` set FROM the artifact's own recordedInputs, so a fabricated digest laundered through that block accounts for itself."
+    ],
+    "whatWouldCLOSEIT": "gates that compare the artifact's DECLARATIONS to their declared sources: published registry members and memberCounts against the live registries the checker already builds; each boundPosition against the registry it is filed under; recordedInputs digests against the files; the artifact's quoted freeze text against the live freeze; and at minimum a content anchor on DL-CLOSED-1, DL-DOM-1 and DL-ORD-1 so that the normative sentences cannot be replaced by their negations under a green run.",
+    "whatDoesNOTCloseIt": "more mutations of the checker's own logic. All 17 existing selftest mutations perturb the CHECKER and require the run to fail. None perturbs the ARTIFACT. That is precisely why the suite is green on a document whose central property has been replaced by the rejected one."
+   }
+  ],
+  "nonBlockingInstrumentObservations": [
+   {
+    "id": "INSTR-O1",
+    "finding": "UNHANDLED EXCEPTION ON A MALFORMED committedBytesHex. Setting DCM-1-core.committedBytesHex's first byte to 07 makes decode() raise EncErr('trailing bytes after a complete CVE1 value') out of gate_vectors with a traceback instead of a named finding. It FAILS CLOSED -- the process still exits non-zero -- but it violates the run's own promise that 'each finding names its position', and a traceback is not a diagnostic. A try/except around the decode raising DV4-VECTOR would fix it."
+   },
+   {
+    "id": "INSTR-O2",
+    "finding": "DIAGNOSTIC LABEL INVERSION IN gate_derivation. Both run.eq calls there pass the ARTIFACT's value as `got` and the measured truth as `want`, so the message reads 'recomputed <artifact value>, artifact publishes <true value>' -- backwards from every other call site. The comparison is correct and fails correctly; only the message misleads. I hit it on a real mutation."
+   },
+   {
+    "id": "INSTR-O3",
+    "finding": "gate_digest_accountability RE-READS THE SUBJECT FROM DISK with (COOP / SUBJECT).read_text() rather than using the bytes verify_pins() already hash-verified. Every other gate works from the verified parse. Harmless in a normal run but it is a time-of-check/time-of-use inconsistency in the one gate whose whole purpose is to leave nothing untrusted."
+   },
+   {
+    "id": "INSTR-O4",
+    "finding": "THE SCALAR CENSUS IS TRANSCRIBED, NOT DERIVED. BOUND_SCALARS and OPEN_SCALARS are hardcoded literal lists; CM_KEYS / PC_KEYS / AC_KEYS are never used to construct them, and selfMeasurement.reachableScalarTypePositions is recomputed at line 1563 as len(bound) + len(declaredOPEN) from the ARTIFACT's own lists. So the census gate compares the artifact's list to the checker author's transcription of the same list, and nothing in the run can discover a NEW reachable position. This is the measurement behind the artifact-side observation OBS-1."
+   },
+   {
+    "id": "INSTR-O5",
+    "finding": "THE SELFTEST'S REACH IS NARROWER THAN ITS FRAMING SUGGESTS. Its own header says 'each mutation must fail the run, and must fail for its OWN reason', which it delivers. But all 17 mutations perturb the CHECKER. The artifact declares this honestly at knownLimitationsV4 -- 'It does not show that no fifteenth mutation passes' -- and that honesty is why this is an observation and not a second blocker. The author's report that the first selftest run failed three of its own mutations and exposed three real checker defects is consistent with the code I read: the ADMITTED sentinel is a deliberately unmatchable string with a comment naming SKIP_DOMAIN as what found the defect."
+   }
+  ],
+  "theSection78QuestionAnsweredConcretely": {
+   "question": "How much of a green run is agreement between the artifact and an instrument built from the same reading?",
+   "answer": "The green run splits cleanly into two halves that deserve different credit. The RECOMPUTATION half is genuine independent evidence against the ARITHMETIC and I confirmed all of it from the prose with my own encoder: ids, byte strings, lengths, PlanIds, preimages, counts, censuses, the derivation replay. Those cannot be faked by shared reading because SHA-256 does not care who wrote the encoder. The DECLARATION half is pure agreement: the record/map property, the value-domain property, the ordering property, the scalar census, the registry contents and the minted domain label all exist twice -- once as prose in the artifact and once as Python constants in the checker, both written by the same lane from the same reading -- and the run only ever compares the Python to itself or to live data, never to the artifact's prose. That is why replacing the artifact's central property with the rejected one leaves the run green.",
+   "namingWhatTheInstrumentWouldNOTCatch": [
+    "any change to a normative sentence: DL-CLOSED-1, DL-DOM-1, DL-ORD-1, DL-ORD-2, DL-INJ-1 and every gate `statement` can be edited, weakened or reversed without a finding.",
+    "any change to a published registry's members, memberCount or source prose.",
+    "any re-assignment of a bound position to the wrong registry.",
+    "any falsification of a quotation the artifact attributes to another document, including the freeze quotation its own ordering ruling rests on.",
+    "any change to a recordedInputs digest, which additionally launders itself through the accountability gate.",
+    "any change to the minted domain label as the ARTIFACT states it.",
+    "any cross-document claim, such as idIsUNCHANGEDfromDeliveryV3 or the candidatePredecessor's sha256, except where a changed 64-hex literal happens to trip the accountability ledger.",
+    "every `why`, `separates`, `rationale` and narrative field in the document, which is the large majority of its 220,882 bytes.",
+    "and, structurally, ANY defect shared between the artifact's reading and the checker author's reading, because they are the same reading."
+   ],
+   "soWHATISAGREENRUNWORTH": "It is strong evidence that the numbers are right and weak evidence that the document is right. Used as the former it is excellent. Used as the latter it would be the mistake section 7.8 names. This review therefore grounds its verdict on independent recomputation and cites the green run only as corroboration."
+  }
+ },
+ "couldIMakeTheCheckerPassOnAWrongArtifact": {
+  "answer": "YES, EASILY, AND IN MANY WAYS THAT MATTER.",
+  "theSharpestSingleCASE": "restore delivery.v3's rejected DL-CLOSED-1 text -- the exact bytes of blocker IR-V3-B1 -- and the run still reports EXIT 0, FINDINGS: 0.",
+  "andTHEIMPORTANTQUALIFIER": "every one of these is a defect in the INSTRUMENT's coverage, not a defect I found in the artifact. I hard-compared the artifact's actual published registries against the live sources -- PLATFORM-ID-DOMAIN-V1's eight members against delivery.v2's platformMatrix (5 supported + 2 bestEffort + the aggregate token), the twelve relations and five deficiency values against fact-plane.v1 -- and ALL ARE CORRECT, as are all three memberCounts. The artifact tells the truth; the checker simply would not have noticed if it had not."
+ },
+ "nonBlockingObservations": [
+  {
+   "id": "OBS-1",
+   "position": "capabilityManifestSchema.valueDomains.censusIsEXHAUSTIVE, and retainedChecker.whatItDoes[5] and [8]",
+   "grade": "NON-BLOCKING -- THE STRONGEST FINDING IN THIS REVIEW, AND THE ONE A LATER READER IS MOST INVITED TO RE-GRADE",
+   "finding": "THE ARTIFACT OVERSTATES WHAT ITS RETAINED INSTRUMENT VERIFIES, AT EXACTLY THE POSITION WHERE ITS OWN PREDECESSOR WAS FAULTED FOR AN OVERSTATEMENT. censusIsEXHAUSTIVE says 'The retained checker recomputes this census from the schema and fails the run if any reachable scalar position is in neither list.' MEASURED FALSE: BOUND_SCALARS and OPEN_SCALARS are hardcoded literal lists never derived from CM_KEYS / PC_KEYS / AC_KEYS, and reachability is not computed anywhere in the program. whatItDoes[5] repeats it as 'including the exhaustiveness of the fourteen-position scalar census', and whatItDoes[8] counts 'bound and open scalar positions' among recomputed values when they are len() of the artifact's own lists.",
+   "whyITMATTERS": "the sentence promises protection against precisely the drift it cannot detect. If a successor adds a key to ProviderCapability, adm_closed would use the new key set while the census lists would not gain the new scalar position, and the census gate would stay green with a reachable scalar in neither list.",
+   "whyITISNOTGRADEDABLOCKER": "see whyZEROANDNOTONE. The census itself is CORRECT -- I re-derived 2 + 7 + 5 = 14 from the three record key sets independently of both documents -- DL-DOM-1 is sound, no id moves, and this lineage's own prior review graded two comparable evidentiary overclaims non-blocking.",
+   "theONECLAUSEREPAIR": "narrow it to what is true: 'the retained checker compares this census against its own independently written list of the same fourteen positions, and fails on disagreement.' Deriving the positions from the declared key sets in the checker would then make the original sentence true."
+  },
+  {
+   "id": "OBS-2",
+   "position": "capabilityManifestIdentity.admission.ADM-DOMAIN.boundsSTATED",
+   "grade": "NON-BLOCKING -- IMPRECISION, CONTRADICTED BY THE ARTIFACT'S OWN FULLER NOTE",
+   "finding": "boundsSTATED says 'DL-DOM-1 closes the value-domain channel at the SIX bound positions'. PLATFORM-ID-DOMAIN-V1.theRESIDUALTHISDOESNOTCLOSE says of one of those six that the aggregate-token/enumeration alias 'is NOT closed here and it is not claimed closed'. I CONSTRUCTED the pair and confirmed the residual: two admitted, literally round-tripping manifests, two ids, both values in the registry. The registry note is the accurate one; the summary sentence is stronger than the document supports.",
+   "repair": "'closes the value-domain channel against values OUTSIDE the registry at the six bound positions, with one in-registry alias residual recorded at PLATFORM-ID-DOMAIN-V1.'"
+  },
+  {
+   "id": "OBS-3",
+   "position": "PLATFORM-ID-DOMAIN-V1.theRESIDUALTHISDOESNOTCLOSE",
+   "grade": "NON-BLOCKING -- DANGLING CITATION",
+   "finding": "it cites \"DL-INJ-1's boundsSTATED\". MEASURED: `boundsSTATED` occurs exactly once as a key in the whole document, under ADM-DOMAIN, not under DL-INJ-1. DL-INJ-1's corresponding key is `andITDOESNOTFINDTHETHIRDONE`. The sense is recoverable and nothing turns on it, but a pointer that does not resolve is the kind of thing this corpus checks."
+  },
+  {
+   "id": "OBS-4",
+   "position": "valueDomains.declaredOPEN.ProviderCapability.providerId",
+   "grade": "NON-BLOCKING -- JUSTIFICATION SLIGHTLY OVER-ABSOLUTE",
+   "finding": "'No provider registry exists in this corpus.' A partial, position-specific vocabulary does exist: resolved-inputs.v2#planIdContract.semanticUniverseSchemas selects by 'semanticUniverses[].providerId=typescript-semantic' and '=rust-semantic'. It does not cover the live value 'syntax-all', it binds a RESOLVED-INPUTS field rather than a DELIVERY one, and importing it would forbid live data and cross a law-19 boundary. The DECISION to leave the position OPEN is right; only the sentence is too absolute."
+  },
+  {
+   "id": "OBS-5",
+   "position": "DL-ORD-1 / uniquenessRule, read together with DUD-V4-8",
+   "grade": "NON-BLOCKING -- A CONSEQUENCE WORTH STATING ONCE MORE",
+   "finding": "'strict ascent makes an exact duplicate unrepresentable' is a BYTE-level guarantee. CONSTRUCTED: a manifest carrying both 'syntax-all' and 'Syntax-All' as separate providers passes all four gates, because 'Syntax-All' sorts strictly before 'syntax-all'. DUD-V4-8 states the cross-manifest half of this ('a second spelling of what a reader would call the same provider'); the WITHIN-manifest half -- that one manifest can name the same provider twice -- is not stated anywhere and is the sharper form."
+  },
+  {
+   "id": "OBS-6",
+   "position": "valueDomains.declaredOPEN.CapabilityManifestV1.schemaVersion",
+   "grade": "NON-BLOCKING -- NIT",
+   "finding": "a type named CapabilityManifestV1 arguably fixes its own schemaVersion to 1, and no artifact says so. This is not an injectivity channel and does not move any id; recorded only because the census invites the question at every position."
+  },
+  {
+   "id": "OBS-7",
+   "position": "the pair as a whole, under freeze section 7.8",
+   "grade": "NON-BLOCKING -- STRUCTURAL",
+   "finding": "the artifact's own DUD-V4-7 asks for exactly this review and names the right remedy: 'an independent review that reads the checker as well as the artifact, and preferably re-implements CVE1 to check it.' I did both. DUD-V4-7 should remain OPEN after this review: I have reviewed the instrument and found a blocker in it, which narrows the residual rather than closing it."
+  },
+  {
+   "id": "OBS-8",
+   "position": "authoringConditions and recordedInputs",
+   "grade": "NON-BLOCKING -- DRIFT OBSERVED AGAIN, AND HANDLED CORRECTLY",
+   "finding": "TWO of the twelve recordedInputs digests no longer match the live files. IMPLEMENTATION-FREEZE.md is now 26ee9e4cbc62beabc9568054f4d0a235c85faf9dfa0c80a1d3cad05704c80215 against a recorded b5b3a562eace675b9672752cb909feb08eba14ea5bfc0e0933cb80f521121eb6, and IMPLEMENTER-BLUEPRINT.md is now 73e0819f01b0acb4701ee554a23d162b8675d18d0ae62827763e0218616aaf8e against a recorded 148ab65462aa6af5442e440ddcaaae977240aba0338775804ceb87c7a1fe0317. The other TEN match exactly, including delivery.v2, resolved-inputs.v2, fact-plane.v1, c2-plan-stage-schema.v4, check-resolved-inputs.py, evaluation-proof.v8, plan-and-policy-identity-recipes.v2, delivery.v3, delivery.v3.review-independent and ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md.",
+   "whyITISNOTAFINDINGAGAINSTTHEARTIFACT": "this is the sixth and seventh recorded movement of these two files in this lineage and the artifact predicted it verbatim in residualRISK. Because the checker deliberately does NOT byte-pin them -- section 7.2.2's rule for a file under concurrent edit -- and uses content anchors instead, the drift does not falsify anything. I independently re-verified ALL SEVEN cited propositions in the CURRENT bytes: all present, one occurrence each. The design is working."
+  },
+  {
+   "id": "OBS-9",
+   "position": "package coherence",
+   "grade": "NON-BLOCKING -- REPORTED AS REQUIRED, NOT AVOIDED",
+   "finding": "BEFORE this review, check-package-coherence.py exited 1 with exactly FOUR findings: two PC-7-PINNED-ARTIFACT-IS-REJECTED (rust-provider-protocol.v2, threat-model.v3) and two PC-5-STALE-HEAD (c2-plan-stage-schema documents name v9 while disk has v10; r1-lifetime-neutrality.conformance documents name v1.5 while disk has v1.6). AFTER this review it exits 1 with SIX. I MEASURED both states rather than predicting one.",
+   "whichOfTheTWONEWFINDINGSISMINE": "EXACTLY ONE. 'PC-5-STALE-HEAD -- delivery: documents name v2, disk has v4 (delivery.v4.json review records no blocking findings)' is the direct and intended consequence of this review's passing verdict: a reviewed-passing successor to the named DELIVERY head now exists and is not named. I did not reshape the verdict to avoid it and it must not be treated as a reason to withhold one.",
+   "andTHESECONDNEWFINDINGISNOTMINE": "'PC-5-STALE-HEAD -- c2-plan-stage-schema: documents name v9, disk has v11' appeared from a CONCURRENT LANE that published c2-plan-stage-schema.v11.json and its independent review while this review was running. I observed that lane directly: it overwrote a file in this reviewer's own scratch directory mid-session, which is how I know the two events are independent. It is recorded here so nobody attributes it to this verdict.",
+   "andTHISISALSOEVIDENCEOFTHEDRIFTATOBS8": "the same concurrency that moved IMPLEMENTATION-FREEZE.md and IMPLEMENTER-BLUEPRINT.md twice more during this authoring pass is visible in the coherence checker's own output. Any reader re-running these numbers should expect them to have moved again."
+  }
+ ],
+ "verifiedInputs": {
+  "rule": "Every digest below was measured in-process with hashlib and hard-compared against shasum -a 256 before this file was finalised. Every JSON document was parsed with a duplicate-key-rejecting object_pairs_hook per IMPLEMENTATION-FREEZE.md section 7.5 -- I DID THIS, on every document I read, and ZERO duplicate keys were encountered in any input, including in this file after emission.",
+  "measured": {
+   "artifacts/delivery.v4.json": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121",
+   "artifacts/check-delivery-v4.py": "c422c2f168ffd95921d46eef593857e2613120796ae6f16db72a27e1646e6d3d",
+   "artifacts/delivery.v3.json": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d",
+   "artifacts/delivery.v3.review-independent.json": "7791ef39abe51b6646df3113353187e6c4b8350ac9299a599ecac780fc077796",
+   "artifacts/delivery.v2.json": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+   "artifacts/resolved-inputs.v2.json": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+   "artifacts/fact-plane.v1.json": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+   "artifacts/c2-plan-stage-schema.v4.json": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+   "artifacts/c2-plan-stage-schema.v3.json": "used only to confirm the full-provider golden materialises identically both ways",
+   "artifacts/check-resolved-inputs.py": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0",
+   "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "IMPLEMENTATION-FREEZE.md": "26ee9e4cbc62beabc9568054f4d0a235c85faf9dfa0c80a1d3cad05704c80215",
+   "IMPLEMENTER-BLUEPRINT.md": "73e0819f01b0acb4701ee554a23d162b8675d18d0ae62827763e0218616aaf8e"
+  },
+  "whatIWROTE": "EXACTLY ONE FILE: artifacts/delivery.v4.review-independent.json. I edited no checker, including the one under review; I tested it by importing it unmodified and re-pointing its subject at scratch copies. I edited neither delivery.v2.json nor delivery.v4.json nor ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md nor any freeze or blueprint file. No status, disposition, verdict or seal was changed anywhere, no row was closed, no head was repointed, and CD-RT-5 remains BLOCKED_ON_PHASE_1A.",
+  "requiredCheckersRun": {
+   "check-claims.py": 0,
+   "check-product-dispositions.py": 0,
+   "check-delivery.py": 0,
+   "check-r1-v1.5.py": 0,
+   "check-c2-v9.py": 0,
+   "check-retention-custody-v24.py": 0,
+   "check-d9-v1.14.py": 0,
+   "check-package-coherence.py": "1, with the expected 4 findings -- see OBS-9",
+   "check-delivery-v4.py": 0,
+   "check-delivery-v4.py --selftest": 0
+  },
+  "environment": "python3 -I -B, standard library only. No third-party package, no network. shasum(1) used to hard-compare every digest. timeout(1) does not exist in this environment and was not used. Scratch work under the session scratchpad only."
+ },
+ "whatIDidNotCheck": [
+  "I did not verify the eight proposalEvaluation ids computed under the EVALUATED PROPOSAL's grammar (the four set-reading and four sort-after-framing values, and NEG-CLOSED-2's e109fd46... at 914 record bytes). Reproducing them requires re-implementing evaluation-proof.v8's typed-component-merkle grammar, which I did not do. They are the largest block of published values I left to the checker. The artifact files them under digestAccountability case (a).",
+  "I did not verify the OBS-V4-1 order-divergence census (10 positions) or the proposal's R-A grammar reproduction, for the same reason.",
+  "I spot-checked but did not exhaustively re-derive the prefix-form census. I confirmed the structure of the claim -- predicateA count 5, predicateB count 3, total 8, with all eight positions enumerated by JSON path -- and confirmed the PREFIX_PREDICATE_BLIND mutation's 8-versus-5 behaviour, but I did not independently walk delivery.v2 for every statement matching each predicate.",
+  "I did not attempt a full second-preimage argument on step4_theCONVERSEISIMPOSSIBLE; I accepted that reproducing 2222...2222 or 7777...7777 from a real manifest would require breaking SHA-256, and I confirmed the placeholder literals are what the goldens actually carry.",
+  "I did not exhaustively enumerate every one of the 17 negative controls' minted values. I independently reproduced NEG-CLOSED-2 (all three ids and all three byte lengths), NEG-CLOSED-3 (both readings, all counts), NEG-DUP-1 (both values), NEG-DUP-2, NEG-PLAT-1 (both ids) and NEG-PLAT-2. The remaining controls I read but did not recompute.",
+  "I could not recover delivery.v3's NEG-DUP-2 base manifest or NEG-CLOSED-2's 39-byte absent-half value. My search was 875,781 candidates over a restricted alphabet and short lengths; absence of a hit is not proof they are unrecoverable, only that two independent lanes have now failed to find them.",
+  "I did not review the C-2, RETENTION, EVIDENCE or EVALUATION-PROOF surfaces except where delivery.v4 cites them, and I did not re-review delivery.v2's own contents beyond the platformMatrix, installProfiles and capabilityManifestSchema that this artifact depends on.",
+  "I did not attempt to prove the absence of a FIFTH injectivity channel. I found one beyond the three claimed and it was already disclosed; the class is not closed and the artifact does not claim it is.",
+  "My mutation battery against the instrument was roughly forty constructions. It establishes that wide classes of wrong artifacts pass; it does not enumerate them, and I did not attempt to bound what else passes."
+ ],
+ "reviewerStatement": "I set out to reject both. I could not reject the artifact: every value I recomputed matched, the blocker repair is a sound property rather than an exemption, the law-2 re-grounding is a real improvement whose entailment holds, the fourteen-position census is exhaustive and correct, and the document's self-criticism repeatedly reached my findings before I did -- including the fourth injectivity channel I constructed, which it had already declared. I did reject the instrument, on one blocker: it is a first-rate arithmetic engine that cannot tell whether the document's normative sentences say what they should, and I proved that by restoring the rejected predecessor's blocked text and watching it exit 0. The honest summary of the pair is that the numbers in delivery.v4 are independently confirmed and the prose in delivery.v4 is confirmed by nothing but reading -- mine, now, in addition to its author's."
+}

@@ -1,0 +1,596 @@
+{
+  "artifact": "opensip.versioning-policy.v15.review-independent",
+  "reviewOf": "versioning-policy.v15.json",
+  "reviewType": "INDEPENDENT",
+  "reviewer": "independent reviewer, cold rejoin, no authorship in this lineage",
+  "date": "2026-08-10",
+
+  "verdict": "CHANGES-REQUIRED",
+  "blockingFindingCount": 2,
+  "nonBlockingObservationCount": 6,
+
+  "verdictStatement": "THE DERIVATION IS EXACT AND THE BLOCKING FINDING IT WAS BUILT TO REPAIR IS REPAIRED. I wrote my own resolver, sharing no code with the artifact or any checker, and reproduced $.resolvedValue.sha256 = 2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a over exactly 156198 canonical bytes on the first attempt, with all six from-guards compared type-exact and bool BEFORE int, both adds absence-checked, and a duplicate-key-rejecting hook at every parse. I reproduced the predecessor's published figure too, 324845b22b3b1aed0dca9deb8fbc032048dc1399da967062c9103332f06aba41 over 156172 bytes. Exactly four resolved leaves differ from versioning-policy.v14 and all four are successor identity; exactly four operation-list leaves differ ignoring the why fields; operation 6 is strictly equal under a type-exact comparator. The leaf census reproduces in all ten categories and the newly published depth convention checks out both ways. B-VER14R-01 IS REPAIRED AND I TESTED IT IN BOTH DIRECTIONS: all 30 keyLocator entries are correct, the measured collision set is exactly the six claimed, five coincide and one differs, and ZERO keys are misdescribed in either direction - no key is told it is absent when present, and none is told it collides when it does not. The central negative claim holds under my own measurement: zero apparatus keys in the delta file and zero in the resolved value. Every residual that must stay open is open, nothing is overstated, no decision id is introduced as a key at any depth, and the file binds nothing and constitutes nothing. WHAT I FOUND IS NOT IN THE CONTRACT AND NOT IN THE DERIVATION. It is in the artifact's account of its own repair. This file exists in part to correct a count its predecessor got wrong - eleven where the truth is nine - and it publishes that correction as complete and as measured. Both halves are false on the bytes. The corrected figure survives at a fourth authored position, $.keyLocator.successorRevision, which this pass wrote fresh and which the sweep's own position enumeration omits; and the sweep publishes a measurement of how far the wrong figure spread, 'eight times', where the file it measures carries it in 11 distinct leaves and 12 occurrences. Separately the file contradicts itself three statements to two on how many non-blocking observations it closes, with the contradicting header sitting directly above the enumeration that refutes it. These are cheap to repair, they touch no contract leaf and they do not move the resolved digest. They are blocking because freeze section 7.2.2 makes a recorded measurement the bindable kind and requires it to be compared before publication, and because the direction of a wrong figure at a reader-facing navigation surface is documented in this very lineage: v14 wrote 'eleven', its independent reviewer restated it and published a claim to have verified eleven blocker titles against a block carrying nine, and the figure 'eight times' had already propagated into the dispatch that commissioned this review before I measured it.",
+
+  "reHashDiscipline": {
+    "digestGivenAtDispatch": "9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f",
+    "sizeGivenAtDispatch": 99793,
+    "digestIMeasuredAtStart": "9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f",
+    "sizeIMeasuredAtStart": 99793,
+    "digestIMeasuredBeforeFinalising": "9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f",
+    "drift": "NONE. Every measurement in this review was taken against those bytes. Freeze section 7.2.1 clauses 2 and 3 satisfied.",
+    "parseDiscipline": "Every JSON read in this review used json.loads with an object_pairs_hook that raises on a repeated key at any depth. versioning-policy.v15.json parses clean: zero duplicate keys. Freeze section 7.5."
+  },
+
+  "environmentAtMyVerdict": {
+    "python": "3.14.6 (Clang 21.0.0)",
+    "platform": "darwin arm64, macOS 26.5.2",
+    "externalBinariesRequired": "none for my own resolver; none for either corpus resolver",
+    "verdictIsEnvironmentConditional": false
+  },
+
+  "howIResolvedTheDerivation": {
+    "independence": "I wrote a fresh resolver from the artifact's DECLARED $.derivation.resolutionAlgorithm and nothing else. It shares no code with versioning-policy.v15.json, check-completeness.py, check-completeness-v2.py, check-versioning-v14.py or any other instrument in this corpus. I then ran both corpus resolvers separately and compared.",
+    "algorithmIImplemented": [
+      "Parse versioning-policy.v8.json with a duplicate-key-rejecting object_pairs_hook; refuse on any duplicate.",
+      "Recompute sha256 of the predecessor bytes and compare to $.derivation.predecessorSha256; refuse on mismatch.",
+      "Apply the eight operations in array order to a deep copy.",
+      "For 'set': navigate the token array, require the target to EXIST, require its current value to be strictly equal to 'from' under a type-exact comparator that tests bool BEFORE int, then assign.",
+      "For 'add': require the parent to be an object and the final key to be ABSENT, then assign.",
+      "Refusal is total; no partial document is ever produced.",
+      "Serialise with json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8') and hash."
+    ],
+    "resultsIMeasured": {
+      "predecessorDigestVerified": true,
+      "predecessorDigestMeasured": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e",
+      "predecessorSizeBytes": 173110,
+      "operationsApplied": 8,
+      "setGuardsSatisfied": 6,
+      "addTargetsConfirmedAbsent": 2,
+      "operationsRefused": 0,
+      "resolvedTopLevelKeys": 30,
+      "canonicalLengthBytesMeasured": 156198,
+      "canonicalLengthBytesClaimed": 156198,
+      "resolvedSha256Measured": "2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a",
+      "resolvedSha256Claimed": "2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a",
+      "match": true,
+      "reproducedOnFirstAttempt": true
+    },
+    "censusIReWalked": {
+      "method": "Re-walked from MY resolved value after the operations were applied, with bool tested BEFORE int because bool subclasses int in Python.",
+      "measured": {"string": 1892, "bool": 119, "int": 44, "float": 0, "null": 103, "object": 442, "array": 121, "emptyObject": 0, "emptyArray": 18, "scalarLeaves": 2158},
+      "claimed": {"string": 1892, "bool": 119, "int": 44, "float": 0, "null": 103, "object": 442, "array": 121, "emptyObject": 0, "emptyArray": 18, "scalarLeaves": 2158},
+      "categoriesMatching": "10 of 10",
+      "maxDepthRootIsZero": 7,
+      "maxDepthRootIsOne": 8,
+      "depthConventionAdjudication": "The artifact publishes 7 and states THE ROOT OBJECT IS DEPTH 0. Both conventions measured; 7 under the stated one, 8 under the other. The convention is stated correctly and the figure is right under it."
+    },
+    "predecessorsPublishedFigureAlsoReproduced": {
+      "subject": "versioning-policy.v14.json",
+      "resolvedSha256Measured": "324845b22b3b1aed0dca9deb8fbc032048dc1399da967062c9103332f06aba41",
+      "canonicalLengthBytesMeasured": 156172,
+      "artifactsClaimAboutIt": "156172 canonical bytes, digest 324845b2...",
+      "match": true,
+      "why": "The artifact asserts it reproduced its predecessor's figure with its own resolver before repairing anything. I confirm that figure independently."
+    }
+  },
+
+  "theFourLeafDeltaAgainstThePredecessor": {
+    "claim": "Exactly four leaves differ from versioning-policy.v14's operation list, all successor identity, with operation 6 carried verbatim.",
+    "adjudication": "TRUE, measured twice from two directions.",
+    "resolvedValueLeafDiff": {
+      "differencesFound": 4,
+      "positions": [
+        "$.version : 14 -> 15",
+        "$.author : 'retention-decision rejoin lane, 2026-08-05' -> 'retention-decision rejoin lane, keyLocator repair pass, 2026-08-06'",
+        "$.derivedFrom.deltaFile : 'versioning-policy.v14.json' -> 'versioning-policy.v15.json'",
+        "$.derivedFrom.rule : the prose naming which file to resolve"
+      ],
+      "allFourAreSuccessorIdentity": true,
+      "anyContractLeafMoved": false
+    },
+    "operationListLeafDiffIgnoringWhyFields": {
+      "differencesFound": 4,
+      "positions": ["operations[0].value", "operations[3].value", "operations[7].value.deltaFile", "operations[7].value.rule"],
+      "matchesTheArtifactsOwnEnumeration": true
+    },
+    "operationSixVerbatim": {
+      "claim": "STRICTLY EQUAL under a type-exact comparison that tests bool before int",
+      "measured": "STRICTLY EQUAL. I compared operations[6] between the two files leaf by leaf with my own type-exact comparator, bool before int. Zero differences.",
+      "adjudication": "TRUE"
+    },
+    "oneInaccuracyInTheSelfDescription": "See non-blocking observation five: the artifact describes operations[7].value.rule as changing by 'the same two filename substitutions'. Measured, the leaf carries three character-level edits and only one of them is a filename."
+  },
+
+  "bothResolversRun": {
+    "whyThisMatters": "Freeze section 7.3's rider of 2026-08-10 records that four artifacts are refused SILENTLY by the retained resolver at (None, []), versioning-policy.v15 named among them, and instructs that before applying ANY derivation the resolver be executed against it and a POSITIVE resolution required rather than merely the absence of an error. A signer must know which instrument can read this file.",
+    "checkCompletenessPy": {
+      "file": "check-completeness.py",
+      "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+      "derivationDeclarationResult": "(None, [])",
+      "refusalIsSilent": true,
+      "errorsEmitted": 0,
+      "adjudication": "REFUSED SILENTLY, reproduced exactly as the freeze records. The cause is that every operation encodes path as an ARRAY of tokens and is_operation_list requires isinstance(item.get('path'), str). I confirmed the ambiguity is real and not theoretical by running the same call against versioning-policy.v8.json, a genuine standalone: it also returns (None, []). The instrument therefore emits the identical signal for 'this is not a derivation' and for 'this is a derivation I cannot read', and nothing distinguishes them.",
+      "whereTheDefectLies": "In the instrument, not in this artifact. The freeze records the array-token encoding as a deliberate hardening praised by an independent reviewer as an anti-CMP-IR-01 measure, and reclassifies the stranding as a corpus-level finding against both resolvers."
+    },
+    "checkCompletenessV2Py": {
+      "file": "check-completeness-v2.py",
+      "sha256": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+      "declarationDetected": true,
+      "declarationErrors": 0,
+      "resolutionErrors": 0,
+      "resolvedTopLevelKeys": 30,
+      "canonicalLengthBytes": 156198,
+      "resolvedSha256": "2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a",
+      "agreesWithMyIndependentResolver": true,
+      "agreesWithTheArtifactsPublishedDigest": true,
+      "adjudication": "POSITIVE RESOLUTION. Three independent resolvers - mine, this one, and the artifact's own author - agree on the same digest over the same byte count."
+    },
+    "sameTestOnThePredecessor": "check-completeness.py refuses versioning-policy.v14.json silently at (None, []) as well; check-completeness-v2.py resolves it to 324845b2... over 156172 bytes, matching my resolver. The behaviour is a property of the encoding, not of this successor.",
+    "whatASignerShouldTakeFromThis": "v15 is resolvable, and positively so, but only by check-completeness-v2.py. Any lane that reaches for check-completeness.py will receive a signal indistinguishable from 'not a derivation' and will then fall back to scoring the file by top-level key names, which is the CMP-IR-01 behaviour the array encoding was adopted to escape. The artifact does not disclose this anywhere; see non-blocking observation three."
+  },
+
+  "theKeyLocatorRepairRunBothWays": {
+    "whatV14GotWrong": "Its keyLocator asserted 'It is NOT in this file' of three keys - artifact, status and knownLimitations - that ARE top-level keys of it. At artifact and status the values coincide and the falsehood is harmless. At knownLimitations they differ, and the delta's array is substituted for the contract's in the direction that reads as validation.",
+    "iVerifiedThePredecessorDefectMyself": {
+      "v14Sha256": "39e3f41bafc7603b71441edb41a19834925d7a905d2afba88cada653fbc3cff9",
+      "v14TopLevelKeys": 19,
+      "v14CollisionSetMeasured": ["artifact", "author", "knownLimitations", "status", "supersedes", "version"],
+      "v14KeysAssertedAbsentButPresent": ["artifact", "status", "knownLimitations"],
+      "v14DeltaKnownLimitationsEntries": 6,
+      "resolvedContractKnownLimitationsEntries": 17,
+      "intersectionOfTheTwoArrays": 0,
+      "adjudication": "The blocking finding against v14 was correct on the bytes. I reproduced it before grading its repair."
+    },
+    "theRepairMeasured": {
+      "keyLocatorEntries": 30,
+      "resolvedTopLevelKeys": 30,
+      "keySetsEqual": true,
+      "keysMissingFromTheMap": 0,
+      "keysInventedByTheMap": 0,
+      "deltaFileTopLevelKeys": 22,
+      "collisionSetMeasuredByMe": ["artifact", "author", "knownLimitations", "status", "supersedes", "version"],
+      "collisionSetClaimedByTheArtifact": ["artifact", "author", "knownLimitations", "status", "supersedes", "version"],
+      "setsEqual": true,
+      "collisionsWhereValuesCoincide": 5,
+      "collisionsWhereValuesDiffer": 1,
+      "theOneThatDiffers": "knownLimitations - delta 9 entries, resolved contract 17 entries, set intersection EMPTY, resolved value strictly equal to versioning-policy.v8.json$.knownLimitations"
+    },
+    "bothDirectionsTested": {
+      "directionOne": "For every keyLocator entry asserting 'this file has no top-level key of this name', is that true? MEASURED: 24 entries make the assertion; all 24 are true. Zero false negatives.",
+      "directionTwo": "For every keyLocator entry carrying a NAME COLLISION notice, does the collision exist? MEASURED: 6 entries carry it; all 6 collisions are real. Zero false positives.",
+      "directionThree": "Is any colliding key left WITHOUT a collision notice? MEASURED: none. All 6 are disclosed.",
+      "directionFour": "Is any non-colliding key left without a statement of absence? MEASURED: none. All 24 state it.",
+      "keysMisdescribedInEitherDirection": 0,
+      "adjudication": "B-VER14R-01 IS REPAIRED, exactly and completely, at all 30 positions."
+    },
+    "theStopNoticeAdjudicated": {
+      "claim": "knownLimitations carries a STOP notice quoting the contract caveats a grep would silently discard.",
+      "measured": "It does. The notice names both arrays, both counts, states the intersection is empty, identifies which one the reader is looking at, and quotes five contract caveats. Four of the five are present in the resolved array byte-for-byte at indices 3, 2, 13 and 11. The fifth is present in substance and differs by one character; see non-blocking observation one.",
+      "adjudication": "SUBSTANTIVELY CORRECT, with one typographic defect recorded below."
+    },
+    "changedAndInheritedClaimsVerified": {
+      "changedEntries": 7,
+      "everyChangedEntryNamesTheCorrectOperationIndex": true,
+      "everyChangedEntryPathMatchesThatOperationsPath": true,
+      "everyChangedEntryGenuinelyDiffersFromThePredecessor": true,
+      "inheritedEntries": 23,
+      "everyInheritedEntryIsByteEqualToThePredecessor": true,
+      "everyInheritedEntryIsNamedByNoOperation": true,
+      "dischargeStatusPrecision": "The entry claims operation 5 reaches ONE leaf and that the other EIGHT members are inherited and absent from this file. MEASURED: the resolved dischargeStatus has exactly 9 members; CD-RT-5 moved from BLOCKED to DECIDED-2026-08-05; the other eight - state, evidenceGrade, candidateState, qualificationEvidenceIds, releaseEvidenceIds, V10, G19, seal - are each strictly equal to the predecessor's. The claim is exact."
+    }
+  },
+
+  "theCentralNegativeClaimTestedAsANegative": {
+    "claim": "This file builds no self-evidence apparatus, and the keyLocator repair adds none.",
+    "howITestedIt": "A negative claim cannot be confirmed by reading its assertion. I rebuilt the apparatus vocabulary from the v14 review's own enumeration - the names it lists as entering at each of v9 through v13 - and walked the full key set, at every depth, of every lineage member and of both resolved values. I then separately asked the structural question the name-based test cannot reach: which top-level keys does v15 add relative to v14, and are any of them machinery.",
+    "vocabularyMeasurement": {
+      "namesEnumeratedByTheV14Review": 21,
+      "noteOnTheVocabularySize": "The v14 review calls it a 22-name vocabulary and enumerates 21 names. I could not reconstruct a 22nd from its bytes, so my measurement is over the 21 it names.",
+      "measuredByMe": {
+        "versioning-policy.v8": 0,
+        "versioning-policy.v9": 5,
+        "versioning-policy.v10": 9,
+        "versioning-policy.v11": 14,
+        "versioning-policy.v12": 17,
+        "versioning-policy.v13": 21,
+        "versioning-policy.v14": 0,
+        "versioning-policy.v15": 0,
+        "v14ResolvedValue": 0,
+        "v15ResolvedValue": 0
+      },
+      "trajectoryPublishedByTheV14Review": "5, 9, 14, 17, 20",
+      "divergence": "I measure 21 at v13 where that review published 20. Its own 'adds' enumeration for v13 lists four names on top of v12's 17, which is 21, so the published 20 disagrees with its own list. This is a finding about the v14 review, not about the subject, and it does not move any verdict: the load-bearing figure in both measurements is ZERO at v14, at v15, and at both resolved values, and on that we agree exactly."
+    },
+    "theStructuralTestNameBasedMeasurementCannotReach": {
+      "topLevelKeysAddedByV15": ["inheritedMeasurementSweep", "repairOfV14", "topLevelNameCollisions"],
+      "topLevelKeysRemovedByV15": [],
+      "adjudicationOfEachAddition": [
+        "repairOfV14 - an ACCOUNT of the predecessor's blocking finding and of what was changed, plus measurements of OTHER files. It enforces nothing, censuses nothing about this contract, ships no checker. NOT APPARATUS.",
+        "topLevelNameCollisions - publishes the measured collision set as data with an in-file recompute recipe. It is the CONTENT of the repair, not machinery erected to prove the repair faithful. Its four published counts are all true and all recomputable without leaving the file; I recomputed all four. NOT APPARATUS.",
+        "inheritedMeasurementSweep - required by freeze section 7.3's rider of 2026-08-05, which obliges a derivation to state for every inherited measurement whether it re-measured it. A rule-mandated disclosure block. NOT APPARATUS."
+      ],
+      "decisive": "None of the three enters the RESOLVED document. The apparatus that sank v9 through v13 lived in the contract - successorRevision.evidenceEnforcementRepair and its siblings - because those were standalone re-authors. Here the resolved value's 22 untouched keys are byte-equal to versioning-policy.v8.json and named by no operation, which I verified key by key, so the apparatus is absent structurally rather than by promise.",
+      "adjudication": "THE CLAIM IS TRUE. v15 adds ZERO apparatus beyond v14's zero. The temptation the dispatch names - building machinery to prove the keyLocator repair correct - was not taken. The artifact concedes the cost of not taking it at its own knownLimitations[6], in the right direction and in its own words: the repair is prose, nothing recomputes the map, and deriving the collision set would require the companion checker that every one of the nine blocking findings is about."
+    }
+  },
+
+  "theCountThisLineageGotWrong": {
+    "theTrueCount": "NINE",
+    "howIVerifiedItIndependently": "I read all five predecessor review artifacts at the digests this file pins, re-hashed each, and compared their declared blockingFindingCount against the length of their own blockers array, and both against the file's lineage block.",
+    "measured": {
+      "versioning-policy.v9.review-independent.json": {"verdict": "CHANGES-REQUIRED", "blockingFindingCount": 1, "blockersArrayLength": 1, "nonBlockingObservationCount": 9},
+      "versioning-policy.v10.review-independent.json": {"verdict": "CHANGES-REQUIRED", "blockingFindingCount": 1, "blockersArrayLength": 1, "nonBlockingObservationCount": 9},
+      "versioning-policy.v11.review-independent.json": {"verdict": "CHANGES-REQUIRED", "blockingFindingCount": 1, "blockersArrayLength": 1, "nonBlockingObservationCount": 6},
+      "versioning-policy.v12.review-independent.json": {"verdict": "CHANGES-REQUIRED", "blockingFindingCount": 3, "blockersArrayLength": 3, "nonBlockingObservationCount": 6},
+      "versioning-policy.v13.review-independent.json": {"verdict": "CHANGES-REQUIRED", "blockingFindingCount": 3, "blockersArrayLength": 3, "nonBlockingObservationCount": 8}
+    },
+    "sumOfBlockingFindingCounts": 9,
+    "sumOfBlockersArrayLengths": 9,
+    "theNineIds": ["B-VER9R-01", "B-VER10R-01", "B-VER11R-01", "B-VER12R-01", "B-VER12R-02", "B-VER12R-03", "B-VER13R-01", "B-VER13R-02", "B-VER13R-03"],
+    "confirmation": "NINE, exactly as the artifact recomputes it. All ten lineage digests, all five declared verdicts, all ten counts and all nine blocker ids and titles are byte-exact against the live review artifacts.",
+    "whereTheArtifactGotItRIGHT": [
+      "$.whyADerivationAndNotAStandaloneDocument.andItIsTheLINEAGEArgumentToo says NINE and names the predecessor's error.",
+      "$.inheritedMeasurementSweep.table[37] records the predecessor's value and the recomputation with the nine ids enumerated.",
+      "$.inheritedMeasurementSweep.withdrawnInPlace.first withdraws the figure in place rather than editing operation 6, with the 1/1/1/3/3 evidence stated.",
+      "$.repairOfV14.whatTheRepairDoesNOTTouch[3] says 'its nine blocker titles'.",
+      "$.knownLimitations[6] says 'every one of the nine blocking findings against v9 through v13'."
+    ],
+    "whereItDidNOT": "See blocking finding one. The corrected figure survives at $.keyLocator.successorRevision, a position this pass authored fresh, and the sweep's own enumeration of where the figure lives omits it. And the sweep introduced a NEW wrong figure while measuring the old one's spread.",
+    "onTheV14ReviewsOwnRepetition": {
+      "artifactsClaim": "The independent review of versioning-policy.v14 repeated 'eleven' eight times.",
+      "measuredByMe": "11 distinct string leaves contain the token, and there are 12 total occurrences, all lowercase. No reading of those bytes yields eight.",
+      "theOneSubstantiveHalfIsTrue": "That review does state, at $.whatIVerified, that it verified 'all eleven blocker titles verbatim against the reviews' own title fields' while the block it verified carries nine. I confirm that sentence exists and is wrong in exactly the way the artifact describes.",
+      "seeBlockingFindingOne": true
+    }
+  },
+
+  "inheritedMeasurementSweepGraded": {
+    "gradedUnder": "Freeze section 7.2.2, sharpened 2026-08-10: scoping by referent is NECESSARY and NOT SUFFICIENT. The ROW SET must be derived too, and its population count published, so a reader can tell coverage from luck.",
+    "publishedSummary": {"rows": 41, "exact": 35, "drifted": 1, "otherVerdicts": 5},
+    "summaryRecomputedByMe": {"rows": 41, "exact": 35, "drifted": 1, "otherVerdicts": 5},
+    "summaryIsExact": true,
+    "scopingGrade": {
+      "verdict": "CORRECT - SCOPED BY REFERENT, NOT BY KEY NAME",
+      "evidence": "The block defines its scope at $.inheritedMeasurementSweep.whatCountsAsInheritedHere as 'every measurement versioning-policy.v14 recorded that this file carries forward' plus 'the measurements the resolution itself inherits from versioning-policy.v8.json'. That is a definition by what the figure is a measurement OF. It reaches digests, verdicts, counts, blocker titles and a citation - none of which shares a key-name pattern. This is the method the freeze calls right, and the artifact applies it."
+    },
+    "enumerationGradeLaneByLane": [
+      {
+        "lane": "$.pinnedInputs digests",
+        "rows": 16,
+        "rowSetDerived": true,
+        "populationCountPublished": false,
+        "myMeasurement": "The lane is genuinely derived: versioning-policy.v14 pins 16 inputs and all 16 appear as rows. v15 pins 19; the three additions - versioning-policy.v14.json, its review, and check-versioning-v14.py - are NEW pins that v14 could not have recorded, so they are correctly out of scope for an INHERITED-measurement sweep. The scoping is right.",
+        "theGap": "Nothing in the artifact publishes that 16 is the population. A reader cannot tell 16-of-16-inherited from 16-of-19-pinned without going outside the file, as I had to. The lane is correct and its correctness is not demonstrable from within.",
+        "verdict": "DERIVED, POPULATION COUNT NOT PUBLISHED"
+      },
+      {
+        "lane": "$.derivation.operations[6] lineage block",
+        "rows": 21,
+        "rowSetDerived": "PARTLY - the 15 lineage rows are three per predecessor across five predecessors, which is derived and regular; the remaining 6 are hand-picked",
+        "populationCountPublished": false,
+        "myMeasurement": "Operation 6 carries 92 leaves, of which I count 60 carrying a number, a date or a digest. The table covers 21. No statement anywhere says how many candidate measurements were considered.",
+        "verdict": "PARTLY DERIVED, HAND-ENUMERATED AT THE MARGIN, NO POPULATION COUNT"
+      },
+      {
+        "lane": "resolved contract",
+        "rows": 3,
+        "rowSetDerived": false,
+        "populationCountPublished": false,
+        "myMeasurement": "Three rows over a resolved document of 2158 scalar leaves. Which three, and why those three, is not stated.",
+        "verdict": "HAND-ENUMERATED, NO POPULATION COUNT"
+      },
+      {
+        "lane": "$.derivation.predecessorSha256",
+        "rows": 1,
+        "rowSetDerived": true,
+        "populationCountPublished": true,
+        "myMeasurement": "One field, one row, trivially complete.",
+        "verdict": "DERIVED AND COMPLETE"
+      }
+    ],
+    "thePredictionHeld": "Freeze section 7.2.2 records that when a sibling artifact's sweep was graded lane by lane, the one blocking finding landed precisely in a lane with no published row count. The same thing happened here. My blocking finding one lands inside $.inheritedMeasurementSweep.table[37], whose whereItLives field hand-enumerates three positions for the 'eleven' figure and omits a fourth. That row is in the hand-enumerated margin of the operation-6 lane, and no population count exists that would have exposed the omission.",
+    "rowsIVerifiedMyself": {
+      "digestRowsVerifiedAgainstLiveBytes": 16,
+      "digestRowsExact": 15,
+      "digestRowsDrifted": 1,
+      "lineageRowsVerifiedAgainstLiveReviewBytes": 15,
+      "lineageRowsExact": 15,
+      "otherRowsVerified": ["row 32 retention-tiers.v25 verdict and counts - EXACT, verdict.overall 'REJECT FOR REPAIR -- 4 blocking findings, 9 non-blocking observations', totalBlockingFindingCount 4, nonBlockingObservationCount 9", "row 34 D9 divergence - EXACT AND STILL OPEN, both cited files present on disk at the digests recorded", "row 35 dischargeStatus siblings unchanged - EXACT, all eight strictly equal to the predecessor", "row 36 resolved knownLimitations inherited - EXACT, strictly equal to versioning-policy.v8.json", "row 37 the count - the recomputation to NINE is correct; its position enumeration is not, see blocking finding one", "row 40 RT23-B-RES-01 - the citation is re-read correctly and the figures are correctly declared NOT re-measured"],
+      "rowsIFoundFalse": 0,
+      "summaryOfRowCorrectness": "Every row I could check is correct as a MEASUREMENT. The defect in this block is not a wrong row; it is a missing row and a wrong figure in the prose attached to a right row."
+    },
+    "myOwnDerivedDigestSweepOverTheWholeFile": {
+      "whyIRanIt": "To test the enumeration question with a row set derived from the artifact's structure rather than from anyone's list, and to publish the count so this sweep can be told from luck.",
+      "rowGenerator": "Every distinct 64-hex token appearing anywhere in versioning-policy.v15.json, as a value or embedded in prose, at any depth.",
+      "rowsGenerated": 24,
+      "rowsMatchingALiveFileOnDisk": 21,
+      "rowsMismatchingALiveFile": 0,
+      "rowsWithNoCorrespondingFile": 3,
+      "eachAccountedFor": [
+        "5fc59ad26c1f99c2bb963f2aa31b8567a8cb694dd5dd343cc403982517aef4c9 - the SUPERSEDED product packet digest, explicitly declared dead and reconciled against the live one. Correct.",
+        "2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a - this file's own resolved canonical value, declared as not a byte property of any file. Correct.",
+        "324845b22b3b1aed0dca9deb8fbc032048dc1399da967062c9103332f06aba41 - the predecessor's resolved canonical value, same status. Correct."
+      ],
+      "unaccountedDigests": 0,
+      "verdict": "CLEAN. 21 of 21 file-backed digests verify exactly against live bytes; 3 of 3 non-file digests are correctly declared as such."
+    },
+    "myOwnDerivedIntegerCensus": {
+      "rowGenerator": "Every integer leaf at every depth of the delta file, bool excluded by testing bool BEFORE int.",
+      "rowsGeneratedForV15": 45,
+      "rowsGeneratedForV14": 33,
+      "rowsIRecomputedAndFoundCORRECT": 45,
+      "rowsIFoundWRONG": 0,
+      "note": "Every published integer in versioning-policy.v15.json is true. The two blocking findings are both about figures written as WORDS in prose - 'eleven', 'eight times', 'SEVEN LEFT OPEN, ONE CLOSED' - which no integer census reaches. That is worth stating plainly: an integer sweep of this file returns a perfect score and misses both defects."
+    }
+  },
+
+  "theOneDriftGraded": {
+    "claim": "One inherited measurement drifted - the binding product packet - and it is re-pinned with BOTH digests present and reconciled.",
+    "measuredByMe": {
+      "v14PinnedDigest": "5fc59ad26c1f99c2bb963f2aa31b8567a8cb694dd5dd343cc403982517aef4c9",
+      "liveDigestNow": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+      "artifactsDeclaredLiveDigest": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+      "driftIsReal": true,
+      "oldDigestOccurrencesInV15Bytes": 6,
+      "newDigestOccurrencesInV15Bytes": 7,
+      "bothPresent": true,
+      "reconciliationPresent": true,
+      "whereTheReconciliationLives": "$.inheritedMeasurementSweep.theOneDrift.whatIDidNOTDo states the pairing explicitly, AND - stronger than the freeze requires - $.pinnedInputs[4].role itself carries both digests, so a reader who never opens the sweep still meets the reconciliation at the pin.",
+      "operationSixRetainsTheDatedOldDigest": "$.derivation.operations[6].value.theDecisionAsTheAuthorityRecordedIt.sourceSha256 still reads 5fc59ad2... with its own readAt stamp of 2026-08-06T01:53:21Z. That is a correctly self-dated record of the read the predecessor took, not a live claim."
+    },
+    "thePacketFieldsIReVerifiedMyself": [
+      "$.decisions.CD-RT-5 status DECIDED, decidedOn 2026-08-05, decidedBy sfbreen - unchanged in the live bytes, read field by field.",
+      "$.status now opens 'BINDING (retention disposition DECIDED 2026-08-05 by sfbreen; no accepted retention ARTIFACT yet exists and no Phase-1A packet has been supplied)' - repaired, as claimed.",
+      "$.invariants[4] now opens 'PD-5: SUPERSEDED 2026-08-05' - repaired, as claimed.",
+      "$.knownLimitations[0] now opens 'SUPERSEDED 2026-08-05' - repaired, as claimed.",
+      "The packet retains every superseded string verbatim in place rather than deleting it, as the artifact describes."
+    ],
+    "gradeOfThisClosure": "JUSTIFIED, AND CORRECTLY REASONED. Leaving this observation open would have required republishing, under this file's name and today's date, a digest the author had already measured as dead - which freeze section 7.3's rider grades a defect in its own right and section 7.2.2 grades as prose that looks like evidence. The half that v10-disposition.v2 was faulted for omitting on this same packet - both digests present AND reconciled - is present here in two places."
+  },
+
+  "theOtherClosureGraded": {
+    "observation": "O-07, maxDepth published without its convention",
+    "artifactsAction": "CLOSED. The convention is stated: THE ROOT OBJECT IS DEPTH 0.",
+    "myMeasurement": "maxDepth of the resolved value is 7 counting the root as depth 0, and 8 counting it as depth 1. The published figure is 7 and the published convention is root-is-zero. Both halves check out.",
+    "gradeOfThisClosure": "JUSTIFIED. The reasoning given is also sound: $.resolvedValue is entirely re-authored in this file with a new digest and a re-walked census, so republishing the depth without its convention would have been authoring a fresh ambiguity rather than inheriting one. That distinction between inheriting a defect and re-authoring it is the correct one under the derivation discipline.",
+    "closureCountNote": "Both closures are justified. The artifact nevertheless states three times that it closes only ONE of them; see blocking finding two."
+  },
+
+  "residualsThatMustStayOpen": {
+    "d9VersionDivergence": {
+      "status": "OPEN, CORRECTLY",
+      "measured": "$.decisionDependencies[4].source in the resolved contract cites artifacts/d9-exit-contract.v1.6.json while the D9 head is v1.14. Both files exist on disk at the digests the artifact records: v1.6 at c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046, v1.14 at 8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31.",
+      "theSecondPosition": "I independently confirm the artifact's statement that the divergence occupies TWO positions rather than the one the carried residual names. The second is $.resolves['B-SCV2-06'], which asserts 'RESOLVED - the D9 citation retargets to the live v1.6 artifact and the dependency DIRECTION is declared'. That position calls v1.6 live and declares the matter resolved, which is the direction that reads as validation. The artifact discloses this at $.whatThisFileDoesNotClaim[2] and leaves it open.",
+      "adjudication": "NOT CLOSED, AND CORRECTLY NOT CLOSED. The artifact states that closing it would require re-measuring the v1.6-to-v1.14 span, that this lane did not measure it, and that republishing another lane's measurement is the freeze section 7.2.2 error. That reasoning is right and I did not measure the span either."
+    },
+    "rt23BRes01": {
+      "status": "OPEN, CORRECTLY",
+      "artifactsPosition": "Cited as the packet's own withdrawal record at the live digest, explicitly NOT this lane's measurement, with a plain statement that the three figures were not re-measured.",
+      "iReMeasuredItMyself": {
+        "against": "d9-exit-contract.v1.14.json at 8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+        "deficiencyMembersNamingRetentionLoss": "0 of 9, over $.scenarioAxesSchema.properties.secondaryDeficiencies.items.enum",
+        "reasonCodesNamingRetentionLoss": "0 of 9, over $.codeVocabulary.reasonCodes",
+        "errorCodesNamingRetentionLoss": "0 of 19, over $.codeVocabulary.errorCodes",
+        "verdict": "0 of 9, 0 of 9, 0 of 19 - unchanged. The residual genuinely remains OPEN."
+      },
+      "adjudication": "The artifact declines to close it and declines to claim the figures as its own. Both are correct, and my independent re-measurement confirms the residual is exactly where it was."
+    },
+    "theSixNonBlockingObservationsLeftOpen": {
+      "measured": "O-01, O-03, O-04, O-05, O-06 and O-08 are each carried with an explicit disposition and a reason. Six open.",
+      "adjudication": "CORRECT AS AN ENUMERATION. Each reason is defensible and O-04's flag is genuinely delivered at $.keyLocator.successorRevision as promised - though that is also where blocking finding one lives.",
+      "oneICheckedInDetail": "O-01, six items described as the five things, is stated to live at $.whatThisFileDoesNotClaim[7]. I confirm the index is correct and the entry lists SIX items - coverage census, enforcement registry, partition, paper-seal scan, repoint-cost estimate, byte-identity claim - and calls them 'the five things'. Carried forward verbatim and disclosed as OPEN, which is honest."
+    }
+  },
+
+  "authorityAndOverstatement": {
+    "citedNotConstituted": {
+      "measured": "$.bindingDeclaration declares binds NOTHING, appliedTo NOTHING, authorityClaim NONE, mayConstituteAProductDecision false. The authority block copies the packet's fields at a recorded digest and states 'This artifact constitutes nothing.' The override of retention-tiers.v22's recommended default is recorded AS an override, attributed to the product authority, not manufactured.",
+      "adjudication": "COMPLIANT WITH FREEZE SECTION 4.4. This file cites and does not constitute. I found no fabricated sign-off, no manufactured acceptance, and no conversion of a recommendation into an accomplished decision. The live packet independently carries an attributionProvenance field recording that the authority chose its own attribution and that the coordinator selected neither field."
+    },
+    "decisionIdAsAKey": {
+      "inTheDeltaFileAtAnyDepth": 0,
+      "inTheResolvedValue": ["$.dischargeStatus.V10", "$.dischargeStatus.CD-RT-5", "$.dischargeStatus.G19", "$.resolves.A1-VER-01 through A1-VER-06"],
+      "inThePredecessorVersioningPolicyV8": "the identical set",
+      "adjudication": "v15 INTRODUCES NONE. Every decision-id-shaped key in the resolved value is inherited byte-for-byte from versioning-policy.v8.json, the reviewed head, and is named by no operation except the CD-RT-5 leaf whose value moves. The delta file itself has zero at any depth."
+    },
+    "overstatementSweep": {
+      "v10": "NOT claimed resolved. $.dischargeStatus.V10 stays UNRESOLVED in the resolved value, and $.whatThisFileDoesNotClaim[1] says so explicitly.",
+      "g19": "NOT claimed unblocked. Stays BLOCKED.",
+      "seal": "NOT claimed. Stays DO-NOT-SEAL, and $.sealRecommendation at the delta level reads DO-NOT-SEAL.",
+      "phase1APacket": "NOT claimed supplied. $.whatThisFileDoesNotClaim[3] and the resolved $.retentionDecisionRejoin.whatDoesNOTChange[2] both state the decision supplies no Phase-1A packet.",
+      "evidenceAndTm": "NOT claimed unblocked, stated in the same two positions.",
+      "acceptedRetentionArtifact": "NOT claimed to exist. The artifact states none does and cites retention-tiers.v25's REJECT FOR REPAIR at 4 blocking, which I verified against that review's own bytes.",
+      "dischargeState": "NOT claimed. $.dischargeStatus.state stays SPECIFIED and evidenceGrade stays IMPLEMENTABLE_UNEXECUTED.",
+      "repairQuality": "NOT claimed graded. The artifact names check-product-dispositions-v2.py's residual R3 and declines to publish any exit code of its own.",
+      "adjudication": "ZERO OVERSTATEMENT FOUND. Every position where this corpus has previously overclaimed is explicitly disclaimed here, and the disclaimers are true on the resolved bytes."
+    }
+  },
+
+  "blockers": [
+    {
+      "id": "B-VER15R-01",
+      "severity": "BLOCKING",
+      "title": "The correction of the eleven/nine count is published as complete and as measured, and both halves are false: the wrong figure survives at a fourth authored position that this pass wrote fresh, and the measurement of its spread is wrong.",
+      "against": "versioning-policy.v15.json - $.keyLocator.successorRevision, $.inheritedMeasurementSweep.table[37].whereItLives, and $.inheritedMeasurementSweep.withdrawnInPlace.first",
+      "notAgainst": "The versioning contract, the derivation, the operation list, the resolved value or its digest. No contract leaf is touched by this finding and the resolved digest is unaffected.",
+      "whatIMeasured": [
+        "$.keyLocator.successorRevision reads, byte-literally: 'rewriting an inherited block is transcription, which is the practice the reviews of v9 through v13 located eleven times.'",
+        "That entry is NEW IN THIS PASS. versioning-policy.v14's keyLocator entry for the same key is the three-sentence template - 'INHERITED UNCHANGED from versioning-policy.v8.json. It is NOT in this file. Resolve the derivation to read it.' - and carries no such sentence. The artifact itself says so at its O-04 disposition: 'The flag it asked for is now carried at $.keyLocator.successorRevision, which is a surface this repair was already opening.' The sentence is authored, not inherited.",
+        "The true count is NINE. I verified it from the five review artifacts' own bytes: blockingFindingCount 1, 1, 1, 3, 3 and blockers arrays 1, 1, 1, 3, 3. The artifact recomputes the same NINE at three other positions.",
+        "'Eleven' counts nothing in those five reviews. Their non-blocking observation counts total 38, not 11. The word stem 'transcri' occurs ZERO times across all five review artifacts, so the sentence cannot be counting located mentions of the practice either. There is no measurement that yields eleven.",
+        "$.inheritedMeasurementSweep.table[37].whereItLives enumerates the positions of this figure as '$.derivation.operations[6].value (twice) and $.whyADerivationAndNotAStandaloneDocument (once)'. That is three. I measured four substantive positions; $.keyLocator.successorRevision is the omitted fourth.",
+        "$.inheritedMeasurementSweep.withdrawnInPlace.first.whatItDoesAndDoesNotAffect states: 'It is corrected where this file authors the sentence, at $.whyADerivationAndNotAStandaloneDocument.andItIsTheLINEAGEArgumentToo, and withdrawn rather than edited at the two positions inside operation 6.' That is a completeness claim over the file's own authored positions, and it is false: there is a second authored position and it was neither corrected nor withdrawn.",
+        "$.inheritedMeasurementSweep.withdrawnInPlace.first.whoElseCarriedIt publishes a MEASUREMENT: 'The independent review of versioning-policy.v14 repeated \"eleven\" eight times.' Measured on that review's bytes at a6628ba26ec68a6e738b06a1eb1231fc8d2aa78a462ab70e688935e0ac516fb4: 11 distinct string leaves contain the token and there are 12 total occurrences, all lowercase, zero capitalised. Neither reading is eight."
+      ],
+      "whyThisIsBlockingAndNotAnObservation": "Freeze section 7.2.2 makes a recorded measurement the bindable kind and requires it to be hard-compared to the measurement it records; its 2026-08-04 refinement states the operative half - the bound licenses claims a reviewer cannot check, it does not license claims a reviewer can check and find false, so either compare the figure yourself before publishing or do not publish it as measured. Both defects here are exactly that: checkable, published as measured, false. The position also matters. The keyLocator is the one mitigation this file exists to repair, built for the reader who does NOT resolve, and this lineage has already demonstrated what a wrong figure there does - versioning-policy.v14 wrote 'eleven', and its independent reviewer restated it across 11 leaves and published a sentence claiming to have verified eleven blocker titles against a block carrying nine. The artifact diagnoses that propagation itself and calls it, correctly, the shape freeze section 7.2.2 names as a defect that recruits its own corroboration. It then reproduced the figure in its own new navigation prose and published a fresh uncompared count about the propagation. I record that the 'eight times' figure had already reached the dispatch commissioning this review as an asserted fact before I measured it - the recruitment is not hypothetical, it is one hop old.",
+      "directionOfTheError": "MIXED, and I want to be exact rather than dramatic. The surviving 'eleven' overstates prior failure, which is the SAFE direction and the artifact says so. The 'eight times' figure understates how far the wrong count spread, which makes the corpus look less contaminated than it is - the mildly unsafe direction. Neither is remotely as dangerous as B-VER14R-01, which swapped seventeen contract caveats for six delta statements in the direction that reads as validation. I am not claiming equivalence. I am applying the rule that a published measurement must be compared before publication, to a file whose central argument is that self-descriptions must be recomputed from the written bytes.",
+      "remedy": [
+        "In a successor: correct $.keyLocator.successorRevision to nine, or restate the clause so it does not carry a count at all - the sentence's point survives without one.",
+        "Correct $.inheritedMeasurementSweep.table[37].whereItLives to enumerate all four positions, or derive that enumeration from the file rather than writing it.",
+        "Either recompute the 'eight times' figure from the review's bytes and publish what it measures, or withdraw the figure and state the propagation qualitatively.",
+        "Whichever is chosen, publish the row count of the position enumeration so the next reader can tell coverage from luck."
+      ],
+      "doesNotAffect": "The resolved value and its digest, which I reproduced exactly. The eight operations and their guards. The keyLocator's 30-of-30 correctness as a map of present-versus-absent keys, which is what B-VER14R-01 was about and which is fully repaired. The central negative claim. Any residual. The authority discipline."
+    },
+    {
+      "id": "B-VER15R-02",
+      "severity": "BLOCKING",
+      "title": "The file contradicts itself three statements to two on how many non-blocking observations it closes, and the contradicting header sits directly above the enumeration that refutes it.",
+      "against": "versioning-policy.v15.json - $.repairOfV14.theEightNonBlockingObservationsOfTheV14Review.disposition, the same block's O-02 entry, and $.inheritedMeasurementSweep.theOneDrift.whyRePinningBelongsInThisRepair",
+      "notAgainst": "The two closures themselves, which I graded separately and found both justified and both correctly reasoned. This finding is about the count, not about the closing.",
+      "whatIMeasured": [
+        "The enumeration in $.repairOfV14.theEightNonBlockingObservationsOfTheV14Review carries eight observation entries. Two begin with CLOSED - O-02 and O-07. Six do not. Measured: TWO CLOSED, SIX OPEN.",
+        "$.repairOfV14.theEightNonBlockingObservationsOfTheV14Review.disposition reads 'SEVEN LEFT OPEN, ONE CLOSED BECAUSE LEAVING IT OPEN WOULD HAVE MEANT PUBLISHING A DIGEST I HAD ALREADY MEASURED AS DEAD.' That header is the first member of the very object whose remaining eight members refute it.",
+        "The O-02 entry in that same object reads 'CLOSED, AND ONLY THIS ONE.' The O-07 entry, four keys later, reads 'CLOSED.'",
+        "$.inheritedMeasurementSweep.theOneDrift.whyRePinningBelongsInThisRepair reads 'It is the only one of the eight non-blocking observations this repair closes.'",
+        "$.whatThisFileDoesNotClaim[8] reads 'plus the two non-blocking observations named at $.repairOfV14... The other six stay OPEN.' This one is correct.",
+        "So three authored statements say one-closed-seven-open and two say two-closed-six-open. The bytes say TWO CLOSED, SIX OPEN."
+      ],
+      "whyThisIsBlocking": "It is the same rule as the first finding and it is the class this artifact was written to correct in its predecessor. A count stated against an adjacent enumeration and not recomputed is precisely what freeze section 7.2.2 catalogues four times, and precisely what $.inheritedMeasurementSweep.withdrawnInPlace exists to withdraw. The freeze's own words on the fourth instance apply here without alteration: a document that documents this class committed it again, in the same pass, in an adjacent field - that is not carelessness, it is evidence that the defect is structural rather than attentional. A summary header is what a reader trusts instead of counting, and this one is wrong about the object it heads.",
+      "directionOfTheError": "It understates closure, which is the safe direction - a reader is told less was settled than was. But O-02's 'AND ONLY THIS ONE' is a flatly false statement about the file's own contents, and a signer tracking which of the eight observations remain open is told seven when the answer is six.",
+      "remedy": [
+        "In a successor: correct the disposition header to 'SIX LEFT OPEN, TWO CLOSED', strike 'AND ONLY THIS ONE' from the O-02 entry, and correct the theOneDrift sentence to name O-02 as one of two closures rather than the only one.",
+        "Better: derive the two figures by counting the entries whose value begins with CLOSED, and say that is how they were derived, so the header cannot drift from the block it heads."
+      ],
+      "doesNotAffect": "Both closures, which are justified. The resolved value and its digest. The keyLocator repair. Any residual - all six that must stay open are open, whatever the header says about how many there are."
+    }
+  ],
+
+  "nonBlockingObservations": [
+    {
+      "id": "O-VER15R-01",
+      "title": "The keyLocator STOP notice quotes a contract caveat with a curly apostrophe where the contract has a straight one, so a byte-literal grep of the quotation returns ABSENT.",
+      "measured": "The STOP notice at $.keyLocator.knownLimitations quotes 'Every support window is GUESSED and the corresponding property is NOT DISCHARGED. VT-12’s harness may be unbuildable by design.' The resolved contract's knownLimitations[0] carries the identical sentence with U+0027 rather than U+2019 at VT-12's. The quoted string is NOT a substring of the entry byte-literally; folding U+2019 to U+0027 finds it immediately. The other four quotations in the same notice are byte-exact substrings of entries 3, 2, 13 and 11.",
+      "whyItMatters": "Freeze section 7.7 names this the sharpest false-negative generator in the package: a reader doing exactly the right thing - quote before you conclude - gets exactly the wrong answer, and the failure looks like a finding. The artifact demonstrably knows the class; its O-08 disposition records an em-dash rendered as a hyphen inside operation 6 and says it is recorded 'so a later lane grepping the hyphen form and getting ABSENT does not read it as a fabrication.' This is a new instance of the same class in prose this pass authored, and it is not disclosed.",
+      "direction": "SAFE. It manufactures a false suspicion of fabrication, not a false reassurance. That is why this is an observation and not a blocker.",
+      "remedy": "Reproduce the apostrophe as it appears in the contract, or add this position to the O-08 disclosure."
+    },
+    {
+      "id": "O-VER15R-02",
+      "title": "The inherited-measurement sweep is scoped correctly by referent but publishes no population count in any lane, so its coverage cannot be told from luck - and the blocking finding landed in a lane with no count.",
+      "measured": "Four lanes. The predecessor-digest lane is derived and trivially complete. The pinnedInputs lane is genuinely derived - 16 rows against the predecessor's 16 pins, with v15's three new pins correctly out of scope - but nothing in the file publishes that 16 is the population, so I had to open versioning-policy.v14 to establish it. The operation-6 lane is regular for its 15 lineage rows and hand-picked for the remaining 6, over a block carrying 92 leaves of which about 60 bear a number, a date or a digest. The resolved-contract lane is 3 hand-picked rows over 2158 scalar leaves. $.inheritedMeasurementSweep.summary.howToCheck says 'Every number here is a count of an array in this same file', which establishes that the table is internally consistent and says nothing about whether the table is complete.",
+      "whyItMatters": "Freeze section 7.2.2's 2026-08-10 sharpening states the rule and its confirmation: a lane that does not publish how many rows it generated is not making a weaker claim, it is making an uncheckable one, and a reader cannot tell its silence from coverage. My blocking finding one is a missing row in the hand-enumerated margin of the operation-6 lane. The rule predicted the location.",
+      "creditWhereItIsDue": "The scoping half is done right, and that is the half this corpus has failed more often. The block reaches digests, verdicts, counts, blocker titles and a citation - figures sharing no key-name pattern - which is exactly the referent-based method the freeze calls correct. Every row I checked is a correct measurement. The gap is enumeration, not method.",
+      "remedy": "Publish, per lane, the population the rows were drawn from and the count generated - for the pinnedInputs lane that is one sentence, since 16 of 16 inherited pins is already true."
+    },
+    {
+      "id": "O-VER15R-03",
+      "title": "The file does not disclose that the corpus's retained resolver refuses it silently, and its knownLimitations covers the adjacent ground without covering this.",
+      "measured": "check-completeness.py's derivation_declaration returns (None, []) on versioning-policy.v15.json - no declaration, no error - which I reproduced. The identical return comes back for versioning-policy.v8.json, a genuine standalone, so the signal cannot be distinguished from 'not a derivation at all'. check-completeness-v2.py resolves the file positively and reproduces the digest. versioning-policy.v15.json contains zero occurrences of either checker's name.",
+      "whyItMatters": "knownLimitations[0] concedes that no retained checker VALIDATES this file and that the file's own structure is validated by nothing. Neither statement reaches the different and sharper fact that one of the corpus's two resolvers cannot READ it, and falls back to scoring it by top-level key names - the CMP-IR-01 behaviour the array-token encoding was adopted to escape. Freeze section 7.3's rider of 2026-08-10 instructs that before applying any derivation a POSITIVE resolution must be required, not merely the absence of an error, and names this artifact among the four in that state.",
+      "whyThisIsNotABlocker": "The defect is in the instrument, and the freeze says so plainly, reclassifying it as a corpus-level finding against both resolvers rather than a defect in any successor. The freeze also records that the four artifacts encoding paths as token arrays are individually better-formed than the eleven that resolve. This file is not at fault for being ahead of its reader.",
+      "remedy": "One knownLimitations entry naming both resolvers and their measured results, so a signer meets the fact in the artifact rather than in the freeze."
+    },
+    {
+      "id": "O-VER15R-04",
+      "title": "A carried statement enumerating 'the only numbers this file publishes about itself' is republished under this file's name and is now incomplete, and it is not among the three withdrawn in place.",
+      "measured": "$.derivation.operations[6].value.whyV14AndNotV9ThroughV13.theOnlyNumbersThisFilePublishesAboutItself - which resolution republishes as $.retentionDecisionRejoin... under v15's name and date - reads 'The operation count and the two op-kind counts in $.operationAccounting, and a leaf census of the RESOLVED value in $.resolvedValue.' Measured, this file publishes at least ten further self-figures: $.topLevelNameCollisions contributes four, $.inheritedMeasurementSweep.summary contributes four, $.operationAccounting also carries identity and substantive, and $.resolvedValue also carries canonicalLengthBytes and maxDepth. The three statements withdrawn at $.inheritedMeasurementSweep.withdrawnInPlace do not include this one, so $.knownLimitations[7]'s 'Three statements inside operation 6 are carried forward unedited while being contradicted elsewhere in this same file' is an undercount.",
+      "theHonestOtherHalf": "The sentence's OPERATIVE clause survives intact. It continues 'Each is a count of a structure carried in this same file and can be recomputed against it without leaving it. Nothing here prints a figure that nothing can be compared against.' I recomputed every one of the ten unenumerated figures and all ten are true and all ten are recomputable from this file without leaving it. So the claim that matters is still true of v15; only its enumeration has gone stale.",
+      "whyItIsAnObservationAndNotABlocker": "It is inside a block carried verbatim by design, the withdrawal-in-place discipline is the right one, and the property the sentence asserts holds. The defect is that the sweep did not catch it, which is O-VER15R-02's enumeration gap showing up a second time.",
+      "remedy": "Add a fourth withdrawnInPlace entry, and correct knownLimitations[7] from three to four."
+    },
+    {
+      "id": "O-VER15R-05",
+      "title": "The described diff of operations[7].value.rule omits one of its three character-level edits and calls a document reference a filename.",
+      "measured": "$.repairOfV14.theFourLeavesChangedInTheOPERATIONLIST describes this leaf as changing by 'the same two filename substitutions inside the prose that tells a reader which file to resolve.' A character-level diff against versioning-policy.v14's leaf returns THREE edits: 'versioning-policy.v14.json' to 'versioning-policy.v15.json', which is a filename; 'the effective v14 document' to 'the effective v15 document', which is not; and U+0027 to U+2019 in \"that file's operations\", which is neither.",
+      "whyItMatters": "It is small, and the leaf itself is correctly identified - my independent diff found exactly the four leaves the artifact names and no others. But this artifact's whole thesis is that a self-description must be recomputed from the written bytes rather than written from intent, and this is a self-described diff that was not recomputed.",
+      "alsoNoted": "The array named theFourLeavesChangedInTheOPERATIONLIST has five members, the fifth being a NOTHING ELSE summary. That is the same shape as carried observation O-01, which the artifact discloses as open. Recorded so it is not read as a second instance of an undisclosed pattern - it is a defensible layout, just an unfortunate echo.",
+      "remedy": "State three edits, or describe them as version-identity substitutions plus one apostrophe normalisation."
+    },
+    {
+      "id": "O-VER15R-06",
+      "title": "The v14 review's apparatus trajectory publishes 20 for v13 where its own name enumeration yields 21, and I measure 21.",
+      "measured": "That review's $.centralClaimAdjudications[0].measured publishes the trajectory as 5, 9, 14, 17, 20 and enumerates the names entering at each step: five at v9, four more at v10, five more at v11, three more at v12, four more at v13. 17 plus 4 is 21. Walking the full key set of versioning-policy.v13.json at every depth against those 21 names, I count 21 present.",
+      "whyIRecordItHere": "It is a finding about the predecessor's REVIEW, not about the subject, and I would not normally carry it. I record it for two reasons. First, versioning-policy.v15 does not restate that trajectory anywhere, so it is clean of this one - a signer should not attribute it here. Second, it is the third independent arithmetic slip found in this lineage's own self-accounting inside two generations, alongside 'eleven' and 'eight times', which is the pattern freeze section 7.2.2 calls structural rather than attentional.",
+      "doesNotAffect": "The v14 review's verdict or its central adjudication. The figure that carries weight in that measurement is ZERO at v14 and at its resolved value, and I reproduce that exactly.",
+      "remedy": "None owed by this artifact. Recorded for the corpus."
+    }
+  ],
+
+  "whatIVerified": [
+    "The subject's digest and size at dispatch, at the start of my work, and again before finalising: 9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f, 99793 bytes, no drift at any of the three points.",
+    "That the file parses with a duplicate-key-rejecting object_pairs_hook at every depth. Zero duplicates.",
+    "The eight-operation derivation, resolved with my own resolver sharing no code with the artifact or any checker: predecessor digest verified, all six set-guards satisfied under a type-exact comparator testing bool BEFORE int, both add targets confirmed absent, zero refusals.",
+    "$.resolvedValue.sha256 = 2d20119bf8444dbab81a044ba505db9b01da01187c5c41b6d27c0ebd0fd53a8a reproduced EXACTLY over EXACTLY 156198 canonical bytes, on the first attempt.",
+    "The predecessor's published figure reproduced independently: 324845b22b3b1aed0dca9deb8fbc032048dc1399da967062c9103332f06aba41 over 156172 bytes.",
+    "The ten-category leaf census re-walked from my resolved value with bool before int: all ten match. maxDepth 7 under the newly published root-is-zero convention, 8 under the other; both measured.",
+    "Exactly four resolved leaves differ from versioning-policy.v14, all four successor identity, and exactly four operation-list leaves differ ignoring the why fields - the same four the artifact names and no others.",
+    "Operation 6 STRICTLY EQUAL between the two files under a type-exact comparator. The largest thing this derivation adds is carried verbatim, as claimed.",
+    "The keyLocator repair in BOTH DIRECTIONS across all 30 entries: 24 absence assertions all true, 6 collision notices all real, zero colliding keys undisclosed, zero non-colliding keys unstated, ZERO keys misdescribed either way.",
+    "The collision set measured from the two key sets myself: exactly artifact, author, knownLimitations, status, supersedes, version. Five coincide, one differs. Identical to the published set.",
+    "That the resolved knownLimitations is strictly equal to versioning-policy.v8.json's, has 17 entries against the delta's 9, and shares ZERO elements with it.",
+    "Every CHANGED keyLocator entry against its named operation index and path, and every INHERITED entry as byte-equal to the predecessor and named by no operation.",
+    "The dischargeStatus precision claim: 9 members, one moved, eight strictly equal to the predecessor.",
+    "The predecessor's own defect, reproduced before grading its repair: v14's keyLocator asserts absence of three keys it carries, and at knownLimitations the two arrays share nothing.",
+    "The central negative claim tested as a negative over the v14 review's own apparatus vocabulary, walked at every depth: ZERO in v15, ZERO in its resolved value, against 5/9/14/17/21 across v9 through v13.",
+    "The structural half the vocabulary cannot reach: the three top-level keys v15 adds, each adjudicated against the apparatus definition, none of which enters the resolved document.",
+    "The count: NINE, from the five review artifacts' own bytes - blockingFindingCount 1/1/1/3/3, blockers arrays 1/1/1/3/3 - with all ten lineage digests, five declared verdicts, ten counts and nine blocker ids and titles byte-exact against live bytes.",
+    "That 'eleven' counts nothing measurable in those five reviews: non-blocking total is 38, and the stem 'transcri' occurs zero times across all five.",
+    "All 19 pinned inputs re-hashed against live bytes: 19 of 19 exact, zero mismatches.",
+    "A derived digest sweep over the whole file - my own row generator, 24 rows published: 21 match live files exactly, 0 mismatch, 3 are non-file values each correctly declared as such.",
+    "A derived integer census at every depth with bool excluded before int: 45 integer leaves in v15, all 45 recomputed and all 45 correct.",
+    "The packet drift and its reconciliation: v14's pin dead, live digest matches the artifact's, both digests present in the bytes at 6 and 7 occurrences, reconciliation present in two places including the pin's own role field, and all three repaired packet positions verified field by field against live bytes.",
+    "RT23-B-RES-01 re-measured by me against live d9-exit-contract.v1.14.json: 0 of 9 deficiency members, 0 of 9 reason codes, 0 of 19 error codes. Still OPEN.",
+    "The D9 divergence still open, and its SECOND position independently located at $.resolves['B-SCV2-06'], corroborating the artifact's disclosure that it occupies two positions.",
+    "Both corpus resolvers executed against the subject: check-completeness.py refuses silently at (None, []), check-completeness-v2.py resolves positively and agrees with my digest.",
+    "The retained versioning checker executed: check-versioning-v14.py exits 0, PASSES on versioning-policy.v8.json, and independently reports the CD-RT-5 conflict that this successor's one substantive operation repairs. Its BINDING constant at line 159 is 'versioning-policy.v8.json' and its NAME COLLISION HAZARD section is at line 121, exactly as knownLimitations[1] describes.",
+    "check-product-dispositions-v2.py executed once with the subject present: exit 1, and it reports versioning-policy.v8.json, v7 and v6 as SUPERSEDED by versioning-policy.v15.json - confirming carried observation O-05 that this file's mere presence flips a corpus-wide instrument, which the artifact discloses and declines to claim an exit code for.",
+    "That no decision id is used as a KEY at any depth of the delta file, and that every such key in the resolved value is inherited byte-for-byte from versioning-policy.v8.json.",
+    "That the file cites the product decision and constitutes nothing, and that the live packet independently records the authority's own attribution provenance.",
+    "The full overstatement sweep across both the delta file and the resolved value: V10 unresolved, G19 blocked, seal DO-NOT-SEAL, no Phase-1A packet, EVIDENCE and TM not unblocked, no accepted retention artifact, discharge state SPECIFIED. Zero overstatement found."
+  ],
+
+  "whatIDidNotCheck": [
+    "I did not re-run any experiment from the five predecessor reviews. I read their declared verdicts, counts, blocker ids and titles from their bytes and verified those. I did not reproduce any mutation suite, seal count, duplicate-key plant, self-classifying position count or repoint cost, and I did not re-adjudicate their reasoning.",
+    "I did not adjudicate the TRUTH of the 22 inherited contract keys. I verified they are byte-equal to versioning-policy.v8.json and named by no operation. Whether the rules, custody classes, versioned identities, support windows, conformance tests, migrators, comparison fixtures and schemas are RIGHT is outside this review, and freeze section 7.2's 2026-08-04 rider is explicit that an ACCEPT binds what the reviewer examined and not the artifact's whole surface. Read this verdict as scoped to this list.",
+    "I did not measure the d9-exit-contract v1.6-to-v1.14 span. The D9 divergence stays open on my reading as it does on the artifact's, and neither of us measured it.",
+    "I did not run the check-product-dispositions-v2.py counterfactual with the subject removed. I ran the instrument once, with the subject present, and report only that. The v14 review's counterfactual remains that review's measurement.",
+    "I did not verify the contents of retention-tiers.v25, retention-tiers.v22 or the binding packet beyond the specific fields named in this review - the CD-RT-5 decision fields, the three repaired positions, the retention residual withdrawal, and the review verdict and counts.",
+    "I did not reproduce the v14 review's apparatus-growth leaf-position and mutation figures, and I could not reconstruct the 22nd name of its vocabulary from its bytes; my measurement is over the 21 it enumerates.",
+    "I did not verify IMPLEMENTER-BLUEPRINT.md at all, and I read IMPLEMENTATION-FREEZE.md without pinning it - it is under active authorship by other lanes, and the artifact's own reasoning for not pinning it is one I follow here.",
+    "I did not verify that the keyLocator's prose descriptions of the resolved values are SUBSTANTIVELY accurate beyond the present-versus-absent and collision claims I tested exhaustively. A keyLocator entry could describe an inherited block's meaning wrongly while being right about its location, and my both-ways test would not see it.",
+    "I did not publish any leaf or byte count about THIS review artifact. Freeze section 7.2.2 records four instances of a self-report measuring the object before the self-report was attached to it, and names the cheapest correct answer as declining to publish a self-referential census. I decline.",
+    "I did not test whether resolution should terminate at versioning-policy.v8.json's reviewed bytes rather than recursing further. It is a full-text standalone with its own PASS, so under freeze section 7.3's 2026-08-10 resolution both resolvers correctly stop there, and both did - but I did not probe that boundary."
+  ],
+
+  "recordedInputs": [
+    {"file": "versioning-policy.v15.json", "sha256": "9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f", "role": "the reviewed subject"},
+    {"file": "versioning-policy.v8.json", "sha256": "ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e", "role": "the derivation's predecessor; resolved against by my own resolver"},
+    {"file": "versioning-policy.v8.review-independent-cold-rejoin.json", "sha256": "2012c572be62a59d953fcbaf65d266abfb53aefa6eb98a6ff9656dbc923facb9", "role": "establishes the base is a reviewed head"},
+    {"file": "versioning-policy.v14.json", "sha256": "39e3f41bafc7603b71441edb41a19834925d7a905d2afba88cada653fbc3cff9", "role": "the predecessor delta; resolved and diffed leaf by leaf"},
+    {"file": "versioning-policy.v14.review-independent.json", "sha256": "a6628ba26ec68a6e738b06a1eb1231fc8d2aa78a462ab70e688935e0ac516fb4", "role": "source of the blocking finding repaired, the apparatus vocabulary, and the 'eleven' occurrence count I measured"},
+    {"file": "versioning-policy.v9.json", "sha256": "9d3f936ae492e2b692781215f92de4b50ef9b962911e9067c7d052825e0492a9", "role": "apparatus vocabulary measurement"},
+    {"file": "versioning-policy.v10.json", "sha256": "194350399d4bd5861ac826eb8d7e0ce835f58cff1e049910552b85a71d002ed0", "role": "apparatus vocabulary measurement"},
+    {"file": "versioning-policy.v11.json", "sha256": "5e0d31de253fe1f02e7e2a51dcd438b0f0bb695286582eb0473afa1d8b528702", "role": "apparatus vocabulary measurement"},
+    {"file": "versioning-policy.v12.json", "sha256": "353576041317d447ade081254eb516ec7c6750cb7d47022f2f7448ce52896c05", "role": "apparatus vocabulary measurement"},
+    {"file": "versioning-policy.v13.json", "sha256": "235c630f4c3af01c52bb7649f15e18ac6d5c45bdcc34a5fa06d4da6b199442a8", "role": "apparatus vocabulary measurement"},
+    {"file": "versioning-policy.v9.review-independent.json", "sha256": "59ba43425d3bd7a25838141ca2b417bf6ac9ecfba973c589cd520d627b27a360", "role": "blocking count, verdict, blocker id and title verification"},
+    {"file": "versioning-policy.v10.review-independent.json", "sha256": "d264dbdd83579d41f8bf8a5a1ac355aad33070991b818148bbcaf991cd2d8e3d", "role": "blocking count, verdict, blocker id and title verification"},
+    {"file": "versioning-policy.v11.review-independent.json", "sha256": "5db9bb24b1d7c3985050af2ad564b721fbf672fbdc1445c64f88686dc4901d8c", "role": "blocking count, verdict, blocker id and title verification"},
+    {"file": "versioning-policy.v12.review-independent.json", "sha256": "f01356a6beb4f9a4047832667e8bd9764f912fc822839d4b7b361250f40a2e50", "role": "blocking count, verdict, blocker id and title verification"},
+    {"file": "versioning-policy.v13.review-independent.json", "sha256": "0672f3cab4894ca9f4a7f67ad893985ba456a52f359e8611d12c0e3a16c1d956", "role": "blocking count, verdict, blocker id and title verification"},
+    {"file": "product-dispositions.v1.json", "sha256": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017", "role": "the binding product packet, LIVE; the drift and its three repaired positions verified against these bytes"},
+    {"file": "check-completeness.py", "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6", "role": "resolver one; executed against the subject, refused silently"},
+    {"file": "check-completeness-v2.py", "sha256": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7", "role": "resolver two; executed against the subject, resolved positively"},
+    {"file": "check-versioning-v14.py", "sha256": "ba6ebf9ea7ed63940812fbf6d4ef6496c06df507ad9fc51cfb88c1a19f28aef0", "role": "executed; binds versioning-policy.v8.json, exit 0; its BINDING constant and hazard section verified by line"},
+    {"file": "check-product-dispositions.py", "sha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4", "role": "pinned by the subject; digest verified, not executed"},
+    {"file": "check-product-dispositions-v2.py", "sha256": "71999471340e53389227a11ee1886865b9822f4f4229f5fc83c8a4b968d4daad", "role": "executed once with the subject present; exit 1"},
+    {"file": "d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "my own re-measurement of the retention residual against the D9 head"},
+    {"file": "d9-exit-contract.v1.6.json", "sha256": "c633614e17f6757cab74753d462eed53ade09dc234923d73b70d3042c6367046", "role": "the cited divergent version; existence and digest verified"},
+    {"file": "retention-tiers.v25.review-independent.json", "sha256": "479355a5b2d4338131d952f72db45e7382ab79bdda7a5aadd70bcd7a7dc2789d", "role": "verdict and blocking count verification for the no-accepted-retention-artifact claim"},
+    {"file": "IMPLEMENTATION-FREEZE.md", "sha256": "NOT PINNED", "role": "read for sections 3, 4.4, 4.5, 7.2, 7.2.1, 7.2.2, 7.3, 7.5, 7.7, 7.9. DELIBERATELY UNPINNED: it is under active authorship by other lanes and an unsatisfiable pin is worse than none. No measurement in this review depends on its bytes."}
+  ],
+
+  "authorityBoundary": {
+    "thisReviewBinds": "The bytes of versioning-policy.v15.json at 9b7328621d85fd8d34225399faa51a6592438270a0a330023aca2e14c823ad0f, executed in the environment recorded above.",
+    "thisReviewDoesNotBind": "Any other version of this artifact, the resolved document as a contract, versioning-policy.v8.json's substance, or any instrument beyond the exit behaviour recorded here.",
+    "itAppliesNothing": "This review applies, seals, signs and promotes nothing. It selects no retention default and constitutes no product decision. It cites the product authority's decision as recorded in the binding packet at the digest above and constitutes no part of it.",
+    "scopeWarningForASigner": "Freeze section 7.2's 2026-08-04 rider records a case where an artifact passed independent review at 0 blockers and a sibling lane then found a substantive modelling defect the review never reached. Read this verdict as scoped to $.whatIVerified and $.whatIDidNotCheck, never as a statement about the artifact's whole surface. In particular I verified the ARITHMETIC and the NAVIGATION of this file exhaustively, and the SUBSTANCE of the inherited contract not at all."
+  },
+
+  "whatWouldClearThisVerdict": {
+    "theShapeIsRight": "I want to be unambiguous, because five predecessors were rejected and a sixth rejection would be easy to reach for. This artifact is not a sixth instance of what sank v9 through v13. Those were standalone re-authors that transcribed a reviewed contract and built machinery to prove the transcription faithful, and every one of the nine blocking findings is against that machinery. This file transcribes nothing, builds no machinery, and the blocking finding raised against its predecessor is repaired exactly and completely at all thirty positions. The derivation is correct, the digest reproduces, the residuals are open, nothing is overstated, and the authority discipline is clean.",
+    "whatIsOwed": "Two corrections, both to prose in the delta file, neither touching a contract leaf, an operation, a guard or the resolved digest. Correct the count at $.keyLocator.successorRevision and the position enumeration and propagation figure that accompany it; correct the three statements that say one observation was closed when two were. A successor making only those changes would, on my measurement, resolve to a digest differing from this one at no leaf of the resolved value at all - because every position involved lives in the delta file's navigation surfaces, which no operation touches.",
+    "aWarningAboutTheRepair": "The obvious remedy - build something that recomputes these figures so they cannot drift - is the trap this lineage fell into five times, and the artifact's own knownLimitations[6] names it correctly: deriving the collision set would require a companion checker, and a companion checker is what every one of the nine blocking findings is about. The right repair here is to recompute the figures by hand from the finished bytes and publish the row counts, not to build an instrument to prove they were recomputed."
+  }
+}

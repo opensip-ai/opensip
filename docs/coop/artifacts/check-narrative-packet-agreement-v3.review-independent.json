@@ -1,0 +1,493 @@
+{
+  "artifact": "check-narrative-packet-agreement-v3.review-independent",
+  "kind": "independent-review-of-an-instrument",
+  "status": "COMPLETE",
+  "date": "2026-08-11",
+  "reviewer": "independent reviewer; did not author the subject, v2, v1, check-package-coherence.py or check-d9-v1.14.py",
+
+  "subject": {
+    "path": "artifacts/check-narrative-packet-agreement-v3.py",
+    "sha256AtDispatch": "3b50d8660343564c7d649120f2fb0966f87a1b90 (prefix as dispatched)",
+    "sha256Measured": "3b50d8660343564c7d649120f2fb0966f87a1b9098c00f2fd04ce47a9b620018",
+    "bytesAtDispatch": 141285,
+    "bytesMeasured": 141285,
+    "dispatchAgreesWithLiveBytes": true,
+    "measuredAtStart": "3b50d8660343564c7d649120f2fb0966f87a1b9098c00f2fd04ce47a9b620018",
+    "measuredAtEnd": "3b50d8660343564c7d649120f2fb0966f87a1b9098c00f2fd04ce47a9b620018",
+    "stableAcrossReview": true,
+    "note_7_2_1": "Freeze section 7.2.1 item 2 satisfied: the dispatch digest prefix was re-hashed here before any measurement was taken and again after the last one. No drift. Every measurement below was taken against these bytes."
+  },
+
+  "verdict": {
+    "ruling": "ACCEPT",
+    "blockers": 0,
+    "nonBlocking": 6,
+    "whatTheRulingMeans": "The blocking defect this successor exists to repair is CLOSED, and I proved it end to end rather than reading the claim. The separation between MEASUREMENT and PIN is complete for the channel that mattered: I could not find any path by which content in an unpinned document reaches exec. The instrument's remaining weaknesses are all inside the surface it already declares as bounded, plus one new limit I found that narrows a sentence it publishes about itself. None of them is reachable by an adversary who can only write documents, which is the adversary the repair was written against.",
+    "whatTheRulingDoesNotMean": "It does not mean the AST self-audit is complete -- IR-NPAV3-01 measures four execution edges it does not notice. It does not mean the finding sets are correct in general; I graded the classes the brief named and re-derived the figures I relied on, and I did not audit NPA-1's precision predicates or NPA-6's PLAN-ID-V1 semantics."
+  },
+
+  "environment": {
+    "python": "3.14.6 (CPython, clang-2100.0.123.102, darwin arm64)",
+    "invocation": "python3 -I -B artifacts/check-narrative-packet-agreement-v3.py",
+    "note": "The subject REFUSES at exit 2 with NPA-UNSUPPORTED-INVOCATION unless sys.flags.isolated and sys.dont_write_bytecode are both set. Isolated mode also removes the script's directory from sys.path, which independently hardens the plain-import edge measured in IR-NPAV3-01. The instrument does not state that second consequence.",
+    "externalBinaries": "none. The subject imports no subprocess and invokes no binary (verified by AST over the live bytes: the complete import set is __future__, typing, ast, hashlib, importlib.util, inspect, json, pathlib, re, sys).",
+    "determinism": "Two consecutive normal runs produced BYTE-IDENTICAL stdout at exit 0. No wall-clock string in the output.",
+    "sandbox": "Every hostile measurement was taken on a full byte-copy of docs/coop in a scratch directory. The live tree was never written to. The subject, v2, v1, check-package-coherence.py, check-d9-v1.14.py, every artifact and every .md are unmodified; the only file this review created is itself."
+  },
+
+  "recordedInputs_7_2": {
+    "note": "Freeze section 7.2's recording obligation: filename and SHA-256 of every input this verdict depends on, as data, not as a count and not as prose.",
+    "subject": {
+      "artifacts/check-narrative-packet-agreement-v3.py": "3b50d8660343564c7d649120f2fb0966f87a1b9098c00f2fd04ce47a9b620018"
+    },
+    "executionClosureTheSubjectHashVerifiesAndRuns": {
+      "artifacts/check-package-coherence.py": "8d56b5f56fed4fd031f4e9f602e63d4f90ac2a189e56b0b580498f20a107f2a6",
+      "artifacts/check-d9-v1.14.py": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e",
+      "bothPinsSatisfiedAtLiveBytes": true,
+      "comment": "Both EXECUTED_PINS entries equal the live digests. I recomputed each independently with shasum -a 256 and compared to the literals at lines 337 and 345."
+    },
+    "predecessorsMeasuredForTheBeforeAfterPairs": {
+      "artifacts/check-narrative-packet-agreement-v2.py": "26f6eea8520f8fa99fdae4752e742458185ed767aab29b696005e7eb8c007037",
+      "artifacts/check-narrative-packet-agreement.py": "6a2a3da526a5b6e4bb54cfb44dbf619d0c725d1506968a7053f7f88eae0d8148",
+      "comment": "v2's digest and its 100627-byte length both equal what the subject's docstring publishes at lines 5-6. The docstring says these were MEASURED here rather than carried from the dispatch; I re-measured and they agree."
+    },
+    "dataInputsReadByTheRun": {
+      "artifacts/product-dispositions.v1.json": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+      "IMPLEMENTATION-FREEZE.md": "DRIFTED MID-REVIEW -- see inputDriftDiscoveredMidReview below. Measurements were taken against 0b7c01ebf85d6792be32671028ade7f600561b42714539e7ff022216c598ef99 (384965 bytes) and re-verified against af3fe25d7873af8c0daf3b325eedb8611c6a6a5d68cd9d949c4613633e57f5f2 (390392 bytes).",
+      "IMPLEMENTER-BLUEPRINT.md": "93ea49a2622fdc12004027e7ff63ac8e878fc2ab3fb67edd395dc8badbc5f2f4",
+      "v1-slice.md": "6b8717fef545fe73f0de5879a7389fbc0c7c499c70e06b344789e5150478bee3",
+      "artifacts/d9-exit-contract.v1.14.json": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+      "artifacts/resolved-inputs.v2.json": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43"
+    },
+    "freezeDigestHasMovedSinceTheSubjectRecordedIt": {
+      "recordedInNPA_3_RECORDED_AGAINST": "0b6af67df506cc9f5349e531822a668e7f3f7029445135bcdc5a177610033e0a",
+      "live": "0b7c01ebf85d6792be32671028ade7f600561b42714539e7ff022216c598ef99",
+      "howTheInstrumentHandlesIt": "It prints the recorded digest beside the live one with the marker '<-- MOVED since this was recorded' and states in the same block that these are CONTEXT, not gates, because pinning the documents under comparison is exactly what it declines to do. That is correct and it is legible. The recorded REJECT population is nonetheless still intact at 4 of 4, so no NPA-3-COVERAGE-WITHDRAWN fires.",
+      "grade": "CORRECT. This is freeze section 7.2.2's axis applied honestly: the document digest is context for a reader, the population membership is the measurement that gets the hard comparison."
+    }
+  },
+
+  "measurementsIReproduced": {
+    "normalRun": {
+      "exit": 0,
+      "findings": 0,
+      "observations": 4,
+      "skips": 0,
+      "wallSeconds": 9.3
+    },
+    "selftest": {
+      "exit": 0,
+      "gates": 6,
+      "positives": 17,
+      "negatives": 3,
+      "hostileInputs": 20,
+      "totalGatedCases": 46,
+      "completeRunsOfRunCheck": 41,
+      "tracebacks": 0,
+      "wallSeconds": 21.1,
+      "briefFigureChecked": "The brief said 'Suite 27 -> 46 gated cases'. The 46 reproduces exactly (6+17+3+20). The 27 does not describe v2's CASE count: v2's suite is 13 positives + 3 negatives + 10 hostile = 26 executed cases. 27 is v2's COMPLETE-RUN count, which is what NB-6 in the subject's docstring is about ('Two comments stated the suite's cost at 25 complete runs; it was 27'). The subject is right; the brief conflated two quantities. v3's own complete-run count is measured and printed as 41, not written down."
+    },
+    "limits": {
+      "published": 15,
+      "gated": 5,
+      "hardComparedAtSelftest": true,
+      "howTheComparisonWorks": "limits_count_disagreement() parses the module docstring for /the count is ([A-Z]+)/ and /gated by an executed selftest case: ([A-Z]+)/, maps the ENGLISH WORD through _NUMBER_WORDS, and compares to len(LIMITS) and to the number of LIMITS rows carrying a gate. It whitespace-folds the docstring first, and the comment at line 2026 records that this gate reproduced freeze section 7.7's line-wrap false negative against ITSELF on first run. This is the ENCODING failure mode of freeze section 7.2.2 answered directly: the figure is written as a word and the comparison reads words.",
+      "grade": "This is the best answer to section 7.2.2's ENCODING mode I have seen in this corpus. It is a hard comparison, it fails the build, and it is aimed at the exact encoding the freeze measured as invisible to every numeric sweep."
+    },
+    "corpusFiguresIRederivedRatherThanInherited": {
+      "checkStarPyOnDisk": 117,
+      "checkersScannedByTheInstrument": 116,
+      "reconciliation": "116 = 117 minus the subject itself, which is self-excluded at line 1482 with the exclusion stated and its justification given. The instrument DERIVES this from ARTIFACTS.glob('check-*.py') on every run. It does not carry 113, and it does not carry 66: I grepped the live bytes for both and got zero hits.",
+      "grade": "The stale figure the brief warned about is not inherited here. The count is derived from disk and printed, so a reader can recompute it. I did not re-sweep the '66 green' denominator because nothing in this verdict rests on it."
+    }
+  },
+
+  "claim1_theRepairsShape": {
+    "question": "Is the separation between MEASUREMENT and PIN complete, or is there a path to execution that bypasses the gate?",
+    "answer": "COMPLETE for every path I could construct. I found no route from document content to exec.",
+
+    "theAttackReproducedOnBothVersions": {
+      "method": "A full byte-copy of docs/coop per variant. The hostile oracle replaces artifacts/check-d9-v1.14.py with a payload that WRITES A MARKER FILE and then RAISES. ONE digest string -- the payload's own sha256 f3e446bc321e960adfd0148f7b2d00b75f153adfe0ee21fc726665e5bb97125f -- was inserted into IMPLEMENTER-BLUEPRINT.md immediately before the first occurrence of the filename. That is the whole attack: 67 bytes added to an unpinned document, plus attacker-chosen module bytes. The blueprint went 206084 -> 206151 bytes.",
+      "v2_result": {
+        "exit": 4,
+        "markerFileWritten": true,
+        "token": "NPA-ORACLE-EXEC-FAILED",
+        "conclusion": "THE PAYLOAD EXECUTED. Arbitrary code ran, on a single string inserted into a document v2 does not pin. Reproduced independently; this is not read from the brief.",
+        "additionalObservationAboutV2": "v2's own skip text reads '...so this is not drift; the module did not run'. The module DID run -- it wrote the marker before raising. v2 misreports its own execution in the one line a reader would use to decide whether anything ran. v2 is not my subject and I raise this only because it sharpens what the successor had to repair."
+      },
+      "v3_result": {
+        "exit": 4,
+        "markerFileWritten": false,
+        "token": "NPA-PIN-DRIFT",
+        "tokenNotSeen": "NPA-PIN-EXEC-FAILED",
+        "message": "live f3e446bc... != pinned 513d69dd.... This file EXECUTES that module, so freeze section 7.3 requires the hash to hold before the bytes run, and they were NOT run.",
+        "conclusion": "The payload never reached exec, NPA-5 was skipped BY NAME, and the other five classes kept measuring."
+      },
+      "theAuthorsEvidenceDesignGraded": "The hostile oracle RAISES if executed. So the two refusal tokens are mutually exclusive evidence: NPA-PIN-EXEC-FAILED would prove the bytes reached exec, and NPA-PIN-DRIFT proves they did not. Seeing PIN-DRIFT is therefore a POSITIVE proof of non-execution, not merely an absence of the marker. This is the right way to build the evidence and I confirmed it independently with the marker file as a second, redundant channel: exit code and filesystem agree. The subject's own suite encodes the same design as an assertion, printing '[never NPA-PIN-EXEC-FAILED: True]' on the two oracle cases."
+    },
+
+    "secondAttackIConstructedMyself_pathRedirection": {
+      "why": "The digest channel is closed. The other thing an attacker controls is WHICH PATH is executed: mod_rel is parsed out of artifacts/d9-exit-contract.v1.14.json#referenceDerivation, which is a per-class input and is NOT pinned. I asked whether the gate refuses a path it has never seen.",
+      "method": "Wrote the same marker/raise payload to a NEW file artifacts/check-d9-v9.99.py, then rewrote referenceDerivation.implementation to name it.",
+      "result": {
+        "exit": 4,
+        "markerFileWritten": false,
+        "token": "NPA-EXEC-UNPINNED",
+        "message": "this file executes only modules pinned INSIDE its own bytes, and this path is in none of them (pinned: ['artifacts/check-d9-v1.14.py', 'artifacts/check-package-coherence.py'])"
+      },
+      "conclusion": "The gate refuses an unpinned PATH as firmly as it refuses drifted BYTES. Both halves of the authority question -- what runs, and which file runs -- are answered by the internal table. This branch is the whole of repair 1 and it is not exercised by any selftest case; see IR-NPAV3-02."
+    },
+
+    "theSeparationAudited": {
+      "measurementSurvives": "digests_recorded_near() still scrapes the +/-400-character window and publishes the result as oracleDigestsRecordedInDocs. On live bytes it finds three 64-hex strings near the oracle's name and the pinned one is among them, so NPA-5-ORACLE-PIN-UNRECORDED does not fire.",
+      "measurementAuthorisesNothing": "Verified structurally and by execution. The recorded set is compared to EXECUTED_PINS[mod_rel]['sha256'] and the comparison's only consequence is a FINDING. load_pinned_module() never reads it: the expected digest comes from the table literal. Grep confirms DIGEST_WINDOW and the recorded set are referenced only inside check_npa_5, never inside the gate.",
+      "orderOfOperations": "read -> hash -> compare -> exec, in that order, at lines 781-804, with the raise between the compare and the exec. Freeze section 7.3 satisfied.",
+      "cacheDoesNotWeakenTheGate": "_PINNED_MODULES is keyed on the ACTUAL digest, not the path, and the cache hit is guarded by `actual == expected` as well. A selftest overlay supplying different bytes for a pinned path therefore cannot be served a module built from other bytes. I read this specifically because a path-keyed cache is the obvious way this repair would have been silently undone, and it is not what is there.",
+      "auditRunsBeforeAnythingExecutes": "run_check() calls audit_execution_surface() at line 1718 and raises before the first read of the packet. Nothing is executed if the audit disagrees.",
+      "otherRoutesIConsideredAndRejected": [
+        "resolve_dotted() walks a getattr chain built from attacker-editable text after '::' in referenceDerivation, so an attacker can reach arbitrary attributes of the ALREADY-EXECUTED pinned module (e.g. __builtins__.exec). Not an execution edge: the resolved object is passed to inspect.signature and compared to blueprint text as a string. It is never called.",
+        "Symlinking a pinned path elsewhere: the digest is taken of the bytes actually read, so the pin still binds.",
+        "Path traversal in rel: the gate matches EXECUTED_PINS keys by exact string, so a traversal string is simply absent from the table and refused.",
+        "Naming check-package-coherence.py as the oracle: it IS pinned, so it would load, but it is already loaded and no new code executes."
+      ]
+    },
+    "grade": "The repair's shape is right and the shape is the point. v2 used a value the adversary can write as the gate; v3 uses it as a claim about the documents and gates on a table the adversary cannot reach without editing the reviewed bytes. Freeze section 7.2.2's axis applied correctly one level up, and the axis is the correct one."
+  },
+
+  "claim2_theSelfAudit": {
+    "question": "Try to add an execution edge it does not notice.",
+    "answer": "I added four, and it noticed none of them. All four are plainly static, fully resolvable AST nodes. See IR-NPAV3-01.",
+    "whatTheAuditDoesWell": [
+      "It is DERIVED from the running source rather than typed, so a constant that merely SPELLS exec(compile( is not a Call node and drops out for free.",
+      "It enforces BOTH directions: nothing outside the gate, and the gate must still contain its own compile and exec. I tested the second limb myself by replacing the gate's exec(compile(...)) with `pass`; the run refused at exit 2 with NPA-EXEC-AUDIT-DISAGREES naming both missing sites. That limb is unexercised by the suite and it works.",
+      "It refuses at exit 2 rather than reporting -- freeze section 7.2.2's rider satisfied, a measurement that CAN fail the build.",
+      "It prints the four sites with primitive, scope and line on every normal run, so the published account is regenerated from the surface each time.",
+      "importlib's loader protocol is covered in full (module_from_spec, spec_from_loader, spec_from_file_location, exec_module, create_module, import_module, load_module, reload, run_path, run_module, exec_dynamic), which is genuinely the route a successor author is most likely to take after the builtins."
+    ],
+    "whatItDoesNotNotice": "See IR-NPAV3-01 for the measurement. The predicate is a hand-enumerated vocabulary, and everything outside that vocabulary is invisible even when it is written in plain sight."
+  },
+
+  "claim3_NB3_auditingTheRejectedAlternatives": {
+    "instruction": "The author BUILT both obvious repairs and ran them before rejecting. Verify both rejections, then grade the chosen repair.",
+
+    "alternativeA_theUnionWidening": {
+      "iRebuiltIt": "An external driver loaded the subject unmodified, executed check-package-coherence.py through the subject's own gate, derived the 67 REJECT-carrying artifacts from disk, and re-ran the disclosure limb with the scope widened from 'named by BOTH documents' to 'named by ANY document, checked in every document that names it'.",
+      "measured": {
+        "baseScopeRows": 8,
+        "baseFindings": 0,
+        "unionScopeRows": 24,
+        "unionFindings": 10,
+        "newFindingsTheUnionAdds": 10
+      },
+      "authorsClaim": "TEN new findings on live bytes",
+      "verdict": "REPRODUCED EXACTLY, 10 of 10.",
+      "theNamedFalseOne": {
+        "finding": "NPA-3-UNDISCLOSED-REJECT retention-tiers.v26.json @ IMPLEMENTATION-FREEZE.md",
+        "whyItIsFalse": "TRACED TO ITS MECHANISM, not accepted. review_state_of() attributes a state to an artifact from EVERY review that NAMES it, not only reviews whose SUBJECT it is. Two reviews name retention-tiers.v26.json. Its OWN review, retention-tiers.v26.review-independent.json, carries verdict.overall 'ACCEPT WITH NON-BLOCKING OBSERVATIONS -- 0 blocking findings', totalBlockingFindingCount 0, blockers []. The other, check-retention-custody-v26.review-independent.json, has subject.path 'artifacts/check-retention-custody-v26.py' -- A CHECKER, NOT THE ARTIFACT -- and verdict.ruling 'ACCEPT_WITH_BLOCKERS' with a 3-element blockers list. review_state_of falls through to len(blockers) = 3 > 0 and returns REJECT, and REJECT in any contributing state decides the whole.",
+        "whatTheFreezeActuallySays": "Verified verbatim on live bytes: '`retention-tiers.v26.json` at `a6546408...` is what an independent review passed at **0 blockers** -- verified.' Located at character 257181 on the review-start bytes and re-located at character 262619 on the review-end bytes after the mid-review drift; the sentence is unchanged.",
+        "conclusion": "The union widening would have published a specific, plausible, and FALSE accusation that IMPLEMENTATION-FREEZE.md conceals a REJECT, against a block that states the correct thing. That is freeze section 7.8.1's exact class, committed by the file written to close it. The author's claim is verified in full and its mechanism is worse than the docstring states: the mis-attribution is not a quirk of one artifact, it is a property of review_state_of's reviews_naming join."
+      }
+    },
+
+    "alternativeB_theOracleFreeCrossDocumentLimb": {
+      "authorsClaim": "an oracle-free variant fires TWICE on live bytes, BOTH co-location false positives",
+      "iRebuiltIt": "Faithful to the published description -- 'one document attributes the REJECT on the same line, the other names the artifact and no block discloses it' -- with no executed review-state derivation anywhere in the driver.",
+      "measured": {
+        "V1_stemMatch_bareREJECTonLine": 4,
+        "V2_fullNameMatch_bareREJECTonLine": 1,
+        "V3_stemMatch_unnegatedREJECTonLine": 4,
+        "V4_fullNameMatch_unnegatedREJECTonLine": 1,
+        "neverTwo": true
+      },
+      "theFourFromV1_allFalse": [
+        "c2-plan-stage-schema.v4.json @ IMPLEMENTER-BLUEPRINT.md -- premise is the freeze section 7.2 table row about the C-2 v3 POST-VERDICT EDIT, whose REJECT belongs to v3",
+        "d9-exit-contract.v1.13.json @ IMPLEMENTER-BLUEPRINT.md -- premise is an EVIDENCE ledger row about evidence.v10.json",
+        "retention-tiers.v26.json @ IMPLEMENTATION-FREEZE.md -- premise is the blueprint's PRODUCT ledger row about product-dispositions.v1.json",
+        "retention-tiers.v27.json @ IMPLEMENTATION-FREEZE.md -- same PRODUCT ledger row"
+      ],
+      "verdict": "THE CLASS REPRODUCES, THE NUMBER DOES NOT. Every finding my reconstruction produced is a co-location false positive on a long markdown table row, exactly as the author describes, and my worst construction is worse than the author's reported 2. So the REJECTION IS SOUND and, if anything, better justified than published. But 'fires TWICE' is not recomputable from the description the file publishes. Recorded as IR-NPAV3-03.",
+      "notAnAttackOnTheDecision": "I want to be exact about what I am and am not saying. I am not saying the author measured wrongly. I am saying a reader cannot check the figure, and freeze section 7.2.2 is the section that makes that the defect."
+    },
+
+    "gradingTheChosenRepair": {
+      "populationRecorded": true,
+      "populationValue": ["c2-plan-stage-schema.v3.json", "retention-tiers.v25.json", "rust-provider-protocol.v2.json", "threat-model.v3.json"],
+      "withdrawalIsAFindingNotANotice": true,
+      "findingId": "NPA-3-COVERAGE-WITHDRAWN",
+      "beforeAfterPairReproduced": {
+        "method": "Deleted the RECORDED REJECT subject's name from IMPLEMENTER-BLUEPRINT.md (3 occurrences of 'retention-tiers.v25' renamed) in a byte-copy of the tree, then ran BOTH versions against the same tree.",
+        "v2": {"exit": 0, "findings": 0, "subjectsGraded": 29, "subjectsRejected": 3, "banner": "OK: every derived disagreement is recorded..."},
+        "v3": {"exit": 1, "findings": 1, "subjectsGraded": 29, "subjectsRejected": 3, "finding": "NPA-3-COVERAGE-WITHDRAWN naming retention-tiers.v25.json"},
+        "verdict": "REPRODUCED EXACTLY, including the 30->29 and 4->3 movement the docstring publishes. Under v2 an edit to a document silently bought a reduction in coverage and a green banner. Under v3 the same edit is a finding that names the subject withdrawn."
+      },
+      "cannotBeSilencedFromOutside": "I checked the obvious evasion: the recorded population is a tuple INSIDE the reviewed bytes, so deleting the artifact from disk as well as from the documents still fires (the 'why' branch at line 1421 handles it). And drifting check-package-coherence.py to skip NPA-3 entirely yields exit 4 with a named skip, not silence.",
+      "populationsBlock": "Every lane now publishes what a row IS and how many rows it generated. NPA-3's REJECT-carrying corpus is partitioned four ways and the partition is hard-compared for exhaustiveness against a total DERIVED FROM DISK AND THE EXECUTED DERIVATION. I verified the arithmetic myself: 4 both + 8 freeze-only + 8 blueprint-only + 47 neither = 67 = rejectSubjectsInCorpus, and rejectPartitionExhaustive prints True. Freeze section 7.2.2's corollary satisfied -- a partition bound to something neither document under comparison can write.",
+      "L10sOwnFigureChecked": "L-10 says '16 such artifacts exist today... Six are named only by the freeze and undisclosed there; four only by the blueprint and undisclosed there.' Measured: 8 + 8 = 16 named by exactly one document, and my union reconstruction's 10 new findings split 6 freeze-only / 4 blueprint-only. Both figures reproduce exactly.",
+      "grade": "CORRECT, and correct for the stated reason rather than by luck. The author faced a real choice between two wrong answers -- publish 10 findings of which at least one is a fabricated accusation, or let a document edit withdraw coverage in silence -- and took a third option that publishes the population, bounds it against a disk-derived total, names the 16 it does not grade, and makes shrinkage fail the build. This is the single best piece of judgement in the file."
+    }
+  },
+
+  "claim4_noRegression": {
+    "disagreementsDerived": 3,
+    "disagreementsRecorded": 3,
+    "subjectsGraded": 30,
+    "subjectsRejected": 4,
+    "externalToolDependents": {
+      "check-rust-provider-protocol-v2.py": ["rg"],
+      "check-rust-provider-protocol-v3.py": ["rg"],
+      "check-rust-provider-protocol-v4.py": ["rg"],
+      "check-rust-provider-protocol-v5.py": ["rg"]
+    },
+    "externalTools": ["rg"],
+    "curlRepairIntact": {
+      "measured": "externalTools is exactly ['rg']. curl appears in three checker files as PROSE only -- v2's and v3's own docstrings discussing the repair, and check-rust-provider-protocol-v5.py's narrative. The AST direct-call predicate correctly derives no curl edge. v2's adjudicated repair is preserved.",
+      "grade": "NO REGRESSION."
+    },
+    "rgOnV5RetainedAsStructurallyUnfixable": {
+      "measured": "check-rust-provider-protocol-v5.py's own docstring (lines 12-24) records that it importlib-loads v2's bytes and INHERITS v2's subprocess.run(['rg', '--files', ...]) call; it forbids subprocess in its own source (FORBIDDEN_MODULES) but the transitive edge is real at execution time. NPA-4 reports it as a dependent.",
+      "grade": "CORRECTLY RETAINED. L-6 states the reason precisely -- 'the edge is real and only runtime substitution of a stand-in module makes it inert' -- and that is freeze section 7.6's shape, a property true only at execution time being invisible to a static reader. Reporting it is right; suppressing it would be the transcription error."
+    },
+    "scopedSkipDesign": {
+      "measured": "Verified across 27 independent process-level cases. A REQUIRED input refuses the whole run at exit 2 saying THE CHECK DID NOT RUN. A PER-CLASS input skips only its own classes, by name, at exit 4, with the others still measuring. Freeze section 7.8.1 rule 2 satisfied, including the deliberate choice of a named skip over exit 2 for the check-package-coherence.py pin.",
+      "grade": "NO REGRESSION; extended correctly to the new D9 oracle pin."
+    },
+    "L1DisclosureKeptAccurateAndNotClaimedClosed": {
+      "publishedStatus": "NOT CLOSED, and not claimed to be.",
+      "publishedMeasurement": "7 of 7 out-of-vocabulary heading rewrites produce 3 NPA-2 findings each, never silence.",
+      "iReMeasuredItWithMyOwnSevenRewrites": [
+        "Unsettled questions", "Items still in flight", "To be settled", "Loose ends",
+        "Questions for the authority", "Awaiting adjudication", "Still in discussion"
+      ],
+      "result": "7 of 7 gave exit 1 with exactly 3 findings, every one NPA-2-STALE-DISAGREEMENT-RECORD, never silence. The published figure reproduces under a wording set the author did not choose.",
+      "grade": "ACCURATE AND HONESTLY SCOPED. The banner also prints the seven-alternative vocabulary and the per-document match counts on every run, so the gap is legible rather than asserted."
+    },
+    "L4sFigureIsDerivedNotTyped": "L-4 publishes '6 of its 11 REJECT-carrying blocks disclose on the same LINE as its name'. The banner's rejectDisclosureSameLine recomputes exactly that on every run and prints rust-provider-protocol.v2@IMPLEMENTATION-FREEZE 6; my own independent count of disclosing occurrences in that document was 11. Both halves agree. This is a limit whose severity figure cannot go stale, which is the right way to publish one."
+  },
+
+  "claim5_suiteAndThe781Demonstration": {
+    "suite": {
+      "gatedCases": 46,
+      "reproduced": true,
+      "tracebacksInSuite": 0,
+      "designStrengths": [
+        "Scoring is FINDING-SET DELTA against the base run, on (id, detail) fingerprints -- a positive case passes only by ADDING a finding the base lacked, and a negative passes only if the delta is empty in BOTH directions. This is the right unit and it makes 'the base was already red' unable to launder a pass.",
+        "NB-4's no-op detection is applied to EVERY case in EVERY suite, not just negatives, and a no-op FAILS the build. The asymmetry is correctly reasoned in the docstring: positives are fail-safe under a no-op, negatives are not.",
+        "The gates include both directions of the pin table -- nothing executes unpinned (structural) AND no pin is dead weight (measured against the base run's modulesExecutedThisRun).",
+        "NB-8's peer heuristic is run over the subject's own source and FAILS if it attributes an edge, so the self-exclusion at line 1482 is asserted rather than incidental.",
+        "Fixtures are DERIVED, not named: the NPA-1 fixture is the first STATUS-graded row the class itself finds in v1-slice.md and the NPA-2 fabricated row comes from the packet's own decided ids, so no live corpus identifier is written into any predicate. This is the corpus's own lesson -- an instrument that hard-codes an example of what it hunts becomes an instance of it -- applied correctly."
+      ]
+    },
+    "the781Pair": {
+      "instruction": "'derived from nothing' and 'derived and found nothing' must not print the same.",
+      "v1_sliceEMPTY": {"exit": 1, "findings": 3, "findingClass": "NPA-2-STALE-DISAGREEMENT-RECORD", "tracebacks": 0},
+      "v1_sliceABSENT": {"exit": 4, "findings": 0, "skip": "NPA-INPUT-UNREADABLE [NPA-1/NPA-2 over v1-slice.md] v1-slice.md", "tracebacks": 0},
+      "verdict": "REPRODUCED EXACTLY. The two states are distinguishable by exit code, by finding count, and by a named skip on stdout. Freeze section 7.8.1 rule 1 satisfied.",
+      "predecessorsMeasuredOnTheSameTreeForContrast": {
+        "check-narrative-packet-agreement.py absent-slice": "exit 1 with a FileNotFoundError TRACEBACK and zero findings printed -- reproducing freeze section 7.8.1's CORRECTED 2026-08-10 shape exactly, including that the fabricated accusations are unreachable at process level because main()'s banner re-reads and raises first.",
+        "check-narrative-packet-agreement-v2.py absent-slice": "exit 4, 0 tracebacks -- v2 had already closed this and v3 preserves it."
+      }
+    },
+    "myOwnProcessLevelMatrix": {
+      "design": "9 inputs x 3 damage modes (missing, empty, truncated-to-half), each on its own full byte-copy of the tree, run as a real process.",
+      "cases": 27,
+      "tracebacks": 0,
+      "requiredInputsRefusedAtExit2WhenMissing": ["artifacts/product-dispositions.v1.json", "IMPLEMENTATION-FREEZE.md", "IMPLEMENTER-BLUEPRINT.md"],
+      "perClassInputsSkippedByNameAtExit4": ["v1-slice.md", "artifacts/d9-exit-contract.v1.14.json", "artifacts/resolved-inputs.v2.json", "artifacts/check-package-coherence.py", "artifacts/check-d9-v1.14.py"],
+      "twoResultsWorthNaming": "See IR-NPAV3-04 (emptied freeze) and IR-NPAV3-05 (self truncated)."
+    },
+    "whatICouldNotVerify": "The author reports 60 process-level hostile cases and six exit codes that differed from its own matrix, all six being the author's expectations being wrong. Those are claims about runs that left no artifact I can re-observe. I ran 27 of my own instead and report those. I neither confirm nor dispute the 60."
+  },
+
+  "claim6_theSixteenthLimit": {
+    "found": true,
+    "id": "IR-NPAV3-01",
+    "proposedAs": "L-16",
+    "gradingTheThreeTheAuthorFlagsHardest": {
+      "L10": "REAL AND CORRECTLY GRADED. I rebuilt the union and measured its 10 findings and traced the false one to its mechanism. The limit is the honest name for a decision that was made by measurement.",
+      "L12": "REAL, AND THE AUTHOR IS RIGHT TO FLAG IT HARDEST. I confirmed the mis-attribution mechanism precisely: review_state_of derives an artifact's state from every review that NAMES it, so a review whose SUBJECT is a checker and whose ruling is ACCEPT_WITH_BLOCKERS marks the artifact REJECT. The author did not audit review_state_of and neither did I beyond this one subject; see whatIDidNotCheck. What I can say is that the four artifacts INSIDE the graded population are not affected today -- all four disclose in both documents and the base run is 0 findings -- but that is a fact about today's documents, not about the derivation. L-12's own sentence, 'if review_state_of is wrong for a subject inside the graded population, NPA-3 is wrong with it and nothing here would see it', is exactly right and remains open.",
+      "L13": "REAL. check-d9-v1.14.py does carry its own exec(compile(...)) -- I confirmed by grep on the pinned bytes. One audit binds one surface. The mitigation the limit states is sound: the oracle's BYTES are fixed by the pin, so what it can do is fixed even though it is not audited. Correctly stated as an honest bound rather than dressed as a repair.",
+      "L15": "REAL BUT OVERSTATED IN ONE CLAUSE. Its sentence 'it proves the declared gate is the only site in THIS file' is measured FALSE by IR-NPAV3-01: the audit proves the declared gate is the only site FOR FOUR ENUMERATED PRIMITIVE FAMILIES in this file. The rest of L-15 -- that a self-audit can only attest to whatever is running, and that a self-pinning variant was rightly rejected on freeze section 7.6's measured grounds -- is correct and is the right division of labour."
+    }
+  },
+
+  "blockers": [],
+
+  "nonBlockingFindings": [
+    {
+      "id": "IR-NPAV3-01",
+      "severity": "non-blocking, and the sharpest thing in this review",
+      "title": "The execution-surface audit's vocabulary is HAND-ENUMERATED, so four plainly-static execution edges outside the gate are invisible while the banner reports the audit as complete",
+      "class": "freeze section 7.2.2's ENUMERATION failure mode -- hand-listed rather than derived -- committed inside the audit that the file built to close the prose-cannot-notice-a-second-edge problem",
+      "measurement": {
+        "method": "Four doctored byte-copies of the subject, one execution edge each, inserted at module scope immediately after the import block. Each run as a real process with -I -B against a full copy of the tree.",
+        "results": [
+          {"edge": "os.system('/usr/bin/touch MARKER')", "exit": 0, "banner": "AST AUDIT of these bytes: 4 execution primitive(s), all inside load_pinned_module()", "markerWritten": true, "auditRefused": false},
+          {"edge": "os.posix_spawn('/usr/bin/touch', [...], {})", "exit": 0, "banner": "4 execution primitive(s), all inside load_pinned_module()", "markerWritten": true, "auditRefused": false},
+          {"edge": "sys.path.insert(...) then a plain `import evilmod`", "exit": 0, "banner": "4 execution primitive(s), all inside load_pinned_module()", "markerWritten": true, "auditRefused": false},
+          {"edge": "types.FunctionType(marshal.loads(...), globals())()", "exit": 0, "banner": "4 execution primitive(s), all inside load_pinned_module()", "markerWritten": true, "auditRefused": false}
+        ],
+        "escapes": "4 of 4, each at EXIT 0 with the full green banner and the closing line 'every document claim above equals the measurement it describes'."
+      },
+      "theInversionThatMakesItCrisp": {
+        "harmlessEdgeCAUGHT": "__import__('json') -- imports an already-loaded stdlib module and executes nothing new -- REFUSED at exit 2 with NPA-EXEC-AUDIT-DISAGREES.",
+        "harmfulEdgeMISSED": "import evilmod2 -- executes an attacker-supplied file's module-level code -- exit 0, green, marker written.",
+        "why": "EXEC_CALL_NAMES contains __import__, so the DYNAMIC form of an import is an audited edge. EXEC_IMPORT_NAMES contains only runpy and subprocess, so the STATIC form is audited only for two module names. The audit is stricter about the safe spelling than about the dangerous one."
+      },
+      "whatThisFalsifies": [
+        "Line 1484-1490, the stated justification for excluding the subject from its own NPA-4 census: 'What makes it harmless is a PROPERTY, not an intention: this file imports no `subprocess` and invokes no external binary, and its own execution-surface audit refuses the run if that ever stops being true.' MEASURED FALSE in its second half. With os.system or os.posix_spawn at module scope the file DOES invoke an external binary and the audit does NOT refuse. The exclusion is safe today because of what the bytes happen to be, which is an INTENTION, not the property the comment claims.",
+        "Docstring line 211-212: 'the AST audit proves the gate is the only site.' It proves the gate is the only site for four enumerated primitive families.",
+        "L-15's clause 'it proves the declared gate is the only site in THIS file'. Same correction."
+      ],
+      "whyItIsNotL6L13L14OrL15": "L-14 is about a primitive 'reached through a name it cannot resolve' -- getattr(__builtins__, 'e'+'xec'), a dict lookup. All four of my edges are fully resolvable, plainly named AST nodes that the parser sees perfectly; the predicate simply does not ask about them. L-13 is transitive execution by a module the subject executes; these are edges in the subject's OWN static surface, which is precisely what L-13 says the audit DOES bind. L-6 is about NPA-4's census over other checkers. None of the fifteen covers this.",
+      "theSharpestPart": "The file ALREADY CARRIES the wider predicate. SUBPROCESS_CALLS, OS_SHELL_CALLS and OS_PROGRAM_CALLS (with per-API program-name indices, added deliberately as NB-2) are applied to 116 other checkers by NPA-4 and are not applied to the subject's own self-audit. The instrument hunts os.system, os.execvp, os.spawnlp and posix_spawn across the corpus and cannot see the same call in itself.",
+      "whyItIsNOTBLOCKING": [
+        "The live bytes are clean. Verified by AST: the complete import set is __future__, typing, ast, hashlib, importlib.util, inspect, json, pathlib, re, sys. No os, subprocess, runpy, ctypes, marshal, types, pickle, shutil or socket, and no call whose base is any of them. There is nothing to exploit in the reviewed bytes.",
+        "Every escape requires editing the subject's own source. Freeze section 7.2 covers that with the digest, and L-15 names the right remedy: a reviewer records the digest and the corpus compares it. That protection is real and this review records the digest.",
+        "The load-bearing guard against the adversary the repair was written for -- one who can write documents -- is load_pinned_module's refusal of any path absent from EXECUTED_PINS, and that guard is complete. I could not get past it."
+      ],
+      "whatItCosts": "The audit's value is as a guard for the NEXT author. The docstring's argument for building it is exact: 'v2's claim of exactly one was prose, and prose cannot notice a second edge being added.' A v4 author who adds `import somehelper`, or reaches for os.system rather than subprocess, gets a green audit and a banner asserting the surface is unchanged. The audit is a NECESSARY condition that reads as a sufficient one, and its own banner line is what makes it read that way.",
+      "suggestedRepairForASUCCESSOR_notAnEditToTheseBytes": "Three cheap moves, in order of value. (1) Treat EVERY ast.Import / ast.ImportFrom of a non-stdlib-allowlisted module as an edge, rather than flagging two names -- derive the allowlist from sys.stdlib_module_names and require any addition to be declared. (2) Reuse the file's OWN OS_SHELL_CALLS / OS_PROGRAM_CALLS / SUBPROCESS_CALLS tables inside audit_execution_surface, so the self-audit is at least as wide as the census it runs over 116 peers. (3) Reword the banner from 'all inside load_pinned_module()' to name the vocabulary it searched, so a reader can see the predicate's edge. None of this can be done to these bytes; freeze section 7.2 requires a successor."
+    },
+
+    {
+      "id": "IR-NPAV3-02",
+      "severity": "non-blocking",
+      "title": "The branch that IS repair 1 -- NPA-EXEC-UNPINNED -- is exercised by no selftest case, and neither is the audit's paper-seal limb",
+      "measurement": {
+        "NPA_EXEC_UNPINNED": "The token occurs exactly ONCE in the whole 141285-byte file, at its raise site on line 774. It appears in no selftest case label, in no LIMITS row, and zero times in the --selftest output. The suite's 20 hostile cases cover NPA-INPUT-MALFORMED, NPA-INPUT-UNREADABLE, NPA-INPUT-UNDECODABLE, NPA-PIN-DRIFT and NPA-EXEC-AUDIT-DISAGREES, and not this one.",
+        "gateEmptiedLimb": "audit_execution_surface's second direction -- the gate must still CONTAIN its own compile and exec -- has no case either. The two NPA-EXEC-AUDIT-DISAGREES cases are 'a primitive OUTSIDE the gate' and 'source does not parse'.",
+        "iExercisedBothMyself": {
+          "NPA_EXEC_UNPINNED": "Redirected d9-exit-contract.v1.14.json#referenceDerivation to a new attacker-written file. Result: exit 4, NPA-EXEC-UNPINNED, payload marker NOT written. WORKS.",
+          "gateEmptied": "Replaced the gate's exec(compile(...)) with `pass`. Result: exit 2, NPA-EXEC-AUDIT-DISAGREES naming both the missing compile site and the missing exec site. WORKS."
+        }
+      },
+      "whyItMatters": "The suite is the file's own answer to 'prove the classes fire'. Its two most load-bearing guards -- the one that decides WHICH FILE may run, and the one that stops the audit passing on an emptied gate -- are the two it does not fire. Both work, and I say so because I ran them; but a green --selftest is not evidence that they do, and a successor author refactoring the gate would get no signal from the suite.",
+      "relatedObservation": "The gate at line 2532 that checks 'all gated limits name a case this suite executes' matches by SUBSTRING of a case label (lim['gate'] in lab). That is a genuine hard comparison and it is loose: any label containing the gate string satisfies it.",
+      "suggestedRepairForASUCCESSOR": "Two overlay cases: one supplying a d9-exit-contract whose referenceDerivation names an unpinned path (claim exit 4, token NPA-EXEC-UNPINNED, forbidden NPA-PIN-EXEC-FAILED), and one supplying a doctored self-source whose gate has been emptied of exec (claim exit 2, token NPA-EXEC-AUDIT-DISAGREES). Both are single-line additions to the existing refusals table."
+    },
+
+    {
+      "id": "IR-NPAV3-03",
+      "severity": "non-blocking",
+      "title": "L-10's 'an oracle-free variant fires TWICE' is a recorded measurement a reader cannot recompute from the description published beside it",
+      "measurement": "Four faithful readings of the published sentence give 4, 4, 1 and 1 findings on live bytes. None gives 2. Every finding produced under every reading is a co-location false positive, which is the property the rejection rests on, so the REJECTION IS SOUND under my reconstruction and is better supported than published (my worst construction manufactures four false accusations, not two).",
+      "why": "The prototype was never written to disk, so there is nothing to re-run. The figure describes an artifact that does not exist in the corpus. That is precisely the class freeze section 7.2.2 names -- a measurement a reader cannot recompute is prose wearing a measurement's clothes -- appearing inside a LIMITS block whose whole purpose is honest disclosure.",
+      "contrastWithWhatTheFileDoesRIGHT": "L-4's severity figure is RECOMPUTED on every run and printed as rejectDisclosureSameLine. L-10's union figure of 10 I reproduced exactly because the construction is stated precisely enough to rebuild ('widen the class to the union'). Only the oracle-free variant's 2 is unrecomputable, because its construction is stated in one clause. The fix is not to delete the number -- it is to state the construction to the precision of the union sentence.",
+      "notADisputeOfTheDecision": "I am not saying the author measured wrongly. I am saying the reader is asked to take one figure on trust in a block built to avoid exactly that."
+    },
+
+    {
+      "id": "IR-NPAV3-04",
+      "severity": "non-blocking",
+      "title": "An emptied IMPLEMENTATION-FREEZE.md produces three NPA-1 findings that name v1-slice.md -- a correct document -- and the finding text never says the register was empty",
+      "measurement": {
+        "input": "IMPLEMENTATION-FREEZE.md replaced with zero bytes (present, readable, decodable -- so not a missing input).",
+        "result": "exit 1, 7 findings, 0 tracebacks.",
+        "theThreeThatMisdirect": "NPA-1-UNRECORDED-PACKET-DISAGREEMENT x3, each reading 'v1-slice.md -- heading 6. Named decisions that remain before freeze names `A1-RI-04` / `P-1` / `P-2`, which product-dispositions.v1.json marks decided; no section 5.1 register row for (id, v1-slice.md)'.",
+        "theOtherFourAreCorrect": "4 x NPA-3-COVERAGE-WITHDRAWN, each correctly naming IMPLEMENTATION-FREEZE.md as the document that stopped naming the artifact."
+      },
+      "theShape": "The CAUSE is that the freeze is empty. The ACCUSATION names v1-slice.md as presenting decided rows as unresolved. Freeze section 7.8.1's class: an input's damage presenting as a substantive finding partly about a different artifact.",
+      "whatMitigatesIt_statedFairly": [
+        "The finding STATEMENT also names freeze section 5.1 ('and freeze section 5.1 does not record the disagreement'), so a reader following it reaches the empty document and discovers the cause. This is materially weaker misdirection than the predecessor's case, where the accusation was purely against section 5.1 while the damaged input was v1-slice.md.",
+        "The banner publishes disagreementsRecorded 0 (against 3 on the live tree), subjectsGraded 0, rejectSubjectsNamedByBothDocs [] and the freeze's own digest, so the state is legible to a careful reader.",
+        "The design choice is defensible and is the safer of the two available. Refusing when section 5.1 is absent would let anyone buy silence by deleting the register heading -- which is exactly what the suite's first positive case exists to prevent. Making it a finding is right."
+      ],
+      "whatIsStillOwed": "The information needed to say it plainly is already measured. When REGISTER_HEADING does not match, or the parsed register is empty, the NPA-1 finding detail could carry one clause -- 'and IMPLEMENTATION-FREEZE.md contains no section 5.1 register heading, so this comparison ran against an empty register'. Nothing about the finding set changes; the reader is told which document to open first. Recorded as unnamed in all fifteen limits.",
+      "boundOnThisFinding": "The findings are LITERALLY TRUE under the instrument's own definition of agreement, and the instrument holds no opinion about acceptability. I am grading the readability of a true finding, not its correctness."
+    },
+
+    {
+      "id": "IR-NPAV3-05",
+      "severity": "non-blocking, minor",
+      "title": "A truncated or emptied copy of the subject exits 0 with NO OUTPUT AT ALL, which the instrument's own exit table reads as 'ran completely and found nothing'",
+      "measurement": "Subject replaced with zero bytes: exit 0, stdout 0 bytes, stderr 0 bytes. Subject truncated to half its length (70642 bytes): exit 0, stdout 0 bytes, stderr 0 bytes. Both in a full tree copy, run as real processes.",
+      "why": "This is a property of running a Python file rather than a logic defect -- an empty program exits 0. But the subject publishes an exit-code contract in which 0 means 'the check RAN COMPLETELY and found nothing', and this is the one state that contract cannot cover from inside itself.",
+      "whatAlreadyCoversIt": "Freeze section 7.2's digest recording, which this review performs, and L-15, which names the right boundary ('it cannot prove that this file is the file anyone reviewed'). A truncated file has a different digest and is caught by the corpus discipline, not by the instrument.",
+      "whatIsUnnamed": "L-15 is framed around SUBSTITUTION -- an edit that adds a site and updates the pins and the gate together. TRUNCATION TO SILENCE is a different shape and the more likely accident (a partial checkout, a failed write, a truncated copy). It is also the shape a CI rule reading only exit codes misreads most cleanly: exit 0 with an empty banner is the one output no rule of the form 'exit 0 means green' can distinguish from a pass.",
+      "cheapMitigationForASUCCESSOR": "Nothing inside the file can fix it. A caller-side rule can: require the banner's first line on stdout, not merely exit 0. Worth one sentence in the exit-code block."
+    },
+
+    {
+      "id": "IR-NPAV3-06",
+      "severity": "observation",
+      "title": "NPA-3's disclosure test matches the artifact STEM, so occurrences of longer artifact names sharing that stem count toward disclosure",
+      "measurement": "The test iterates re.finditer(re.escape(path.name[:-len('.json')]), text). All four graded subjects have longer siblings sharing their stem -- threat-model.v3 has three (review-reviewer1, review-reviewer2, storage-namespace.review-independent), rust-provider-protocol.v2 has three, c2-plan-stage-schema.v3 has two, retention-tiers.v25 has one. So a block that discloses a REJECT about `threat-model.v3.storage-namespace.review-independent.json` would satisfy the disclosure test for `threat-model.v3.json`.",
+      "doesItCarryTheLoadToday": "NO. I measured all 8 (subject x document) cells: in every one, disclosure rests on BARE-STEM occurrences -- 5/5, 2/2, 2/2, 3/3, 11/11, 5/5, 10/10, 7/7. There is no cell whose disclosure depends only on a longer-name occurrence.",
+      "grade": "Latent, adjacent to L-4's attribution family rather than separate from it, and not worth a limit of its own on today's bytes. Recorded so a successor author knows the stem match is doing more work than it appears to."
+    }
+  ],
+
+  "whatIVerifiedByEXECUTION": [
+    "The subject's dispatch digest and byte length, re-measured before and after the review, unchanged.",
+    "A normal run: exit 0, 0 findings, 4 observations, 0 skips, and byte-identical stdout across two consecutive runs.",
+    "--selftest: exit 0, 46 gated cases, 41 complete runs of run_check, 0 tracebacks.",
+    "--limits: 15 published, 5 gated, hard-compared to the data at selftest through a word-numeral comparison.",
+    "THE BLOCKING ATTACK, both sides. v2 with hostile oracle bytes plus one 64-hex string in the unpinned blueprint: the payload EXECUTED and wrote its marker. v3 on the identical tree: exit 4, NPA-PIN-DRIFT, never NPA-PIN-EXEC-FAILED, marker NOT written.",
+    "A SECOND attack of my own construction: referenceDerivation redirected to an attacker-written file. Refused at NPA-EXEC-UNPINNED, marker not written.",
+    "FOUR execution edges added outside the gate, all four invisible to the audit at exit 0 green, two of them invoking an external binary; plus the inversion that __import__('json') IS refused.",
+    "The audit's paper-seal limb, by emptying the gate: exit 2, both missing sites named.",
+    "The union widening rebuilt and run: 10 new findings, split 6 freeze-only / 4 blueprint-only, matching L-10 exactly.",
+    "The false one traced to its mechanism through the executed review-state derivation, with both v26 review artifacts read as data and the freeze's own countervailing sentence located verbatim at character 257181.",
+    "The oracle-free limb rebuilt under four readings: 4, 4, 1, 1 findings, every one a co-location false positive.",
+    "The NB-3 before/after pair on one tree: v2 exit 0 / 0 findings / graded 29, v3 exit 1 / 1 finding naming the withdrawn subject.",
+    "The freeze section 7.8.1 pair: empty slice exit 1 with 3 NPA-2, absent slice exit 4 with 0 findings and a named skip, plus both predecessors on the same tree for contrast.",
+    "A 27-case process-level matrix (9 inputs x missing/empty/truncated), 0 tracebacks.",
+    "L-1's published 7-of-7 figure, re-measured with seven heading rewrites of my own choosing: 7 of 7, 3 findings each, never silence.",
+    "The corpus census: 117 check-*.py on disk, 116 scanned, reconciled by the disclosed self-exclusion.",
+    "NPA-3's partition arithmetic: 4 + 8 + 8 + 47 = 67 = rejectSubjectsInCorpus.",
+    "Both EXECUTED_PINS digests against live bytes, independently recomputed.",
+    "The subject's complete import set, by AST, confirming no os / subprocess / runpy / ctypes / marshal / types / pickle."
+  ],
+
+  "whatIDidNotCheck": [
+    "review_state_of BEYOND the single subject retention-tiers.v26.json. I confirmed the mis-attribution mechanism -- reviews_naming attributes any naming review's blocker count to the artifact -- but I did NOT sweep all 67 REJECT-carrying artifacts for further mis-attributions, and I did not verify that the four INSIDE the graded population are correctly classified by an independent reading of their own reviews. L-12 remains open and I did not close any part of it. This is the same gap the author flags hardest and it is still the largest unexamined surface under NPA-3.",
+    "check-d9-v1.14.py and check-package-coherence.py as artifacts. I executed both under the subject's pin and read review_state_of's source; I did not review either module's correctness, and L-13's transitive-execution surface is ungraded by me.",
+    "NPA-1's precision predicates -- binds_implementer, records_closure, EDITORIAL_SUBJECT, NORMATIVE_MODAL, the SUBJECT_WINDOW of 40 -- beyond observing that the three negative controls pass. L-2 and L-3 are disclosed and I did not attempt to falsify or extend them.",
+    "NPA-6's PLAN-ID-V1 semantics. I confirmed the class fires and that the blueprint literal comparison is exact; I did not check that preimage_container selects the right container or that 13 is the right field count against the contract.",
+    "NPA-5's signature rendering beyond confirming 5 of 5 exports resolve and compare. I did not verify that the five signatures the blueprint records are the right ones to record.",
+    "The author's reported 60 process-level hostile cases and the six exit codes that differed from its own matrix. Those runs left no re-observable artifact. I ran 27 of my own and report those instead; I neither confirm nor dispute the author's figures.",
+    "The '66 green' corpus denominator. The brief warns it has moved and was not re-swept. Nothing in this verdict rests on it, the subject does not carry it (zero occurrences of 66 or 113 in the live bytes), and I did not measure it.",
+    "Portability. Every measurement was taken on CPython 3.14.6 on darwin arm64. I did not run any other interpreter version, and exec_edges depends on ast node shapes that are version-sensitive in principle.",
+    "v2's NB-6 claim that its suite costs 27 complete runs. I measured v2's CASE count (26) but did not instrument v2 to count run_check invocations.",
+    "Whether the finding SETS are correct in general. I verified that classes fire, that refusals are named, that the published figures are recomputable, and that specific attacks are refused. Freeze section 7.8's bound stands over all of it: this instrument measures agreement between two statements of the same facts and cannot measure whether either is true, and neither can this review."
+  ],
+
+  "notesForTheSigner": [
+    "The one blocking defect in v2 was arbitrary code execution purchasable with a 67-byte edit to a document nobody pins. It is closed. I proved it on both versions with a payload that leaves a filesystem marker, and the exit codes and the filesystem agree.",
+    "READ THE AST AUDIT LINE NARROWLY. 'AST AUDIT of these bytes: 4 execution primitive(s), all inside load_pinned_module()' means: no exec, eval, compile, __import__, importlib/runpy loader-protocol call, or import of runpy/subprocess sits outside the gate. It does NOT mean nothing else in this file can execute code. IR-NPAV3-01 measures four things that can. The live bytes contain none of them; the audit is why you would believe that, and it is not sufficient reason. The digest recorded in this artifact is.",
+    "The instrument's exit 4 carries REAL FINDINGS. The file says so in its own exit table and the corpus should heed it: a CI rule of the form 'exit 1 means findings' will miss them. The rule that holds is exit 0 means no findings; 1 and 4 both can carry them; 2 and 3 never do.",
+    "Both executed pins now IMMOBILISE their targets. check-package-coherence.py was one of the five files freeze section 7.6 measured as still editable; it is now pinned by a reviewed checker, and by section 7.10's rider it is immutable from this moment whatever its review status says. The subject discloses this as L-9 and grades it the correct trade. A signer should nonetheless know the editable surface just shrank by one.",
+    "IMPLEMENTATION-FREEZE.md has moved since the subject recorded its digest (0b6af67d -> 0b7c01eb). This is expected, it is printed with a MOVED marker, and it is NOT a gate. The recorded REJECT population is still intact at 4 of 4.",
+    "This review is scoped to its own whatIDidNotCheck, per freeze section 7.2's 2026-08-04 rider. An ACCEPT binds what the reviewer examined, not the artifact's whole surface. In particular L-12 -- the executed review-state derivation that every NPA-3 verdict rests on -- is the largest surface neither the author nor I audited."
+  ],
+
+  "inputDriftDiscoveredMidReview": {
+    "rule": "Freeze section 7.2.1 item 4 -- drift discovered mid-review is a fact about that review's conditions and is recorded in it, not silently absorbed by re-running.",
+    "whatDrifted": "IMPLEMENTATION-FREEZE.md, one of the two documents under comparison. NOT the subject.",
+    "subjectDidNotDrift": "artifacts/check-narrative-packet-agreement-v3.py measured 3b50d8660343564c7d649120f2fb0966f87a1b9098c00f2fd04ce47a9b620018 at the start of this review, after the last hostile run, and again after the drift was discovered. Identical every time. Freeze section 7.2.1 item 1 was honoured by the subject's author throughout.",
+    "digests": {
+      "atReviewStart": {"sha256": "0b7c01ebf85d6792be32671028ade7f600561b42714539e7ff022216c598ef99", "bytes": 384965},
+      "atReviewEnd": {"sha256": "af3fe25d7873af8c0daf3b325eedb8611c6a6a5d68cd9d949c4613633e57f5f2", "bytes": 390392},
+      "delta": "+5427 bytes, appended by a lane other than this review during the review window"
+    },
+    "whichMeasurementsWereTakenAgainstWhich": {
+      "againstTheSTARTbytes_0b7c01eb": "All of them. The sandbox byte-copy of docs/coop was taken at the start and carries 0b7c01eb, so every hostile measurement -- the v2/v3 attack pair, the path-redirection attack, the four audit-escape variants, the gate-emptied probe, the 27-case matrix, the empty/absent v1-slice pair, the NB-3 before/after -- ran against those bytes. The live-tree measurements (normal run, selftest, union widening, oracle-free limb, L-1 probe, the verbatim freeze quote) also ran against them.",
+      "reVerifiedAgainstTheENDbytes_af3fe25d": "The measurements that could be affected by freeze content were re-run on the new bytes after the drift was found."
+    },
+    "reVerificationResults": {
+      "normalRun": "exit 0, 0 findings -- unchanged.",
+      "headlineFigures": "disagreementsDerived 3, disagreementsRecorded 3, subjectsGraded 30, subjectsRejected 4 with the same four names, rejectSubjectsInCorpus 67, checkersScanned 116, externalTools ['rg'] -- every one identical to the start-bytes run.",
+      "selftest": "exit 0, 46 gated cases, 41 complete runs, 0 tracebacks -- unchanged.",
+      "unionWidening": "10 new findings, the SAME TEN artifact/document pairs, same 6 freeze-only / 4 blueprint-only split -- unchanged.",
+      "theCountervailingFreezeSentence": "'`retention-tiers.v26.json` at `a6546408…` is what an independent review passed at **0 blockers** — verified.' still present; it moved from character 257181 to character 262619. The finding in claim3 is unaffected.",
+      "conclusion": "NO MEASUREMENT IN THIS ARTIFACT CHANGES. The verdict is reported against the subject's bytes, which never moved, and the input drift is recorded here rather than absorbed."
+    },
+    "whyThisIsRecordedRatherThanReRunSilently": "Freeze section 7.6 records four coordinator errors of one shape -- a measurement carried forward, or invented, rather than re-taken. The cheap and wrong move here was to re-run everything, get the same numbers, and write down only the second digest. A reader would then have no way to know an input moved under a review, which is the condition section 7.2.1 exists to make visible."
+  },
+
+  "reviewConditions_7_2_1_item_4": {
+    "driftDiscoveredMidReview": "YES, in an INPUT, not in the subject. IMPLEMENTATION-FREEZE.md moved from 0b7c01eb (384965 bytes) to af3fe25d (390392 bytes) during this review. Fully recorded in inputDriftDiscoveredMidReview above, including which measurements were taken against which bytes and the re-verification results. The subject's own digest was measured at the start, after the last hostile run, and at the end: 3b50d866...0018 every time.",
+    "treeMutations": "None to the live tree. All hostile measurements were taken on byte-copies under a scratch directory. The subject, both predecessors, check-package-coherence.py, check-d9-v1.14.py, every artifact and every .md are byte-unchanged; the live tree's digests recorded above were re-measured after the last hostile run.",
+    "filesCreatedByThisReview": ["artifacts/check-narrative-packet-agreement-v3.review-independent.json"]
+  }
+}

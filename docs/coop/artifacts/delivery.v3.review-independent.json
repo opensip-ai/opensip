@@ -1,0 +1,358 @@
+{
+  "artifact": "delivery.v3.review-independent",
+  "surface": "DELIVERY",
+  "role": "INDEPENDENT ADVERSARIAL REVIEW of artifacts/delivery.v3.json. This review binds its own bytes only. It closes no row, changes no status, disposition, verdict or seal anywhere in the corpus, and repoints no head. It is not a coordinator act.",
+  "subject": {
+    "path": "artifacts/delivery.v3.json",
+    "sha256": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d",
+    "rehashedAtStartAndEnd": true,
+    "declaredBySubjectAs": "CANDIDATE -- NOT APPLIED, AWAITING INDEPENDENT REVIEW"
+  },
+  "predecessor": {
+    "path": "artifacts/delivery.v2.json",
+    "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+    "pinnedInFreezeSection3AndBlueprintSection1_1": true,
+    "untouchedVerified": "MEASURED byte-identical at the start of this review and again at the end. This review edited nothing."
+  },
+
+  "verdict": "REJECT FOR REPAIR -- DO NOT APPLY AS WRITTEN. One blocker, narrow and repairable by one clause. This is not a rejection of the approach or of the arithmetic: every value this review could recompute, it recomputed, and all of them matched. An independently written CVE1 encoder and an independently written PLAN-ID-V1 encoder reproduced all 7 committed vectors byte-exactly, both pinned PLAN-ID-V1 goldens at their declared 2500 and 8208 preimage byte lengths, all 3 published derived PlanIds with their differing-byte counts, and 11 of 12 negative controls. The derivation resolves with zero declaration errors and zero resolve errors against the pinned predecessor digest. The blocker is in the STATEMENT of DL-CLOSED-1, not in any published digest. Separately and independently of the blocker, the subject's own DUD-V3-4 (no retained checker) is disqualifying for application under IMPLEMENTATION-FREEZE.md section 7.1, whose exact words -- 'No retained checker -- a fair residual for a candidate, disqualifying for application' -- were verified in the live bytes; that is an honest self-declaration and this review does not treat it as a defect in the document's reasoning.",
+  "blockerCount": 1,
+
+  "blockers": [
+    {
+      "id": "IR-V3-B1",
+      "title": "DL-CLOSED-1's catch-all clause contradicts its own enumeration and, read literally, makes all four of the document's own published committed vectors inadmissible.",
+      "where": "derivedFrom.operations[10].value.DL-CLOSED-1 and capabilityManifestIdentity.admission.ADM-CLOSED.statement",
+      "theTextAsWritten": "EVERY JSON OBJECT REACHABLE FROM A COMMITTED CapabilityManifestV1 IS CLOSED -- the record itself, every element of every declared collection, every value of every declared map, and every object a later successor adds at any depth carries EXACTLY its declared key set, each key exactly once, with no undeclared member. A reachable object type that declares no key set is inadmissible until it declares one; permissiveness is never the default.",
+      "theDefect": "The enumeration and the catch-all disagree about ProviderCapability.relations. The enumeration's four subjects are (a) the record itself, (b) every element of every declared collection, (c) every VALUE of every declared MAP, (d) every object a successor adds. `relations` is none of these -- it IS the declared map, and clause (c) reaches its values (which are strings), not the map object itself. The final catch-all sentence, however, reaches every 'reachable object type that declares no key set', and `relations` is a reachable JSON object that declares no key set: its keys are relationIds drawn from an open upstream registry, and MEASURED it carries three DIFFERENT key sets across the four live manifests (11, 6 and 7 keys).",
+      "measuredConsequence": "Under the catch-all reading, ProviderCapability.relations is 'inadmissible until it declares one', therefore every ProviderCapability is inadmissible, therefore all four live committed manifests are inadmissible and HAVE NO ID -- including the four whose ids this document publishes as DCM-1 through DCM-4 and relies on for op 5's placeholder replacement and for PID-D1/D2/D3. A normative admission gate and the document's own vectors cannot both be right.",
+      "howIFoundIt": "reachability audit over the four COMMITTED manifests produced by this review's own encoder. Exactly four object types are reachable: CapabilityManifestV1, ProviderCapability, AbsentCapability -- all three named in closedTypesToday -- and ProviderCapability.relations, which is named in NEITHER closedTypesToday NOR in any exemption.",
+      "whyItIsABlockerAndNotAnObservation": "DL-CLOSED-1 is one of the three normative pre-encoding admission gates and is the document's flagship 'property, not a list of two type names' repair. A gate whose literal text refuses 100 percent of the live data it was written for is not a wording preference. The document's whole argument for a reachability property over an enumeration is that a property does not go stale; here the property is over-broad on the only map it can currently reach.",
+      "whatMAKESITNARROW": "the intended reading is recoverable from the same document -- recordShape.relations declares 'a JSON object mapping relationId to resolution', admission.whatADMISSIONDOESNOTCOVER preserves delivery.v2's relationRule ('Each relation key and resolution value resolves in fact-plane.v1 relationRegistry') as an upstream gate, and orderingRuling.perFieldRuling names relations explicitly as 'NOT AN ORDERED COLLECTION'. No published digest moves under either reading; this review reproduced all 7 vectors regardless. The failure mode is LOUD (refuse-everything), never a silent wrong id.",
+      "repair": "one clause in the normative sentence distinguishing a RECORD (fixed declared key set, closed) from a REGISTRY-GOVERNED MAP (open key set whose admissible keys are fixed by a named upstream registry, whose VALUES are closed). Suggested: '... A reachable object type that is a RECORD and declares no key set is inadmissible until it declares one; a reachable object that is a declared MAP is admissible when its key domain is fixed by a named registry and every value is closed. ProviderCapability.relations is such a map, and its key domain is delivery.v2#capabilityManifestSchema.ProviderCapability.relationRule.'",
+      "doesNOTAffect": "no vector, no id, no preimage, no byte length, and no negative control published in the subject. This review verified that independently."
+    }
+  ],
+
+  "adjudications": [
+    {
+      "item": 1,
+      "question": "All four array positions ruled SET, claimed DERIVED not chosen. Is leg4's entailment sound -- does a serialisation order constitute a 'rank' in the sense predicateRelativeFacts prohibits?",
+      "quoteVerified": "VERBATIM. resolved-inputs.v2#planIdContract.fieldCanonicalization.predicateRelativeFacts reads exactly: 'No global fact tier, provider tier, or profile rank is a PlanId field. Predicate requirements remain relation-specific under C-1 and are committed by the exact contribution artifact and activated rule IDs; semanticUniverses identify providers without ordering their fact sufficiency globally.'",
+      "field3Verified": "CONFIRMED. resolved-inputs.v2#planIdContract.preimageFields tag 3 is name 'release', shape 'closed map {manifestId, capabilityManifestId, profileId}'. capabilityManifestId IS a member of PLAN-ID-V1 preimage field 3.",
+      "ruling": "THE ENTAILMENT AS STATED DOES NOT HOLD, AND 'DISPOSITIVE' IS AN OVER-READ -- BUT IT IS NOT BLOCKER-GRADE.",
+      "reasoning": "The prohibited construct is a TIER / RANK, and the sentence's own second clause fixes its sense: 'without ordering their FACT SUFFICIENCY globally'. That is a semantic precedence relation. An order-significant providers array commits an ORDER, not a rank: an arbitrary artifact of how a release builder emitted JSON, which no component interprets as precedence. The document's own measurement confirms nothing reads it -- '8 (relation, provider-set) overlaps exist across the four manifests and 0 of them resolve to DIFFERENT rungs'. An order that no consumer reads as authority is not a tier. So leg4 is an inference, and a slightly over-read one, not the 'prohibition, not an inference' it calls itself.",
+      "whyNotABlocker": "three measured reasons. (a) THE RULING DOES NOT DEPEND ON LEG4. Legs 1-3 are verbatim-accurate and independently sufficient: leg1 -- CVE1 constraint 4 reads exactly 'Arrays preserve order unless the field-specific rule below declares set semantics; declared sets are sorted and duplicates rejected before CVE1 encoding', so a field-specific declaration is REQUIRED and DELIVERY never wrote one; leg2 -- fieldCanonicalization.semanticUniverses reads exactly 'Sort by providerId UTF-8 bytes; providerId is unique', a provider list in the very identity this feeds, declared a key-sorted unique set by its owner; leg3 -- evaluation-proof.v8 recordRules.sortedLists and .programOrder verified verbatim, order-bearing is NAMED. Under IMPLEMENTATION-FREEZE.md section 6 law 19, verified present in live bytes, DELIVERY is the entitled declarer. (b) THE DOCUMENT DISCLOSES THE JUDGEMENT CHARACTER ITSELF, in the same block: whatIRULEDAGAINST.itIsNOTABSURD concedes 'JSON's own reading of an array IS a sequence; CVE1's stated default IS arrays preserve order', and theASYMMETRYTHATDECIDESIT states the actual decision rule -- 'where the evidence is measured but not conclusive the reversible one is correct'. That is a choice disclosed in one paragraph and overstated in another, not a choice concealed as a derivation. (c) A SOUNDER GROUND EXISTS AND IS UNCITED: IMPLEMENTATION-FREEZE.md section 6 law 2, verified verbatim in the live bytes -- 'Only declared analysis inputs may affect `PlanId`'. Under the SEQUENCE reading an undeclared JSON emission order moves PlanId, which law 2 forbids directly and without the tier/rank detour. MEASURED: delivery.v3 cites laws 3, 4, 6, 17, 18 and 19 and cites law 2 ZERO times.",
+      "netEffect": "the conclusion is better supported than the document argues; the support is misattributed. Repair: demote leg4 from 'the decisive leg ... a prohibition, not an inference' to a supporting consideration, and cite section 6 law 2."
+    },
+    {
+      "item": 2,
+      "question": "DL-ORD-2 -- a collection is order-bearing only if the schema names one. Does any live schema name one, and does the property silently reclassify something that should be ordered?",
+      "ruling": "SOUND. No live schema names an order-bearing collection, and nothing is silently reclassified.",
+      "measured": {
+        "predecessorSchemaStatesNoOrderOrUniquenessRule": "CONFIRMED. delivery.v2#capabilityManifestSchema carries exactly three types. CapabilityManifestV1 = {required:[schemaVersion,profile,providers,coverageForAbsent], closed:true}. ProviderCapability = {required:[6 fields], relationRule}. AbsentCapability = {required:[5 fields], rule}. There is no order rule and no uniqueness rule for any of the four positions, exactly as theQuestionAsPosed states.",
+        "orderBearingExemptionsIsEmpty": "CONFIRMED, and matches evaluation-proof.v8's mechanism, whose single exemption programOrder names PolicyV2.evaluationOrder and nothing else.",
+        "reachabilityAuditOfArrayPositions": "MEASURED over the four committed manifests: EXACTLY FOUR array type-paths are reachable -- CapabilityManifestV1.providers (x4), CapabilityManifestV1.coverageForAbsent (x4), providers[].platformIds (x8), coverageForAbsent[].relationIds (x4). All four are covered by declaredSortKeys. There is no fifth array position, so DL-ORD-2 misses nothing on live bytes.",
+        "nothingThatShouldBeOrderedIsReclassified": "the only non-array collection reachable is providers[].relations, a JSON object, correctly excluded as 'NOT AN ORDERED COLLECTION'. No position in the schema carries documented sequence semantics."
+      },
+      "note": "the property is genuinely safer than a five-row table here, and the document's stated reason (an enumeration goes stale in both directions) is the same reason IMPLEMENTATION-FREEZE.md section 7.1 gives for its own parked table, verified present."
+    },
+    {
+      "item": 3,
+      "question": "DL-ORD-1 -- verify the 0-of-4 round-trip baseline and the literal round-trip on every live vector. Then: is the bad state genuinely inexpressible, or merely rejected at one gate an implementer could skip?",
+      "baselineVerified": "0 OF 4, CONFIRMED by independent measurement. Under the set reading with sort-on-encode and no admission gate, decode(encode(x)) != x for all four live AUTHORING manifests, because the decode returns the sorted document and the authoring document is unsorted in all four.",
+      "literalRoundTripVerified": "4 OF 4 on the live committed forms, and 7 OF 7 across all published vectors, byte-exact and value-exact, under a decoder sharing no code with the encoder that produced the bytes.",
+      "ruling": "THE MECHANISM IS REAL BUT THE WORD 'INEXPRESSIBLE' IS STRONGER THAN WHAT IS BOUGHT. It is 'unreachable through a conforming gate', which is not the same thing.",
+      "reasoning": "ADM-ORDER buys the property by REFUSING non-canonical committed manifests, so the theorem 'at most one of any two differently-ordered documents is admissible' is true only of values that passed the gate. An implementer who skips ADM-ORDER still computes a well-formed id over a non-canonical document -- MEASURED at NEG-ORD-1 and NEG-ORD-2, both of which this review reproduced byte-exactly (8134bd10... and b61bdb8f...), and both of which are 1129 bytes, IDENTICAL to the admissible form. The document is honest about this: byteLengthIsNotADefence states it explicitly and NEG-ORD-1/2 publish the ids the skipped gate would mint.",
+      "whatMAKESITACCEPTABLE": "the corresponding defect is LOUD rather than silent once custody exists. Under DL-CUST-2 the host recomputes the id from committed bytes and refuses on mismatch, so a producer that skipped ADM-ORDER produces an id the consumer will not reproduce from the same bytes -- no, more precisely: it produces bytes whose id IS reproducible, but which fail ADM-ORDER at step 6 of theHOSTPATHNOWENDTOEND, after identity is established at step 5. The gate is therefore enforced twice, at producer and consumer, and the document orders steps 5 and 6 deliberately ('identity is established before the value is interpreted').",
+      "residual": "the property is only as strong as consumer conformance, and the document should say 'unreachable through a conforming implementation' rather than 'INEXPRESSIBLE'. Non-blocking wording."
+    },
+    {
+      "item": 4,
+      "question": "DL-CLOSED-1 quantifies over reachability rather than closing two named types. Find an object reachable from a committed record that the property misses.",
+      "ruling": "I FOUND ONE, AND IT IS THE OPPOSITE OF A MISS -- IT IS AN OVER-CAPTURE. FILED AS BLOCKER IR-V3-B1.",
+      "theObject": "ProviderCapability.relations -- a JSON object reachable from every committed CapabilityManifestV1, carrying three different key sets across the four live manifests, named in neither closedTypesToday nor any exemption.",
+      "detail": "see blockers[0]. The enumeration in the property's own sentence excludes `relations` (it reaches a declared map's VALUES, not the map); the catch-all sentence includes it and declares it inadmissible. Both cannot hold.",
+      "otherReachableObjectsAudited": "CapabilityManifestV1, ProviderCapability and AbsentCapability are the only other reachable object types and all three are covered, with closed:true added to the latter two by operations 11 and 12. delivery.v2 declared closed:true on CapabilityManifestV1 ONLY -- verified -- so the gap the review found is real and the two additions are correct narrowings.",
+      "onTheDesignChoiceItself": "the preference for a reachability property over two type names is well argued and this review agrees with it. The defect is in the property's wording, not in the decision to state a property."
+    },
+    {
+      "item": 5,
+      "question": "DL-INJ-1 -- one detector, decode(encode(x)) == x, claimed to fail on the ordering channel AND the undeclared-member channel. Test both, construct a third it misses, and verify the stated bound.",
+      "channel1Verified": "CONFIRMED FAILING as claimed. Under the unclosed-order reading the equation is false on 4 of 4 live manifests.",
+      "channel2Verified": "CONFIRMED FAILING as claimed. Under a name-reading grammar, decode(encode(docP)) != docP -- the undeclared member is absent from the decode.",
+      "thirdChannelFound": "YES, AND IT IS REACHABLE ON TODAY'S SCHEMA, NOT HYPOTHETICAL.",
+      "theThirdChannel": {
+        "construction": "two CapabilityManifestV1 values differing only in the CASE of a platformId. x1 = DCM-7-empty-collection with platformIds ['all-supported']; x2 = identical with ['ALL-SUPPORTED'].",
+        "measured": {
+          "bothAdmittedByAllThreeStatedGates": true,
+          "bothRoundTripLiterally": true,
+          "idOfX1": "0ff319483f20c5693b8830d2061b5db731e951b991b56834dd9a82394a53e586",
+          "idOfX2": "c884fab408e8e1824ccb5a411e9f6bce9ed16994fc883cc02ad4c7158ebba910",
+          "idsDiffer": true,
+          "detectorVerdict": "decode(encode(x)) == x holds for BOTH. The detector is silent."
+        },
+        "whyItIsReachableToday": "MEASURED: ProviderCapability.platformIds has NO value-domain rule anywhere in delivery.v2 or delivery.v3. delivery.v2#platformMatrix.supported lists platformIds such as linux-x86_64-gnu and macos-aarch64, and the live manifests use the token 'all-supported', which is not a matrix row -- so no rule binds platformIds to the matrix at all. ADM-TYPE, ADM-CLOSED, ADM-ORDER and relationRule all pass. Contrast coverageState, where delivery.v2#capabilityManifestSchema.AbsentCapability.rule ('coverageState is unavailable') DOES refuse the analogous case variant upstream -- this review checked, and does not claim that one."
+      },
+      "boundVerified": "THE STATED BOUND IS CORRECT. boundsSTATED reads 'It cannot detect a defect that is symmetric in both directions -- an admission rule that accepts two values a decoder also produces two of', and the third channel is exactly that class.",
+      "theContradiction": "the paragraph three lines ABOVE the bound overclaims against it. thereforeITALSOFINDSTHETHIRDONE asserts the equation will catch 'any future degree of freedom of this family -- an optional member, a new collection, a case-insensitive comparison, a permitted alias'. MEASURED, at least three of those four fall on the wrong side of the document's own bound: a case-insensitive comparison ESCAPES (constructed above), a permitted alias ESCAPES (same shape), and an optional member with a default ESCAPES (absent and present-with-default both round-trip literally while minting two ids). 'A new collection' is caught only because DL-ORD-2 defaults it to a set; if an implementer makes it order-bearing, both orders round-trip and it escapes too.",
+      "grading": "NON-BLOCKING. The overclaim is about the detector's future power, not about any published value or gate behaviour, and the document's own boundsSTATED already concedes the correct limit. Repair: delete 'a case-insensitive comparison' and 'a permitted alias' from the list, or move them below the bound as named examples of what the equation cannot see."
+    },
+    {
+      "item": 6,
+      "question": "The framing departure. Verify the prefix form is stated three times in DELIVERY's own bytes, verify the incompatibility, and rule on whether discarding three independent reproductions was justified.",
+      "countVerified": "CONFIRMED, AND CONSERVATIVE. All three named statements are verbatim in delivery.v2: releaseManifestSchema.KeyDescriptor.keyId = \"sha256(UTF8('opensip.ed25519-key.v1\\u0000') || raw32PublicKey), lowercase hex\"; wireSchema.commitments.domainRule = 'Each commitment is SHA-256(UTF8(domain) || 0x00 || deterministic-CBOR(value)) and rendered sha256:<64 lowercase hex>.'; wireSchema.definitions.TypeScriptSemanticUniverseKey = \"Sha256Text = SHA-256(UTF8('opensip.typescript-universe.v1') || 0x00 || CVE1(TypeScriptSemanticUniverseV1))\". An independent sweep of delivery.v2 found FIVE prefix-form statements, not three -- the two extra being subjectScopeCommitment and RequestedCoverageDomainV1.domainCommitment, which are APPLICATIONS of domainRule rather than independent statements of the mechanism. The claim understates rather than overstates.",
+      "convergenceStandardVerified": "CONFIRMED, but only in the EFFECTIVE contract. c2-plan-stage-schema.v9.json is itself a derivation (from v4 at 4876284790462968..., 13 operations). Its literal bytes contain 'opensip.plan-intent' zero times. Resolving the derivation with check-completeness.py yields planIntent.canonicalCommitment.preimage = 'UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent)' -- exactly the form claimed. The subject's recordedInputs correctly pins BOTH v4 and v9, so the citation is sound; a reviewer who greps only v9's literal bytes will wrongly conclude it is absent.",
+      "incompatibilityVerified": "PARTIALLY. delivery.v2#releaseManifestSchema.canonicalization.manifestId = 'sha256(signedBytes), lowercase hex' -- verified. So manifestId and capabilityManifestId, two members of PLAN-ID-V1 field 3's closed map, would indeed be produced by two different construction grammars under the proposal. 'INCOMPATIBLE' is stronger than the evidence: both yield 64 lowercase hex and both satisfy the consuming validator's ^[0-9a-f]{64}$. The accurate word is DIVERGENT. The architectural objection -- one artifact should not carry two canonicalisation mechanisms for sibling fields -- is legitimate and is the same point the document makes at whyNOTALENGTHFRAMEDCOMPONENT.",
+      "ruling": "THE DEPARTURE IS JUSTIFIED, AND NOTHING WAS DISCARDED.",
+      "reasoning": "the reproductions were not thrown away -- they were PERFORMED and published. This review commissioned an independent fourth reproduction of the proposal's full grammar (componentFrame, record grammars, tag assignments, merkle leaf/outer path) written from the proposal's own prose, and it reproduced ALL FOUR of the proposal's set-reading ids byte-exactly, plus all four recordBytes lengths (914/953/935/1118), all four recordSha256, all four outerPreimageHex, and CAP-1-core's complete 914-byte completeRecordHex. The subject's verdictOnItsArithmetic ('CORRECT') is confirmed by a fourth independent party. The subject then ADOPTS seven things from the proposal, including relying on its canonical-ordering argument, and changes six with a stated cost each. The decisive asymmetry the subject offers is real and this review verified it: CVE1 has a binding-artifact ORACLE -- both pinned PLAN-ID-V1 goldens reproduce byte-exactly at 2500 and 8208 preimage bytes -- and no bespoke grammar in this corpus has a pinned golden it did not write itself."
+    },
+    {
+      "item": 7,
+      "question": "The DUD-6 join as a content test. Verify no name lookup survives anywhere on that path.",
+      "ruling": "CONFIRMED. No name lookup survives on the manifest-join path.",
+      "measured": {
+        "installProfilesSide": "CONFIRMED on all four -- profiles[i] carries EXACTLY {profile, semanticProviders, capabilityManifest}. It carries the manifest value and no id.",
+        "releaseManifestSide": "CONFIRMED -- ProfileEntry.required is EXACTLY ['profileId','artifactIds','capabilityManifestId']. It carries the id and no manifest.",
+        "nothingBindsThem": "CONFIRMED -- the literals 'installProfiles', 'ProfileEntry' and 'ArtifactEntry' each occur EXACTLY ONCE in delivery.v2's raw bytes, each being its own key. There is no cross-reference.",
+        "noArtifactEntryInstanceExists": "CONFIRMED -- 0 mediaType-valued paths anywhere in delivery.v2; 0 strings naming a capability-manifest mediaType; ArtifactEntry.required matches the claimed nine-list exactly; and all five releaseFixtures carry allArtifacts as a BOOLEAN, not a list of entries.",
+        "artifactSetRuleVerbatim": "'artifacts is the exact installable set; unlisted bytes are never executed as part of the release.' -- confirmed."
+      },
+      "theJoinIsContentOnly": "steps 3-5 of theHOSTPATHNOWENDTOEND locate the unique capability-manifest-mediaType ArtifactEntry in the ProfileEntry's artifactIds closure, verify bytes against ArtifactEntry.sha256, and recompute the id over those exact bytes. No step keys on 'profile' or 'profileId'. The profile/profileId spelling therefore cannot break the join, exactly as claimed.",
+      "theOneNameComparisonIsNotTheJoin": "DL-CUST-3's equality check (decoded manifest's `profile` == ProfileEntry's `profileId`) is a SEPARATE refusal condition at step 7, AFTER identity is established at step 5. It is an assertion about the joined value, not the mechanism that finds it. This distinction is correct and the ordering of steps is deliberate.",
+      "thirdSpellingClaimVerified": "CONFIRMED -- profileId also appears as the TypeScript provider's defaultWorkBudgetProfileId, an unrelated identifier. This review also notes a fourth occurrence the document does not call out: the overlay fixture's own release.profileId = 'core', which is not a third spelling but is precisely the field operation 5's placeholder replacement depends on, and it is correct.",
+      "residual": "DL-CUST-1 states a rule and declares no instance, correctly filed as DUD-V3-1. The uniqueness requirement ('EXACTLY ONE') is the right strength -- an existence-only test would admit an ambiguous release."
+    },
+    {
+      "item": 8,
+      "question": "ADM-ORDER makes all four of the predecessor's own manifests inadmissible, answered with an authoring/committed split. THE CRUX -- correct tightening or broken migration?",
+      "ruling": "CORRECT TIGHTENING. NOT A BROKEN MIGRATION. THE SPLIT IS NOT A FICTION.",
+      "theFactVerified": "CONFIRMED, 4 of 4. Every live installProfiles.profiles[*].capabilityManifest fails ADM-ORDER. Independently measured violations: core -- coverageForAbsent ['typescript-semantic','rust-semantic'] out of ascending order AND relationIds out of order; typescript-deep -- relationIds; rust-deep -- providers ['syntax-all','rust-semantic'] AND relationIds; full -- providers at index 2 ('typescript-semantic' then 'rust-semantic').",
+      "theDispositiveMeasurement": "NOTHING WAS EVER COMMITTED, so there is no migration to break. A broken migration requires previously-valid COMMITTED data that a new rule invalidates. This review measured that no such data exists anywhere in the corpus: no ReleaseManifestV1 instance has ever been built; there is no ArtifactEntry instance and no mediaType field anywhere; installProfiles carries no id and never has; ProfileEntry carries no bytes and never has; and the two sides have no cross-reference at all (each literal occurs exactly once). No capabilityManifestId has ever been computed from these four values by anything in the corpus prior to this document. ADM-ORDER therefore invalidates zero previously-valid committed artifacts.",
+      "onWhetherTheSplitIsInvented": "it is NEW TEXT that DESCRIBES EXISTING STRUCTURE, which is what a successor is for. installProfiles already had every property of an authoring catalogue -- it carries values and no identity, and it is not reachable from the release. Calling it that is a description, not a reclassification adopted to rescue a rule. Under section 6 law 19, verified in live bytes, DELIVERY is the surface entitled to write it, and this is DELIVERY's own successor.",
+      "onTheZeroLiveWitnessObjection": "the document's answer is sound: 'the alternative -- a rule the live corpus already satisfies -- would have been a rule with no live witness.' A canonical-order rule the data already satisfied would be untested. The committed forms that DO satisfy it are published with complete bytes, and this review reproduced all four byte-exactly.",
+      "onTheAuthorsOwnConcession": "the document states that if a reviewer rejects the split 'the correct reading is that DELIVERY has been shipping four non-canonical manifests and the repair is larger than this document'. This reviewer does NOT reject the split, and the reason is measurable rather than a matter of taste: DELIVERY has not been SHIPPING anything, because no release exists. The conditional's antecedent is false.",
+      "residual": "a reader who takes the four authoring values as committed computes four ids this document does not publish. That risk is explicitly handled at andTHISISWHYTHELIVEFIXTURESAREINADMISSIBLE and executed at NEG-ORD-1/NEG-ORD-2, both of which this review reproduced."
+    }
+  ],
+
+  "nonBlockingObservations": [
+    {
+      "id": "IR-V3-O1",
+      "title": "OBS-V3-1's '12 positions' is the BYTE-divergence count, not the ORDER-divergence count.",
+      "measured": "an independent implementation of the proposal's grammar, written from its prose, confirms every other element of OBS-V3-1 exactly: all four sort-after-framing ids match the published values (1ab1d460..., 0df75429..., 4319ab11..., 65544957...), all four set-reading ids match, record byte length is identical under both conventions for all four (914/953/935/1118), and the providers position does diverge in rust-deep and full as claimed. But across 28 sorted collections the count whose ORDER differs is 10, not 12; the count whose EMITTED BYTES differ is 12 (the two extra are providers positions in core and typescript-deep that cannot reorder but inherit a nested relations reordering); and under a strict array-only census it is 2.",
+      "whyItMatters": "in a paragraph whose entire subject is ordering, 'DIVERGE at 12 positions' naturally reads as order-divergence. The finding's force is unchanged at 10.",
+      "note": "the proposal underdetermines its own position census -- it never enumerates positions or states whether the relations object counts -- so this is a labelling imprecision, not an arithmetic error."
+    },
+    {
+      "id": "IR-V3-O2",
+      "title": "authoringFormFirstViolation is traversal-dependent for two of four vectors, and no traversal order is declared anywhere.",
+      "measured": "MEASURED: the string 'traversal' occurs 0 times in delivery.v3, and ADM-ORDER declares no order in which positions are checked or reported. For typescript-deep and full the published first violation is unambiguous because it is the ONLY violation. For core and rust-deep it is not: core also violates at coverageForAbsent index 1 and rust-deep also violates at providers index 1, and a natural outside-in traversal names those earlier than the published AbsentCapability.relationIds.",
+      "consequence": "the perFieldRuling note that relationIds 'is the FIRST violation ADM-ORDER reports for three of them' holds only under an undeclared inside-out traversal; under outside-in it holds for one. The SUBSTANTIVE claim behind the note survives untouched -- relationIds IS out of ascending order in 3 of the 4 live manifests, verified -- so the live witness the note is establishing is real.",
+      "grading": "diagnostic string only. Moves no id, no byte, no gate outcome. authoringFormAdmissible:false is correct 4 of 4."
+    },
+    {
+      "id": "IR-V3-O3",
+      "title": "One published digest is not independently reproducible from the document's own text.",
+      "measured": "recordClosure.whatITLOOKSLIKEUNDERTHISARTIFACTSRECIPE.measured.extraKeyInAbsentCapability = 09962fc6f968f6aa31edb31a464d7605ef2914cbbeab17bfe58681ec07c316aa. The document publishes the KEY name (undeclaredAbsentKey) but never the VALUE. This review recovered the sibling value by search -- the ProviderCapability half uses 'anything at all' and reproduces 107d1b5c... exactly, and NEG-CLOSED-1 uses 'x' and reproduces 7cc2f319... exactly -- but could not recover this one after testing all 117,193 39-character windows across delivery.v2 and delivery.v3 plus structured array/map candidates.",
+      "internallyConsistent": "the published committedByteLengths [1129, 1175, 1197] are arithmetically consistent with a 39-byte-payload value at that key (cve1('undeclaredAbsentKey') = 24 bytes, leaving 44), so this is a publication gap, not an arithmetic error.",
+      "context": "the document's 'a reviewer starts from bytes and never has to trust a transcription' promise is scoped to capabilityManifestIdentity.vectors, and it is fully honoured there -- all 7 vectors publish complete committed hex and all 7 reproduce. This gap is in negativeControls/recordClosure, which makes no such promise but does say 'REPRODUCED HERE, not taken on report'."
+    },
+    {
+      "id": "IR-V3-O4",
+      "title": "The prose undercounts the document's own negative controls.",
+      "measured": "negativeControls.controls contains TWELVE entries and selfMeasurement.negativeControlsExecuted correctly reads 12. But the prose says 'eleven negative controls' or 'eleven executed negative controls' in FOUR places, and 'twelve' zero times. Ten of the twelve publish a value some wrong reading would mint; NEG-TYPE-3 and NEG-NFC-1 do not, because both are refused by CVE1 itself.",
+      "grading": "the machine-readable count is right and the prose is wrong. In a corpus whose section 7 discipline is that 'a count is not a record', worth correcting."
+    },
+    {
+      "id": "IR-V3-O5",
+      "title": "ProviderCapability.platformIds has no value-domain rule and no declared dependency.",
+      "measured": "MEASURED: nothing in delivery.v2 or delivery.v3 constrains the VALUES of platformIds. delivery.v2#platformMatrix.supported enumerates rows such as linux-x86_64-gnu and macos-aarch64, but the live manifests use 'all-supported', which is not a matrix row, and no rule binds the field to the matrix. DL-CLOSED-1 governs object KEY SETS, not scalar value domains, so it does not reach this.",
+      "consequence": "this is what makes the third injectivity channel at adjudications[4] reachable today rather than hypothetical, and it is an open hole in the identity that no gate closes.",
+      "grading": "pre-existing in delivery.v2 and not introduced by this successor, so not a defect in these bytes -- but it belongs in declaredUnresolvedDependencies as a DUD-V3-8 rather than being unmentioned, given the document's own standard that an unstated input is declared at the boundary."
+    },
+    {
+      "id": "IR-V3-O6",
+      "title": "'INEXPRESSIBLE' and 'incompatible' are each one notch stronger than what was measured.",
+      "detail": "ADM-ORDER's theSTRUCTURALPROPERTYTHISBUYS calls the two-documents-one-id state 'INEXPRESSIBLE'; measured, it is unreachable through a conforming gate but remains computable by an implementer who skips ADM-ORDER, which is why NEG-ORD-1/2 exist. Separately, whatICHANGE calls the proposal's framing and DELIVERY's manifestId form 'two incompatible canonicalisations'; measured, they are DIVERGENT but both produce 64 lowercase hex satisfying the same consuming validator. Neither overstatement affects a computed value."
+    },
+    {
+      "id": "IR-V3-O7",
+      "title": "The document's own drift declaration came true twice more, including during this review.",
+      "measured": "recordedInputs pins IMPLEMENTATION-FREEZE.md at 32833361... and IMPLEMENTER-BLUEPRINT.md at 2fba1e83...; both were already stale when this review began (2a24d3e3... and 5e4b9745...), and BOTH MOVED AGAIN DURING this review, ending at 5bfd2f4aeab85d721220e549e2ecd39f4aa3d85e4ad6f4c7b837fcd67cd0032e and e9455616da1ea45a1c821f4f82f14850a6db1aa7703e158a822ea900ec28ca75. The subject's authoringConditions.residualRISK predicted exactly this and instructed a reviewer to re-check the propositions rather than assume the citations failed.",
+      "actionTaken": "this review did exactly that, twice. All twelve cited freeze propositions and both blueprint section 5.1 clauses were re-verified PRESENT in the final live bytes. Two initially read ABSENT and both were line-wrapping artifacts of the search, not absences -- section 6 law 2 and the blueprint's 'no rule that turns a `CapabilityManifestV1` into a `capabilityManifestId`' clause are both present verbatim under whitespace-normalised search.",
+      "grading": "no finding against the subject. Recorded because the recorded digests for those two files are now stale by two generations, which is a TRUE POSITIVE about these bytes and not a citation failure."
+    }
+  ],
+
+  "reproduction": {
+    "encodersWritten": "TWO, by this review, from prose only: a CVE1 encoder (recursive) and a structurally independent second encoder (iterative byte-list), plus an independent CVE1 DECODER sharing no code with either, plus a PLAN-ID-V1 preimage encoder written from resolved-inputs.v2#planIdContract.preimageFraming. No value was copied from the subject and no checker computed any published value.",
+    "encoderDisagreements": 0,
+    "committedVectors": "7 of 7 reproduced byte-exactly -- committedByteLength, committedBytesSha256, the COMPLETE committedBytesHex, and capabilityManifestId, for DCM-1-core (1129 / 508f24c7...), DCM-2-typescript-deep (1211 / 9d8c187c...), DCM-3-rust-deep (1193 / a0e6562e...), DCM-4-full (1395 / c046dda8...), DCM-5-non-ascii (414), DCM-6-sort-rule (490) and DCM-7-empty-collection (303).",
+    "pinnedGoldens": "2 of 2 reproduced byte-exactly. planid-v1-ci-minimal at 2500 preimage bytes -> plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4. planid-v1-ci-full-providers at 8208 preimage bytes -> plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401, materialised by executing the digest-verified check-resolved-inputs.py::_materialize_plan_vector as IMPLEMENTATION-FREEZE.md section 7.3 permits, with every digest then computed by this review's own encoders.",
+    "derivedPlanIds": "3 of 3 reproduced byte-exactly, with differing-byte counts matching exactly. PID-D1 = plan1:sha256:83f5fc2075340b4a12f8a8b9102a22d2b0560c53a3e79aafd8062b5a9cf8d29c at 2500 bytes, 60 differing positions. PID-D2 = plan1:sha256:686c1bd14eea5ecd70374cd3ec9c5448ebd3a4cc82d1779c9eace4ba0f047302 at 8208 bytes, 183 differing. PID-D3 = plan1:sha256:506c81af34071c6f88e6ff9eda41bd3d2e2fc03b10d92fed65e35d2ff3295e51 at 8208 bytes, 61 differing. The published differingSpan values are first-and-last-inclusive and agree with this review's measurements once that convention is applied.",
+    "negativeControls": "11 of 12 fully reproduced; 1 partially. Reproduced byte-exactly: NEG-ORD-1 (8134bd10...), NEG-ORD-2 (b61bdb8f...) including canonicalise(A)==canonicalise(B) byte-exact and both canonicalising to 508f24c7..., NEG-ORD-3 (all three ids: c046dda8... plus 911951e5... and a408a7a2...), NEG-TYPE-1 (2b76b70a...), NEG-TYPE-2 (82e30a58...), NEG-TYPE-3 (CVE1 refuses float), NEG-CLOSED-1 (7cc2f319...), NEG-NFC-1 (encoder refuses non-NFC rather than normalising), NEG-DOM-1 (all five values including the no-NUL variant 5118845a...), and the NEG-CLOSED-2 baseline and ProviderCapability half. Not reproduced: the NEG-CLOSED-2 AbsentCapability half -- see IR-V3-O3. NEG-DUP-1 and NEG-DUP-2 publish no base manifest and were not reproducible either; their stated REJECTION behaviour was verified independently against this review's own gate implementation.",
+    "proposalGrammarCrossCheck": "an independent implementation of the evaluated proposal's own grammar, written from its prose, reproduced all four of its set-reading ids, all four recordBytes lengths, all four recordSha256, all four outerPreimageHex and CAP-1-core's complete 914-byte record hex -- confirming the subject's verdictOnItsArithmetic as a fourth independent reproduction."
+  },
+
+  "derivationResolution": {
+    "method": "check-completeness.py was IMPORTED, not edited, and its exposed derivation_declaration() and resolve_derivation() were called on the subject.",
+    "declarationErrors": [],
+    "resolveErrors": [],
+    "declaration": {
+      "artifact": "delivery.v2.json",
+      "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "operations": 20
+    },
+    "provenance": {
+      "predecessor": "artifacts/delivery.v2.json",
+      "measuredDigest": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+      "digestMatchedDeclaration": true,
+      "depth": 1
+    },
+    "structuralDiff": {
+      "topLevelKeysBase": 33,
+      "topLevelKeysEffective": 37,
+      "newTopLevelKeys": ["capabilityManifestCustody", "capabilityManifestIdentity", "declaredUnresolvedDependencies", "knownLimitationsV3"],
+      "removedTopLevelKeys": [],
+      "addedPaths": 765,
+      "removedPaths": 0,
+      "changedScalarLeaves": 7,
+      "changedScalarLeafPaths": [
+        "$.author",
+        "$.initialProductScope.v1PlanIntentOverlay.fixtureModel.baseAllowedAnalysisIntent.analysis.admissionDescriptor.release.capabilityManifestId",
+        "$.reviewStatus",
+        "$.status",
+        "$.supersedes",
+        "$.supplyChain.provenanceInPlanId",
+        "$.version"
+      ],
+      "note": "exactly 7 changed scalars for 7 set operations and 4 new roots for 13 add operations (9 of the adds are nested under existing or new roots). Zero removals: the derivation is purely additive apart from the 7 restated scalars."
+    },
+    "guardsAssertedNotAssumed": [
+      "base version 2 -> 2.0 : REFUSED -- 'declares it replaces 2 (int) but the verified predecessor holds 2.0 (float)'",
+      "base supersedes 1 -> True : REFUSED -- 'declares it replaces 1 (int) but the verified predecessor holds True (bool)'",
+      "one character changed in a restated status string : REFUSED with both values named",
+      "placeholder already replaced in base : REFUSED at operation 5",
+      "add target already present in base : REFUSED -- 'already exists in the predecessor'",
+      "set target absent from base : REFUSED -- 'does not resolve against the predecessor'",
+      "set operation with no `from` : REFUSED -- 'a set must restate the value it replaces'"
+    ],
+    "typeExactnessVerified": "exact_equal refuses (1,1.0), (1,True), (True,1) and nested ({'a':1},{'a':1.0}) -- all four of which Python's == accepts. The type-exact restatement claim is real, not nominal."
+  },
+
+  "placeholderAndSecondLiteral": {
+    "replacementVerified": "operation 5 replaces 2222...2222 with 508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b. INDEPENDENTLY DERIVED by this review's own encoder from delivery.v2#installProfiles.profiles[0].capabilityManifest canonicalised. The fixture's own release.profileId is 'core' -- verified on the live bytes -- and 'core' is profiles[0], so the value is derivable and correct.",
+    "secondLiteralVerified": "CONFIRMED. delivery.v2 carries the exact string 2222...2222 at EXACTLY TWO positions, and the second is $.typescriptSemanticSubstrate.providerProtocol.wireSchema.coverageDomain.vectorConstants.manifestFileSubjects[1].contentSha256 = a snapshot file subject's content digest ({path: 'src/lib.rs', byteLength: 19}). It is NOT a capabilityManifestId, and the document is right that a reviewer grepping the literal will find it and could wrongly raise it.",
+    "warningEndorsed": "the converse warning is sound -- a future artifact publishing a capabilityManifestId equal to 2222... or 7777... would be evidence of back-fitting, since reproducing either from a real manifest would be a second-preimage attack on SHA-256."
+  },
+
+  "declaredUnresolvedDependencies": {
+    "count": 7,
+    "assessment": "SEVEN DECLARED, ZERO CLOSED, AND NONE IS FATAL RATHER THAN DECLARED. Each stops at a real boundary and none invents an upstream input.",
+    "perEntry": {
+      "DUD-V3-1": "CORRECT. No ReleaseManifestV1 instance exists; verified 0 mediaType paths and all five releaseFixtures carrying allArtifacts as a boolean. Release-qualification obligation, not an architecture gap.",
+      "DUD-V3-2": "CORRECT AND THE MOST CONSEQUENTIAL. Verified: check-resolved-inputs.py::_release_errors mentions capabilityManifestId twice and 'universe' zero times, while _semantic_universe_errors mentions universe 11 times and capabilityManifestId zero times -- the two never compare. Declining to state the join is right under law 19 (the universe records belong to RESOLVED-INPUTS), and publishing BOTH readings as PID-D2 and PID-D3 means neither reviewer gets silence. Good handling of a genuine cross-surface gap.",
+      "DUD-V3-3": "CORRECT. Disjointness holds 4/4 and no artifact requires it; ruling it would decide a product question.",
+      "DUD-V3-4": "CORRECT AND CORRECTLY GRADED. IMPLEMENTATION-FREEZE.md section 7.1's exact words were verified in the live bytes: 'No retained checker -- a fair residual for a candidate, disqualifying for application', quoting 'a byte recipe with no retained checker is a description that happens to contain digests'. The subject is a candidate, so this is a fair residual for what it is and a hard gate on application. The section 7.6 reason for not writing one beside an unreviewed candidate is sound.",
+      "DUD-V3-5": "CORRECT, and the asymmetry is right: a capability manifest instance exists four times over so its placeholder had to go; a release manifest instance does not exist so its placeholder is an honest missing input.",
+      "DUD-V3-6": "CORRECT. Not DELIVERY's row; nothing is extended toward it.",
+      "DUD-V3-7": "CORRECT AND WELL PLACED. The label is one string in one place, every published id moves with it, and it is minted in a candidate precisely so it can be overruled. This reviewer does not overrule it: the shape opensip.<subject>.v<major> matches DELIVERY's five existing labels and MEASURED the string occurs zero times in the corpus before this file."
+    },
+    "missingEntry": "see IR-V3-O5 -- the unconstrained platformIds value domain merits a DUD-V3-8."
+  },
+
+  "checkerRuns": {
+    "note": "no checker was edited. All were run as-is with python3 -I -B.",
+    "exitZeroAsRequired": {
+      "check-claims.py": 0,
+      "check-product-dispositions.py": 0,
+      "check-delivery.py": 0,
+      "check-c2-v9.py": 0,
+      "check-retention-custody-v24.py": 0,
+      "check-d9-v1.14.py": 0
+    },
+    "check-package-coherence.py": {
+      "exit": 1,
+      "findings": 2,
+      "bothArePC7": true,
+      "accounted": [
+        "artifacts/rust-provider-protocol.v2.json -- review state REJECT yet pinned normative",
+        "artifacts/threat-model.v3.json -- review state REJECT yet pinned normative"
+      ],
+      "pathsMissing": 0,
+      "headObservation": "before filing: 'delivery: documents name v2, disk has v3 -- successor review state NONE; head correctly unchanged'.",
+      "reRunAfterFilingThisArtifact": {
+        "exit": 1,
+        "pc7Count": 2,
+        "pc7Unchanged": "CONFIRMED -- still exactly the same two accounted PC-7 findings (rust-provider-protocol.v2, threat-model.v3). NO THIRD PC-7 WAS RAISED by filing this review.",
+        "pathsMissing": 0,
+        "totalFindingsRoseFrom2To4": "TRUE, AND NOT CAUSED BY THIS REVIEW. The two additional findings are PC-5-STALE-HEAD, not PC-7, and neither concerns DELIVERY: 'c2-plan-stage-schema: documents name v9, disk has v10' and 'r1-lifetime-neutrality.conformance: documents name v1.5, disk has v1.6'. Both flipped from observation to finding because OTHER LANES filed passing reviews for those successors WHILE this review was in progress -- artifacts/c2-plan-stage-schema.v10.review-independent.json and artifacts/r1-lifetime-neutrality.conformance.v1.6.review-independent.json, both timestamped after this review began. Reported as instructed; the verdict above is not reshaped by it.",
+        "effectOfThisReviewOnDelivery": "delivery's line moved from 'successor review state NONE' to 'successor review state REJECT; head correctly unchanged' and remained an OBSERVATION rather than becoming a finding -- which is the correct reading of a rejected candidate whose head was never repointed."
+      }
+    },
+    "check-completeness.py": {
+      "exit": 1,
+      "attribution": "PRE-EXISTING CORPUS STATE, NOT CAUSED BY THE SUBJECT. The exit is driven by CMP-IR-01 being open, cross-cutting finding R2-FINAL-03 being open, and product qualification at 0/25. DELIVERY scores 4/4 shape, seal-ready, and is scored by own-keys because the head is still delivery.v2 -- which is correct, since this candidate repoints nothing."
+    }
+  },
+
+  "verifiedInputs": {
+    "method": "every digest below was produced by shasum -a 256 on the live file and hard-compared against the value recorded here, at the START and again at the END of this review. Every JSON document was parsed with an object_pairs_hook that RAISES on a duplicate key and names it (IMPLEMENTATION-FREEZE.md section 7.5); ZERO duplicate keys were encountered in any input, including the subject at every depth.",
+    "unchangedThroughout": [
+      {"path": "artifacts/delivery.v3.json", "sha256": "01f1b95d0c740580c9307c188e4c2f6806f4d2e7e54d458f570631734cb62a6d", "role": "SUBJECT"},
+      {"path": "artifacts/delivery.v2.json", "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3", "role": "PREDECESSOR -- pinned in freeze section 3 and blueprint section 1.1; verified UNTOUCHED"},
+      {"path": "artifacts/resolved-inputs.v2.json", "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43", "role": "CVE1, PLAN-ID-V1 framing, both pinned goldens, the prohibition quote"},
+      {"path": "artifacts/c2-plan-stage-schema.v4.json", "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39", "role": "PlanIntent fixture for the full-provider golden; also the base of c2v9's own derivation"},
+      {"path": "artifacts/c2-plan-stage-schema.v9.json", "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1", "role": "convergence standard; resolved to its effective contract to verify planIntentCommitment"},
+      {"path": "artifacts/check-resolved-inputs.py", "sha256": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0", "role": "EXECUTED for _materialize_plan_vector only; computed no published digest"},
+      {"path": "artifacts/evaluation-proof.v8.json", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303", "role": "recordRules for leg3; closed nine-member domain list confirmed untouched by the subject"},
+      {"path": "artifacts/plan-and-policy-identity-recipes.v2.json", "sha256": "24bd4846d4666680b6275d29b9901ce903883620e6eea1339cdadf346ba3567c", "role": "the evaluated proposal; its grammar independently reimplemented and reproduced"},
+      {"path": "artifacts/fact-plane.v1.json", "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d", "role": "relationRegistry"},
+      {"path": "artifacts/check-completeness.py", "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6", "role": "IMPORTED, NOT EDITED, for derivation_declaration and resolve_derivation"},
+      {"path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "role": "NEITHER READ FOR CONTENT NOR WRITTEN. Digest confirmed identical before and after, as required."}
+    ],
+    "movedDuringThisReview": [
+      {"path": "IMPLEMENTATION-FREEZE.md", "recordedBySubject": "32833361a16df941e06a4a63bb27257795d419a8ec0db400bc874b0f22aa0700", "atReviewStart": "2a24d3e3b2950df7c326f770e67e87977cbd74ab409a690dad573a9599f4c199", "atReviewEnd": "5bfd2f4aeab85d721220e549e2ecd39f4aa3d85e4ad6f4c7b837fcd67cd0032e", "handling": "cited for PROPOSITIONS only; all twelve re-verified present in the final bytes"},
+      {"path": "IMPLEMENTER-BLUEPRINT.md", "recordedBySubject": "2fba1e836d5636b9efe1cc58b7f1b3f1b69f89b79be7af8b87180c5c7fbccc60", "atReviewStart": "5e4b9745ac6cd8f4f98bfbed71ce0683019b1ccbe01444d2392bf276a9b8b3b6", "atReviewEnd": "e9455616da1ea45a1c821f4f82f14850a6db1aa7703e158a822ea900ec28ca75", "handling": "both section 5.1 clauses re-verified present in the final bytes"}
+    ],
+    "noComputedValueDependsOnEitherMovedFile": "CONFIRMED. Every digest, id, preimage and byte length in this review was computed from delivery.v2, resolved-inputs.v2, c2-plan-stage-schema.v4 and the subject, all four of which were byte-identical at the start and the end."
+  },
+
+  "propositionsReverifiedInFinalLiveBytes": [
+    "section 6 law 2 -- 'Only declared analysis inputs may affect `PlanId`' -- PRESENT",
+    "section 6 law 3 -- 'C-1 is predicate-relative. There is no global fact or layer ordering.' and 'Strength is a property of a *predicate* and its Coverage, not of a tier' and 'There is no rank to compare' -- ALL PRESENT",
+    "section 6 law 4 -- exact Coverage, unmet requiredness cannot become pass -- PRESENT",
+    "section 6 law 18 -- closed-scalar admission is exact-type -- PRESENT",
+    "section 6 law 19 -- namespace and separator minted by the owning surface -- PRESENT",
+    "section 7.1 -- 'a byte recipe with no retained checker is a description that happens to contain digests' and 'disqualifying for application' -- PRESENT",
+    "section 7.2 -- a verdict binds bytes -- PRESENT",
+    "section 7.5 -- duplicate-key finding -- PRESENT",
+    "CD-RT-5 remains BLOCKED_ON_PHASE_1A -- PRESENT, 6 occurrences of the disposition; this review changes it in no way",
+    "blueprint section 5.1 -- 'PLAN-ID-V1 reproduces byte-exactly because the vectors supply `capabilityManifestId` as a literal' -- PRESENT",
+    "blueprint section 5.1 -- 'there is no rule that turns a `CapabilityManifestV1` into a `capabilityManifestId`, and therefore no `PlanId`' -- PRESENT"
+  ],
+
+  "whatIDidNotCheck": [
+    "NEG-DUP-1 and NEG-DUP-2's published ids (8d2f6f38... and 7e06c1cd...). The document states the rejection message and the id a wrong implementation would mint, but publishes neither the base manifest nor the full synthetic ProviderCapability records, so the inputs are underdetermined. I verified the stated REJECTION behaviour against my own gate implementation but could not reproduce the two ids.",
+    "NEG-CLOSED-2's extraKeyInAbsentCapability id (09962fc6...) -- see IR-V3-O3. Searched exhaustively and failed; the value is not published.",
+    "The four proposal-grammar record byte lengths and ids under the SEQUENCE reading beyond CAP-1-core, and the proposal's CAP-5/CAP-6 decode-and-re-encode claims. The set-reading ids, record lengths, record SHA-256s, outer preimages and CAP-1-core's complete record hex were all independently reproduced; the remainder was not exhaustively re-derived.",
+    "Whether opensip.capability-manifest.v1 is the RIGHT label as a matter of taste (DUD-V3-7). I verified it collides with nothing and matches DELIVERY's measured shape, and I do not overrule it, but I did not canvass alternatives.",
+    "The product question at orderingRuling.theProductQuestionThisDoesNOTDecide -- whether provider precedence should exist at all. Correctly out of scope for the subject and equally out of scope for this review.",
+    "DUD-V3-6 (policyOutcome.derivationDigest) beyond confirming the subject does not touch or extend toward it.",
+    "Whether a third PC-7 is raised by the filing of THIS artifact. My package-coherence run predates this file existing. I add no register entry and no pin, so I expect no third; a coordinator should re-run rather than rely on that expectation.",
+    "The five delivery.v2 releaseFixtures as install-scenario oracles beyond confirming allArtifacts is a boolean and no ArtifactEntry instance exists.",
+    "Any runtime or integration behaviour. Nothing in this corpus is executable product code and I ran none.",
+    "The correctness of the six checkers that exit 0. I ran them and recorded exit codes; I did not audit their internals, and IMPLEMENTATION-FREEZE.md section 7.1 is explicit that a checker cannot close a row in any case."
+  ],
+
+  "whatThisReviewChanged": {
+    "filesWritten": ["artifacts/delivery.v3.review-independent.json"],
+    "filesEdited": [],
+    "checkersEdited": [],
+    "rowsClosed": "NONE. This review closes no IMPLEMENTATION-FREEZE.md section 5.1 row and no section 7.1 row.",
+    "statusesDispositionsVerdictsSealsChanged": "NONE anywhere in the corpus.",
+    "headsRepointed": "NONE. DELIVERY's head remains artifacts/delivery.v2.json.",
+    "cdRt5": "UNCHANGED -- BLOCKED_ON_PHASE_1A."
+  }
+}

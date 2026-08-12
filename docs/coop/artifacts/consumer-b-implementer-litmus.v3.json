@@ -1,0 +1,550 @@
+{
+ "artifactId": "consumer-b-implementer-litmus.v3",
+ "title": "Blind consumer-B implementer litmus, run 3 — STAGING",
+ "date": "2026-08-04",
+ "consumer": "B — a strong Rust implementer meeting this package for the first time",
+ "binds": "NOTHING",
+ "authorityClaim": "NONE",
+ "candidateState": "MEASUREMENT-ONLY",
+ "changesNothing": "This artifact closes no row, changes no status, disposition, verdict or seal, touches no [UNSET] field, and applies no candidate. CD-RT-5 remains BLOCKED_ON_PHASE_1A. It is the only file this run wrote.",
+ "stagingStatus": {
+  "isThisTheFinalLitmus": false,
+  "why": "claim-register.v1.json#crossCuttingSealBlockers[0] requires R2-FINAL-03 to be closed by the final blind consumer-B litmus AFTER all surface adjudications and V10 resolution. V10 is unresolved: freeze §3.1's Phase-1A insertion has not happened, EVIDENCE and TM still carry 'UNSET — BLOCKS FREEZE', and CD-RT-5 is BLOCKED_ON_PHASE_1A. This run is therefore a STAGING litmus.",
+  "doesNotDischarge": "R2-FINAL-03",
+  "explicitDisclaimer": "Do not record this run as discharging R2-FINAL-03. Freeze §9.1 states the rule directly: 'A litmus run before V10 resolves is a staging litmus... it is not the final one.'"
+ },
+ "method": {
+  "documentsRead": [
+   "IMPLEMENTATION-FREEZE.md",
+   "IMPLEMENTER-BLUEPRINT.md",
+   "v1-slice.md",
+   "binding contracts reachable by direct link from those three"
+  ],
+  "documentsNotRead": [
+   "agentlog3.md",
+   "agentlog4.md",
+   "agents-log.md",
+   "any candidate artifact cited by path rather than linked (delivery.v3/v4, r1-lifetime-neutrality.conformance.v1.6, plan-and-policy-identity-recipes.*, evidence-identity-recipes.*, c2-plan-stage-schema.v10/v11, the two measurement sweeps): these were measured by execution and by string counting, never read as authority",
+   "prior lanes' scratch material (the shared scratchpad was not read; this run worked in an isolated subdirectory)"
+  ],
+  "jsonParsing": "EVERY JSON file this run parsed was parsed with a duplicate-key-rejecting object_pairs_hook that raises on the first repeated key (freeze §7.5, blueprint §8.1.1). No duplicate key was encountered in any artifact read.",
+  "quotationDiscipline": "Whitespace was normalised before concluding any quotation absent (freeze §7.7). That remedy proved INSUFFICIENT — see defect D-4.",
+  "interpreter": "python3 -I -B, Python 3.14.6, Darwin 25.5.0 arm64"
+ },
+ "questionAnswers": [
+  {
+   "n": 1,
+   "question": "Which lifecycle point allocates each identity?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §6 law 6; IMPLEMENTER-BLUEPRINT.md §2 'Lifecycle consequences' 1-4 and §3.1; resolved-inputs.v2#planIdContract",
+   "answer": {
+    "RequestId (REQUEST-ID-V1)": "Host-minted at TRUSTED INGRESS, allocated and atomically reserved before parsing, lookup or event creation. Correlation metadata only; excluded from every semantic identity and outcome. Carried across host components by the opaque, non-copyable, non-serializable TrustedRequestContextV3, whose independently rooted host authority — not the context, not any module-global helper — owns the reservation-to-object registry.",
+    "ProjectId (PROJECT-ID-V1)": "At REQUEST VALIDATION: host verifies or host-allocates it from the exact no-follow .opensip/project-id.v1 marker plus host registry. A persisted CSPRNG allocation never derived from mutable state; callers cannot supply it.",
+    "ExecutionId": "At ATTEMPT ADMISSION. (Freeze §6's ExecutionId allocation sentence is a verbatim content anchor of check-retention-custody-v23/v24.py.) Injected into the core, never affects the evidence digest, excluded from Plan/evidence semantics.",
+    "SnapshotId (SNAPSHOT-ID-V1)": "At SNAPSHOT BINDING, after attempt admission: constructed and verified from the closed snapshot descriptor and sealed file/link bytes.",
+    "PlanId (PLAN-ID-V1)": "Immediately after snapshot binding: the closed 13-field PlanDescriptorV1 is constructed and PLAN-ID-V1 verified by exact CVE1 framing and SHA-256, before cache lookup, provider dispatch or stage execution. Supplied IDs are never authority (suppliedAuthority: false).",
+    "RunId": "ALLOCATION POINT is stated — the host, on seal (blueprint §3.1: 'final RunId allocation on seal'). The DERIVATION is not: operability.v10.json states verbatim 'No exact RunId derivation recipe is binding yet.' (verified on the live bytes). Freeze §6 law 6's 'Recipe status' paragraph withdraws the earlier assertion that all four keep separate recipes.",
+    "evidence identity / EvidenceDigest": "Host-owned, at evidence assembly and seal. No binding byte recipe — freeze §7.1 row 3; operability.v10#requestIdContract.fixtures[8].parked."
+   },
+   "caveat": "Answerable in full for allocation POINTS. Two of the seven (RunId, evidence identity) have an allocation point and no derivation recipe, and the package says so explicitly rather than leaving it to be discovered."
+  },
+  {
+   "n": 2,
+   "question": "Which component may read the worktree, spawn a provider, write durable state, seal a Run, derive policy, and exit the process?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §6 laws 5, 8, 13; IMPLEMENTER-BLUEPRINT.md §3.1, §4 workspace table, §2 consequences 7-9; v1-slice.md §5 laws 4-5 and §2.4",
+   "answer": "NO SINGLE COMPONENT MAY DO ALL SIX — the question is a decomposition test and the package answers it cleanly. (1) The ORCHESTRATION HOST (crates/host) reads the worktree, spawns and supervises providers, writes durable state through the sole host-owned durable-state authority, seals the Run, and derives the D9 HostTermination. (2) POLICY IS DERIVED IN THE PURE CORE (crates/core): freeze §6 law 5 — the core receives sealed data, exposes no effectful callback or port, mints no entropy, and returns CoreCompletion INCLUDING policyOutcome; v1-slice §2.4 'Evaluate policy in the same pure core'. crates/policy must not own exit mapping, persistence or provider access. (3) PROCESS EXIT is the BINARY's: freeze §6 law 13 — 'one binary site performs process exit'; blueprint §4 gives bins/opensip 'the only numeric-exit write site'. The host finalizer constructs HostTermination; the binary writes the code.",
+   "caveat": "crates/store is an implementation of the host's single durable-state authority, not a peer authority (blueprint §3.1). Inventing a second store authority is a freeze §8 failure condition."
+  },
+  {
+   "n": 3,
+   "question": "How does CI handle layer 4?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §5 (disposition row + the layer definition added 2026-08-04) and §6 law 2; product-dispositions.v1.json $.decisions.A1-RI-04; resolved-inputs.v2#configuration.precedence; IMPLEMENTER-BLUEPRINT.md §1, §7.2 step 3, §7.3",
+   "answer": "Layer 4 is the UNTRACKED, MACHINE-LOCAL OVERRIDE file — one of six configuration precedence layers (1 compiled defaults, 2 user-global, 3 tracked project intent, 4 untracked local override, 5 allowlisted environment, 6 command flags). CI and every non-interactive invocation DOES NOT LOAD OR RESOLVE IT. Verified live in the binding packet: product-dispositions.v1.json $.decisions.A1-RI-04.rule — 'The CI/non-interactive profile does not load or resolve layer-4 analysis-affecting untracked overrides. Their presence is not an admission failure. Local interactive runs may use layer 4 only when its values and provenance enter PlanId and the explain projection.' The obligation is NOT-LOADED, so mere presence neither changes PlanId nor rejects admission; blueprint §7.3's minimum integration golden requires CI to derive the same result whether the file is absent or present. resolved-inputs.v2#planIdContract.fieldCanonicalization.resolvedConfiguration adds that under ci a layer-4 record is invalid.",
+   "caveat": "See defect D-7: v1-slice.md §6 (authority level 2) still presents this as an OPEN decision with a two-branch provisional posture. The binding packet outranks it under §1/§2 authority order, so I was not forced to choose — but the inconsistency is unrecorded."
+  },
+  {
+   "n": 4,
+   "question": "Why is syntax not globally weaker than semantics?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §6 law 3, read there in full as §8 instructs; corroborating sites it names: IMPLEMENTER-BLUEPRINT.md §4 (crates/facts) and §7.3; freeze §6 law 4; v1-slice.md §5 law 3 and §2.3",
+   "answer": "Because C-1 is PREDICATE-RELATIVE and there is no global fact or layer ordering, so there is no rank to compare and therefore nothing to fall back DOWN to. Strength is a property of a PREDICATE and its Coverage, not of a tier: a syntactic fact that exactly satisfies what a predicate requires is sufficient FOR THAT PREDICATE, and a semantic fact that does not is not. Law 4 is the other half — unmet requiredness becomes a typed deficiency, never a pass and never a false no-match — so substituting a syntactic fact for an unavailable semantic one would convert an unmet requirement into an apparent pass, which law 4 forbids outright. Law 3 states the implementer's own framing of the question ('why may I not just degrade to the syntactic answer?') and answers it: because the ordering it presumes does not exist, and because the substitution it licenses is a false negative wearing a green result. The corroborating sites are named and both check out: blueprint §4 forbids crates/facts a 'global fact-tier rank' and crates/graph a 'global origin/fact rank'; blueprint §7.3's required-provider-outage golden demands typed Coverage deficiency, policy indeterminate and D9 indeterminate with 'no silent syntax substitution'.",
+   "caveat": "Read as one continuous passage in §6 law 3, exactly as §8 says. It did not need reassembling from fragments."
+  },
+  {
+   "n": 5,
+   "question": "What does a provider-unavailable predicate do?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §3.2 join 4; IMPLEMENTER-BLUEPRINT.md §3.2, §3.3, §7.3; v1-slice.md §2.3; resolved-inputs.v2#planIdContract.fieldCanonicalization.semanticUniverses",
+   "answer": "A VALID provider 'Unavailable' — and a deterministic 'BudgetExhausted' — is an EXACT COVERAGE OUTCOME, not a fault. It yields a typed Coverage deficiency; the required predicate is unsatisfied; policy returns INDETERMINATE; the Run is still sealed COHERENTLY; and D9 terminates INDETERMINATE (exit 3, confirmed against the executed oracle's classToExitCode). There is NO silent syntax substitution — that is law 3/law 4 (see Q4). The neighbouring cases are deliberately different: a malformed/partial protocol, crash, identity mismatch or bad exit is a D9 provider-protocol FAULT (faultCause=provider-protocol, errorCode=PROVIDER.PROTOCOL_VIOLATION); a promised-but-missing or unspawnable signed profile artifact is DELIVERY-REQUIRED. An incomplete semantic universe 'cannot produce PlanId and instead produces Coverage provider-unavailable' (resolved-inputs.v2, verbatim), i.e. the failure lands before provider execution.",
+   "caveat": "Freeze §3's FACT-PLANE row lists as blocking work 'declare the sufficiency view type and the rungUnavailableBecause vocabulary' — so the deficiency VOCABULARY is not fully closed even though the behaviour is."
+  },
+  {
+   "n": 6,
+   "question": "How does an exact graph accelerator differ from a semantic graph producer, and what happens when the accelerator is absent, corrupt, partial, or stale?",
+   "answerable": true,
+   "source": "IMPLEMENTATION-FREEZE.md §6 law 8; IMPLEMENTER-BLUEPRINT.md §2.1 rules 1-8 and §7.4 gate table; §4 (crates/index vs crates/graph)",
+   "answer": {
+    "distinction": "An EXACT ACCELERATOR is project-scoped, rebuildable, OPTIONAL, and must be PARITY-EQUIVALENT to canonical traversal; it is host-side cache work and can change no answer. A SEMANTIC PRODUCER is any graph computation whose algorithm, version, parameters, thresholds, approximation or inputs CAN change an edge, finding, ordering, omission or Coverage — it is not a cache, and must follow normal Plan/fact/provenance/Coverage/evidence custody and provider identity. It may never be hidden behind crates/index.",
+    "absent": "Bypassed. Deleting the entire cache must preserve second-process inspection and canonical reference answers (§7.4 'absence'). GraphView reference traversal is the correctness oracle, not a slow degraded mode.",
+    "corrupt": "Detected before use and bypassed or rebuilt. Every required component is digest/count/schema/kind/version/parameter checked before the single atomic active-pointer transition. Cache corruption may never become a false empty or clean result (law 8).",
+    "partial": "UNREPRESENTABLE. Generations run building -> complete -> active -> stale -> collectible; queries pin exactly one generation; 'partial or cross-generation answers are unrepresentable'. A query concurrent with activation sees exactly its pinned old or new complete generation, never a splice.",
+    "stale": "Stale Snapshot / fact-view / project inputs cannot hit; the required lookup dimensions are ProjectId, Snapshot, exact fact view/partition set, graph schema, index kind, implementation version and parameters. Stale collection waits for the pin to drain.",
+    "boundFailure": "If the canonical computation cannot meet a declared bound the result is explicit Coverage/indeterminate — never an empty edge set or a clean verdict."
+   },
+   "caveat": "Blueprint §2.1 rule 4 states explicitly that the lookup-dimension list prevents unsafe reuse but does NOT define the parked FactViewId or the cache/regeneration key byte recipe — those are §7.1 escalations (rows 5 and 6)."
+  },
+  {
+   "n": 7,
+   "question": "Which process contains rustc_driver, how is it identified, and why is it not a sandbox?",
+   "answerable": true,
+   "source": "IMPLEMENTER-BLUEPRINT.md §3.3, §4 (bins/rust-provider, crates/facts-rust), §1.1 note N-2; IMPLEMENTATION-FREEZE.md §6 law 10 and §3.2 item 5; v1-slice.md §2.1 and §4",
+   "answer": {
+    "whichProcess": "bins/rust-provider (opensip-rust-provider) — the bundled sidecar. ONE supervised process per Rust SEMANTIC UNIVERSE. It is explicitly NOT linked into the host: crates/facts-rust must not own 'rustc_driver linked into the host', and the provider must not import host/core/store.",
+    "howIdentified": "By the required identity handshake over the RUST-PROVIDER-PROTOCOL wire contract — rust-provider-protocol.v2.json MERGED with the v4 overlay per note N-2, NOT delivery.v2. Protocol major is 2, and I verified the whole precedence chain by direct lookup rather than trusting the prose: rust-provider-protocol.v2#protocolIdentity.protocolMajor == 2 (a real JSON int); protocolIdentity IS in v4's inheritedTopLevelSelectors and is NOT among the eight replacedSelectors; delivery.v2#rustSemanticSubstrate.providerProtocol.major == 1 and that value LOSES. (delivery.v2's TypeScript major is also 1, and that one is correct for the Node worker.) Identity is further pinned by the rust-v1 semantic universe key — rustCommitHash, rustcVersion, cargoVersion, hostTriple, targetTriple, sysrootDigest, provider build and artifact digests — all of which enter PlanId, with no system rustc, Cargo, sysroot or PATH lookup permitted to substitute.",
+    "whyNotASandbox": "Because the provider and compiler are TCB-ACCEPTED. Freeze §6 law 10: 'one supervised, pinned compiler process per semantic universe. It is TCB/fault containment, not a sandbox.' Blueprint §3.3: 'fault containment and compiler-instability containment. It is not a sandbox... the product must not claim capability confinement.' v1-slice §4 EXCLUDES from v1 any 'claims that a process boundary, Rust sidecar, narrow interface, signature, or stage label provides runtime capability confinement', and §5 law 9: 'labels are not confinement'. Real confinement is blocked on ARCH.PROBE-CONTRACT, which freeze §7 records as PARKED with every dependent feature excluded."
+   },
+   "caveat": "The join rule is implemented against the §1.1 D9 head, not against rust-provider-protocol.v4#d9JoinV4, which pins d9-exit-contract.v1.13 (fc2c546a...). I confirmed that stale pin live; it is a named escalable divergence (freeze §3.2 item 6)."
+  },
+  {
+   "n": 8,
+   "question": "How do you obtain the D9 axes-to-class derivation, and why is executing the pinned checker's verified closure compliant while transcribing a predecessor contract is not?",
+   "answerable": true,
+   "demonstrated": true,
+   "source": "IMPLEMENTATION-FREEZE.md §2 rule 5, §7.3; IMPLEMENTER-BLUEPRINT.md §1.1 rule 5 and note N-5, §5 D9 row, §7.2 step 1",
+   "answer": "YOU RUN THE PINNED CHECKER. d9-exit-contract.v1.14.json does not state the total axes-to-class function; its referenceDerivation names check-d9-v1.14.py::check+derive_class+derive_codes+reduce_concurrent+V17.V16.derive_class, and that checker is inside the freeze payload (§2). The sole admitted invocation is 'python3 -I -B'. WHY EXECUTING IS COMPLIANT: freeze §2 rule 5 and §7.3 — a retained checker that hash-verifies a file set before executing it, and whose independent review covered that set, may internally execute superseded or REJECTED predecessors; those files are RUNTIME INPUTS OF THE INSTRUMENT, they acquire no normative standing, and the verdict covers the closure it verified. WHY TRANSCRIBING IS NOT: rules 3 and 4 scope the CONTRACT YOU IMPLEMENT — a REJECTED version is not normative and a superseded version is not a fallback — so copying check-d9-v1.10.py's derive_class body (where the implementation actually lives, five delegation levels down) into Rust would be implementing bytes that carry no verdict. The distinction is between obtaining a VALUE from a verified instrument and adopting BYTES as a contract.",
+   "executedThisRun": {
+    "invocation": "python3 -I -B artifacts/check-d9-v1.14.py",
+    "exit": 0,
+    "banner": "25 pins verified before retained execution",
+    "oracleDigest": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e (equals the freeze §2 pin)",
+    "goldenRederivation": "45 of 45 goldenCases rederived through the executed module's derive_class: 45 match, 0 mismatch",
+    "implicitBranchResolved": "The success/policy-failed/interrupted branch and the interruption-vs-verdict precedence, which the JSON leaves implicit, were obtained from the live module over the full 6x3 verdict x interruption cross-product: signal-before-finalization -> interrupted (exit 130) for EVERY verdict; signal-after-finalization -> the verdict wins (pass/advisory -> success 0, fail -> policy-failed 1, indeterminate -> indeterminate 3, unavailable and not-applicable -> operational-failed 4). This matches freeze §4.5's statement that the derivation reclassifies a signal only while an outcome is unsettled.",
+    "cautionReproduced": "Blueprint §7.2 step 1's out-of-enum caution reproduced EXACTLY on the live module: substituting 'TOTALLY-BOGUS' at each of the 14 declared axes in turn over goldenCases[0] gives 14 of 14 admitted with nothing raised — 13 fall through to 'success' and 'verdict' returns 'operational-failed'. Axis validation is the host's job; validate against scenarioAxesSchema before calling the oracle."
+   },
+   "caveat": "See defect D-9: note N-5 tells you to drive derive_codes with the contract's goldenCases, but derive_codes takes a second required positional argument (maps) that no document mentions; the documented call raises TypeError."
+  },
+  {
+   "n": 9,
+   "question": "What retained objects establish a no-match and a verdict after Phase 1A?",
+   "answerable": false,
+   "answerableAs": "CORRECTLY-SIGNPOSTED BLOCKER — the package tells me plainly that this does not exist yet, rather than letting me discover it.",
+   "source": "IMPLEMENTATION-FREEZE.md §3.1, §3 EVIDENCE row, §3 evaluation-proof candidate row, §7.1; IMPLEMENTER-BLUEPRINT.md §1.1 notes N-3 and N-4, §5 EVIDENCE and V10 rows, §7.2 steps 6-7",
+   "answer": "THE PACKAGE DOES NOT TELL ME, AND SAYS SO. This is exactly freeze §3.1's mandatory Phase-1A insertion — 'exact evaluation-proof model for match, no-match, indeterminate/error, and verdict claims' plus 'exact retained objects for independent verification or regeneration' — and that insertion has not happened. What I CAN establish from the permitted set: (a) the six-shape proofObligationsByClaimShape map (local-match, relationship-match, aggregate-match, NO-MATCH, indeterminate, error) lives in evaluation-proof.v8, which freeze §3 records as still the V10 item-1 artifact and which is CANDIDATE-NOT-APPLIED with a companion checker carrying a standing defect record — 'EVALUATION-PROOF is therefore not seal-ready'; (b) the v10..v13 chain carries ZERO occurrences of 'no-match' and repairs a different thing; (c) evidence.v10 defines no EvidenceBundle, no EvaluationEvidence, no SubjectSetCommitment, no outcomeSetDigest and no subject-set Merkle framing at all, and imports universeCommitment and outcomeSetCommitment by equality from an unapplied vector. So the shape exists only in unapplied candidates and blueprint note N-4 forbids implementing from them. The honest answer is: the retained-object set is the Phase-1A packet, and it does not exist.",
+   "gradedAs": "Not a package defect. The package is consistent, explicit and correctly blocking here. It is the single largest thing standing between this package and a buildable milestone."
+  },
+  {
+   "n": 10,
+   "question": "What happens after proof expiry/purge without rewriting the sealed Run?",
+   "answerable": "PARTIALLY — the semantics are described; they are not implementable",
+   "source": "IMPLEMENTATION-FREEZE.md §4.6, §3.1, §5 CD-RT-5 row, §7 (A1-RTV4-02); IMPLEMENTER-BLUEPRINT.md §1.1 note N-4, §3.4, §7.2 step 7",
+   "answer": "DESCRIBED: the sealed Run is never rewritten. What changes is EFFECTIVE CAPABILITY — a demotion with unit-granular reasons, computed so that the seal enters only as a CEILING (freeze §4.6 records the independent verification of P4 in its strong form, result == min(sealed, best) at all 276 cases) and so that purge can never RAISE capability (40,000 randomised multi-position trials, zero counterexamples). Read-time unavailability after purge publishes D9 'indeterminate' / exit 3 with an EMPTY reason-code list — derived, not chosen, because 0 of 9 deficiency members, 0 of 9 reason codes and 0 of 19 error codes name retention-driven read-time unavailability. That class-with-no-remedy is a real defect owned by D9, published as RT23-B-RES-01. Purge is a journaled state machine that renames projects/<ProjectId> into quarantine/ and resumes from exact durable state (blueprint §3.4). NOT IMPLEMENTABLE: the derivation lives in retention-tiers.v23 Part B, carried byte-identically into retention-tiers.v24, which is CANDIDATE-NOT-APPLIED, is NOT the §3.1 insertion, and selects no retention default (durableDefault remains UNSELECTED). Blueprint note N-4: 'Do not implement a retention default, proof, degradation record, or purge transition from any of them.' CD-RT-5 is BLOCKED_ON_PHASE_1A — verified live in product-dispositions.v1.json $.pendingDecisions.CD-RT-5.status.",
+   "caveat": "Freeze §4.6 records V10 item 3 as DISCHARGED. That is a statement about an architecture obligation, not a licence to build: the artifact carrying the discharge binds nothing."
+  },
+  {
+   "n": 11,
+   "question": "Which crate owns every binding contract and first golden?",
+   "answerable": true,
+   "source": "IMPLEMENTER-BLUEPRINT.md §4 (initial Rust workspace map, ownership + forbidden imports + dependency direction) and §5 (contract -> module/type/test map, with a 'Conformance entry point' column)",
+   "answer": "§5 gives, for each binding surface, a first Rust owner, a first API/type and a conformance entry point; §4 gives the crate boundaries, the forbidden import edges (which are 'conformance tests from the first commit') and the expected dependency direction. Ownership resolves for every surface: D9 -> host::finalize + types::termination + the binary exit site; C-2 -> plan::{intent,execution} + host::admission; FACT-PLANE -> facts::{relation,coverage,sufficiency}; RESOLVED-INPUTS -> host::{resolve,snapshot} + plan::identity; FACT-IDENTITY -> facts::identity; R-1 -> core + host::orchestrate; EVIDENCE -> crates/evidence (shape only); V10/retention -> blocked; VERSIONING -> crates/versioning; DELIVERY -> crates/delivery + both provider adapters; RUST-PROVIDER-PROTOCOL -> provider-protocol + facts-rust + bins/rust-provider + host::finalize; OPERABILITY -> host::{ingress,events,projection,audit} + store; TRUSTED-REQUEST-CONTEXT -> host::ingress + types; TM -> host storage/read-set/config/temp/projection policies; PRODUCT -> composition/profile/admission policy.",
+   "caveat": "Two §1.1 rows have no §5 row: CLAIMS (claim-register.v1.json — a status register, not a surface, correctly excluded) and evaluation-proof.v13 (folded into the V10 row and, per freeze §3, not a registered surface at all). Blueprint §5 also warns in its own words that the 'First API / type' column is proposed Rust naming rather than artifact strings, and that where the column and the artifact disagree the artifact wins."
+  },
+  {
+   "n": 12,
+   "question": "Which apparent features must reject rather than be stubbed?",
+   "answerable": true,
+   "source": "v1-slice.md §4 and §2.2 and §5 law 9; IMPLEMENTATION-FREEZE.md §4.2 and §3.2 joins 2-3; IMPLEMENTER-BLUEPRINT.md §5.A, §7.3, §8.2, §9",
+   "answer": {
+    "mustRejectAtAdmission": [
+     "Probe stages, simulation, and every scenario-effectful mode (ARCH.PROBE-CONTRACT is PARKED)",
+     "Third-party or untrusted imperative rules; untrusted native or WASM contributions",
+     "Network-granted analysis stages",
+     "External-scanner fact derivation — EVEN WHEN VALID UNDER THE GENERAL C-2 SCHEMA (this is the trap: schema-valid is not admissible)",
+     "Any claim that a process boundary, Rust sidecar, narrow interface, signature or stage label provides runtime capability confinement",
+     "A resident host, daemon autostart, resident-default UX, or multi-project residency",
+     "Public extension marketplace, public in-process plugin ABI, third-party lifecycle parity",
+     "Full MCP/agent-protocol parity, Cloud-required analysis/verdict/evidence paths, model calls anywhere on the analysis path",
+     "Repair/mutation workflows, broad command-surface parity, a columnar/vector engine as day-one"
+    ],
+    "typedOutcomes": "Capability-runtime-dependent forms retain domain reason FEATURE.REQUIRES_CAPABILITY_RUNTIME; a C-2-valid but v1-excluded external scanner retains FEATURE.EXTERNAL_SCANNER_NOT_IN_V1. BOTH map to D9 rejectionCause=extension-admission-rejected and public errorCode=EXTENSION.ADMISSION_REJECTED. Domain detail and D9 codes are not interchangeable vocabularies and an implementation may invent neither.",
+    "whereItRejects": "During REQUEST VALIDATION, from the committed PlanIntent, BEFORE attempt admission — creating no ExecutionId, AttemptRecord, SnapshotId, PlanId, ExecutionPlan or Run. Post-admission substitution is also rejected before any stage executes, and is a host defect rather than a second admission path.",
+    "theStubbingProhibition": "Freeze §4.2: 'An excluded form must reject at admission. Hiding one behind a flag still admits it and violates the slice.' Blueprint §9: 'A feature flag that admits an excluded form is still admission and is prohibited.'"
+   }
+  }
+ ],
+ "questionSummary": {
+  "askedTwelve": 12,
+  "answeredFromPermittedSet": 11,
+  "answeredAsCorrectlySignpostedBlocker": 1,
+  "notAnswerableAndNotSignposted": 0,
+  "note": "Q9 is counted as a signposted blocker rather than an answer: the package does not tell me what establishes a no-match and a verdict, because that is the Phase-1A insertion, and it says so in five places rather than leaving it to be discovered. Q10 is answered as description-without-implementability for the same reason. No question was met with silence."
+ },
+ "weekOneAttempt": {
+  "instruction": "IMPLEMENTER-BLUEPRINT.md §7.2 port order, worked as far as possible without writing product code",
+  "step1_D9": {
+   "status": "COMPLETE AND GREEN",
+   "what": "Obtained the axes-to-class derivation by executing the pinned oracle under python3 -I -B; digest equals the freeze §2 pin; rederived all 45 goldenCases with 0 mismatches; resolved the implicit success/policy-failed/interrupted branch and the interruption-vs-verdict precedence across the full 6x3 cross-product; read classToExitCode (success 0, policy-failed 1, request-rejected 2, indeterminate 3, operational-failed 4, interrupted 130); reproduced the blueprint's 14-of-14 out-of-enum caution exactly.",
+   "conclusion": "D9 is the soundest surface in the package and the blueprint is right to start here. Nothing blocked."
+  },
+  "step2_FACT_PLANE_and_C2": {
+   "status": "NOT BLOCKED, NOT COMPLETED THIS RUN",
+   "note": "C-2 v9 resolves through check-c2-v9.py (exit 0 measured). Not ported here because this litmus writes no product code. subjectScopeCommitment is bound by wire type only and its computation is a §7.1 escalation, as both documents say."
+  },
+  "step3_RESOLVED_INPUTS_and_identities": {
+   "status": "GREEN, THEN STOPPED AT THE PREDICTED WALL",
+   "whatWorked": "Implemented CVE1 and PLAN-ID-V1 independently from resolved-inputs.v2#planIdContract prose alone — canonicalValueEncoding, preimageFraming, the thirteen preimageFields in ascending tag order — sharing no code with any checker and reading no checker source. Vector 'planid-v1-ci-minimal' reproduced BYTE-EXACTLY ON THE FIRST ATTEMPT: computed plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4 against the expected value, and a 2500-byte preimage against the expected 2500. This confirms the package's own claim that PLAN-ID-V1 is re-derivable from prose.",
+   "whereItStopped": "capabilityManifestId — PLAN-ID-V1 preimage field tag 3.",
+   "whatStoppedIt": "There is NO RULE turning a CapabilityManifestV1 into a capabilityManifestId in the normative byte set. Measured on the live binding heads: delivery.v2#capabilityManifestSchema.CapabilityManifestV1 is a CLOSED four-field schema {schemaVersion, profile, providers, coverageForAbsent}; delivery.v2#releaseManifestSchema.ProfileEntry REQUIRES capabilityManifestId; delivery.v2#releaseManifestSchema.canonicalization gives its sibling manifestId a full recipe ('sha256(signedBytes), lowercase hex' over UTF8('opensip.release-manifest.v1\\u0000') || JCS(...)) and gives capabilityManifestId NOTHING — no canonicalization, no preimage, no domain separator. The ONLY value of the field anywhere in delivery.v2 is the placeholder literal 2222... in a plan-intent overlay fixture; resolved-inputs.v2 carries 2222... and 7777... in its golden vectors. It is also a required digestFields member of BOTH semanticUniverseSchemas.",
+   "theTrapConfirmedByExecution": "PLAN-ID-V1 goes green because THE VECTOR HANDS YOU FIELD 3 AS A LITERAL. Reproducing it proves the CVE1 framing and the field ordering and proves nothing about where field 3 comes from. Pointed at a real project there is no rule, and therefore no PlanId. Blueprint §5.1 names this trap in advance and it is exactly right.",
+   "forkDemonstrated": "delivery.v2#installProfiles.profiles[*].capabilityManifest carries FOUR REAL CapabilityManifestV1 values. I computed four mutually incompatible readings over each, every one licensed by an analogy the binding set itself uses (domain||NUL||JCS as manifestId does; bare JCS; domain||NUL||CVE1 as PLAN-ID-V1 does; domain without the NUL). For the 'full' profile they give ac34e251..., 999ce790..., a408a7a2... and a8daa529... — four well-formed 64-hex ids, and NOTHING IN THE NORMATIVE BYTE SET DISCRIMINATES THEM. Separately, reversing the two-element coverageForAbsent array of the 'core' manifest moves the id from e9b57b18... to bed1ca29..., and no binding artifact says whether that collection is a set or a sequence.",
+   "whereTheAnswerActuallyLIVES": "The domain separator 'opensip.capability-manifest...' EXISTS in this repository — 30 occurrences — but ONLY in delivery.v3.json (11), delivery.v4.json (10), their two reviews, two companion checkers and one recipe candidate. It occurs ZERO times in the binding head delivery.v2.json and ZERO times in all three package documents (whitespace- and blockquote-normalised). Every artifact carrying it is CANDIDATE-NOT-APPLIED and outside blueprint §1.1's normative byte set.",
+   "actionTaken": "ESCALATED. Not computed, not guessed, not adopted from a candidate."
+  },
+  "step4_FACT_IDENTITY": {
+   "status": "NOT ATTEMPTED THIS RUN (no product code)"
+  },
+  "step5_R1_pure_core": {
+   "status": "STOPPED AT THE PREDICTED WALL, IDENTICAL SHAPE",
+   "whereItStopped": "policyOutcome.derivationDigest",
+   "whatStoppedIt": "Measured on the live binding head r1-lifetime-neutrality.conformance.v1.5.json: closedTypes.PolicyOutcome is a record with fieldOrder [policyId, verdict, derivationDigest], optionalFields [] and additionalProperties false, so the field is unconditionally required; policyOutcome is in turn a required field of CoreCompletion. All the contract gives is the TYPE: closedTypes.Digest == {kind: string, pattern: '^sha256:[0-9a-f]{64}$'}. There is NO PREIMAGE AND NO DOMAIN SEPARATOR. The only values in the artifact are the four placeholder constants sha256:5555..., sha256:6666..., sha256:8888... and sha256:9999... — and I confirmed the fourth at $.positiveVectors[5].completionTemplate.policyOutcome.derivationDigest, so blueprint §5.1's corrected enumeration is accurate on the live bytes. Decisively, conformanceModel.vectorOracle derives only DiagnosticsData and BudgetUsage and MERGES them into completionTemplate — the conformance corpus NEVER COMPUTES policyOutcome, it supplies it. So a green R-1 vector suite is compatible with no policy engine being able to produce the field at all.",
+   "whereTheAnswerActuallyLIVES": "'opensip.r1-core' / 'policy-derivation' occur ZERO times in the binding head and only in r1-lifetime-neutrality.conformance.v1.6.json (11), its review, three plan-and-policy-identity-recipes candidates, two companion checkers, and the blueprint's prose ABOUT them. All CANDIDATE-NOT-APPLIED.",
+   "actionTaken": "ESCALATED."
+  },
+  "step6_EVIDENCE": {
+   "status": "SHAPE PORTABLE, IDENTITY BLOCKED — as documented",
+   "note": "evidence.v10's canonicalWireGrammar, DomainEnvelopeV1 framing and five record types are portable and check-evidence-v10.py is a sound differential oracle (admits nothing on either arm of the §7.4 sweep). No identity VALUE may be committed to. Not ported here."
+  },
+  "step7_PHASE_1A": {
+   "status": "BLOCKED — [PHASE-1A / V10 BLOCKER], correctly and explicitly"
+  },
+  "step8_RUST_PROVIDER_PROTOCOL": {
+   "status": "BLOCKED ON ENVIRONMENT, NOT ON CONTRACT",
+   "note": "The merge is specifiable (note N-2) and I verified the protocol-major precedence by direct lookup. But BOTH retained checkers for this surface — check-rust-provider-protocol-v2.py and -v4.py — abort on this host with FileNotFoundError: 'rg' before evaluating a single contract property, so the PASSED verdict is not reproducible here. See defect D-6."
+  },
+  "step9_10": {
+   "status": "NOT REACHED"
+  },
+  "netAssessment": "Of blueprint §9's seven week-one items, item 1 (CLI/host/one exit site) and the D9 half of item 6 are unblocked and demonstrably sound. Item 2 runs green to PLAN-ID-V1 and then cannot produce a PlanId for a real project. Item 4 can be built and cannot return a valid CoreCompletion. Item 5 is Phase-1A-blocked. The second-process-inspect half of item 6 is blocked on RunId and sealed-manifest recipes. The blueprint's own §9 closing paragraph predicts exactly this — four of seven run into a named wall — and it is accurate."
+ },
+ "defectsFound": [
+  {
+   "id": "D-1",
+   "severity": "HIGH",
+   "title": "Freeze §9.1's stated reason for not repointing the PC-5 heads is false on the live tree, and its own §7.8 says so",
+   "measured": "check-package-coherence.py exits 1 on SIX findings: 2 PC-7 and FOUR PC-5 (c2-plan-stage-schema v10 and v11, delivery v4, r1-lifetime-neutrality.conformance v1.6). Freeze §9.1 explains the heads are 'deliberately not repointed, because both successors concede they have no retained checker, and §7.1 grades that disqualifying for application', and closes 'so the finding stands until each successor has a companion instrument and the head moves as a deliberate act'. Three separate problems: (a) the sentence immediately before enumerates THREE successors and this one says 'BOTH'; (b) the live instrument reports FOUR; (c) the reason is FALSE — check-c2-v11.py, check-delivery-v4.py and check-r1-v1.6.py all exist and ALL EXIT 0, each subject-bound to exactly the successor PC-5 names (verified by executing them and reading their banners), and freeze §7.8 OF THE SAME DOCUMENT records that check-r1-v1.6.py, check-c2-v11.py and check-threat-model-storage-namespace-v4.py were written on 2026-08-04.",
+   "whyItMatters": "The paragraph's own release condition has been SATISFIED for three of the four and nothing in the package records it. And the two successors held out are precisely delivery.v4 and r1-conformance-v1.6 — the two artifacts the blueprint says close the two week-one identity gaps that stopped this litmus. An implementer is blocked on gaps whose closure is on disk, reviewed at 0 blockers, now instrumented, and held out by a rationale the same document falsifies three sections earlier.",
+   "class": "This is freeze §7.2.2's own named defect — a recorded measurement carried forward instead of re-run — inside §9.1's account of a live checker.",
+   "notEscalableUnderSection8": "SHARP POINT: §8 permits escalating only a NAMED RESIDUAL or A DETECTED CONFLICT WITH A BINDING ARTIFACT. §9.1's prose is neither. The most consequential defect this run found is, strictly read, OUTSIDE the escalation rule."
+  },
+  {
+   "id": "D-2",
+   "severity": "HIGH",
+   "title": "The signature gate quantifies over ROWS while §7.1 states the park as a PROPERTY — so the property has no gate",
+   "measured": "§9.1's checkbox reads 'Every §7.1 row has been closed by a binding artifact, or signature is withheld' (verified verbatim). §7.1 states 'any identity-, digest-, commitment- or ref-typed field for which no binding artifact states a rule producing its value from real inputs is parked under this section and is escalable, WHETHER OR NOT IT APPEARS AS A ROW ABOVE' (verified verbatim after blockquote stripping). §7.1 itself measures the class at 33 unparked members against ten rows.",
+   "whyItMatters": "A signer can tick the box by closing ten rows while an unbounded set of property-qualifying gaps remains open — including the two D-3 names, which appear in no row and, for one of them, in neither measurement sweep. §7.1 says the property is what makes escalation 'load-bearing rather than descriptive'; measured against §9.1 it is load-bearing for COMPLIANCE and inert for SIGNATURE. This is §7's dominant failure mode — a coverage claim quantifying over a region its own instrument cannot observe — in the freeze's own verification record.",
+   "suggestedRepair": "Restate the §9.1 checkbox over the property, e.g. 'Every §7.1 row, and every further field qualifying under §7.1's park property, has been closed by a binding artifact.' A row-shaped gate cannot discharge a property-shaped park."
+  },
+  {
+   "id": "D-3",
+   "severity": "HIGH",
+   "title": "Two PlanId-affecting digest fields with no producing rule, named in no row, no sweep and no package document",
+   "instances": [
+    {
+     "field": "rustcDevLlvmDigest",
+     "where": "resolved-inputs.v2#planIdContract.semanticUniverseSchemas.rust-v1 — a REQUIRED member and a digestFields member, therefore a PLAN-ID-V1 input via preimage field 9",
+     "whatExists": "digestRepresentation: '64 lowercase hexadecimal SHA-256 characters'. A type.",
+     "whatDoesNot": "Any rule producing the value. rust-v1's deliveryJoin says 'remaining toolchain fields equal the pinned offline bundle manifest' — but delivery.v2.json contains ZERO occurrences of the name, its ArtifactEntry gives a per-artifact sha256, and its rustSemanticSubstrate.offlineAssets names 'rustc-dev/LLVM libraries' as a PLURAL SET. Aggregating N artifact digests into one value is a framing decision no binding artifact makes.",
+     "measured": "Occurs in 4 files total; 0 in delivery.v2.json; 0 in uncomputable-identity-fields.sweep.v1 and code-only-identity-rules.sweep.v1; 0 in all three package documents.",
+     "escalableUnder": "BOTH §8 limbs — §7.1's property (digest-typed, no producing rule) AND 'a detected conflict with a binding artifact' (a cross-artifact join naming a target that does not exist)."
+    },
+    {
+     "field": "typescriptStdlibMerkleRoot",
+     "where": "resolved-inputs.v2#planIdContract.semanticUniverseSchemas.typescript-v1 — required and a digestFields member; also delivery.v2 providerDescriptor.closedRequired, handshakeRequired, and HelloAckV1 typed 'DigestHex'",
+     "whatExists": "A type (DigestHex) and a presence requirement at three positions.",
+     "whatDoesNot": "The tree. A Merkle root needs leaf framing, node framing, ordering, odd-node handling and a defined member set; none is stated anywhere. The word 'Merkle' appears in delivery.v2 only inside this field name and one prose sentence saying PlanId commits it. Two implementers building a root over the same stdlib produce different roots and both produce well-formed DigestHex.",
+     "measured": "Occurs in 6 files; 3 in delivery.v2 (all name-or-type positions); 0 in all three package documents.",
+     "escalableUnder": "§7.1's property."
+    }
+   ],
+   "whyItMatters": "Both are silent-wrong-answer traps of exactly the executionPlanCommitment shape the freeze names as the worst of its class: a divergent value produces a correctly-typed, correctly-sized field and a different PlanId, and no vector in the corpus fails. They are new evidence for §7.1's own claim that the enumeration is not the class — and for the claim that neither sweep can bound the class."
+  },
+  {
+   "id": "D-4",
+   "severity": "MEDIUM",
+   "title": "Freeze §7.7's prescribed anti-false-negative remedy is insufficient for §7.1's own park property",
+   "measured": "§7.7 instructs: 'Normalise whitespace before concluding a quotation is absent.' Applied literally — re.sub(r'\\s+', ' ') — the phrases 'is parked under this section and is escalable' and 'no binding artifact states a rule producing its value from real inputs is parked' BOTH RETURN ABSENT. They are inside a markdown blockquote with bold markers, so normalisation leaves '>' and '*' interleaved. Stripping leading '>' and '*' returns FOUND for both. Verified in four passes: raw / whitespace-only / +blockquote / +bold.",
+   "whyItMatters": "The sentence that §7.7's remedy fails on is the single sentence that makes escalating an unlisted gap compliant. A lane doing EXACTLY what §7.7 says would conclude the park property is absent from the freeze — which is §7.7's own described failure ('an agent doing exactly the right thing gets exactly the wrong answer'), one level up, on the most load-bearing sentence in the document.",
+   "suggestedRepair": "Extend §7.7's remedy: strip leading blockquote markers and emphasis runs as well as normalising whitespace, before concluding absence. Better: move the property out of the blockquote."
+  },
+  {
+   "id": "D-5",
+   "severity": "MEDIUM",
+   "title": "Two red checkers accounted for nowhere; §9.1 promises exactly two exceptions",
+   "measured": "Ran all 101 artifacts/check-*.py under python3 -I -B. 18 exit non-zero. Of the 18 retained BINDING checkers named in blueprint §1.1, 15 exit 0 and 3 exit non-zero (see D-6 for two of them; check-threat-claims.py is accounted). Unaccounted: (1) check-assurance.py EXITS 1 on three AS-STATE findings — 'dischargeStatus is not a property assurance table' against C-2, VERSIONING and R-1. The string 'check-assurance' occurs ZERO times in both package documents. (2) check-adjudication.py EXITS 2 PRINTING NOTHING. 'check-adjudication' occurs twice in the freeze but never in §9.1's exception list, and exit 2 with empty output is indistinguishable at a console from a broken instrument.",
+   "whyItMatters": "§9.1 states 'Two known exceptions, named here so a signer meets them with their cause instead of discovering them at the console. An unexplained red checker at signature time is the §7.4 failure mode.' There are more than two, and these two have no cause recorded anywhere.",
+   "confirmedExpectations": "Everything the brief predicted held exactly: check-versioning.py is red by construction while the registered validator check-versioning-v8.py exits 0; check-threat-claims.py exits 1 on exactly the two T1 narrative findings at the two named files; check-phase1a-a-prime-successor-v3.py reports many stale protected inputs; check-package-coherence.py exits 1 on exactly the two named classes."
+  },
+  {
+   "id": "D-6",
+   "severity": "MEDIUM",
+   "title": "RUST-PROVIDER-PROTOCOL evidence is unreproducible on this host and §9.1 does not name it",
+   "measured": "check-rust-provider-protocol-v2.py and check-rust-provider-protocol-v4.py both exit 1 with FileNotFoundError: [Errno 2] No such file or directory: 'rg', raised before any contract property is evaluated. I reproduced the exact failure mode blueprint §1.1 documents: 'command -v rg' SUCCEEDS on this host (zsh function) while shutil.which('rg') returns None. So 2 of the 18 retained binding checkers cannot run at all, and per the blueprint's own words the PASSED verdict for this surface 'cannot be reproduced' here.",
+   "whyItMatters": "Blueprint §1.1 discloses this fully and correctly. Freeze §9.1 — the checklist a SIGNER works — does not, and its 'Two known exceptions' framing tells the signer to expect two. Also note the corpus's own rule applies literally: the guard never ran, so exit 1 here is NOT a finding about the Rust protocol and must not be recorded as one."
+  },
+  {
+   "id": "D-7",
+   "severity": "MEDIUM",
+   "title": "v1-slice.md §6 contradicts the binding product packet on CI layer 4, and the conflict is unrecorded",
+   "measured": "v1-slice.md §6 'Named decisions that remain before freeze' lists 'CI layer 4 (A1-RI-04)' with interim posture RI-LAYER4-CI-PROVISIONAL — 'ignore layer 4 entirely OR fail admission when an analysis-affecting layer-4 key is present' — and owner 'Product owner chooses the single ship behavior in Phase 2, before freeze'. Its preamble adds 'Until those decisions are recorded, an implementation must not select a different answer.' But product-dispositions.v1.json carries A1-RI-04 in $.decisions (NOT $.pendingDecisions) with a single unambiguous rule, and freeze §5 lists it among binding product dispositions.",
+   "whyItMatters": "v1-slice §8 requires: 'If this file and a binding artifact appear inconsistent, stop and record a design delta.' No such delta exists. This sits exactly on a freeze §8 package-failure trigger ('choose layer-4 CI behaviour'). It did NOT fire for me because the §1/§2 authority order puts the binding artifact above v1-slice, and freeze §5 agrees with the artifact — so the answer is determinable. But v1-slice.md is now digest-pinned and immutable, so this can only be corrected by a §10 delta, and until then authority level 2 tells an implementer the decision is open."
+  },
+  {
+   "id": "D-8",
+   "severity": "LOW",
+   "title": "PC-7 cannot see the disclosure the freeze says it made",
+   "measured": "PC-7's detail for artifacts/rust-provider-protocol.v2.json reads 'freeze says UNSTATED, blueprint says UNSTATED', although freeze §3's base-rejection record and blueprint §1.1's base row both now state the REJECT verbatim. (For threat-model.v3.json the same finding reads 'freeze says PARTIAL, blueprint says PARTIAL'.)",
+   "whyItMatters": "Freeze §9.1 asserts 'That silence is now repaired'. The repair is real in the prose and invisible to the only instrument that grades it, so no instrument verifies that the disclosure exists."
+  },
+  {
+   "id": "D-9",
+   "severity": "LOW",
+   "title": "Blueprint note N-5's documented way to drive the D9 oracle raises TypeError",
+   "measured": "N-5 and §7.2 step 1 say to exercise 'derive_class / derive_codes / reduce_concurrent / check / V17.V16.derive_class' against the contract's goldenCases. derive_codes(axes) raises TypeError: derive_codes() missing 1 required positional argument: 'maps'. Passing the contract's codeMaps works.",
+   "whyItMatters": "Small and self-correcting, but it is the one API surface the note instructs you to port against, and the note is otherwise unusually precise."
+  },
+  {
+   "id": "D-10",
+   "severity": "LOW",
+   "title": "PLAN-ID-V1 golden vector 1 is not independently reproducible from its own artifact",
+   "measured": "goldenVectors.positive[0] carries a complete 13-field 'input' and reproduced byte-exactly. goldenVectors.positive[1] ('planid-v1-ci-full-providers') carries only 'planInputConstruction' with FOUR of the thirteen fields plus a sourcePlanIntentFixtureId and snapshotVectorId pointing into C-2 and the snapshot contract. No artifact states the assembly rule for the other nine fields.",
+   "whyItMatters": "The blueprint cites 'both pinned vectors reproduce byte-exactly (2500 and 8208 bytes)' as evidence the recipe is re-derivable from prose. That is fully true of vector 0 and requires an unstated cross-artifact join for vector 1."
+  }
+ ],
+ "escalationsAttempted": {
+  "ruleAsStated": "IMPLEMENTATION-FREEZE.md §8: 'They may escalate only a named residual or a detected conflict with a binding artifact', plus §7.1's property limb: 'any identity-, digest-, commitment- or ref-typed field for which no binding artifact states a rule producing its value from real inputs is parked under this section and is escalable, whether or not it appears as a row above.'",
+  "escalations": [
+   {
+    "id": "ESC-1",
+    "subject": "capabilityManifestId",
+    "limb": "NAMED RESIDUAL — freeze §7.1's two related contract gaps; blueprint §5.1 item 8; freeze §3 RESOLVED-INPUTS row lists it as blocking work",
+    "compliant": true,
+    "routeExists": true,
+    "route": "Under freeze §6 law 19 only DELIVERY may mint the namespace and separator, so this closes in a DELIVERY successor. blueprint §5.1 also records a DELIVERY-side join gap (installProfiles carries the manifest with no id; ProfileEntry carries the id with no manifest; the join key is spelled 'profile' on one side and 'profileId' on the other) which I confirmed live.",
+    "workedInPractice": true
+   },
+   {
+    "id": "ESC-2",
+    "subject": "policyOutcome.derivationDigest",
+    "limb": "NAMED RESIDUAL — freeze §7.1; blueprint §5.1 item 9; freeze §3 R-1 row",
+    "compliant": true,
+    "routeExists": true,
+    "route": "R-1's own successor, under §6 law 19.",
+    "workedInPractice": true
+   },
+   {
+    "id": "ESC-3",
+    "subject": "rustcDevLlvmDigest (UNLISTED)",
+    "limb": "TESTS THE §7.1 PROPERTY, and independently qualifies under §8's 'detected conflict with a binding artifact' because rust-v1's deliveryJoin names a target delivery.v2 does not carry",
+    "compliant": true,
+    "routeExists": true,
+    "workedInPractice": "PARTIALLY — see the verdict on the property below"
+   },
+   {
+    "id": "ESC-4",
+    "subject": "typescriptStdlibMerkleRoot (UNLISTED)",
+    "limb": "§7.1 PROPERTY",
+    "compliant": true,
+    "routeExists": true,
+    "workedInPractice": "PARTIALLY — same reason"
+   },
+   {
+    "id": "ESC-5",
+    "subject": "rust-provider-protocol.v4#d9JoinV4 pinning d9-exit-contract.v1.13 (fc2c546a...) while the §1.1 D9 head is v1.14 (8dd33038...)",
+    "limb": "NAMED DETECTED DIVERGENCE — freeze §3.2 item 6, escalable 'on the same footing'",
+    "compliant": true,
+    "confirmedLive": "Yes — read $.d9JoinV4.candidate directly. evidence.v10 carries the same stale pin and discloses it deliberately.",
+    "workedInPractice": true
+   },
+   {
+    "id": "ESC-6",
+    "subject": "D-1 — freeze §9.1's PC-5 rationale is false on the live tree",
+    "limb": "NONE THAT FITS",
+    "compliant": false,
+    "finding": "This is the most consequential defect this run found and it is NOT escalable under §8 as written. §8 admits a named residual or a detected conflict WITH A BINDING ARTIFACT. §9.1's prose is not a binding artifact and the defect is not a missing identity rule, so §7.1's property does not reach it either. It is only escalable by analogy to blueprint §5.1's E-NS-1 manoeuvre (routing through §8's withheld-disposition limb), which does not apply here because no surface disposition is involved.",
+    "workedInPractice": false
+   }
+  ],
+  "didTheSection71PropertyMakeAnUnlistedGapGenuinelyEscalable": {
+   "asCompliance": "YES, UNAMBIGUOUSLY. The property is self-applying. I met two digest-typed fields with no producing rule, neither of which appears as a row, and I did not need permission, a row, or an amendment to escalate them. The property is doing exactly the job §7.1 claims for it, and it did it twice in one run — which is the second independent confirmation that the enumeration is not the class.",
+   "asEffect": "NO, NOT YET — and this is the practical answer the brief asked for. Compliance and effect are different things and the package supplies only the first. Three measured reasons: (1) §9.1's signature gate is stated over ROWS, so an escalation of an unlisted gap has no checkbox that will hold signature (D-2); (2) the sentence that confers the right is unfindable by the package's own prescribed verification method (D-4); (3) §8's escalation limbs do not reach a defect in the freeze's own prose, so the class of finding most likely to change a coordinator's behaviour is the class the rule excludes (ESC-6). The property makes escalating LEGAL. Nothing yet makes it CONSEQUENTIAL."
+  }
+ },
+ "packageFailureConditions": {
+  "source": "IMPLEMENTATION-FREEZE.md §8 — six conditions under which 'this freeze fails'",
+  "anyHit": false,
+  "conditions": [
+   {
+    "condition": "must choose retention",
+    "hit": false,
+    "evidence": "CD-RT-5 verified BLOCKED_ON_PHASE_1A live in product-dispositions.v1.json $.pendingDecisions; blueprint note N-4 forbids implementing a default from any candidate; I chose nothing and the marker told me where to stop."
+   },
+   {
+    "condition": "must invent a second store authority",
+    "hit": false,
+    "evidence": "Blueprint §3.1 and §4 are unambiguous: one host-owned durable-state authority, crates/store implements it, no peer. §3.4 gives the construction floor. I invented nothing. NOTE: blueprint §5.1's E-NS-1 records that the physical STORAGE ROOT half is unspecified (root selection, root identity validation, authority-record creation, the rename's same-device precondition) — that is escalable and I did not reach it this run, but an implementer who reaches it and invents would trip this condition."
+   },
+   {
+    "condition": "must decide the core effect boundary",
+    "hit": false,
+    "evidence": "Freeze §6 law 5 and blueprint §4 fix it exactly: evaluate(SealedStageInput, CoreDeps, AttemptMetadata) -> CoreCompletion, CoreDeps is a closed data-only record, no effectful port, and the forbidden dependency edges are conformance tests from the first commit."
+   },
+   {
+    "condition": "must select a Rust substrate",
+    "hit": false,
+    "evidence": "product-dispositions.v1 + freeze §5 + blueprint §1: DELIVERY v2 substrate, bundled TypeScript worker, exactly pinned rustc_driver sidecar, full default profile. The wire contract is RUST-PROVIDER-PROTOCOL v2+v4 merged, not DELIVERY, and I verified the protocol-major precedence by direct lookup rather than by trusting the prose."
+   },
+   {
+    "condition": "must choose layer-4 CI behaviour",
+    "hit": false,
+    "evidence": "Decided in the binding packet at $.decisions.A1-RI-04 and restated in freeze §5 and §6 law 2. NOT hit — but see defect D-7: v1-slice.md §6 still presents it as open, and only the §1/§2 authority order resolves the contradiction."
+   },
+   {
+    "condition": "must create an exit mapping",
+    "hit": false,
+    "evidence": "d9-exit-contract.v1.14#classToExitCode is complete and I read it directly: success 0, policy-failed 1, request-rejected 2, indeterminate 3, operational-failed 4, interrupted 130. The axes-to-class function is obtained by executing the pinned oracle, which I did, rederiving 45 of 45 goldens."
+   },
+   {
+    "condition": "must decide which version of a binding artifact is normative",
+    "hit": false,
+    "evidence": "Freeze §2 'Version selection' rules 1-5 answer this explicitly and blueprint §1.1 carries the pins. I recomputed the digest of every artifact I touched and every one matched. check-package-coherence.py reports digestsBound 40 / digestsVerified 40 and registerBindingsChecked 15. NOT hit — but see the determinability finding below, which is the subtler half of this question."
+   }
+  ],
+  "determinabilityOfNormativeBytes": {
+   "question": "The brief asks whether the package makes it determinable which bytes to build against, reading the DISPOSITION column rather than the verdict column.",
+   "answer": "YES, DETERMINABLE — but on a stale rationale.",
+   "reasoning": "The rule is mechanical and I applied it: the normative bytes are blueprint §1.1's filename+SHA-256 pins; a link without a digest is a pointer; a version whose independent review is REJECTED is not normative and its predecessors are not a fallback; nothing promotes an unnamed higher version. So I would build the §1.1 heads, and I verified all of them recompute correctly. Reading the DISPOSITION column as instructed: EVIDENCE and TM are 'UNSET — BLOCKS FREEZE', so their shapes are portable and their surfaces are not settled — blueprint §5.1's E-NS-1 correctly narrows TM to 'ProjectId half buildable, root half not'. WHAT IS NOT DETERMINABLE is why those heads are the right ones: §9.1's stated reason for holding four reviewed-passing successors out is falsified by §7.8 of the same document and by three green companion instruments on disk (D-1). An implementer can determine WHICH bytes; they cannot determine whether the package still means it.",
+   "secondRuleThreeTension": "Freeze §2 rule 3 forbids implementing a version whose independent review is REJECTED. PC-7 fires on TWO artifacts. For rust-provider-protocol.v2 the package resolves the tension explicitly and well (§3.2 item 5: what is normative is the MERGE, and not one of the 18 inherited selectors was ever a blocking surface). For threat-model.v3 there is NO equivalent resolution recorded — the REJECT is scoped to $.storageNamespace and the scoping is done implicitly, in blueprint §1.1's row and §5.1's E-NS-1, while rule 3 is written as a whole-version rule. Recording a §3.2-style resolution for TM would close the second half of a rule the package has already closed the first half of."
+  }
+ },
+ "whatIDidNotCheck": [
+  "I wrote NO product Rust code. Every 'port' claim here is a Python re-derivation from artifact prose, which tests the specification and not a Rust implementation.",
+  "I did not run any checker's --selftest except check-package-coherence.py --selftest (which returned SELFTEST-NOT-RUN: 0 of 9 mutations executed, as recorded). check-d9-v1.14.py --selftest spawns isolated child interpreters and takes minutes; I did not run it, so I have not exercised the D9 mutation suite.",
+  "I did not reproduce PLAN-ID-V1 golden vector 1 (8208 bytes). It requires an unstated cross-artifact assembly from a C-2 plan-intent fixture and a snapshot vector (D-10). Vector 0 reproduced and that was sufficient to establish the recipe and the trap.",
+  "I did not resolve the C-2 v9 derivation by hand or port the closed PlanIntent/ExecutionPlan schema. I only confirmed check-c2-v9.py exits 0.",
+  "I did not attempt SNAPSHOT-ID-V1, PROJECT-ID-V1, FACT-ID-V1 or planIntentCommitment re-derivation. The package claims all four are re-derivable from prose; I verified only PLAN-ID-V1 and therefore corroborate one of the four.",
+  "I did not read any candidate artifact as authority — delivery.v3/v4, r1-conformance-v1.6, the plan-and-policy and evidence-identity recipe lineages, c2 v10/v11, and the two measurement sweeps were measured by EXECUTION and by counting string occurrences, never read for their rules. So I cannot say whether their recipes are correct, only where their domain separators live and that their instruments exit 0.",
+  "I did not verify the RUST-PROVIDER-PROTOCOL merge by executing its checker — it is unrunnable on this host for want of ripgrep (D-6). My protocol-major finding rests on direct field lookups in the two pinned artifacts, not on the checker.",
+  "I did not audit the 30 adversarialControls of TRUSTED-REQUEST-CONTEXT or the 6 semanticConformanceVectors of RUST-PROVIDER-PROTOCOL that freeze §3 says check-completeness.py cannot see.",
+  "I did not sweep the corpus for further unlisted §7.1-property members. D-3's two were found INCIDENTALLY, while doing §7.2 step 3 — which means the class is known non-empty beyond both published sweeps and its true size remains unmeasured. Do not read D-3 as a boundary.",
+  "I did not run the boolean/float mutation arms against any checker myself; freeze §7.4's table is quoted, not reproduced.",
+  "Deliberately, and following freeze §7.2.2: I publish NO leaf census or self-measurement of this artifact. A gate that measures the object before the self-report is attached to it undercounts by exactly the size of the self-report, and the cheapest correct answer when the measurement is self-referential is not to make it."
+ ],
+ "verifiedInputs": {
+  "note": "Every digest below was MEASURED on the live tree by this run, not copied from any document.",
+  "pinAgreement": "Every artifact listed that carries a blueprint §1.1 / freeze §3 pin matched that pin exactly. Zero mismatches, so zero §8 rule-4 conflicts of that kind.",
+  "requiredConfirmation": {
+   "file": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+   "expected": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "measured": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "match": true,
+   "andNotTouched": true
+  },
+  "digests": {
+   "IMPLEMENTATION-FREEZE.md": "89d9e981a9f9c83c31962218fdde4c973118d1618847436b25dd0871a30e253a",
+   "IMPLEMENTER-BLUEPRINT.md": "d8a8bc423a3c5f2ad999e71257d449047b32ffc642e7c2e240f8961615d7752d",
+   "v1-slice.md": "6b8717fef545fe73f0de5879a7389fbc0c7c499c70e06b344789e5150478bee3",
+   "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+   "artifacts/d9-exit-contract.v1.14.json": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+   "artifacts/check-d9-v1.14.py": "513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e",
+   "artifacts/c2-plan-stage-schema.v9.json": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+   "artifacts/resolved-inputs.v2.json": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+   "artifacts/delivery.v2.json": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+   "artifacts/r1-lifetime-neutrality.conformance.v1.5.json": "557b9f973c22b7ea959a884f56d5bac81c5383e227cac73a47605c1be317a815",
+   "artifacts/rust-provider-protocol.v2.json": "6308a98c1183d75d671655b2a351334b62f4f2c00316983731ceabb86e90793b",
+   "artifacts/rust-provider-protocol.v4.json": "3e34934720a78f823d3d4c7ceb73735d444f09a4a1ec964a894bd1ac5daf2909",
+   "artifacts/product-dispositions.v1.json": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c",
+   "artifacts/claim-register.v1.json": "1a16f7510a9ab3347c5dae2a6d2c2c7b846ed3dfcdc6a582bb545cb44e8f3df9",
+   "artifacts/operability.v10.json": "9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be",
+   "artifacts/evidence.v10.json": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+   "artifacts/threat-model.v3.json": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499",
+   "artifacts/check-package-coherence.py": "8d56b5f56fed4fd031f4e9f602e63d4f90ac2a189e56b0b580498f20a107f2a6",
+   "artifacts/check-completeness.py": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+   "artifacts/check-threat-claims.py": "b393d5a105d00cbb8479e51a2d57b02d02bd50f27218b554b826f24203695221"
+  }
+ },
+ "measuredCheckerState": {
+  "howMeasured": "All 101 artifacts/check-*.py executed as 'python3 -I -B <path>' in normal mode.",
+  "nonZeroCount": 18,
+  "totalCheckers": 101,
+  "retainedBindingCheckersFromBlueprint_1_1": {
+   "total": 18,
+   "exit0": 15,
+   "nonZero": [
+    "check-rust-provider-protocol-v4.py (rg absent)",
+    "check-rust-provider-protocol-v2.py (rg absent)",
+    "check-threat-claims.py (2 T1 narrative findings — accounted)"
+   ]
+  },
+  "check_package_coherence": {
+   "exit": 1,
+   "findings": 6,
+   "classes": {
+    "PC-7-PINNED-ARTIFACT-IS-REJECTED": 2,
+    "PC-5-STALE-HEAD": 4
+   },
+   "pc7Subjects": [
+    "artifacts/rust-provider-protocol.v2.json",
+    "artifacts/threat-model.v3.json"
+   ],
+   "pc5Subjects": [
+    "c2-plan-stage-schema v10",
+    "c2-plan-stage-schema v11",
+    "delivery v4",
+    "r1-lifetime-neutrality.conformance v1.6"
+   ],
+   "measuredNotQuoted": "The freeze deliberately does not record the count; this is a live reading and will move as reviews land.",
+   "selftest": "SELFTEST-NOT-RUN: 0 of 9 mutations executed (base dirty) — as recorded in §9.1.",
+   "otherFigures": "freezeRows 18, blueprintRows 20, surfacesCompared 20, pathsReferenced 55, pathsMissing 0, digestsBound 40, digestsVerified 40, headCandidatesExamined 10, registerBindingsChecked 15"
+  },
+  "check_completeness": {
+   "exit": 1,
+   "contractShape": "11/13",
+   "independentlyReviewed": "13/13",
+   "sealReadiness": "9/13",
+   "crossCuttingOpens": 1,
+   "open": "R2-FINAL-03",
+   "productQualification": "NOT-RELEASE-QUALIFIED (0/25 demonstrated)",
+   "instrumentSelfReport": "1/13 surfaces scored from a resolved derivation; 12/13 still scored by key NAME. CMP-IR-01 is NOT closed."
+  },
+  "check_threat_claims": {
+   "exit": 1,
+   "findings": 2,
+   "detail": [
+    "T1 07-outcomes-and-failure.md: unqualified confinement claim",
+    "T1 08-surfaces-and-topology.md: unqualified confinement claim"
+   ]
+  },
+  "check_versioning": {
+   "check-versioning.py": "exit 1 — permanently red by construction, carries no VERSIONING information",
+   "check-versioning-v8.py": "exit 0 — the registered validator"
+  },
+  "unaccountedRed": {
+   "check-assurance.py": "exit 1, three AS-STATE findings, named in neither package document",
+   "check-adjudication.py": "exit 2 with empty output, not in §9.1's exception list"
+  }
+ },
+ "verdict": "LITMUS-PASS",
+ "verdictReasons": {
+  "passBecause": [
+   "All twelve §8 questions were met: eleven answered from the permitted set with an exact document and section, and the twelfth (Q9) answered as a correctly-signposted blocker rather than met with silence. Nothing had to be reassembled from fragments and nothing required reading agentlog*.",
+   "None of the six §8 package-failure conditions was hit. I was not forced to choose retention, invent a second store authority, decide the core effect boundary, select a Rust substrate, choose layer-4 CI behaviour, create an exit mapping, or decide which version of a binding artifact is normative.",
+   "Which bytes to build against IS determinable: the §2 version-selection rule is mechanical, blueprint §1.1 carries the pins, and every pin I recomputed matched.",
+   "The package's two hardest instructions both worked in practice. The D9 derivation was obtained by EXECUTING the pinned oracle and rederived 45 of 45 goldens plus the branch the JSON leaves implicit. And §7.1's park property made two UNLISTED digest gaps escalable without an amendment.",
+   "Where the package blocks, it blocks EXPLICITLY and in advance. Blueprint §5.1 predicted both week-one walls precisely, including the trap that a green PLAN-ID-V1 vector suite proves nothing about field 3 — and it was right in both cases, including the exact placeholder literals."
+  ],
+  "passIsNotSufficiency": "A PASS here means the package is answerable and forces no forbidden choice. It does NOT mean the milestone is buildable: four of blueprint §9's seven week-one items run into a named wall, and two of them stopped this run cold. It does not close R2-FINAL-03 and could not have.",
+  "againstThePass": "Ten defects are recorded, three graded HIGH. The sharpest is D-1: freeze §9.1's stated reason for withholding four reviewed-passing successors is false on the live tree and is contradicted by §7.8 of the same document — and the two successors withheld are exactly the two that would close the two gaps that stopped this litmus."
+ },
+ "singleMostValuableRepair": "Re-run §9.1's PC-5 paragraph against the live tree and act on what it says. Its own release condition — 'until each successor has a companion instrument and the head moves as a deliberate act' — is already satisfied for three of the four (check-c2-v11.py, check-delivery-v4.py and check-r1-v1.6.py all exist and all exit 0, and freeze §7.8 records that they were written). Deciding those head moves deliberately would, in one act, unblock BOTH week-one identity items that stopped this run, remove the largest gap between what the package says and what is on disk, and let the next implementer get past §7.2 step 3. Everything else in this report is smaller than that."
+}

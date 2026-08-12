@@ -1,0 +1,280 @@
+{
+  "artifact": "opensip.check-product-dispositions-v2.review-independent",
+  "documentClass": "independent-review-of-an-instrument",
+  "version": 1,
+  "date": "2026-08-05",
+  "reviewer": "independent-reviewer-instruments-lane",
+  "reviewerIndependenceAndLineage": "This reviewer wrote neither subject, neither predecessor, no artifact in the corpus, and no line of IMPLEMENTATION-FREEZE.md or IMPLEMENTER-BLUEPRINT.md. Every figure below was produced by executing the subject or by code this reviewer wrote in a scratch tree. No figure is quoted from the dispatch, from the subject's own docstring, or from the freeze record except where explicitly labelled as the claim under test.",
+  "subject": "check-product-dispositions-v2.py",
+  "reviewBinding": {
+    "subjectSha256": "71999471340e53389227a11ee1886865b9822f4f4229f5fc83c8a4b968d4daad",
+    "subjectBytes": 74716,
+    "dispatchDigestPrefix": "71999471340e53389227a11ee1886865b9822f4f",
+    "digestVerifiedAtDispatch": true,
+    "digestVerifiedAtFinalisation": true,
+    "predecessorPath": "check-product-dispositions.py",
+    "predecessorSha256": "c64d31b4489afc37193f6f37a7de89e39688d4efdb47d7c7d2a0c4c6cc9f79b4",
+    "predecessorByteUnchanged": true,
+    "packetPath": "product-dispositions.v1.json",
+    "packetSha256": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+    "packetVerifiedBeforeAndAfterEveryMutation": true,
+    "note": "Section 7.2.1 items 2 and 3. All four digests matched at dispatch and again at finalisation. No re-baseline was required for the subject itself. The TREE around it did move -- see conditionsOfThisReview."
+  },
+  "conditionsOfThisReview": {
+    "rule": "Section 7.2.1 item 4 -- drift discovered mid-review is a fact about this review's conditions and is recorded, not absorbed.",
+    "measuredDrift": "The corpus grew from 419 to 419 JSON artifacts during the review window; three review artifacts landed: delivery.v5.review-independent.json, v10-disposition.v2.review-independent.json, versioning-policy.v14.review-independent.json. Artifact count moved 416 -> 419.",
+    "effectOnTheSubject": "The subject's own verdict on the LIVE tree changed from exit 0 to exit 1 during this review, with NO change to any byte it pins. This is recorded as an in-vivo measurement below (see observedLiveVerdictChange), not as a defect.",
+    "mitigation": "Every adversarial measurement in this review was taken in a frozen copy of the tree, not on the live tree, and the packet digest was re-verified after every single mutation. Two whole-tree copies were used; the subject reproduced its live output in the sandbox for the finding set and exit code.",
+    "whatWasMeasuredOnTheLiveTreeRatherThanTheSandbox": [
+      "the two baseline runs (normal and --selftest)",
+      "the conjunct non-vacuity figures, which read the live corpus by construction",
+      "the observedLiveVerdictChange record"
+    ]
+  },
+  "verdict": "ACCEPT_WITH_BLOCKERS -- 2 blockers against the instrument, 9 non-blocking. The architecture is right and the doctrine is genuinely derived rather than listed. The published residual count is FLATTERING: the author declares four residuals; a deliberate hunt found nineteen escapes in thirty attempts, and eight of them defeat the one guard this instrument's own docstring, freeze section 4.4 and freeze section 7.10 all name as its reason for existing.",
+  "operativeQuestion": {
+    "question": "Can I make this checker pass on a wrong artifact?",
+    "answer": "YES.",
+    "attempts": 30,
+    "escapes": 19,
+    "escapesDisclosedByTheAuthor": 4,
+    "escapesNotDisclosed": 15,
+    "authorPublishedCount": "4 (R1-R4)",
+    "reviewerMeasuredCount": "19 across 3 independent families",
+    "isThePublishedCountHonest": "Honest in ITS OWN SCOPE and flattering as PRESENTED. R1-R4 are scoped to demotion semantics and within that scope the count is exact and reproduced (4 of 21 evasion cases escape, and each escape is executed rather than described). But format_report prints them under the unqualified heading 'RESIDUALS THIS INSTRUMENT DOES NOT CLOSE', and the decision-set lane -- the lane rewritten for this successor and the lane the whole CD-RT-5 repair turns on -- contributes fifteen further escapes that appear nowhere."
+  },
+  "blockers": [
+    {
+      "id": "PDV2-B1",
+      "title": "is_unfilled is type-blind, so the [UNSET] guard is defeated by putting the placeholder in a container -- and the instrument's own printed bound says it binds type",
+      "severity": "BLOCKING",
+      "site": "check-product-dispositions-v2.py:630-631, is_unfilled(): `if not isinstance(value, str): return False`",
+      "mechanism": "is_unfilled treats EVERY non-string, non-None value as a filled authority. The placeholder text is never reached if it sits one level down. _decided_state_failures then accepts the row, and the ISO-date check is additionally skipped because it is itself guarded by `isinstance(decided_on, str)`.",
+      "measured": {
+        "harness": "reviewer-written; each mutation applied to a copy of product-dispositions.v1.json in a frozen tree, subject run as a subprocess, packet restored and re-hashed to bbe24527... after every case",
+        "attempts": 9,
+        "escapes": 8,
+        "workedExamples": [
+          "decidedBy = [\"[UNSET \\u2014 the authority's name]\"]  -> exit 0. The literal placeholder is present in the packet and the run is green.",
+          "decidedBy = {\"name\": \"[UNSET \\u2014 the authority's name]\"} -> exit 0. Same.",
+          "decidedBy = {} -> exit 0. An empty object is a filled authority.",
+          "decidedBy = [] -> exit 0.",
+          "decidedBy = 12345 -> exit 0.",
+          "decidedBy = true -> exit 0.",
+          "decidedOn = 20260805 (integer) -> exit 0. Bypasses BOTH the unfilled check and the ISO-date check.",
+          "decidedOn = [\"2026-08-05\"] -> exit 0."
+        ],
+        "onlyNonStringValueCaught": "decidedBy = null (exit 1), because is_unfilled special-cases None first"
+      },
+      "whyThisIsBlockingRatherThanNonBlocking": [
+        "It defeats the exact guard freeze section 7.10 credits with distinguishing a drafted amendment from a taken decision, and freeze section 4.4 records a FABRICATED CD-RT-5 sign-off as the forensic reason that guard exists.",
+        "The subject's own docstring at is_unfilled argues the ruling at four numbered points -- 'a row whose authority is a template is strictly weaker evidence than the fabrication it must catch' -- and the ruling is correct. The IMPLEMENTATION does not enforce it one level down.",
+        "It CONTRADICTS the instrument's own published bound. format_report prints 'this binds structure and type, never the truth of content.' Measured: it does not bind the type of decidedBy or decidedOn. A reader who takes the printed bound at face value is misled in the reader's own disfavour.",
+        "The author demonstrably knows the recursion pattern and applied it eleven lines away: _non_empty_leaf recurses into dicts and lists and calls is_unfilled on each string leaf, and it is used for the `decision` body in the very same function. The asymmetry is an inconsistency, not an unconsidered case."
+      ],
+      "notAFindingAgainst": "product-dispositions.v1.json, whose live decidedBy is the string 'sfbreen' and whose live decidedOn is the string '2026-08-05'. Both are correct. This is a finding against the instrument only.",
+      "repairShape": "A successor instrument. is_unfilled should treat a non-string, non-numeric authority as unfilled (fail-closed), or recurse as _non_empty_leaf already does. Section 7.2 forbids editing these reviewed bytes."
+    },
+    {
+      "id": "PDV2-B2",
+      "title": "The instrument does not bind the SUBSTANCE of the decision, so the decided posture can be inverted at exit 0 -- and freeze section 7.10 states that it does",
+      "severity": "BLOCKING",
+      "site": "check-product-dispositions-v2.py:750-796, _decided_state_failures()",
+      "mechanism": "_decided_state_failures binds status, decidedOn, decidedBy, the presence and non-emptiness of `decision`, and the semantic prohibition in the rule text. It never reads defaultPosture, and _non_empty_leaf on `decision` asks only whether SOMETHING non-placeholder is there, never what it says.",
+      "measured": {
+        "workedExamples": [
+          "$.decisions.CD-RT-5.defaultPosture.durableDefault flipped DURABLE_RETAINED -> EPHEMERAL_DISCARDED : exit 0, zero findings.",
+          "$.decisions.CD-RT-5.defaultPosture.implicitDurableRetention flipped YES -> NO : exit 0, zero findings.",
+          "decidedBy 'sfbreen' -> 'the coordinator' : exit 0. The guard catches an EMPTY authority and not a FALSE one.",
+          "decidedBy -> 'the product authority' (generic, names nobody) : exit 0.",
+          "decidedBy -> 'z' : exit 0.",
+          "decidedOn -> '2099-12-31' : exit 0.",
+          "attributionProvenance replaced wholesale by 'The coordinator invented this attribution.' : exit 0."
+        ],
+        "attempts": 17,
+        "caught": 10,
+        "escaped": 7,
+        "caughtList": "reversion to pending (with and without the implementer prohibition), decidedOn blanked, decidedBy '[UNSET - the authority's name]', decidedOn '[UNSET - the authority's date]', decidedBy removed, status DECIDED->PENDING in place, ruleAfterDecision removed, decidedBy 'TBD', decidedOn '1999-01-01'"
+      },
+      "whyThisIsBlocking": "IMPLEMENTATION-FREEZE.md section 7.10 states of the repair instruments: 'they assert the decided state including decidedBy, decidedOn and the posture, and still fail on tampering, silent reversion, or an [UNSET] placeholder.' Measured against THIS instrument, two of those four hold. Silent reversion: caught. [UNSET] placeholder: caught (for a bare string -- see PDV2-B1). The POSTURE: not asserted at all. TAMPERING: not caught for any value-level tamper measured. A signer reading section 7.10 and running this instrument green would conclude something section 7.10 promises and this instrument does not deliver.",
+      "scopeOfTheClaimIDidNotCheck": "Section 7.10 says 'the successor instruments' in the plural. I tested only this one. Whether check-evidence-v11, check-versioning-v14, check-retention-custody-v25/v26 or retention-tiers.v26.json assert the posture is UNMEASURED by this review, and the section may well be true of them.",
+      "notAFindingAgainst": "product-dispositions.v1.json. Its live posture is DURABLE_RETAINED / implicitDurableRetention YES, which is what freeze section 3 records.",
+      "relationToFreeze78": "This is section 7.8's measured boundary reproduced verbatim in a sixth instrument: 'a string leaf whose VALUE is false while its PATH and TYPE are unchanged.' Section 7.8's stated repair -- 'for every assertion, exhibit an input that is WRONG rather than merely EMPTY' -- is the exact test this lane's 19-case must_fail corpus does not contain: every one of its nineteen rejection cases is missing, empty, placeholder, or reworded. Not one is filled-and-false."
+    }
+  ],
+  "adjudicationOfTheDispatchedQUESTIONS": {
+    "standingDoctrine": {
+      "claim": "An artifact whose review REJECTED it, or which a later head superseded, or which IS a review record, asserts nothing and is demoted to a HISTORICAL OBSERVATION rather than a finding. Standing is DISCOVERED, not listed.",
+      "verdict": "UPHELD, and stronger than the claim.",
+      "noArtifactIsNamed": {
+        "method": "Every string literal in the source matching a filename shape was extracted and each was tested for existence in the live corpus.",
+        "result": "23 filename literals. One is the pinned predecessor INSTRUMENT (check-product-dispositions.py) which is a runtime input under section 7.3, not an adjudicated artifact. One is the substring '.review-independent.json' used to build a fixture name. The remaining 21 are synthetic fixture names (thing.v1.json, thing.v2.json, thing.v1.10.json, forged.review-independent.json, other-thing.v9.json, prose-only.json, previewer-notes.json, ordinary.json, x.v2.json, does-not-exist.v1.json and siblings). ALL 21 were checked against the live artifacts directory and NONE exists. No corpus artifact is named anywhere in the source. VERIFIED.",
+        "alsoVerified": "No decision id other than the literal 'CD-RT-5' is hardcoded, and CD-RT-5 is a decision identity rather than an artifact."
+      },
+      "environmentIndependenceIndependentlyReproduced": {
+        "theSubjectsOwnCheck": "The selftest asserts by inspect.getsource that none of 14 standing/decision predicates mentions head_named_artifacts or HEAD_DOC_NAMES, and asserts behaviourally that neutering the head-document reader changes nothing.",
+        "reviewerReproduction": "Reproduced. With the head-document reader replaced by a lambda returning (set(), []), findings 0 == 0 and observations 81 == 81 on the live corpus. The predecessor's measured root cause is genuinely removed, not narrated away.",
+        "predecessorGapConfirmedNonEmpty": "The selftest's counter reports 83 of 153 non-earliest versioned artifacts are named in NEITHER head document -- so the predecessor's prose-gated supersession limb is structurally blind to 83 real successors. The gate fails if this reaches 0, which prevents the docstring going stale. This is section 7.8 move 6 applied correctly."
+      },
+      "demotionIsNeverADrop": {
+        "verdict": "UPHELD under adversarial test.",
+        "measured": "In all four successful forgery routes below, the conflicting assertion was STILL PRINTED in full under HISTORICAL OBSERVATIONS with the derivation that removed its standing. The instrument moves a finding from FAILURE to OBSERVATION; it never deletes one. This is the honest half of the design and it survives attack."
+      }
+    },
+    "R3": {
+      "claim": "one substantive key makes a successor; repair QUALITY is not graded, so a near-stub successor demotes its predecessor",
+      "disclosureGrade": "ADEQUATELY DISCLOSED. R3 is printed in the normal-run banner, carries a dedicated evasion case (RESIDUAL-3) whose EXPECTED standing is SUPERSEDED, and the selftest FAILS if that case stops escaping -- so the residual is gated in both directions and cannot go stale.",
+      "isItLive": "YES, and confirmed in production, not just in fixtures.",
+      "measuredInProduction": "On the live corpus retention-tiers.v11, v12, v13, v18, v19, v20, v21, v22, v23 and v24 are all demoted with the derivation 'superseded by retention-tiers.v26.json, a later version of the same base that exists on disk, carries content, and is not itself rejected'. retention-tiers.v26.json is measured UNREJECTED as of this review. This is exactly the section 7.9 rider phenomenon and the instrument states the mechanism in its own output, as section 7.9 requires a reader to be able to ask: WHICH successor demoted the finding, and has anything reviewed it?",
+      "reviewerReproductionOfTheStubDemotion": "A live artifact asserting a false CD-RT-5 state fails at exit 1. Adding a single sibling file {\"artifact\":\"opensip.lane-note\",\"version\":2,\"note\":\"wip\"} -- one substantive key, no review, no acceptance, no application, no ledger row -- takes the run to exit 0. Reproduced exactly as R3 states.",
+      "isTheDemotionPredicateDEFENSIBLE": {
+        "verdict": "DEFENSIBLE, and the least-bad of the options the author considered -- but the justification for rejecting the stronger options is UNVERIFIABLE, which is a separate finding (see PDV2-N1).",
+        "whyDefensible": [
+          "The three gates the predicate DOES carry are each load-bearing and each was confirmed to exclude real documents: not-a-review-record, not-itself-rejected, carries-content-beyond-identity. My stub-with-only-identity-keys case correctly stayed LIVE.",
+          "Gate 3 (a rejected successor supersedes nothing) is the one the predecessor lacks entirely, and it is what makes the demotion SELF-CORRECTING rather than a one-way ratchet. It fired in production during this review -- see observedLiveVerdictChange.",
+          "The fail-closed direction is respected throughout: unknown standing is LIVE, budget truncation in _keys_within makes a document LESS likely to be classed a review record, and a review with no recorded date is NOT excused."
+        ],
+        "whyItIsStillTheSharpestResidual": "A demotion whose only quality bar is 'one key that is not artifact/version/schemaVersion/date/id/name/title' cannot distinguish a genuine repair from a placeholder. The instrument is honest that it cannot, and the honesty does not make the suppression safe."
+      }
+    },
+    "R4AndTheForgeryAttempt": {
+      "instruction": "Try to forge. Report whether you succeeded.",
+      "result": "SUCCEEDED, by four independent routes.",
+      "method": "In a frozen copy of the tree, a live artifact lane-note.v1.json was written asserting CD-RT-5 is still BLOCKED_ON_PHASE_1A -- a state the binding packet contradicts. Baseline: exit 1, 'conflicting assertions in LIVE artifacts 1'. Each forgery was then added and the subject re-run. Every fixture was removed afterwards and the live tree was never touched.",
+      "routes": [
+        {
+          "route": "R4 -- forged REJECTING review (predecessor's hole, inherited unchanged)",
+          "cost": "one JSON file, four keys: subject, reviewer, verdict.decision=REJECT, date",
+          "result": "exit 1 -> exit 0. lane-note.v1.json - REJECTED: independently REJECTED by lane-note.v1.review-independent.json",
+          "authorDisclosure": "R4, disclosed verbatim as INHERITED UNCHANGED and NOT narrowed. Accurate."
+        },
+        {
+          "route": "R3 -- forged STUB SUCCESSOR",
+          "cost": "one JSON file, one substantive key",
+          "result": "exit 1 -> exit 0. SUPERSEDED by lane-note.v2.json",
+          "authorDisclosure": "R3. Accurate."
+        },
+        {
+          "route": "NEW SURFACE -- dress the LIVE artifact itself as a review record, WITHOUT renaming it",
+          "cost": "four keys added to the offending file itself: artifact (containing 'review'), reviewer, verdict, date, plus any reference to one real corpus file",
+          "result": "exit 1 -> exit 0. lane-note.v1.json - REVIEW-RECORD: frozen review record (declared artifact~'review'; role key~'reviewer'; verdict key~'decision'; 1 corpus subject(s); dispatched 2026-08-01)",
+          "authorDisclosure": "R1 + R2 together. The dispatch's framing that the review-record demotion ADDS a forgery surface rather than closing R4 is CONFIRMED: the offending document need not even be renamed, and the file that makes the false claim is the same file that acquires the standing to be excused from it."
+        },
+        {
+          "route": "NEW SURFACE -- rename route",
+          "cost": "rename to *.review-independent.json plus the same four keys",
+          "result": "exit 1 -> exit 0"
+        }
+      ],
+      "cheapestForgeryMeasured": "Four keys and a filename. The conjuncts are satisfied by keys as generic as {date, independence, outcome, <any key whose value names a real corpus file>} -- the reviewer-role and verdict vocabularies are stem matches over normalised key names at depth <= 2 and <= 1 respectively, so 'independence' and 'outcome' suffice. No key name is required to be a review term of art.",
+      "whatTheForgeryCannotDo": "It cannot make the assertion DISAPPEAR. In every route the conflicting text was printed in full under HISTORICAL OBSERVATIONS. A reader who reads the observations block sees the claim and the derivation that excused it. The forgery buys a green EXIT CODE, not silence -- and any process that gates on exit code alone is the thing being defeated.",
+      "isR4sAccountHonest": "YES. The author states R4 is inherited unchanged and not narrowed, states R1 and R2 as forgery surfaces the review-record demotion introduces, and executes all four as cases whose EXPECTED verdict is the demoted one so they cannot silently stop escaping. The account matches reality precisely."
+    },
+    "theUNSETGuardTest": {
+      "instruction": "Revert the decision to pending, change decidedBy, blank decidedOn, insert [UNSET - the authority's name], flip durableDefault. Report caught/attempted.",
+      "attempted": 26,
+      "caught": 11,
+      "escaped": 15,
+      "byInstruction": [
+        {"case": "revert the decision to pending (BLOCKED_ON_PHASE_1A + a prohibition rule)", "result": "CAUGHT, exit 1"},
+        {"case": "revert to pending dropping the implementer prohibition", "result": "CAUGHT, exit 1, PD2-5 pending retention permits implementer invention"},
+        {"case": "change decidedBy to a different plausible name ('the coordinator')", "result": "ESCAPED, exit 0"},
+        {"case": "blank decidedOn to the empty string", "result": "CAUGHT, exit 1, PD2-5 UNFILLED 'decidedOn'"},
+        {"case": "insert [UNSET \\u2014 the authority's name] as a bare string in decidedBy", "result": "CAUGHT, exit 1, PD2-5 UNFILLED 'decidedBy'"},
+        {"case": "insert [UNSET \\u2014 the authority's date] as a bare string in decidedOn", "result": "CAUGHT, exit 1"},
+        {"case": "insert the SAME placeholder wrapped in a list or an object", "result": "ESCAPED, exit 0 -- see blocker PDV2-B1"},
+        {"case": "flip durableDefault DURABLE_RETAINED -> EPHEMERAL_DISCARDED", "result": "ESCAPED, exit 0 -- see blocker PDV2-B2"},
+        {"case": "flip implicitDurableRetention YES -> NO", "result": "ESCAPED, exit 0"}
+      ],
+      "oneCatchIsAccidentalAndTheDIAGNOSTICisWrong": {
+        "case": "decidedOn back-dated to '1999-01-01'",
+        "result": "CAUGHT, exit 1",
+        "butTheReasonIsFalse": "The emitted finding reads \"'decidedOn' '1999-01-01' carries no ISO date\". 1999-01-01 IS an ISO date. ISO_DATE_RE is `\\b20\\d\\d-\\d\\d-\\d\\d\\b`, so the predicate is really 'a 21st-century date', and the diagnostic misdescribes what fired. '2099-12-31' is accepted at exit 0, which confirms there is no ordering-sanity check at all.",
+        "severity": "non-blocking; recorded because a reviewer reading the finding text would conclude a date-format check exists that does not."
+      },
+      "guardVerdict": "The [UNSET] guard is REAL, is the strongest single thing in the decision-set lane, and is correctly argued in the source at four numbered points. It catches the drafted-amendment shape it was written for. It is defeated by one level of nesting, and it does not touch the substance of what was decided."
+    },
+    "selftestExit3": {
+      "measured": "exit 3, SELFTEST-PARTIAL / SELFTEST-REFUSED. 67 checks executed, 0 failed. Buckets: control 5, decision-accept 4, decision-reject 19, environment 4, evasion 22, gate 5, nonvacuity 5, partition 3. Demotion evasions 21 attempted, 17 caught, 4 measured residuals. Reproduced twice.",
+      "whyItRefuses": "NOT a digest pin. The predecessor's mutation_selftest calls its own validate() on the live packet first and returns EXIT_REFUSED when that is non-empty. On the live post-decision packet it emits four findings -- PD-1 decision set differs, PD-5 CD-RT-5 must be the sole pending Phase-2 decision, PD-5 not visibly blocked on Phase 1A, PD-5 pending retention permits implementer invention -- which is gap (C) exactly, in the predecessor's own suite.",
+      "isRefusingToCertifyTheRightBEHAVIOUR": "YES. A distinct exit code, an explicit INAPPLICABLE row, an explicit sentence 'Its guarantee is NOT claimed by this run', and the statement 'A partial run is not a green run' are the correct handling. Section 7.10's requirement -- that a refusal be distinguishable from a semantic failure without reading the source -- is satisfied by exit 3 and by the printed text. Manufacturing a green run here would have been the paper seal.",
+      "isItALSOHidingAGap": "YES, and the gap has a number the instrument does not print.",
+      "measuredSizeOfTheUnrunSuite": {
+        "method": "The reviewer reconstructed a pre-decision packet from the live one by moving the CD-RT-5 row back to pendingDecisions with a prohibition rule, confirmed the predecessor validates it at 0 findings, and then called v1.mutation_selftest on it with the live RI/versioning/delivery/register/retention inputs.",
+        "result": "The predecessor's suite RUNS, exit 0, 122 check rows, 47 of them mutation rejections, 0 ACCEPTED-(BUG) rows.",
+        "constantsInvolved": "TOTALITY_ROOT_CASES 4, TOTALITY_NESTED_CASES 4, ASSERTION_EVASION_CASES 8, ASSERTION_NEGATIVE_CONTROLS 11, REGISTER_FABRICATION_MUTATIONS 5, RETENTION_AUTHORITY_MUTATIONS 10, SYNTHETIC_ASSERTION_MUTATIONS 3, plus 7 product mutations",
+        "soWhatIsLost": "The claim 'no detection semantics were weakened' is the reason the predecessor is executed rather than retyped, and it is the load-bearing justification for the whole successor design. In the shipping configuration the 122 rows that would substantiate it DO NOT RUN, and the selftest does not say how many they are.",
+        "isTheAuthorsChoiceDefensible": "Partly. Feeding the inherited suite a synthesised pre-decision packet means testing against a packet no authority ever published, which is a real objection and the author may have weighed it. But the author applies the OPPOSITE principle to its own suites, in its own words: 'The predecessor's suites read the LIVE packet, which is why they go inert the moment the decision they were written around is taken - the same coupling as gap (C). This successor's own suites must stay meaningful in BOTH states, so they build the world they test.' The diagnosis is exact and is not applied to the one suite that carries the no-weakening claim.",
+        "notARepairIWouldDemand": "The subject's own minimal fixture _packet(v1, pending=_PENDING_GOOD) is NOT sufficient -- the predecessor emits 5 findings on it, because it lacks the RI/VER/window content validate() requires. So this is not a one-line change, and I record it as non-blocking (PDV2-N2) rather than as a blocker."
+      }
+    },
+    "twoStrongerGatesReportedlyMeasuredAndRejected": {
+      "claimUnderTest": "declared-identity compatibility fails on 149 of 758 real lineage pairs; a 50% key-overlap test fails on 232 of 758.",
+      "verdict": "NOT REPRODUCIBLE, AND NOTHING IN THE CORPUS RECOMPUTES THEM.",
+      "whereTheFiguresLive": "IMPLEMENTATION-FREEZE.md lines 3253-3254 and NOWHERE ELSE. A whole-corpus search for 'of 758', '149 of' and '232 of' returns exactly those two lines. The figures appear in no instrument, no artifact and no selftest.",
+      "reviewerMeasurement": {
+        "method": "Lineage pairs enumerated from the same corpus the instrument scans, using the subject's own split_version, carries_content, review_records and rejecting_reviews. Eight population definitions were swept (include/exclude review records, include/exclude rejected, require/ignore content) crossed with ordered-pairs and adjacent-pairs, and three identity-comparison and three overlap-denominator definitions.",
+        "denominatorsObtained": {"allVersionedOrdered": 803, "exclReviewRecordsOrdered": 801, "exclRecordsAndRejectedOrdered": 272, "allVersionedAdjacent": 131, "exclReviewRecordsAdjacent": 130},
+        "target": 758,
+        "reproduced": false,
+        "identityFailCounts": {"exclRecordsOrderedStrict": 260, "exclRecordsOrderedBothDeclared": 260, "exclRecordsAndRejected": 58, "adjacent": 24},
+        "target149Reproduced": false,
+        "overlapFailCounts": {"predecessorDenominator": 263, "unionDenominator": 384, "minDenominator": 232},
+        "target232": "reproduced as a COUNT under the min-denominator definition, but at denominator 801 rather than 758, so the published ratio does not reproduce"
+      },
+      "mostLikelyExplanation": "Tree growth. 758 -> 801 ordered pairs is consistent with a handful of versioned artifacts landing since the measurement was taken; adding one version to a base with k members adds k ordered pairs. I am NOT asserting the author's figures were wrong when taken.",
+      "theFindingIsNotThatTheNUMBERSareWrong": "It is that they are the justification for accepting R3 -- the sharpest live residual in the instrument -- and they are the ONE class of measurement in this lane that is not gated. The subject gates its own residual width in both directions (RESIDUAL-1..4 must keep escaping), gates its conjunct non-vacuity, and gates the invisible-successor count against reaching zero. It does not gate, and cannot gate, the two figures that justify why the weak predicate was chosen. Freeze section 7.2.2 legislates exactly this: 'a recorded measurement must be compared to the measurement it records', and 'an uncompared measurement is prose that looks like evidence'.",
+      "recommendation": "Do not re-quote 149/758 or 232/758 without re-measuring, and state the pair definition when doing so -- my sweep shows the answer moves by more than a factor of four across defensible definitions of 'real lineage pair'."
+    }
+  },
+  "observedLiveVerdictChange": {
+    "whatHappened": "The subject exited 0 on the live tree at the start of this review and exited 1 at the end. NO byte it pins changed: subject, predecessor and packet all re-hashed identical.",
+    "mechanism": "Three review artifacts landed during the window. Two of them -- v10-disposition.v2.review-independent.json (decision 'REJECT FOR REPAIR') and versioning-policy.v14.review-independent.json (blockingFindingCount 1) -- rejected the two successors that had been demoting v10-disposition.v1.json and versioning-policy.v8.json. Gate 3 of supersession_reason (a rejected successor supersedes nothing) then REVOKED both demotions and the two suppressed findings returned as real findings.",
+    "measured": {"before": {"artifacts": 416, "LIVE": 105, "REJECTED": 64, "REVIEW-RECORD": 179, "SUPERSEDED": 68, "liveConflicts": 0, "exit": 0}, "after": {"artifacts": 419, "LIVE": 108, "REJECTED": 66, "REVIEW-RECORD": 179, "SUPERSEDED": 66, "liveConflicts": 2, "exit": 1}},
+    "theTwoReturnedFindings": [
+      "PD2-SCAN-CONFLICT v10-disposition.v1.json$.productAuthorityBoundary.CD-RT-5",
+      "PD2-SCAN-CONFLICT versioning-policy.v8.json$.dischargeStatus.CD-RT-5"
+    ],
+    "howToReadIt": "This is section 7.9 consequence 2 observed in production, unplanned, during an independent review -- 'a run that is green today can go red on a review verdict alone, with no byte on disk changing'. It resolved in the SAFE direction: the suppression was withdrawn and the genuine findings came back. It is therefore EVIDENCE FOR the instrument, not against it: gate 3 is load-bearing in production and not merely in the fixture corpus, and section 7.2's third term -- a verdict binds bytes, an environment, AND the review state of every other file in the tree -- is now a measured fact about this instrument rather than a prediction.",
+    "consequenceForAnySIGNER": "A green run of this instrument is a statement about a moment in the tree's review state. It must be re-run, never quoted."
+  },
+  "nonBlocking": [
+    {"id": "PDV2-N1", "title": "The justification for R3's weak predicate is ungated prose", "detail": "See twoStrongerGatesReportedlyMeasuredAndRejected. The instrument gates five of its own measurements in both directions and cannot gate the two that justify its weakest design choice, because they live only in a markdown document."},
+    {"id": "PDV2-N2", "title": "The inherited suite's 122 unrun rows are disclosed as a fact but not as a number", "detail": "The selftest says the guarantee is not claimed. It does not say that 122 check rows and 47 mutation rejections did not run. Section 7.8 move 6 -- publish the residual as a number that gates the build -- is applied to R1-R4 and to conjunct non-vacuity, and not here."},
+    {"id": "PDV2-N3", "title": "Partition check 3 is currently VACUOUS", "detail": "'every NON-decision-set finding is carried through byte-identically' compares [] == [] on the live packet -- the selftest itself prints '0 inherited finding(s) on the live packet'. It passes for free today. Partition checks 1 and 2 are fixture-based and genuinely meaningful (the predecessor lane emits 4 findings on a fully-formed decision fixture where the successor lane emits 0); only the third is empty on both sides."},
+    {"id": "PDV2-N4", "title": "The printed derivation is not reproducible run to run", "detail": "has_reviewer_role and has_verdict_shape return the first match found while iterating a SET of normalised key names, so the witness string varies with PYTHONHASHSEED. Measured across seeds 1/2/3: three different output digests, 13 of ~120 observation lines differing in their role~/verdict~ witness. THE VERDICT IS STABLE -- the standing set and the exit code were byte-identical across all three seeds, verified -- so this is an evidence-reproducibility defect, not a correctness one. Under section 7.2 a verdict binds bytes AND an environment; a review that captures this instrument's output as evidence captures something the next run will not reproduce."},
+    {"id": "PDV2-N5", "title": "The '1999-01-01' diagnostic misdescribes what fired", "detail": "See theUNSETGuardTest. ISO_DATE_RE only matches 20xx, so the check is a 21st-century-date check reported as an ISO-date check. '2099-12-31' passes at exit 0."},
+    {"id": "PDV2-N6", "title": "_keys_within's 20000-entry budget can truncate classification", "detail": "A sufficiently large document could push its reviewer-role key past the budget. Verified fail-closed: truncation makes a document LESS likely to be classified as a review record, hence MORE likely to stay LIVE and fail. Recorded because the direction is not stated at the call site."},
+    {"id": "PDV2-N7", "title": "'response' is excluded from REVIEW_CLASS_TOKENS but 'adjudication' is not", "detail": "The comment justifies excluding 'response' because an author response is not an independent record. An adjudication-response (retention-tiers.v10.adjudication-reviewer15-response.json is a live example, and is demoted) contains both tokens and matches on 'adjudicat' first. The exclusion is therefore not effective for the hyphenated compound. Non-blocking: the other four conjuncts still apply, and the demotion of that particular file appears correct on its merits."},
+    {"id": "PDV2-N8", "title": "The must_fail corpus contains no filled-and-false case", "detail": "All 19 rejection cases are missing, empty, placeholder, wrong-enum, or semantically-reworded. Section 7.8's named repair -- 'for every assertion, exhibit an input that is WRONG rather than merely EMPTY' -- would have caught both blockers at authoring time. This is the root cause of PDV2-B1 and PDV2-B2 rather than a separate defect, and is recorded here so the successor's author has the test-design rule rather than only the two symptoms."},
+    {"id": "PDV2-N9", "title": "This review adds a review record to the corpus the subject scans", "detail": "This file satisfies the five review-record conjuncts by construction and dispatches 2026-08-05, which is ON the earliest packet decision date. Under standing_of's temporal gate a review dated on-or-after the cutoff is NOT excused as historical, so this file will be classified LIVE, not REVIEW-RECORD. It asserts no product-decision state, so it should contribute no finding either way. Recorded so a later reader is not surprised."}
+  ],
+  "whatIDidNOTCheck": [
+    "The predecessor's 1811 lines. Its detection semantics, site extraction, packet_decision_states, document_assertion_failures, primary_reviews_of and review_outcome were treated as a hash-verified black box. If the predecessor mis-detects, this successor inherits it and I did not look.",
+    "Whether the 43 historical observations on the live tree are individually CORRECT demotions. I verified the DERIVATIONS are sound and reproduced the mechanism; I did not open 38 artifacts and adjudicate each one's standing on its merits.",
+    "Whether product-dispositions.v1.json's decision is substantively right. That is the product authority's call and is outside an instrument review.",
+    "The seven non-retention Phase-2 choices and the EXPECTED_CHOICES table, which are the predecessor's.",
+    "Whether check-evidence-v11, check-versioning-v14, check-retention-custody-v25/v26 or retention-tiers.v26.json assert the decided posture. Blocker PDV2-B2 is scoped to THIS instrument only; freeze section 7.10's plural claim may hold of the others.",
+    "The v1 lane's retention_binding_failures / EP5 / RT10 chain beyond confirming it returns empty on the live tree.",
+    "Concurrency behaviour under a tree being written mid-run, beyond observing that it happened and recording the effect.",
+    "Whether any of the 19 escapes is reachable by an authorised actor in practice. I demonstrated they are reachable by anyone who can write a JSON file into the artifacts directory."
+  ],
+  "hardPinsAndRefusalDiscipline": {
+    "rule": "Freeze section 7.10 -- a refused pin must be distinguishable from a semantic failure. Freeze section 7.8 / litmus D-6 -- a CRASH must not read as a FINDING.",
+    "measured": [
+      {"case": "predecessor bytes drifted by one appended comment", "exit": 3, "stdoutLine1": "REFUSING to run: the pinned predecessor closure is dirty", "traceback": false},
+      {"case": "predecessor drifted, with --selftest", "exit": 3, "prints": "SELFTEST-NOT-RUN", "traceback": false},
+      {"case": "predecessor file missing", "exit": 3, "traceback": false},
+      {"case": "packet is invalid JSON", "exit": 3, "stdoutLine1": "REFUSING to run: the checker's own base is dirty", "traceback": false},
+      {"case": "packet file missing", "exit": 3, "traceback": false},
+      {"case": "claim register is invalid JSON", "exit": 3, "traceback": false},
+      {"case": "packet is a JSON list / empty object / decisions is a string", "exit": 1, "note": "semantic failure, correctly exit 1 not 3", "traceback": false},
+      {"case": "unknown flag --bogus, with and without --selftest", "exit": 2, "stdoutLine1": "usage: check-product-dispositions-v2.py [--selftest]", "traceback": false}
+    ],
+    "verdict": "CLEAN, and the best-partitioned exit discipline of the two subjects reviewed. Four exit codes with four distinct meanings, a refusal always announced on stdout line 1, and NO code path produced a traceback across every hostile input tried. D-6 is not reproduced here.",
+    "section710Compliance": "The predecessor is pinned by DIGEST, which section 7.10 endorses for 'bytes that must never change' -- a reviewed checker under sections 7.2/7.6 is exactly that class. The PACKET, which the corpus was explicitly waiting to change, is read by CONTENT and carries no digest pin: 26 packet mutations produced semantic findings or clean passes and never a pin-drift refusal. That is section 7.10's derived rule applied correctly and in the right direction on both objects."
+  },
+  "standardLibraryOnly": {"subject": true, "predecessor": true, "measuredBy": "AST import extraction compared against sys.stdlib_module_names", "subjectImports": ["__future__", "copy", "hashlib", "importlib", "inspect", "json", "pathlib", "re", "sys"], "nonStdlib": []},
+  "whatAGreenRUNofThisInstrumentMeans": "That no artifact the instrument classifies as LIVE asserts a product-decision state the binding packet contradicts, at this moment in the tree's review state; that the packet's retention decision is in exactly one of two accepted states with a non-placeholder bare-string authority and date; and that the demoted assertions are printed rather than dropped. It does NOT mean the decision's substance is intact (PDV2-B2), that the authority is genuine rather than merely non-empty (PDV2-B2), that a nested placeholder is absent (PDV2-B1), that any demotion was earned (R1-R4), or that the predecessor's detection semantics were re-verified on this run (the inherited suite refused). Freeze section 7.8's bound applies in full and the instrument says so itself.",
+  "recommendation": "REPAIR AS A SUCCESSOR. Sections 7.2 and 7.6 forbid editing these bytes; this review pins them at 71999471..., so they are now immutable regardless of review status (section 7.10's third rider). A v3 should: make is_unfilled fail-closed on non-string authority values or recurse as _non_empty_leaf already does; bind the decided posture and at least one substantive field of the decision body; add filled-and-false cases to the must_fail corpus for every field it binds; print the size of the inherited suite that did not run; and re-derive the lineage-pair figures inside the instrument so the justification for R3 can go stale loudly."
+}

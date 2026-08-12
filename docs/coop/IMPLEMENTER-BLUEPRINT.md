@@ -16,15 +16,51 @@ absent. Phase 1A is in flight. Every location affected by that decision is marke
 **`[PHASE-1A / V10 BLOCKER]`**. No implementer may fill those markers from local
 preference.
 
+## Reader route — non-normative, added 2026-08-04
+
+**This document calls itself the short path and then puts several thousand words
+of lineage history before the first authoritative flow.** That history is
+deliberate — this corpus records withdrawals rather than erasing them (freeze
+§4.4) — but it means the document does not read front-to-back as the short path
+it claims to be. **This section binds nothing and is safe to skip; it exists so
+you do not have to already know which later sections matter.**
+
+**Route:** start at **§9** (week-one start point) → **§2** (the one authoritative
+data flow) → **§4** (workspace map) → **§7.2** (port order, and where you will
+actually meet the gaps).
+
+**At every named stop in §7.2, consult §5.1.** That is the escalate-don't-invent
+list, and §7.2 steps 3 and 5 both run straight into it.
+
+**Consult §1.1's notes only for the surface you are porting.** They are per-surface
+lineage records, not sequential reading.
+
+**Two things to know before you start, both by pointer rather than restated here.**
+§5.1 names **ten** identity/contract gaps — **and the count is not the boundary**:
+freeze §7.1 states the park as a **property**, so a digest-typed field with no
+stated producing rule is escalable **whether or not it is listed**. And **two
+surfaces carry `UNSET — BLOCKS FREEZE` dispositions** in freeze §3 (EVIDENCE and
+TM); read the **disposition** column, not the verdict column, and read it at the
+time you build.
+
+**If this document and a binding artifact disagree, the artifact wins and you
+record a design delta.** That rule outranks this route.
+
 There **was** a second marker. **`[C-2 BLOCKER — IR-C2V4-01]`** marked every
 location affected by the C-2 blocking adjudication of 2026-08-03. **It is
 retired, and C-2 is a week-one port again.** C-2 converged on
-`c2-plan-stage-schema.v9.json`, which `IMPLEMENTATION-FREEZE.md` §3 records as
-**PASSED — 0 blockers** with the draft freeze disposition **`SEAL` candidate**.
-Build the closed `PlanIntent` / `ExecutionPlan` schema against **v9** and
-`check-c2-v9.py`, and against nothing else. `IR-C2V4-01` is **superseded, not
-withdrawn** — §1.1 note **N-1** is the full record of what that distinction still
-costs you, and of what about the v3/v4 lineage remains dangerous.
+`c2-plan-stage-schema.v11.json`, **applied 2026-08-05**, which
+`IMPLEMENTATION-FREEZE.md` §3 records as **PASSED — 0 blockers** with the draft
+freeze disposition **`SEAL` candidate**. Build the closed `PlanIntent` /
+`ExecutionPlan` schema against **v11** — which binds as a **derivation**, so you
+**resolve** v11 → `c2-plan-stage-schema.v10.json` → `v9` → `v4` for the effective
+contract rather than reading v11 alone — and validate with **`check-c2-v12.py`**,
+named in §1.1 in full knowledge that it is **UNREVIEWED**. `check-c2-v9.py`
+cannot validate these bytes: it hardcodes `BINDING = "c2-plan-stage-schema.v9.json"`.
+`IR-C2V4-01` is **superseded, not withdrawn** — §1.1 note **N-1** is the full
+record of what that distinction still costs you, and of what about the v3/v4
+lineage remains dangerous. **N-1 predates this application and still opens by
+naming `v9` as the head; the §1.1 row is the head, not N-1.**
 
 If you hold a copy of this package that still carries a `[C-2 BLOCKER —
 IR-C2V4-01]` marker, or that names `c2-plan-stage-schema.v4` as the C-2 head, it
@@ -140,8 +176,9 @@ Six reading rules, in order:
    **BLOCKING** on 2026-08-03 against `c2-plan-stage-schema.v4` after a review had
    passed those same bytes at zero blockers. **That override has since been
    discharged by convergence, not by argument:** the head is now
-   `c2-plan-stage-schema.v9.json`, freeze §3 records it **PASSED — 0 blockers**
-   with disposition **`SEAL` candidate**, and note **N-1** is the full record.
+   `c2-plan-stage-schema.v11.json` (**applied 2026-08-05**), freeze §3 records it
+   **PASSED — 0 blockers** with disposition **`SEAL` candidate**, and note
+   **N-1** is the full record.
    **There is no live override in this table today** — the two surfaces whose §3
    disposition withholds a seal, EVIDENCE and TM, both announce it in the
    disposition column itself as `UNSET — BLOCKS FREEZE`.
@@ -155,36 +192,50 @@ Six reading rules, in order:
 | Binding surface | Head artifact — build these bytes | SHA-256 | Independent review | Retained checker |
 |---|---|---|---|---|
 | D9 | [`d9-exit-contract.v1.14.json`](artifacts/d9-exit-contract.v1.14.json) | `8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31` | **PASSED**, 0 blocking — [review](artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json); 2 advisories `R-V114-F1` / `R-V114-F2` are tabled as verifier residuals in [`IMPLEMENTATION-FREEZE.md`](IMPLEMENTATION-FREEZE.md) §7 | `check-d9-v1.14.py` |
-| C-2 | [`c2-plan-stage-schema.v9.json`](artifacts/c2-plan-stage-schema.v9.json) | `321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1` | **PASSED — 0 blockers** — [review](artifacts/c2-plan-stage-schema.v9.review-independent.json). Port against **v9** and `check-c2-v9.py`. See note **N-1** | `check-c2-v9.py` |
+| C-2 | [`c2-plan-stage-schema.v11.json`](artifacts/c2-plan-stage-schema.v11.json) | `d35b677d6726a8f9b9fc70e2e0f3307af909eca876cd6670d238829ba95a81f8` | **PASSED — 0 blockers**, 8 non-blocking — [review](artifacts/c2-plan-stage-schema.v11.review-independent.json), verdict *"PASS WITH NON-BLOCKING OBSERVATIONS"*. **Applied 2026-08-05**, from `c2-plan-stage-schema.v9` (`321faeaa…`). Port against **v11**, which binds as a **derivation** — resolve v11 → `c2-plan-stage-schema.v10.json` → `v9` → `v4` for the effective contract; none of the three is a binding artifact of its own. Note **N-1** below still opens by naming `v9` as the head: it predates this application, its lineage record stands, and **this row is the head** | **`check-c2-v12.py` — UNREVIEWED**, and named here in full knowledge of that. `check-c2-v9.py` cannot validate these bytes (`BINDING = "c2-plan-stage-schema.v9.json"`). It was chosen over the reviewed `check-c2-v11.py`, whose own review answered *can I make the checker pass on a wrong artifact?* with **yes, twelve times**. Freeze **§7.8** grades either instrument the same way regardless: a green run is **author-side evidence** — *"this artifact says what it says, consistently, and drift will be caught"* — never *"this artifact is right."* The resolved effective contract's `checkerModeContract.checker` still names `check-c2-v9.py` |
 | FACT-PLANE / C-1 | [`fact-plane.v1.json`](artifacts/fact-plane.v1.json) | `9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d` | **PASSED with changes** — post-adjudication `SEAL-WITH-CHANGES` ([adjudication](artifacts/fact-plane.adjudication-agent-c.json)) | `check-fact-plane.py` |
 | RESOLVED-INPUTS | [`resolved-inputs.v2.json`](artifacts/resolved-inputs.v2.json) | `0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43` | **PASSED with changes** — post-adjudication `SEAL-WITH-CHANGES` ([adjudication](artifacts/resolved-inputs.adjudication-agent-c.json)) | `check-resolved-inputs.py` |
 | FACT-IDENTITY | [`fact-identity-policy.v2.json`](artifacts/fact-identity-policy.v2.json) | `10055004e6919a55b29c38d9c474857280fbbb6f561dfff6ed88b7e54efbd110` | **PASSED with changes** — reviewer-2 `DO-NOT-SEAL` ([review](artifacts/fact-identity-policy.v2.review-reviewer2.json)) adjudicated to `SEAL-WITH-CHANGES` by the [freeze closure](artifacts/fact-identity-policy.freeze-closure-coordinator.v1.json) | `check-fact-identity.py` |
 | FACT-IDENTITY closure | [`fact-identity-policy.freeze-closure-coordinator.v1.json`](artifacts/fact-identity-policy.freeze-closure-coordinator.v1.json) | `2aee126e78b5d709a6d64028b502bd0199383561d43fc7cf5ec7fe2c69ac16d7` | adjudication record | — |
-| R-1 | [`r1-lifetime-neutrality.conformance.v1.5.json`](artifacts/r1-lifetime-neutrality.conformance.v1.5.json) | `557b9f973c22b7ea959a884f56d5bac81c5383e227cac73a47605c1be317a815` | **PASSED** — [review](artifacts/r1-lifetime-neutrality.conformance.v1.5.review-independent-prefreeze.json) | `check-r1-v1.5.py` |
+| R-1 | [`r1-lifetime-neutrality.conformance.v1.6.json`](artifacts/r1-lifetime-neutrality.conformance.v1.6.json) | `14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c` | **PASSED** — 0 blockers, 8 non-blocking — [review](artifacts/r1-lifetime-neutrality.conformance.v1.6.review-independent.json), verdict *"ACCEPT-AS-CANDIDATE — 0 BLOCKERS"*. **Applied 2026-08-05**, from `r1-lifetime-neutrality.conformance.v1.5` (`557b9f97…`, [its review](artifacts/r1-lifetime-neutrality.conformance.v1.5.review-independent-prefreeze.json)). Not a derivation — v1.6 is a whole document and pins v1.5 at `predecessor` only, so there is no chain to resolve | **`check-r1-v1.7.py` — UNREVIEWED**, and named here in full knowledge of that. It was chosen over the reviewed `check-r1-v1.6.py`, which carries blocker **`CIR-B1`**: its seventeen published vectors are never required to differ, and ten collapse into digest-identical duplicates of `PDD-01` at **0 findings**. v1.7 anchors **17 of 17** vectors externally where the predecessor anchored 6. Freeze **§7.8** grades either instrument the same way regardless: a green run is **author-side evidence** — *"this artifact says what it says, consistently, and drift will be caught"* — never *"this artifact is right."* |
 | R-1 closure | [`r1-lifetime-neutrality.freeze-closure-coordinator.v1.json`](artifacts/r1-lifetime-neutrality.freeze-closure-coordinator.v1.json) | `6bf90f21178007a2df2313a18d230cf0d3b8f309dd2937c5668603b27a11569d` | adjudication record | — |
 | OPERABILITY | [`operability.v10.json`](artifacts/operability.v10.json) | `9bacbbf43dfb941a0d87330f79844d395b3ac838ae5bf54026ef4d69681696be` | **PASSED** — [review](artifacts/operability.v10.review-independent-prefreeze.json) | `check-operability-v10.py` |
 | TRUSTED-REQUEST-CONTEXT | [`trusted-request-context.v3.json`](artifacts/trusted-request-context.v3.json) | `bc53c2679a977fd2c2c8369ec9d5794f2295b0df5100b1e360a42c155d04008a` | **PASSED** — [review](artifacts/trusted-request-context.v3.review-independent-prefreeze.json) | `check-trusted-request-context-v3.py` |
-| VERSIONING | [`versioning-policy.v8.json`](artifacts/versioning-policy.v8.json) | `ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e` | **PASSED** — [review](artifacts/versioning-policy.v8.review-independent-cold-rejoin.json) | `check-versioning-v8.py` |
-| DELIVERY | [`delivery.v2.json`](artifacts/delivery.v2.json) | `47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3` | **PASSED with changes** — reviewer-2 `DO-NOT-SEAL` ([review](artifacts/delivery.v2.review-reviewer2.json)) adjudicated to `SEAL-WITH-CHANGES` ([adjudication](artifacts/delivery.adjudication-agent-b.json)); the Rust substrate fork it names is closed by RUST-PROVIDER-PROTOCOL below, not by DELIVERY | `check-delivery.py` |
+| VERSIONING | [`versioning-policy.v8.json`](artifacts/versioning-policy.v8.json) | `ea4b52b5a4d187ec35ad994d8ffcd888db287566c8fb53f3df17e5203d84ae2e` | **PASSED** — [review](artifacts/versioning-policy.v8.review-independent-cold-rejoin.json). **Still the head.** `versioning-policy.v9`–`v13` all exist on disk and were **all independently rejected**; v9–v13 were standalone re-authors that carried the contract forward by transcription and then built machinery to prove the transcription faithful, and **every one of those blockers is against that machinery, not against the contract** — v9's own review says so verbatim (*"no byte of the contract is wrong"*). **COUNT CORRECTED 2026-08-06: there are NINE, not eleven.** Recomputed from the five reviews' own bytes: `blockingFindingCount` is **1, 1, 1, 3, 3** and the blocker arrays agree — `B-VER9R-01`, `B-VER10R-01`, `B-VER11R-01`, `B-VER12R-01/02/03`, `B-VER13R-01/02/03`. "Eleven" was asserted by `versioning-policy.v14` in three places, **repeated eight times by v14's own independent review — which claimed to have verified "eleven blocker titles verbatim" against a block carrying nine** — and then repeated here by the coordinator. The *enumeration* was always right; only the count was wrong, and it ran toward **more** prior failure than existed, which is why nobody challenged it. Caught by the lane authoring `versioning-policy.v15` and confirmed independently. **A figure that flatters the reader's expectation is the least likely to be checked.** A `versioning-policy.v14.json` candidate now exists as a **derivation** (8 operations, exactly one substantive) recording the `CD-RT-5` decision; it builds no self-evidence apparatus at all, which is how it avoids being the sixth rejection. **UNREVIEWED** | `check-versioning-v8.py` — **now exit 1** on `RC-14`, because it hard-pins `CD-RT-5` as `BLOCKED_ON_PHASE_1A` and the authority decided it (§7.10). Freeze §9.1 still asserts this instrument "exits 0"; that assertion is **stale**. **⚠ NAME COLLISION — read this before running anything.** `check-versioning-v14.py` exists and **binds `versioning-policy.v8.json`, NOT `versioning-policy.v14.json`.** Two lanes independently chose "v14" for unrelated things on the same day; the instrument is the RC-14 successor to `check-versioning-v8.py`, and the artifact is a successor to `versioning-policy.v8.json`. **Matching version numbers here mean nothing.** Both authors documented the hazard in their own bytes; it is repeated here because the blueprint is where a reader looks first |
+| DELIVERY | [`delivery.v4.json`](artifacts/delivery.v4.json) | `3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121` | **PASSED** — 0 blockers on these exact bytes, 9 non-blocking — [review](artifacts/delivery.v4.review-independent.json), verdict *"ACCEPT AS A CANDIDATE — NO BLOCKERS AGAINST THE ARTIFACT"*. **Applied 2026-08-05**, from `delivery.v2` (`47b6cfd1…`, whose own `PASSED with changes` record — reviewer-2 `DO-NOT-SEAL` ([review](artifacts/delivery.v2.review-reviewer2.json)) adjudicated to `SEAL-WITH-CHANGES` ([adjudication](artifacts/delivery.adjudication-agent-b.json)) — is the verdict on **those** bytes and not on these; the Rust substrate fork it names is closed by RUST-PROVIDER-PROTOCOL below, not by DELIVERY). Binds as a **derivation**: the effective contract is verified `delivery.v2` with 21 operations applied and nothing else. **Carry the review's `OBS-1`** — the artifact's `capabilityManifestSchema.valueDomains.censusIsEXHAUSTIVE` claims its retained checker recomputes the fourteen-position scalar census and fails the run on any position in neither list, and that was **measured false** of the checker the artifact names; the reviewer graded it non-blocking **for calibration consistency only** and said so expressly so a later reader can overrule it | **`check-delivery-v5.py` — UNREVIEWED**, and named here in full knowledge of that. `check-delivery.py` cannot validate these bytes (`BINDING = "delivery.v2.json"`), and the reviewed alternative `check-delivery-v4.py` — the instrument `delivery.v4.json#retainedChecker.path` itself names — was graded **`REJECT FOR REPAIR`** at blocker `IR-V4-INSTR-B1`, having exited 0 with 0 findings on an artifact carrying `delivery.v3`'s faulted `DL-CLOSED-1` text. Freeze **§7.8** grades either instrument the same way regardless: a green run is **author-side evidence** — *"this artifact says what it says, consistently, and drift will be caught"* — never *"this artifact is right."* |
 | RUST-PROVIDER-PROTOCOL (overlay) | [`rust-provider-protocol.v4.json`](artifacts/rust-provider-protocol.v4.json) | `3e34934720a78f823d3d4c7ceb73735d444f09a4a1ec964a894bd1ac5daf2909` | **PASSED** — [review](artifacts/rust-provider-protocol.v4.review-independent-prefreeze.json) over five **v4-lineage** subjects: this overlay, `check-rust-provider-protocol-v4.py`, `rust-provider-protocol.v4.adjudication-v3-rejection-response.json`, and the two joins below. Two of the five are an instrument and an adjudication, so "five files" is **not** four artifacts plus the base — the base is not a review subject at all. See freeze §3 "Five-file precision" | `check-rust-provider-protocol-v4.py` |
 | RUST-PROVIDER-PROTOCOL (base) | [`rust-provider-protocol.v2.json`](artifacts/rust-provider-protocol.v2.json) | `6308a98c1183d75d671655b2a351334b62f4f2c00316983731ceabb86e90793b` | **`REJECT`, 2 blocking, on these exact bytes** — [review](artifacts/rust-provider-protocol.v2.review-independent-prefreeze.json), which binds this digest with `sha256AtStart == sha256AtEnd` and `stable: true`, and whose `effect` is that the five-file **v2** set *"must not … be used as implementation authority."* Both blockers are adjudicated **`DISCHARGED-BY-V4`** — [adjudication](artifacts/rust-provider-protocol.v2-blockers.adjudication.json) — **by deletion**: `RPPV2-PF-01`'s defective `#/orderingAndStateMachine/transitionAstV2` dies with `/orderingAndStateMachine`, and `RPPV2-PF-02`'s `#/hostFinalizerContextV2`, `#/hostFinalizerProjection` and `#/exhaustivenessRule` are the delivery join's *entire* `replacedSelectors` list. **Not one of the 18 inherited selectors was ever a blocking surface.** What you implement is the **merged** contract, which carries neither blocker — never these bytes alone. Merged per v4 `retainedV2SemanticProjection.mergeAlgorithm`; see note **N-2** and the base-rejection record in [`IMPLEMENTATION-FREEZE.md`](IMPLEMENTATION-FREEZE.md) §3 and §3.2 item 5 | `check-rust-provider-protocol-v2.py` |
 | RUST-PROVIDER-PROTOCOL DELIVERY join | [`delivery-rust-provider-join.v4.json`](artifacts/delivery-rust-provider-join.v4.json) | `02d7c925eceedceafdf70073b6d8e19dfde046b830b25d9187b776e533456146` | **PASSED** — same five-file review | `check-rust-provider-protocol-v4.py` |
 | RUST-PROVIDER-PROTOCOL RI join | [`resolved-inputs-rust-provider-join.v4.json`](artifacts/resolved-inputs-rust-provider-join.v4.json) | `4ce77f694df56edbe60a673e6c3c24c916bffe14ec09b4457d943cdc2aa6763e` | **PASSED** — same five-file review | `check-rust-provider-protocol-v4.py` |
-| TM | [`threat-model.v3.json`](artifacts/threat-model.v3.json) | `56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499` | **PARTIAL** — reviewer-1 `SEAL-WITH-CHANGES`, reviewer-2 `DO-NOT-SEAL`, adjudicated `DO-NOT-SEAL` on V10 only ([adjudication](artifacts/threat-model.adjudication-agent-b.json)). Read-set, secrets-as-handles and the **lexical** namespace are buildable; durable-authoritative retention is not. **CORRECTED 2026-08-04 — an earlier revision of this cell said "Storage/namespace/read-set surfaces are buildable" without qualification, and that is withdrawn.** An independent re-review of `$.storageNamespace` returned [`REJECT` at 3 blockers](artifacts/threat-model.v3.storage-namespace.review-independent.json): the physical namespace is a pair `(admitted root, ProjectId)` and **only the `ProjectId` half is buildable**. The **root** half is not — root selection, root identity validation, authority-record creation and the purge rename's same-device precondition would each have to be **invented**, which §5.1 forbids. See §5.1's new escalation item **E-NS-1** | `check-threat-claims.py` |
-| PRODUCT | [`product-dispositions.v1.json`](artifacts/product-dispositions.v1.json) | `b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c` | binding product packet; `CD-RT-5` remains blocked | `check-product-dispositions.py` |
-| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json) | `1a16f7510a9ab3347c5dae2a6d2c2c7b846ed3dfcdc6a582bb545cb44e8f3df9` | per-claim status register | `check-claims.py` |
+| TM | [`threat-model.v3.json`](artifacts/threat-model.v3.json) | `56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499` | **PARTIAL** — reviewer-1 `SEAL-WITH-CHANGES`, reviewer-2 `DO-NOT-SEAL`, adjudicated `DO-NOT-SEAL` on V10 only ([adjudication](artifacts/threat-model.adjudication-agent-b.json)). Read-set, secrets-as-handles and the **lexical** namespace are buildable; durable-authoritative retention is not. **CORRECTED 2026-08-04 — an earlier revision of this cell said "Storage/namespace/read-set surfaces are buildable" without qualification, and that is withdrawn.** An independent re-review of `$.storageNamespace` returned [`REJECT` at 3 blockers](artifacts/threat-model.v3.storage-namespace.review-independent.json): the physical namespace is a pair `(admitted root, ProjectId)` and **only the `ProjectId` half is buildable**. The **root** half is not — root selection, root identity validation, authority-record creation and the purge rename's same-device precondition would each have to be **invented**, which §5.1 forbids. See §5.1's new escalation item **E-NS-1**. **UPDATED 2026-08-05 — the row immediately below now binds the `$.storageNamespace` half.** `threat-model-storage-namespace.v4.json` was applied as a derivation over that subtree and states `SN-P1`–`SN-P5` as properties: root identity is dispositive via `activeRootId`, uniqueness is a function-invariant of the authority-record set, and the purge rename's one-device precondition is stated at `pathSafety.resolution` — and its independent review verified that the three routes by which a root is admissible outside the unary resolver are all closed. Everything outside `$.storageNamespace` is unchanged; whether that discharges `E-NS-1` is **not** decided here, §5.1 is untouched by this application, and TM's freeze §3 disposition remains **`UNSET — BLOCKS FREEZE`** | `check-threat-claims.py` |
+| TM — `$.storageNamespace` derivation | [`threat-model-storage-namespace.v4.json`](artifacts/threat-model-storage-namespace.v4.json) | `94b68f6d504967b61c9daf4884cad90d2e5de63af3b40aeda99d28b59513b5be` | **PASSED** — `ACCEPT`, 0 blockers, 5 non-blocking — [review](artifacts/threat-model-storage-namespace.v4.review-independent.json). **Applied 2026-08-05.** It binds as a **derivation covering `$.storageNamespace` and nothing else**, so you resolve it: 13 operations — 12 `set`, 1 `add`, every one of the thirteen paths under `storageNamespace` — against the verified `threat-model.v3.json` bytes in the row above. **Applying it does not clear TM**: the freeze §3 disposition stays **`UNSET — BLOCKS FREEZE`**, and TM's other two conditions — reconcile V10/custody and G19, preserve the publication block until demonstrated — are untouched | **`check-threat-model-storage-namespace-v5.py` — UNREVIEWED**, and named here in full knowledge of that. It was chosen over the reviewed `check-threat-model-storage-namespace-v4.py`, which carries blocker **`CIR-B2`**: its substring binding is defeated by keeping every required needle and appending a reversal — **13 of 13** hand-written negations escaped and 280 swept prose leaves yielded **63** defeatable positions, including all five property statements. v5 catches **13 of 13** and takes 63 → **0**. Freeze **§7.8** grades either instrument the same way regardless: a green run is **author-side evidence** — *"this artifact says what it says, consistently, and drift will be caught"* — never *"this artifact is right."* `rootBinding` remains unenforced by `check-threat-claims.py`; the whole 13-operation derivation leaves that instrument byte-identical |
+| PRODUCT | [`product-dispositions.v1.json`](artifacts/product-dispositions.v1.json) | `bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017` | binding product packet. **`CD-RT-5` DECIDED 2026-08-05 by `sfbreen`** — retention bounded on **time, size and count** with the three bounds **independent by construction** (the shipping product's size bound is parasitic on its count bound; that defect is expressly not adopted); a bound firing transitions to the existing **PURGED** state, which is **degradation, not deletion** — the record stays addressable, `recordCasRef` is retained, and **tombstones survive**, so "purged under policy" is never indistinguishable from "never existed". Default posture **`DURABLE_RETAINED`** / `implicitDurableRetention: YES`: **a project with no configured policy retains durably and unboundedly, and a durable-authoritative request with no policy proceeds and writes rather than refusing.** You may implement bounded retention against the accepted retention artifact once one exists; **you may still not choose a retention default.** No accepted artifact exists yet — `retention-tiers.v25` was independently **REJECTED** (4 blockers) | **`check-product-dispositions-v6.py` — UNREVIEWED**, named in full knowledge of that, and **it MUST be invoked as `python3 -I -B`** — see the environment note at the end of this cell. v3 is superseded: independently reviewed `ACCEPT_WITH_BLOCKERS` ×3 ([review](artifacts/check-product-dispositions-v3.review-independent.json)), and v4 repairs all three. **The corroboration gate was the one that mattered**: v3 treated *"the `decidedBy` string appears as a whole word in some other leaf"* as corroboration, so `decidedBy: "retention"`, `"PURGED"`, `"tombstone"`, `"bounds"`, `"Phase"` all exited **0** — an attribution naming NOBODY, §4.4's exact shape, and **caught nowhere else in the corpus**. Verified independently by the coordinator: all five escape v3 and are caught by v4, while the genuine `sfbreen` still passes. v4's derivation is better than the one commissioned — a coordinator proposed excluding tokens that recur in the packet's other decisions, and the lane **measured that idea vacuous on these bytes** (`retention`/`PURGED`/`tombstone` occur 0 times in the other seven rows, exactly as `sfbreen` does) and reported it rather than the version that worked. What it built instead: **an attribution ties an identity to a decision MOMENT, so a leaf corroborates only if it names the authority AND the decision date.** Measured discrimination: **327 of 327** non-authority tokens satisfy v3's corroboration limb alone — it discriminates nothing — **312 of 328** survive v3's whole decision lane, and **5 of 328** survive v4's, one being the real authority. Matrices: blocker-1 **21/21** (v3 10/21, v2 1/21); reviewer's exact 30 **26/30** (v3 25, v2 10); substance **9/9**; reversion **3/3**; **46/46** no-regression with 0 regressions. Forgery routes stay **0/5, deliberately** — R1–R5 are the standing lane and R3 is load-bearing under §7.9; narrowing a reviewed demotion predicate inside a decision-lane repair is how a reviewed semantic changes without a verdict. The offending artifact is still **named in full** in all five; the sixth route that bought *silence* is closed.<br>**⚠ ENVIRONMENT — this is a §7.2 dependency and it decides whether the checker runs at all.** Dropping a file named after a stdlib module (e.g. `artifacts/hashlib.py`) into the run directory made v3 return **exit 0, zero findings, and the offending artifact absent from the output entirely** — 81 lines where a real run prints 167. v4 refuses that at **exit 2** with `PD4-UNSUPPORTED-INVOCATION … THE CHECK DID NOT RUN`, the shape 38 sibling checkers already use. **A green run of this instrument outside `-I -B` is not evidence of anything.** | `check-product-dispositions.py` cannot validate a decided `CD-RT-5` at all: it encodes "CD-RT-5 is the sole pending Phase-2 decision" as an invariant, so *any* decision trips it. **v2 is superseded because an independent review measured it 19 escapes in 30 attempts against a published residual count of four**, and two of those escapes went to the heart of what this row records: its `[UNSET]` guard was **type-blind** (`is_unfilled` returned `False` for every non-string, so the identical placeholder wrapped in a list passed), and the decision's **substance was entirely unbound** — `durableDefault` could be flipped to `EPHEMERAL_DISCARDED` and `decidedBy` rewritten from the authority's name to `the coordinator`, both at exit 0. **The guard descended from §4.4 refused a blank attribution but accepted a substituted one — it protected the ceremony, not the decision.** **INDEPENDENTLY REVIEWED 2026-08-10 — `ACCEPT_WITH_BLOCKERS`, 3 blockers, 9 non-blocking** ([review](artifacts/check-product-dispositions-v3.review-independent.json)), and the reviewer's numbers supersede the author's. Measured by the reviewer against a **green** baseline (so finding-delta and exit-code scoring agree): **25/30** on the prior reviewer's exact set — not the 26/30 the author published — against v2's **10/30**; type variants **9/9**; substance **8/8**; no-regression **17/17**; and **forgery routes 0 of 5 caught**, all five reproducing exactly as disclosed. **Still the strongest available instrument for this row, and still not sufficient.** Three blockers a reader must know:<br>**(1) The corroboration gate accepts any word already present in the decision row.** `decidedBy: "retention"`, `"PURGED"`, `"tombstone"` all exit **0** — an attribution naming **nobody**, which is §4.4's exact shape. Verified independently by the coordinator; controls `sfbreens` and `SFBREEN` are caught, so the gate is live but wrong. This makes the file's own published residual **D1** understate itself *in the flattering direction*: D1 claims an attacker must substitute the authority **and** rewrite every naming leaf, and the `and` is unnecessary. `check-versioning-v14.py` exits 0 on it too — **caught nowhere in the corpus.**<br>**(2) Silent reversion of the decided row back to `pendingDecisions` exits 0**, and the banner then reports that authority, date and posture were checked when **no gate ran**. §7.10 names silent reversion explicitly. v2's reviewer recorded this as CAUGHT — but that catch never came from the decision lane; it came from `retention-tiers.v26` having standing, and an unreviewed `retention-tiers.v27` has since demoted it under **R3**. `check-versioning-v14.py` does catch it (`VER14-CDRT5-REVERTED`), which bounds the severity.<br>**(3) The pinned closure is defeated by one file in the run directory, and it buys SILENCE.** Gutting the predecessor alone gives exit 3 — the pin works. Adding an `artifacts/hashlib.py` shim gives **exit 0, zero findings, and the offending artifact vanishes from the output entirely.** `python3 -I -B` defeats it and **38 of 112 checkers already carry that guard**; this one has zero `sys.path` references. **Always invoke it as `python3 -I -B`.** This also answers the monkey-patch question: the in-process wrapper closing `PDV2-N4` is sound *conditional on the pin*, and `PDV2-N4` itself is genuinely closed — stdout is SHA-256-identical across six `PYTHONHASHSEED` values where v2 gives six different digests |
+| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json) | `685259e76bf55d0eb1a3d3197f7ecd90a7ba737be13755137e167c8240b88b22` | per-claim status register. **RECONCILED 2026-08-05** to follow the four applications above: C-2 → `v11`, R-1 → `v1.6`, DELIVERY → `v4`, **and each binding's `validator` moved with it** (`check-c2-v12.py`, `check-r1-v1.7.py`, `check-delivery-v5.py`) because the predecessors hardcode their old bindings and cannot validate the new heads. Applying the successors *without* this repoint left three `PC-6-REGISTER-STALE-BINDING`; repointing then exposed **eleven `CHK-5`** stale citations in `architecture/*.md`, which were updated in the same act. Freeze **§7.9** is the record of that cascade | `check-claims.py` |
 | EVIDENCE | [`evidence.v10.json`](artifacts/evidence.v10.json) | `62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4` | **PASSED**, 0 blocking — [review](artifacts/evidence.v10.review-independent-prefreeze.json), which is nonetheless `DO-NOT-SEAL` / `CANDIDATE-NOT-APPLIED`. Shape is portable; **no identity recipe is unparked.** See note **N-3** | `check-evidence-v10.py` |
-| V10 / retention candidate | [`retention-tiers.v24.json`](artifacts/retention-tiers.v24.json) | `ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277` | **PASSED** — both parts, 0 blockers — [review](artifacts/retention-tiers.v24.review-independent.json). **NOT APPLIED.** Carries the V10 item-3 discharge; selects no retention default. See note **N-4** | `check-retention-custody-v24.py` |
+| V10 / retention candidate | [`retention-tiers.v24.json`](artifacts/retention-tiers.v24.json) | `ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277` | **PASSED** — both parts, 0 blockers — [review](artifacts/retention-tiers.v24.review-independent.json). **NOT APPLIED.** Carries the V10 item-3 discharge. **It selects no retention default, and after 2026-08-05 it no longer needs to**: `CD-RT-5` is DECIDED and the default is `DURABLE_RETAINED` (§4.5). **This row is still the head, and its successor was REJECTED.** `retention-tiers.v25.json` implemented the decided posture and was independently graded **`REJECT FOR REPAIR`, 4 blockers** — [review](artifacts/retention-tiers.v25.review-independent.json). The strongest, **`B1`**: all three published eviction-demand expressions return `len(evictable)` — evict everything — at the value declared to **disable** them, and `0/0/0` is the default configuration of every unconfigured project, which the decided posture has now made the common case. 4 of v25's own 5 arithmetic vectors contradict its own expressions. **What survived is the part that matters**: the reviewer enumerated every path from a `DURABLE_AUTHORITATIVE` request across the resolved table and confirmed **silent demotion is genuinely unreachable** — law 14 holds, and the posture design is sound. A `v26` repairing all four blockers is in flight. **A decided default is not an accepted artifact; there is still no accepted retention closure.** See note **N-4** | **`check-retention-custody-v24.py` — now exit `2`**, `RT23-PIN-REFUSED`, because it hard-pins the product packet and the packet legitimately advanced when `CD-RT-5` was decided. It is retained and immutable, so this is **permanent** (§7.6, §7.10). Its successor `check-retention-custody-v25.py` exists and re-pins correctly, but **cannot exit 0 either** — independently of the pin, it fires `RT25-C-B1` on the same defect the review found, which it caught **before** reading the review. Freeze §7.8: a green run is author-side evidence only — and this instrument reports that it found only **1 of the reviewer's 4 blockers** on its own |
 | evaluation-proof (provenance lineage head; **NOT the V10 item-1 artifact** — that is `evaluation-proof.v8`, see freeze §3) | [`evaluation-proof.v13.json`](artifacts/evaluation-proof.v13.json) | `1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe` | **PASSED** — `PASS-WITH-RESIDUALS`, 0 blockers — [review](artifacts/ep13.review-independent.json). **NOT APPLIED.** See note **N-4** | `check-evaluation-proof-v13.py` |
 
-**N-1 — C-2 is buildable. Port `c2-plan-stage-schema.v9.json` and nothing else.**
-The C-2 head is `c2-plan-stage-schema.v9.json` at the digest above, the row above
-is correct, and an earlier revision of this note that named `v4` as the head and
-told you not to build the surface is **withdrawn in full**. Freeze §3's C-2 row
-records the independent review of these exact bytes as **PASSED — 0 blockers**,
-5 non-blocking, and its "Draft freeze disposition" column reads **`SEAL`
-candidate**. `check-c2-v9.py` exits 0 on the live bytes. Write `crates/plan`
-against v9.
+**N-1 — C-2 is buildable. Port `c2-plan-stage-schema.v11.json`, resolved.**
+**HEAD UPDATED 2026-08-05.** This note's title read *"Port
+`c2-plan-stage-schema.v9.json` and nothing else"* until that date, and the §1.1
+row above — not this note — is the head. The C-2 head is now
+`c2-plan-stage-schema.v11.json`, applied 2026-08-05, and it binds **as a
+derivation**: you **resolve** v11 → `c2-plan-stage-schema.v10.json` → `v9` → `v4`
+for the effective contract rather than reading v11 alone. Freeze **§7.3 /
+`CMP-IR-01`** is emphatic about this and the corpus has got it wrong five times:
+**a derivation must be resolved, not read.** Validate with
+**`check-c2-v12.py`**, named in the row above in full knowledge that it is
+**UNREVIEWED** — `check-c2-v9.py` hardcodes
+`BINDING = "c2-plan-stage-schema.v9.json"` and cannot validate the current head at
+all. The resolved effective contract's own `checkerModeContract.checker` still
+names `check-c2-v9.py`; that is a property of the resolved text, not an
+instruction to you.
+
+An earlier revision of this note named `v4` as the head and told you not to build
+the surface; that is **withdrawn in full**. Freeze §3's C-2 row records the
+independent review of the head's exact bytes as **PASSED — 0 blockers** with its
+"Draft freeze disposition" column reading **`SEAL` candidate**. Write
+`crates/plan` against the **resolved** contract.
 
 This note is long because the lineage behind that one-line answer is the most
 expensive in the corpus, and three parts of it still bind your port.
@@ -484,9 +535,32 @@ requirement is the checker's declared trust root, not a style preference.
 
 `check-d9-v1.14.py` — SHA-256
 `513d69dd879dcb678d53d8df89a907d05dacd4b078ec43c7fedc939732c5e83e` — is the
-oracle. Its five top-level exports (`check`, `derive_class`, `derive_codes`,
-`reduce_concurrent`, `V17`, plus the chained `V17.V16.derive_class`) are the
-surface to port against. Drive them with the contract's own `goldenCases`,
+oracle. Its **four** top-level exports — `check`, `derive_class`, `derive_codes`,
+`reduce_concurrent` — are the surface to port against.
+
+> **⚠ CORRECTED 2026-08-11 — DO NOT PORT AGAINST `V17.V16.derive_class`.** An
+> earlier revision of this note listed it among "the surface to port against",
+> alongside `V17`. **That was wrong and it would have shipped a defect.**
+>
+> A blind implementer litmus swept **3,150 points** and measured
+> `V17.V16.derive_class` disagreeing with the head derivation at **45 of them**.
+> Every divergence is the same: `request-rejected` where the head says
+> `operational-failed` — **process exit 2 instead of exit 4.** A caller who
+> ported that chain would mis-signal every one of those 45 outcomes, and the
+> failure is silent: both are valid exit codes, so nothing crashes and no test
+> fails unless it asserts the specific code.
+>
+> **`V17.V16` is the historical v1.6 BODY, reachable through the module because
+> the head chains to it — not because it is the head's answer.** Reach a nested
+> version only to study lineage, never to derive behaviour. The top-level
+> exports are the head's answer; that is the whole point of obtaining the oracle
+> by **executing** the checker rather than reading a version out of it.
+>
+> **And the guard that exists to keep this table honest cannot see it**:
+> `NPA-5` hard-compares export **arity strings** only, so a chained export with
+> the right signature and the wrong semantics passes. This defect was found by
+> an implementer attempting the port, not by any instrument — which is the
+> argument for §8's litmus over another checker. Drive them with the contract's own `goldenCases`,
 `concurrentConditionGoldens` and `finalizationTransitions`, and with any scenario
 your host can construct; the module answers for the branches the JSON leaves
 implicit, including the `success` / `policy-failed` / `interrupted` branch and the
@@ -494,6 +568,38 @@ precedence between `interruption` and `verdict`. **Compare your Rust port agains
 the running module's answers.** Do not copy a Python function body out of a
 superseded file into Rust as if it were a contract — that is the thing rule 4
 forbids, and it is also unnecessary.
+
+**THE ARITY IS PART OF THE SURFACE, AND THIS NOTE OMITTED IT UNTIL 2026-08-05.**
+A blind implementer followed the sentence above, called `derive_codes(axes)`, and
+got `TypeError: derive_codes() missing 1 required positional argument: 'maps'`
+before comparing a single golden. **Re-measured from the executed module, the
+omission is wider than the report**: *three* of the five named exports need more
+than the axes map. Read the recorded signature, not the export name:
+
+| Export | Live call signature | What the extra argument is |
+|---|---|---|
+| `derive_class` | `derive_class(ax)` | — the one that takes axes alone |
+| `derive_codes` | `derive_codes(ax, maps)` | the contract's own `codeMaps` |
+| `reduce_concurrent` | `reduce_concurrent(conditions, precedence)` | the contract's declared precedence order |
+| `check` | `check(candidate, predecessor, v16)` | the contract, its predecessor, and the v16 authority — this is the *validator*, not the derivation |
+| `V17.V16.derive_class` | `V17.V16.derive_class(ax)` | — the inherited body `derive_class` delegates to |
+
+**These five strings are a recorded measurement and are hard-compared**, not
+transcribed: `NPA-5` in
+[`artifacts/check-narrative-packet-agreement.py`](artifacts/check-narrative-packet-agreement.py)
+reads the export list out of the D9 contract's **own** `referenceDerivation`,
+hash-verifies and executes the module the contract names, renders each live
+signature, and fails if the literal is absent here. **So a D9 successor that
+changes an arity cannot leave this table stale** — which is the failure mode that
+produced the defect, since the note is otherwise unusually precise and was
+therefore trusted.
+
+**Why this is worth a table rather than a fix to one sentence.** The port
+instruction's whole premise is that the module, not the JSON, answers the
+implicit branches. An implementer who cannot *call* the module falls back to
+reading a superseded checker's source — which is exactly what §1.1 rule 4 and
+this note forbid. **A wrong invocation does not merely waste time; it pushes a
+reader onto the one path the package spends two sections closing.**
 
 **What the checker executes, recorded so it is no longer invisible.** On import,
 `check-d9-v1.14.py` reads and SHA-256-verifies **25** files against pins carried
@@ -634,6 +740,59 @@ exactly **one** external tool dependency:
 | Tool | Required by | Call site | Effect if absent |
 |---|---|---|---|
 | `ripgrep` (`rg`) on `PATH` as a real executable | `check-rust-provider-protocol-v2.py`, and `check-rust-provider-protocol-v4.py` which replays v2 | `check-rust-provider-protocol-v2.py:1377` — `subprocess.run(["rg","--files","docs/coop/artifacts"], check=True)` | Unhandled `FileNotFoundError`. Both normal and `--selftest` abort with a traceback and identical output, so the RUST-PROVIDER-PROTOCOL `PASSED` verdict **cannot be reproduced** on that machine |
+
+| `ripgrep` (`rg`) — **NOT required** by `check-rust-provider-protocol-v5.py` | Listed here because a transitive scan says otherwise and is **wrong**. v5 executes v2's bytes, so an AST closure over `exec`/`importlib` edges classifies it as an `rg` dependent — `check-narrative-packet-agreement.py`'s `NPA-4` did exactly that | v5 installs a **stand-in `subprocess` module** inside the executed closure and satisfies v2's `rg --files` call from the standard library instead. It also declares `subprocess` in its own `FORBIDDEN_MODULES` and fails if it appears in its own source | **None.** Proven, not argued: run with `env -i PATH=/nonexistent`, v5 exits **0** with zero missing-binary errors, while `check-rust-provider-protocol-v4.py` under identical conditions exits 1 on `FileNotFoundError: 'rg'`. v5 is also ignore-independent by construction, removing a **latent** hazard — `rg --files` respects ignore rules and `rglob` does not. **The property, not a count:** `rg --files`, `rg --files -uu` and `rglob` are **set-exactly equal, symmetric difference empty**, and v2's own manifest algorithm yields identical digests from either source. The in-repo ignore surface measures **0 active patterns** (no `.gitignore`/`.ignore`/`.rgignore`; `.git/info/exclude` is comments only), which is *why* they agree — so the divergence is **latent, not active**. **Do not record the file count here.** An earlier revision of this row published "both enumerate 524 files today"; a lane re-measured **530** within the hour and watched it reach 536, because authoring lanes were writing to the tree. That is §7.10 landing on this document: a figure expected to change is not an invariant, and the set-equality *is* |
+
+**A caution about this table, learned by tripping over it.** The row above exists
+because an instrument raised a finding that was **false**, and the fix was to
+record the truth rather than to satisfy the instrument. Adding v5 to a list of
+`rg` dependents would have made this document assert a dependency v5 does not
+have — greener, and wrong. **When a checker and reality disagree, find out which
+is wrong before repairing either.**
+
+**CORRECTED 2026-08-05 — an earlier revision of this paragraph was half wrong, and
+an independent instrument review measured which half.** It said `NPA-4` "simply
+cannot see a stand-in installed at runtime", attributing BOTH false positives to
+that cause. Only one is:
+
+- **`rg` on v5 is structurally unfixable.** There is a real `exec(compile(...))`
+  edge into v2's real call; it is inert only at runtime. §7.6's shape exactly — a
+  property true only at execution time is invisible to a static scan.
+- **`curl` is NOT that.** It is **pure static-scan imprecision**: all five hits
+  are in a docstring or byte-literals, and **an AST predicate removes `curl` while
+  preserving all three true positives across all 107 checkers.** It is fixable
+  without weakening the class, and the withdrawn sentence hid an available repair
+  by describing it as structural.
+
+**And a third fact neither revision saw.** `NPA-4` tests for an undeclared
+**CHECKER**, not an undeclared **TOOL**. A reviewer added a real `jq` invocation
+to v5 — `jq` appears **zero** times anywhere in this corpus — and `NPA-4` stayed
+**green**. `curl` is already a live instance of the same gap. The class is
+narrower than its name promises.
+
+**The general lesson, which cost two wrong sentences to learn:** *"the instrument
+is structurally limited"* is the most comfortable thing a coordinator can write
+about a false positive, and it retires the question. Say it only when the limit
+has been measured, and name the part that is NOT structural.
+
+**CORRECTED 2026-08-05 — the original row names two dependents and there are THREE.**
+Measured by transitive closure over every `artifacts/check-*.py`:
+`check-rust-provider-protocol-v3.py` is also a dependent, and it fails identically.
+Only **`check-rust-provider-protocol-v2.py`** contains an `rg` call site;
+**`check-rust-provider-protocol-v3.py`** compiles and executes v2's bytes and
+**`check-rust-provider-protocol-v4.py`** does the same to v3, so both inherit the
+dependency without containing it. Verified on this host, where `rg` resolves only
+as a zsh function: **v2, v3 and v4 all exit 1 with the same
+`FileNotFoundError: [Errno 2] No such file or directory: 'rg'`**, and
+`check-rust-provider-protocol.py` — the base, which shells out nowhere — exits 0.
+
+**A census that reads only direct call sites undercounts by exactly the length of
+the execution chain**, which is why this is no longer maintained by hand:
+[`artifacts/check-narrative-packet-agreement.py`](artifacts/check-narrative-packet-agreement.py)
+`NPA-4` re-derives the dependent set every run — following the `exec(compile(...))`
+edges, not just the `subprocess` ones — and fails if this section does not name each
+member. **The one-tool claim survives the correction**: the closure is still exactly
+`{rg}`, over three dependents rather than two.
 
 `rg` must be a real binary. A shell alias or shell function named `rg` will
 satisfy `command -v rg` but **not** `shutil.which("rg")`, and the subprocess call
@@ -1191,13 +1350,35 @@ interchangeable vocabularies, and implementation may invent neither.
 
 ### 5.1 Identity recipes and contract gaps that do not exist yet — escalate, do not invent
 
-**Nine items, not seven.** This section is the blueprint's rendering of the
+**Ten items named, and the named set is NOT the boundary — read the next
+paragraph before relying on the count.** This section renders the
 `IMPLEMENTATION-FREEZE.md` §7.1 parked table *and* the two related contract gaps
-named directly under it. Freeze §8 declares all nine escalable by name, which is
-what makes escalating them compliant rather than a litmus failure. Two of the
-nine — `capabilityManifestId` and `policyOutcome.derivationDigest` — are
-**week-one work**, ported at §7.2 steps 3 and 5 respectively, and they are the
-ones an implementer meets first.
+named directly under it. Two of them — `capabilityManifestId` and
+`policyOutcome.derivationDigest` — are **week-one work**, ported at §7.2 steps 3
+and 5 respectively, and they are the ones an implementer meets first.
+
+**CORRECTED 2026-08-04. An earlier revision read "Nine items, not seven" and said
+freeze §8 declares "all nine" escalable by name.** The count is now **ten** —
+`executionPlanCommitment` was added to §7.1 that day, after an investigation
+ruled its meaning `UNDETERMINED`, and it is the sharpest of them: **two
+implementations can choose opposite meanings and both pass every vector in the
+corpus.** More importantly, **the count itself stopped being the boundary on the
+same day.** Freeze §7.1 now states the park as a **property** —
+
+> *any identity-, digest-, commitment- or ref-typed field for which no binding
+> artifact states a rule producing its value from real inputs is parked and
+> escalable, **whether or not it appears as a row***
+
+— because two sweeps measured the class at **33 unparked members** against the
+nine then listed, and found **three of the nine computable after all**. It went
+stale in both directions at once.
+
+**What that means for you, practically.** Do **not** treat this list as
+exhaustive, and do **not** conclude a field is fine because it is absent from it.
+**If you meet a digest-typed field and no binding artifact tells you how to
+compute it, escalate — the property covers you, and §8's *named residual* limb is
+satisfied by it.** The ten below are the ones already identified, not the ones
+that exist.
 
 `operability.v10.json` is binding and states, verbatim:
 **“No exact RunId derivation recipe is binding yet.”** Its
@@ -1235,7 +1416,7 @@ escalations, not choices.”* Verified on the live bytes:
 | Gap | Where it is required | What exists | What does not |
 |---|---|---|---|
 | **`capabilityManifestId`** | `resolved-inputs.v2#planIdContract.preimageFields[2]` — `PLAN-ID-V1` preimage field tag 3, `release`, the closed map `{manifestId, capabilityManifestId, profileId}`; also a required member and a `digestFields` entry of **both** `semanticUniverseSchemas.typescript-v1` and `rust-v1`. Ported at **§7.2 step 3** | `delivery.v2#releaseManifestSchema.ProfileEntry` requires the field, and `delivery.v2#capabilityManifestSchema.CapabilityManifestV1` is a closed four-field schema | **No derivation.** `delivery.v2#releaseManifestSchema.canonicalization` gives `manifestId = sha256(signedBytes), lowercase hex` and gives its sibling `capabilityManifestId` nothing — no canonicalization, no preimage, no domain separator. The only values in the corpus are the golden-vector constants `2222…` and `7777…` |
-| **`policyOutcome.derivationDigest`** | `r1-lifetime-neutrality.conformance.v1.5#closedTypes.PolicyOutcome` — third field of a three-field record with `optionalFields: []`, and `policyOutcome` is itself a required field of `CoreCompletion::completed` and `::incomplete`, both `optionalFields: []`. Ported at **§7.2 step 5** | the wire type: `$ref: Digest` | **No preimage and no domain separator.** The only values in the corpus are the positive-vector constants `sha256:5555…`, `sha256:6666…`, `sha256:8888…`. Freeze §3's R-1 row records it as outstanding alongside `LN-13` |
+| **`policyOutcome.derivationDigest`** | `r1-lifetime-neutrality.conformance.v1.5#closedTypes.PolicyOutcome` — third field of a three-field record with `optionalFields: []`, and `policyOutcome` is itself a required field of `CoreCompletion::completed` and `::incomplete`, both `optionalFields: []`. Ported at **§7.2 step 5** | the wire type: `$ref: Digest` | **No preimage and no domain separator.** The only values in the corpus are the positive-vector constants `sha256:5555…`, `sha256:6666…`, `sha256:8888…` and **`sha256:9999…`** — the fourth was missing from an earlier revision of this exhaustive list and is at `r1-lifetime-neutrality.conformance.v1.5#/positiveVectors/5/completionTemplate/policyOutcome/derivationDigest` (measured 2026-08-04). It changes nothing about the gap; it is corrected because the sentence claims to enumerate. Freeze §3's R-1 row records it as outstanding alongside `LN-13` |
 
 These are named residuals for escalation purposes and are tabulated in
 [`IMPLEMENTATION-FREEZE.md`](IMPLEMENTATION-FREEZE.md) §7.1. Escalating any of
@@ -1270,9 +1451,49 @@ step 5, the same for `derivationDigest`. Both are named in freeze §8, so
 escalating either is compliant; inventing either is the one thing §7.1 says no
 implementer, checker, blueprint or record may do.
 
-**`E-NS-1` — the physical storage root. Added 2026-08-04, and it is NOT a tenth
-member of the nine.** The count above stays **nine**; this is escalable by a
-different route and the distinction matters. An independent re-review of
+> **⚠ IMPLEMENTER, READ THIS BEFORE THE ESCALATION ITEMS BELOW — CORRECTED
+> 2026-08-11. SEVERAL "BLOCKED" ITEMS IN THIS DOCUMENT AND IN THE FREEZE WERE
+> COMPLETED BY THE APPLIED HEADS ON 2026-08-05 AND THE PROSE WAS NEVER UPDATED.
+> Do not stop on them.**
+>
+> A blind implementer litmus (`artifacts/implementer-litmus.v4.json`) attempted
+> the port and **reproduced six identity recipes byte-exactly on its first
+> attempt, from published prose, with code sharing nothing with any corpus
+> checker**: `planIntentCommitment` 7/7, `SNAPSHOT-ID-V1` 3/3, `PLAN-ID-V1` 5/5,
+> `FACT-ID-V1` 2/2, `CAP-MANIFEST-ID-V1` 7/7, `POLICY-DERIVATION-DIGEST-V1`
+> 17/17.
+>
+> **Specifically satisfied, and no longer reasons to stop:**
+> `capabilityManifestId` and `policyOutcome.derivationDigest` — complete recipes
+> in the applied §1.1 heads `delivery.v4.json` and
+> `r1-lifetime-neutrality.conformance.v1.6.json`; `executionPlanCommitment`; the
+> `jx_canon` canonicalisation spec; and **all four** of the `E-NS-1` items
+> described below as things you would "have to invent".
+>
+> **Verified by the coordinator**: this freeze names `capabilityManifestId` in
+> **5** places as outstanding while `delivery.v4.json` carries **143** mentions
+> of the manifest and `r1…v1.6.json` carries **78** of the derivation digest.
+>
+> **Why the stale text was not deleted.** It is spread across ~30 positions in
+> two documents, and §7.2 keeps superseded text in place so provenance survives.
+> This block is the correction of record: **where the prose below and an applied
+> §1.1 head disagree, the head wins** — freeze §2's authority order, which
+> already says so. A prior litmus predicted this exact outcome — *"deciding those
+> head moves would, in one act, unblock BOTH week-one identity items"* — the
+> heads moved, and §5.1, §7.2, §9 and freeze §7.1 were never told.
+>
+> **What is genuinely blocked is listed separately and is mostly NOT here**: no
+> producing rule for `FindingValue.valueDigest`/`findingId` (so `crates/core`
+> cannot emit a single finding), FACT-IDENTITY's `levelVersion`, `PlanId` at tag
+> **9** rather than the tag 3 named in the docs, and a `capabilityGrant` carrying
+> **two incompatible member sets** on a `PlanId` preimage field.
+
+**`E-NS-1` — the physical storage root. Added 2026-08-04, and it is NOT a member
+of the §7.1 set at all.** It is escalable by a **different route**, and the
+distinction still matters even though the count above has since moved to ten:
+`E-NS-1` is not a missing identity rule, so §7.1's property does not reach it —
+it qualifies under freeze §8's *withheld-disposition* limb instead, as set out at
+the end of this item. An independent re-review of
 `threat-model.v3#/storageNamespace` returned
 [`REJECT` at 3 blockers](artifacts/threat-model.v3.storage-namespace.review-independent.json).
 The physical namespace is a pair — **`(admitted root, ProjectId)`** — and the two
@@ -1306,6 +1527,527 @@ records that its enumeration *"goes stale silently in **both** directions, while
 the limb stated as a property covered the case correctly without being edited
 either time."* This is that limb doing its job a third time. **Read the
 disposition column, not the verdict column, and read it at the time you build.**
+
+**A candidate now exists for both week-one items, and it closes neither.**
+`artifacts/plan-and-policy-identity-recipes.v1.json` (`2673896b…`) —
+`CANDIDATE-NOT-APPLIED`, `AWAITING-INDEPENDENT-REVIEW`, `binds: NOTHING`,
+`DO-NOT-SEAL`. *(Cited by path, not linked: freeze §3's link set is read as its
+binding-artifact set, and a candidate must not appear there.)* It proposes
+`CAP-MANIFEST-ID-V1` (6 vectors, four drawn from the **live**
+`delivery.v2#installProfiles`) and `POLICY-DERIVATION-DIGEST-V1` (8 vectors),
+with **two independently written encoders agreeing across 68 comparisons, zero
+disagreements**. Its method is worth copying: **before either recipe was
+computed**, encoder A was gated against `evaluation-proof.v8`'s own
+`preimageGoldens` at **51 assertions, 0 failures** — so the transcribed framing
+is proven on bytes the work did not produce.
+
+**It answers the question this section actually asks.** `PLAN-ID-V1` field 3
+**resolves from the rule** rather than from a supplied literal: both pinned
+vectors reproduce byte-exactly (2500 and 8208 bytes), then field 3 is substituted
+with the derived id, length-preserving so only those 64 bytes differ. And it
+states the limit honestly as an **impossibility rather than a residual**: it
+cannot reproduce the *pinned* `PlanId`, and **no recipe can**, because `2222…`
+and `7777…` are placeholder constants and reaching them would require a SHA-256
+preimage attack.
+
+**BUT "BOTH PINNED VECTORS REPRODUCE" IS EVIDENCE ABOUT THE ARITHMETIC, NOT ABOUT
+THE PACKAGE — CORRECTED 2026-08-05.** The sentence above was read, correctly, as
+evidence that the `PLAN-ID-V1` recipe is re-derivable from what this package
+states. **It is that for one of the two vectors and not the other.** Measured
+against `resolved-inputs.v2#planIdContract`, whose `preimageFraming` requires all
+thirteen fields present exactly once:
+
+- `` `planid-v1-ci-minimal` carries 13 of 13 `PLAN-ID-V1` preimage fields `` in its
+  own `input`, and is fully self-contained.
+- `` `planid-v1-ci-full-providers` carries 4 of 13 `PLAN-ID-V1` preimage fields ``
+  in its `planInputConstruction` — `snapshotId`, `planSchemaMajor`,
+  `semanticUniverses`, `planIntentCommitment`. The other **nine** — `release`,
+  `invocationProfile`, `resolvedConfiguration`, `scope`, `changeSpec`,
+  `contributions`, `capabilityGrants`, `workflow`, `budgets` — are not in the
+  vector. It carries `sourcePlanIntentFixtureId` and `snapshotVectorId` instead,
+  **and no artifact states the rule that assembles those nine from what they point
+  at.**
+
+**So the 8208-byte reproduction required a cross-artifact join the corpus does not
+state**, and an implementer who reproduces vector 0 first-try and then stalls on
+vector 1 has found a real gap, not a mistake of their own. This does **not**
+withdraw the candidate's evidence — the encoders agree and the arithmetic holds —
+it scopes it: **vector 0 tests the recipe against the package; vector 1 tests it
+against a join the tester supplied.** Under §7.1's park property the missing
+assembly rule is escalable without amendment, and it is named here because a gap a
+reader can only find by re-deriving it is a gap most readers will not find.
+
+**Both figures are hard-compared, in both directions.** `NPA-6` in
+[`artifacts/check-narrative-packet-agreement.py`](artifacts/check-narrative-packet-agreement.py)
+recomputes each vector's completeness from the live contract and fails if a vector
+is incomplete and unrecorded **or** if a figure recorded here disagrees with the
+artifact. A completeness claim about someone else's bytes is exactly the §7.2.2
+measurement that must not be published uncompared.
+
+**The governance question a reviewer must settle first — it is not about
+correctness.** §7.1 forbids inventing, and this candidate **invents four strings**:
+two namespaces and two domain separators appearing nowhere before it. The author
+concedes this rather than arguing it away, and the concession is the useful part:
+**a domain separator cannot be transcribed**, because reusing an existing one is
+precisely the failure separation exists to prevent — the candidate demonstrates
+that with four cross-domain controls. So the separators *must* be new. **The
+question is therefore not whether they are new but who is entitled to write them
+down.** If that authority belongs only to DELIVERY and R-1 — the surfaces that
+own these identities — then this artifact is at most an **input** to two
+successors and cannot close either row itself.
+
+**ANSWERED 2026-08-04, and the answer is now freeze §6 law 19.** An independent
+review ruled on three measured legs: a standalone candidate **may mint a
+namespace and separator as a proposal, and may never close a row with one** —
+the strings must finally be carried in DELIVERY's and R-1's own successors, in
+those artifacts' own bytes. **So this artifact is an input to two successors, and
+that is true however good its arithmetic turns out to be.** What made proposing
+safe here is the load-bearing condition, and it is worth copying: its departure
+`D-2` **explicitly declines to extend `evaluation-proof`'s closed nine-member
+domain list**, because extending another surface's *closed* vocabulary is the act
+that needs that surface's authority — minting your own is not.
+
+**Three corrections it produced against other documents**, all measured:
+`evaluation-proof.v8` **already carries** a policy-derivation commitment at
+`EP5-REC-VERDICT-INPUT.value.derivationCommitment`, byte-identical to the
+`verdict-input` domain commitment — but it is **not** reusable here, needing an
+outcome set, `coverageRef`, baseline, waivers, `waiverSetCommitment` and a
+`PolicyV2` IR that R-1's core does not have, and the author stopped at that
+boundary rather than forcing it. A sibling artifact's claim that *"no artifact
+defines the `policyOutcome` record"* is **inaccurate** —
+`r1-lifetime-neutrality.conformance.v1.5#closedTypes.PolicyOutcome` does; what is
+undefined is the *derivation* record. And `componentFrame` is confirmed at **50
+occurrences** in `evaluation-proof.v8`, so the framing grammar here is **read,
+not recovered** — no repeat of `B-EIR-01` — with EP8's `<= 4096 bytes` clause
+retained and executed as a rejection control.
+
+**Reviewed 2026-08-04 — [`REJECT`, 2 blockers](artifacts/plan-and-policy-identity-recipes.v1.review-independent.json).
+Neither blocker is in the arithmetic; both correct what the candidate *says about
+what it proved*, and neither moves a published digest.** The reviewer wrote a
+**third encoder from the candidate's prose alone** and reproduced **all 14
+vectors** — 81 assertions, 77 passed, and **all 4 failures are the one blocker**.
+It reproduced the EP8 golden gate **stronger than claimed: 69 assertions, 0
+failures**, where the candidate reported 51. And **`PLAN-ID-V1` field 3
+resolves** — 17 assertions, 0 failures, with `PID-D1` differing from the pinned
+vector in **59 byte positions, every one inside the closed span [161, 224]**,
+exactly 64 wide, exactly where the `2222…` literal sits. The stated impossibility
+is **correct and not covering a gap**: reaching a chosen 256-bit output needs a
+second-preimage attack, which is a property of any full-width-hash derivation.
+
+- **`B-PPIR-01` — the injectivity proof is false as written.** Taking
+  `delivery.v2`'s own CAP-1 manifest and **reversing only the two-element
+  `coverageForAbsent` array** yields two distinct JSON documents with
+  **byte-identical record bytes and the same id**. Literal
+  `decode(encode(x)) == x` holds for **0 of 4** live CAP vectors. The candidate
+  had **named this exact demonstration as its own falsifier** and conceded that
+  *"No artifact says a capability manifest's provider list is a set rather than a
+  sequence"* — but filed it as a limitation while filing an equally open choice
+  as `OPEN — REVIEWER MUST DECIDE`. **Sequence-vs-set is an ordering question the
+  corpus has not answered, and it decides the id.**
+- **`B-PPIR-02` — two exhaustiveness claims fail by counting.** A rule called
+  *"transcribed verbatim"* silently drops EP8's *"persisted values"* qualifier
+  from three of four clauses, and the `componentFrame` partition **sums to 48 of
+  50**. Both are inert on the bytes — **and exhaustiveness is exactly what makes
+  every other transcription trustworthy without re-derivation.**
+
+**The finding an implementer needs most is `DUD-6`, and the review found it
+sharper than declared: `CAP-MANIFEST-ID-V1`'s host-recompute rule is not
+implementable today.** `installProfiles` carries the manifest **with no id**;
+`ProfileEntry` carries the id **with no manifest**; and the join key is spelled
+**`profile` on one side and `profileId` on the other.** Nothing binds them. That
+is a DELIVERY gap, not a defect in the recipe, and it must be closed in
+DELIVERY's successor alongside the namespace and separator.
+
+**Two corrections in the candidate's favour**, both from the reviewer measuring
+rather than reading. Departure `D-4` — bare 64-hex with no `sha256:` prefix — is
+settled **mechanically, not by prose**: `check-resolved-inputs.py::_release_errors`
+rejects a prefixed value with exactly `release.capabilityManifestId is not 64
+lowercase SHA-256 hex`. And `DUD-3` was **over-declared**: EP8's
+`VerdictInputV2` **excludes `verdict` from its preimage** while its golden's
+value carries it — proved by re-encoding that record byte-exactly **without ever
+reading the key** — so the corpus's only existing derivation commitment already
+settles R-B's most contested choice. **Adjudicated: the verdict stays out.**
+
+**PARKED BY COORDINATOR DECISION 2026-08-04, at v3. This is a park, not an
+abandonment, and the reasoning is recorded so it can be overturned.**
+
+`plan-and-policy-identity-recipes.v3` (`1d0c8e2a…`) was independently reviewed
+**`REJECT FOR REPAIR`, 1 blocker** — the **same self-report defect** that parked
+the `evidence-identity-recipes` lineage, in a completely unrelated document:
+it declares **1352** leaves where the file has **1383**, and its
+`measuredSelfReport` contributes **exactly 31**. The gate ran before assembly
+finished. *(That coincidence is what promoted the defect to a class — freeze
+§7.2.2.)* The substantive property holds: all 1383 leaves are strings.
+
+**Why parking is right here and not merely convenient.** Under **§6 law 19** this
+artifact is an **input** to DELIVERY's and R-1's successors — and **both owning
+surfaces have now moved past it.** Its own assessments concede that
+`delivery.v3`'s framing supersedes `R-A` and that R-1 v1.6's every-leaf rule
+supersedes `R-B`'s field set. **Repairing it would produce a better input to two
+successors that no longer need one.**
+
+**What was extracted before parking, because it outlived the artifact.** The
+review confirmed `OBS-V3-2` **exactly** by independent walk — `evaluation-proof.v8`'s
+`sortedLists` rule has **zero exercised witnesses in its own goldens** (5 arrays
+across 12 record goldens, the only 2 multi-member ones both being the field
+`programOrder` exempts, all 9 commitments singletons). **A rule with no exercised
+witness in its own source cannot be disambiguated by its own source** — that is
+addressed to EVALUATION-PROOF's successor and survives this park. So does the
+frame-boundary falsifier, and the finding that **record framing (bare tag byte,
+no length prefix) is never stated in the grammar tables** and is recoverable only
+from the published hex.
+
+**Also settled and worth keeping:** `PDD-9`'s preservation was ruled **SOUND** —
+its bytes are byte-identical to v2's `PDD-3`, so the accidental equal-length
+control survives, and *"the defect was a false claim about valid bytes, not wrong
+bytes."* And `ORD-BOUNDARY-V3`'s **ruling is correct while its decisive leg is
+mis-identified**: leg 1 argues by analogy from Merkle-set ordering to nested-list
+ordering, and **leg 2 is the real entailment.**
+
+**To un-park:** a successor is worth writing only if DELIVERY or R-1 asks for one.
+**A repaired input to surfaces that have superseded it is not.**
+
+**REPAIRED 2026-08-04 — `artifacts/plan-and-policy-identity-recipes.v2.json`
+(`24bd4846…`), `CANDIDATE-NOT-APPLIED`, and it declares itself in its own fields
+as an input to DELIVERY's and R-1's successors under §6 law 19.** *(Cited by path,
+not linked.)*
+
+**`B-PPIR-01` is repaired by withdrawal and dependency, not by choosing** — which
+was the only lawful move, since set-vs-sequence belongs to DELIVERY. The
+unqualified injectivity claim and the literal round-trip line are withdrawn and
+replaced by `decode(encode(x)) == canonical(x)`, with canonical shown idempotent
+and injective **on the quotient**; set-vs-sequence becomes `DUD-7`,
+`OPEN — DEPENDENCY ON DELIVERY`. **The collision is reproduced in the artifact's
+own bytes** so the blocker stays falsifiable there: two distinct 959-byte JSON
+documents differing only in a reversed two-element array produce **one 914-byte
+record and one id** (`e109fd46…`), where the sequence reading gives `af1f488e…`
+and `340824bb…`. Two further instances are published.
+
+**And it settled the question I would otherwise have asked next: canonical
+ordering does NOT close this without DELIVERY.** Measured — canonical ordering
+reproduces all four published ids exactly and is idempotent, but it is **the same
+function by another route**, so it inherits the question rather than answering
+it: *"canonical(x) and x are the same logical value"* **is** the set ruling. It
+buys exactly one thing — **the normalisation becomes loud instead of silent.**
+
+**Two measurements that change how dangerous the open question is.** The two
+readings are **byte-length indistinguishable** (914/953/935/1118 either way), so
+a wrong guess yields a **correctly framed, correctly sized record and a wrong
+id** — no length check anywhere will catch it. And v1's own `CAP-6` "ordering
+vector" **cannot distinguish the readings**, so the corpus's apparent coverage of
+ordering does not touch the open question at all.
+
+**`B-PPIR-02` re-derived**: `componentFrame` is `50 = 44 + 2 + 1 + 1 + 1 + 1`,
+naming the two v1 omitted, verified by two independent passes; EP8's text rule is
+now quoted character-for-character **with** its *"persisted values"* qualifier,
+and the scope removal is declared as a seventh departure rather than dropped.
+
+**Its own sweep found four defects neither the review nor I named.** v1's
+*"exactly three places"* is **five** — and the one it missed is
+**`delivery.v2`'s own live `capabilityManifestId` literal `2222…`** in the
+plan-intent overlay fixture; *"eleven `preimageGoldens.records`"* is **twelve**
+(all twelve re-encode); *"Vector `CAP-ORD`"* is a **dangling id** naming no
+vector; and an enumeration of affected positions is wrong **in both directions**.
+
+**`DUD-6` is recorded where it will actually be read.** The DELIVERY join gap is
+stated **inside `whoComputesItAndWhen`**, so an implementer reading only that
+section is not told to do something impossible. Measured: `installProfiles`,
+`ProfileEntry` and `ArtifactEntry` each occur **once** in `delivery.v2`, with **no
+cross-reference between them and no `ArtifactEntry` instance anywhere.**
+
+**`capabilityManifestId` now has a candidate from its OWNING surface —
+`artifacts/delivery.v3.json` (`01f1b95d…`), `CANDIDATE-NOT-APPLIED`, a verified
+derivation from `delivery.v2` in 20 operations where **every `set` restates its
+predecessor value type-exactly, so a resolver refuses if the base moved.**
+*(Cited by path, not linked.)* `check-delivery.py` is **exit 0 and byte-identical
+before and after.**
+
+**The sequence-vs-set question is RULED SET on all four positions.** An earlier
+revision of this paragraph called the ruling *"derived, not chosen"* on the
+strength of a **prohibition** in another binding artifact —
+`resolved-inputs.v2#planIdContract.fieldCanonicalization.predicateRelativeFacts`,
+verbatim: *"No global fact tier, provider tier, or profile rank is a PlanId
+field"* — since `capabilityManifestId` is PlanId field 3.
+
+**CORRECTED 2026-08-04 by independent review: that entailment does not hold, and
+"dispositive" was an over-read.** The quote and the field number are accurate,
+but **the prohibited construct is a *rank***, and the sentence's own second clause
+fixes the sense — *"without ordering their fact sufficiency globally."* **A
+serialisation order commits an order, not a rank**, and the candidate's own
+measurement (8 overlaps, 0 resolving to different rungs) shows nothing reads it
+as one.
+
+**The conclusion survives, and is better supported than the document argued —
+by a law nobody cited.** Freeze **§6 law 2** states *"Only declared analysis
+inputs may affect `PlanId`"*, which forbids an **undeclared emission order**
+affecting `PlanId` **directly**, with no inference about ranks required.
+Measured: `delivery.v3` cites laws 3, 4, 6, 17, 18 and 19, and **law 2 zero
+times.** *(Law 2's first two sentences are also a verbatim content anchor of
+`check-retention-custody-v23/v24.py` — see freeze §7.7 on why that matters when
+editing.)* **The ruling is right; the support was misattributed.** Freeze §6 law 3
+corroborates architecturally, as originally noted.
+
+**Three structural moves worth copying, because each replaces a list with a
+property.**
+
+- **`DL-ORD-2`** — a collection is order-bearing **only if the schema names it
+  so**; today none does. That is one rule instead of four rulings, and it is the
+  same mechanism as EP8's `programOrder`.
+- **`DL-ORD-1`** makes the defect **inexpressible rather than forbidden**: a
+  *committed* manifest must already be in canonical order and a consumer
+  **rejects rather than normalises**. The sort becomes the identity on every
+  value carrying an id, both readings compute identical bytes, and literal
+  `decode(encode(x)) == x` holds — **it was 0 of 4.**
+- **`DL-CLOSED-1`** quantifies over **reachability** — every object reachable
+  from a committed record is closed, and an undeclared key set is a schema defect
+  rather than a permissive default — explicitly *"because closing two names is
+  exactly how this hole arrived."* Unified with the above as **`DL-INJ-1`**,
+  whose detector is a single equation: `decode(encode(x)) == x`.
+
+  **Two corrections from independent review, and the second bounds the whole
+  approach.** `DL-CLOSED-1` carries the candidate's **one blocker**: its
+  enumeration and its catch-all **disagree about `ProviderCapability.relations`**.
+  The enumeration reaches records, collection elements and map *values* — so it
+  reaches the strings, not the map — while the catch-all (*"a reachable object
+  type that declares no key set is inadmissible"*) **does** reach the map, which
+  is named in no closed-type list and carries **three different key sets (11/6/7)
+  across the four live manifests.** Read literally, **every `ProviderCapability`
+  is inadmissible and all four manifests have no id** — including the ones the
+  document publishes and that its own `PlanId` vectors depend on. Narrow, loud,
+  and one clause to repair.
+
+  **And `DL-INJ-1` does not catch everything.** The reviewer constructed a
+  **third channel that is reachable today**: two manifests differing only in a
+  `platformId`'s **case** pass all three gates, round-trip literally, and produce
+  **different ids** (`0ff31948…` vs `c884fab4…`) — because **`platformIds` has no
+  value-domain rule anywhere in the corpus.** The candidate's stated bound (that
+  the detector cannot see a defect symmetric in both directions) is correct, but
+  its claim to *therefore* find the third channel **overclaims: 3 of its own 4
+  named examples provably escape.** A single-equation detector is a real
+  improvement over enumerating channels; **it is not a proof that no channel
+  remains.**
+
+**The undeclared-member channel was confirmed and re-shaped.** Under the
+proposal's grammar all three probe documents mint `e109fd46…` at 914 bytes;
+under this recipe they mint **three distinct ids** — so the defect becomes a
+silent identity **move** rather than a collision. Closure is required either way.
+
+**The `DUD-6` join is closed structurally, and the spelling gap stops mattering.**
+The committed manifest *is* a release artifact, so the join becomes a **content
+test** — exactly one capability-manifest-mediaType `ArtifactEntry` in the
+`ProfileEntry`'s closure whose **bytes recompute to** `capabilityManifestId`.
+**There is no name lookup, so `profile` versus `profileId` cannot break it**, and
+the spellings are reconciled by a value-equality invariant rather than a
+digest-moving rename. The host hashes **bytes, not a parse**. The live `2222…`
+placeholder is replaced with a computed `508f24c7…`, and the author names the
+**second** `2222…` in `delivery.v2` that is *not* a `capabilityManifestId`, so a
+reviewer grepping does not raise it wrongly.
+
+**It departed from the proposal's framing on a measurement, not a preference.**
+Typed-component/merkle framing appears in EVALUATION-PROOF and EVIDENCE;
+domain-prefix + canonical-serialisation appears in DELIVERY, C-2,
+RESOLVED-INPUTS, FACT-PLANE and RETENTION — and **DELIVERY states the prefix form
+three times in its own bytes**, once in exactly this shape. Adopting the proposal
+would have left `manifestId` and `capabilityManifestId` — **two members of one
+closed `PlanId` map** — under two incompatible canonicalisations. It reproduced
+the proposal's arithmetic first (the third independent reproduction) and published
+that before departing.
+
+**A new finding against the proposal, raised not repaired (`OBS-V3-1`):** its
+`sortedLists` clause *"before item framing"* is **ambiguous** — sorting framed
+versus unframed items are different orders, and they **diverge at 12 positions
+across all four live manifests**, moving every id while **leaving record length
+unchanged.** The proposal's own ordering vector cannot reach it.
+
+**Two concessions to carry.** There is **no retained checker**, which §7.1 calls
+**disqualifying for application**. And **`ADM-ORDER` makes all four of the
+predecessor's own manifests inadmissible** — measured and published per profile,
+answered by an authoring/committed split.
+
+**The review settled that second one: a correct tightening, not a broken
+migration** — and the dispositive measurement is that **nothing was ever
+committed.** There is no `ReleaseManifestV1` instance, **0 `mediaType`-valued
+paths**, `allArtifacts` is a **boolean** in all five fixtures, and
+`installProfiles`/`ProfileEntry`/`ArtifactEntry` each occur **exactly once with no
+cross-reference.** So `ADM-ORDER` invalidates **zero previously-valid committed
+artifacts**, and the author's own conditional — *"if the split is a fiction,
+DELIVERY has been shipping four non-canonical manifests"* — **has a false
+antecedent: DELIVERY has shipped nothing.**
+
+**Two further corrections, both narrowing claims this record repeated.**
+`OBS-V3-1`'s *"12 positions"* is the **byte**-divergence count; **order**
+divergence is **10** (array-only: 2) — everything else in that finding verified
+exactly. And the prefix form appears **5 times** in `delivery.v2`, not 3, so
+*"three statements of the mechanism"* was conservative rather than wrong. The
+reviewer also narrows two words used here: **"inexpressible"** is properly
+*unreachable through a conforming gate*, and **"incompatible"** canonicalisations
+are properly *divergent* — both yield 64-hex that passes the same validator.
+
+**REPAIRED 2026-08-04 — `artifacts/delivery.v4.json` (`3cffece0…`) with its own
+companion instrument `artifacts/check-delivery-v4.py`, both `CANDIDATE-NOT-APPLIED`.**
+*(Cited by path, not linked.)* It derives from **`delivery.v2`** at 21
+operations — **0 declaration errors, 0 resolve errors** — declaring v3 separately
+as a lineage predecessor with a stated reason for **not deriving from rejected
+bytes**.
+
+**The blocker is repaired as a property, and the word `relations` appears nowhere
+in it.** `DL-CLOSED-1` now classifies structurally: **a RECORD declares a key
+set; a MAP declares a key domain; a map whose values are scalars closes
+nothing**; an object declaring **neither** is a schema defect. The catch-all
+survives and is now decidable. **Executed as `NEG-CLOSED-3`** — the only control
+whose two readings differ **4-of-4 on live bytes**: under v3's literal catch-all
+**0 of 4** manifests are admissible and none has an id; under the repair, **4 of
+4**. Measured `relations` key-set sizes across the four manifests: **{6, 7, 11}**.
+**No digest moves** — all four live ids re-measured byte-identical to v3's.
+
+**The law-2 re-grounding is accepted in full**, quoted verbatim and never
+reworded (it is a §7.7 content anchor), with `predicateRelativeFacts` demoted
+from dispositive to supporting.
+
+**The third channel is closed by a new gate, and the bound is stated honestly.**
+`DL-DOM-1` requires every scalar to be **either bound to a named registry or
+declared OPEN**, compared by exact NFC UTF-8 bytes — no folding, aliasing or
+trimming. Census of **14 reachable scalar positions: 6 bound, 8 declared OPEN**,
+with the review's exact `platformId`-case construction executed as a control.
+**The cost is published rather than absorbed**: v3's own `DCM-5` vector carries a
+non-ASCII `platformId` that is **now inadmissible**, and its id is not
+republished.
+
+**And it replaces `DL-INJ-1`'s overclaim with the distinction that matters**: the
+round-trip equation catches **asymmetric** channels only and is **provably silent
+here**, so the symmetric family is closed **by declaration and registry, not by a
+test.** Eight positions remain open — **including `providerId`, a declared sort
+key** — declared as a dependency rather than left silent. **A detector and a
+declaration close different things, and no amount of the first substitutes for
+the second.**
+
+**REVIEWED 2026-08-04 — the artifact ACCEPTED at 0 blockers; the instrument
+REJECTED FOR REPAIR at 1.** An independent reviewer wrote its own CVE1
+encoder/decoder, four admission gates and `PLAN-ID-V1` framer from
+`resolved-inputs.v2` prose, sharing no code, and **everything in the artifact
+reproduced byte-exactly** — all 7 vectors, the **complete ordered violation
+lists** (5, 2, 3, 1) rather than just their counts, both pinned goldens,
+`PID-D1/D2/D3` with exact differing-byte spans, the 21-op derivation at 0/0
+errors, and the 108-element integer-leaf census **element for element**.
+
+**The instrument is a different matter, and freeze §7.8 now carries why: it
+passes on the artifact with its own repaired blocker restored.** Do not read its
+green run as validating the prose.
+
+**Three findings for an implementer.** A **fourth injectivity channel** exists and
+**the artifact already declares it** — an intra-registry *alias* at a **bound**
+position (`['all-supported']` against the five enumerated supported rows: both
+registry members, both round-trip, two different ids); only a one-line summary of
+the bound overstates. **`providerId` staying OPEN is defensible** — no such
+registry exists and inventing one crosses law 19 — and the reviewer sharpened the
+consequence: **one manifest can carry both `syntax-all` and `Syntax-All`**, since
+`0x53 < 0x73` keeps strict ascent intact. And **invalidating `DCM-5` is
+acceptable**: it is a synthetic vector in rejected bytes, **0 of 4 live manifests
+move**, and NFC/multi-byte coverage survives elsewhere.
+
+**Two things about the instrument are worth copying.** Its **first selftest run
+failed three of its own mutations and found three real defects in the checker** —
+an empty refusal list that was a substring of every stated condition, a gate that
+clobbered the mutation under test, and a bare token occurring inside a control's
+own prose. And **every 64-hex literal in the artifact — 65 distinct — is either
+recomputed by the run, hard-compared as an input digest, or declared at
+`digestAccountability`**, with a mutation (`NO_RECOMPUTE_LEDGER`) that simulates
+a checker comparing stored strings and produces **40 findings**. That is the
+executable form of *a checker that compares literals tests nothing*.
+
+**`policyOutcome.derivationDigest` now has a candidate from its OWNING surface —
+`artifacts/r1-lifetime-neutrality.conformance.v1.6.json` (`14c46b65…`),
+`CANDIDATE-NOT-APPLIED`.** *(Cited by path, not linked.)* Under §6 law 19 this is
+the artifact entitled to mint the strings, and it **adopted the proposed
+`opensip.r1-core.v1` / `policy-derivation-v1` verbatim** on the reasoning that
+**law 19 withholds authority from a candidate, not correctness** — minting a third
+string would discard a twice-reviewed input for nothing. `check-r1-v1.5.py` output
+is **byte-identical before and after**.
+
+**It achieved something the DELIVERY-side candidate could not: literal
+injectivity.** Where that one had to retreat to `decode(encode(x)) == canonical(x)`
+after its collision blocker, this one holds **literal `decode(encode(x)) == x` on
+21 of 21 records** — because its **encoder rejects a mis-ordered list rather than
+silently repairing it.** That option was available only to the owning surface: a
+candidate cannot rule on ordering, so it can only normalise. **Owning the identity
+is what buys the stronger property**, which is law 19 paying for itself rather
+than merely constraining.
+
+**Its falsifier is the one to copy.** `PDD-01` over `["stage:rules","stage:policy"]`
+gives `sha256:567284c2…`; `PDD-17` over the reverse gives `sha256:61198179…` —
+and **both records are 554 bytes**, so no length check separates them. Under the
+rejected set reading **both collapse to `567284c2…`, which is `PDD-01`'s own
+published digest** — so a set-reading implementation **passes `PDD-01` and then
+silently mints `PDD-01`'s id for `PDD-17`.** That is what a negative control
+looks like when it is doing real work.
+
+**Verification standard**: two independent encoders at 180 comparisons with 0
+disagreements, then a **third** built from the emitted artifact's own published
+grammar importing nothing from the first two (107 assertions, 0 failures), every
+digest hard-compared via `shasum(1)` **outside Python**, and the framing gated
+against EP8's own goldens **before any value here was computed** — at 69
+assertions, the reviewer's figure rather than the candidate's 51.
+
+**INDEPENDENTLY REVIEWED 2026-08-04 — `ACCEPT-AS-CANDIDATE`, 0 blockers.** The
+reviewer wrote its own encoder **and total decoder** from the prose alone,
+confirmed **literal `decode(encode(x)) == x` on all 21 records**, then went past
+the corpus: **720 enumerated admissible values → 720 distinct encodings, 0
+collisions, 720/720 round-trips**, with NFD, BOM, astral characters, lone
+surrogates, control characters, the 4096 bound, nested-record tag substitution and
+adjacent frame-length manipulation all correctly rejected. **The 554-byte
+falsifier reproduced in full**, and it called that exhibit *"the best negative
+control in the corpus."*
+
+**One correction it made to how this section framed the artifact.** The inclusions
+do **not** rest on `coreExecutesExactly` — that sentence is cited only inside the
+derived-values set, where it correctly corroborates `findings` and
+`exactCoverage`. The inclusion set rests on a **closure argument over the public
+API**, which establishes the **domain** but **not which subset is committed.** So
+the author's own expected objection — *"the inclusions are a design choice dressed
+as a derivation"* — **is sound on the merits.** It is non-blocking only because
+the artifact **labels it a decision rather than a derivation**, makes it **by the
+surface §6 law 19 assigns it to**, and publishes **a named falsifying vector per
+narrowing.** **Read the inclusions as a ruling you may contest, not as a
+measurement you must accept.**
+
+**Two things it concedes, and you should carry both.** **No retained checker reads
+these bytes** — it was forbidden to write one and §7.6 forbids editing the pinned
+`check-r1-v1.5.py` — and it states without qualification that §7.1 calls this
+**disqualifying for application**. And **the exclusions are measured while the
+inclusions are ruled**; it does not claim the corpus forces them. It also answers
+the placeholder question structurally rather than by rewriting: v1.5's own
+`vectorOracle` derives only `DiagnosticsData` and `BudgetUsage` and **supplies**
+`policyOutcome`, so the conformance corpus never computes this field — the
+`5555…` constants are consistent with `IMPLEMENTABLE_UNEXECUTED` and **become
+inconsistent the instant an implementation executes.**
+
+**What law 19 costs an input artifact, stated in one measurement.** The same
+author, using the same encoder, produced **`R-B` at 10/10 literal
+`decode(encode(x)) == x`** and **`R-A` at 3/7 literal, 7/7 canonical.** The
+difference is not skill or effort: **`R-B`'s owning surface had ruled on ordering
+and `R-A`'s had not**, so one recipe could *reject* a mis-ordered list while the
+other could only *normalise* it. **A candidate can normalise; only the owner can
+rule** — and the stronger property follows from the ruling, not from the recipe.
+That is the clearest illustration in the corpus of why §6 law 19 is a design
+constraint rather than a formality.
+
+**One finding addressed elsewhere, recorded here because it explains how the
+ambiguity survived.** `OBS-V3-2`: `evaluation-proof.v8`'s `sortedLists` rule has
+**zero exercised witnesses in EP8's own goldens** — every multi-member array
+across all twelve record goldens is `PolicyV2.evaluationOrder`, the one field
+`programOrder` exempts from sorting, and all nine commitments are singletons. **A
+rule with no exercised witness in its own source cannot be disambiguated by its
+own source**, which is why a framed-versus-unframed sort question went unnoticed
+until a consumer tripped on it. Addressed to EVALUATION-PROOF's successor.
+
+**Method note, now a pattern rather than an incident.** Three separate agents in
+one session — a coordinator, a reviewer, and this author — **wrote a digest from
+recollection instead of measurement, and all three were wrong.** Every one was
+caught the same way, by hard-comparing recorded digests against `shasum` before
+publishing, and every one disclosed it. The reviewer's stated ground generalises:
+*a review raising blockers about overstated self-reports has no standing to hide
+its own.* **Assume you will do it too. Hard-compare before you publish, and
+disclose when you don't.**
 
 ## 6. Host orchestration pseudocode
 
@@ -1540,7 +2282,7 @@ to admit** — C-2's `validate_plan_intent` correctly rejects `True`/`1.0`/`"1"`
    **Same trap here: `policyOutcome.derivationDigest` has a type and no recipe.**
    It is the third field of `PolicyOutcome`, which has `optionalFields: []`, and
    `policyOutcome` is a required field of `CoreCompletion::completed` and
-   `::incomplete`. R-1's positive vectors carry `sha256:5555…`/`6666…`/`8888…`, so
+   `::incomplete`. R-1's positive vectors carry `sha256:5555…`/`6666…`/`8888…`/`9999…`, so
    your port reproduces `CoreCompletion` byte-for-byte while no policy engine can
    compute the field — there is no preimage and no domain separator anywhere.
    Escalate it (§5.1; freeze §8 names it). Note also that `check-r1-v1.5.py` bans
@@ -1837,8 +2579,13 @@ item 2 at `capabilityManifestId`, item 4 at `policyOutcome.derivationDigest`,
 item 5 at the Phase-1A-selected authoritative seal, and item 6 at the `RunId` and
 sealed-manifest recipes that second-process inspect needs. Every piece of that
 blocked work is named somewhere in this package — the `[PHASE-1A / V10 BLOCKER]`
-markers and the nine §5.1 items — and `IMPLEMENTATION-FREEZE.md` §8 makes
-escalating a named residual or a detected conflict compliant. Guessing one is the
+markers and the **ten** §5.1 items — and `IMPLEMENTATION-FREEZE.md` §8 makes
+escalating a named residual or a detected conflict compliant. **But do not read
+*"named somewhere in this package"* as a guarantee of completeness**: §5.1's
+count moved from nine to ten on 2026-08-04, and freeze §7.1 now states the park as
+a **property** precisely because a measured sweep put the class at 33 unparked
+members. An unnamed gap is still escalable under that property; it is not
+evidence there is no gap. Guessing one is the
 failure mode this package exists to prevent. Recount this paragraph against items
 1–7 above rather than trusting it: a count in prose is exactly the thing that goes
 stale when a blocker clears.

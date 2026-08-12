@@ -1,0 +1,662 @@
+{
+  "artifact": "uncomputable-identity-fields.sweep.v1.json",
+  "version": 1,
+  "date": "2026-08-04",
+  "documentClass": "MEASUREMENT-ONLY",
+  "binds": "NOTHING",
+  "constitutesDecision": "NONE",
+  "isNotAReview": "This document reviews no artifact, declares no subject, and carries no verdict, decision, blockingFindingCount or sealRecommendation. It must not be read as a review of any surface.",
+  "changesNoStatusDispositionVerdictOrSeal": true,
+  "proposesNoRecipe": true,
+  "closesNoRow": true,
+  "escalatesNothing": true,
+  "authority": "None. This file is an instrument reading, not a contract. Nothing here may be cited to close a parked recipe, to justify inventing one, or to change any surface disposition. Freeze section 7.6 relies on measurement-only documents being mechanically distinguishable from pins; the six fields above are that distinction.",
+  "purpose": "Measure one defect class across the whole corpus at once, instead of discovering it one artifact at a time. The class is named in IMPLEMENTER-BLUEPRINT.md section 5.1: a contract declares an identity/digest-typed field, pins vectors carrying a literal value for it, and states no rule producing that value from real inputs. Every golden passes and the implementer still cannot compute the field.",
+
+  "provenanceOfTheClass": {
+    "quotedTrap": "you can reproduce every vector and still be unable to compute the field",
+    "quotedSource": "IMPLEMENTER-BLUEPRINT.md section 5.1, line 1247",
+    "threeIndependentDiscoveries": [
+      "capabilityManifestId -- PLAN-ID-V1 reproduces byte-exactly only because the vectors hand it preimage field 3 as a literal.",
+      "policyOutcome.derivationDigest -- the only values on the binding surface are positive-vector constants.",
+      "Three of the thirteen SemanticEvidenceV1 values in evidence-identity-recipes.v1/v2 still hand-supplied."
+    ],
+    "whyASweep": "A class found three times by accident warrants one exhaustive measurement. This is the corpus's own derive-don't-enumerate discipline applied to its own gaps."
+  },
+
+  "method": {
+    "parseDiscipline": "Every .json file under artifacts/ was parsed with json.load(fh, object_pairs_hook=H) where H raises on any repeated key, per freeze section 7.5. Measured: 384 documents, 0 parse failures, 0 duplicate-key rejections. THE CORPUS IS LIVE AND MOVED DURING THIS SWEEP: it held 383 .json files at the first read, 384 at the classification pass the totals are stated against, and 386 at the moment this file was written (that last figure includes this file itself). Every intermediate reading was clean. The count is recorded this way rather than as a single number because a stated total that will not reproduce is exactly the kind of carried-forward measurement freeze section 7.2.2 exists to stop.",
+    "pinnedPlanDigestConfirmed": {
+      "file": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+      "expected": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "measured": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+      "match": true,
+      "note": "Measured, not taken on trust. This file was not read, modified or touched beyond hashing it."
+    },
+    "digestsVerifiedNotTrusted": "Every head digest quoted from freeze section 3 was re-measured with shasum -a 256 before its bytes were read. All 21 matched. No digest asserted to this sweep was accepted without measurement.",
+    "howTheTypeVocabularyWasDerived": "Not assumed from any supplied list. Four independent census passes over the corpus, then the union: (1) every distinct string value appearing under a key named type or $ref -- 91 distinct values; (2) every distinct value under wireType, format and fieldType -- 4, 6 and 1 distinct values; (3) every distinct regex under a key whose name contains pattern -- 20 digest-shaped patterns, which is the strongest axis because it is representation-level and name-independent; (4) every distinct textual prefix preceding a 64-hex run anywhere in the corpus -- 213 prefixes, of which 13 are identity schemes rather than prose. The key named kind (6013 occurrences) was examined and EXCLUDED: its 272 values are record discriminators such as verifier-manifest and predicate-semantics, not type declarations. Field-name morphology was used only to widen the candidate net, never to classify.",
+    "howPositionsWereFound": "Two complementary sweeps whose union was taken, so a field missed by one axis is still caught. (a) Declaration-driven: every field name appearing in a field-list structure (fields, orderedFields, requiredFields, optionalFields, closedTypes, digestFields, preimageFields, exactFields and 14 further spellings discovered by key census) or as a key whose value is a type-declaring object -- 1272 distinct declared field names. (b) Occurrence-driven: every object key anywhere in the corpus carrying at least one digest-shaped value under the derived pattern vocabulary -- 906 distinct keys corpus-wide, 171 on the binding heads.",
+    "howAbsenceWasEstablished": "For every LITERAL-ONLY row below, absence of a rule was established by search, never assumed. The standard applied: a programmatic walk of all 384 parsed documents collecting (i) every occurrence of the field name as a KEY, and (ii) every occurrence of the field name INSIDE any string value, then intersecting (ii) with rule-vocabulary (preimage, domainSeparator, domainUtf8, canonicaliz, SHA-256(, is computed, derived as, recipe, byte recipe, encoding). A row is LITERAL-ONLY only when that intersection is empty or contains solely embedding rules rather than producing rules. The searches are recorded per row.",
+    "rulesWereExecutedNotOnlyRead": "Where a rule was found, it was implemented from the quoted text alone and run against the corpus's own pinned values. Reproductions performed by this sweep are recorded in reproductionsPerformed below. A stated rule that could not be executed is reported as stated-but-unverified, not as computable.",
+    "namesAreNotNatures": "Classification is by what the corpus SAYS, never by suffix. Applied in both directions: requestId ends in Id and is digest-shaped but is COMPUTABLE-BY-ALLOCATION because the corpus states a CSPRNG allocation rule; profileId ends in Id but is a closed label and needs no recipe; unitSetCommitment has zero prose occurrences of its own name yet is COMPUTABLE because the governing rule sits in the sibling key unitSetCommitmentRecipe; and executionPlanCommitment carries a realistic digest and a required-field declaration yet has no producing rule anywhere."
+  },
+
+  "typeVocabularyDerived": {
+    "identityTypeNamesFromTypeAndRefKeys": [
+      "Digest", "EvidenceDigest", "ContentDigest", "OpaqueId", "RawObjectKeyV1", "RawCasRef",
+      "CanonicalValueRef", "RunId", "ExecutionId", "Sha256Text", "sha256Id",
+      "PROJECT-ID-V1", "PLAN-ID-V1", "RUN-ID-V1", "FACT-ID-V1",
+      "Raw commitment", "complete RawProofInventoryV1 bytes",
+      "RawCasRef<...> parameterised family", "SemanticCommitmentRef<...> parameterised family",
+      "EP5/EP6/EP8 universe commitment", "EP5/EP6/EP8 outcome-set commitment",
+      "EP5/EP6/EP8 verdict-input commitment",
+      "RT10/RT11/RT22 semantic-capability-closure-v3 commitment"
+    ],
+    "wireTypeAndFormatValues": ["sha256Id", "Sha256Text", "ContentDigest", "RunId", "ExecutionId", "FACT-ID-V1"],
+    "identityWirePatterns": [
+      "^sha256:[0-9a-f]{64}$", "^prj1-[0-9a-f]{64}$", "^unit3:sha256:[0-9a-f]{64}$",
+      "^unit2:sha256:[0-9a-f]{64}$", "^req1_[0-9a-f]{32}$", "^exec1_[0-9a-f]{32}$",
+      "^plan1:sha256:[0-9a-f]{64}$", "^run1:[0-9a-f]{64}$", "^[0-9a-f]{64}$",
+      "^snap1:sha256:[0-9a-f]{64}$", "^snapshot1:[0-9a-f]{64}$", "^fact1:[0-9a-f]{64}$",
+      "^fact:sha256:[0-9a-f]{64}$", "^factview1:sha256:[0-9a-f]{64}$",
+      "^rpol1:sha256:[0-9a-f]{64}$", "^root1-[0-9a-f]{32}$", "^purge1-[0-9a-f]{32}$",
+      "^migrate1-[0-9a-f]{32}$",
+      "^artifact1:[a-z][a-z0-9]*(?:[._:-][a-z0-9]+)*:sha256:[0-9a-f]{64}$"
+    ],
+    "vocabularyItemsNotInTheSuppliedPrompt": "The prompt suggested $ref Digest, sha256Id, ...Id, ...Commitment, ...Digest, ...Ref. Derivation from the corpus additionally produced: ContentDigest, Sha256Text, OpaqueId, CanonicalValueRef, RawObjectKeyV1, the RawCasRef<...> and SemanticCommitmentRef<...> parameterised families, the prose-named EP and RT commitment types, and eighteen wire patterns including three (root1-, purge1-, migrate1-) that no name-suffix heuristic would reach. ContentDigest and OpaqueId each turned out to carry a LITERAL-ONLY member, so deriving rather than assuming the vocabulary was load-bearing, not ceremonial."
+  },
+
+  "scope": {
+    "surfacesSwept": "The 21 binding surfaces named in IMPLEMENTATION-FREEZE.md section 3, plus the 3 candidate identity-recipe artifacts, because a delegation chain that ends in a literal is still a member of the class and two of the three chains run through the candidates.",
+    "bindingHeadsMeasured": [
+      "d9-exit-contract.v1.14.json", "fact-plane.v1.json", "c2-plan-stage-schema.v9.json",
+      "resolved-inputs.v2.json", "versioning-policy.v8.json", "operability.v10.json",
+      "trusted-request-context.v3.json", "delivery.v2.json", "rust-provider-protocol.v4.json",
+      "rust-provider-protocol.v2.json", "delivery-rust-provider-join.v4.json",
+      "resolved-inputs-rust-provider-join.v4.json", "evidence.v10.json",
+      "fact-identity-policy.v2.json", "r1-lifetime-neutrality.conformance.v1.5.json",
+      "threat-model.v3.json", "threat-model-storage-namespace.v4.json",
+      "product-dispositions.v1.json", "claim-register.v1.json", "retention-tiers.v24.json",
+      "evaluation-proof.v13.json"
+    ],
+    "candidatesIncluded": [
+      "plan-and-policy-identity-recipes.v1.json",
+      "evidence-identity-recipes.v1.json",
+      "evidence-identity-recipes.v2.json"
+    ],
+    "predecessorsRead": "Where a head is a delta document or has shed a grammar, the predecessor carrying the rule was read and is named in the row. This was necessary for C-2 (v9 is a delta over v4), EVALUATION-PROOF (v13 carries no commitment grammar; v5-v9 do) and RETENTION (v24 dropped three grammars present in v15-v22).",
+    "architectureDirectory": "architecture/*.md was examined and contributes NO declared identity-typed field position. Measured: the twelve files mention identity names in prose only (planIntentCommitment 5, universeCommitment 2, outcomeSetDigest 2, and eight others once each) and declare no wire type, pattern or preimage. IMPLEMENTATION-FREEZE.md line 105 classes architecture/ as narrative that governs only where it does not conflict. It is therefore in scope and empty, not out of scope and unexamined.",
+    "excludedWithReason": {
+      "corpusSelfPins": "Digests of files in this repository (sha256, checkerSha256, artifactSha256, sourceSha256, independentReviewSha256, sha256Measured, expectedPin, predecessorSha256 and 40 further spellings) are NOT members of the class. Their rule is sha256 of named bytes, and this was verified rather than assumed: 2603 (file, digest) pairs were resolved and re-hashed against live bytes, of which 2310 match exactly. The 293 that differ are time-indexed review snapshots pinning bytes as they stood at review time, which is the intended behaviour of a pin and not a defect. These are excluded from the totals because an implementer can always compute them, and including ~400 of them would drown the signal.",
+      "documentSelfMeasurement": "Structures such as c2-plan-stage-schema.v9#/documentSkeleton/subtrees map a top-level key name to the sha256 of that subtree. Computable by construction; excluded for the same reason."
+    }
+  },
+
+  "states": {
+    "COMPUTABLE": "A rule producing the value from real inputs is stated on a surface an implementer builds against.",
+    "DELEGATED": "The rule lives on a different surface this one imports by reference. Each such row names the surface AND states whether that surface's rule is itself computable, because a delegation chain ending in a literal is a member of the class.",
+    "LITERAL-ONLY": "No rule anywhere in the corpus. Every occurrence is a constant in a vector, fixture, golden or example. This is the class.",
+    "COMPUTABLE-BY-ALLOCATION": "The corpus states the value is minted (CSPRNG or host allocation) rather than derived. An implementer can produce it, so it is NOT a member of the class. Recorded separately because a derivation rule would be WRONG here, not missing.",
+    "LABEL-NOT-DIGEST": "Carries an identity-looking name but the corpus types it as a closed label or enum and never asks for a recipe. Not a member of the class."
+  },
+
+  "positions": {
+    "literalOnly": [
+      {
+        "field": "capabilityManifestId",
+        "surface": "delivery.v2.json / resolved-inputs.v2.json",
+        "declaredAt": "delivery.v2#/releaseManifestSchema/ProfileEntry (required member); resolved-inputs.v2#/planIdContract/preimageFields/2 (PLAN-ID-V1 preimage field tag 3); also a required member and digestFields entry of both semanticUniverseSchemas.typescript-v1 and rust-v1",
+        "declaredType": "digest text, 64 lowercase hex",
+        "state": "LITERAL-ONLY",
+        "parked": true,
+        "parkedAs": "freeze section 7.1, named directly below the parked table",
+        "evidenceOfAbsence": "delivery.v2#/releaseManifestSchema/canonicalization gives its SIBLING manifestId a full rule (domain separator, RFC 8785 JCS, preimage, digest) and gives capabilityManifestId no canonicalization, no preimage and no domain separator. Nine occurrences of capabilityManifest* in delivery.v2 were enumerated; not one is a computation.",
+        "valuesOnBindingSurfaces": ["2222...2222 (9 files)", "7777...7777 (3 files)"],
+        "placeholderTell": "repeated-nibble, present",
+        "note": "Six further, realistic-looking values exist, ALL of them inside plan-and-policy-identity-recipes.v1.json, which binds nothing. See staleEnumerationObservations."
+      },
+      {
+        "field": "policyOutcome.derivationDigest",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/PolicyOutcome/fields/derivationDigest",
+        "declaredType": "$ref Digest, itself only {kind string, pattern ^sha256:[0-9a-f]{64}$}",
+        "state": "LITERAL-ONLY",
+        "parked": true,
+        "parkedAs": "freeze section 7.1, named directly below the parked table",
+        "evidenceOfAbsence": "16 rule-vocabulary hits in the binding head were enumerated; none attaches to this field. The one genuine SHA-256 rule in the file, /evidenceIdentity/conformanceCommitmentGrammar, self-scopes away as a conformance equality oracle and derives none of its member fields.",
+        "valuesOnBindingSurfaces": ["sha256:5555...", "sha256:6666...", "sha256:8888...", "sha256:9999..."],
+        "placeholderTell": "repeated-nibble, present",
+        "note": "Nine further realistic values exist, ALL inside plan-and-policy-identity-recipes.v1.json, which binds nothing."
+      },
+      {
+        "field": "sealedManifestDigest",
+        "surface": "c2-plan-stage-schema.v4.json (the effective C-2 contract; v9 is a delta that does not touch it)",
+        "declaredAt": "/planIntent/storedViewIntentV1/target",
+        "declaredType": "sha256Id",
+        "state": "LITERAL-ONLY",
+        "parked": true,
+        "parkedAs": "freeze section 7.1 row 'sealed Run semantic manifest identity'",
+        "evidenceOfAbsence": "The name occurs in only 4 files corpus-wide (c2-v3, c2-v4 and two litmus artifacts). A v1..v9 sweep for derivation vocabulary attached to the name returned zero. Positively corroborated by operability.v10#/requestIdContract/semanticExclusion/proofStatus/parkedNoExactRecipe[4], verbatim: 'The exact sealed Run semantic-manifest identity recipe remains outside this contract.' The contract states only an obligation to compare, never a construction.",
+        "valuesOnBindingSurfaces": ["sha256:5555..."],
+        "placeholderTell": "repeated-nibble, present"
+      },
+      {
+        "field": "FactViewId",
+        "surface": "c2-plan-stage-schema.v4.json",
+        "declaredAt": "/planIntent/wireTypes/factViewId",
+        "declaredType": "{jsonType string, pattern ^factview1:sha256:[0-9a-f]{64}$} -- two keys, the least documented type in the wireTypes block",
+        "state": "LITERAL-ONLY",
+        "parked": true,
+        "parkedAs": "freeze section 7.1 row 'FactViewId derivation'",
+        "evidenceOfAbsence": "factview1 occurs in only 6 files corpus-wide. operability.v2 through v10 all carry verbatim 'No exact FactViewId derivation recipe is binding yet.' Both live candidate recipe artifacts explicitly decline it in their own scope.notAddressed lists.",
+        "valuesOnBindingSurfaces": ["factview1:sha256:7777..."],
+        "placeholderTell": "repeated-nibble, present"
+      },
+      {
+        "field": "executionPlanCommitment",
+        "surface": "evidence.v10.json and evaluation-proof v5 through v9",
+        "declaredAt": "evidence.v10#/canonicalWireGrammar/records/TerminalRunV1/fields/5 (tag 0xb5, type 'Raw commitment'); evaluation-proof.v9#/normativePreimageGrammar/records/7/fields/4 (ActivationManifestV1, tag 0x54) and /records/9/fields/4 (EvaluationAuthoritySealV1, tag 0x5c), both presence required",
+        "declaredType": "Raw commitment / componentFrame(text)",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "71 prose mentions of the name were collected corpus-wide and intersected with rule-vocabulary: exactly 2 survive, and BOTH concern componentFrame(text), which states how the value is EMBEDDED into a preimage, not how it is PRODUCED. No domain tag, no preimage and no producing contract exists on any surface. Not one of freeze section 7.1's rows or the blueprint's nine items names it, so nothing in the corpus is tracking it as a gap.",
+        "valuesOnBindingSurfaces": [
+          "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85 (88 sites)",
+          "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d (51 sites)"
+        ],
+        "placeholderTell": "ABSENT -- both values are realistic-looking digests",
+        "measuredAliasing": "The corpus contains exactly TWO distinct values of executionPlanCommitment, and BOTH are byte-identical to values the same corpus uses as planIntentCommitment: 7c3174f6 appears as planIntentCommitment at 156 sites, dca3a310 at 52 sites. So in 100 percent of the corpus executionPlanCommitment equals planIntentCommitment, while evidence.v10 assigns them DISTINCT tags (0xb4 and 0xb5) in the same closed record and evaluation-proof.v9 assigns them distinct tags in two records. An implementer will infer the alias, pass every published vector, and have invented a semantic identity the contracts imply must differ.",
+        "severity": "This sweep's highest-consequence unparked finding."
+      },
+      {
+        "field": "coverageId",
+        "surface": "d9-exit-contract.v1.14.json and delivery-rust-provider-join.v4.json (both binding heads); historically evidence.v1..v3",
+        "declaredAt": "d9-exit-contract.v1.14#/hostTerminationUnion/fieldTypes/coverageId = {type string, format ContentDigest, nullable false}; delivery-rust-provider-join.v4#/hostFinalizerBoundaryV4/pinnedD9Projection/hostTerminationUnion/fieldTypes/coverageId (same); evidence.v3#/recordSchemas/EvaluationEvidence/fields/coverageId = {type string, pattern ^sha256:[0-9a-f]{64}$}",
+        "declaredType": "ContentDigest",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "ContentDigest is used 19 times in the corpus and DEFINED nowhere: every occurrence is the literal value of a format key, never a definition. evidence.v3 declares the field by pattern only; a search of evidence.v3 for canonicaliz|JCS|RFC 8785|sorted key|I-JSON returns zero lines, so the canonical byte form that would produce the value is undefined on that surface too.",
+        "valuesOnBindingSurfaces": [
+          "$COVERAGE_ID (named variable, 5 sites in d9-exit-contract.v1.14)",
+          "sha256:2222... (6 sites in delivery-rust-provider-join.v4)",
+          "sha256:f218fc19... and sha256:5bcd0f8a... (realistic, in superseded evidence.v3)"
+        ],
+        "placeholderTell": "mixed -- placeholder on one binding head, realistic on the superseded surface",
+        "note": "The corpus predicted this failure verbatim at consumer-b-implementer-litmus.v1#/escalations/3: 'One engineer digests the CVE1 encoding of a closed EvidenceBundle; another digests canonical JSON of a subset; another folds outcomeSetDigest with coverageId. All three pass their own tests and none interoperates.'"
+      },
+      {
+        "field": "indexFingerprint",
+        "surface": "evaluation-proof.v13.json (binding head)",
+        "declaredAt": "/preservedMeasurements/regimes/A/baseline/indexFingerprint and /preservedMeasurements/regimes/B/baseline/indexFingerprint",
+        "declaredType": "sha256 text, pinned as a hard measurement baseline used to score identity movement in the admitted-class measurement",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "11 key sites and 33 prose mentions were collected corpus-wide. Intersecting the 33 prose mentions with rule-vocabulary (preimage, domainUtf8, domain separator, SHA-256(, is computed, derived as, recipe, encoding) returns EXACTLY ZERO. The name does not occur at all in evaluation-proof.v1..v9, the only grammar-bearing generations. Its record type EvaluationAuthorityIndexV1 is absent from evaluation-proof.v9#/rawAuthorityRecordGrammar/records, which has exactly three entries and would otherwise supply the recipe.",
+        "valuesOnBindingSurfaces": ["sha256:2c235fac16149ab17e4594e8c629e77981253ee34e7f1fa75fdc03e068ac5689 (9 sites)"],
+        "placeholderTell": "ABSENT -- realistic-looking digest",
+        "ruleExistsOnlyInExecutableCode": "check-evaluation-proof-v7.py, check-evaluation-proof-v8.py and check-evaluation-proof-v10.py bind the name to a RawCasRef over EvaluationAuthorityIndexV1. No JSON artifact states that equation. An implementer reading only the contracts cannot compute it; they must execute a checker or reverse-engineer it from a vector golden, which is precisely the section 5.1 trap.",
+        "severity": "Second-highest unparked finding; it is pinned as a baseline on a binding head."
+      },
+      {
+        "field": "rawBytesCommitment",
+        "surface": "retention-tiers v15 through v22 (dropped from the v24 head)",
+        "declaredAt": "/verifiedSemanticRtApiContract/rawObjectResolutionConformance/fixtureGoldens/*/commitments/rawBytesCommitment",
+        "declaredType": "sha256 text set-commitment",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "Independently re-measured by this sweep: the token occurs 20 times as a KEY across 10 files and ZERO times inside any string value anywhere in the 384-document corpus. The domain separator opensip.rt15.raw-object-bytes-closure.v1 occurs in EIGHT checker Python files and in NO JSON artifact.",
+        "valuesOnBindingSurfaces": [
+          "sha256:7894b42dc5bd03aea2d3fa230de6d0e6b76bad6d4a773f3da3b2cf851d93b8fa",
+          "sha256:6eb3fc8868c8026fa8183bb16b1aefbf650a7ebf4cf5d0504435818137b9524d"
+        ],
+        "placeholderTell": "ABSENT -- both values are realistic-looking digests",
+        "ruleExistsOnlyInExecutableCode": "check-retention-custody-v15 through v22 (Python checkers) contain _raw_bytes_commitment(), whose u64be length framing, domain separator, and sort key (request.recordCasRef, which is NOT the encoded raw key used elsewhere in the same grammar) appear in no JSON artifact."
+      },
+      {
+        "field": "fixtureCommitment",
+        "surface": "retention-tiers v15 through v22",
+        "declaredAt": "sibling of rawBytesCommitment in the same fixtureGoldens commitments objects",
+        "declaredType": "sha256 text set-commitment",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "Identical defect to rawBytesCommitment: the domain separator opensip.rt15.raw-object-resolution-fixture.v1 and its compact sort_keys canonicalization exist only in checker Python.",
+        "placeholderTell": "ABSENT -- realistic-looking digest"
+      },
+      {
+        "field": "packageLockIdentity",
+        "surface": "resolved-inputs.v2.json (PLAN-ID-V1 preimage tag 9 leaf)",
+        "declaredAt": "/planIdContract/semanticUniverseSchemas/typescript-v1/resolvedInputs/required/3 and /rust-v1/resolvedInputs/required/2",
+        "declaredType": "required member of a closed schema, digest-shaped",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "The field is a required member of a closed schema whose own canonicalization block enumerates compilerOptions, programRootFiles, resolvedNodeModulesLayout and executionCapableResolution and simply OMITS packageLockIdentity. The name occurs in only 2 files. Nothing states whether it digests the npm lockfile bytes, Cargo.lock bytes, or a resolved dependency graph.",
+        "valuesOnBindingSurfaces": ["1414...1414 (rust)", "2323...2323 (typescript)"],
+        "placeholderTell": "repeated-nibble, present"
+      },
+      {
+        "field": "tsconfigGraphHash",
+        "surface": "resolved-inputs.v2.json (PLAN-ID-V1 preimage tag 9 leaf)",
+        "declaredAt": "/planIdContract/semanticUniverseSchemas/typescript-v1/resolvedInputs/required/0",
+        "declaredType": "required member of a closed schema, digest-shaped",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "Occurs in only 2 files. Omitted from its own block's canonicalization string. A graph hash implies traversing extends and references and merging; no traversal order, no dedup rule, no framing and no domain separator is stated.",
+        "valuesOnBindingSurfaces": ["2222...2222"],
+        "placeholderTell": "repeated-nibble, present"
+      },
+      {
+        "field": "typescriptStdlibMerkleRoot",
+        "surface": "resolved-inputs.v2.json and delivery.v2.json",
+        "declaredAt": "resolved-inputs.v2#/planIdContract/semanticUniverseSchemas/typescript-v1/required/16 and /digestFields/7; delivery.v2 identity.providerDescriptor.closedRequired/7, identity.handshakeRequired/9, HelloAckV1.required/9",
+        "declaredType": "64 lowercase hexadecimal SHA-256 characters (digestRepresentation states the OUTPUT shape only)",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "In resolved-inputs it appears only in two field lists and one golden value; in delivery only inside three required lists. A Merkle root with no leaf definition, no ordering, no internal-node framing, no odd-node policy and no domain tag is not computable. The corpus demonstrably knows how to specify this -- evidence.v10 and evaluation-proof.v9 give leaf, internal, oddNode and truncation explicitly -- and none of it is referenced here.",
+        "valuesOnBindingSurfaces": ["2121...2121"],
+        "placeholderTell": "repeated-nibble, present",
+        "note": "Named Merkle with no tree specification; the sharpest instance of a name asserting a construction the corpus never states."
+      },
+      {
+        "field": "sysrootDigest",
+        "surface": "resolved-inputs.v2.json, rust-provider-protocol.v2/v4",
+        "declaredAt": "/planIdContract/semanticUniverseSchemas/rust-v1/required/14 and /digestFields/5",
+        "declaredType": "digest text",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "No preimage anywhere in 8 files carrying the name. resolved-inputs.v2#/planIdContract/semanticUniverseSchemas/rust-v1/deliveryJoin makes it an echo-and-verify field: the host copies it from a validated sidecar handshake. That is a coherent design for the host, but nothing states how the SIDECAR computes it, so host and sidecar cannot be independently implemented against each other.",
+        "valuesOnBindingSurfaces": ["bbbb...bbbb"],
+        "placeholderTell": "repeated-nibble, present",
+        "severityNote": "Milder than its neighbours because the corpus scopes it honestly as an echo."
+      },
+      {
+        "field": "rust semantic universe key (the value of sourceUniverseId / targetUniverseId for the rust-semantic provider)",
+        "surface": "resolved-inputs.v2.json (PLAN-ID-V1 preimage tag 9) and delivery.v2.json targetPartition",
+        "declaredAt": "resolved-inputs.v2#/planIdContract/semanticUniverseSchemas/rust-v1 (a closed schema with no digest recipe over it); delivery.v2 coverageDomain.targetPartition.crossUniverse requires 'that entry's provider-specific recomputed universe key as targetUniverseId'",
+        "declaredType": "sha256 text universe identity",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "The TypeScript counterpart HAS a rule -- delivery.v2#/typescriptSemanticSubstrate/providerProtocol/wireSchema/definitions/TypeScriptSemanticUniverseKey, verbatim: 'Sha256Text = SHA-256(UTF8(\\'opensip.typescript-universe.v1\\') || 0x00 || CVE1(TypeScriptSemanticUniverseV1))'. No opensip.rust-universe domain string exists anywhere in the corpus. There is a closed rust-v1 schema and no digest recipe over it, while the contract instructs the reader to recompute something undefined.",
+        "valuesOnBindingSurfaces": ["sha256:1111...", "sha256:2222...", "sha256:3333...", "sha256:aaaa...", "sha256:bbbb..."],
+        "placeholderTell": "repeated-nibble, present",
+        "note": "consumer-b-implementer-litmus.v2#/escalations records an independent implementer stopping at exactly this point."
+      },
+      {
+        "field": "factPartitionRef",
+        "surface": "evidence.v3.json (absent from fact-plane.v1 entirely)",
+        "declaredAt": "/recordSchemas/ProofAggregateMatch/fields/factPartitionRef, /recordSchemas/ProofNoMatch/fields/factPartitionRef, /recordSchemas/Coverage/fields/factPartitionRef -- each {schema ContentRef}",
+        "declaredType": "ContentRef {kind enum, id ^sha256:[0-9a-f]{64}$}",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "grep for factPartitionRef in fact-plane.v1.json returns zero lines: the field is not part of the fact plane despite its name. In evidence.v3 the intent is clear (the id is the CAS digest of canonical FactPartition bytes) but a search of evidence.v3 for canonicaliz|JCS|RFC 8785|sorted key|I-JSON returns ZERO lines. RetainedBytes is {encoding const utf-8, canonical string} -- a field literally named canonical with no rule producing it.",
+        "consequence": "An implementer can VERIFY a supplied ref and cannot MINT one. Verifiable-not-mintable is a distinct and easily-missed shape of this defect."
+      },
+      {
+        "field": "CanonicalValueRef.digest",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/CanonicalValueRef/fields/digest",
+        "declaredType": "$ref Digest",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "A type whose whole purpose is to be a digest OF a canonical value, with no canonicalization stated anywhere. Corpus-wide search for observationSet|coverageContext intersected with sha256(|SHA-256 over|preimage|domain separator|is computed|byte recipe returns ZERO lines.",
+        "valuesOnBindingSurfaces": ["sha256:1111...", "sha256:2222..."],
+        "placeholderTell": "repeated-nibble, present"
+      },
+      {
+        "field": "SealedStageInput.observationSet and SealedStageInput.coverageContext",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/SealedStageInput/fields/observationSet and /fields/coverageContext",
+        "declaredType": "$ref CanonicalValueRef",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "Inherits the CanonicalValueRef gap; same zero-result search.",
+        "placeholderTell": "repeated-nibble, present",
+        "countedAs": "2 positions"
+      },
+      {
+        "field": "RuleValue.artifactDigest and PolicyValue.artifactDigest",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/RuleValue/fields/artifactDigest and /closedTypes/PolicyValue/fields/artifactDigest",
+        "declaredType": "$ref Digest",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "No algorithm, no framing and no statement of WHICH bytes (source, compiled IR, or signed bundle) are digested. The corpus states this precisely for other artifact digests (resolved-inputs contributions: 'the exact lowercase digest of installed bytes') and states nothing here.",
+        "valuesOnBindingSurfaces": ["sha256:3333...", "sha256:4444..."],
+        "placeholderTell": "repeated-nibble, present",
+        "countedAs": "2 positions"
+      },
+      {
+        "field": "FindingValue.valueDigest and FindingValue.findingId",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/FindingValue/fields/valueDigest ($ref Digest) and /fields/findingId ($ref OpaqueId)",
+        "declaredType": "Digest / OpaqueId",
+        "state": "LITERAL-ONLY",
+        "parked": "IN SUBSTANCE ONLY",
+        "parkedAs": "freeze section 7.1 row 'Finding fingerprint recipe' -- which covers these in substance while its stated justification is measurably wrong",
+        "evidenceOfAbsence": "consumer-b-implementer-litmus.v2#/escalations/7/detail, verbatim: 'The Finding-fingerprint row asserts \\'No artifact defines a Finding schema.\\' r1-lifetime-neutrality.conformance.v1.5.json#closedTypes.FindingValue does define one ... The real gap -- that findingId and valueDigest have no derivation recipe -- is genuine and the escalation instruction is right. Only the justification is inaccurate.'",
+        "valuesOnBindingSurfaces": ["sha256:7777...", "finding:a"],
+        "placeholderTell": "repeated-nibble, present",
+        "countedAs": "2 positions"
+      },
+      {
+        "field": "CoverageEntry.coverageKey",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "/closedTypes/CoverageEntry/fields/coverageKey",
+        "declaredType": "$ref OpaqueId",
+        "state": "LITERAL-ONLY",
+        "parked": false,
+        "evidenceOfAbsence": "No derivation anywhere. Recorded with a specific conflict rather than mere absence: c2-plan-stage-schema.v4#/coverageKey constraint requires 'an explicit set commitment over the subjects examined, not an opaque partition label', so typing the R-1 counterpart as OpaqueId contradicts C-2's stated requirement for the same concept.",
+        "valuesOnBindingSurfaces": ["coverage:rule", "coverage:policy"],
+        "placeholderTell": "placeholder tokens, not digests"
+      },
+      {
+        "field": "RuleValue.ruleId, PolicyValue.policyId, PolicyOutcome.policyId, FindingValue.ruleId, SealedStageInput.targetUniverseId, DiagnosticRecord.code",
+        "surface": "r1-lifetime-neutrality.conformance.v1.5.json",
+        "declaredAt": "the corresponding /closedTypes/*/fields/* entries",
+        "declaredType": "$ref OpaqueId -- itself only {kind string, pattern ^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$}",
+        "state": "LITERAL-ONLY",
+        "subclass": "opaque-identifier rather than digest",
+        "parked": false,
+        "evidenceOfAbsence": "OpaqueId occurs 17 times in the entire tree, enumerated exhaustively: 1 pattern declaration, 9 $ref uses, 1 checker loop, 2 mentions in a litmus artifact, 2 in the R-1 review discussing ExecutionId, 2 elsewhere. NONE of them defines the type as opaque or uninterpreted. A separate search for 'opaque' across artifacts/*.json returns ~30 hits, all concerning host handles, D9 details or RequestId -- so the corpus HAS the vocabulary for declaring intentional opacity and did not apply it here.",
+        "whyThisMatters": "An intentionally-opaque identifier is NOT the same defect as a digest-typed field with no preimage; the repairs differ. This sweep therefore records these as a distinct subclass and explicitly does not assert that each needs a digest recipe -- several may only need an explicit statement that they are caller- or host-supplied. What is measured is that the corpus currently says NEITHER.",
+        "placeholderTell": "placeholder tokens (rule:a, policy:a, universe:one, diagnostic:rule), not digests",
+        "countedAs": "6 positions"
+      },
+      {
+        "field": "cache and regeneration key recipes",
+        "surface": "operability.v10.json (parking statement only)",
+        "declaredAt": "/requestIdContract/semanticExclusion/proofStatus/parkedNoExactRecipe",
+        "declaredType": "not declared as a field anywhere; named only as a missing surface",
+        "state": "LITERAL-ONLY",
+        "parked": true,
+        "parkedAs": "freeze section 7.1 row 'cache and regeneration key recipes'",
+        "evidenceOfAbsence": "This sweep searched for a cache-key or regeneration-key construction and found none. The park is confirmed and no artifact was found narrowing it.",
+        "note": "Confirmed still open. No change proposed."
+      }
+    ],
+
+    "delegated": [
+      {
+        "field": "EvidenceDigest",
+        "importingSurface": "operability.v10.json (parks it); r1-lifetime-neutrality LN-13 asserts byte-identity across differing ExecutionId",
+        "ruleSurface": "evidence.v10.json#/canonicalWireGrammar/commitments",
+        "quotedRule": "sha256:<lowerhex SHA-256(DomainEnvelopeV1('opensip.semantic-evidence.v1', exact SemanticEvidenceV1 bytes))>",
+        "isTheDelegateComputable": "STATED AND STRUCTURALLY COMPLETE, BUT THE CHAIN IS BLOCKED",
+        "chainAnalysis": "SemanticEvidenceV1 has thirteen fields. Eleven are computable or constant: schemaVersion (const), projectId (allocated), evaluationAuthoritySealRef, universeCommitment, outcomeSetCommitment, verdictDerivationCommitment, verdict (enum), sealedCapability (enum), rawProofInventory (via recordCasRef), semanticCapabilityClosureCommitment, and semanticCapabilityClosureCasRef (modulo an undefined canonicalization, below). Two block it: planId, which is PLAN-ID-V1 and therefore blocked on capabilityManifestId; and evaluationProofBundleCasRef, whose canonicalization is undefined on the stating surface. EvidenceDigest is therefore NOT missing a recipe -- it is blocked on capabilityManifestId, a different parked row.",
+        "standingCaveat": "evidence.v10.json carries status 'CANDIDATE-NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW' and sealRecommendation 'DO-NOT-SEAL'. operability.v10 parks the recipe with the precise words 'do not yet exist as exact live byte contracts'. Those two statements are CONSISTENT: the rule is authored but not applied. This sweep does not claim the park is wrong."
+      },
+      {
+        "field": "RunId",
+        "importingSurface": "c2-plan-stage-schema.v4#/planIntent/wireTypes/runId, which states only {jsonType string, pattern ^run1:[0-9a-f]{64}$, scope 'C-2 stored-read wire address; derivation/custody remains a Run identity concern'} and names no delegate",
+        "ruleSurface": "evidence.v10.json#/canonicalWireGrammar/commitments and /records/RunIdentityPreimageV1",
+        "quotedRule": "run1:<lowerhex SHA-256(DomainEnvelopeV1('opensip.run-id.v1', exact RunIdentityPreimageV1 bytes))>",
+        "isTheDelegateComputable": "STATED AND STRUCTURALLY COMPLETE, BUT THE CHAIN IS BLOCKED",
+        "chainAnalysis": "RunIdentityPreimageV1 is a closed six-field record, recordTag 0x83, domain opensip.run-id.v1, textualForm 'run1:<64 lowercase hex>', with an eleven-name forbidden list. Field 5 is evidenceDigest, so RunId inherits every EvidenceDigest blocker, and field 3 is planId, so it is independently blocked on capabilityManifestId.",
+        "standingCaveat": "Same as EvidenceDigest: authored on a CANDIDATE-NOT-APPLIED artifact while operability.v10 still carries verbatim 'No exact RunId derivation recipe is binding yet.' Both statements hold simultaneously.",
+        "note": "evidence-identity-recipes.v1 declines to endorse this chain, stating that RunIdentityPreimageV1 field 5 being the EvidenceDigest means endorsing it would make the retry-determinism decision section 7.1 reserves. This sweep takes no position on that and records it as context."
+      },
+      {
+        "field": "verdictDerivationCommitment",
+        "importingSurface": "evidence.v10#/canonicalWireGrammar/records/SemanticEvidenceV1/fields/7, typed 'EP8 verdict-input commitment'; evidence-identity-recipes.v2 explicitly declines to author it",
+        "ruleSurface": "evaluation-proof.v9.json#/normativePreimageGrammar/records/6 (VerdictInputV2, recordTag 0x17, eight tagged fields, domainUses ['verdict-input']) with the fold at #/canonicalCommitmentGrammar",
+        "isTheDelegateComputable": "YES -- an independent reproduction of the full chain for preimageGoldens.commitments[4] returns sha256:f2d88bcc256644ed41b2f23f9b14109169c32188a444a68036ad34b9b2b22e83, the single value this field takes at all 10 of its corpus sites.",
+        "correctionToTheBriefPremise": "This sweep was told this field is 'still hand-supplied'. That is accurate ONLY as scoped by evidence-identity-recipes.v2#/knownLimitations, which says 'no recipe IN THIS ARTIFACT'. Corpus-wide the rule exists and executes. The flatter restatement in the same artifact -- 'THREE REMAIN HAND-SUPPLIED WITH NO RECIPE' -- is an overclaim when read outside that scope.",
+        "residual": "The head evaluation-proof.v13.json carries NO commitment grammar; see structuralFinding_headsHaveShedTheirGrammars."
+      },
+      {
+        "field": "semanticCapabilityClosureCommitment",
+        "importingSurface": "evidence.v10#/canonicalWireGrammar/records/SemanticEvidenceV1/fields/12 and /records/TerminalRunV1/fields/13",
+        "ruleSurface": "retention-tiers.v22.json#/semanticBasisProjection/semanticClosureGrammar (SEMANTIC-CAPABILITY-CLOSURE-GRAMMAR-V3) plus evaluation-proof.v5.json#/normativePreimageGrammar/commitment",
+        "isTheDelegateComputable": "YES -- REPRODUCED BY THIS SWEEP. Implementing the quoted unitEncoding, objectRefItemEncoding and sorting rules plus the EP5 leaf/internal/outer fold from the prose alone yields sha256:156ac0017a65c026a2e939c728fc189aa81728ad827c2218e1b4ccce8924c626, byte-identical to the pinned value. First attempt, no value adjusted.",
+        "correctionToTheBriefPremise": "Same as verdictDerivationCommitment: hand-supplied within the recipes artifact, computable in the corpus.",
+        "residual": "Dropped from the retention-tiers.v24 head. v24 itself records the honest boundary at /partB_purgeSemantics/residuals/3: '0 published closureCommitment recomputed'."
+      },
+      {
+        "field": "subjectScopeCommitment",
+        "importingSurface": "c2-plan-stage-schema.v4#/planIntent/wireTypes/subjectScopeCommitment, which states 'boundHere: SHAPE ONLY' and 'deferred: COMPUTATION and VERIFICATION remain owned by the retention/evidence surface'",
+        "ruleSurface": "delivery.v2.json#/typescriptSemanticSubstrate/providerProtocol/wireSchema/definitions/SubjectScopeV1/fields/subjectScopeCommitment -- a BINDING head",
+        "quotedRule": "Sha256Text = SHA-256(UTF8('opensip.coverage.subject-scope.v1') || 0x00 || deterministic-CBOR(sorted SnapshotFileSubjectV1 array))",
+        "isTheDelegateComputable": "YES -- REPRODUCED BY THIS SWEEP. A deterministic-CBOR encoder written from the quoted rule reproduces the pinned fixture sha256:a78e6a72bb30b26bb81550f3cf1b8be9ac9265a409937906b38f900b53cd26f9 exactly, on the first attempt.",
+        "whyThisIsNotMerelyAFixturePreimage": "delivery.v2 also states SubjectScopeV1.membershipRule verbatim: 'The subject set is exactly every kind=file entry already supplied in SnapshotManifestV1. Both sides reconstruct the sorted SnapshotFileSubjectV1 array from the sealed manifest, verify subjectCount and commitment...'. That defines the input over REAL project data, not over a fixture, which is what distinguishes a recipe from an example encoding.",
+        "counterQuoteRecordedInFull": "C-2 v4 separately declares a DIFFERENT, explicitly fixture-only encoding at /coverageKey/subjectScopeCommitmentExamples with preimagePrefix 'opensip.coverage-subject-scope.example.v1|' and the words 'This is an EXAMPLE ENCODING for the fixtures only. It is NOT a claim about how a product computes a real subject-scope commitment.' The two use different domain tags and are different things. This sweep does NOT claim freeze section 7.1 is wrong; it records that a computable, product-scoped rule exists on a binding head under a domain tag the park does not mention, and that the residual is cross-provider scope (no Rust-side equivalent exists) plus an uncited deterministic-CBOR profile.",
+        "residualAmbiguity": "The fixture cannot discriminate RFC 7049 length-first key ordering from RFC 8949 bytewise key ordering, because for text keys shorter than 24 bytes the CBOR head byte makes the two orders identical. Both reproduce the pin. delivery.v2 cites RFC 8785 for JSON two blocks away and cites no CBOR profile here."
+      },
+      {
+        "field": "evaluationProofBundleCasRef",
+        "importingSurface": "evidence.v10#/canonicalWireGrammar/records/SemanticEvidenceV1/fields/4, typed RawCasRef<EP8.EvaluationProofBundleV5>",
+        "ruleSurface": "evidence.v10#/canonicalWireGrammar/commitments/canonicalJsonRawCas names 'opensip-canonical-json-v1' and defines it nowhere -- the identifier occurs exactly once in evidence.v10, inside that one sentence. The definition lives on a DIFFERENT surface, c2-plan-stage-schema.v4#/planIntent/canonicalCommitment/encoding.",
+        "isTheDelegateComputable": "INCOMPLETE. The chain reaches a definition, but two gaps remain and the corpus names both: no artifact ever STATES that this field uses canonicalJsonRawCas (it is inferred from the RawCasRef<...> type), and the one reproduction was over a pure-ASCII bundle, so it cannot distinguish escaping policies for non-ASCII, nor key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP.",
+        "valueAndTell": "sha256:cc27c2beef32f3343d167c5727aa255b51884993ca416c4a862388e3be96a829, realistic-looking, 9 sites, never a placeholder.",
+        "correctionToTheBriefPremise": "Of the three fields named to this sweep as 'still hand-supplied', this is the one where that characterisation most nearly holds -- not because no rule exists, but because the rule is reached only by an undeclared cross-surface hop and is unverified for non-ASCII input."
+      },
+      {
+        "field": "semanticCapabilityClosureCasRef",
+        "importingSurface": "evidence.v10 SemanticEvidenceV1 field 11 and TerminalRunV1 field 12",
+        "ruleSurface": "retention-tiers.v22#/operationalCustodyProjectionContract/sourceAuthority/joinRules/2, verbatim: 'source closure CAS hashes the exact semantic closure canonical bytes'",
+        "isTheDelegateComputable": "NO -- SILENTLY FORKING. 'Canonical' is never defined for SemanticCapabilityClosureV3 anywhere in the retention lineage. The named profile opensip-canonical-json-v1 exists in 10 corpus files and NONE of them is a retention-tiers artifact. Empirically sorted-keys compact JSON reproduces the pinned sha256:70ce71b8..., while insertion-order compact JSON yields a different digest; the corpus never says which. An implementer following only the stated text has a two-way fork with no vector to catch it.",
+        "corroboration": "evidence.v9.review-independent-prefreeze.json records a reviewer reproducing this value 'as SHA-256 of my own canonical JSON of the pinned RT22 closure' -- supplying the missing canonicalization himself."
+      },
+      {
+        "field": "bodyIdentity",
+        "importingSurface": "fact-plane.v1#/factRecordContractV1/relationPayloadSchemaRegistryV1/schemas/clones/bodyIdentityBoundary, typed Sha256Text",
+        "ruleSurface": "fact-identity-policy.v2.json#/canonicalisationSchema",
+        "isTheDelegateComputable": "PARTIALLY. L0-verbatim is fully computable: construction.step4 states domain-separated, fully framed hashing and byteGrammar fixes every byte. L1, L2 and L3 are NOT, because byteGrammar.levelVersionDefinition makes levelVersion the SHA-256 of 'the canonical level specification, including per-language lexical boundary rules, canonical token-kind registry, directive classification, transform order, and replacement byte rules' -- and that specification does not exist in this corpus. A recursive leaf blocks three of the four levels."
+      },
+      {
+        "field": "recordCasRef, operationalProjectionRef, operationalProjectionDigest",
+        "importingSurface": "retention-tiers.v24.json (the binding candidate head) carries 4194 recordCasRef literals",
+        "ruleSurface": "retention-tiers.v22#/verifiedSemanticRtApiContract/rawObjectResolutionConformance/fixtureAlgorithm and #/operationalCustodyProjectionContract/identityTypes",
+        "isTheDelegateComputable": "YES on v22 -- both verified by reproduction against the corpus's own goldens.",
+        "residual": "The rules were DROPPED at v23/v24. The head retains the literals and not the grammar. Of v24's 42 distinct recordCasRef digests, 11 are repeated-byte placeholders which v22 names honestly as unresolvedPatternedRefs that 'make no preimage claim'.",
+        "countedAs": "3 positions"
+      },
+      {
+        "field": "AttemptMetadata.executionId",
+        "importingSurface": "r1-lifetime-neutrality.conformance.v1.5#/closedTypes/AttemptMetadata/fields/executionId",
+        "ruleSurface": "the host, per /closedTypes/AttemptMetadata/ownership, verbatim: 'allocated by the one-shot host at durable attempt admission and injected; never minted, modified, or persisted by the core'",
+        "isTheDelegateComputable": "NO RULE, AND A GRAMMAR CONFLICT. The only EXECUTION-ID-V1 declaration in the corpus is c2-plan-stage-schema.v4#/planIntent/wireTypes/executionId, which supplies a pattern and states verbatim: 'NO cross-contract EXECUTION-ID-V1 owner exists in this corpus... so C-2 declares it here and takes ownership.' That is a grammar, not a derivation. Measured conflict: C-2 requires ^exec1_[0-9a-f]{32}$ while R-1 requires ^execution:[A-Za-z0-9][A-Za-z0-9._:-]{0,246}$. R-1's own fixture 'execution:one' fails C-2's pattern, and the corpus's only other executionId value 'exec1_000...' fails R-1's. Recorded as measurement; adjudicating it is not this sweep's business."
+      }
+    ],
+
+    "computableVerifiedByExecution": [
+      "planIntentCommitment -- c2-plan-stage-schema.v4#/planIntent/canonicalCommitment; full opensip-canonical-json-v1 definition inline",
+      "PLAN-ID-V1 framing -- resolved-inputs.v2#/planIdContract/preimageFraming plus the closed CVE1 encoding; framing computable, VALUE blocked at preimage tags 3 and 9",
+      "SNAPSHOT-ID-V1 -- resolved-inputs.v2#/snapshotIdContract/preimageFraming",
+      "FACT-ID-V1 -- fact-plane.v1#/factRecordContractV1/factIdContract/preimageFraming; fourteen tagged fields, explicit exclusion list",
+      "manifestId -- delivery.v2#/releaseManifestSchema/canonicalization; RFC 8785 cited by URL",
+      "domainCommitment -- delivery.v2 RequestedCoverageDomainV1; self-excluding preimage",
+      "baseC2Commitment -- delivery.v2; inherits planIntentCommitment",
+      "TypeScriptSemanticUniverseKey -- delivery.v2; framing computable, value blocked on four unruled leaves",
+      "universeCommitment -- reproduced from memberIds via TCMS-V5 at domain 'universe'",
+      "outcomeSetCommitment -- reproduced for all 7 positive vectors",
+      "waiverSetCommitment -- reproduced including the empty-set case",
+      "evaluationAuthoritySealRef -- reproduced from evaluation-proof.v9 records[9]",
+      "admittedResolvedInputsRef -- reproduced from the self-contained rawAuthorityRecordGrammar",
+      "evaluationAuthorityAdmissionRef -- reproduced from records[2]",
+      "rawCasRef -- reproduced byte-exactly including encodedHex and byteLength",
+      "unitId / UNIT-ID-V3 -- reproduced on the v24 head",
+      "retentionPolicyId / RETENTION-POLICY-ID-V1 -- reproduced; the best-specified identity measured, fully self-contained on the head",
+      "consentRecordRef -- reproduced; preimage stated but no sibling digest key",
+      "promptTextDigest -- reproduced; see nonDiscriminatingVectors",
+      "unitSetCommitment / unitSetCommitmentAfter -- reproduced; rule lives in the sibling key unitSetCommitmentRecipe",
+      "runSealRef and semanticEvidenceCasRef -- rules stated at evidence.v10 commitments"
+    ],
+
+    "computableByAllocation": [
+      "requestId / REQUEST-ID-V1 -- trusted-request-context.v3#/sourceProjection: 16 uniformly random OS CSPRNG bytes, req1_<32 lowercase hex>, with allocation point, collision procedure and an entropyBoundary explaining why derivation would be WRONG here. The contract additionally bars it from nine semantic surfaces including RunId derivation, FactViewId and the PlanId preimage.",
+      "projectId / PROJECT-ID-V1 -- a persisted CSPRNG allocation never derived from mutable state; threat-model-storage-namespace.v4 records it as total, injective and collision-free.",
+      "rootId -- threat-model-storage-namespace.v4#/derivedFrom/operations/4: 'Host-generated 16-byte CSPRNG allocation, create-new and fsync; never derived from the root path or ProjectId.' The allocation IS stated; what blueprint E-NS-1 escalates is root selection, root identity validation, authority-record creation and the rename's same-device precondition -- none of which is an identity-derivation gap. Recorded here so E-NS-1 is not miscounted as a member of this class."
+    ],
+
+    "labelNotDigest": [
+      "profileId -- every observed value is a word (core, full, typescript-deep, rust-deep). Never typed as sha256; no recipe is owed. Included to show the name-suffix heuristic was tested and rejected in this direction too.",
+      "SealedStageInput.planStageIds -- R-1 states orderRule 'caller-declared Plan stage order; preserve byte-for-byte', so these are INPUTS, not values the system must produce. Explicitly NOT counted as a class member despite being OpaqueId-typed."
+    ]
+  },
+
+  "totals": {
+    "corpusDocumentsParsed": 384,
+    "duplicateKeyRejections": 0,
+    "distinctDeclaredFieldNamesSeen": 1272,
+    "distinctKeysCarryingDigestShapedValuesCorpusWide": 906,
+    "distinctKeysCarryingDigestShapedValuesOnBindingHeads": 171,
+    "positionsExamined": 63,
+    "byState": {
+      "LITERAL-ONLY": 30,
+      "DELEGATED": 12,
+      "COMPUTABLE": 21,
+      "COMPUTABLE-BY-ALLOCATION": 3,
+      "LABEL-NOT-DIGEST": 2
+    },
+    "countingRule": "positionsExamined counts declared field positions that reached classification, after excluding the two categories named in scope.excludedWithReason. The five byState buckets sum to 68 rather than 63 because five positions are counted in two buckets: PLAN-ID-V1, TypeScriptSemanticUniverseKey, EvidenceDigest, RunId and bodyIdentity each have COMPUTABLE framing and a blocked or partial value, and are reported in both. This is stated rather than smoothed away because collapsing them would hide exactly the failure mode this sweep measures.",
+    "delegationChainsEndingInALiteral": 4,
+    "chainsNamed": ["EvidenceDigest", "RunId", "semanticCapabilityClosureCasRef", "bodyIdentity levels L1-L3"]
+  },
+
+  "differenceAgainstTheParkedSet": {
+    "theParkedSet": {
+      "source": "IMPLEMENTATION-FREEZE.md section 7.1 table plus the two related gaps named beneath it; rendered as blueprint section 5.1's nine items",
+      "nine": [
+        "finding fingerprint recipe",
+        "FactViewId derivation",
+        "EvidenceDigest byte recipe",
+        "RunId derivation",
+        "sealed Run semantic manifest identity",
+        "cache and regeneration key recipes",
+        "subjectScopeCommitment",
+        "capabilityManifestId",
+        "policyOutcome.derivationDigest"
+      ],
+      "notATenth": "E-NS-1 (the physical storage root) is escalable by a different route and is deliberately not counted here, consistent with blueprint section 5.1."
+    },
+
+    "directionOne_membersNotAlreadyParked": {
+      "count": 22,
+      "headline": true,
+      "highestConsequence": [
+        {
+          "field": "executionPlanCommitment",
+          "why": "Required field of three closed records across two surfaces. No producing rule anywhere. Both of its only two corpus values are byte-identical to planIntentCommitment values, while the contracts assign the two fields distinct tags in the same record. Realistic-looking digests, so the placeholder tell does not fire. Nothing in the corpus tracks it."
+        },
+        {
+          "field": "indexFingerprint",
+          "why": "Pinned as a hard measurement baseline on the binding head evaluation-proof.v13.json and used to score identity movement. Zero rule-bearing prose in any JSON. The equation exists only in three checker Python files."
+        },
+        {
+          "field": "rawBytesCommitment and fixtureCommitment",
+          "why": "Realistic-looking digests; domain separators and framing exist only in eight checker Python files and in no JSON artifact."
+        },
+        {
+          "field": "coverageId",
+          "why": "Live on two binding heads, typed ContentDigest -- a type used 19 times and defined nowhere."
+        }
+      ],
+      "theFullList": [
+        "executionPlanCommitment", "indexFingerprint", "rawBytesCommitment", "fixtureCommitment",
+        "coverageId", "packageLockIdentity", "tsconfigGraphHash", "typescriptStdlibMerkleRoot",
+        "sysrootDigest", "rust semantic universe key", "factPartitionRef",
+        "CanonicalValueRef.digest", "SealedStageInput.observationSet", "SealedStageInput.coverageContext",
+        "RuleValue.artifactDigest", "PolicyValue.artifactDigest", "CoverageEntry.coverageKey",
+        "RuleValue.ruleId", "PolicyValue.policyId", "PolicyOutcome.policyId", "FindingValue.ruleId",
+        "SealedStageInput.targetUniverseId"
+      ],
+      "note": "DiagnosticRecord.code is counted within the six-position opaque-identifier row above and is included in that subclass rather than listed separately here.",
+      "concentration": "Sixteen of the twenty-two sit on just two surfaces -- r1-lifetime-neutrality.conformance.v1.5 (closedTypes) and resolved-inputs.v2 (PLAN-ID-V1 preimage tag 9 leaves). Freeze section 7.1 names exactly ONE R-1 position (derivationDigest) out of the seventeen this sweep classified there."
+    },
+
+    "directionTwo_parkedItemsThatAreComputable": {
+      "count": 3,
+      "rows": [
+        {
+          "parkedRow": "subjectScopeCommitment",
+          "finding": "A complete, product-scoped rule is stated on the BINDING head delivery.v2 under domain tag opensip.coverage.subject-scope.v1, with a membershipRule defining the input over the sealed manifest rather than over a fixture. This sweep reproduced the pinned fixture digest byte-exactly on the first attempt.",
+          "whatRemains": "Genuine residuals: no Rust-side equivalent exists, deterministic-CBOR is uncited, and C-2 continues to defer the cross-provider product recipe. The park is therefore NARROWER than it reads, not wrong.",
+          "explicitNonClaim": "This sweep does NOT assert freeze section 7.1 is in error and proposes no change to that row."
+        },
+        {
+          "parkedRow": "EvidenceDigest byte recipe",
+          "finding": "evidence.v10#/canonicalWireGrammar/commitments states the recipe verbatim, and RunIdentityPreimageV1/SemanticEvidenceV1 supply closed records with tags, domain envelope and framing.",
+          "whatRemains": "The stating artifact is CANDIDATE-NOT-APPLIED, and operability.v10's park is worded 'do not yet exist as exact LIVE BYTE CONTRACTS', which remains true. The real blocker is that the chain bottoms out in capabilityManifestId. Reclassifying this row from 'no recipe' to 'recipe authored, not applied, and blocked on a different parked row' changes what closing it would take."
+        },
+        {
+          "parkedRow": "RunId derivation",
+          "finding": "Same as EvidenceDigest: a full six-field preimage record, domain and textual form are stated at evidence.v10.",
+          "whatRemains": "Same standing caveat, and the chain inherits both the EvidenceDigest and capabilityManifestId blockers."
+        }
+      ],
+      "parkedRowsConfirmedStillOpen": [
+        "finding fingerprint recipe", "FactViewId derivation", "sealed Run semantic manifest identity",
+        "cache and regeneration key recipes", "capabilityManifestId", "policyOutcome.derivationDigest"
+      ]
+    }
+  },
+
+  "placeholderTellFindings": {
+    "question": "Did the sweep find a LITERAL-ONLY field carrying a realistic-looking digest -- the dangerous case the tell would miss?",
+    "answer": "YES. Six of them, and they are the highest-consequence findings in this document.",
+    "method": "Every candidate value was scored by nibble distribution over its 64-hex body: a value was called a placeholder when one nibble occupies 48 or more of 64 positions or the value uses 4 or fewer distinct nibbles; low-entropy at 24+ or 8 or fewer distinct; realistic otherwise. Scoring was applied to all values, and classification never depended on it.",
+    "literalOnlyFieldsWithRealisticDigests": [
+      "executionPlanCommitment -- sha256:7c3174f6... (88 sites) and sha256:dca3a310... (51 sites)",
+      "indexFingerprint -- sha256:2c235fac... (9 sites, pinned on a binding head)",
+      "rawBytesCommitment -- sha256:7894b42d... and sha256:6eb3fc88...",
+      "fixtureCommitment -- realistic",
+      "coverageId -- sha256:f218fc19... and sha256:5bcd0f8a... on the superseded surface",
+      "factPartitionRef -- sha256:2f0ad0ca... and sha256:a11fe97e... in evidence.v3"
+    ],
+    "conclusion": "The repeated-nibble tell is a useful signal and an unsafe filter. It fires on capabilityManifestId, derivationDigest, sealedManifestDigest, FactViewId and the resolved-inputs leaves -- and misses every one of the six above. Two of those six have rules that exist only in checker Python, which no grep over JSON contracts would ever surface. This is the concrete reason the task required a sweep rather than a grep, and the measurement confirms the premise.",
+    "inverseCaseAlsoFound": "Realistic values are equally weak evidence of computability in the other direction: subjectScopeCommitment's seven values are all realistic AND it is computable, while evidenceDigest carries both realistic values and a sha256:dddd... placeholder across its four."
+  },
+
+  "structuralFinding_headsHaveShedTheirGrammars": {
+    "statement": "Independently on two surfaces, the current head retains the identity LITERALS while having dropped the GRAMMAR that makes them computable.",
+    "retention": "retention-tiers.v24.json carries 4194 recordCasRef literals and 42 distinct digests, and no longer contains SEMANTIC-CAPABILITY-CLOSURE-GRAMMAR-V3, OPERATIONAL-CUSTODY-PROJECTION-CANONICAL-JSON-V1 or RT15-RAW-BYTES-PRIMARY-V1, all present in v15-v22. Measured: grep -c returns 0 on v24 for all three.",
+    "evaluationProof": "evaluation-proof.v13.json has 32 top-level keys and none is canonicalCommitmentGrammar, normativePreimageGrammar, preimageGoldens or rawAuthorityRecordGrammar. Those existed in v5-v9 and were dropped at v10. v13 is a guard/measurement artifact whose declared role is repairing IR-EP11-01 and IR-EP12-01.",
+    "whyItMatters": "An implementer building against the freeze section 3 head set alone cannot compute several fields that ARE computable elsewhere in the corpus. C-2 handles the same situation correctly by declaring at v9 /derivedFrom that the effective contract is the verified predecessor plus the listed operations. evaluation-proof.v13 declares only supersedesProofObligationsOf, and retention-tiers.v24 carries a 7-pointer carriedFragments subset. This is not itself a member of the measured class and is recorded because it changes who can compute what, and because it is invisible to any per-field search.",
+    "noActionProposed": "Recorded as measurement only."
+  },
+
+  "staleEnumerationObservations": {
+    "purpose": "Two enumerations that were exactly correct when written and have since been overtaken, recorded because both bear on how the rows above should be read. Neither is asserted to be an error.",
+    "candidateValueCounts": "Blueprint section 5.1 states 'The only values in the corpus are the golden-vector constants 2222... and 7777...' for capabilityManifestId, and a four-constant enumeration for derivationDigest. Measured 2026-08-04: restricted to BINDING artifacts both sentences are exactly correct and every value is a repeated-nibble placeholder. Corpus-wide there are now 6 further realistic capabilityManifestId values and 9 further realistic derivationDigest values, ALL of them inside plan-and-policy-identity-recipes.v1.json, which the same section already identifies as CANDIDATE-NOT-APPLIED and binds-nothing. The sentences are scope-precise, not wrong.",
+    "candidateReviewStanding": "Blueprint section 5.1 describes plan-and-policy-identity-recipes.v1.json as AWAITING-INDEPENDENT-REVIEW. Measured at authoring time, artifacts/plan-and-policy-identity-recipes.v1.review-independent.json exists and carries verdict REJECT with two blockers (B-PPIR-01, B-PPIR-02) and sealRecommendation DO-NOT-SEAL. evidence-identity-recipes.v1's review likewise carries REJECT with two blockers. Recorded because it strengthens, rather than weakens, the LITERAL-ONLY classification of capabilityManifestId and derivationDigest: no binding rule exists and the proposed ones are currently rejected. This sweep changes no status and takes no position on either review."
+  },
+
+  "nonDiscriminatingVectors": {
+    "purpose": "Cases where a rule IS stated and the pinned vector cannot distinguish two readings of it. These are not members of the measured class; they are the adjacent failure where a green suite proves less than it appears to.",
+    "cases": [
+      "promptTextDigest -- the rule says 'SHA-256 of the exact disclosure text' with no encoding and no normalization named. The disclosure text is pure ASCII, so the vector cannot discriminate NFC from raw, nor UTF-8 from anything else. A non-ASCII disclosure would fork implementations and no vector would catch it.",
+      "subjectScopeCommitment -- RFC 7049 and RFC 8949 CBOR key orderings coincide for text keys shorter than 24 bytes, so the fixture cannot discriminate them.",
+      "evaluationProofBundleCasRef -- the single reproduction was over a pure-ASCII bundle and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP.",
+      "semanticCapabilityClosureCasRef -- sorted-keys reproduces the pin and insertion-order does not; the corpus never states which, and no vector exposes the fork."
+    ]
+  },
+
+  "whatThisSweepCannotSee": {
+    "preamble": "A false negative here is worse than a false positive, because it reads as coverage. These are the boundaries of what the measurement establishes.",
+    "limits": [
+      "PROSE RULES THAT NAME NO FIELD. Absence was established by intersecting field-name occurrences with rule vocabulary. A derivation stated in prose that never names the field and uses none of the search terms would not be caught. This is a real gap: unitSetCommitment has ZERO prose occurrences of its own name and is nonetheless computable via a sibling key, which proves the failure mode exists. It was caught only because the sibling key was inspected by hand.",
+      "RULES IN EXECUTABLE CODE. This sweep read *.py only to confirm two specific absences from JSON. It did NOT systematically sweep the 94 checkers for derivations that exist only in code. rawBytesCommitment, fixtureCommitment and indexFingerprint were each found this way, so the class is known to be non-empty and its true size in the checker corpus is UNMEASURED. That is the single largest known blind spot in this document.",
+      "SEMANTIC CORRECTNESS. Reproducing a pinned value proves a rule executes as written. It does not prove the rule is the RIGHT one, that its input set is complete for a real project, or that two conforming implementations agree on inputs the vectors do not exercise. See nonDiscriminatingVectors.",
+      "NON-JSON SURFACES. architecture/*.md was examined and contributes no declared position. The remaining .md files (freeze, blueprint, TREE-ENDSTATE, v1-slice, agent logs, steering/, cleansheet/, deltas/) were read only where cited. A field declared solely in Markdown prose would be missed.",
+      "SUPERSEDED-LINEAGE COMPLETENESS. Classification targeted the 21 heads plus 3 candidates, reading predecessors where a head is a delta or has shed a grammar. Roughly 360 further documents -- earlier versions, reviews, adjudications -- were parsed and value-swept but not exhaustively classified. A rule present ONLY in an unread superseded document could make a LITERAL-ONLY row wrong in the safe direction (over-reporting), and a field declared only there could make the sweep incomplete in the unsafe direction.",
+      "THE OPAQUE-IDENTIFIER SUBCLASS IS A MEASUREMENT, NOT A VERDICT. For the six OpaqueId-typed positions this document records that the corpus states NEITHER a derivation NOR that the value is caller- or host-supplied. It does NOT assert each needs a digest recipe. Several may need only an explicit supply statement. Treating all six as identical to capabilityManifestId would overstate the finding.",
+      "A LIVE CORPUS. The document count moved from 383 to 384 during this sweep. All digests were re-measured at read time, but any artifact changed after this file was written is outside what it establishes.",
+      "NO INDEPENDENT REPLICATION. Reproductions recorded here were performed once, by this sweep. Where a value was reproduced the encoder was written from the quoted prose alone, but no second independent encoder was written, so the standard set by evidence-identity-recipes (two encoders, zero disagreements) is NOT met by this document.",
+      "TOTALS ARE A CLASSIFICATION COUNT, NOT A CENSUS. positionsExamined counts positions that reached classification. It is not the count of every digest-valued key in the corpus, which is 906, most of them corpus self-pins excluded with reason above."
+    ]
+  },
+
+  "reproductionsPerformed": [
+    {"what": "subjectScopeCommitment", "from": "delivery.v2 SubjectScopeV1 rule, prose only", "result": "sha256:a78e6a72bb30b26bb81550f3cf1b8be9ac9265a409937906b38f900b53cd26f9 -- exact match, first attempt"},
+    {"what": "semanticCapabilityClosureCommitment", "from": "retention-tiers.v22 grammar plus evaluation-proof.v5 fold, prose only", "result": "sha256:156ac0017a65c026a2e939c728fc189aa81728ad827c2218e1b4ccce8924c626 -- exact match, first attempt"},
+    {"what": "corpus self-pin class", "from": "sha256 of named files", "result": "2603 (file, digest) pairs resolved; 2310 match live bytes; 293 are time-indexed review snapshots"},
+    {"what": "duplicate-key discipline", "from": "object_pairs_hook rejecting repeats", "result": "384 documents, 0 rejections"},
+    {"what": "all 21 freeze section 3 head digests", "from": "shasum -a 256", "result": "21 of 21 match the freeze"}
+  ],
+
+  "verificationOfThisFile": {
+    "checkersNotEdited": "No checker was read for modification and none was edited. Several hash-verify their inputs at runtime and two self-pin.",
+    "pinnedPlanUntouched": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was hashed and not opened for writing.",
+    "inertByConstruction": "This filename contains none of check-package-coherence.py's REVIEW_MARKERS (review, adjudication, rereview, litmus, closure-coordinator), so reviews_naming skips it and it cannot become a spurious PC-7 subject. Its base is named in neither the freeze nor the blueprint, so PC-5 does not examine it. It adds no link to either document, so PC-1 pathsMissing is unaffected. It names no product decision id and asserts no closure, so the check-product-dispositions assertion lane finds nothing in it.",
+    "filesChanged": "Exactly one: this file."
+  }
+}

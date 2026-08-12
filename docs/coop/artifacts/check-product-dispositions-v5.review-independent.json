@@ -1,0 +1,598 @@
+{
+  "artifact": "check-product-dispositions-v5.review-independent",
+  "version": "1",
+  "kind": "independent-instrument-review",
+  "date": "2026-08-10",
+  "reviewer": "independent reviewer, dispatched by the coordinator; no participation in authoring v5 or any predecessor",
+
+  "verdict": {
+    "outcome": "ACCEPT_WITH_BLOCKERS",
+    "blockingFindingCount": 2,
+    "oneLine": "The ATTRIBUTION lane is a real repair, measured and reproduced end to end: every artifact-side forgery I could build from the freeze's own enumeration is caught, v4 sees none of them, and the corpus cost is zero. It ships with one undisclosed escape of exactly the class it exists to close - wrapping the forged scalar in a one-element JSON array defeats the instrument's own advertised aliased-key vector - and one published residual measurement that does not reproduce on the bytes under review.",
+    "scoringBasis": "FINDING-SET DELTA, not exit code. Stated explicitly because on this tree EVERY vector I ran exits 1, including the clean baseline: two pre-existing PD2-SCAN-CONFLICT findings are live regardless. An exit-code-based score would have reported 'no change' for all eleven catches. Exiting 1 is not a fault of this instrument.",
+    "whyNotAccept": "B-PD5-01 is an escape, not a boundary. The instrument publishes an ALIASED signedOffBy/approvedOn vector as a must-fail case and catches it; the identical forgery with each scalar wrapped in a one-element array produces ZERO findings and ZERO observations. That is the v4 blocker's own shape - the forgery buys silence - reappearing one level down, in a JSON shape this corpus uses routinely. It is repairable in a successor by a two-line change and it is disclosed nowhere in the 36 residuals.",
+    "whyNotReject": "Nothing measured here is false about the catch. The twelve-vector claim reproduces (as eleven distinct documents, see the arithmetic note), the zero-false-positive acceptance test reproduces on all nine legitimate-occurrence files and across 437 scanned artifacts, the derivation is genuinely shape-based against LIVE packet bytes and not only the synthetic fixture, the no-regression property is byte-identical, and the disclosure apparatus (36 residuals, 21 gated, a selftest that fails on a dangling gate label) works as described. The blockers are a missed shape and a stale number, not a defective lane."
+  },
+
+  "subject": {
+    "path": "artifacts/check-product-dispositions-v5.py",
+    "dispatchedDigestPrefix": "acc1c9f31235ce2b2605d9500a07f518f852ec37",
+    "measuredSha256": "acc1c9f31235ce2b2605d9500a07f518f852ec37c3ef0217631b288455af04d8",
+    "measuredBytes": 95304,
+    "digestAgreesWithDispatch": true,
+    "byteCountAgreesWithDispatch": true,
+    "reMeasuredAfterAllExperiments": "acc1c9f31235ce2b2605d9500a07f518f852ec37c3ef0217631b288455af04d8, 95304 bytes - unchanged, so every measurement in this review binds one byte state (7.2.1 clause 3)",
+    "note": "The coordinator asked to be checked. The dispatched digest is correct. I re-hashed before starting and again after finishing."
+  },
+
+  "executionClosure": {
+    "recordedBecause7Point2RequiresDigestsNotCounts": true,
+    "invocation": "python3 -I -B <file>, on every run in this review without exception",
+    "interpreter": "CPython 3.14.6 (main, Jun 10 2026) [Clang 21.0.0]",
+    "inputs": [
+      {"path": "artifacts/check-product-dispositions-v5.py", "sha256": "acc1c9f31235ce2b2605d9500a07f518f852ec37c3ef0217631b288455af04d8", "bytes": 95304, "role": "subject"},
+      {"path": "artifacts/check-product-dispositions-v4.py", "sha256": "ff02117c7f6a829b16a865920747be25c2cad96cf4562e012a1c653082354009", "bytes": 90846, "role": "pinned predecessor, hash-verified and executed by the subject; digest recomputed by me and it matches the subject's PREDECESSOR_BINDING literal"}
+    ],
+    "deeperClosure": "v4 pins v3, v3 pins v2, v2 pins v1. I did not recompute those three digests independently; I verified the chain EXECUTES (the run refuses at exit 3 when I appended two bytes to v4) and that the subject's own --selftest asserts the permitted-import set closes at exactly five files, which it does. Recorded as a bound on this review, not as a verification.",
+    "environmentDependencies": "None beyond CPython. No external tool is shelled out to. Verified: the run completes with no network and no subprocess."
+  },
+
+  "method": {
+    "principle": "Everything below was measured by me on this tree or on a byte-identical scratch copy of it. Where a number came from the dispatch or from the freeze I re-ran it rather than quoting it, and I report the measurement over the expectation.",
+    "isolation": "All destructive experiments ran in a scratch copy of docs/coop (555 artifacts + the two head documents) at a path outside the repository. The scratch copy was verified to reproduce the live baseline finding set byte-for-byte before any mutation, and restored to that baseline after each vector.",
+    "treeUntouched": {
+      "subjectDigestUnchanged": true,
+      "predecessorDigestUnchanged": true,
+      "claimRegisterMtime": "Aug 5 18:52 (pre-session)",
+      "packetMtime": "Aug 6 00:00 (pre-session)",
+      "plantedFilesLeakedIntoTheRealTree": 0,
+      "newBytecodeWrittenIntoArtifacts": "none - the newest __pycache__ entry is 2026-08-10 15:04:24, before this review's first run; -B held on every invocation"
+    },
+    "externalDriver": "A driver outside the artifacts directory wrote REAL bytes for each vector and invoked each instrument as a SUBPROCESS, so no catch in the matrix depends on importing the instrument. The derivation and escape probes import the subject as a library under -I -B; those are labelled as such."
+  },
+
+  "claimsTested": [
+
+    {
+      "id": "C1-BASELINE",
+      "claim": "Clean tree: v4 and v5 both at 2 findings, byte-identical finding sets - no regression.",
+      "status": "REPRODUCED",
+      "measured": {
+        "v4": {"exit": 1, "findings": 2},
+        "v5": {"exit": 1, "findings": 2},
+        "sortedFindingSetSha256": "2582d2c266da8c1376c920d6c6a90e7fc8654f151c7876ba7c8e42bc217dbbc9",
+        "identical": true,
+        "theTwoFindings": [
+          "PD2-SCAN-CONFLICT v10-disposition.v1.json$.productAuthorityBoundary.CD-RT-5",
+          "PD2-SCAN-CONFLICT versioning-policy.v8.json$.dischargeStatus.CD-RT-5"
+        ]
+      },
+      "baselineProvenanceVerifiedIndependently": {
+        "dispatchSaid": 1,
+        "authorMeasured": 2,
+        "myMeasurement": 2,
+        "cause": "CONFIRMED by controlled experiment, not accepted on testimony. Removing artifacts/versioning-policy.v15.review-independent.json (mtime Aug 10 15:50, i.e. after the v4 review at 15:30) from the scratch tree returns the run to exactly ONE finding; restoring it returns the second. The v15 review's landing un-demoted versioning-policy.v8. That is 7.9 operating live, in the direction 7.9 calls the safe one, between dispatch and run.",
+        "consequence": "Any figure in this review is a figure about a tree whose review state moved during the review. 7.2's third term applies: this verdict binds bytes, an environment, AND the review state of every other file in the tree."
+      }
+    },
+
+    {
+      "id": "C2-THE-PLANT",
+      "claim": "Fabrication planted: v4 escapes (2 -> 2); v5 catches (2 -> 4) with PD5-ATTRIBUTION-AUTHORITY and PD5-ATTRIBUTION-DATE, naming artifact and JSON path.",
+      "status": "REPRODUCED EXACTLY",
+      "measured": {
+        "plantedBytes": "a live JSON artifact carrying freeze 4.4's exact recorded string, em-dash included, at $.dispositions.CD-RT-5",
+        "v4": {"exit": 1, "findingsBefore": 2, "findingsAfter": 2, "mentionsOfThePlantAnywhereInOutput": 0},
+        "v5": {"exit": 1, "findingsBefore": 2, "findingsAfter": 4, "mentionsOfThePlantAnywhereInOutput": 2},
+        "v5Families": ["PD5-ATTRIBUTION-AUTHORITY", "PD5-ATTRIBUTION-DATE"],
+        "namesArtifactAndPath": true,
+        "authorityFindingText": "asserts CD-RT-5 was decided by 'product owner' while the binding product packet records ['sfbreen'] for it (via co-located prose)",
+        "dateFindingText": "asserts CD-RT-5 was decided on '2026-07-31' while the binding product packet records ['2026-08-05'] for it (via co-located prose)"
+      },
+      "assessment": "The blocker v5 was written to close is closed for this vector. v4's failure is total - not a demotion, an absence, exactly as 4.4 records."
+    },
+
+    {
+      "id": "C3-CATCH-MATRIX",
+      "claim": "12/12 vs v4's 1/12, including all five REGISTER_FABRICATION_MUTATIONS (v4: 0/5), substituted authority, substituted date, inverted posture, a fabrication buried under the decision key, and an aliased signedOffBy/approvedOn.",
+      "status": "SUBSTANTIALLY REPRODUCED, with two arithmetic corrections",
+      "measured": {
+        "distinctDocumentsIBuilt": 11,
+        "v5Caught": 11,
+        "v4Caught": 0,
+        "perVector": [
+          {"id": "V01", "vector": "verbatim 4.4 plant in a live artifact", "v4": "ESCAPES", "v5": "CAUGHT +2", "families": ["AUTHORITY", "DATE"]},
+          {"id": "V02", "vector": "REGISTER_FABRICATION_MUTATIONS[0] verbatim, applied to claim-register.v1.json", "v4": "ESCAPES", "v5": "CAUGHT +2", "families": ["AUTHORITY", "DATE"], "path": "$.claims[8].disposition.CD-RT-5"},
+          {"id": "V03", "vector": "REGISTER_FABRICATION_MUTATIONS[1] reworded (no literal SIGNED OFF)", "v4": "ESCAPES", "v5": "CAUGHT +2", "families": ["AUTHORITY", "DATE"]},
+          {"id": "V04", "vector": "REGISTER_FABRICATION_MUTATIONS[2] structured {decidedBy, decision}", "v4": "ESCAPES", "v5": "CAUGHT +1", "families": ["AUTHORITY"]},
+          {"id": "V05", "vector": "REGISTER_FABRICATION_MUTATIONS[3] relocated to sibling claim prose", "v4": "ESCAPES", "v5": "CAUGHT +1", "families": ["DATE"], "path": "$.claims[8].reviewNote<prose>"},
+          {"id": "V06", "vector": "REGISTER_FABRICATION_MUTATIONS[4] renamed productAcceptance key", "v4": "ESCAPES", "v5": "CAUGHT +3", "families": ["AUTHORITY"]},
+          {"id": "V07", "vector": "substituted AUTHORITY, state and date both agree", "v4": "ESCAPES", "v5": "CAUGHT +1", "families": ["AUTHORITY"]},
+          {"id": "V08", "vector": "substituted DATE, state and authority both agree", "v4": "ESCAPES", "v5": "CAUGHT +1", "families": ["DATE"]},
+          {"id": "V09", "vector": "inverted posture on substituted authority and date", "v4": "ESCAPES", "v5": "CAUGHT +3", "families": ["AUTHORITY", "DATE"]},
+          {"id": "V10", "vector": "fabrication BURIED under the decision key, inside notes[]", "v4": "ESCAPES", "v5": "CAUGHT +2", "families": ["AUTHORITY", "DATE"], "path": "$.dispositions.CD-RT-5.notes[0]"},
+          {"id": "V11", "vector": "ALIASED signedOffBy / approvedOn", "v4": "ESCAPES", "v5": "CAUGHT +2", "families": ["AUTHORITY", "DATE"]}
+        ],
+        "control": "an artifact asserting the PRE-DECISION state (BLOCKED_ON_PHASE_1A) is caught and named in full by BOTH v4 and v5, as PD2-SCAN-CONFLICT. The state lane is live in both, so the artifact-side silence measured above is a property of the ATTRIBUTION direction only, not a dead scanner."
+      },
+      "correction1_theTwelve": {
+        "finding": "The '12' is a count of (vector, expected-family) ROWS in the subject's own --selftest must_fail tuple, not a count of distinct forged documents. That tuple has 12 rows over 10 distinct documents: the verbatim plant is scored twice (once per coordinate) and the aliased pair is scored twice. Freeze 4.4's prose enumeration - 'all five REGISTER_FABRICATION_MUTATIONS ... a substituted authority, a substituted date, an inverted posture, a fabrication buried under the decision key, and an aliased signedOffBy/approvedOn', plus the planted string named earlier in the same block - sums to ELEVEN named items, presented as twelve.",
+        "severity": "non-blocking. The catch is real either way; the count is a row count wearing a document count's clothes. I built the eleven distinct documents and all eleven are caught."
+      },
+      "correction2_v4sScore": {
+        "freezeSays": "against v4's 1 of 12",
+        "subjectsOwnDocstringSays": "TWELVE attack vectors ... produced a finding-set delta of ZERO",
+        "iMeasured": "v4 catches 0 of 11 distinct artifact-side documents. Not one produces a single new finding or a single mention.",
+        "theseTwoAccountsContradictEachOther": true,
+        "probableReconciliation": "MEASURED, not guessed: v4 DOES catch packet-side mutations. Substituting the authority inside product-dispositions.v1.json itself gives v4 three findings (PD3-AUTHORITY-ROLE, PD4-AUTHORITY-UNATTRIBUTED, PD4-DATE-UNATTRIBUTED); substituting the date gives four. If one of the author's twelve rows was a PACKET-side inversion rather than an artifact-side one, v4 would score 1. Inverting the posture inside the packet, however, gives v4 ZERO findings - so the 'inverted posture' row is not the one.",
+        "severity": "non-blocking, but it is a figure in a signature-bound document that its own instrument contradicts, and 7.2.2's rule says a recorded measurement gets a hard comparison. Recorded so the next reader is not the third person to relay it."
+      }
+    },
+
+    {
+      "id": "C4-ACCEPTANCE-TEST-ZERO-FALSE-POSITIVES",
+      "claim": "Zero false positives on 9 legitimate occurrences of the fabricated string, and 0 live findings across 437 scanned artifacts.",
+      "status": "REPRODUCED - and this is the strongest result in the review",
+      "measuredPopulationIndependently": {
+        "filesCarryingTheFabricatedAttribution": 9,
+        "totalOccurrences": 12,
+        "census": [
+          {"file": "IMPLEMENTATION-FREEZE.md", "occurrences": 2, "suffix": ".md", "inScannedPopulation": false},
+          {"file": "artifacts/claim-register.v1.json", "occurrences": 1, "alsoCarriesSIGNEDOFFMentions": 3, "suffix": ".json", "inScannedPopulation": true},
+          {"file": "artifacts/check-product-dispositions-v3.review-independent.json", "occurrences": 1, "suffix": ".json", "inScannedPopulation": true},
+          {"file": "artifacts/check-product-dispositions-v4.review-independent.json", "occurrences": 1, "suffix": ".json", "inScannedPopulation": true},
+          {"file": "artifacts/check-product-dispositions.py", "occurrences": 2, "suffix": ".py", "inScannedPopulation": false},
+          {"file": "artifacts/check-product-dispositions-v2.py", "occurrences": 1, "suffix": ".py", "inScannedPopulation": false},
+          {"file": "artifacts/check-product-dispositions-v3.py", "occurrences": 2, "suffix": ".py", "inScannedPopulation": false},
+          {"file": "artifacts/check-evidence-v11.py", "occurrences": 1, "suffix": ".py", "inScannedPopulation": false},
+          {"file": "artifacts/check-versioning-v14.py", "occurrences": 1, "suffix": ".py", "inScannedPopulation": false}
+        ],
+        "result": "0 findings and 0 observations naming ANY of the nine. The single occurrence of the string 'IMPLEMENTATION-FREEZE.md' anywhere in v5's output is the coverage census line 'head documents readable 2', which is neither a finding nor an observation.",
+        "theFreezeSectionRecordingTheIncidentIsNotReportedAsTheIncident": true,
+        "v5DoesNotCarryTheStringAtAll": "confirmed - check-product-dispositions-v5.py is absent from the nine; it assembles the forged sentence at run time from its fixture packet's own coordinates"
+      },
+      "theDistinctionTheDispatchAskedMeToDrawOUT": {
+        "excludedByTheJSONOnlyRule": 6,
+        "insideTheLanesJudgement": 3,
+        "statement": "Six of the nine are outside the scanned set BY CONSTRUCTION - the pinned scanner globs *.json, so every .py and .md is invisible to this lane regardless of what it says. Only THREE of the nine are files the lane actually looked at and declined to report. The instrument states this correctly and measures it (residual A6, and a --selftest check that asserts the scanned population is JSON-only rather than trusting its own docstring: I confirmed the suffix set is exactly ['.json']).",
+        "whereItIsUNDERSTATED": "Freeze 4.4's 2026-08-10 head block says 'Measured: 0 findings and 0 observations on all nine' with no partition. That sentence credits the lane's JUDGEMENT with a result two-thirds of which comes from its SCOPE. The instrument's own docstring is more honest than the freeze paragraph that advertises it. Recorded as a record correction, not a defect of the instrument."
+      },
+      "corpusWideMeasurement": {
+        "artifactsDiscovered": 437,
+        "artifactsParsed": 437,
+        "artifactsUnreadable": 0,
+        "attributionLaneArtifactsExamined": 437,
+        "decidedFrameClausesExamined": 200,
+        "ofWhichRecordRatherThanAssert": 168,
+        "coordinatesCompared": 17,
+        "authorityClaims": 6,
+        "dateClaims": 11,
+        "agreeingWithThePacket": 12,
+        "conflicting": 5,
+        "conflictingArtifactsWithStanding": 0,
+        "liveAttributionFindings": 0,
+        "historicalObservations": 5,
+        "conflictingArtifactsWithNoStanding": 1,
+        "demotedByStanding": {"REJECTED": 5, "REVIEW-RECORD": 0, "SUPERSEDED": 0},
+        "theOneArtifact": "retention-tiers.v5.json - the REJECTED original source of the fabrication, demoted by retention-tiers.v5.review-reviewer3.json, with all five conflicts printed in full under HISTORICAL OBSERVATIONS at $.resolves.CD-RT-5 (x2), $.decision.custodyPolicy.defaultPosture.signOff<prose> (x2) and $.resolves.A1-RTV4-03<prose>. This is exactly the disposition 4.4 requires: the rejected artifact is a record, is not edited, and is not passed over in silence."
+      },
+      "assessment": "A lane that catches the forgery but flags 4.4 would be unusable. This one does not flag 4.4, does not flag the register, does not flag either review artifact, and still catches the plant. I regard this as the claim that decides the instrument, and it holds."
+    },
+
+    {
+      "id": "C5-THE-DERIVATION",
+      "claim": "WHO = a decision-row field whose normalised key ends in 'by' whose value is not itself a calendar date; WHEN = a field that IS a calendar-validated ISO date. Renaming decidedBy->signedOffBy and decidedOn->approvedOn still recovers both.",
+      "status": "REPRODUCED, and tested harder than the subject tests itself",
+      "note": "The subject's own --selftest proves this on a SYNTHETIC fixture packet. I re-ran it against the LIVE packet bytes, which is the case that matters.",
+      "measuredAgainstLivePacketBytes": {
+        "derivedFromLivePacket": {"CD-RT-5": {"who": ["sfbreen"], "when": ["2026-08-05"]}},
+        "decisionsAttributed": "1 of 8",
+        "renames": [
+          {"keys": "signedOffBy / approvedOn", "recovered": "who=['sfbreen'] when=['2026-08-05']", "plantStillCaught": 2},
+          {"keys": "authorisedBy / ratifiedOn", "recovered": "who=['sfbreen'] when=['2026-08-05']", "plantStillCaught": 2},
+          {"keys": "ownedBy / effectiveOn", "recovered": "who=['sfbreen'] when=['2026-08-05']", "plantStillCaught": 2},
+          {"keys": "decided_by / decided_on", "recovered": "who=['sfbreen'] when=['2026-08-05']", "plantStillCaught": 2},
+          {"keys": "'Decided By' / 'Decided On' (spaces, title case)", "recovered": "who=['sfbreen'] when=['2026-08-05']", "plantStillCaught": 2}
+        ],
+        "renamesThatLoseTheAUTHORITYcoordinate": [
+          {"key": "BY", "reason": "normalised length is 2, and the predicate requires len > 2 before the endswith('by') test"},
+          {"key": "authority | signatory | approver | owner", "reason": "does not end in 'by' and is not in the pinned closure's signature-shaped key set"}
+        ],
+        "consequenceOfLosingWHO": "the DATE coordinate is unaffected (it is derived from the VALUE's shape, not the key), so the plant is still caught 2/2 in every one of those cases. The derivation degrades on one coordinate, never to silence.",
+        "legitimateAmendmentTest": [
+          {"packetChangedTo": "qbeltran / 2026-09-09", "artifactCitingOLDattribution": "2 findings (correct)", "artifactCitingNEWattribution": "0 findings (correct)"},
+          {"packetChangedTo": "Jane Doe / 2027-01-01", "artifactCitingOLDattribution": "2 findings (correct)", "artifactCitingNEWattribution": "0 findings (correct)"}
+        ]
+      },
+      "assessment": "The derivation IS shape-based. It is not a stop-list, it carries no authority name and no date in any predicate, it survives five plausible schema renames on live bytes, and a legitimate amendment to either coordinate costs a re-read rather than a successor instrument - 7.10's corollary, executed rather than asserted. This is the best-argued part of the file.",
+      "docstringOverclaimMeasured": {
+        "claim1": "'No authority name appears in this source.' (line 68)",
+        "claim2": "'No date appears in this source.' (line 71)",
+        "claim3": "'no fabricated authority and no fabricated date is a constant of this source' (attribution_cases docstring)",
+        "measured": "All three are FALSE AS WRITTEN. The source carries 'SFBREEN' and 'sfbreens' as blocker-1 matrix candidates (lines 1501-1502) and 'sfbreen' in a docstring (line 472); it carries the packet's real recorded date '2026-08-05' as a literal at lines 825, 1183, 1198, 1214-1216, 1303, 1316; it carries the FABRICATED date '2026-07-31' at lines 823 and 1311 and the FABRICATED authority 'product owner' at lines 842, 852, 863, 867, 875, 880, 929.",
+        "whatIsTrue": "None of these literals is reachable from any DERIVATION predicate. All sit in fixtures, in the false-positive matrix, and in the inherited blocker-1 mutation candidates. Verified structurally: no predicate defined before 'def selftest(' references a head document, an authority or a date used as a coordinate.",
+        "severity": "non-blocking. The property the sentences are reaching for holds; the sentences overstate it. 7.8's warning - 'an instrument that hard-codes an example of what it hunts becomes an instance of it' - does not bite here only because the lane observes JSON and cannot read its own .py.",
+        "recommendation": "a successor should scope both sentences to the derivation, e.g. 'no authority name and no date is reachable from any predicate in this file', which is checkable and is what --selftest already effectively measures."
+      }
+    },
+
+    {
+      "id": "C6-ATTACK-THE-DERIVATION",
+      "claim": "Dispatch asked: can you construct a live artifact asserting a false attribution the lane misses, other than the disclosed silent/coherent lies?",
+      "status": "YES - eleven of twenty probes escape, and at least one is neither disclosed nor a boundary",
+      "probeCount": 20,
+      "escapes": 11,
+      "escapesGroupedByWhetherTheyAreDISCLOSED": {
+        "coveredByADisclosedResidual": [
+          {"probe": "authority padded so meaningful tokens intersect the recorded name ('by sfbreen and the coordinator jointly')", "residual": "A4", "assessment": "correctly disclosed; tightening to exact equality would fire on legitimate paraphrase"},
+          {"probe": "recorded name embedded in a longer false identity ('by sfbreen-deputy')", "residual": "A4", "assessment": "same root cause; A4's text does not name this sub-case and it is the sharper one - a HYPHENATED extension of the real name reads as agreement"},
+          {"probe": "decision id present only in a key name or a sibling key", "residual": "A9", "assessment": "within A9's stated scope"},
+          {"probe": "attribution at the artifact root with the decision id elsewhere", "residual": "A9 (spirit)", "assessment": "A9 says 'every site is anchored on one'; this is that, but A9's examples are heading/filename/digest and do not mention root metadata. Worth a wording widen."},
+          {"probe": "forged clause carrying a document pointer", "residual": "A3", "assessment": "disclosed, and the subject's own false-positive matrix demonstrates it deliberately"}
+        ],
+        "notCoveredByAnyDisclosedResidual": [
+          {
+            "id": "ESCAPE-ARRAY",
+            "probe": "the instrument's own ALIASED signedOffBy/approvedOn vector, with each scalar wrapped in a one-element JSON array",
+            "measured": "{'status':'DECIDED','signedOffBy':['the coordinator'],'approvedOn':['2026-07-31']} produces ZERO findings and ZERO observations. The identical forgery with scalars produces two findings.",
+            "alsoEscapes": ["decidedBy:['product owner'] + decidedOn:['2026-07-31']", "decidedOn: 20260731 (JSON int)", "decidedBy: {'name':'product owner'}", "decidedBy: {'value':'product owner'}", "decidedBy: ['product owner']"],
+            "doesNotEscape": ["decidedOn: {'iso':'2026-07-31'} - caught, because the leaf VALUE is a bare ISO date and the date limb keys off value shape", "an ARRAY OF OBJECTS carrying decidedBy/decidedOn - caught, because object members yield real keys"],
+            "mechanismVerifiedDirectly": "decision_subtree_leaves() yields key='' for LIST elements. attribution_failures() guards the structured comparison with `if key and not why:` (line 634). So no authority-shaped key and no date-valued leaf that sits inside a JSON array is ever structurally compared. Demonstrated: {'approvedOn':'2026-07-31'} yields ('approvedOn', '$.approvedOn', '2026-07-31') and reaches the branch; {'approvedOn':['2026-07-31']} yields ('', '$.approvedOn[0]', '2026-07-31') and does not.",
+            "whyItIsNotABoundary": "The array element still has a key - its PARENT's. The traversal discards it. This is a repairable omission, not a limit of what an instrument can know."
+          },
+          {
+            "id": "ESCAPE-CLAUSE-SPLIT",
+            "probe": "move BOTH coordinates out of the closure predicate's clause unit",
+            "measured": "'CD-RT-5 is DECIDED. Authority: product owner. Date: 2026-07-31.' -> 0 findings. 'CD-RT-5 DECIDED. authority=product owner, date=2026-07-31' -> 0 findings. Moving only ONE coordinate out is still caught (both single-move variants fire).",
+            "mechanism": "scan_prose iterates v1._clause_units and requires _head_family(unit) == CLOSED_POSITIVE for the SAME unit that carries the coordinate. Sentence-splitting separates them.",
+            "assessment": "narrower than it looks - it needs both coordinates moved - and partially implied by A7's positional framing, but A7 names only the INVERTED construction. Non-blocking; recommend widening A7."
+          },
+          {
+            "id": "ESCAPE-NO-BY",
+            "probe": "an attribution written with no English 'by' preposition, or possessive",
+            "measured": "'DECIDED on the product owner's authority, 2026-07-31' -> 0 findings. The AUTHORITY coordinate is reachable ONLY through BY_PHRASE_RE.",
+            "assessment": "arguably a real boundary (no oracle turns arbitrary English into an agent role), but it is not stated. A7 states the positional half and not the lexical half."
+          },
+          {
+            "id": "ESCAPE-BY-COMMA",
+            "probe": "a comma immediately after 'by'",
+            "measured": "'DECIDED 2026-08-05 by, under delegated authority, thecoordinator.' -> AUTHORITY escapes (the DATE agrees here so nothing fires).",
+            "relatedPrecisionDefect": "BY_PHRASE_RE is bounded to four word tokens. With five or more filler words between 'by' and the name, the finding STILL fires but names the wrong claimed authority - it reports 'delegated delegated delegated delegated' as the asserted authority. Caught by accident, reported wrongly.",
+            "assessment": "the four-token bound is explained in a code comment and appears in NO residual."
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "C7-POSITIONAL-RULE",
+      "claim": "`by X` counts only where it FOLLOWS the closure predicate, claimed worth '4 live false positives to 0'. Verify both halves.",
+      "status": "SECOND HALF REPRODUCES; FIRST HALF DOES NOT REPRODUCE",
+      "secondHalf": {"claim": "with it, zero are", "measured": "0 live attribution findings across 437 artifacts", "status": "REPRODUCED"},
+      "firstHalf": {
+        "claim": "without the positional rule four live artifacts are false positives",
+        "method": "I replaced by_phrases with an identical function minus the alnum-offset threshold, leaving every other limb untouched, and re-ran the whole corpus scan.",
+        "patchProvenLive": "sanity control: an inverted construction ('By product owner, CD-RT-5 was SIGNED OFF on 2026-07-31.') gives 0 AUTHORITY findings with the rule and 2 without it. The patch demonstrably changes behaviour.",
+        "measuredCorpusWide": {
+          "decidedFrameClausesReachingByPhrases": 32,
+          "totalByXregexMatches": 5,
+          "matchesDroppedByThePositionalThreshold": 0,
+          "matchesKept": 5,
+          "extraLiveFindingsFromRemovingTheRule": 0,
+          "extraObservations": 0,
+          "extraAuthorityClaimsExamined": 0
+        },
+        "status": "NOT REPRODUCED. On the frozen subject against today's tree the positional threshold drops ZERO of five matches. It cannot be worth four live false positives because it excludes nothing at all.",
+        "fairnessNote": "The figure may have been true when it was measured. The tree's review state moves (see C1), and records_rather_than_asserts runs BEFORE by_phrases so an earlier ordering could have exposed different clauses. I cannot reconstruct the state it was measured against, and neither can a signer."
+      },
+      "whyThisIsABlocker": "A7 is published as a MEASUREMENT ('measured: without the positional rule four live artifacts are false positives; with it, zero are') and it is marked [NOT GATED]. 7.2.2's rule is that a recorded measurement gets a hard comparison, and 7.8's sixth design move - 'make the residual gate the build' - is precisely the mechanism that would have caught this. The instrument applies that mechanism to six of its ten new residuals and not to this one, and the ungated one is the one that drifted. That is 7.2.2's own predictive claim landing again."
+    },
+
+    {
+      "id": "C8-RESIDUAL-REGISTRY",
+      "claim": "36 residuals, 21 gated by an executed selftest case, 15 not; --selftest fails on a dangling gate label; find a 37th.",
+      "status": "REPRODUCED, and a 37th and 38th found",
+      "measuredWithLen": {
+        "len_residual_registry_v5": 36,
+        "gated": 21,
+        "notGated": 15,
+        "len_residual_registry_v4": 26,
+        "v4Gated": 15,
+        "newRowsAddedByV5": 10,
+        "newRowsGated": 6,
+        "duplicateTags": [],
+        "allInheritedTagsCarried": true,
+        "tagSet": "R1-R5, D1-D7, S1-S4, V1-V10, A1-A10",
+        "perLane": [
+          {"lane": "attribution (this successor)", "rows": 10, "gated": 6},
+          {"lane": "decision-set (inherited)", "rows": 7, "gated": 3},
+          {"lane": "decision-set (predecessor, carried)", "rows": 8, "gated": 6},
+          {"lane": "demotion/standing (inherited, unchanged)", "rows": 5, "gated": 4},
+          {"lane": "input discipline (predecessor, carried)", "rows": 1, "gated": 1},
+          {"lane": "invocation (predecessor, carried)", "rows": 1, "gated": 1},
+          {"lane": "scope (inherited)", "rows": 4, "gated": 0}
+        ]
+      },
+      "danglingGateTest": {
+        "method": "I copied the subject to a scratch variant and inserted one extra residual whose gate label names a case the suite never executes. Nothing else changed.",
+        "result": "SELFTEST FAILED - 1 of 113 checks failed, at [self] 'every residual claiming to be GATED names a case this suite ran'. Exit 1.",
+        "status": "CONFIRMED - the gate gates. This is 7.8's sixth design move working."
+      },
+      "the37th": {
+        "id": "PROPOSED-A11",
+        "text": "A structured attribution inside a JSON ARRAY is never compared. decision_subtree_leaves() yields an empty key for list elements and the structured-comparison branch is guarded by `if key`, so an authority-shaped key or a bare calendar date that sits inside an array reaches only the prose limb, which requires a closure predicate in the same clause. Wrapping the instrument's own published ALIASED signedOffBy/approvedOn vector in one-element arrays takes it from two findings to zero.",
+        "measured": true,
+        "isThisABoundaryOrARepairableGap": "REPAIRABLE GAP. This is B-PD5-01.",
+        "suggestedRepair": "yield the parent key for list elements (yield str(key_of_parent), f'{path}[{i}]', child), or move the structured comparison off the key's presence and onto the leaf's shape as the date limb already does. Either is small and neither touches an inherited lane."
+      },
+      "the38th": {
+        "id": "PROPOSED-S5",
+        "text": "The non-retention decision SET is a hard-coded seven-entry literal (EXPECTED_CHOICES in the first-generation instrument) compared with set equality. Adding ANY decision row to the binding packet - including the section 3.1 Phase-1A insertion the corpus is explicitly waiting for - produces PD-1/PD2-1 'decision set differs from the required non-retention Phase-2 set', regardless of authority, attribution or posture.",
+        "measured": "adding one new DECIDED row by a DIFFERENT authority gives exactly one finding, PD2-1. So the cost is not attributional; it is membership.",
+        "whyItMatters": "This is 7.10's defect - 'a guard that pins a decision's CURRENT state asserts that state will never change' - applied to the decision SET rather than to one decision's state, and inherited unrepaired through five generations. Nothing in the 36 residuals names it. It is a live cost to the product owner that is larger than the PD4-N1 cost the dispatch asked about, and it is disclosed nowhere.",
+        "notIntroducedHere": true
+      },
+      "counterCheckOnTheDispatchsWarning": {
+        "warning": "v4's reviewer found its predecessor's published limits both over- AND under-stated",
+        "myResult": "Over-stated: A7's four-false-positive figure (does not reproduce). Under-stated: the array escape, the by-comma escape, the four-token mislabelling, the clause-split escape, and the undisclosed PD-1 set pin. Both directions again."
+      }
+    },
+
+    {
+      "id": "C9-SELFTEST-AND-STABILITY",
+      "claim": "--selftest 113 checks 0 failed; stdout SHA-256 stable across PYTHONHASHSEED; 1 filename literal, 0 corpus artifacts named; blinded head-doc independence for the NEW lane.",
+      "status": "ALL REPRODUCED; one clarification on the hash-seed test",
+      "selftest": {
+        "exit": 0,
+        "checksExecuted": 113,
+        "failed": 0,
+        "buckets": {"accept": 7, "banner": 3, "control": 5, "corpus": 4, "derivation": 4, "environment": 5, "evasion": 22, "falsepositive": 6, "gate": 2, "hostile": 19, "inherited": 3, "input": 2, "nonvacuity": 4, "noregression": 5, "pd4n1": 2, "reject": 12, "residual": 3, "self": 5},
+        "noPartialOrRefusedPathTaken": true
+      },
+      "stdoutStability": {
+        "selftestStdoutSha256Prefix": "c1a56fa2735db63359122df410ef9b5b",
+        "normalRunStdoutSha256Prefix": "a347d7923faaa1f73ae01fd4f147c381",
+        "runs": 6,
+        "identicalAcrossAllRuns": true,
+        "clarification": "The claim is phrased 'stable across PYTHONHASHSEED', but -I implies -E, so PYTHONHASHSEED is IGNORED by this instrument. I verified that directly: under -I, sys.flags.hash_randomization is 1 and hash('abc') differs on every invocation regardless of the variable. So my six runs each ran under a DIFFERENT, RANDOM hash seed and still produced byte-identical stdout. The property is real and the evidence is STRONGER than the claim as worded; the wording names a mechanism the invocation guard disables."
+      },
+      "literalAudit": {
+        "method": "my own AST walk plus a raw-source regex sweep, not the instrument's",
+        "filenameShapedLiteralsInStringConstants": ["check-product-dispositions-v4.py"],
+        "filenameShapedSubstringsInRawSource": ["check-product-dispositions-v4.py"],
+        "corpusJsonArtifactsNamedInConstants": 0,
+        "corpusJsonArtifactsNamedInRawSource": 0,
+        "status": "CONFIRMED - exactly one filename literal and it is the pin"
+      },
+      "blindedHeadDocIndependence": {
+        "method": "I replaced v1.head_named_artifacts with a function returning (empty set, empty list) and re-ran attribution_scan over the full 437-artifact corpus.",
+        "sighted": {"findings": 0, "observations": 6, "conflicts": 5, "demotedByStanding": {"REJECTED": 5, "REVIEW-RECORD": 0, "SUPERSEDED": 0}},
+        "blinded": {"findings": 0, "observations": 6, "conflicts": 5, "demotedByStanding": {"REJECTED": 5, "REVIEW-RECORD": 0, "SUPERSEDED": 0}},
+        "findingsIdentical": true,
+        "observationsIdentical": true,
+        "structuralCorroboration": "the 57,625 bytes of source preceding 'def selftest(' contain zero occurrences of head_named_artifacts, HEAD_DOC, IMPLEMENTATION-FREEZE, IMPLEMENTER-BLUEPRINT, '.md' or root.parent. The whole file references head documents in exactly two places: the selftest's own blinding control, and the coverage census line in _run.",
+        "status": "CONFIRMED for the NEW lane"
+      }
+    },
+
+    {
+      "id": "C10-HOSTILE-INPUT-AND-EXIT-CODES",
+      "claim": "0 tracebacks, five exit codes demonstrated; 7.8.1 - a malformed scanned artifact must be NAMED and never become an accusation about a different artifact; PD5-ATTRIBUTION-DEPTH bound rather than silent truncation.",
+      "status": "ALL REPRODUCED",
+      "exitCodes": [
+        {"code": 0, "how": "scratch tree with the four conflicting artifacts removed", "observed": "product dispositions OK banner; historical observations still printed in full at exit 0, which is 4.4's 'a forgery buys a green exit code, never silence' verified"},
+        {"code": 1, "how": "live tree baseline", "observed": "product dispositions INVALID, 2 findings"},
+        {"code": 2, "how": "three distinct routes", "observed": "python3 -B (not isolated) -> PD5-UNSUPPORTED-INVOCATION on BOTH channels plus SCAN-NOT-RUN; python3 -I (bytecode allowed) -> same; python3 -I -B --nope -> usage + 'unrecognised argument(s): --nope'"},
+        {"code": 3, "how": "two distinct routes", "observed": "appended 2 bytes to the pinned v4 -> 'REFUSING to run: the pinned predecessor closure is dirty / pinned predecessor check-product-dispositions-v4.py is 90856 bytes, expected 90846 / SCAN-NOT-RUN'; removed the required packet -> 'REFUSING to run: the checker's own base is dirty / required input product-dispositions.v1.json is missing / SCAN-NOT-RUN'"},
+        {"code": 4, "how": "green tree with the OPTIONAL retention-tiers.v10.json removed", "observed": "'GATES THAT DID NOT RUN' block naming 'retention-binding join' by name, then 'CLASS-SKIPPED ... This run does NOT certify: retention-binding join. Exit 4.'"}
+      ],
+      "tracebacks": {
+        "acrossEverythingIRan": 0,
+        "hostileShapesInSelftest": 19,
+        "allProducedANamedOutcome": true,
+        "includingDeliberatelyPathologicalInput": "300-deep nesting, 500 siblings, a 200,000-character leaf, regex metacharacters in an authority value, a lone surrogate, an impossible calendar date (2026-02-30), a five-digit year, and a decision id at fifty paths"
+      },
+      "malformedScannedArtifact_7Point8Point1": {
+        "method": "wrote a truncated zz-broken.json into the scanned directory",
+        "observed": "artifacts discovered 434 / artifacts parsed+scanned 433 / artifacts unreadable 1 -> zz-broken.json (JSONDecodeError)",
+        "namedInFull": true,
+        "becameAnAccusationAboutADifferentArtifact": false,
+        "findingsAttributedToAnyOtherArtifactAsAResult": 0,
+        "status": "CONFIRMED, verbatim to the author's claim",
+        "residualIObserve": "an unreadable scanned artifact is NAMED and COUNTED but does not itself gate the exit code. On a tree that is otherwise green the run exits 0 with one artifact unexamined. The census line makes this visible to a reader; the exit code does not. Inherited (residual S3, 'unparseable bytes are listed and not examined', [NOT GATED]), not introduced here."
+      },
+      "depthBound": {
+        "method": "planted the fabrication at nesting depth 14 under the decision key",
+        "observed": "PD5-ATTRIBUTION-DEPTH probe.json$.dispositions.CD-RT-5.n.n.n.n.n.n.n.n.n.n.n.n.n: the decision-keyed value exceeds this lane's traversal bound, so it was NOT fully examined and its silence is not evidence",
+        "silentTruncation": false,
+        "status": "CONFIRMED - the bound announces itself in the exact words claimed, and 'derived from nothing' does not print the same as 'derived and found nothing'"
+      }
+    },
+
+    {
+      "id": "C11-PD4-N1",
+      "claim": "v5 changes PD4-N1's tolerance in neither direction: AMBIENT has zero slack both ways, and recording a second decision by the same authority - section 3.1's awaited Phase-1A insertion - still trips the packet validator today.",
+      "status": "REPRODUCED, AND THE COST IS LARGER THAN THE CLAIM STATES",
+      "measured": {
+        "livePacketAsIs": {"packetLaneFindings": 0},
+        "plusOneDecidedRowSameAuthorityNewDate": {"findings": 2, "ambient": 1, "codes": ["PD2-1 non-retention decision set differs from the required Phase-2 set (extra ['CD-PHASE1A-NEW'])", "PD4-AUTHORITY-AMBIENT $.decisions.CD-RT-5.decidedBy is 'sfbreen', and 2 leaf/leaves name it WITHOUT the decision date"]},
+        "plusOneDecidedRowSameAuthoritySameDate": {"findings": 2, "ambient": 1},
+        "plusOneDecidedRowDIFFERENTauthority": {"findings": 1, "ambient": 0, "codes": ["PD2-1 only"]},
+        "plusOnePENDINGrow": {"findings": 2, "ambient": 0, "codes": ["PD2-1", "PD3-PACKET-INCOHERENT"]},
+        "slackSweep": [
+          {"extraSameAuthorityRows": 0, "findings": 0, "ambient": 0},
+          {"extraSameAuthorityRows": 1, "findings": 2, "ambient": 1},
+          {"extraSameAuthorityRows": 2, "findings": 2, "ambient": 1}
+        ],
+        "addedLaneContribution": "the new attribution lane contributes ZERO findings to the extended packet - it is corpus-side and says nothing about the packet's own rows. Verified independently of the subject's own check."
+      },
+      "assessment": {
+        "toleranceUnchangedByV5": "CONFIRMED. AMBIENT has zero slack in the loosening direction (0 extra rows -> 0 AMBIENT) and zero in the tightening direction (2 extra rows still produce exactly 1 AMBIENT finding, naming the first). v5 adds nothing to it and removes nothing from it.",
+        "understatement": "The dispatch frames this as the AMBIENT limb. Measured, the section 3.1 insertion trips TWO independent gates, and the one nobody names is the bigger one: PD2-1 fires on ANY added decision row, by ANY authority, with ANY attribution. An implementer or authority landing the Phase-1A packet will meet PD2-1 first and PD4-AUTHORITY-AMBIENT second. Residual V6 discloses the ambient half ('a legitimate amendment whose authority is named in only one position ... is a FINDING. This is a real cost of the repair and it is stated here rather than discovered'). Nothing discloses the membership half. See PROPOSED-S5.",
+        "notAFaultOfThisSuccessor": "both gates are inherited. This review records the measurement so it is not understated at signature."
+      }
+    },
+
+    {
+      "id": "C12-STANDING-INHERITANCE-LIVE",
+      "claim": "residual A8 - a forged attribution inside an artifact some unreviewed successor happens to supersede becomes an observation rather than a finding.",
+      "status": "REPRODUCED LIVE, and it is cheaper than 7.9's account suggests",
+      "measured": {
+        "step1": "planted zz-forge.v1.json carrying the 4.4 string -> 2 LIVE PD5-ATTRIBUTION findings",
+        "step2": "wrote zz-forge.v2.json, a FOUR-KEY stub with one substantive key, nothing reviewed, no ledger row, no head-document mention -> the two findings become HISTORICAL OBSERVATIONS and the live count returns to the baseline 2",
+        "demotionReason": "SUPERSEDED: superseded by zz-forge.v2.json, a later version of the same base that exists on disk, carries content, and is not itself rejected",
+        "silencePurchased": false,
+        "observationsStillPrintedInFull": 3
+      },
+      "assessment": "A8 is accurately disclosed and the author's reasoning is right - two lanes grading the same artifact differently would be worse. But the cost is worth stating in the review: a forger needs one 100-byte stub file to move a forged attribution out of the exit code. The forgery still cannot buy SILENCE, which is the property 4.4 says matters, and that property holds. Read every green run of this instrument as 7.9's question."
+    }
+  ],
+
+  "adjudicationOfTheFourDisclosedResiduals": [
+    {
+      "residual": "A1 - the SILENT lie (assert closed, say nothing about who or when)",
+      "authorsPosition": "accepted BY CONSTRUCTION, since the honest majority of the corpus does exactly this",
+      "myAdjudication": "REAL BOUNDARY. Correctly graded and correctly gated.",
+      "evidence": "Measured on the live corpus: 200 decided-frame clauses are examined and only 17 coordinates are supplied at all. Demanding attribution from every artifact that asserts closure would convert roughly 183 sites into findings against artifacts that are doing nothing wrong. The instrument's own must-pass case set includes this shape and it is executed as an expected escape, so the disclosure cannot go stale.",
+      "residualRiskToRecord": "The property enforced is agreement-or-silence. Silence is therefore always available to a forger who is content to assert closure without attributing it. That is a genuinely open direction, but closing it is a corpus-authoring decision (require attribution) and not an instrument decision."
+    },
+    {
+      "residual": "A2 - the COHERENT lie (restate the real authority and date, invert the substance)",
+      "authorsPosition": "belongs to the posture lane, which reads the packet and not artifacts",
+      "myAdjudication": "REAL BOUNDARY FOR THIS LANE - but it exposes a SYSTEM-level gap that no lane owns, and the freeze should say so.",
+      "evidence": "Verified: an artifact asserting 'DECIDED 2026-08-05 by sfbreen: ephemeral by default, implicit durable retention NO' produces zero attribution findings, correctly, because both coordinates agree. Separately verified: inverting the posture inside the PACKET produces zero findings from v4's packet lane too (the authority and date substitutions there DO fire, at 3 and 4 findings respectively). So neither lane binds the substance of the decision as restated by an artifact.",
+      "consequence": "The corpus has a lane that compares an artifact's STATE to the packet, a lane that compares an artifact's ATTRIBUTION to the packet, and NO lane that compares an artifact's SUBSTANCE to the packet. 7.8's bound - 'a string leaf whose VALUE is false while its PATH and TYPE are unchanged' - is the exact shape, and it is not repealed. Recording this as a system observation, not as a defect of v5: narrowing A2 here would require reading the decision body, which is a different instrument."
+    },
+    {
+      "residual": "A3 - the citation excuse, inherited not introduced",
+      "authorsPosition": "narrowing it here would make two lanes disagree about what an assertion is",
+      "myAdjudication": "REPAIRABLE, AND CORRECTLY DEFERRED. The author's reasoning is right and the deferral is the right call at this level.",
+      "evidence": "Verified: appending '.json#detail' to the forged clause produces zero findings, and the subject demonstrates this deliberately in its own false-positive matrix rather than hiding it. The predicate is v1.FILE_REFERENCE_RE / PLACEHOLDER_RE / POINTER_RE, called not copied, and it governs the state lane beside it.",
+      "cost": "one appended pointer buys silence from BOTH lanes at once. That is the sharpest available single-token evasion in the instrument and it is disclosed in full.",
+      "recommendation": "the repair belongs at the shared predicate in the pinned closure - a successor to the first-generation assertion vocabulary that distinguishes 'this clause CITES a document' from 'this clause carries a pointer AND makes its own closure assertion'. Doing it in v5 alone would be worse than the escape, exactly as the author says."
+    },
+    {
+      "residual": "A6 - JSON-only, the exclusion protecting section 4.4's own record",
+      "authorsPosition": "that is what keeps the corpus's own forensic record from being reported as the incident, and it is equally what an author could exploit",
+      "myAdjudication": "REAL BOUNDARY AT THE LANE, LARGEST HOLE IN THE INSTRUMENT, AND HONESTLY STATED BY THE SUBJECT - understated by freeze 4.4's head block.",
+      "evidence": "Measured: 6 of the 9 files carrying the fabricated attribution are outside the scanned population by construction. Five of those six are INSTRUMENTS - live .py files that execute. An author who wanted to plant a fabricated attribution where this instrument cannot see it needs only to choose a .py or .md. The instrument states this exactly and, better, MEASURES the population rather than asserting it: --selftest checks that the scanned suffix set is ['.json'], which I confirmed.",
+      "whyItIsStillTheRightChoiceHere": "The lane inherits its scanner from the pinned closure and 7.2/7.6 forbid editing it. Widening the glob in a successor would immediately fire on freeze 4.4 itself and on five instruments' fixtures, which is the outcome that makes a lane unusable. Widening it correctly requires the assertion vocabulary to understand .py string literals and .md quotation, which is a different instrument.",
+      "recordCorrectionOwed": "freeze 4.4's 'Measured: 0 findings and 0 observations on all nine' should carry the 6/3 partition, because as written it credits judgement with a result mostly produced by scope."
+    }
+  ],
+
+  "recordCorrectionsOwedToFREEZE_4_4_HEAD_BLOCK": [
+    {
+      "id": "REC-1",
+      "text": "'the freeze's own forensic record of the incident (twice), the claim register's struck entry (3x), two review artifacts, and FOUR instruments' test fixtures' - that enumeration sums to EIGHT files against a headline of NINE. Measured: FIVE instruments carry it (check-product-dispositions.py, -v2.py, -v3.py, check-evidence-v11.py, check-versioning-v14.py). The subject's own docstring says 'five instruments' and is correct; the freeze paragraph advertising it is not.",
+      "class": "7.2.2 ENCODING - a figure written as a WORD ('four'), invisible to every integer sweep in the corpus. The freeze documents this exact failure mode two sections later.",
+      "severity": "non-blocking record correction"
+    },
+    {
+      "id": "REC-2",
+      "text": "'12 of 12, against v4's 1 of 12'. The 12 is a row count over 10 distinct documents in the subject's own must_fail tuple; the freeze's prose enumeration names ELEVEN items. And v4's score is 0, not 1, on every artifact-side vector: the subject's own docstring says the twelve 'produced a finding-set delta of ZERO', which contradicts the freeze. Measured: 0 of 11.",
+      "severity": "non-blocking record correction"
+    },
+    {
+      "id": "REC-3",
+      "text": "'Measured: 0 findings and 0 observations on all nine' - true, and it omits that six of the nine are outside the lane by construction. See A6 adjudication.",
+      "severity": "non-blocking record correction"
+    }
+  ],
+
+  "blockingFindings": [
+    {
+      "id": "B-PD5-01",
+      "severity": "BLOCKING",
+      "confidence": "CERTAIN",
+      "title": "A structured attribution wrapped in a JSON array escapes the lane entirely, defeating the instrument's own published aliased-key vector",
+      "measured": "{'CD-RT-5': {'status':'DECIDED','signedOffBy':['the coordinator'],'approvedOn':['2026-07-31']}} in a live artifact produces ZERO findings and ZERO observations. The identical document with the two values as scalars produces two findings and is shipped as must-fail case 11 of 12.",
+      "mechanism": "decision_subtree_leaves() yields an empty key for list elements; attribution_failures() guards the structured comparison with `if key and not why:`. Demonstrated directly against both shapes.",
+      "alsoAffects": "decidedBy/decidedOn in arrays; decidedOn as a JSON int; decidedBy as an object whose member key is not authority-shaped. The subject's hostile_shapes already contains 'an authority-shaped key whose value is an object' - it is graded there for NOT CRASHING and never for CATCHING, which is 7.8's recorded failure mode ('graded on whether assertions fire when content is REMOVED, never on whether they fire when content is FALSE') in its narrowest form.",
+      "whyBlocking": "It is the v4 blocker's own shape - the forgery buys silence - reappearing inside the lane written to close it, in a JSON shape this corpus uses constantly, undisclosed in 36 residuals, and reachable by a one-character edit to a vector the instrument advertises catching.",
+      "notADisagreementWithADisclosedResidual": "A1, A2, A3, A4, A6, A7, A8, A9 and A10 were each checked against this vector and none covers it.",
+      "repair": "a successor. Either propagate the parent key through list traversal, or drive the structured comparison off leaf shape rather than key presence as the date limb already does. Add a must-fail case that wraps every structured must-fail vector in a one-element array."
+    },
+    {
+      "id": "B-PD5-02",
+      "severity": "BLOCKING",
+      "confidence": "CERTAIN",
+      "title": "Residual A7 publishes a measurement that does not reproduce, and it is the one new residual left ungated",
+      "claimed": "'Measured on this corpus: without the positional rule four live artifacts are false positives; with it, zero are, and the inverted construction occurs nowhere.'",
+      "measured": "Across the whole 437-artifact corpus, 32 decided-frame clauses reach by_phrases, they contain 5 `by X` matches in total, and the positional threshold drops ZERO of them. Removing the rule entirely changes the run by 0 live findings, 0 observations and 0 authority claims. A live control proves the patch works (an inverted construction goes 0 -> 2 AUTHORITY findings without the rule).",
+      "whyBlocking": "7.2.2: a recorded measurement gets a hard comparison, and 'a figure a reader cannot recompute is prose wearing a measurement's clothes'. The instrument applies 7.8's sixth design move to six of its ten new residuals; A7 is one of the four it does not, and A7 is the one that drifted. The second half of the claim ('with it, zero are') reproduces and is not in dispute.",
+      "fairness": "the figure may have been true when measured against a different tree state; I cannot reconstruct that state and neither can a signer, which is the point.",
+      "repair": "a successor should either gate A7 by an executed case that recomputes the drop count from the live corpus and fails if the published figure disagrees in either direction, or withdraw the four-artifact figure in place and state only the qualitative rule."
+    }
+  ],
+
+  "nonBlockingObservations": [
+    {"id": "OBS-1", "text": "PROPOSED-S5: the hard-coded seven-entry EXPECTED_CHOICES set means the section 3.1 Phase-1A insertion trips PD-1/PD2-1 regardless of attribution. 7.10's defect applied to a decision SET. Inherited, not introduced, disclosed nowhere in 36 residuals. This is the larger half of the PD4-N1 cost and it must not be understated at signature."},
+    {"id": "OBS-2", "text": "The BY_PHRASE_RE four-token bound is documented in a code comment and in no residual. With five or more filler words the finding still fires but names the wrong claimed authority ('delegated delegated delegated delegated'). A comma immediately after 'by' escapes outright."},
+    {"id": "OBS-3", "text": "Moving BOTH coordinates out of the closure predicate's clause unit escapes ('CD-RT-5 is DECIDED. Authority: product owner. Date: 2026-07-31.'). Moving only one is still caught. A7 names the inverted construction and not the lexical or segmentation halves."},
+    {"id": "OBS-4", "text": "Precision of the finding TEXT is uneven where the catch is sound. The register alias-key vector emits three findings for one mutation with phrases like 'the product owner for'; a live observation on retention-tiers.v5.json reports the asserted authority as 'the CD-RT-5'. No false live finding results, but a reader repairing from the message would be misled about what was asserted."},
+    {"id": "OBS-5", "text": "Three docstring sentences overstate the derivation's literal-freedom (see C5). The property holds of every predicate; the sentences quantify over the whole file, which carries the packet's real date, the fabricated date and the fabricated authority as fixture constants."},
+    {"id": "OBS-6", "text": "An unreadable scanned artifact is named and counted but does not gate the exit code; on an otherwise green tree the run exits 0 with one artifact unexamined. Inherited (S3), correctly visible in the census, worth a reader's attention."},
+    {"id": "OBS-7", "text": "A4's token-intersection residual is accurately stated but its sharpest sub-case is unnamed: a HYPHENATED extension of the recorded name ('by sfbreen-deputy') reads as agreement, because _role_verdict tokenises it to include the real name."},
+    {"id": "OBS-8", "text": "The 'stable across PYTHONHASHSEED' phrasing names a mechanism -I disables. The underlying order-independence is real and I verified it under six genuinely randomized seeds; only the wording is wrong."}
+  ],
+
+  "whatIDidNotCheck": [
+    "I did not independently recompute the sha256 of v3, v2 or v1. I verified the chain executes, that it refuses at exit 3 on a two-byte change to v4, that v4's live digest equals the literal the subject pins, and that the subject's derived permitted-import set closes at five files. The three deeper digests are taken on the chain's own verification, not on mine.",
+    "I did not audit the 26 INHERITED residuals for truth. I verified only that all 26 are carried, that tags are unique, that the 21/15 split is arithmetic from len(), and that a dangling gate label fails the suite. Whether R1-R5, D1-D7, S1-S4 and V1-V10 accurately describe the predecessors' behaviour is outside this review; v4's own reviewer found its predecessor's limits mis-stated in both directions, so this is a real uncovered surface.",
+    "I did not re-derive the predecessors' own lanes. The no-regression result (all predecessor must-fail, must-pass and expected-escape cases unchanged) is the subject's own selftest measurement; I confirmed it runs and passes but did not re-drive those case corpora with an independent driver.",
+    "I did not test duplicate JSON keys (residual A10/D7/V9). The parser keeps the last and I did not construct an artifact exercising it.",
+    "I did not attempt module-shadowing beyond confirming the invocation guard's exit-2 behaviour on both channels. I did not write a stdlib-named file beside the instrument and measure the un-isolated failure the docstring describes.",
+    "I did not verify the CONTENT of product-dispositions.v1.json or claim-register.v1.json against the freeze. I treated the packet as the instrument treats it - as the authority - and only mutated copies of it.",
+    "I ran on exactly one interpreter, CPython 3.14.6 on darwin. The verdict is environment-conditional to that (7.2).",
+    "I did not review IMPLEMENTER-BLUEPRINT.md, and I read only the freeze sections the dispatch named plus section 4.4's body.",
+    "I did not assess whether the 5 historical observations on retention-tiers.v5.json are semantically well-formed beyond noting one degenerate phrase extraction (OBS-4).",
+    "I did not measure runtime or memory under adversarial input beyond the subject's own 19 hostile shapes, which I confirmed produce no traceback.",
+    "I did not attempt to construct a forged REJECTING REVIEW to defeat standing (residual R4, inherited unchanged), nor a forged review record (R1/R2)."
+  ],
+
+  "whatAGreenRUNOfTHISInstrumentMEANS": {
+    "statedForASigner": [
+      "the bytes are the reviewed bytes and predecessor drift stops the run at exit 3;",
+      "no artifact in the 437-file JSON population that has standing today asserts a product decision state, or an authority, or a date, that the binding packet does not carry;",
+      "conflicting attributions that survive in artifacts with no standing are printed in full and are never dropped, at any exit code;",
+      "the two coordinates it compares were re-derived from the live packet on this run, not transcribed."
+    ],
+    "itDoesNotMean": [
+      "that no artifact asserts a fabricated attribution - a .py or .md is outside the lane by construction (A6), and 6 of the 9 files carrying the fabricated string live there;",
+      "that no LIVE JSON artifact asserts one - an attribution wrapped in a JSON array is not compared at all (B-PD5-01);",
+      "that the decision's SUBSTANCE agrees with the packet - no lane in this corpus compares that (A2);",
+      "that a conflict reported as an observation is harmless - it means an unreviewed successor exists, and 7.9's question applies: which successor demoted it, and has anything reviewed it?"
+    ]
+  },
+
+  "conditionsToClear": [
+    "A successor instrument that (a) compares authority-shaped and date-valued leaves inside JSON arrays, with a must-fail case wrapping every existing structured vector in a one-element array; and (b) either gates residual A7 on a recomputed corpus measurement or withdraws its four-artifact figure in place.",
+    "Freeze 4.4's head block corrected on REC-1, REC-2 and REC-3.",
+    "PROPOSED-S5 (the EXPECTED_CHOICES set pin) named as a residual somewhere a signer will read it, because the section 3.1 insertion trips it and nothing in this lineage says so."
+  ],
+
+  "driftDiscoveredMidReview_7_2_1_clause_4": {
+    "statement": "Recorded here rather than silently absorbed by re-running, because 7.2.1 clause 4 makes drift a fact about this review's conditions.",
+    "theSubjectDidNotMove": {
+      "sha256AtDispatch": "acc1c9f31235ce2b2605d9500a07f518f852ec37c3ef0217631b288455af04d8",
+      "sha256AfterAllMeasurements": "acc1c9f31235ce2b2605d9500a07f518f852ec37c3ef0217631b288455af04d8",
+      "bytes": 95304,
+      "conclusion": "every measurement in this review was taken against one byte state of the subject, and 7.2.1 clause 3 is satisfied"
+    },
+    "theTREEmoved": {
+      "what": "artifacts/versioning-policy.v16.json (143,979 bytes) was written by an unrelated lane at 2026-08-10 18:53, after every measurement above had been taken.",
+      "effect": "MEASURED by controlled experiment in the scratch tree - adding that one file and nothing else takes the instrument from 2 findings to 1. It demotes versioning-policy.v8.json to SUPERSEDED ('superseded by versioning-policy.v16.json, a later version of the same base that exists on disk, carries content, and is not itself rejected'), removing PD2-SCAN-CONFLICT versioning-policy.v8.json$.dischargeStatus.CD-RT-5 from the finding set. Removing it restores the second finding.",
+      "reviewStatusOfTheDemotingSuccessor": "nothing in the corpus reviews versioning-policy.v16.json. This is 7.9's DANGEROUS direction, observed live during an independent review of a different instrument: a green-er run that means 'someone has started work', not 'the problem is fixed'.",
+      "consequenceForThisVerdict": "The baseline this review scores against is 2 findings, measured at 2026-08-10 ~18:0x. As of ~18:53 the live baseline is 1. NO finding-set DELTA in this review changes: I re-ran the plant against the drifted tree state and the attribution catches are unaffected, because every one of them is an ADDED finding rather than a surviving one. This is precisely why the dispatch's instruction to score by delta rather than by exit code was correct.",
+      "secondMovement": "The dispatch itself already contained one instance of this - versioning-policy.v15.review-independent.json landing between dispatch and run and moving the baseline from 1 to 2 (see C1). Within this single review the same figure moved 1 -> 2 -> 1 for three different reasons, none of them a byte of the subject. 7.2's third term is not a footnote in this corpus; it is the dominant source of variance in this instrument's headline number."
+    },
+    "thisReviewArtifactsOwnEffectOnTheINSTRUMENT": {
+      "measured": "adding this file alone to a pristine scratch tree leaves the instrument at 2 findings and produces ZERO mentions of it anywhere in the output.",
+      "whyThatIsWorthRecording": "this artifact quotes the fabricated authority 'product owner' and the fabricated date '2026-07-31' against CD-RT-5 repeatedly, in the course of reporting them. It is therefore a TENTH legitimate-occurrence document, created live, and the lane is silent on it - an unplanned extra data point for the acceptance test in C4, taken on bytes the author never saw.",
+      "self_measurement_caveat": "This figure was computed BEFORE this paragraph was written into the file, so by 7.2.2's own rule it describes a document that no longer exists. It is published as an observation about an earlier byte state and not as a measured fact about these bytes. The only honest census is one re-walked after the write, and I have deliberately not published a leaf count or an occurrence count for this artifact for that reason."
+    }
+  },
+
+  "closingNote": "The instrument does the thing it was written to do, and it does it by derivation rather than by list, which is the harder and correct choice. Its acceptance test - not firing on the corpus's own forensic record of the forgery it hunts - is the part I expected to fail and it does not. Both blockers are of the same family as the one it closed: a shape the author had in hand and graded on the wrong axis, and a number nothing re-runs. Neither is a reason to distrust the lane; both are reasons not to sign it as final."
+}

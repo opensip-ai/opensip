@@ -1,0 +1,425 @@
+{
+  "artifact": "opensip.execution-plan-commitment.investigation",
+  "version": 1,
+  "date": "2026-08-04",
+  "author": "investigation lane",
+  "status": "MEASUREMENT-ONLY",
+
+  "bindingDeclaration": {
+    "kind": "investigation/measurement-only",
+    "binds": "nothing",
+    "proposes": "no recipe, no preimage, no domain separator, no namespace",
+    "closes": "no row, no finding, no park, no disposition",
+    "changes": "no status, no disposition, no verdict, no seal, no [UNSET]",
+    "cdRt5": "CD-RT-5 remains BLOCKED_ON_PHASE_1A; this artifact does not touch it",
+    "authorityNote": "IMPLEMENTATION-FREEZE.md section 6 law 19 reserves the minting of an identity namespace and its domain separator to the surface that owns the identity, in that surface's own binding artifact, and section 7.1 forbids closure 'by this record, by the blueprint, by a checker, or by an implementer'. This artifact is none of the things that may close a row and does not attempt to. Freeze section 7.1 forbids inventing an identity rule; nothing below is an identity rule.",
+    "whatThisArtifactIs": "A record of what the corpus SAYS about two fields, and of what was measured. It deliberately distinguishes 'the corpus does not say' from 'the corpus says they are the same', because conflating those is the defect under investigation."
+  },
+
+  "question": "Are executionPlanCommitment and planIntentCommitment the same commitment, or two different commitments that happen to share values in every fixture?",
+
+  "answer": {
+    "verdict": "UNDETERMINED",
+    "precise": "The corpus does not say. Both readings are consistent with every byte measured. No binding artifact states that the two fields are the same, and no binding artifact states that they differ. The only artifacts that assert sameness are checker .py files, which freeze section 6 law 19 and section 7.1 both disqualify from closing an identity row; the only evidence for difference is structural (distinct required tags, a preimage that cannot reach execution-plan content, and the owning surface's silence), which establishes that the two are distinct POSITIONS but not that they carry distinct VALUES.",
+    "notThisAnswer": {
+      "notSame": "Reading 1 is not established. Nothing normative states the alias. If it were true, the corpus would carry a redundant required field in three closed records and nothing would say so.",
+      "notDifferent": "Reading 2 is not established either, despite being the reading the structure suggests. The distinct tags prove two framed positions in one record; under a componentFrame TLV grammar that is exactly as compatible with one value carried twice as with two values.",
+      "whyNotTheTidyAnswer": "The tidy answer here is 'different, because the tags differ'. That inference does not hold: tag distinctness is a statement about the wire encoding, not about value provenance. The corpus contains a required field with no producing rule; the honest description of that is a gap, not a semantics."
+    },
+    "confidenceBasis": "Every claim below is either a measurement reproduced in this run or a quotation with its location. Negative claims each carry the search that establishes them."
+  },
+
+  "method": {
+    "jsonParsing": "Every JSON file in docs/coop was parsed with a duplicate-key-rejecting object_pairs_hook per freeze section 7.5. 389 JSON files parsed; 0 parse failures; 0 duplicate keys encountered. Stated because the corpus requires it to be stated.",
+    "derivationResolution": "c2-plan-stage-schema.v9.json is a derivation and was never read as a whole document. It was resolved two ways: (a) check-c2-v9.py was EXECUTED and exited 0 with its full green banner, which is the corpus's own resolution procedure; and (b) the 13 declared operations at derivedFrom.operations were applied in order to the verified predecessor c2-plan-stage-schema.v4.json after confirming its sha256 equals the pinned 4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39, with every 'set' op's declared 'from' value asserted against the predecessor before replacement.",
+    "encoders": "An opensip-canonical-json-v1 encoder was written in this session from the grammar text at the effective C-2 v9 contract planIntent.canonicalCommitment.encoding alone, sharing no code with check-c2.py, check-c2-v4.py or check-c2-v9.py.",
+    "exitCodeDiscipline": "No conclusion below rests on a process exit code. check-c2-v9.py's exit 0 is cited only as the corpus's declared resolution of the v9 derivation, and its banner content is quoted rather than its status inferred.",
+    "namesAreNotNatures": "Applied in both directions and it fired twice; see nameNotNatureTraps."
+  },
+
+  "measurement": {
+    "scope": "all .json files under docs/coop, recursive, __pycache__ and .git excluded",
+    "jsonFilesParsed": 389,
+    "parseFailures": 0,
+
+    "executionPlanCommitment": {
+      "sites": 139,
+      "files": 16,
+      "distinctValues": 2,
+      "values": [
+        { "value": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85", "sites": 88 },
+        { "value": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d", "sites": 51 }
+      ],
+      "everyValueAlsoAppearsAsPlanIntentCommitment": true,
+      "confirmsFreezeCount": "The freeze at IMPLEMENTATION-FREEZE.md line 1349 states 'exactly 2 distinct values across 139 sites'. Re-measured independently this run: 2 distinct values, 139 sites. The freeze's count is correct."
+    },
+
+    "planIntentCommitment": {
+      "sites": 226,
+      "files": 28,
+      "distinctValues": 10,
+      "hashValued": [
+        { "value": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85", "sites": 156 },
+        { "value": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d", "sites": 52 },
+        { "value": "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1", "sites": 2 },
+        { "value": "sha256:7bf426120cfde097fece271d63b99793b1332ba358016b98f71266ec74fdd6de", "sites": 1 }
+      ],
+      "nonHashValued": [
+        { "value": "$BASE_COMMITMENT", "sites": 10, "note": "fixture placeholder in c2-plan-stage-schema.v3/v4" },
+        { "value": "sha256Id", "sites": 1, "note": "a WIRE TYPE name, not a value; effective C-2 v9 planIntent.attemptAndExecutionJoin.identifierWireTypes" },
+        { "value": "PlanIntentCommitment", "sites": 1, "note": "a TYPE name in delivery.v2 typescript provider wire schema" },
+        { "value": "Sha256Text", "sites": 1, "note": "a TYPE name in rust-provider-protocol.v2 OpenUniverseV2" },
+        { "value": "Sha256Text exact verified ExecutionPlan value", "sites": 1, "note": "a field DESCRIPTION in rust-provider-protocol.v1 OpenUniverseV1; see nameNotNatureTraps.trap2" },
+        { "value": "recomputed commitment over the complete frozen tagged PlanIntent", "sites": 1, "note": "a field DESCRIPTION in resolved-inputs.v2 planIdContract.planDescriptorSchema.postAdmissionFields" }
+      ],
+      "valuesNeverSeenAsExecutionPlanCommitment": [
+        "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1",
+        "sha256:7bf426120cfde097fece271d63b99793b1332ba358016b98f71266ec74fdd6de"
+      ],
+      "whyThatIsNotEvidenceOfDifference": "bd03b1c6 is the commitment of the C-2 fixture valid-full-profile-semantic-providers and 7bf42612 is a lineage byteState. Neither is carried into any ActivationManifestV1, EvaluationAuthoritySealV1 or TerminalRunV1, so no executionPlanCommitment position exists for them to occupy. Their absence is a consequence of which fixtures reach the downstream records, not a semantic signal."
+    },
+
+    "siblingEquality": {
+      "rule": "for every JSON object anywhere in the corpus that holds an executionPlanCommitment key, compare it to the planIntentCommitment key of the SAME object",
+      "recordsHoldingExecutionPlanCommitment": 139,
+      "withSiblingPlanIntentCommitment": 132,
+      "siblingsEqual": 132,
+      "siblingsDiffering": 0,
+      "withoutSiblingPlanIntentCommitment": 7,
+      "statement": "In every one of the 132 records where both fields co-occur, they are byte-identical. There is no counter-example anywhere in the corpus."
+    },
+
+    "degeneracyMeasurement": {
+      "why": "Reading 2 requires the fixtures to be degenerate. This measures whether they are.",
+      "rule": "for every object carrying a planIntentCommitment, collect the distinct sibling planId and sibling snapshotId values",
+      "result": [
+        { "planIntentCommitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d", "distinctSiblingPlanId": 1, "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4", "distinctSiblingSnapshotId": 1, "snapshotId": "snap1:sha256:85e066e5bf7a46ce1f2b0ef9b73d8827c4b1c03f24b1ae0559f012a4c6f16bc6" },
+        { "planIntentCommitment": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85", "distinctSiblingPlanId": 1, "planId": "plan1:sha256:0c0604a8f58148ec4fd3b12fc3e72dd7b0a2e7687ae776694c66bf9db03e0d02", "distinctSiblingSnapshotId": 1, "snapshotId": "snap1:sha256:07a3bfeeb8ffa631f3d8e8de740ce9b13d6df18ec518939df5bcfeea5b9aea8e" },
+        { "planIntentCommitment": "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1", "distinctSiblingPlanId": 1, "planId": "plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401", "distinctSiblingSnapshotId": 1, "snapshotId": "snap1:sha256:ef38e14b437c9208d7dc63c752023d11c2c41c97a157f13c9e0e50184b9c25b5" },
+        { "planIntentCommitment": "sha256:7bf426120cfde097fece271d63b99793b1332ba358016b98f71266ec74fdd6de", "distinctSiblingPlanId": 1, "planId": "plan1:sha256:ff5f97635426b1ccb7341cbf9a074a50130fa3f9547e58e7b58a0d40c9205e41", "distinctSiblingSnapshotId": 0 }
+      ],
+      "finding": "Every hash-valued planIntentCommitment in the corpus is paired with EXACTLY ONE distinct planId and EXACTLY ONE distinct snapshotId. The mapping PlanIntent -> Snapshot -> Plan is one-to-one across every published vector. The corpus contains no vector at all in which a PlanIntent is held fixed while any post-admission input varies. That is precisely the degeneracy reading 2 predicts, and it is why no test can currently separate the two fields.",
+      "$BASE_COMMITMENT_excluded": "The placeholder $BASE_COMMITMENT maps to 2 planIds ('plan-1' and plan1:sha256:613866ac...) only because c2-plan-stage-schema.v3 used the noncanonical placeholder plan-1 that LB-C2-05 repaired at v4. It is a placeholder, not a value, and carries no signal."
+    }
+  },
+
+  "bothValuesDerived": {
+    "why": "The freeze says both executionPlanCommitment values are 'byte-identical to planIntentCommitment values'. This run went further and reconstructed the PREIMAGE of each, so the claim is not an equality of opaque strings but an exhibited derivation.",
+    "encoder": "written this session from the effective C-2 v9 contract planIntent.canonicalCommitment.encoding grammar text alone; shares no code with any corpus checker",
+    "recipeUsed": "SHA-256( UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent) ), textual form sha256:<64 lowercase hex>",
+    "derivations": [
+      {
+        "value": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d",
+        "preimageIs": "the C-2 fixture planIntentFixtures['valid-minimal-analysis-intent'].intent, verbatim",
+        "preimageByteLength": 2463,
+        "reproduced": true
+      },
+      {
+        "value": "sha256:7c3174f6358f40a36f19b97eab6b247086f7a5411141fb9ee056535904fa7a85",
+        "preimageIs": "the same C-2 fixture with analysis.admissionDescriptor.scope.projectId set to prj1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, which is the projectId evaluation-proof.v8/v9 c2AuthorityJoin declares",
+        "preimageByteLength": 2463,
+        "reproduced": true,
+        "corroboration": "evaluation-proof.v8#c2AuthorityJoin.planIntentCanonicalByteLength declares 2463; this run measured 2463 independently"
+      }
+    ],
+    "conclusion": "Both executionPlanCommitment values in this corpus are, demonstrably, SHA-256 over a domain-tagged PlanIntent. Neither has ever been computed over an ExecutionPlan by anything in this corpus, because no such computation exists anywhere in it.",
+    "sevenPinnedVectors": {
+      "claim": "the corpus's one fully converged identity recipe, seven pinned vectors",
+      "reproducedThisRun": "7/7",
+      "detail": [
+        { "id": "valid-minimal-analysis-intent", "commitment": "sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d", "preimageBytes": 2463 },
+        { "id": "valid-full-profile-semantic-providers", "commitment": "sha256:bd03b1c6935a5941596d81d1a0bb88cfff353f605e087555f22932b2afdff7d1", "preimageBytes": 4084 },
+        { "id": "valid-explicit-general-authority-forms", "commitment": "sha256:74f45024004c331c2eaaeebc82b30cef696b10a76fd412091331c745e0922748", "preimageBytes": 4210 },
+        { "id": "valid-stored-view-show-run-no-attempt", "commitment": "sha256:2f78d8b4c9901151baeb125705b2b76c89b05eb8c1f0c2ae877c433e76c3f9ee", "preimageBytes": 522 },
+        { "id": "valid-stored-view-list-artifacts-no-attempt", "commitment": "sha256:3ecb262230775f010e3fe8f7852715fea6517666552a070ffa9dbb857f778f4c", "preimageBytes": 532 },
+        { "id": "valid-stored-view-read-artifact-no-attempt", "commitment": "sha256:b10db096c1fb8056ba4c34ab473b5b7be7d7e2c233163beb4cfcaabf70054fc6", "preimageBytes": 633 },
+        { "id": "valid-stored-view-read-fact-view-no-attempt", "commitment": "sha256:da8fcd27e6aae1321670d30fb65eae4de6eeb70d87b2dd70277604d35778e2d8", "preimageBytes": 622 }
+      ],
+      "sideObservation": "Four of the seven are intentKind=stored-view. The effective C-2 v9 contract states at planIntent.attemptAndExecutionJoin.appliesWhen, verbatim: 'intentKind=analysis. intentKind=stored-view creates neither an attempt nor an ExecutionPlan.' So four of the seven pinned planIntentCommitment vectors belong to intents that provably have NO ExecutionPlan. A planIntentCommitment therefore exists in cases where an executionPlanCommitment cannot. This is recorded as an observation and NOT advanced as proof the fields differ, because none of those four ever reaches an ActivationManifestV1, an EvaluationAuthoritySealV1 or a TerminalRunV1, where the executionPlanCommitment position lives."
+    }
+  },
+
+  "preimageAdmissibility": {
+    "question": "Does planIntentCommitment's preimage admit execution-plan content at all?",
+    "answer": "NO.",
+    "quotedRecipe": "UTF8(\"opensip.plan-intent.v1\") || 0x00 || opensip-canonical-json-v1(PlanIntent)",
+    "quotedRecipeLocation": "effective C-2 v9 contract, planIntent.canonicalCommitment.preimage (inherited unchanged from c2-plan-stage-schema.v4.json; none of v9's 13 derivation operations touches this path)",
+    "quotedClosure": "The PlanIntent schema is closed before encoding, so an unknown field cannot hide outside the commitment.",
+    "quotedClosureLocation": "effective C-2 v9 contract, planIntent.canonicalCommitment.encoding.closure",
+    "planIntentTopLevelFields": ["schemaVersion", "intentKind", "analysis | storedView"],
+    "planIntentIsClosedTaggedUnion": "planIntent.schema.closed = true; taggedUnion.analysis.exactTopLevelFields = ['schemaVersion','intentKind','analysis']; taggedUnion.stored-view.exactTopLevelFields = ['schemaVersion','intentKind','storedView']",
+    "measuredAbsenceFromThePreimage": {
+      "rule": "walked every key of the fixture that IS the preimage (valid-minimal-analysis-intent.intent, 55 distinct keys) and tested membership of each ExecutionPlan field",
+      "snapshotId": "ABSENT from the preimage",
+      "planId": "ABSENT from the preimage",
+      "planIdentityInputs": "ABSENT from the preimage",
+      "planSchemaMajor": "ABSENT from the preimage",
+      "semanticUniverses": "ABSENT from the preimage",
+      "executionId": "ABSENT from the preimage",
+      "stages": "PRESENT, but only as analysis.admissionDescriptor.workflow.stages -- the INTENDED stage graph inside the admitted descriptor. The effective C-2 v9 contract requires ExecutionPlan.stages to EQUAL descriptor.workflow.stages (attemptAndExecutionJoin.equalityRule), so this is the descriptor's own field reached through the intent, not execution-plan content entering the intent preimage."
+    },
+    "whyThisIsCloseToDispositiveForReading2": "An ExecutionPlan provably carries content that the planIntentCommitment preimage cannot reach. The effective C-2 v9 contract states at planIntent.attemptAndExecutionJoin.postAdmissionFields, verbatim: 'planIdentityInputs.snapshotId is the sealed SnapshotId, planSchemaMajor is integer constant 1, and semanticUniverses is the closed provider-universe array derived under the admitted provider contributions. These are the only PlanDescriptor fields constructed after attempt admission; they cannot alter the admitted descriptor.' Three fields exist on the ExecutionPlan that are constructed AFTER the PlanIntent is frozen and are therefore outside its commitment by construction. If executionPlanCommitment is a commitment over the ExecutionPlan, it must be sensitive to them; planIntentCommitment cannot be. The two would then be provably different functions.",
+    "whyItIsNotFullyDispositive": "It establishes that a commitment over the ExecutionPlan WOULD differ from planIntentCommitment. It does not establish that executionPlanCommitment IS a commitment over the ExecutionPlan. Nothing in the corpus says what it is over. The inference 'the name says ExecutionPlan, therefore the preimage is the ExecutionPlan' is exactly the names-are-not-natures error, and it is refused here."
+  },
+
+  "theOwningSurfaceIsSilent": {
+    "why": "Freeze section 6 law 19: 'An identity namespace and its domain separator are minted by the surface that owns the identity, in that surface's own binding artifact.' C-2 owns PlanIntent and ExecutionPlan.",
+    "measurement": "The effective C-2 v9 contract was materialised (v4 + the 13 declared derivation operations) and searched. Result: 0 occurrences of the string 'executionPlanCommitment', against 30 substring occurrences of 'ExecutionPlan'. The predecessors c2-plan-stage-schema.v3.json and c2-plan-stage-schema.v4.json also hold 0 occurrences.",
+    "executionPlanRequiredList": {
+      "quotedFrom": "effective C-2 v9 contract, planIntent.attemptAndExecutionJoin.executionPlanRequired",
+      "value": ["snapshotId", "planId", "projectId", "planIntentCommitment", "planIdentityInputs", "stages"],
+      "reading": "executionPlanCommitment is NOT a required ExecutionPlan field in the surface that owns ExecutionPlan. The ExecutionPlan's own identity in C-2 is planId, a PLAN-ID-V1 digest over the thirteen-field PlanDescriptorV1. The commitment the ExecutionPlan carries is planIntentCommitment, a backlink to the admitted intent -- carried at TWO positions, ExecutionPlan.planIntentCommitment and ExecutionPlan.planIdentityInputs.planIntentCommitment."
+    },
+    "consequence": "Every declaration of executionPlanCommitment in this corpus sits in a downstream record owned by EVALUATION-PROOF or EVIDENCE, never in the surface that owns the object it names. Under law 19 those surfaces may propose it; they may not close it. So the field is declared by surfaces that are not authorised to define it, and the surface that is authorised has not."
+  },
+
+  "tagDeclarations": {
+    "why": "The distinct tags are the strongest structural evidence available. This records exactly where they are declared and exactly what the assignment does and does not imply.",
+    "records": [
+      {
+        "record": "ActivationManifestV1",
+        "recordTag": "0x18",
+        "declaredAt": "artifacts/evaluation-proof.v8.json#normativePreimageGrammar.records[ActivationManifestV1].fields",
+        "planIntentCommitment": { "tag": "0x53", "encoding": "componentFrame(text)", "presence": "required" },
+        "executionPlanCommitment": { "tag": "0x54", "encoding": "componentFrame(text)", "presence": "required" },
+        "fieldOrder": ["schemaVersion", "projectId", "planId", "planIntentCommitment", "executionPlanCommitment", "resolvedActivationGraphRef", "members", "members[]"]
+      },
+      {
+        "record": "EvaluationAuthoritySealV1",
+        "declaredAt": "artifacts/evaluation-proof.v8.json#normativePreimageGrammar.records[EvaluationAuthoritySealV1].fields",
+        "planIntentCommitment": { "tag": "0x5b", "encoding": "componentFrame(text)", "presence": "required" },
+        "executionPlanCommitment": { "tag": "0x5c", "encoding": "componentFrame(text)", "presence": "required" },
+        "fieldOrder": ["schemaVersion", "projectId", "planId", "planIntentCommitment", "executionPlanCommitment", "activationManifestRef"]
+      },
+      {
+        "record": "TerminalRunV1",
+        "recordTag": "0x84",
+        "declaredAt": "artifacts/evidence.v10.json#canonicalWireGrammar.records.TerminalRunV1.fields",
+        "planIntentCommitment": { "tag": "0xb4", "type": "Raw commitment", "presence": "required" },
+        "executionPlanCommitment": { "tag": "0xb5", "type": "Raw commitment", "presence": "required" }
+      }
+    ],
+    "restatedAt": "artifacts/evidence-identity-recipes.v2.json lines 81-82 restate the ActivationManifestV1 and EvaluationAuthoritySealV1 tag assignments verbatim. That artifact is a candidate and restates rather than originates.",
+    "whatTheTagAssignmentImplies": "Under evaluation-proof.v8#canonicalCommitmentGrammar.component -- verbatim 'uint8(typeTag) || uint32be(len(utf8)) || utf8' -- each field is independently framed with its own leading type tag. Two distinct required tags in one record therefore mean: two separately framed, separately required, separately supplied POSITIONS, both of which must be present for the record to encode. The preimage of the record contains the value twice, under two different tags.",
+    "whatTheTagAssignmentDoesNotImply": "It does not imply the two positions carry different values. A TLV grammar with two distinct required tags is exactly as consistent with one value carried at two positions as with two independent values. Tag distinctness is a property of the encoding, not of the provenance. This is stated explicitly because inferring semantics from tag distinctness is the tempting move here and it is not sound.",
+    "typeIsNotDiscriminating": {
+      "observation": "In TerminalRunV1 BOTH fields carry type 'Raw commitment'. The declared type does not distinguish them.",
+      "isRawCommitmentDefined": "NO",
+      "searchPerformed": "grep -rn for 'Raw commitment', 'RawCommitment' and 'rawCommitment' across all of docs/coop including artifacts/*.json, artifacts/*.py, IMPLEMENTATION-FREEZE.md and IMPLEMENTER-BLUEPRINT.md. Every hit is a field 'type' VALUE inside evidence.v4/v5/v6/v7/v8/v9/v10 record grammars (18 hits, two per version), plus two quotations of those hits inside artifacts/uncomputable-identity-fields.sweep.v1.json. Zero definitions. 'Raw commitment' is a type name used and never defined."
+    }
+  },
+
+  "evidenceForReading1_theyAreTheSame": {
+    "strength": "non-normative only",
+    "items": [
+      {
+        "id": "S1",
+        "where": "artifacts/check-evaluation-proof.py, line 2265",
+        "quoted": "if c2_join.get(\"expectedPlanIntentCommitment\") != commitment or c2_join.get(\"executionPlanCommitment\") != commitment:",
+        "context": "the preceding line computes commitment = c2mod.plan_intent_commitment(fixture[\"intent\"], c2_contract) -- a LIVE recomputation through C-2's own module over the named PlanIntent fixture",
+        "findingTextEmitted": "EP-12: C2 PlanIntent/ExecutionPlan commitment equality does not recompute",
+        "reading": "This checker requires executionPlanCommitment to equal the freshly recomputed planIntentCommitment. It is the strongest 'same' evidence in the corpus."
+      },
+      {
+        "id": "S2",
+        "where": "artifacts/check-evaluation-proof-v6.py, lines 456-458",
+        "quoted": "if value[\"activationManifest\"].get(\"executionPlanCommitment\") != intent_commitment or value[\"evaluationAuthoritySeal\"].get(\"executionPlanCommitment\") != intent_commitment: raise ValueError(\"execution plan commitment differs from admitted PlanIntent\")",
+        "reading": "The raised message names the admitted PlanIntent as the thing the execution plan commitment must not differ from."
+      },
+      {
+        "id": "S3",
+        "where": "artifacts/check-evaluation-proof-v10.py, lines 1063-1077",
+        "quoted": "manifest = {... \"planIntentCommitment\": commitment, \"executionPlanCommitment\": commitment, ...} ... seal = {... \"planIntentCommitment\": commitment, \"executionPlanCommitment\": commitment, ...}",
+        "reading": "A checker CONSTRUCTS both record fields from one variable. The aliasing is not observed in fixture data here; it is generated."
+      },
+      {
+        "id": "S4",
+        "where": "measured, this run",
+        "quoted": "132 of 132 co-occurring records are byte-identical; 0 differ",
+        "reading": "The corpus is entirely consistent with the alias."
+      }
+    ],
+    "whyThisDoesNotSettleIt": [
+      "Freeze section 6 law 19: 'A candidate, a review, a record, a checker or an implementer may propose one; none of them may close a row with one.' A checker cannot close an identity row. Freeze section 7.1 repeats the exclusion: 'None may be closed by this record, by the blueprint, by a checker, or by an implementer.'",
+      "S1 and S2 constrain the CONTENT OF A TEST VECTOR against a recomputation. Neither states a preimage, a domain separator, or a producing rule for the field in the product. A vector constraint is not a field semantics.",
+      "S1 and S2 live in superseded checker generations. Measured occurrence counts of the string 'executionPlanCommitment' across the evaluation-proof checker chain: check-evaluation-proof.py 13, -v6.py 2, -v7.py 0, -v8.py 0, -v9.py 1, -v10.py 2, -v11.py 0, -v12.py 0, -v13.py 0. The pinned EVALUATION-PROOF head is evaluation-proof.v8.json (check-package-coherence reports v9..v13 as 'successor review state REJECT; head correctly unchanged'), and its own generation check-evaluation-proof-v8.py names the field ZERO times. The equality assertion was not carried forward into the head.",
+      "S3 is a generator, not an observation: it proves only that the fixture author wrote one value into two slots.",
+      "S4 is exactly what reading 2 predicts if the fixtures are degenerate, and the degeneracy is measured above (one planId and one snapshotId per planIntentCommitment, universally). Under a degenerate fixture set the two readings are observationally identical, which is the whole finding."
+    ],
+    "headCheckerBehaviour": {
+      "where": "artifacts/check-evidence-v10.py, the EVIDENCE head's own checker, lines ~667 and ~713",
+      "quoted": "\"executionPlanCommitment\": seal.get(\"executionPlanCommitment\") ... \"executionPlanCommitment\": values[\"executionPlanCommitment\"]",
+      "reading": "The head checker COPIES the value from the seal into the index and then into TerminalRunV1. It never computes it and never compares it to anything. This is consistent with the sweep's LITERAL-ONLY classification and adds no semantic information."
+    }
+  },
+
+  "evidenceForReading2_theyAreDifferent": {
+    "strength": "structural only",
+    "items": [
+      { "id": "D1", "claim": "Two distinct required tags in the same closed record, in three closed records (0x53/0x54, 0x5b/0x5c, 0xb4/0xb5).", "limit": "establishes distinct positions, not distinct values" },
+      { "id": "D2", "claim": "planIntentCommitment's preimage provably cannot admit execution-plan content: the PlanIntent schema is closed at exactly three top-level fields, and snapshotId, planId, planIdentityInputs, planSchemaMajor, semanticUniverses and executionId are all measured ABSENT from it.", "limit": "establishes that a commitment over the ExecutionPlan would differ; does not establish that executionPlanCommitment is one" },
+      { "id": "D3", "claim": "C-2, the surface that owns ExecutionPlan and the only surface law 19 permits to mint this identity, never names the field and does not list it among executionPlanRequired.", "limit": "silence is not a negative statement" },
+      { "id": "D4", "claim": "The corpus separates the objects in prose. artifacts/delivery.v2.json#externalScannerOverlay.inputRepresentation reads verbatim: 'The fully profile-expanded, normalized and frozen pre-admission PlanIntent while still at request-validation. Its planIntentCommitment is SHA-256 over canonical JSON v1 under domain opensip.plan-intent.v1; rejection inspects the committed object, never a later ExecutionPlan reconstruction.'", "limit": "this sentence distinguishes the committed OBJECT from a later ExecutionPlan reconstruction, which is about what admission inspects. It does not mention executionPlanCommitment and does not assert that a second commitment exists." },
+      { "id": "D5", "claim": "artifacts/resolved-inputs.v2.json#planIdContract preimage rule reads verbatim: 'SnapshotId is the sole included lifecycle identity because it binds the content being planned; planIntentCommitment is a content commitment, not RequestId or ExecutionId.' PLAN-ID-V1's thirteen-field preimage carries planIntentCommitment at tag 13 and snapshotId at tag 1 as SEPARATE inputs, so the corpus already treats intent content and planned content as two distinct commitments-worth of information.", "limit": "this is about PlanId's preimage, not about executionPlanCommitment" }
+    ]
+  },
+
+  "theSeparatingInput": {
+    "appliesTo": "reading 2, if it holds",
+    "canItBeSpecifiedFromTheCorpus": true,
+    "input": "Admit the SAME PlanIntent twice against two different repository worktree contents, within the same project.",
+    "stepByStep": [
+      "1. Take the C-2 fixture valid-minimal-analysis-intent. Its PlanIntent bytes are frozen at attempt admission; planIntentCommitment = sha256:dca3a310674308c9bb951c5716ee871d19df42f4df07b406533a199d99a8c36d over a 2463-byte preimage. Reproduced this run.",
+      "2. Admit it a second time with the repository content changed. The PlanIntent is byte-identical -- snapshotId is measured ABSENT from the PlanIntent preimage -- so planIntentCommitment is byte-identical. This is not an assumption: it is the encoder result over the same bytes.",
+      "3. C-2 states at planIntent.attemptAndExecutionJoin.postAdmissionFields that planIdentityInputs.snapshotId is 'the sealed SnapshotId', constructed AFTER attempt admission. Different content seals a different SnapshotId.",
+      "4. resolved-inputs.v2#planIdContract carries snapshotId at PLAN-ID-V1 preimage tag 1, and its ownerAndLifecycle.retryRule states verbatim: 'Rebuilding the same admitted Snapshot and the same thirteen semantic fields yields the same PlanId across ExecutionIds and RequestIds. A changed semantic field yields a different PlanId'. A changed Snapshot therefore yields a different PlanId.",
+      "5. The two ExecutionPlans now differ in snapshotId, planId and planIdentityInputs.snapshotId, while sharing one planIntentCommitment.",
+      "6. THE DISCRIMINATOR: if executionPlanCommitment is a commitment over the ExecutionPlan, the two records MUST carry different executionPlanCommitment values. If it is an alias for planIntentCommitment, they MUST carry the same value. No other input in the corpus forces the two readings apart."
+    ],
+    "cheaperVariant": "Any post-admission-only field works. planIdentityInputs.semanticUniverses is 'the closed provider-universe array derived under the admitted provider contributions' and is likewise constructed after admission; two provider universes over one admitted contribution set separate the readings identically without needing a second snapshot.",
+    "whyNoVectorExercisesIt": {
+      "measured": "Every hash-valued planIntentCommitment in the corpus maps to exactly one snapshotId and exactly one planId. There are 4 hash-valued planIntentCommitment values and 4 corresponding (snapshotId, planId) pairs, with no sharing and no variation.",
+      "cause": "Every fixture in the corpus builds its ExecutionPlan from its PlanIntent in a single fixed way. The two distinct executionPlanCommitment values arise from a change to the INTENT (measured: 7c3174f6 is the dca3a310 intent with scope.projectId changed), never from a change to anything downstream of it. So every published variation moves the intent and the plan together, and no vector holds one fixed while moving the other.",
+      "consequence": "An implementer who computes one commitment and writes it into both tags passes all 139 sites, all 132 co-occurring records, and every checker in the corpus. There is no negative control anywhere that would fail."
+    },
+    "notAProposal": "This describes a test the corpus does not contain. It is not proposed as a vector to add, and adding it would not be this artifact's to do -- the input only discriminates once C-2 says what the field is over."
+  },
+
+  "whatWouldSettleIt": {
+    "authority": "Freeze section 6 law 19 places this with C-2, in C-2's own binding artifact, because C-2 owns both PlanIntent and ExecutionPlan. Neither EVALUATION-PROOF nor EVIDENCE may close it; both currently declare it.",
+    "location": "the C-2 head's planIntent.attemptAndExecutionJoin block -- the same block that already carries executionPlanRequired, planIdentityInputsRequired, equalityRule and postAdmissionFields, and that currently does not contain the string 'executionPlanCommitment' at all",
+    "ifReading1_same": {
+      "sentenceShape": "One sentence in C-2's binding artifact of the form: 'An ExecutionPlan carries no commitment of its own. Wherever a downstream record requires executionPlanCommitment, that field is byte-identical to planIntentCommitment, recomputed from AttemptRecord.admittedPlanIntent; the two tags carry one value.'",
+      "whatElseMustChange": [
+        "The redundancy must then be stated somewhere normative rather than left implicit -- three closed records would carry a required field that is definitionally a copy of its neighbour.",
+        "evaluation-proof.v8's ActivationManifestV1 (0x53/0x54) and EvaluationAuthoritySealV1 (0x5b/0x5c) and evidence.v10's TerminalRunV1 (0xb4/0xb5) would each need either a collapse of the two tags or an explicit statement that the duplication is deliberate, since a required duplicated field in a digest preimage is a substitution surface: an attacker or a bug that moves one and not the other produces a record the grammar still accepts.",
+        "The freeze's section 7.1 treatment would change from 'no producing rule' to 'producing rule is planIntentCommitment's', which is a closure and therefore needs a binding artifact, not this one."
+      ]
+    },
+    "ifReading2_different": {
+      "sentenceShape": "A recipe in C-2's binding artifact of the form: 'executionPlanCommitment = SHA-256( UTF8(\"opensip.execution-plan.v1\") || 0x00 || opensip-canonical-json-v1(ExecutionPlan) ), textual form sha256:<64 lowercase hex>', together with the closed ExecutionPlan field list it encodes and at least one vector in which two ExecutionPlans share a planIntentCommitment and carry different executionPlanCommitment values.",
+      "note": "The domain separator string is written here only to show the SHAPE the corpus uses for every other recipe. It is not proposed, and minting it is C-2's act under law 19, not this artifact's. Measured: no string matching 'opensip.execution' or 'opensip.execution-plan' exists anywhere in docs/coop."
+    },
+    "ifReading3_undetermined_isAccepted": {
+      "sentenceShape": "The minimum that would make the gap compliant rather than silent is one row in IMPLEMENTATION-FREEZE.md section 7.1's parked table naming executionPlanCommitment, with the implementer rule 'Escalate. Do not infer that it equals planIntentCommitment because every published vector makes them equal -- the fixtures are degenerate and cannot distinguish the readings.'",
+      "whyThatWording": "Section 7.1's stated purpose is verbatim that 'until this revision these were named nowhere -- which made a compliant implementer's only options to guess or to stall. Naming them makes escalation compliant.' executionPlanCommitment is currently in exactly that state: it is discussed in section 7's sweep narrative but is not a row of the section 7.1 parked table, so escalating it is not yet the compliant move.",
+      "notDoneHere": "This artifact does not add that row. Adding it is a freeze edit and this artifact changes nothing."
+    }
+  },
+
+  "nameNotNatureTraps": {
+    "why": "Two traps were found and both would have produced a wrong answer if read by name.",
+    "trap1": {
+      "name": "c2-plan-stage-schema.v3/v4 intentBindingFixtures fixture id 'reject-execution-plan-commitment-substitution'",
+      "looksLike": "a negative vector exercising executionPlanCommitment",
+      "actuallyIs": "its executionPlanMutation is {\"op\": \"set\", \"path\": \"/planIntentCommitment\", \"value\": \"sha256:ffff...\"} -- it mutates the ExecutionPlan's planIntentCommitment. The fixture name means 'substitution of the commitment ON the execution plan', not 'substitution of the executionPlanCommitment'.",
+      "consequence": "These two fixture ids are the ONLY occurrences of the substring 'execution-plan' anywhere in docs/coop besides this file. A grep for 'execution-plan' that trusted names would report coverage that does not exist."
+    },
+    "trap2": {
+      "name": "rust-provider-protocol.v1#wireSchema.payloadSchemas.OpenUniverseV1.fields.planIntentCommitment = 'Sha256Text exact verified ExecutionPlan value'",
+      "looksLike": "a statement that planIntentCommitment IS an ExecutionPlan value, i.e. that the two are the same thing",
+      "actuallyIs": "a field description naming the SOURCE of the value: the provider receives the verified planIntentCommitment as carried on the ExecutionPlan record, which C-2's executionPlanRequired list confirms the ExecutionPlan carries. Its sibling descriptions follow the same pattern ('SnapshotId exact verified value', 'PlanId exact verified value'). rust-provider-protocol.v2 shortens it to plain 'Sha256Text'.",
+      "additionalObservation": "The provider wire protocol's OpenUniverseV1/V2 required field list is ['executionId','snapshotId','planId','planIntentCommitment','providerId','universe','repositoryResolution']. executionPlanCommitment is not on it. Providers never see the field."
+    }
+  },
+
+  "negativeClaims": {
+    "why": "A lane recently published a negative claim ('nowhere stated') that was false and propagated into the freeze before a reviewer caught it. Each negative claim below carries the search that establishes it.",
+    "claims": [
+      {
+        "claim": "No producing rule -- no preimage, no domain separator, no derivation -- for executionPlanCommitment exists in any JSON artifact in docs/coop.",
+        "search": "(a) grep -rl 'executionPlanCommitment' over all of docs/coop returns 34 files: 11 checker .py files, 22 .json artifacts, and IMPLEMENTATION-FREEZE.md. (b) Every one of the 139 JSON sites was enumerated with its full JSON path and inspected. (c) A regex sweep for /executionPlanCommitment|ExecutionPlan\\s*[Cc]ommitment|execution-plan[.-]?commitment|opensip\\.execution-plan/ across every JSON string value over 60 chars and every line of every .md/.py/.txt returned 35 distinct prose occurrences, all of which are reproduced or characterised in this artifact.",
+        "result": "Zero JSON artifacts state a preimage, domain separator or derivation. The only computational statements are the three checker sites S1, S2, S3."
+      },
+      {
+        "claim": "No domain separator for an execution-plan commitment exists anywhere in docs/coop.",
+        "search": "grep -rn 'opensip\\.execution' over all of docs/coop: zero hits. grep -rni for 'execution-plan.v1', 'opensip.execution-plan', 'execution-plan-commitment': zero hits. For contrast, the corpus's opensip.* separator vocabulary was enumerated (grep -rhoE '\"opensip\\.[a-z0-9.-]+\"' over artifacts/*.json) and includes opensip.plan-intent.v1, opensip.plan-id, opensip.canonical-json.v1, opensip.coverage.subject-scope.v1, opensip.run-id.v1 and others -- every other identity in this family has one.",
+        "result": "The field has no namespace."
+      },
+      {
+        "claim": "The effective C-2 v9 contract does not name executionPlanCommitment.",
+        "search": "Materialised the effective contract by applying all 13 derivedFrom.operations to the digest-verified v4 predecessor, then (a) walked every node for keys named executionPlanCommitment: 0 hits; (b) counted the substring in the serialised document: 0. check-c2-v9.py was independently executed and exited 0. c2-plan-stage-schema.v3.json and .v4.json were also searched directly: 0 hits each.",
+        "result": "The owning surface is silent on the field, in the head and in both predecessors."
+      },
+      {
+        "claim": "IMPLEMENTER-BLUEPRINT.md does not mention executionPlanCommitment.",
+        "search": "grep -c 'executionPlanCommitment' IMPLEMENTER-BLUEPRINT.md returns 0.",
+        "result": "confirmed"
+      },
+      {
+        "claim": "d9-exit-contract.v1.14.json is not a consuming position for executionPlanCommitment.",
+        "search": "grep -n for 'executionPlanCommitment', 'ExecutionPlan commitment' and 'executionPlan' in artifacts/d9-exit-contract.v1.14.json returns zero hits.",
+        "result": "D-9 does not carry the field. It was named in the investigation brief as a consuming position to check; it is not one."
+      },
+      {
+        "claim": "The type name 'Raw commitment' is used and never defined.",
+        "search": "grep -rn for 'Raw commitment', 'RawCommitment', 'rawCommitment' across artifacts/, IMPLEMENTATION-FREEZE.md and IMPLEMENTER-BLUEPRINT.md. All hits are field 'type' values inside evidence.v4..v10 record grammars, plus two quotations in uncomputable-identity-fields.sweep.v1.json. No definition site.",
+        "result": "confirmed. Note that planIntentCommitment carries the same undefined type in TerminalRunV1, so the type does not discriminate between the two fields either."
+      },
+      {
+        "claim": "No vector anywhere in the corpus holds a PlanIntent fixed while varying a post-admission input.",
+        "search": "Walked every JSON object in all 389 files; for each object carrying a planIntentCommitment, collected its sibling planId and snapshotId. Every hash-valued planIntentCommitment maps to exactly 1 planId and exactly 1 snapshotId. Full table at measurement.degeneracyMeasurement.result.",
+        "result": "confirmed. This is the reason the two readings cannot be separated by any existing test."
+      }
+    ]
+  },
+
+  "relationToLB_C2_01": {
+    "sharedShape": "the wrong answer is indistinguishable from the right one under every test that exists",
+    "differenceInKind": "LB-C2-01 was a defect IN a checker's comparison -- a bare '!= 1' where the host evaluates True == 1 and 1.0 == 1 as true. It had a right answer that the corpus stated and the checker failed to enforce, which is why each successive repair could be verified against the stated answer. This position has NO stated answer to enforce. No checker fix can close it, and no checker fix should be attempted: a checker that enforced either reading would be closing an identity row, which freeze section 6 law 19 and section 7.1 both forbid. That is the substantive difference, and it means the LB-C2-01 remedy pattern does not transfer.",
+    "correctionToFraming": "The freeze narrative at line ~1351 says the contracts give the two fields distinct tags 'while' the values are identical, and concludes the implementer 'will infer the alias ... and have invented a semantic identity the contracts imply must differ' (quoting uncomputable-identity-fields.sweep.v1#positions.literalOnly[4].measuredAliasing). The measured position is narrower than 'the contracts imply must differ': distinct tags imply distinct POSITIONS, and the contracts do not imply anything about the values. The risk the freeze identifies is real and correctly identified; the entailment it states is stronger than the evidence supports. Recorded as a measurement, not as a change to the freeze."
+  },
+
+  "whatCouldNotBeDetermined": [
+    "What executionPlanCommitment is a commitment OVER. No artifact says. This is the question and it is unanswered.",
+    "Whether the equality asserted at check-evaluation-proof.py:2265 and check-evaluation-proof-v6.py:456 was a deliberate semantic decision or a fixture-construction convenience. The checkers assert the equality; no artifact explains it; no design note, review or adjudication was found discussing it. Searched: the 35 distinct prose occurrences of the field across the corpus, and the review/adjudication artifacts for C-2, EVALUATION-PROOF and EVIDENCE. The reviews that mention the field (ep9.review-independent, retention-tiers.v8.rereview2-independent-reviewer13, div2-subject-leaf-privacy.decision-brief.v1) all treat it as an already-settled carried value and none asks what it is over.",
+    "Why the equality assertion is present in check-evaluation-proof.py and -v6.py but absent from -v7.py, -v8.py, -v11.py, -v12.py and -v13.py. Occurrence counts were measured but the checkers' delta structure was not traced to determine whether the assertion was dropped, delegated, or restructured. Not traced because tracing it would require reading checker deltas as documents, and it would not change the answer: a checker cannot close the row either way.",
+    "Whether any surface OUTSIDE docs/coop defines the field. Only docs/coop was searched.",
+    "Whether the three closed records were authored from one template. The identical field ORDER (schemaVersion, projectId, planId, planIntentCommitment, executionPlanCommitment, ...) across ActivationManifestV1 and EvaluationAuthoritySealV1, and the same adjacency in TerminalRunV1, is consistent with a template, which would make the second field's presence a copy rather than a decision. This is suggestive and is NOT advanced as evidence, because authorship history is not measurable from these bytes.",
+    "This investigation used one encoder written this session. The seven pinned vectors have independently reproduced 7/7 under two other encoders per the corpus's own record, so the recipe is corroborated; but this artifact's own reproduction is single-encoder and does not by itself meet the two-encoder standard the corpus set."
+  ],
+
+  "inputsRead": {
+    "note": "digests measured this run; recorded so the reading above is falsifiable against exact bytes. Nothing here is a pin and nothing here binds.",
+    "files": [
+      { "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "note": "confirmed unchanged; not touched, not opened for edit" },
+      { "path": "IMPLEMENTATION-FREEZE.md", "sha256": "69e30454679c7d4d1e1cac556633497a04b19ca47adabf1eb912b39dcf581746" },
+      { "path": "artifacts/c2-plan-stage-schema.v9.json", "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1", "resolvedBy": "check-c2-v9.py executed, exit 0; and by applying its 13 declared operations to the verified v4 predecessor" },
+      { "path": "artifacts/c2-plan-stage-schema.v4.json", "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39", "note": "matches the digest pinned at c2-plan-stage-schema.v9#derivedFrom.sha256" },
+      { "path": "artifacts/check-c2-v9.py", "sha256": "ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035", "note": "executed, not modified" },
+      { "path": "artifacts/evaluation-proof.v8.json", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303" },
+      { "path": "artifacts/evaluation-proof.v9.json", "sha256": "02f9955f4f90e91afd163a5fa8274eb8832aa5419221da7e9e825a1cbf17430b" },
+      { "path": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4" },
+      { "path": "artifacts/resolved-inputs.v2.json", "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43" },
+      { "path": "artifacts/delivery.v2.json", "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3" },
+      { "path": "artifacts/rust-provider-protocol.v1.json", "sha256": "8c749eb7942a80cee3da2e304328addce4dac42e20a084b4ce26bcf31da51796" },
+      { "path": "artifacts/rust-provider-protocol.v2.json", "sha256": "6308a98c1183d75d671655b2a351334b62f4f2c00316983731ceabb86e90793b" },
+      { "path": "artifacts/uncomputable-identity-fields.sweep.v1.json", "sha256": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a" },
+      { "path": "artifacts/check-evaluation-proof.py", "sha256": "1ccc12c347f0c7598604227179a2ba0cc461466657908b5c5f9645db4f7b99e2", "note": "read as data only; not executed, not modified" },
+      { "path": "artifacts/check-evaluation-proof-v6.py", "sha256": "0a7ac122a598bb7b9454b1b3c46c586f6fd551a2a1ebcf5584665f875457c5f0", "note": "read as data only; not executed, not modified" },
+      { "path": "artifacts/check-evaluation-proof-v10.py", "sha256": "0606eae06088df67bc6cc25cfcff520160cf75f9db47ebde73c4f8962e8e07b1", "note": "read as data only; not executed, not modified" },
+      { "path": "artifacts/check-evidence-v10.py", "note": "read as data only; not executed, not modified" },
+      { "path": "artifacts/d9-exit-contract.v1.14.json", "note": "searched; holds zero occurrences of the field" },
+      { "path": "artifacts/evidence-identity-recipes.v2.json", "note": "restates the ActivationManifestV1 and EvaluationAuthoritySealV1 tag assignments" }
+    ]
+  },
+
+  "checkerIntegrity": {
+    "checkersEdited": "none",
+    "why": "Several checkers hash-verify their inputs at runtime and two self-pin (freeze section 7.6). Editing one is self-defeating. check-c2-v9.py was executed unmodified and reports its own bytes as sha256:ae9525f1d2efa7688fb6b678e89161f5cf1e3b38f7fd3a9f712c1b6a75be3035.",
+    "architecturePlanTouched": false,
+    "filesWritten": ["artifacts/execution-plan-commitment.investigation.v1.json"]
+  },
+
+  "verification": {
+    "runThisSession": [
+      { "command": "python3 -I -B artifacts/check-claims.py", "exit": 0, "asserted": "claim register OK -- 33 claims, 27/27 homes, 32/32 restatements, 8/8 artifact refs, CHK-0..CHK-5 clean" },
+      { "command": "python3 -I -B artifacts/check-product-dispositions.py", "exit": 0, "asserted": "7 non-retention choices bound; CD-RT-5 remains BLOCKED_ON_PHASE_1A; 3 assertions remain in 1 historical artifact" },
+      { "command": "python3 -I -B artifacts/check-c2-v9.py", "exit": 0, "asserted": "C-2 v9 contract OK; CD-RT-5 remains BLOCKED_ON_PHASE_1A" },
+      { "command": "python3 -I -B artifacts/check-retention-custody-v24.py", "exit": 0, "asserted": "retention-tiers.v24.json PASS; CD-RT-5 BLOCKED_ON_PHASE_1A; V10 UNRESOLVED" },
+      { "command": "python3 -I -B artifacts/check-d9-v1.14.py", "exit": 0, "asserted": "D9 v1.14 contract OK; 25 pins verified before retained execution" },
+      { "command": "python3 -I -B artifacts/check-package-coherence.py", "exit": 1, "asserted": "FINDINGS: 2, both PC-7-PINNED-ARTIFACT-IS-REJECTED, accounted: artifacts/rust-provider-protocol.v2.json and artifacts/threat-model.v3.json; pathsMissing 0" }
+    ],
+    "exitCodeDiscipline": "Each row asserts the specific result the run printed, not merely the exit code. The package-coherence exit 1 is the expected pre-existing state and its two findings are the two accounted PC-7 rows, not a guard fired by this artifact."
+  }
+}

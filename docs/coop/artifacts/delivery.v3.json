@@ -1,0 +1,1210 @@
+{
+  "artifact": "delivery.v3.json",
+  "surface": "DELIVERY",
+  "date": "2026-08-04",
+  "role": "CANDIDATE SUCCESSOR TO delivery.v2.json. Closes the capabilityManifestId identity row, rules sequence-versus-set, closes the installProfiles/ProfileEntry custody gap, and replaces this surface's own capabilityManifestId placeholder with a computed value.",
+  "status": "CANDIDATE",
+  "applicationState": "NOT APPLIED",
+  "reviewState": "AWAITING-INDEPENDENT-REVIEW",
+  "binds": "NOTHING",
+  "sealRecommendation": "DO-NOT-SEAL",
+  "headRepointing": "NONE. DELIVERY's head remains delivery.v2.json in IMPLEMENTATION-FREEZE.md section 3 and IMPLEMENTER-BLUEPRINT.md section 1.1. Repointing a head is a coordinator act and this document performs none. No status, disposition, verdict or seal anywhere else in the corpus is changed. CD-RT-5 remains BLOCKED_ON_PHASE_1A and no [UNSET] is touched.",
+  "whatThisDocumentIS": "A DELTA. Its effective contract is the VERIFIED predecessor with the operations in derivedFrom applied in order, and nothing else. No byte of the predecessor is transcribed into this file. Every set operation restates, type-exactly, the value it replaces, so a resolver refuses the derivation if the verified predecessor does not actually hold that value.",
+  "predecessor": {
+    "path": "artifacts/delivery.v2.json",
+    "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+    "verifiedAtAuthoring": true,
+    "whyItIsNOTEDITED": "IMPLEMENTATION-FREEZE.md section 7.2 -- a verdict binds bytes AND an environment, and delivery.v2 is pinned in freeze section 3 and blueprint section 1.1. Editing it in place would invalidate its review and silently move every downstream pin. A change to reviewed bytes requires a version bump and a new verdict; it may never be made in place.",
+    "itsReviewDoesNOTExtendHere": "the predecessor's independent review binds the predecessor's bytes. This document carries no inherited verdict and claims none."
+  },
+  "standingUnderFreezeSection6Law19": {
+    "law": "an identity namespace and its domain separator are minted by the surface that owns the identity, in that surface's own binding artifact.",
+    "whyTHISDOCUMENTMAYWRITETHESTRINGS": "DELIVERY owns CapabilityManifestV1, therefore owns capabilityManifestId, therefore is the only surface that may write down its namespace and separator. This is DELIVERY's own successor.",
+    "whatTHATDOESANDDOESNOTMAKETRUE": "law 19 says WHO may write them. IMPLEMENTATION-FREEZE.md section 7.1 says the row is closed only by a BINDING artifact. This document is a CANDIDATE and is therefore not one. The row is PROPOSED CLOSED by the right surface and is NOT CLOSED until a coordinator applies it after independent review.",
+    "whatISNOTEXTENDED": "evaluation-proof.v8#canonicalCommitmentGrammar.domains is a closed nine-member list belonging to EVALUATION-PROOF and is untouched. delivery.v2#typescriptSemanticSubstrate.providerProtocol.wireSchema.commitments.domains is a closed eight-member list belonging to the TypeScript provider wire protocol and is untouched. One new label is minted, in DELIVERY's own closed one-member capability-manifest vocabulary."
+  },
+  "parseDiscipline": {
+    "rule": "IMPLEMENTATION-FREEZE.md section 7.5. EVERY JSON document read in the course of authoring this file -- the predecessor, resolved-inputs.v2, both C-2 versions, evaluation-proof.v8, fact-plane.v1, the identity-recipe candidate and this file's own emitted bytes on read-back -- was parsed with an object_pairs_hook that RAISES on a duplicate key and NAMES the key it saw twice. json.loads without the hook keeps the LAST of duplicate keys, so a document can say one thing to a reader and another to every instrument while the parsed object stays byte-identical to the honest one.",
+    "result": "zero duplicate keys encountered in any input.",
+    "andTHISFILE": "this document contains no duplicate key at any depth; it was re-read with the same hook after emission and the parse was compared for equality against the object that produced it."
+  },
+  "authoringConditions": {
+    "rule": "IMPLEMENTATION-FREEZE.md section 7.2.1 item 4: drift discovered mid-work is a fact about that work's conditions and is recorded in it, never silently absorbed by re-running.",
+    "whatDRIFTED": "IMPLEMENTATION-FREEZE.md and IMPLEMENTER-BLUEPRINT.md were both MODIFIED BY ANOTHER LANE while this document was being authored. Measured at the start of this pass: freeze 36d0dd18d02b3b5f73bb891d6cd5eec198ab2bb6bbc63f4b396eee841716ff40, blueprint 73fc2b469bcc3815ec288a9a19cec74b69655dab40e23ec9e364a1bedab7e01a. Measured at emission and recorded in recordedInputs: freeze 32833361a16df941e06a4a63bb27257795d419a8ec0db400bc874b0f22aa0700, blueprint 2fba1e836d5636b9efe1cc58b7f1b3f1b69f89b79be7af8b87180c5c7fbccc60.",
+    "whichMEASUREMENTSWERETAKENAGAINSTWHICHBYTES": "NONE of this document's computed values depends on either file. Every digest, id, preimage and byte length published here is computed from artifacts/delivery.v2.json, artifacts/resolved-inputs.v2.json and artifacts/c2-plan-stage-schema.v4.json, none of which moved -- delivery.v2 is byte-identical to its pin throughout. The freeze and the blueprint are cited for PROPOSITIONS only.",
+    "andTHEPROPOSITIONSWERERECHECKEDAGAINSTTHENEWBYTES": "not assumed to have survived. Re-verified present in the live bytes after the drift: section 6 law 3's predicate-relative sentence, law 4's exact-Coverage sentence, law 18's closed-scalar admission rule, law 19's namespace-minting sentence, section 7.1's parked-field property, section 7.2's verdict-binds-bytes rule, section 7.2.1's freeze-at-dispatch rule, section 7.5's duplicate-key finding, the CD-RT-5 BLOCKED_ON_PHASE_1A disposition, and both blueprint section 5.1 clauses this document answers. All present. The diff is 719 insertions against 16 deletions across the two files, and no deletion touches a proposition cited here.",
+    "whatTHISDOCUMENTDIDNOTDO": "it did not edit either file, and it did not re-run its measurements to make the drift disappear. ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md was neither read for content nor written, and its digest is 47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e before and after, confirmed.",
+    "residualRISK": "if the other lane edits again after this file is emitted, the freeze and blueprint digests in recordedInputs go stale. That is a TRUE POSITIVE about these bytes under IMPLEMENTATION-FREEZE.md section 7.2.2's rule for recorded measurements, and a reviewer who finds a mismatch should re-check the ten propositions above rather than assume the citations failed."
+  },
+  "recordedInputs": {
+    "rule": "IMPLEMENTATION-FREEZE.md section 7.2's recording obligation, applied to an authoring artifact rather than to a review: every input this document's values depend on is named with its SHA-256, measured on the live bytes at authoring. A count is not a record and a prose assertion is not a record. Every digest below was produced by shasum -a 256 on the live file and hard-compared against the value written here before this file was finalised.",
+    "inputs": [
+      {
+        "path": "artifacts/delivery.v2.json",
+        "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+        "role": "PREDECESSOR. The verified base of derivedFrom, and the source of all four live capability manifests."
+      },
+      {
+        "path": "artifacts/resolved-inputs.v2.json",
+        "sha256": "0114205aaa5d3f7c0aecc58c10522711aacaa6aa404a41563245627b27b88f43",
+        "role": "the binding source of CVE1, of PLAN-ID-V1's framing and field order, of the two pinned PlanId golden vectors, and of the ^[0-9a-f]{64}$ text form this identity must satisfy."
+      },
+      {
+        "path": "artifacts/c2-plan-stage-schema.v4.json",
+        "sha256": "4876284790462968549f834b866c7ffc5f7be1c43b583169570c1947c5c4af39",
+        "role": "supplies the PlanIntent fixture the full-provider PlanId golden is materialised from."
+      },
+      {
+        "path": "artifacts/c2-plan-stage-schema.v9.json",
+        "sha256": "321faeaa3b70c83991f1cceefc9335891d69fa502b3d62cfa133494bb4e9c5a1",
+        "role": "read for planIntentCommitment as the convergence standard this recipe is written against, and for the derivedFrom shape."
+      },
+      {
+        "path": "artifacts/check-resolved-inputs.py",
+        "sha256": "7ffed1c0e66e345a72c5e0e7feaf332508d0842c1ecdba8572f872997917ffa0",
+        "role": "EXECUTED, not read: _materialize_plan_vector builds the full-provider PlanId input, which resolved-inputs.v2 supplies as a four-field construction rather than as a literal. IMPLEMENTATION-FREEZE.md section 7.3 permits executing a verified closure. The preimage and every digest were then computed by this artifact's own encoders, never by the checker."
+      },
+      {
+        "path": "artifacts/evaluation-proof.v8.json",
+        "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+        "role": "read for canonicalCommitmentGrammar and normativePreimageGrammar.recordRules. Its closed nine-member domain list is NOT extended by this artifact and is unchanged."
+      },
+      {
+        "path": "artifacts/plan-and-policy-identity-recipes.v2.json",
+        "sha256": "24bd4846d4666680b6275d29b9901ce903883620e6eea1339cdadf346ba3567c",
+        "role": "CANDIDATE INPUT, evaluated and partly adopted. See proposalEvaluation. It is an input to this successor, never an authority: under IMPLEMENTATION-FREEZE.md section 6 law 19 it cannot close a DELIVERY identity row however good its arithmetic is, and its arithmetic is good."
+      },
+      {
+        "path": "artifacts/fact-plane.v1.json",
+        "sha256": "9057200822c5be59bcf8e691e3755cfa1acf2c89f0b1c2bc89237afaa0925b4d",
+        "role": "relationRegistry, the admission precondition delivery.v2#capabilityManifestSchema.ProviderCapability.relationRule already requires."
+      },
+      {
+        "path": "IMPLEMENTATION-FREEZE.md",
+        "sha256": "32833361a16df941e06a4a63bb27257795d419a8ec0db400bc874b0f22aa0700",
+        "role": "sections 4.4, 6 (laws 3, 4, 6, 17, 18, 19), 7.1, 7.2, 7.2.1, 7.2.2, 7.4, 7.5, 7.6. NOT EDITED."
+      },
+      {
+        "path": "IMPLEMENTER-BLUEPRINT.md",
+        "sha256": "2fba1e836d5636b9efe1cc58b7f1b3f1b69f89b79be7af8b87180c5c7fbccc60",
+        "role": "section 1.1 (the delivery.v2 pin), section 5.1 (the sentence this artifact answers), section 7.2. NOT EDITED."
+      },
+      {
+        "path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md",
+        "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e",
+        "role": "NOT READ FOR CONTENT AND NOT TOUCHED. Its digest is recorded because it is pinned in 40 files including 7 checkers, so a signer comparing recorded digests needs this row to be present and equal rather than absent."
+      }
+    ],
+    "environment": {
+      "interpreter": "python3 -I -B, standard library only, no third-party package, no network",
+      "platform": "darwin",
+      "externalBinaries": "NONE. This artifact declares no environment prerequisite beyond a Python 3 interpreter; nothing here shells out. `timeout(1)` does not exist on the authoring host and no measurement needed it.",
+      "digestTool": "hashlib.sha256 in-process, hard-compared against shasum -a 256 for every digest published in this file"
+    }
+  },
+  "derivedFrom": {
+    "artifact": "delivery.v2.json",
+    "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3",
+    "rule": "The effective v3 contract is the VERIFIED predecessor document with the operations below applied in order, and nothing else. No byte of the predecessor is transcribed into this file. Every set operation restates, type-exactly, the value it replaces; a resolver that finds a different value in the verified predecessor must refuse the derivation rather than apply it. The shape of this block -- one predecessor name, one digest, one non-empty operation list -- is the one check-completeness.py resolves by shape rather than by key name.",
+    "operations": [
+      {
+        "op": "set",
+        "path": "version",
+        "from": 2,
+        "value": 3,
+        "why": "successor identity"
+      },
+      {
+        "op": "set",
+        "path": "supersedes",
+        "from": 1,
+        "value": 2,
+        "why": "successor identity"
+      },
+      {
+        "op": "set",
+        "path": "status",
+        "from": "CANDIDATE-ADJUDICATED (reviewer-2, implementer, reviewer-5 and reviewer-7 delivery/scope defects repaired; release evidence intentionally absent)",
+        "value": "CANDIDATE -- NOT APPLIED, AWAITING INDEPENDENT REVIEW. This document binds nothing. It does not repoint any head; DELIVERY's head remains delivery.v2.json until a coordinator applies a successor.",
+        "why": "this candidate's own standing, replacing the predecessor's. No disposition, verdict or seal anywhere else in the corpus is changed by this file."
+      },
+      {
+        "op": "set",
+        "path": "reviewStatus",
+        "from": "INDEPENDENTLY REVIEWED; R2-DL-01..08 adjudicated by agent-b; IP-R4-03/IP-R4-05, R5-DLTS-01/R5-DLTS-03/R5-DLSCOPE-01/R5-DLSCOPE-02 and DELIVERY-owned R7-C2-03 repaired by the provider/scope closure lane. Coordinator seal pending.",
+        "value": "AWAITING-INDEPENDENT-REVIEW. The predecessor's review verdict binds the predecessor's bytes and does not extend to these (IMPLEMENTATION-FREEZE.md section 7.2). No review of this document exists.",
+        "why": "IMPLEMENTATION-FREEZE.md section 7.2: a verdict binds bytes, so a successor carries no inherited verdict."
+      },
+      {
+        "op": "set",
+        "path": "author",
+        "from": "agent-3; repaired by agent-b and provider-scope closure lane",
+        "value": "delivery-successor authoring lane. NOT a reviewer, NOT a coordinator, NOT a signer. Did not author the predecessor and did not author the identity-recipe candidate this document evaluates.",
+        "why": "authorship of these bytes"
+      },
+      {
+        "op": "set",
+        "path": "initialProductScope.v1PlanIntentOverlay.fixtureModel.baseAllowedAnalysisIntent.analysis.admissionDescriptor.release.capabilityManifestId",
+        "from": "2222222222222222222222222222222222222222222222222222222222222222",
+        "value": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+        "why": "THE PLACEHOLDER, REPLACED BY A COMPUTED VALUE. The fixture's own release.profileId is 'core', and the core profile's CapabilityManifestV1 is live in this same document, so the value is derivable and a placeholder in the owning artifact is exactly what IMPLEMENTATION-FREEZE.md section 7.1's property says a real rule must replace. The value is CAP-MANIFEST-ID-V1 applied to CVE1(canonicalise(installProfiles.profiles[0].capabilityManifest)), published with its complete committed byte string at capabilityManifestIdentity.vectors.byId['DCM-1-core']. The sibling manifestId stays a placeholder for a stated reason: see declaredUnresolvedDependencies.DUD-V3-5."
+      },
+      {
+        "op": "set",
+        "path": "supplyChain.provenanceInPlanId",
+        "from": "manifestId and selected profile capabilityManifestId enter PlanId.",
+        "value": "manifestId and selected profile capabilityManifestId enter PlanId. The host RECOMPUTES capabilityManifestId from the committed capability-manifest artifact bytes under CAP-MANIFEST-ID-V1 and refuses the release if it differs from ProfileEntry.capabilityManifestId; a supplied capabilityManifestId is never authority.",
+        "why": "the recompute obligation stated where the PlanId provenance is stated. It was previously unstatable because the bytes were unreachable -- see capabilityManifestCustody."
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.capabilityManifestId",
+        "value": {
+          "recipe": "CAP-MANIFEST-ID-V1",
+          "textForm": "^[0-9a-f]{64}$",
+          "oneLine": "hex( SHA-256( UTF8(\"opensip.capability-manifest.v1\") || 0x00 || CVE1(CapabilityManifestV1) ) )",
+          "normativeDetail": "capabilityManifestIdentity, in this document. This pointer exists so a reader of the schema meets the identity rule where the schema is."
+        },
+        "why": "the schema section names its own identity"
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.orderedCollections",
+        "value": {
+          "DL-ORD-1": "Every ordered collection in a COMMITTED CapabilityManifestV1 is already in its declared canonical order -- strictly ascending by unsigned bytewise comparison of its declared sort key's NFC UTF-8 bytes. A committed manifest that is not is REJECTED (RELEASE.CAPABILITY_MANIFEST_NOT_CANONICAL), never sorted into shape by a consumer. Canonicalisation is a producer act performed once, at release build, before the id is minted.",
+          "DL-ORD-2": "A collection is ORDER-BEARING only if this schema names it so. Position in a JSON array carries no meaning by default, at any depth, including in collections a later successor adds. THIS SCHEMA NAMES NONE.",
+          "declaredSortKeys": {
+            "CapabilityManifestV1.providers": "providerId, unique",
+            "CapabilityManifestV1.coverageForAbsent": "providerId, unique",
+            "ProviderCapability.platformIds": "the element string, unique",
+            "AbsentCapability.relationIds": "the element string, unique",
+            "ProviderCapability.relations": "NOT AN ORDERED COLLECTION -- a JSON object, whose CVE1 entries are key-sorted and whose duplicate keys are rejected"
+          },
+          "orderBearingExemptions": [],
+          "ifPRECEDENCEISEVERWANTED": "it is expressed by an explicit declared field and never by array position, and adding that field is a schemaVersion event. The product question is left open on purpose; only the wire-format question is answered.",
+          "rationale": "capabilityManifestIdentity.orderingRuling, in this document, with per-field reasons and eleven executed negative controls."
+        },
+        "why": "THE SEQUENCE-VERSUS-SET RULING, stated in the schema that owns the collections"
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.CapabilityManifestV1.uniquenessRule",
+        "value": "providers and coverageForAbsent are keyed sets: providerId is unique within each. Duplicate exact members are unrepresentable because DL-ORD-1 requires STRICT ascent.",
+        "why": "the uniqueness rule delivery.v2 stated for none of the four collections"
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.recordClosure",
+        "value": {
+          "DL-CLOSED-1": "EVERY JSON OBJECT REACHABLE FROM A COMMITTED CapabilityManifestV1 IS CLOSED: the record itself, every element of every declared collection, every value of every declared map, and every object a later successor adds at any depth carries EXACTLY its declared key set, each key exactly once, with no undeclared member. A reachable object type that declares no key set is a schema defect and is inadmissible until it declares one.",
+          "DL-INJ-1": "Every degree of freedom the wire form has that the data model does not have is closed at ADMISSION, never absorbed at ENCODING. Operative form: for every admitted CapabilityManifestV1, encode moves no byte that admission did not already fix.",
+          "detector": "decode(encode(x)) == x, LITERALLY, for every admitted x. This one equation fails on the ORDERING channel and on the UNDECLARED-MEMBER channel, and will fail on the next one without being told to look for it. MEASURED true on 7 of 7 committed vectors.",
+          "closedTypesToday": [
+            "CapabilityManifestV1",
+            "ProviderCapability",
+            "AbsentCapability"
+          ],
+          "rationale": "capabilityManifestIdentity.recordClosure, in this document, with the collision reproduced and a negative control that fails under the unclosed reading."
+        },
+        "why": "DL-CLOSED-1 AND DL-INJ-1 AS PROPERTIES. An independent review found a SECOND many-to-one channel into capabilityManifestId: delivery.v2 closes CapabilityManifestV1 and neither of its two children, so under a name-reading grammar two documents differing by an undeclared member mint one id. Reproduced in this document. Closing the two named children alone would reopen the hole the first time a third reachable type is added, which is how this one arrived; the property quantifies over reachability instead."
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.ProviderCapability.closed",
+        "value": true,
+        "why": "DL-CLOSED-1 applied to today's schema. delivery.v2 declares closed only on CapabilityManifestV1. This is a narrowing: every manifest admissible before remains admissible."
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestSchema.AbsentCapability.closed",
+        "value": true,
+        "why": "DL-CLOSED-1 applied to today's schema, same reason."
+      },
+      {
+        "op": "add",
+        "path": "releaseManifestSchema.ArtifactEntry.capabilityManifestArtifactRule",
+        "value": "A profile's committed CapabilityManifestV1 is a release artifact like any other: an ArtifactEntry with mediaType 'application/vnd.opensip.capability-manifest.v1', executable false, whose sha256 covers the CVE1 committedBytes. It therefore falls under artifactSetRule -- 'artifacts is the exact installable set' -- and needs no second custody mechanism. See capabilityManifestCustody.",
+        "why": "DL-CUST-1: the manifest bytes are placed inside the set the release already commits to"
+      },
+      {
+        "op": "add",
+        "path": "releaseManifestSchema.ProfileEntry.capabilityManifestBinding",
+        "value": "capabilityManifestId is well formed only if this ProfileEntry's artifactIds closure contains EXACTLY ONE ArtifactEntry with the capability-manifest mediaType, and the bytes that entry's sha256 covers recompute under CAP-MANIFEST-ID-V1 to capabilityManifestId. The decoded manifest's `profile` MUST equal this entry's `profileId`. The join is a CONTENT test, never a name lookup, which is why the 'profile' / 'profileId' spelling difference cannot break it. See capabilityManifestCustody.",
+        "why": "DL-CUST-2 and DL-CUST-3: the join that did not exist"
+      },
+      {
+        "op": "add",
+        "path": "installProfiles.committedFormRule",
+        "value": "installProfiles is the AUTHORING catalogue. profiles[i].capabilityManifest is an authoring value; the committed artifact for that profile is CVE1(canonicalise(that value)) and only the committed form has a capabilityManifestId. MEASURED: all four authoring values as written fail ADM-ORDER, which is not a defect in them -- an authoring catalogue is not a release. The four committed byte strings, their SHA-256s and their ids are published at capabilityManifestIdentity.vectors.",
+        "why": "DL-CUST-4: separating the authoring form from the committed form, which is what makes canonicalisation a producer act with exactly one place to happen"
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestIdentity",
+        "value": {
+          "id": "CAP-MANIFEST-ID-V1",
+          "field": "capabilityManifestId",
+          "standing": "PROPOSED BY THIS CANDIDATE. This file is CANDIDATE / NOT-APPLIED / AWAITING-INDEPENDENT-REVIEW and binds nothing. IMPLEMENTATION-FREEZE.md section 7.1 requires a BINDING artifact to close the row; a candidate is not one. What law 19 settles is WHO may write these strings down, and the answer is DELIVERY, which is why they are written here and not in a recipe candidate, a review, a checker or an implementer.",
+          "ownership": "DELIVERY owns CapabilityManifestV1, therefore DELIVERY owns capabilityManifestId, therefore this identity's namespace and domain separator are minted in DELIVERY's own bytes. IMPLEMENTATION-FREEZE.md section 6 law 19.",
+          "textForm": {
+            "form": "64 lowercase hexadecimal characters, no scheme prefix",
+            "regex": "^[0-9a-f]{64}$",
+            "whyBareHexAndNotSha256Colon": "NOT A CHOICE. resolved-inputs.v2 already fixes it: planIdContract preimage field 3 is the closed map {manifestId, capabilityManifestId, profileId}, and check-resolved-inputs.py::_release_errors validates all three against ^[0-9a-f]{64}$. delivery.v2's own manifestId is 'sha256(signedBytes), lowercase hex' in the same form. A sha256: prefix here would fail the consuming surface's own validator. Recorded because DELIVERY's TypeScript wire commitments DO use the sha256:<hex> rendering, so the two forms coexist inside DELIVERY for a stated reason rather than by accident.",
+            "truncation": "FORBIDDEN. Full 256-bit width, always."
+          },
+          "namespaceAndDomainSeparator": {
+            "whatIsMINTEDHERE": "EXACTLY ONE NEW STRING: the domain label \"opensip.capability-manifest.v1\". Nothing else on this page is new.",
+            "closedDomainVocabulary": {
+              "owner": "DELIVERY",
+              "family": "capability-manifest identity",
+              "members": [
+                "opensip.capability-manifest.v1"
+              ],
+              "closed": true,
+              "extensionRule": "A new member may be added only by a DELIVERY successor in DELIVERY's own binding bytes. No candidate, review, record, checker or implementer may add one, and no other surface may add one at all."
+            },
+            "separatorMechanism": {
+              "bytes": "UTF8(domain) || 0x00, immediately preceding the committed value bytes",
+              "whyItIsNOTMinted": "DELIVERY already states this mechanism twice in its own binding bytes, and this artifact carries it rather than inventing one. releaseManifestSchema.KeyDescriptor.keyId reads verbatim \"sha256(UTF8('opensip.ed25519-key.v1\\u0000') || raw32PublicKey), lowercase hex\". typescriptSemanticSubstrate.providerProtocol.wireSchema.commitments.domainRule reads verbatim \"Each commitment is SHA-256(UTF8(domain) || 0x00 || deterministic-CBOR(value)) and rendered sha256:<64 lowercase hex>.\" A third instance, typescriptSemanticSubstrate.providerProtocol.wireSchema.definitions.TypeScriptSemanticUniverseKey, reads verbatim \"Sha256Text = SHA-256(UTF8('opensip.typescript-universe.v1') || 0x00 || CVE1(TypeScriptSemanticUniverseV1))\" -- domain, NUL, CVE1, over a closed record. That last one is this recipe's exact shape, already inside DELIVERY.",
+              "whyAPREFIXISSAFEHERE": "a bare prefix admits a boundary slide -- domain 'ab' with payload 'cd' and domain 'abc' with payload 'd' share a byte string. The NUL closes it structurally rather than by convention: no admitted domain label can contain U+0000, so no two (domain, payload) pairs share a preimage. CVE1's text rule and the ASCII-identifier shape of every declared label both forbid it. Control NEG-DOM-1 measures the separation and also measures what dropping the NUL produces.",
+              "whyNOTALENGTHFRAMEDCOMPONENT": "a length-framed domain component would also be sound and is what evaluation-proof.v8 does. It is not adopted because DELIVERY has a stated mechanism and adding a second one to the same artifact is the divergence this repair exists to remove. The property both achieve -- no two (domain, payload) pairs share a preimage -- is what matters, and the NUL achieves it here."
+            },
+            "whyTheLABELISSPELLEDTHISWAY": "DELIVERY's existing labels are opensip.release-manifest.v1, opensip.ed25519-key.v1, opensip.typescript-universe.v1, opensip.coverage.subject-scope.v1 and the eight opensip.ts-provider.*.v1 wire domains. The shape is opensip.<subject>.v<major>. opensip.capability-manifest.v1 is that shape applied to this subject. MEASURED: the string occurs zero times anywhere in this corpus before this file, so nothing is being reused and nothing is being shadowed.",
+            "whatThisDoesNOTTouch": "evaluation-proof.v8#canonicalCommitmentGrammar.domains is a CLOSED NINE-MEMBER list belonging to EVALUATION-PROOF. This artifact does not extend it, does not name a member of it, and does not place a DELIVERY identity inside EVALUATION-PROOF's commitment space. It also does not extend delivery.v2's own closed eight-member wireSchema.commitments.domains list, which belongs to the TypeScript provider wire protocol and is a different family."
+          },
+          "valueEncoding": {
+            "name": "CVE1",
+            "source": "resolved-inputs.v2#planIdContract.canonicalValueEncoding. Eight closed types, stated encodings, stated constraints.",
+            "whyREUSEDANDNOTAUTHORED": "three reasons, all measured. (1) DELIVERY ALREADY USES IT: TypeScriptSemanticUniverseKey is SHA-256(UTF8(domain) || 0x00 || CVE1(closed record)). This recipe is that sentence with a different subject. (2) IT IS THE CONSUMER'S ENCODING: capabilityManifestId is CVE1-encoded the moment it enters PLAN-ID-V1 preimage field 3, so a host that can build a PlanId already implements CVE1 and needs no second encoder in the identity path. (3) IT CARRIES THE ORDERING MECHANISM THIS RULING NEEDS -- see orderingRuling.whereTheRuleComesFrom.",
+            "propertiesRELIEDON": [
+              "type-tagged and length-framed: 04 || u32be(byteLength) || UTF8 for text, 05 || u32be(count) for arrays, 06 || u32be(count) for maps. No concatenation of two distinct values can be respelled as another.",
+              "map entries are sorted by unsigned lexicographic order of NFC UTF-8 key bytes and duplicate keys are rejected, so a JSON object's key order is never an input.",
+              "floating-point values and byte strings are forbidden outright.",
+              "strings must already be NFC; a non-NFC string is rejected rather than silently normalised."
+            ],
+            "propertyITDOESNOTHAVE": "CVE1 IS TOTAL ON BOOLEANS AND ON STRINGS. It encodes true as 0x02 and \"1\" as 04 00000001 31, both perfectly well formed. A schemaVersion respelled as true or \"1\" therefore does not fail -- it mints a DIFFERENT, complete, correctly framed capability manifest id over the wrong manifest. This is IMPLEMENTATION-FREEZE.md section 6 law 18's exact defect class reachable inside this recipe, it is why ADM-TYPE is stated as a gate BEFORE encoding rather than as a property of the encoder, and it is executed at NEG-TYPE-1 and NEG-TYPE-2 with the wrong ids published."
+          },
+          "recipe": {
+            "step1_ADMIT": "the CapabilityManifestV1 passes ADM-TYPE, ADM-CLOSED and ADM-ORDER below. A value that fails any of them is not a capability manifest and HAS NO ID. Nothing is normalised.",
+            "step2_COMMITTEDBYTES": "committedBytes = CVE1(CapabilityManifestV1). These bytes ARE the release artifact -- see capabilityManifestCustody. Identity is a function of bytes, never of a re-parse.",
+            "step3_DIGEST": "capabilityManifestId = lowercase hexadecimal of SHA-256( UTF8(\"opensip.capability-manifest.v1\") || 0x00 || committedBytes ).",
+            "oneLine": "capabilityManifestId = hex( SHA-256( UTF8(\"opensip.capability-manifest.v1\") || 0x00 || CVE1(CapabilityManifestV1) ) )",
+            "whoComputesIt": "the release builder, once per ProfileEntry, at release-manifest construction. It is a property of the manifest and of nothing else: no clock, no counter, no host state, no project, no release sequence.",
+            "whoRECOMPUTESIt": "the orchestration host, from the committed artifact bytes, before it builds the PLAN-ID-V1 preimage, refusing the release if the recomputed value differs from ProfileEntry.capabilityManifestId. A supplied capabilityManifestId is never authority. Unlike its predecessor state, THIS RULE IS NOW IMPLEMENTABLE -- see capabilityManifestCustody, which is what changed.",
+            "stability": "rebuilding the same manifest yields the same id across releases, hosts, platforms, JSON key orders and JSON array orders. Changing any provider, relation, resolution rung, platform, absent-coverage entry, or the profile name changes it."
+          },
+          "recordShape": {
+            "note": "CVE1 encodes a JSON value directly, so this recipe declares NO record grammar, NO record tags and NO field tags. There is nothing to keep in sync with delivery.v2's schema, because delivery.v2's schema IS the shape.",
+            "CapabilityManifestV1": {
+              "requiredKeys": [
+                "schemaVersion",
+                "profile",
+                "providers",
+                "coverageForAbsent"
+              ],
+              "source": "delivery.v2#capabilityManifestSchema.CapabilityManifestV1.required, verified on the live bytes at the digest in recordedInputs",
+              "closed": true
+            },
+            "ProviderCapability": {
+              "requiredKeys": [
+                "providerId",
+                "language",
+                "providerVersionSource",
+                "toolchainIdentitySource",
+                "relations",
+                "platformIds"
+              ],
+              "source": "delivery.v2#capabilityManifestSchema.ProviderCapability.required, verified",
+              "closed": true,
+              "closedIsNEW": "delivery.v2 declares closed only on CapabilityManifestV1. DL-CLOSED-1 closes the two nested records too. See declaredChangesToThePredecessor.DC-3."
+            },
+            "AbsentCapability": {
+              "requiredKeys": [
+                "providerId",
+                "language",
+                "relationIds",
+                "coverageState",
+                "deficiency"
+              ],
+              "source": "delivery.v2#capabilityManifestSchema.AbsentCapability.required, verified",
+              "closed": true,
+              "closedIsNEW": "same as above."
+            },
+            "relations": {
+              "shape": "a JSON object mapping relationId to resolution",
+              "order": "NONE -- CVE1 sorts map entries by key bytes, so there is no order to rule on, and a duplicate key cannot reach the encoder under the section 7.5 parse hook."
+            }
+          },
+          "orderingRuling": {
+            "id": "DL-ORD -- THE SEQUENCE-VERSUS-SET RULING",
+            "standing": "DELIVERY's to make and made here. IMPLEMENTATION-FREEZE.md section 6 law 19 assigns the identity to DELIVERY; whether a capability manifest's collections carry meaning in their order is a fact about DELIVERY's data model. An independent review proved the question was open and load-bearing; a recipe candidate correctly declined to answer it. This section answers it.",
+            "theQuestionAsPosed": "is CapabilityManifestV1.providers -- and likewise coverageForAbsent, ProviderCapability.platformIds and AbsentCapability.relationIds -- a SET or a SEQUENCE? delivery.v2 declares the four as required members and states no order rule and no uniqueness rule for any of them. JSON's own reading of an array is a sequence.",
+            "whereTheRuleComesFrom": {
+              "statement": "THE RULING IS NOT A COIN TOSS BETWEEN TWO DEFAULTS. Both encodings this identity could use already state that the DEFAULT IS NOT SILENT and that the owning surface must DECLARE, and both provide the mechanism for declaring. What was missing was DELIVERY's declaration, not a rule.",
+              "leg1_theEncodingItselfSaysSO": "resolved-inputs.v2#planIdContract.canonicalValueEncoding.constraints, verbatim: 'Arrays preserve order unless the field-specific rule below declares set semantics; declared sets are sorted and duplicates rejected before CVE1 encoding.' CVE1 therefore ALREADY CARRIES a set-declaration mechanism, and using it is not invention. This ruling is DELIVERY supplying the field-specific rule that sentence requires and DELIVERY never wrote.",
+              "leg2_theSAMESURFACEDOESITFORTHEANALOGOUSFIELD": "resolved-inputs.v2#planIdContract.fieldCanonicalization.semanticUniverses, verbatim: 'Sort by providerId UTF-8 bytes; providerId is unique.' That is a PROVIDER LIST, in the very identity capabilityManifestId feeds, declared a key-sorted unique set by its owner. And .scope, verbatim: 'workspaceUnitIds and requestedPaths are sorted unique NFC UTF-8 strings' -- an identifier-string list, declared a sorted unique set. Both shapes recur exactly inside CapabilityManifestV1, and this ruling gives them the same treatment their owner gave them one level up.",
+              "leg3_theOTHERCANDIDATEENCODINGSAYSTHESAME": "evaluation-proof.v8#normativePreimageGrammar.recordRules states BOTH halves: sortedLists ('sort complete item record bytes ... ascending before item framing') and programOrder ('PolicyV2.evaluationOrder preserves the declared program order and is not sorted'). One NAMED field is exempt and everything else sorts. The discipline is identical in both encodings: order-bearing is NAMED, never inferred.",
+              "leg4_theCORPUSFORBIDSTHEONLYTHINGPROVIDERORDERCOULDMEAN": "this is the decisive leg for providers and it is a prohibition, not an inference. resolved-inputs.v2#planIdContract.fieldCanonicalization.predicateRelativeFacts, verbatim: 'No global fact tier, provider tier, or profile rank is a PlanId field. Predicate requirements remain relation-specific under C-1 and are committed by the exact contribution artifact and activated rule IDs; semanticUniverses identify providers without ordering their fact sufficiency globally.' capabilityManifestId IS a PlanId field -- preimage field 3. An order-significant providers array would commit a provider ordering INTO PlanId, which that sentence forbids in the same contract. IMPLEMENTATION-FREEZE.md section 6 law 3 says the same thing from the architecture side: strength is a property of a predicate and its Coverage, not of a tier, and there is no rank to compare."
+            },
+            "perFieldRuling": [
+              {
+                "field": "CapabilityManifestV1.providers",
+                "ruling": "SET. Order-free. Declared sort key: providerId, ascending by NFC UTF-8 bytes. providerId is UNIQUE within providers.",
+                "rationale": "leg4 is dispositive: the only thing an ordering could mean is provider precedence, and committing a provider rank into PlanId is forbidden by resolved-inputs.v2's own canonicalization rule and by law 3. leg2 supplies the exact form -- resolved-inputs already declares the analogous provider list key-sorted and providerId-unique. Uniqueness is not an extra: a manifest that names one providerId twice makes two capability claims about one provider and its relations map stops being a function.",
+                "measuredSupport": "MEASURED on all four live manifests: providerId is unique in every one. MEASURED: 8 (relation, provider-set) overlaps exist across the four manifests -- 'declares' in three of them and five more in `full` -- and 0 of them resolve to DIFFERENT rungs. So overlap is real and array order has never been consulted to resolve it, because there has never been anything to resolve.",
+                "isThisAPRODUCTDECISION": "NO, and the boundary is drawn explicitly at theProductQuestionThisDoesNOTDecide below."
+              },
+              {
+                "field": "CapabilityManifestV1.coverageForAbsent",
+                "ruling": "SET. Order-free. Declared sort key: providerId, ascending by NFC UTF-8 bytes. providerId is UNIQUE within coverageForAbsent.",
+                "rationale": "an ordering of absences has no referent: there is no first absence. IMPLEMENTATION-FREEZE.md section 6 law 4 requires every required predicate to receive EXACT Coverage and forbids unmet requiredness becoming a pass or a false no-match -- which makes an absent-coverage entry a per-(provider, relation) LOOKUP, never a scan whose result depends on position. Uniqueness costs nothing here and this is why: per-relation partial absence is ALREADY EXPRESSIBLE INSIDE ONE ENTRY, because AbsentCapability.relationIds is itself a list. A second entry for the same provider would be a second way to say what one entry already says, and two ways to say one thing is the ambiguity this whole ruling exists to remove.",
+                "measuredSupport": "MEASURED: providerId is unique in coverageForAbsent in all four live manifests, and providers and coverageForAbsent are DISJOINT by providerId in all four.",
+                "residualStatedNOTDECIDED": "whether providers and coverageForAbsent must remain disjoint is NOT ruled here. Disjointness holds 4/4 on live bytes and no artifact requires it. A provider that is present for some relations and absent for others is expressible today by listing it in both, and this ruling neither blesses nor forbids that. See declaredUnresolvedDependencies.DUD-V3-3."
+              },
+              {
+                "field": "ProviderCapability.platformIds",
+                "ruling": "SET. Order-free. Declared sort key: the element string itself, ascending by NFC UTF-8 bytes, unique.",
+                "rationale": "a list of platform identifiers naming the platforms a provider is available on. There is no ordering semantics available to it -- delivery.v2#platformMatrix is the registry and it is a set of platforms, not a ranking. This is exactly the shape resolved-inputs.v2#planIdContract.fieldCanonicalization.scope declares as 'sorted unique NFC UTF-8 strings', applied to the same kind of value.",
+                "note": "MEASURED: all four live manifests already carry platformIds in ascending order, so this position is affected in principle and has no live witness that MOVES. Stated rather than left for a reader to discover, because a suite whose only evidence for a rule is a position that never fires is a suite that has not tested the rule. DCM-5-non-ascii exercises it with a two-element non-ASCII list that DOES move."
+              },
+              {
+                "field": "AbsentCapability.relationIds",
+                "ruling": "SET. Order-free. Declared sort key: the element string itself, ascending by NFC UTF-8 bytes, unique.",
+                "rationale": "identical to platformIds: a set of relation identifiers, each resolving in fact-plane.v1#relationRegistry, naming the relations whose coverage is unavailable. Coverage is looked up per relation under law 4; nothing reads position.",
+                "note": "MEASURED: this is the position that actually fires on live bytes -- three of the four live manifests carry relationIds out of ascending order, and it is the FIRST violation ADM-ORDER reports for three of them. A candidate's earlier enumeration of the affected positions omitted this field entirely."
+              },
+              {
+                "field": "ProviderCapability.relations",
+                "ruling": "NOT AN ORDERED COLLECTION. It is a JSON object; CVE1 sorts map entries by key bytes and rejects duplicate keys, and IMPLEMENTATION-FREEZE.md section 7.5's parse hook stops a duplicate key reaching the encoder at all. There is no order to rule on and none is ruled.",
+                "rationale": "recorded because a candidate's enumeration of the affected positions listed relations and omitted relationIds -- wrong in both directions. Naming it here closes the reader's question rather than leaving the absence to be interpreted."
+              }
+            ],
+            "theRULEISAPROPERTYNOTALIST": {
+              "statement": "DL-ORD-2. AN ORDERED COLLECTION IN CapabilityManifestV1 IS ORDER-BEARING ONLY IF THIS SCHEMA NAMES IT SO. Position in a JSON array carries no meaning by default, at any depth, in any collection, including collections a later DELIVERY successor adds. TODAY THIS SCHEMA NAMES NONE.",
+              "whyAPROPERTYANDNOTFOURROWS": "the four rows above are INSTANCES. Every converged repair in this corpus replaced a list of places with a structural property, and IMPLEMENTATION-FREEZE.md section 7.1 records why: an enumeration goes stale silently in BOTH directions -- its own parked table named nine against a measured class of thirty-three, and three of the nine turned out not to belong. A five-row table here would go stale the first time DELIVERY adds an array. The property does not.",
+              "theEXEMPTIONMECHANISM": "exactly evaluation-proof.v8's: one named field, named in the owning schema, exempted in writing. EP8's programOrder names PolicyV2.evaluationOrder and nothing else. DELIVERY's exemption list is empty and an addition to it is a DELIVERY successor's act.",
+              "andTHEREFOREANEWFIELDISSAFEBYDEFAULT": "a DELIVERY successor that adds an array to this schema and says nothing gets the set reading, the canonical-order gate and duplicate rejection automatically. The failure mode this closes is a new field silently inheriting whichever reading its first implementer assumed."
+            },
+            "theProductQuestionThisDoesNOTDecide": {
+              "question": "should provider PRECEDENCE exist as a product concept -- 'prefer rust-semantic over syntax-all for declares' -- at all?",
+              "disposition": "NOT DECIDED HERE, AND NOT DECIDABLE HERE. IMPLEMENTATION-FREEZE.md section 4.4 is what deciding it inside an architecture candidate would look like in hindsight.",
+              "whyTheRULINGABOVEISSTILLNOTAPRODUCTDECISION": "because the two questions are separable and only one of them is DELIVERY's data model. 'Does array position carry meaning?' is a wire-format question with a measured answer: nothing reads it, resolved-inputs forbids the only thing it could mean inside PlanId, and both candidate encodings say order-bearing must be NAMED. 'Should precedence exist?' is a product question, and this ruling deliberately leaves it OPEN AND CHEAP TO ANSWER LATER: if product ever wants precedence it is expressed by an EXPLICIT DECLARED FIELD -- a rank, an order list, whatever the product decision names -- and never by array position. Adding that field is a schemaVersion event with a visible cost, which is the correct price for a product decision and is exactly the price array position would NOT have charged.",
+              "theASYMMETRYTHATDECIDESIT": "choosing SET forecloses nothing: precedence remains addable as a field. Choosing SEQUENCE forecloses a great deal silently -- it makes every honest release builder's JSON emission order a PlanId input, so two builders that agree on every fact reach two PlanIds, and no vector anywhere in this corpus would catch it. A reversible ruling and an irreversible one are not symmetric, and where the evidence is measured but not conclusive the reversible one is correct."
+            },
+            "whatIRULEDAGAINST_ANDWHATITWOULDHAVECOST": {
+              "rejectedReading": "SEQUENCE -- the four positions order-bearing, arrays preserved as written.",
+              "itIsNOTABSURD": "stated plainly because a ruling that cannot say what it rejected has not ruled. JSON's own reading of an array IS a sequence; CVE1's stated default IS 'arrays preserve order'; and under the sequence reading decode(encode(x)) == x holds LITERALLY for the live authoring documents with no admission gate at all, which is a real property this ruling has to buy back some other way. It buys it back with ADM-ORDER.",
+              "whatItWouldCost": "two honest release builders emitting the same providers in different JSON order reach two capability manifest ids and therefore two PlanIds for one release. MEASURED at NEG-ORD-3 with both ids published.",
+              "andTHEMEASUREMENTTHATMAKESITDANGEROUS": "the two readings are BYTE-LENGTH INDISTINGUISHABLE. MEASURED here: the delivery.v2 core manifest encodes to 1129 bytes under BOTH readings, and only interior bytes move. A length check, a schema check and a well-formedness check all pass on the wrong answer. That is why this had to be ruled rather than left to the first implementer, and it is why NEG-ORD-1 and NEG-ORD-2 publish the ids the rejected reading mints instead of merely asserting that it differs."
+            },
+            "andACANONICALORDERINGDOESNOTDODGEIT_VERIFIED": {
+              "theArgumentAsHandedToMe": "a candidate measured that a canonical ordering applied in the JSON domain reproduces the set reading's digests exactly and is idempotent, and concluded it is the same function by another route -- because 'canonical(x) and x are the same logical value' IS the set ruling restated -- so it buys only that the normalisation becomes loud instead of silent.",
+              "IVERIFIEDITRATHERTHANRELIEDONIT": "reproduced independently with this artifact's own encoders under the candidate's own grammar. canonical(NEG-ORD-1 document) == canonical(NEG-ORD-2 document), byte-exact; the canonicalising map is idempotent on all four live manifests; and applying it then encoding in preserved order reproduces the set reading's four digests exactly. THE ARGUMENT IS CORRECT AND I RELY ON IT.",
+              "andHEREISWHATCHANGESANYWAY": "the argument shows canonicalisation cannot SUBSTITUTE for the ruling. It does not show canonicalisation is worthless once the ruling is made -- and that is the distinction this artifact acts on. DL-ORD-1 is not offered INSTEAD of the set ruling; it is offered ON TOP of it. The set ruling says the two documents are one value; ADM-ORDER says only one of them may be committed. Together they give what neither gives alone: the id is order-free AND the normalisation never happens silently at a consumer, because a consumer that would have had to normalise refuses instead.",
+              "theRESIDUEIAMNOTHIDING": "the producer still canonicalises, once, and at that instant two authoring documents do become one committed value. That is the set ruling being applied, exactly as ruled, at the one place where it is visible and attributable. It is not eliminated, it is LOCATED."
+            }
+          },
+          "admission": {
+            "rule": "THREE GATES, ALL BEFORE ENCODING. A value that fails any gate is not a CapabilityManifestV1, is not committed, and has no capabilityManifestId. Nothing is normalised at a consumer, ever.",
+            "ADM-TYPE": {
+              "statement": "Every scalar is admitted by EXACT JSON TYPE before its content is compared. schemaVersion is a JSON integer -- a boolean is not an integer, a float is not an integer, a numeric string is not a number -- and every other declared scalar is a JSON string. The type assertion is the gate; content comparison happens only after it passes.",
+              "source": "IMPLEMENTATION-FREEZE.md section 6 law 18, verbatim in its own terms. Not a restatement for decoration: NEG-TYPE-1 and NEG-TYPE-2 show this recipe is REACHABLE by the class, because CVE1 is total on booleans and on strings and mints a wrong id rather than failing.",
+              "andITAPPLIESTOTHISARTIFACTSOWNVECTORS": "the two encoders that produced every digest published here reject a boolean BEFORE the integer check, because Python's bool is an int subclass and `isinstance(True, int)` is True. Law 18 defeated C-2 at v3, v5, v6, v7 and v8 successively, each time inside the repair's own self-certification, and the ordering of those two checks is where it would have entered here.",
+              "whatITCANNOTDO": "a digest cannot police its own input's type. An implementation that coerces 1.0 to 1 before calling the encoder produces the CORRECT id and has still violated law 18. That is why this is an admission gate and not an encoder property, and this artifact does not claim any vector enforces it."
+            },
+            "ADM-CLOSED": {
+              "statement": "DL-CLOSED-1. EVERY JSON OBJECT REACHABLE FROM A COMMITTED CapabilityManifestV1 IS CLOSED -- the record itself, every element of every declared collection, every value of every declared map, and every object a later successor adds at any depth carries EXACTLY its declared key set, each key exactly once, with no undeclared member. A reachable object type that declares no key set is inadmissible until it declares one; permissiveness is never the default.",
+              "whyITMATTERSUNDERCVE1": "an undeclared key is not silently dropped by CVE1 -- it changes the id. So an open reading is still injective, and the defect is different and worse than loss: a mistyped key ships a manifest that a human reads as unchanged under an id that has moved. Closing the record turns that into a refusal. Executed at NEG-CLOSED-1, with the id an open reading would have minted published beside it.",
+              "changeFromThePredecessor": "delivery.v2 declares `closed: true` on CapabilityManifestV1 only. This narrows the two nested records to match. It is a narrowing: every manifest admissible after this change was admissible before.",
+              "whyAPropertyAndNotTwoTypeNames": "an independent review found that delivery.v2 closes CapabilityManifestV1 and closes NEITHER of its two children, so a name-reading grammar silently discards an undeclared member and two distinct documents mint one id. REPRODUCED at capabilityManifestIdentity.recordClosure. Closing the two named children would repair today's schema and reopen the hole the first time a third reachable type is added -- which is exactly how this one arrived. The property quantifies over reachability and does not go stale when the schema grows."
+            },
+            "ADM-ORDER": {
+              "statement": "DL-ORD-1. Every ordered collection in a COMMITTED CapabilityManifestV1 is already in its declared canonical order -- strictly ascending by the unsigned bytewise comparison of its declared sort key's NFC UTF-8 bytes. A committed manifest that is not is REJECTED, with domainReasonCode RELEASE.CAPABILITY_MANIFEST_NOT_CANONICAL. It is never sorted into shape by a consumer.",
+              "theSTRUCTURALPROPERTYTHISBUYS": "the canonicalising sort is THE IDENTITY on every value that has an id. Three consequences follow as theorems rather than as claims: (a) the set reading and the sequence reading compute the SAME BYTES on every admitted value, so the choice between them is unobservable downstream and cannot be got wrong by an implementer; (b) decode(encode(x)) == x LITERALLY for every admitted x, so injectivity needs no 'on canonical forms' qualifier; (c) two distinct committed documents carrying one id is INEXPRESSIBLE, because at most one of any two differently-ordered documents is admissible.",
+              "whyREJECTANDNOTNORMALISE": "silent normalisation is the defect, not the cure. A consumer that sorts is a consumer that turns two logical inputs into one preimage without telling anyone -- the same shape as silently NFC-normalising a string, which resolved-inputs.v2 already forbids in the encoding this recipe uses. Refusing makes the event observable at the boundary where it can still be fixed.",
+              "whereCANONICALISATIONISALLOWED": "exactly once, in the release builder, on the producer side, BEFORE the id is minted and before the bytes are committed. That is not a normalisation of a committed value; it is how a committed value is produced from an authoring value. NEG-ORD-3 executes it.",
+              "andTHISISWHYTHELIVEFIXTURESAREINADMISSIBLE": "MEASURED: all four of delivery.v2#installProfiles.profiles[*].capabilityManifest fail ADM-ORDER as written. That is not a defect in them -- installProfiles is an AUTHORING catalogue, not a release. It is stated because a reader who takes those four objects as committed manifests will compute four ids that this artifact does not publish, and because the alternative -- a rule the live corpus already satisfies -- would have been a rule with no live witness."
+            },
+            "whatADMISSIONDOESNOTCOVER": "the relationRule precondition delivery.v2 already states: every relation key and resolution value must resolve in fact-plane.v1#relationRegistry. That gate is unchanged, belongs to the predecessor, and is upstream of everything here.",
+            "DL-INJ-1": {
+              "DL-INJ-1": "EVERY DEGREE OF FREEDOM THE WIRE FORM HAS THAT THE DATA MODEL DOES NOT HAVE IS CLOSED AT ADMISSION, NEVER ABSORBED AT ENCODING. Equivalently, and this is the operative form: for every admitted CapabilityManifestV1, `encode` moves no byte that admission did not already fix.",
+              "theTWOINSTANCESKNOWNTODAY": [
+                "ORDER -- two spellings of one value, closed by DL-ORD-1 and DL-ORD-2.",
+                "UNDECLARED MEMBERS -- one spelling of two values under a name-reading grammar, or two spellings of one apparent manifest under a total grammar, closed by DL-CLOSED-1."
+              ],
+              "andTHEDETECTORISONETEST": "decode(encode(x)) == x, LITERALLY, for every admitted x. THIS IS NOT A RESTATEMENT -- IT IS THE INSTRUMENT, and it is what makes DL-INJ-1 a property rather than a slogan. MEASURED: it fails on the ORDERING defect (0 of 4 live manifests round-trip literally under the unclosed-order reading) AND it fails on the CLOSURE defect (decode(encode(docP)) != docP). ONE TEST FINDS BOTH, without being told what it is looking for.",
+              "thereforeITALSOFINDSTHETHIRDONE": "any future degree of freedom of this family -- an optional member, a new collection, a case-insensitive comparison, a permitted alias -- breaks the same equation the same way. A successor that adds a field and keeps this equation true has not opened a channel; one that breaks it has, and will be told so by the test rather than by an independent review two rounds later.",
+              "measuredHere": "decode(encode(x)) == x holds LITERALLY and value-exactly on 7 of 7 committed vectors, under a decoder that shares no code with the encoder that produced the bytes.",
+              "boundsSTATED": "the equation detects degrees of freedom that survive a round trip through THIS encoding. It cannot detect a defect that is symmetric in both directions -- an admission rule that accepts two values a decoder also produces two of. No test here rules that class out, and this artifact does not claim one."
+            }
+          },
+          "vectors": {
+            "rule": "Every value below was computed by TWO INDEPENDENT ENCODERS written from the prose of resolved-inputs.v2#planIdContract.canonicalValueEncoding, and both agree on every byte of every vector. Each vector publishes its COMPLETE committed byte string as hex, so a reviewer starts from bytes and never has to trust a transcription: prepend UTF8(\"opensip.capability-manifest.v1\") || 0x00 and take one SHA-256.",
+            "count": 7,
+            "readingUnderWHICHTHESEAREPUBLISHED": "there is only one. On an admitted value the set reading and the sequence reading compute the same bytes, because ADM-ORDER makes the sort the identity. VERIFIED by executing both on all seven vectors.",
+            "byId": {
+              "DCM-1-core": {
+                "profileId": "core",
+                "input": "delivery.v2#installProfiles.profiles[0].capabilityManifest (authoring form)",
+                "authoringFormAdmissible": false,
+                "authoringFormFirstViolation": "AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes at index 2 ('references' then 'calls')",
+                "committedByteLength": 1129,
+                "committedBytesSha256": "95a254c2f3d6f929b1266f52999be841b51dc872a2bf0b294f35c5e5f12b818d",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e7405000000020600000005040000000d636f7665726167655374617465040000000b756e617661696c61626c65040000000a646566696369656e637904000000196c616e67756167652d746965722d756e737570706f7274656404000000086c616e6775616765040000000472757374040000000a70726f76696465724964040000000d727573742d73656d616e746963040000000b72656c6174696f6e4964730500000005040000000563616c6c730400000007696d706f727473040000000c72656163686162696c697479040000000a7265666572656e636573040000000574797065730600000005040000000d636f7665726167655374617465040000000b756e617661696c61626c65040000000a646566696369656e637904000000196c616e67756167652d746965722d756e737570706f7274656404000000086c616e6775616765040000000a74797065736372697074040000000a70726f766964657249640400000013747970657363726970742d73656d616e746963040000000b72656c6174696f6e4964730500000005040000000563616c6c730400000007696d706f727473040000000c72656163686162696c697479040000000a7265666572656e63657304000000057479706573040000000770726f66696c650400000004636f7265040000000970726f7669646572730500000001060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000a73796e7461782d616c6c040000001570726f766964657256657273696f6e536f75726365040000002072656c656173652d6d616e69666573743a73796e7461782d6772616d6d617273040000000972656c6174696f6e73060000000b040000000563616c6c73040000001573796e7461637469632d63616c6c65652d6e616d650400000006636c6f6e657304000000146e6f726d616c697a65642d626f64792d68617368040000000c636f6e74726f6c2d666c6f77040000000973796e74616374696304000000086465636c61726573040000000973796e746163746963040000000466696c65040000000a656e756d6572617465640400000007696d706f727473040000001373796e7461637469632d73706563696669657204000000076c69746572616c040000000973796e74616374696304000000077061636b61676504000000116d616e69666573742d6465636c61726564040000000a7265666572656e636573040000001473796e7461637469632d6e616d652d6d61746368040000000574797065730400000009616e6e6f7461746564040000000a7663732d6368616e6765040000000c7663732d7265706f727465640400000017746f6f6c636861696e4964656e74697479536f75726365040000001072656c656173652d6d616e6966657374040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+                "canonicalOrder": {
+                  "providers": [
+                    "syntax-all"
+                  ],
+                  "coverageForAbsent": [
+                    "rust-semantic",
+                    "typescript-semantic"
+                  ],
+                  "relationIds": {
+                    "rust-semantic": [
+                      "calls",
+                      "imports",
+                      "reachability",
+                      "references",
+                      "types"
+                    ],
+                    "typescript-semantic": [
+                      "calls",
+                      "imports",
+                      "reachability",
+                      "references",
+                      "types"
+                    ]
+                  },
+                  "platformIds": {
+                    "syntax-all": [
+                      "all-supported"
+                    ]
+                  }
+                },
+                "literalRoundTrip": "decode(encode(x)) == x, byte-exact and value-exact. MEASURED, true for this vector.",
+                "bothReadingsAgree": "YES BY CONSTRUCTION -- on an admitted value the declared-set sort is the identity, so the set reading and the sequence reading compute the same bytes. Verified by executing both."
+              },
+              "DCM-2-typescript-deep": {
+                "profileId": "typescript-deep",
+                "input": "delivery.v2#installProfiles.profiles[1].capabilityManifest (authoring form)",
+                "authoringFormAdmissible": false,
+                "authoringFormFirstViolation": "AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes at index 2 ('references' then 'calls')",
+                "committedByteLength": 1211,
+                "committedBytesSha256": "1a2b4751231bb60fffff740580dc371f346ee1dce994dac4f4c87e93a30da1d7",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e7405000000010600000005040000000d636f7665726167655374617465040000000b756e617661696c61626c65040000000a646566696369656e637904000000196c616e67756167652d746965722d756e737570706f7274656404000000086c616e6775616765040000000472757374040000000a70726f76696465724964040000000d727573742d73656d616e746963040000000b72656c6174696f6e4964730500000005040000000563616c6c730400000007696d706f727473040000000c72656163686162696c697479040000000a7265666572656e63657304000000057479706573040000000770726f66696c65040000000f747970657363726970742d64656570040000000970726f7669646572730500000002060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000a73796e7461782d616c6c040000001570726f766964657256657273696f6e536f75726365040000002072656c656173652d6d616e69666573743a73796e7461782d6772616d6d617273040000000972656c6174696f6e7306000000070400000006636c6f6e657304000000146e6f726d616c697a65642d626f64792d68617368040000000c636f6e74726f6c2d666c6f77040000000973796e74616374696304000000086465636c61726573040000000973796e746163746963040000000466696c65040000000a656e756d65726174656404000000076c69746572616c040000000973796e74616374696304000000077061636b61676504000000116d616e69666573742d6465636c61726564040000000a7663732d6368616e6765040000000c7663732d7265706f727465640400000017746f6f6c636861696e4964656e74697479536f75726365040000001072656c656173652d6d616e6966657374060000000604000000086c616e6775616765040000000a74797065736372697074040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f766964657249640400000013747970657363726970742d73656d616e746963040000001570726f766964657256657273696f6e536f75726365040000002472656c656173652d6d616e69666573743a747970657363726970742d70726f7669646572040000000972656c6174696f6e730600000006040000000563616c6c73040000000f7265736f6c7665642d63616c6c656504000000086465636c61726573040000000973796e7461637469630400000007696d706f727473040000000f7265736f6c7665642d746172676574040000000c72656163686162696c697479040000001366726f6d2d7265736f6c7665642d63616c6c73040000000a7265666572656e63657304000000107265736f6c7665642d62696e64696e67040000000574797065730400000007636865636b65640400000017746f6f6c636861696e4964656e74697479536f757263650400000019506c616e49642e74797065736372697074556e697665727365040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "9d8c187c6cf67e2e47c1b14c5f9e8faa230e2726a56b4dc6030d9fbe4ceca32b",
+                "canonicalOrder": {
+                  "providers": [
+                    "syntax-all",
+                    "typescript-semantic"
+                  ],
+                  "coverageForAbsent": [
+                    "rust-semantic"
+                  ],
+                  "relationIds": {
+                    "rust-semantic": [
+                      "calls",
+                      "imports",
+                      "reachability",
+                      "references",
+                      "types"
+                    ]
+                  },
+                  "platformIds": {
+                    "syntax-all": [
+                      "all-supported"
+                    ],
+                    "typescript-semantic": [
+                      "all-supported"
+                    ]
+                  }
+                },
+                "literalRoundTrip": "decode(encode(x)) == x, byte-exact and value-exact. MEASURED, true for this vector.",
+                "bothReadingsAgree": "YES BY CONSTRUCTION -- on an admitted value the declared-set sort is the identity, so the set reading and the sequence reading compute the same bytes. Verified by executing both."
+              },
+              "DCM-3-rust-deep": {
+                "profileId": "rust-deep",
+                "input": "delivery.v2#installProfiles.profiles[2].capabilityManifest (authoring form)",
+                "authoringFormAdmissible": false,
+                "authoringFormFirstViolation": "AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes at index 2 ('references' then 'calls')",
+                "committedByteLength": 1193,
+                "committedBytesSha256": "cf18af4b01cf26222711a4c341923b8ec09e3b9b1c5d335fafa0d2698a741d4c",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e7405000000010600000005040000000d636f7665726167655374617465040000000b756e617661696c61626c65040000000a646566696369656e637904000000196c616e67756167652d746965722d756e737570706f7274656404000000086c616e6775616765040000000a74797065736372697074040000000a70726f766964657249640400000013747970657363726970742d73656d616e746963040000000b72656c6174696f6e4964730500000005040000000563616c6c730400000007696d706f727473040000000c72656163686162696c697479040000000a7265666572656e63657304000000057479706573040000000770726f66696c650400000009727573742d64656570040000000970726f7669646572730500000002060000000604000000086c616e6775616765040000000472757374040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000d727573742d73656d616e746963040000001570726f766964657256657273696f6e536f75726365040000001e72656c656173652d6d616e69666573743a727573742d70726f7669646572040000000972656c6174696f6e730600000006040000000563616c6c73040000000f7265736f6c7665642d63616c6c656504000000086465636c61726573040000000973796e7461637469630400000007696d706f727473040000000f7265736f6c7665642d746172676574040000000c72656163686162696c697479040000001366726f6d2d7265736f6c7665642d63616c6c73040000000a7265666572656e63657304000000107265736f6c7665642d62696e64696e67040000000574797065730400000007636865636b65640400000017746f6f6c636861696e4964656e74697479536f757263650400000013506c616e49642e72757374556e697665727365060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000a73796e7461782d616c6c040000001570726f766964657256657273696f6e536f75726365040000002072656c656173652d6d616e69666573743a73796e7461782d6772616d6d617273040000000972656c6174696f6e7306000000070400000006636c6f6e657304000000146e6f726d616c697a65642d626f64792d68617368040000000c636f6e74726f6c2d666c6f77040000000973796e74616374696304000000086465636c61726573040000000973796e746163746963040000000466696c65040000000a656e756d65726174656404000000076c69746572616c040000000973796e74616374696304000000077061636b61676504000000116d616e69666573742d6465636c61726564040000000a7663732d6368616e6765040000000c7663732d7265706f727465640400000017746f6f6c636861696e4964656e74697479536f75726365040000001072656c656173652d6d616e6966657374040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "a0e6562e43a8d5c0edfdbb83a04da2fbb18cb4e69ec2e9faf4530b298828759e",
+                "canonicalOrder": {
+                  "providers": [
+                    "rust-semantic",
+                    "syntax-all"
+                  ],
+                  "coverageForAbsent": [
+                    "typescript-semantic"
+                  ],
+                  "relationIds": {
+                    "typescript-semantic": [
+                      "calls",
+                      "imports",
+                      "reachability",
+                      "references",
+                      "types"
+                    ]
+                  },
+                  "platformIds": {
+                    "rust-semantic": [
+                      "all-supported"
+                    ],
+                    "syntax-all": [
+                      "all-supported"
+                    ]
+                  }
+                },
+                "literalRoundTrip": "decode(encode(x)) == x, byte-exact and value-exact. MEASURED, true for this vector.",
+                "bothReadingsAgree": "YES BY CONSTRUCTION -- on an admitted value the declared-set sort is the identity, so the set reading and the sequence reading compute the same bytes. Verified by executing both."
+              },
+              "DCM-4-full": {
+                "profileId": "full",
+                "input": "delivery.v2#installProfiles.profiles[3].capabilityManifest (authoring form)",
+                "authoringFormAdmissible": false,
+                "authoringFormFirstViolation": "CapabilityManifestV1.providers: not strictly ascending by declared key UTF-8 bytes at index 2 ('typescript-semantic' then 'rust-semantic')",
+                "committedByteLength": 1395,
+                "committedBytesSha256": "a5df8bcb7ed823bd0631ebcfa16d71d6d0eb0e630d803216fedc8b7583823486",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e740500000000040000000770726f66696c65040000000466756c6c040000000970726f7669646572730500000003060000000604000000086c616e6775616765040000000472757374040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000d727573742d73656d616e746963040000001570726f766964657256657273696f6e536f75726365040000001e72656c656173652d6d616e69666573743a727573742d70726f7669646572040000000972656c6174696f6e730600000006040000000563616c6c73040000000f7265736f6c7665642d63616c6c656504000000086465636c61726573040000000973796e7461637469630400000007696d706f727473040000000f7265736f6c7665642d746172676574040000000c72656163686162696c697479040000001366726f6d2d7265736f6c7665642d63616c6c73040000000a7265666572656e63657304000000107265736f6c7665642d62696e64696e67040000000574797065730400000007636865636b65640400000017746f6f6c636861696e4964656e74697479536f757263650400000013506c616e49642e72757374556e697665727365060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000a73796e7461782d616c6c040000001570726f766964657256657273696f6e536f75726365040000002072656c656173652d6d616e69666573743a73796e7461782d6772616d6d617273040000000972656c6174696f6e7306000000070400000006636c6f6e657304000000146e6f726d616c697a65642d626f64792d68617368040000000c636f6e74726f6c2d666c6f77040000000973796e74616374696304000000086465636c61726573040000000973796e746163746963040000000466696c65040000000a656e756d65726174656404000000076c69746572616c040000000973796e74616374696304000000077061636b61676504000000116d616e69666573742d6465636c61726564040000000a7663732d6368616e6765040000000c7663732d7265706f727465640400000017746f6f6c636861696e4964656e74697479536f75726365040000001072656c656173652d6d616e6966657374060000000604000000086c616e6775616765040000000a74797065736372697074040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f766964657249640400000013747970657363726970742d73656d616e746963040000001570726f766964657256657273696f6e536f75726365040000002472656c656173652d6d616e69666573743a747970657363726970742d70726f7669646572040000000972656c6174696f6e730600000006040000000563616c6c73040000000f7265736f6c7665642d63616c6c656504000000086465636c61726573040000000973796e7461637469630400000007696d706f727473040000000f7265736f6c7665642d746172676574040000000c72656163686162696c697479040000001366726f6d2d7265736f6c7665642d63616c6c73040000000a7265666572656e63657304000000107265736f6c7665642d62696e64696e67040000000574797065730400000007636865636b65640400000017746f6f6c636861696e4964656e74697479536f757263650400000019506c616e49642e74797065736372697074556e697665727365040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58",
+                "canonicalOrder": {
+                  "providers": [
+                    "rust-semantic",
+                    "syntax-all",
+                    "typescript-semantic"
+                  ],
+                  "coverageForAbsent": [],
+                  "relationIds": {},
+                  "platformIds": {
+                    "rust-semantic": [
+                      "all-supported"
+                    ],
+                    "syntax-all": [
+                      "all-supported"
+                    ],
+                    "typescript-semantic": [
+                      "all-supported"
+                    ]
+                  }
+                },
+                "literalRoundTrip": "decode(encode(x)) == x, byte-exact and value-exact. MEASURED, true for this vector.",
+                "bothReadingsAgree": "YES BY CONSTRUCTION -- on an admitted value the declared-set sort is the identity, so the set reading and the sequence reading compute the same bytes. Verified by executing both."
+              },
+              "DCM-5-non-ascii": {
+                "input": "SYNTHETIC",
+                "note": "profile and one platformId are non-ASCII and already NFC. Exercises the NFC clause and multi-byte length framing.",
+                "committedManifest": {
+                  "schemaVersion": 1,
+                  "profile": "café-日本語",
+                  "providers": [
+                    {
+                      "providerId": "syntax-all",
+                      "language": "*",
+                      "providerVersionSource": "release-manifest:syntax-grammars",
+                      "toolchainIdentitySource": "release-manifest",
+                      "relations": {
+                        "file": "enumerated",
+                        "declares": "syntactic"
+                      },
+                      "platformIds": [
+                        "all-supported",
+                        "プラットフォーム"
+                      ]
+                    }
+                  ],
+                  "coverageForAbsent": []
+                },
+                "committedByteLength": 414,
+                "committedBytesSha256": "3d8d01376506e40da21843c85689e4c66180027a26291c1e73dbb68a34cf52e5",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e740500000000040000000770726f66696c65040000000f636166c3a92de697a5e69cace8aa9e040000000970726f7669646572730500000001060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000002040000000d616c6c2d737570706f727465640400000018e38397e383a9e38383e38388e38395e382a9e383bce383a0040000000a70726f76696465724964040000000a73796e7461782d616c6c040000001570726f766964657256657273696f6e536f75726365040000002072656c656173652d6d616e69666573743a73796e7461782d6772616d6d617273040000000972656c6174696f6e73060000000204000000086465636c61726573040000000973796e746163746963040000000466696c65040000000a656e756d6572617465640400000017746f6f6c636861696e4964656e74697479536f75726365040000001072656c656173652d6d616e6966657374040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "99d6196ba7374896f8db3274b4c042a81b1206a5e23baeeda84b858069460f61",
+                "literalRoundTrip": "YES",
+                "bothReadingsAgree": "YES"
+              },
+              "DCM-6-sort-rule": {
+                "input": "SYNTHETIC",
+                "note": "two providerIds 'b' and 'aa' declared in that order. The declared sort key is the providerId's UTF-8 BYTES, so the committed order is ['aa','b'].",
+                "committedManifest": {
+                  "schemaVersion": 1,
+                  "profile": "ord-demo",
+                  "providers": [
+                    {
+                      "providerId": "aa",
+                      "language": "*",
+                      "providerVersionSource": "s",
+                      "toolchainIdentitySource": "t",
+                      "relations": {
+                        "file": "enumerated"
+                      },
+                      "platformIds": [
+                        "all-supported"
+                      ]
+                    },
+                    {
+                      "providerId": "b",
+                      "language": "*",
+                      "providerVersionSource": "s",
+                      "toolchainIdentitySource": "t",
+                      "relations": {
+                        "file": "enumerated"
+                      },
+                      "platformIds": [
+                        "all-supported"
+                      ]
+                    }
+                  ],
+                  "coverageForAbsent": []
+                },
+                "committedByteLength": 490,
+                "committedBytesSha256": "a28b50d45312d43b70df0fdc0b3b4bd8621d78b44dd6062e43ef8ef21b903017",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e740500000000040000000770726f66696c6504000000086f72642d64656d6f040000000970726f7669646572730500000002060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f7669646572496404000000026161040000001570726f766964657256657273696f6e536f75726365040000000173040000000972656c6174696f6e730600000001040000000466696c65040000000a656e756d6572617465640400000017746f6f6c636861696e4964656e74697479536f75726365040000000174060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f76696465724964040000000162040000001570726f766964657256657273696f6e536f75726365040000000173040000000972656c6174696f6e730600000001040000000466696c65040000000a656e756d6572617465640400000017746f6f6c636861696e4964656e74697479536f75726365040000000174040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "f98f1a134a148b4dff2e9d80969fa0d04522d3a04f138b2ec6bade3bee8a71f2",
+                "whatItSeparates": "an implementation that sorts by the ENCODED item bytes instead of by the declared key -- the encoded form is length-major, so it orders ['b','aa'] and mints 9572717cd792f595110d6b3c11cce03accbe3dc37dc76b2d50e33d7748275fc4. That is the order evaluation-proof.v8's sortedLists rule induces, which is why this vector exists.",
+                "literalRoundTrip": "YES"
+              },
+              "DCM-7-empty-collection": {
+                "input": "SYNTHETIC",
+                "note": "coverageForAbsent is the EMPTY array. CVE1 encodes it as 05 00000000 -- PRESENT, never omitted. DCM-4-full exercises the same position on live bytes.",
+                "committedManifest": {
+                  "schemaVersion": 1,
+                  "profile": "empty-absent",
+                  "providers": [
+                    {
+                      "providerId": "only",
+                      "language": "*",
+                      "providerVersionSource": "s",
+                      "toolchainIdentitySource": "t",
+                      "relations": {
+                        "file": "enumerated"
+                      },
+                      "platformIds": [
+                        "all-supported"
+                      ]
+                    }
+                  ],
+                  "coverageForAbsent": []
+                },
+                "committedByteLength": 303,
+                "committedBytesSha256": "e1d17fac1518b501a7b8b1ae2dee63e7abb70733f15c8423e4c53fa11cd58e97",
+                "committedBytesHex": "06000000040400000011636f766572616765466f72416273656e740500000000040000000770726f66696c65040000000c656d7074792d616273656e74040000000970726f7669646572730500000001060000000604000000086c616e677561676504000000012a040000000b706c6174666f726d4964730500000001040000000d616c6c2d737570706f72746564040000000a70726f7669646572496404000000046f6e6c79040000001570726f766964657256657273696f6e536f75726365040000000173040000000972656c6174696f6e730600000001040000000466696c65040000000a656e756d6572617465640400000017746f6f6c636861696e4964656e74697479536f75726365040000000174040000000d736368656d6156657273696f6e030000000000000001",
+                "capabilityManifestId": "0ff319483f20c5693b8830d2061b5db731e951b991b56834dd9a82394a53e586",
+                "literalRoundTrip": "YES"
+              }
+            }
+          },
+          "negativeControls": {
+            "rule": "Every control below is EXECUTED. Each states what THIS artifact's rule does with the input and what the REJECTED reading would mint from the same input. A control that both readings pass is not a control, and none of these is one.",
+            "whyThisSectionExists": "IMPLEMENTATION-FREEZE.md section 7 records the corpus's dominant failure mode as a claim quantified over a region the instrument cannot observe. The set-versus-sequence defect survived a six-vector suite because not one vector separated the readings. A suite that cannot fail under the rejected reading is evidence of nothing.",
+            "controls": [
+              {
+                "id": "NEG-ORD-1",
+                "what": "delivery.v2#installProfiles.profiles[0].capabilityManifest presented VERBATIM as a committed manifest.",
+                "thisRule": "REJECTED at admission. AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes at index 2 ('references' then 'calls')",
+                "orderBearingReadingWouldMint": "8134bd10d5b7aee37d4d69bf368b98b7388cc89a91fd238b607717dd827aae59",
+                "separates": "YES. Under the order-bearing reading this document is well formed and mints an id. Under DL-ORD-1 it is not a committed manifest at all.",
+                "byteLengthIsNotADefence": "the encoding of this document is 1129 bytes, IDENTICAL to the admissible committed form's 1129 bytes. Length cannot tell the readings apart. Only admission can."
+              },
+              {
+                "id": "NEG-ORD-2",
+                "what": "the same document with ONLY the two-element coverageForAbsent array reversed -- the second half of the reproduced collision.",
+                "thisRule": "REJECTED at admission. AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes at index 2 ('references' then 'calls')",
+                "orderBearingReadingWouldMint": "b61bdb8fb68f831f96ec78efbc3395ebd02035dfcc05edf24194fad7a5308ff4",
+                "separates": "YES.",
+                "theCollisionISNOWINEXPRESSIBLE": "NEG-ORD-1 and NEG-ORD-2 are the two documents an independent review exhibited as 'two distinct JSON documents, one record, one id'. Under DL-ORD-1 there are no longer two documents and one id: there is ONE committed manifest, 508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b, and two inadmissible authoring documents that canonicalise to it. MEASURED: canonicalise(NEG-ORD-1) == canonicalise(NEG-ORD-2), byte-exact.",
+                "andUNDERTHEORDERBEARINGREADING": "the same two documents mint TWO ids for what the data model says is one manifest -- 8134bd10d5b7aee37d4d69bf368b98b7388cc89a91fd238b607717dd827aae59 and b61bdb8fb68f831f96ec78efbc3395ebd02035dfcc05edf24194fad7a5308ff4 -- and nothing in the corpus would notice."
+              },
+              {
+                "id": "NEG-ORD-3",
+                "what": "delivery.v2#installProfiles.profiles[3].capabilityManifest with providers[] reversed, handed to the release BUILDER (producer side).",
+                "thisRule": "canonicalises to bytes IDENTICAL to DCM-4-full and mints c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58. MEASURED byte-exact.",
+                "orderBearingReadingWouldMint": {
+                  "reversed": "911951e581607860fa05a9b0314cbb5af984080bafd0b07223384124502c991f",
+                  "asDeclared": "a408a7a229083aaee0c2bad53584048c91290b737e48e6be11ea43817ab32354",
+                  "equal": false
+                },
+                "separates": "YES, and this is the control that FAILS if an implementer says 'order-free' and implements order-bearing. It is the positive half of the ruling: two honest builders that disagree only about JSON array order reach ONE id.",
+                "underTheOrderBearingReadingThisVectorCHANGESMEANING": "it stops being an equality control and becomes a separation control. The vector does not change; its meaning does. That is exactly why a suite must carry both directions."
+              },
+              {
+                "id": "NEG-DUP-1",
+                "what": "two providers[] entries that are byte-identical.",
+                "thisRule": "REJECTED. CapabilityManifestV1.providers: not strictly ascending by declared key UTF-8 bytes at index 1 ('p' then 'p')",
+                "aDEDUPLICATINGIMPLEMENTATIONWouldMint": "8d2f6f3885a92b26356468bfbb4dc05c2bb4559918dc14964763a3db00ec6811",
+                "separates": "YES. evaluation-proof.v8#canonicalCommitmentGrammar.ordering says 'deduplicate exact record bytes'; its own #normativePreimageGrammar.recordRules.duplicates says duplicates are 'forbidden'. DL-ORD-1's STRICTLY ascending requirement takes the forbidding reading, which IMPLEMENTATION-FREEZE.md section 7.1 already adjudicated correct as DIV-1, and needs no separate deduplication rule: strict ascent makes an exact duplicate unrepresentable."
+              },
+              {
+                "id": "NEG-DUP-2",
+                "what": "two providers[] entries sharing providerId 'p' with DIFFERENT providerVersionSource -- a manifest that makes two contradictory capability claims about one provider.",
+                "thisRule": "REJECTED. CapabilityManifestV1.providers: not strictly ascending by declared key UTF-8 bytes at index 1 ('p' then 'p')",
+                "aBYTESONLYDEDUPLICATORWouldMint": "7e06c1cd71e264d7d8b4b2e7a2644623a102615e67c4fcb24413e9a55c98175a",
+                "separates": "YES, and it separates from the PROPOSAL as well as from the sequence reading. A rule that dedupes or orders by ENCODED bytes admits this document, because the two records differ. Only a rule keyed on the declared key refuses it. This is the case that makes an ambiguous manifest inexpressible rather than merely unlikely."
+              },
+              {
+                "id": "NEG-TYPE-1",
+                "what": "schemaVersion respelled as the JSON boolean true, everything else identical to DCM-1-core.",
+                "thisRule": "REJECTED before encoding. schemaVersion: exact-type -- bool is not an integer",
+                "andTHISISTHEPOINT": "CVE1 IS TOTAL ON BOOLEANS. It encodes true as the single byte 0x02 and produces a perfectly well formed preimage. MEASURED: the wrong value mints 2b76b70a2e7c627ee88ccc7572df5a799de167fb419e9bd03b689b4bec696eb2, a complete, correctly framed, correctly typed capability manifest id over the WRONG manifest. No digest rule can catch this. Only ADM-TYPE, placed BEFORE encoding, catches it.",
+                "separates": "YES -- against any implementation that admits by content comparison rather than by exact JSON type, which is IMPLEMENTATION-FREEZE.md section 6 law 18's exact defect class, reached here inside this artifact's own self-certification."
+              },
+              {
+                "id": "NEG-TYPE-2",
+                "what": "schemaVersion respelled as the JSON string \"1\".",
+                "thisRule": "REJECTED before encoding. schemaVersion: exact-type -- str is not an integer",
+                "wouldMint": "82e30a58b7097c6828cb01f20b7245fabf20f8ad98d919490e09e27b08f8d394",
+                "separates": "YES. CVE1 is total on strings too."
+              },
+              {
+                "id": "NEG-TYPE-3",
+                "what": "schemaVersion respelled as the JSON number 1.0.",
+                "thisRule": "REJECTED before encoding. schemaVersion: exact-type -- float is not an integer",
+                "andSECONDARILY": "CVE1 also refuses it -- resolved-inputs.v2#planIdContract.canonicalValueEncoding.constraints states 'Floating-point values and byte strings are forbidden'. That is a SECOND line, not the first one. The first line is ADM-TYPE, because an implementation that coerces 1.0 to 1 before calling the encoder reaches the CORRECT digest and has still violated law 18.",
+                "separates": "YES."
+              },
+              {
+                "id": "NEG-CLOSED-1",
+                "what": "a ProviderCapability carrying one undeclared field.",
+                "thisRule": "REJECTED. ProviderCapability: field set ['language', 'platformIds', 'providerId', 'providerVersionSource', 'relations', 'toolchainIdentitySource', 'undeclaredField'] != ['language', 'platformIds', 'providerId', 'providerVersionSource', 'relations', 'toolchainIdentitySource']",
+                "wouldMint": "7cc2f319d4b08ae0835d3ec9fdacba326b99e9be89ec640db481600e72ed7ae0",
+                "separates": "YES against an open-record reading. Note the shape: under CVE1 an undeclared field is not silently DROPPED, it changes the id -- so an open reading is injective but lets a typo'd key ship a different id for a manifest a human reads as the same one. Closing the record is what makes the typo a refusal instead of a silent identity change. delivery.v2 declares CapabilityManifestV1 closed and is silent on the two nested records; DL-CLOSED-1 closes them."
+              },
+              {
+                "id": "NEG-NFC-1",
+                "what": "profile spelled with U+0065 U+0301 instead of U+00E9 -- the same grapheme, not NFC.",
+                "thisRule": "REJECTED, not normalised. profile: not NFC",
+                "separates": "YES. Silent normalisation is the same defect as silent reordering: two logical inputs, one preimage. Both are refused here for the same reason.",
+                "sourceOfTheRule": "resolved-inputs.v2#planIdContract.canonicalValueEncoding.constraints, verbatim: 'Strings MUST already be Unicode NFC; a non-NFC string is rejected rather than silently normalised.' Carried, not invented."
+              },
+              {
+                "id": "NEG-DOM-1",
+                "what": "the DCM-1-core committed bytes committed under three other domain labels and under no separator.",
+                "thisRule": "each mints a different id; a value minted for one domain is not a valid capability manifest id.",
+                "measured": {
+                  "opensip.release-manifest.v1": "657ba4cb0b2c5730067c2de1a7711bc47da47b7981628083bbda880fb2700174",
+                  "opensip.typescript-universe.v1": "1a174110713eafc9519e99e88a23f8ac65ac9e4e8b365eb55cfdc93986ea5ba0",
+                  "opensip.evaluation-proof.v2": "383d92d2be3b4b3147dc47149a10ff7d755e4eb986ad766bfd6a1ba718a6767a",
+                  "correctDomainWithoutTheNULSeparator": "5118845a7ae90d4e2c82f864c59989616134143eefdbd3565b981e073ca00060",
+                  "correct": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b"
+                },
+                "separates": "YES. The first two are DELIVERY's OWN other domains, so this control proves separation inside the surface, not only across surfaces -- which is the case a cross-surface control misses.",
+                "whyTheNULMatters": "the separator is a prefix, so a boundary slide is the attack. The NUL blocks it structurally: a domain label cannot contain U+0000 (CVE1's text rule forbids it and every declared label is an ASCII identifier), so no (domain, payload) pair can be respelled as another. This is DELIVERY's own stated mechanism at releaseManifestSchema.KeyDescriptor.keyId and at typescriptSemanticSubstrate.providerProtocol.wireSchema.commitments.domainRule, not a new one."
+              },
+              {
+                "id": "NEG-CLOSED-2",
+                "what": "the independent review's own construction, reproduced: the live core manifest, plus one document carrying an extra key inside providers[0] and one carrying an extra key inside coverageForAbsent[0]. Three distinct JSON documents.",
+                "thisRule": "BOTH extra-key documents are REJECTED by ADM-CLOSED, naming the offending field set.",
+                "underTheUNCLOSEDreadingOfTheEvaluatedProposalsGrammar": "all THREE documents mint the single id e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4 at an unchanged 914 record bytes, and the extra key is absent from the decode. REPRODUCED HERE, not taken on report.",
+                "underTheUNCLOSEDreadingOfThisArtifactsOwnRecipe": "the three documents mint THREE DIFFERENT ids -- 508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b, 107d1b5c8dadd53078a7eda3876dbf273f3e485e0ae1e4246a10435b8baa94ba and 09962fc6f968f6aa31edb31a464d7605ef2914cbbeab17bfe58681ec07c316aa -- so the channel changes shape from a COLLISION to a SILENT IDENTITY MOVE and is not removed by the encoding. Closure is required either way.",
+                "separates": "YES, in both directions, which is why both are stated. A suite that tested only the proposal's grammar would read this artifact as immune; a suite that tested only this artifact's would read the defect as an encoding accident. It is neither.",
+                "fullMeasurement": "capabilityManifestIdentity.recordClosure"
+              }
+            ]
+          },
+          "recordClosure": {
+            "id": "OBS-V3-2 / NEG-CLOSED -- THE SECOND MANY-TO-ONE CHANNEL, AND IT IS NOT THE ORDERING QUESTION",
+            "raisedBy": "an independent review, relayed to this authoring lane as a second defect of the same family. REPRODUCED HERE BEFORE ACTING, not taken on report.",
+            "theGAP": "delivery.v2#capabilityManifestSchema declares `closed: true` on CapabilityManifestV1 and declares NOTHING about closure for ProviderCapability or AbsentCapability. A record grammar that reads its fields BY NAME therefore ignores an undeclared member, and two documents that differ by that member produce one preimage.",
+            "reproducedUnderTheEVALUATEDPROPOSALSGRAMMAR": {
+              "construction": "delivery.v2#installProfiles.profiles[0].capabilityManifest, plus one document carrying an extra key inside providers[0] and one carrying an extra key inside coverageForAbsent[0]. Three distinct JSON documents.",
+              "documentsAreDISTINCT": true,
+              "baselineId": "e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4",
+              "extraKeyInProviderCapabilityId": "e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4",
+              "extraKeyInAbsentCapabilityId": "e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4",
+              "allThreeIdsEqual": true,
+              "recordByteLengths": [
+                914,
+                914,
+                914
+              ],
+              "theReviewersValueIsCONFIRMED": "all three mint e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4, which is the id the review reported.",
+              "decodeEncodeIsNOTTHEIDENTITY": "decode(encode(docP)) != docP and != canonical(docP): MEASURED False and False. The extra key is simply GONE from the decode -- the channel is LOSS, and loss is what makes it a collision.",
+              "andITISWORSETHANTHEORDERINGCHANNELINONERESPECT": "the ordering channel needs two orderings of the same members, so a producer must at least be emitting real data. This channel accepts ARBITRARY undeclared content of arbitrary size and shape and discards all of it under an unchanged id. A hostile producer can attach anything; a careless one can attach a typo'd key name and never learn that half its manifest was not committed."
+            },
+            "whatITLOOKSLIKEUNDERTHISARTIFACTSRECIPE": {
+              "measured": {
+                "baseline": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+                "extraKeyInProviderCapability": "107d1b5c8dadd53078a7eda3876dbf273f3e485e0ae1e4246a10435b8baa94ba",
+                "extraKeyInAbsentCapability": "09962fc6f968f6aa31edb31a464d7605ef2914cbbeab17bfe58681ec07c316aa",
+                "committedByteLengths": [
+                  1129,
+                  1175,
+                  1197
+                ],
+                "anyTwoEqual": false
+              },
+              "theSHAPECHANGESANDTHEDEFECTDOESNOT": "CVE1 encodes whatever keys are present, so an undeclared member is not DISCARDED -- it moves the id. Three distinct documents, three distinct ids. That is injective, and it is still a defect, and the defect is arguably harder to notice: under the proposal's grammar a mistyped key silently ships LESS than the author wrote under the RIGHT id; under CVE1 it silently ships a DIFFERENT id for a manifest a human reads as unchanged, and the release refuses at a digest comparison whose cause is invisible.",
+              "soCLOSUREISREQUIREDINBOTHDIRECTIONS": "ADM-CLOSED is not a fix for one encoding's leak. It is the statement that a capability manifest has exactly the members its schema declares, which is what makes 'the same manifest' a well defined phrase at all.",
+              "ADM-CLOSED-REFUSESBOTH": {
+                "ProviderCapability": "ProviderCapability: field set ['language', 'platformIds', 'providerId', 'providerVersionSource', 'relations', 'toolchainIdentitySource', 'undeclaredProviderKey'] != ['language', 'platformIds', 'providerId', 'providerVersionSource', 'relations', 'toolchainIdentitySource']",
+                "AbsentCapability": "AbsentCapability: field set ['coverageState', 'deficiency', 'language', 'providerId', 'relationIds', 'undeclaredAbsentKey'] != ['coverageState', 'deficiency', 'language', 'providerId', 'relationIds']"
+              }
+            },
+            "theREPAIRISAPROPERTY_NOTTWOTYPES": {
+              "DL-CLOSED-1": "EVERY JSON OBJECT REACHABLE FROM A COMMITTED CapabilityManifestV1 IS CLOSED. The record itself, every element of every declared collection, every value of every declared map, and every object a later successor adds at any depth carries EXACTLY its declared key set, each key exactly once, with no undeclared member. A reachable object type that declares no key set is a schema defect, not a permissive default: it is inadmissible until the key set is declared.",
+              "whyNOTCLOSETHETWONAMEDTYPES": "because a third type added later reopens the hole silently, and that is precisely how this one arrived -- CapabilityManifestV1 was closed and its two children were not, so the enumeration of affected sites was short by a whole class rather than by an entry. IMPLEMENTATION-FREEZE.md section 7.1 records the same lesson from its own parked table: it named nine against a measured class of thirty-three. A property that quantifies over reachability does not go stale when the schema grows; a list of two type names goes stale the first time a third type is added.",
+              "theTWONAMEDTYPESAREINSTANCES": "`closed: true` is nevertheless added to ProviderCapability and to AbsentCapability in this document's derivation, because the property must be true of the schema as it stands and a reader of the schema should meet it in both places. The property is what makes the third type safe; the two declarations are what make today's schema correct."
+            },
+            "theUNIFYINGPROPERTY": {
+              "DL-INJ-1": "EVERY DEGREE OF FREEDOM THE WIRE FORM HAS THAT THE DATA MODEL DOES NOT HAVE IS CLOSED AT ADMISSION, NEVER ABSORBED AT ENCODING. Equivalently, and this is the operative form: for every admitted CapabilityManifestV1, `encode` moves no byte that admission did not already fix.",
+              "theTWOINSTANCESKNOWNTODAY": [
+                "ORDER -- two spellings of one value, closed by DL-ORD-1 and DL-ORD-2.",
+                "UNDECLARED MEMBERS -- one spelling of two values under a name-reading grammar, or two spellings of one apparent manifest under a total grammar, closed by DL-CLOSED-1."
+              ],
+              "andTHEDETECTORISONETEST": "decode(encode(x)) == x, LITERALLY, for every admitted x. THIS IS NOT A RESTATEMENT -- IT IS THE INSTRUMENT, and it is what makes DL-INJ-1 a property rather than a slogan. MEASURED: it fails on the ORDERING defect (0 of 4 live manifests round-trip literally under the unclosed-order reading) AND it fails on the CLOSURE defect (decode(encode(docP)) != docP). ONE TEST FINDS BOTH, without being told what it is looking for.",
+              "thereforeITALSOFINDSTHETHIRDONE": "any future degree of freedom of this family -- an optional member, a new collection, a case-insensitive comparison, a permitted alias -- breaks the same equation the same way. A successor that adds a field and keeps this equation true has not opened a channel; one that breaks it has, and will be told so by the test rather than by an independent review two rounds later.",
+              "measuredHere": "decode(encode(x)) == x holds LITERALLY and value-exactly on 7 of 7 committed vectors, under a decoder that shares no code with the encoder that produced the bytes.",
+              "boundsSTATED": "the equation detects degrees of freedom that survive a round trip through THIS encoding. It cannot detect a defect that is symmetric in both directions -- an admission rule that accepts two values a decoder also produces two of. No test here rules that class out, and this artifact does not claim one."
+            },
+            "gradingANDAUTHORITY": {
+              "theReviewGRADEDITNONBLOCKING": "because it moves no digest of any value a conforming producer emits and is unreachable from the live corpus, and because IMPLEMENTATION-FREEZE.md section 6 law 19 forbids a recipe candidate from closing an upstream DELIVERY schema gap.",
+              "andTHATGRADINGISWHYITISHERE": "the same law that made it non-blocking there makes it MANDATORY here: it is DELIVERY's schema, this is DELIVERY's successor, and the review's own recommendation is that it land in the same edit as the ordering ruling because the two together are what make the identity injective. They do, and DL-INJ-1 is the statement of why.",
+              "whatTHISDOCUMENTDOESNOTCLAIM": "it does not claim the class is now closed. It claims two instances are closed by declarations, that a property covers the reachable third, and that one executable equation detects the family. The review that found this one found it by construction, not by that equation, and a reviewer should assume there is another."
+            }
+          },
+          "encoderAgreement": {
+            "rule": "IMPLEMENTATION-FREEZE.md's convergence standard, taken from c2-plan-stage-schema.v9#planIntentCommitment, which was validated 7/7 under two encoders. Two independent implementations, no shared code, written from the same prose, and an ambiguity is REPORTED rather than resolved by picking a winner.",
+            "encoderA": "recursive, dispatch on Python type, big-endian by int-to-bytes, admission woven through the walk.",
+            "encoderB": "table-driven on the eight CVE1 closed type NAMES, type resolution by exact class rather than isinstance, big-endian by repeated shift, plus its own decoder used for the round-trip measurements.",
+            "oracleTHATVALIDATESBOTH": "BOTH encoders reproduce BOTH pinned PLAN-ID-V1 golden vectors byte-exactly -- planid-v1-ci-minimal at 2500 preimage bytes and plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4, and planid-v1-ci-full-providers at 8208 preimage bytes and plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401 -- both matching resolved-inputs.v2's declared preimage byte lengths and pinned PlanIds. That is a binding-artifact oracle for the encoding, not a self-check.",
+            "agreement": "7 of 7 committed vectors, 11 of 11 negative controls, 3 of 3 derived PlanIds, and both PLAN-ID-V1 goldens. ZERO DISAGREEMENTS. Had they disagreed the recipe would be ambiguous and this section would report the ambiguity instead of a result.",
+            "roundTrip": "decode(encode(x)) == x, LITERALLY and value-exactly, on 7 of 7 committed vectors. The decoder is encoder B's and shares no code with encoder A. Under the predecessor state of this question the literal round trip held for 0 of 4 live vectors; it now holds for all of them, and it holds BY CONSTRUCTION rather than by luck, because ADM-ORDER refuses every value on which it would fail."
+          },
+          "planIdField3Resolution": {
+            "theQuestion": "IMPLEMENTER-BLUEPRINT.md section 5.1, quoted with markdown backticks stripped and one elision marked: 'PLAN-ID-V1 reproduces byte-exactly because the vectors supply capabilityManifestId as a literal ... Point the same code at a real project and there is no rule that turns a CapabilityManifestV1 into a capabilityManifestId, and therefore no PlanId.' NOT called verbatim, because it is not: the source carries backticks and line breaks this rendering removes. The two clauses either side of the elision were re-located in the LIVE blueprint bytes at the digest in recordedInputs after that file moved mid-authoring, and both are present unchanged.",
+            "step1_theSURROUNDINGMACHINERYISPROVENFIRST": {
+              "what": "before any derived value was substituted, this artifact's CVE1 and PLAN-ID-V1 implementations -- written from resolved-inputs.v2#planIdContract prose alone -- reproduced both pinned goldens byte-exactly, under both encoders.",
+              "planid-v1-ci-minimal": {
+                "preimageBytes": 2500,
+                "declaredPreimageBytes": 2500,
+                "planId": "plan1:sha256:613866ac3baf5f0450f31e0f24281f7782db02bbee7bcadffedc93e567e5e4f4",
+                "matchesPinned": true
+              },
+              "planid-v1-ci-full-providers": {
+                "preimageBytes": 8208,
+                "declaredPreimageBytes": 8208,
+                "planId": "plan1:sha256:86ccc0baa679dec956c0ca310889798e6b45ebbc7e11157f71e636dbf2f68401",
+                "matchesPinned": true,
+                "howTheInputWasObtained": "resolved-inputs.v2 supplies this vector as a four-field planInputConstruction rather than as a literal, so the record was materialised by EXECUTING artifacts/check-resolved-inputs.py::_materialize_plan_vector, which IMPLEMENTATION-FREEZE.md section 7.3 permits. The preimage and every digest were then computed by this artifact's own encoders.",
+                "aRECORDINGAMBIGUITYRESOLVEDBYMEASUREMENT": "that checker's own C2 constant is c2-plan-stage-schema.v3.json -- the defective bytes freeze section 7.2 records -- while this artifact pins v4 for the same fixture. THE VECTOR WAS MATERIALISED BOTH WAYS. Both produce an 8208-byte preimage and the identical pinned PlanId, so the ambiguity is immaterial to every value here. Measured, not assumed."
+              },
+              "whyThisOrder": "it establishes that the only thing separating the pinned PlanIds from the derived ones below is the PROVENANCE of field 3's capabilityManifestId. The framing, the field order and CVE1 are not in question."
+            },
+            "step2_theRULEPRODUCESANIDFROMAREALMANIFEST": {
+              "core": {
+                "input": "delivery.v2#installProfiles.profiles[0].capabilityManifest, canonicalised",
+                "capabilityManifestId": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b"
+              },
+              "full": {
+                "input": "delivery.v2#installProfiles.profiles[3].capabilityManifest, canonicalised",
+                "capabilityManifestId": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58"
+              },
+              "whyTheseTwo": "the minimal golden's release.profileId is 'core' and the full-provider golden's is 'full'. Each golden's own declared profile has a live typed CapabilityManifestV1 in delivery.v2. Nothing was invented to make the demonstration work."
+            },
+            "step3_aPLANIDWHOSEFIELD3CAMEFROMTHERULE": {
+              "PID-D1": {
+                "basedOn": "planid-v1-ci-minimal, unchanged except release.capabilityManifestId",
+                "profileId": "core",
+                "substitutedValue": "508f24c718a0564c52fe18a1e6a5308d53bdd6012a50ad186ffbc208bb18881b",
+                "preimageBytes": 2500,
+                "planId": "plan1:sha256:83f5fc2075340b4a12f8a8b9102a22d2b0560c53a3e79aafd8062b5a9cf8d29c",
+                "differingBytePositions": 60,
+                "differingSpan": [
+                  161,
+                  224
+                ]
+              },
+              "PID-D2": {
+                "basedOn": "planid-v1-ci-full-providers, all three capabilityManifestId positions",
+                "profileId": "full",
+                "substituted": [
+                  "release.capabilityManifestId",
+                  "semanticUniverses[0].universe.capabilityManifestId",
+                  "semanticUniverses[1].universe.capabilityManifestId"
+                ],
+                "substitutedValue": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58",
+                "preimageBytes": 8208,
+                "planId": "plan1:sha256:686c1bd14eea5ecd70374cd3ec9c5448ebd3a4cc82d1779c9eace4ba0f047302",
+                "differingBytePositions": 183,
+                "differingSpan": [
+                  161,
+                  5280
+                ]
+              },
+              "PID-D3": {
+                "basedOn": "planid-v1-ci-full-providers, the release position only",
+                "profileId": "full",
+                "substitutedValue": "c046dda8962663f62803b67f1bfdb60a1878586298226f9ae2faff4676134b58",
+                "preimageBytes": 8208,
+                "planId": "plan1:sha256:506c81af34071c6f88e6ff9eda41bd3d2e2fc03b10d92fed65e35d2ff3295e51",
+                "differingBytePositions": 61,
+                "differingSpan": [
+                  161,
+                  224
+                ],
+                "whyPUBLISHEDSEPARATELY": "no artifact requires the three positions to agree -- see declaredUnresolvedDependencies.DUD-V3-2 -- so a reviewer of either reading gets a computed value rather than one of them getting silence."
+              },
+              "lengthPRESERVATIONMEASUREDNOTASSERTED": "all three preimages are the same byte length as the pinned vectors they derive from, because a derived id is 64 hexadecimal characters exactly like the literal it replaces. Every differing byte position lies inside a 64-wide window at the substituted position, and the counts are below 64 only because some hexadecimal characters of the derived id coincidentally equal the placeholder's."
+            },
+            "step4_theCONVERSEISIMPOSSIBLEANDTHATISNOTAGAP": {
+              "statement": "the pinned PlanIds CANNOT be reproduced from a derived id, and no recipe of any shape could reproduce them.",
+              "why": "the pinned vectors carry capabilityManifestId as the literals 2222...2222 and 7777...7777, placeholder constants of the same family as their 1111..., 3333..., 4444..., 5555... and 6666.... For a derivation to reproduce either, some CapabilityManifestV1 would have to hash to a chosen 32-byte value -- a second-preimage attack on SHA-256.",
+              "soWHATWOULDFALSIFYTHISRECIPE": [
+                "the two pinned PlanIds ARE reproduced byte-exactly with the literals, proving the surrounding machinery",
+                "every committed vector publishes its complete byte string as hex, so a reviewer recomputes rather than trusts",
+                "eleven negative controls publish what specific wrong readings mint",
+                "two independent encoders agree on every value and a third-party CVE1 implementation reproduces them from resolved-inputs.v2's prose"
+              ],
+              "aWARNINGFORTHECONVERSE": "if any future artifact publishes a capabilityManifestId equal to 2222... or 7777..., that is evidence the value was back-fitted rather than derived.",
+              "andTHEFOURTHLITERALTHATISNOTACAPABILITYMANIFESTID": "MEASURED: delivery.v2 carries the string 2222...2222 at TWO positions. One is the overlay fixture's release.capabilityManifestId, replaced by this artifact. The other is typescriptSemanticSubstrate.providerProtocol.wireSchema.coverageDomain.vectorConstants.manifestFileSubjects[1].contentSha256 -- a snapshot file subject's CONTENT DIGEST that happens to use the same placeholder family. It is NOT a capability manifest id, it is NOT touched, and a reviewer grepping for the literal will find it and could wrongly raise it."
+            },
+            "soTHEBLUEPRINTSSENTENCEIS": "ANSWERED, subject to this file being a candidate. A rule now exists, it was applied to four real CapabilityManifestV1 values, and three PlanIds were computed end to end with field 3 resolved from it. It is not yet answered by a BINDING artifact, which is what IMPLEMENTATION-FREEZE.md section 7.1 requires, and this file is not one."
+          },
+          "proposalEvaluation": {
+            "subject": {
+              "path": "artifacts/plan-and-policy-identity-recipes.v2.json",
+              "sha256": "24bd4846d4666680b6275d29b9901ce903883620e6eea1339cdadf346ba3567c",
+              "standing": "AN INPUT TO THIS SUCCESSOR, NOT AN AUTHORITY. IMPLEMENTATION-FREEZE.md section 6 law 19: a candidate may PROPOSE a namespace and a separator and may never CLOSE a row with one. It proposed well."
+            },
+            "IREPRODUCEDITBEFOREJUDGINGIT": {
+              "why": "a proposal that is departed from must first be shown to be understood. Three agents in this session wrote a digest from recollection and all three were wrong; nothing here is quoted, everything is recomputed.",
+              "what": "its full grammar -- componentFrame, the four record grammars, all 21 tag assignments, leaf/internal/oddNode/emptySet/outer, both readings -- was implemented TWICE, independently, from its prose, and run against the live delivery.v2 bytes.",
+              "result": "EVERY published value reproduced byte-exactly on the first attempt: four set-reading ids, four sequence-reading ids, four record SHA-256s, four record byte lengths, all eight outer preimage hex strings, the CAP-1 completeRecordHex, the reproduced collision in both directions, and the cross-domain control. Its CAP-5 and CAP-6 hex were decoded with an independent decoder and re-encoded byte-exactly.",
+              "reproducedSetReadingIds": {
+                "core": "e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4",
+                "typescript-deep": "8971705a41019d89b4205b3d5c643d8eeeb5c12dbba34457caf5134bfa84b6a6",
+                "rust-deep": "3bbcf4321e98d89327ac0a56bc5bbb531f0f82d492e4b9c88348d3577e303942",
+                "full": "bda5e9efb6598097f8681037bc7b1d5d2b6765b4e117045ce9278168b4084742"
+              },
+              "reproducedCollision": {
+                "documentA_sequence": "af1f488e08989b8cc736713f30691e8086389dcfe3d5932158b383835eac2e0a",
+                "documentB_sequence": "340824bbb39f08b5db868090adf63924743af08f455aa79cb0f577ec187f9ff6",
+                "bothUnderTheSetReading": "e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4"
+              },
+              "verdictOnItsArithmetic": "CORRECT. This is now the third independent reproduction and it found no arithmetic error."
+            },
+            "whatIADOPT": [
+              "the RULING that this row is DELIVERY's and only DELIVERY's to close, and that a candidate proposing strings is not the forbidden act. That is law 19 and the candidate is governed by it correctly.",
+              "the FRAMING of DUD-6 as a structural gap in DELIVERY rather than a defect in the recipe. Its measurement of the gap is exact and is reproduced above; DL-CUSTODY closes what it correctly declined to close.",
+              "the ARGUMENT that a canonical ordering does not dodge the set-versus-sequence question -- verified independently here, relied on, and extended rather than replaced. See ruling.andACANONICALORDERINGDOESNOTDODGEIT_VERIFIED.",
+              "the OBSERVATION that CAP-6-ordering cannot distinguish the two readings, and that a suite which passes under both is evidence of nothing. Every control in negativeControls is built to that standard.",
+              "the DISCIPLINE of publishing full preimage bytes so a reviewer recomputes rather than trusts, and of declaring departures exhaustively.",
+              "the TEXT rule as it applies here: NFC, no BOM, non-empty, control characters excluded -- carried, but from resolved-inputs.v2's CVE1 constraints, which state the same thing for the encoding actually used.",
+              "the WARNING that a published capabilityManifestId equal to 2222... or 7777... would be evidence of back-fitting rather than derivation."
+            ],
+            "whatICHANGE": [
+              {
+                "change": "THE COMMITMENT FRAMING. The proposal imports evaluation-proof.v8's typed-component-merkle grammar into DELIVERY. This artifact uses DELIVERY's own stated form: SHA-256(UTF8(domain) || 0x00 || CVE1(value)).",
+                "whyNOTAPREFERENCE": "MEASURED across the corpus's binding heads. Typed-component/merkle framing appears in EVALUATION-PROOF and EVIDENCE. Domain-prefix-plus-canonical-serialisation appears in DELIVERY, C-2, RESOLVED-INPUTS, FACT-PLANE and RETENTION. DELIVERY states the prefix form THREE TIMES IN ITS OWN BYTES -- KeyDescriptor.keyId, wireSchema.commitments.domainRule, and TypeScriptSemanticUniverseKey, the last of which is literally SHA-256(UTF8(domain) || 0x00 || CVE1(closed record)). And c2-plan-stage-schema.v9's planIntentCommitment -- the corpus's one fully converged identity recipe, named in the dispatch as the standard to match -- is SHA-256(UTF8('opensip.plan-intent.v1') || 0x00 || opensip-canonical-json-v1(PlanIntent)), the same form. Adopting the proposal would have given DELIVERY a SECOND canonicalisation, so that manifestId and capabilityManifestId -- two members of one closed PLAN-ID-V1 map -- would be computed by two incompatible grammars inside one artifact. That is the divergence this repair exists to remove, not an aesthetic difference.",
+                "whatITCOSTS": "stated plainly: every digest the proposal published moves. This artifact publishes its own, computed under two independent encoders, and reproduces the proposal's beside them so the change is a COMPARISON and not a recomputation a reviewer has to perform."
+              },
+              {
+                "change": "THE SIZE OF THE MINT. The proposal mints two strings ('opensip.delivery.v1' and 'capability-manifest-v1'), four record grammars, 21 tag assignments and a merkle apparatus. This artifact mints ONE string.",
+                "why": "law 19 is about who may write down the irreducible new bytes; it is not a licence to make them larger than they need to be. Everything except the domain label already exists in a binding artifact."
+              },
+              {
+                "change": "THE MERKLE APPARATUS IS DROPPED.",
+                "why": "the proposal itself records that both its identities commit ONE record as a one-element item set. That carries leaf framing with uint64be, internal-node hashing, odd-node promotion and an empty-set rule into DELIVERY, of which the proposal's own text says the empty-set rule is 'transcribed and UNEXERCISED'. Internal hashing and odd-node promotion are also unreachable for a singleton. Three unexercised rules in a binding contract is the shape IMPLEMENTATION-FREEZE.md section 7 spends pages on: apparatus whose behaviour no live witness constrains."
+              },
+              {
+                "change": "THE SORT KEY. The proposal sorts by ENCODED ITEM BYTES, which its own CAP-6 vector shows is LENGTH-MAJOR: providerIds 'b' and 'aa' sort as ['b','aa']. This artifact sorts by the DECLARED KEY's UTF-8 bytes, giving ['aa','b'].",
+                "why": "resolved-inputs.v2#planIdContract.fieldCanonicalization sorts every one of its own collections by a declared key -- 'Sort by providerId UTF-8 bytes', 'Sort by activationId UTF-8 bytes', 'sorted unique NFC UTF-8 strings'. A capability manifest's providers list is the same shape as semanticUniverses and gets the same treatment. Length-major ordering is also correct and is harder to check by eye, which matters for a value a release engineer will read.",
+                "executed": "DCM-6-sort-rule publishes both, so the two conventions are separated by a vector rather than by an assertion."
+              },
+              {
+                "change": "A UNIQUENESS RULE AT THE KEY, NOT AT THE BYTES. The proposal rejects a repeated exact record byte string. This artifact requires the declared key projection to be injective.",
+                "why": "NEG-DUP-2 is the case that separates them: two providers[] entries sharing providerId with different content are distinct byte strings, so a bytes-only rule ADMITS a manifest that makes two contradictory capability claims about one provider. evaluation-proof.v8#normativePreimageGrammar.recordRules.duplicates already says the stronger thing -- 'duplicate scalar fields and duplicate LOGICAL LIST MEMBERS are forbidden' -- and this artifact says what a logical member is for each position, which is the part only DELIVERY can say."
+              },
+              {
+                "change": "THE ORDERING QUESTION IS ANSWERED RATHER THAN PUBLISHED BOTH WAYS, AND AN ADMISSION GATE IS ADDED.",
+                "why": "the proposal was right not to answer it -- it does not own the row. This artifact does, and publishing both readings is not available to the surface that must choose. ADM-ORDER is the part the proposal could not have supplied even if it had chosen, because it is a rule about what DELIVERY admits, not about how DELIVERY hashes."
+              }
+            ],
+            "aFINDINGAGAINSTTHEPROPOSALTHATITSOWNSUITEDOESNOTREACH": {
+              "id": "OBS-V3-1",
+              "statement": "the proposal's grammar contains a SECOND unresolved ordering ambiguity, distinct from the set-versus-sequence one, and it is load-bearing on live bytes.",
+              "theAMBIGUITY": "it carries evaluation-proof.v8#normativePreimageGrammar.recordRules.sortedLists verbatim -- 'sort complete item record bytes unsigned bytewise ascending BEFORE item framing'. Sorting the unframed item records and sorting the framed items are DIFFERENT ORDERS, because framing prepends a constant tag and a uint32be total length, which makes the framed comparison total-length-major while the unframed one is not.",
+              "measured": "reproduced with the proposal's own grammar over the live delivery.v2 manifests. The two conventions DIVERGE at 12 positions across all four manifests -- including the providers position itself in the rust-deep and full profiles -- and every one of the four ids moves. Sort-after-framing mints 1ab1d460babdada84aa250cc8025ab4fa3f4206aa56c1ea5126e732572fcd7c7 / 0df7542925400ddab50be5a37408de080e7048f542dbad448dac2dc8db60bbb0 / 4319ab1172a501af1a9a9dfbdce58f7972fb52c8c86cf166c217e4cb0d255233 / 655449579092b8c2b0e76ac02d70cad59254d37cfa7af8a1c971bbcb6113261d where the proposal publishes e109fd466c040640015265275c3dff14911bf163a40360d60d2c2c50123a70c4 / 8971705a41019d89b4205b3d5c643d8eeeb5c12dbba34457caf5134bfa84b6a6 / 3bbcf4321e98d89327ac0a56bc5bbb531f0f82d492e4b9c88348d3577e303942 / bda5e9efb6598097f8681037bc7b1d5d2b6765b4e117045ce9278168b4084742.",
+              "andITISTHESAMESHAPEASTHEDEFECTITWASWRITTENTOREPAIR": "the record byte LENGTH is identical under both conventions -- only interior bytes move -- so a wrong choice again yields a correctly framed, correctly sized record and a wrong id. No vector in the proposal separates them: its CAP-6 pins the sort KEY and not the framing BOUNDARY.",
+              "whyTHISARTIFACTISNOTEXPOSEDTOIT": "CVE1 has no item frame separate from the element encoding -- an array is 05 || u32be(count) || CVE1(e0) ... -- so there is no boundary at which to sort before or after, and the question does not arise. That is a consequence of the framing change, not a reason for it; the change was made before this was found.",
+              "disposition": "RAISED, NOT REPAIRED. The proposal is another lane's document, it is CANDIDATE / AWAITING-INDEPENDENT-REVIEW, and IMPLEMENTATION-FREEZE.md section 7.2 binds its bytes. This is recorded so its reviewer meets it."
+            }
+          }
+        },
+        "why": "THE IDENTITY. Namespace and domain separator minted under IMPLEMENTATION-FREEZE.md section 6 law 19, the sequence-versus-set ruling, admission gates, seven committed vectors with complete byte strings, eleven negative controls, two-encoder agreement, and PLAN-ID-V1 field 3 resolved end to end."
+      },
+      {
+        "op": "add",
+        "path": "capabilityManifestCustody",
+        "value": {
+          "id": "DL-CUSTODY -- CLOSING DUD-6, THE installProfiles <-> ProfileEntry JOIN GAP",
+          "theMEASUREDGAP": {
+            "installProfilesSide": "delivery.v2#installProfiles.profiles[i] carries EXACTLY the keys {profile, semanticProviders, capabilityManifest} -- verified on all four. It carries the manifest VALUE and NO id.",
+            "releaseManifestSide": "delivery.v2#releaseManifestSchema.ProfileEntry.required is EXACTLY [profileId, artifactIds, capabilityManifestId] -- verified. It carries the ID and NO manifest.",
+            "theJoinKeyIsSpelledDifferentlyOnEachSide": "'profile' on the installProfiles side, 'profileId' on the ProfileEntry side.",
+            "nothingBindsThem": "MEASURED on the live delivery.v2 bytes at the digest in recordedInputs: the literal 'installProfiles' occurs 1 time(s), 'ProfileEntry' 1 time(s) and 'ArtifactEntry' 1 time(s) -- each being its own key. There is no cross-reference anywhere in the document.",
+            "andNoArtifactEntryInstanceExists": "ReleaseManifestV1.artifactSetRule reads verbatim 'artifacts is the exact installable set; unlisted bytes are never executed as part of the release.' ArtifactEntry requires [artifactId, version, sha256, sizeBytes, mediaType, platformIds, executable, licenseIds, dependencyIds] and no instance, mediaType or artifactId for a capability manifest is declared anywhere. All five releaseFixtures are abstract install scenarios carrying no ArtifactEntry instance.",
+            "theCONSEQUENCE": "a host holding a verified ReleaseManifestV1 has the capabilityManifestId and cannot obtain the manifest bytes from anything the release commits to; a reader of installProfiles has the bytes and no id. The host-recompute rule for capabilityManifestId therefore had no input and was NOT IMPLEMENTABLE."
+          },
+          "theCLOSE": {
+            "DL-CUST-1": {
+              "statement": "THE COMMITTED CAPABILITY MANIFEST IS A RELEASE ARTIFACT. For every ProfileEntry, the CVE1 committedBytes of that profile's CapabilityManifestV1 are a member of ReleaseManifestV1.artifacts as an ArtifactEntry with mediaType 'application/vnd.opensip.capability-manifest.v1' and executable false, and that artifactId is a member of the same ProfileEntry's artifactIds.",
+              "whyTHISANDNOTAPOINTERFIELD": "because artifactSetRule ALREADY says what happens to release artifacts -- 'artifacts is the exact installable set; unlisted bytes are never executed' -- and ArtifactEntry ALREADY carries sha256, sizeBytes, platformIds and a dependency closure. Making the manifest an artifact gives it custody by falling under a rule that exists, rather than by adding a second custody mechanism beside it. Nothing new is invented; a thing is placed where the existing rule can see it."
+            },
+            "DL-CUST-2": {
+              "statement": "THE JOIN IS A CONTENT TEST, NOT A NAME LOOKUP. ProfileEntry.capabilityManifestId is well formed only if the ProfileEntry's artifactIds closure contains EXACTLY ONE ArtifactEntry with the capability-manifest mediaType, and the bytes that ArtifactEntry's sha256 covers recompute, under CAP-MANIFEST-ID-V1, to capabilityManifestId.",
+              "whyTHISISTHEREPAIRANDNOTARENAME": "the 'profile' versus 'profileId' spelling mismatch is a symptom. Its cause is that the join was supposed to travel through a NAME, and a name-keyed join is exactly what breaks when one side is spelled differently, or is renamed, or is duplicated, or points at the wrong entry with a valid-looking key. A content test cannot be mis-spelled. Under DL-CUST-2 a mis-pointed artifact is not a broken link a checker must go looking for -- it is a DIGEST MISMATCH at the point of use, and the host already refuses.",
+              "existenceAndUNIQUENESSAREBOTHREQUIRED": "exactly one. Zero means the release commits an id whose bytes it does not carry, which is today's gap. Two means the release carries two candidate manifests for one profile and the join is ambiguous -- a defect that a mere existence test would admit."
+            },
+            "DL-CUST-3": {
+              "statement": "THE SPELLINGS DENOTE ONE VALUE. The decoded manifest's `profile` MUST equal the owning ProfileEntry's `profileId`. A release in which they differ is refused.",
+              "whyEQUALITYANDNOTARENAME": "renaming either key is available and is not taken, for a stated reason: `profile` is INSIDE the CVE1 preimage, so touching it is an identity-affecting edit to a field every published id depends on, made for a cosmetic gain. Stating that the two spellings must hold one value closes the semantic gap at zero identity cost and is mechanically checkable. Recorded so a reviewer sees a decision rather than an omission -- and note that the equality is checkable ONLY because DL-CUST-1 put the bytes where the host can reach them.",
+              "andTHEREISNOTHIRDSPELLING": "MEASURED: `profileId` also appears at typescriptSemanticSubstrate as the TypeScript provider's defaultWorkBudgetProfileId, an unrelated identifier in a different namespace. It is NOT this join key and is not touched."
+            },
+            "DL-CUST-4": {
+              "statement": "installProfiles IS THE AUTHORING CATALOGUE; THE RELEASE IS THE COMMITTED FORM. installProfiles.profiles[i].capabilityManifest is the authoring value a profile is written as. The committed artifact for that profile is CVE1(canonicalise(that value)). A release commits the latter; nothing commits the former.",
+              "whyTHISLAYERINGISNEEDED": "MEASURED: all four authoring values fail ADM-ORDER. If the authoring form and the committed form were the same object, DELIVERY would be shipping four inadmissible manifests. They are not the same object, and saying so is what makes the canonicalising sort a producer act with one place to happen rather than a normalisation any consumer might or might not perform.",
+              "committedFormsArePUBLISHED": "capabilityManifestIdentity.vectors carries, for each of the four live profiles, the complete committed byte string as hex, its SHA-256, its byte length and its capabilityManifestId, so a reviewer starts from bytes and never has to trust a transcription."
+            }
+          },
+          "theHOSTPATHNOWENDTOEND": [
+            "1. verify the ReleaseManifestV1 signature and manifestId, unchanged from delivery.v2.",
+            "2. select the ProfileEntry for the requested profileId.",
+            "3. locate the unique capability-manifest-mediaType ArtifactEntry inside that ProfileEntry's artifactIds closure (DL-CUST-2).",
+            "4. verify the artifact bytes against that ArtifactEntry.sha256 -- an obligation ArtifactEntry already carries for every artifact.",
+            "5. recompute capabilityManifestId over those exact bytes and compare with ProfileEntry.capabilityManifestId; a mismatch refuses the release.",
+            "6. decode CVE1 and run ADM-TYPE, ADM-CLOSED and ADM-ORDER; any failure refuses the release.",
+            "7. check the decoded manifest's `profile` equals the ProfileEntry's `profileId` (DL-CUST-3).",
+            "8. place the verified capabilityManifestId in PLAN-ID-V1 preimage field 3.",
+            "NOTE ON STEP 5: it hashes BYTES, not a parse. The manifest is not re-encoded to compute its own id, so no consumer-side encoder can disagree with the producer's, and steps 5 and 6 are in this order on purpose: identity is established before the value is interpreted."
+          ],
+          "law6Compliance": "IMPLEMENTATION-FREEZE.md section 6 law 6 requires separate identities to keep separate descriptors and separate custody. Before this close, capabilityManifestId had an identity and no custody path at all. It now has one, and it is the same custody path every other release artifact has, which is the point.",
+          "whatThisCloseDOESNOTDO": [
+            "it does not declare a concrete ArtifactEntry INSTANCE. No release exists to carry one, and inventing artifactId strings, sizes and license identifiers for a release that has never been built would be a fixture pretending to be evidence. The RULE is stated and the instance is a release-qualification obligation. See declaredUnresolvedDependencies.DUD-V3-1.",
+            "it does not make delivery.v2's five releaseFixtures usable as an oracle. They remain abstract install scenarios carrying no ArtifactEntry instance. That defect is recorded at IMPLEMENTER-BLUEPRINT.md section 7.2 step 9 and is untouched here.",
+            "it does not state a join between release.capabilityManifestId and the capabilityManifestId copies inside PLAN-ID-V1's semanticUniverses[].universe. No artifact states one and this one does not either. See declaredUnresolvedDependencies.DUD-V3-2."
+          ]
+        },
+        "why": "THE CUSTODY JOIN. Closes the measured gap in which installProfiles carried the manifest with no id, ProfileEntry carried the id with no manifest, and nothing bound them."
+      },
+      {
+        "op": "add",
+        "path": "declaredUnresolvedDependencies",
+        "value": {
+          "rule": "IF AN INPUT DOES NOT EXIST, THE DEPENDENCY IS DECLARED AND THIS ARTIFACT STOPS AT THAT BOUNDARY. Nothing upstream was invented to make anything here look complete.",
+          "entries": [
+            {
+              "id": "DUD-V3-1",
+              "title": "No ArtifactEntry INSTANCE and no release exists.",
+              "statement": "DL-CUST-1 states the rule that a committed capability manifest is a release artifact. It does not produce an instance: no ReleaseManifestV1 has ever been built, all five of delivery.v2's releaseFixtures are abstract install scenarios carrying no ArtifactEntry, and artifactId strings, sizeBytes and licenseIds for a release that does not exist would be a fixture wearing the clothes of evidence.",
+              "whatWouldCloseIt": "a built release, which is release qualification and not architecture. IMPLEMENTATION-FREEZE.md section 7.1 keeps those distinct and section 6 law 17 makes them distinct states.",
+              "state": "OPEN -- RELEASE-QUALIFICATION OBLIGATION, NOT AN ARCHITECTURE GAP"
+            },
+            {
+              "id": "DUD-V3-2",
+              "title": "The join between release.capabilityManifestId and the semanticUniverses copies is still unstated.",
+              "statement": "capabilityManifestId occupies THREE positions in one full-provider PLAN-ID-V1 preimage -- the release map and one inside each activated provider's universe -- and no artifact states whether they must agree. MEASURED: check-resolved-inputs.py::_release_errors validates the release position against ^[0-9a-f]{64}$ and never mentions a universe, and _semantic_universe_errors never compares back.",
+              "authorsPosition": "under CAP-MANIFEST-ID-V1 all three would carry the same value, because all three name the capability manifest of the one selected profile. THIS ARTIFACT DOES NOT ADD THE REQUIREMENT: the universe records belong to RESOLVED-INPUTS' PlanId contract, not to DELIVERY's schema, and stating a join across that boundary is the act law 19 forbids in the other direction. PID-D2 and PID-D3 publish both readings so a reviewer of either has a computed value.",
+              "whatASuccessorMustDo": "RESOLVED-INPUTS states the join or states that there is none. A silent divergence between the release position and a universe copy produces a PlanId that validates and means something different, and nothing today would notice.",
+              "state": "OPEN -- DEPENDENCY ON RESOLVED-INPUTS"
+            },
+            {
+              "id": "DUD-V3-3",
+              "title": "Whether providers and coverageForAbsent may intersect.",
+              "statement": "MEASURED: they are disjoint by providerId in all four live manifests, and no artifact requires it. A provider that is present for some relations and absent for others is expressible today by appearing in both. The ordering ruling does not need an answer -- both collections are keyed sets either way -- so this artifact rules the ordering and leaves the intersection question where it found it.",
+              "whyITISNOTRULEDHERE": "it is a question about what a capability manifest MEANS, not about how it is spelled, and answering it would decide whether partial provider availability is a product concept. IMPLEMENTATION-FREEZE.md section 4.4 is what deciding that inside an architecture candidate looks like in hindsight.",
+              "state": "OPEN -- DEPENDENCY ON DELIVERY PRODUCT"
+            },
+            {
+              "id": "DUD-V3-4",
+              "title": "No retained checker.",
+              "statement": "this artifact retains no checker, so nothing mechanically notices when delivery.v2#installProfiles moves. IMPLEMENTATION-FREEZE.md section 7.1 names this exact shape: 'a byte recipe with no retained checker is a description that happens to contain digests'.",
+              "whyNotWrittenHere": "IMPLEMENTATION-FREEZE.md section 7.6: a reviewed checker cannot be edited, so a checker written beside an unreviewed candidate pins bytes a reviewer may change and then cannot be repaired. The mitigation is that every input digest is recorded and hard-compared, every published id carries its full committed byte string as hex, and a reader can recompute any value in this file with a CVE1 implementation and one SHA-256. This is a JUDGEMENT and a reviewer may overrule it.",
+              "state": "OPEN -- DISQUALIFYING FOR APPLICATION, ACKNOWLEDGED"
+            },
+            {
+              "id": "DUD-V3-5",
+              "title": "The v1PlanIntentOverlay fixture's manifestId remains a placeholder.",
+              "statement": "the fixture's release map is {manifestId, capabilityManifestId, profileId}. capabilityManifestId is now COMPUTED. manifestId stays 1111...1111 because delivery.v2#releaseManifestSchema.canonicalization defines it as sha256 over JCS of a ReleaseManifestV1 with manifestId and signatures omitted, and NO ReleaseManifestV1 INSTANCE EXISTS to canonicalise. Computing it would require inventing a release.",
+              "whyTHEASYMMETRYISCORRECT": "a capability manifest instance DOES exist -- four of them, live in delivery.v2 -- so its id is derivable and the placeholder had to go. A release manifest instance does not, so its placeholder is an honest declaration of a missing input rather than a missing rule. IMPLEMENTATION-FREEZE.md section 7.1's property is about fields with no PRODUCING RULE; manifestId has a rule and no instance, which is DUD-V3-1 and not a parked recipe.",
+              "state": "OPEN -- SAME BOUNDARY AS DUD-V3-1"
+            },
+            {
+              "id": "DUD-V3-6",
+              "title": "policyOutcome.derivationDigest is NOT touched here.",
+              "statement": "IMPLEMENTATION-FREEZE.md section 7.1 names it alongside capabilityManifestId as a related contract gap. It is a required field of the required policyOutcome on CoreCompletion and is NOT DELIVERY's. This artifact does not propose a recipe for it and does not extend anything toward it.",
+              "state": "OPEN -- DEPENDENCY ON THE OWNING SURFACE; OUT OF SCOPE HERE BY LAW 19"
+            },
+            {
+              "id": "DUD-V3-7",
+              "title": "Whether opensip.capability-manifest.v1 is the RIGHT string.",
+              "statement": "law 19 settles WHO writes it down; it does not settle what it should say. The label follows DELIVERY's own measured shape opensip.<subject>.v<major> and collides with nothing. A reviewer who prefers a different label should say so: it is one string in one place and every published id moves with it, which is exactly why it is minted in a candidate and reviewed before it is applied.",
+              "state": "OPEN -- REVIEWER MAY OVERRULE"
+            }
+          ],
+          "overall": "SEVEN declared, ZERO closed by this artifact. DUD-V3-4 alone is disqualifying for application; DUD-V3-1 and DUD-V3-5 are one boundary; DUD-V3-2, DUD-V3-3 and DUD-V3-6 belong to other surfaces or to product."
+        },
+        "why": "seven dependencies declared and none closed by this artifact."
+      },
+      {
+        "op": "add",
+        "path": "knownLimitationsV3",
+        "value": [
+          "No retained checker (DUD-V3-4). Nothing mechanically notices when the predecessor's installProfiles moves; the mitigation is recorded digests and published byte strings, and it is a mitigation and not a checker.",
+          "Every published capabilityManifestId depends on ONE minted string. If a reviewer changes the domain label, all seven vector ids and all three derived PlanIds move. That is the intended cost of minting in a candidate rather than in a head.",
+          "The four committed forms are DERIVED from the predecessor's authoring values, not authored. If the predecessor's installProfiles ever changes, they are stale and nothing here will say so.",
+          "This artifact publishes no ArtifactEntry instance and therefore demonstrates the custody rule without exercising it on a real release (DUD-V3-1).",
+          "ADM-ORDER is stated and executed against inputs constructed here. No release-time producer exists to run it, so its operational cost -- a builder that must sort before committing -- is asserted rather than measured.",
+          "The ordering ruling rests in part on the absence of any positional consumer of these collections. Absence was established by reading the corpus, and a reader can miss a consumer. If one is found, DL-ORD-2's exemption mechanism is where it is named -- and naming it moves every id.",
+          "TWO many-to-one channels into this identity are now closed and the class is NOT claimed closed. Both were found by construction, by two different reviewers, weeks apart, and neither was found by the suite that existed at the time. DL-INJ-1's decode(encode(x)) == x detector would have found BOTH -- which is why it is stated -- but it cannot find a defect that is symmetric in both directions, and no test here rules that class out. A reviewer should assume there is a third channel and should look for it with a construction rather than with this document's vectors."
+        ],
+        "why": "this successor's own limitations, kept separate from the predecessor's five so neither list is silently absorbed into the other"
+      }
+    ]
+  },
+  "selfMeasurement": {
+    "operations": 20,
+    "setOperations": 7,
+    "addOperations": 13,
+    "everySetRestatesItsPredecessorValueTypeExactly": true,
+    "derivationAppliedCleanlyAtAuthoring": true,
+    "committedVectorsPublished": 7,
+    "negativeControlsExecuted": 12,
+    "manyToOneChannelsClosed": 2,
+    "derivedPlanIdsComputed": 3,
+    "encodersWritten": 2,
+    "encoderDisagreements": 0,
+    "pinnedGoldensReproducedByBothEncoders": 2,
+    "declaredUnresolvedDependencies": 7,
+    "rowsClosedByThisDocument": 0,
+    "headsRepointed": 0,
+    "dispositionsChanged": 0
+  },
+  "strongestObjectionTheAuthorExpects": {
+    "objection": "YOU CHANGED THE COMMITMENT FRAMING AND THREW AWAY THREE INDEPENDENT REPRODUCTIONS. A candidate's typed-component-merkle recipe had been reproduced twice before you and once by you, at four ids and eight preimages, with no arithmetic error found. You replaced it with arithmetic only you have run, and every published digest in the corpus's capabilityManifestId conversation now moves.",
+    "theAUTHORSANSWER": "it is the right objection and it is only half wrong. Three things are offered against it, and none of them is 'I preferred mine'. FIRST, the reproduction was not discarded -- it was PERFORMED and is published: proposalEvaluation carries every one of the proposal's values, recomputed here under two encoders, matching byte-exactly, together with the statement that its arithmetic is correct. A departure that cannot reproduce what it departs from is not a departure, it is a guess, and that is not the position here. SECOND, the change is not to a different bespoke grammar but to DELIVERY'S OWN, stated three times in the predecessor's bytes and once, in exactly this shape, over a closed record: SHA-256(UTF8(domain) || 0x00 || CVE1(record)). Adopting the proposal would have left DELIVERY computing two members of one closed PLAN-ID-V1 map -- manifestId and capabilityManifestId -- under two incompatible canonicalisations. THIRD, and this is the part that answers the arithmetic worry directly, the new values are not less verified but MORE: CVE1 has a binding-artifact ORACLE. Both encoders reproduce both pinned PLAN-ID-V1 goldens byte-exactly at their declared preimage lengths, which no bespoke grammar in this corpus can offer, because no bespoke grammar has a pinned golden it did not write itself.",
+    "whatWOULDCHANGETHEAUTHORSMIND": "a binding artifact stating that DELIVERY's identities use evaluation-proof.v8's grammar. None exists -- measured: retention-tiers records namespaceOwner pointing at EP's grammar for the identity IT owns, and that is the corpus's only namespace-authority field. Or a demonstration that CVE1 is ambiguous on this record's value space. The two encoders were written to find exactly that and did not.",
+    "aSECONDOBJECTIONTHEAUTHORALSOEXPECTS": "ADM-ORDER makes all four of the predecessor's own capability manifests inadmissible as committed manifests. That is a real cost and it is not hidden: it is measured, published per profile with the exact first violation, and answered by DL-CUST-4's separation of the authoring catalogue from the committed form. A reviewer who thinks that separation is a fiction should say so, because if it is, the correct reading is that DELIVERY has been shipping four non-canonical manifests and the repair is larger than this document.",
+    "aFOURTHOBJECTION": "you closed the record types because a reviewer told you to, not because you found it. TRUE, and stated: the undeclared-member channel was raised by an independent review while this document was in authoring. What this document adds is that it REPRODUCED the collision before acting rather than transcribing the report, MEASURED that the defect changes shape rather than disappearing under this artifact's own encoding, declined to close two named types in favour of a reachability property because closing two names is how the hole arrived, and stated one executable equation that detects both channels and would have found this one unaided. A repair that only does what it was told is a patch; the difference is whether the next instance is covered.",
+    "aTHIRDOBJECTION": "the ordering ruling is a product decision wearing a data-model costume. The answer is in orderingRuling.theProductQuestionThisDoesNOTDecide, and its load-bearing half is the asymmetry: SET forecloses nothing because precedence remains addable as an explicit field, while SEQUENCE silently makes every builder's JSON emission order a PlanId input. Where evidence is measured but not conclusive, the reversible ruling is the correct one."
+  },
+  "reviewerChecklist": [
+    "1. Hard-compare every digest in recordedInputs against the live files. A recorded digest that does not equal the live one invalidates every measurement taken against it.",
+    "2. Apply derivedFrom.operations to the verified predecessor. Every `set` must find its restated `from` value type-exactly; every `add` must find its path absent. If any operation does not describe the bytes it is applied to, refuse the whole derivation.",
+    "3. Implement CVE1 from resolved-inputs.v2#planIdContract.canonicalValueEncoding and reproduce BOTH pinned PLAN-ID-V1 goldens. If you cannot, stop -- nothing downstream is checkable.",
+    "4. Recompute all seven committed vector ids from the published committedBytesHex: one prepend of UTF8(\"opensip.capability-manifest.v1\") || 0x00 and one SHA-256.",
+    "5. Decode each committedBytesHex as CVE1 and confirm it re-encodes to the same bytes, and that the decoded value satisfies ADM-TYPE, ADM-CLOSED and ADM-ORDER.",
+    "6. Confirm each of the four live committed forms equals canonicalise(the predecessor's authoring value at that index), and that the published first ADM-ORDER violation of each authoring value is the one you observe.",
+    "7. Execute all eleven negative controls. For each, confirm this rule refuses (or accepts) as stated AND that the published would-mint value is what the rejected reading produces. A control you cannot make fail under the rejected reading is not a control.",
+    "8. Reproduce PID-D1, PID-D2 and PID-D3 and confirm the differing byte positions fall only in the declared 64-wide windows.",
+    "9. Reproduce the proposal's four set-reading ids under its own grammar and confirm proposalEvaluation's reproduction claim. If it does not reproduce, this document's judgement of it is worthless even if its own arithmetic is right.",
+    "10. Reproduce OBS-V3-1 -- sort-before-framing versus sort-after-framing under the proposal's grammar -- and decide whether it belongs to that lane's review.",
+    "11. Attack the ordering ruling at leg4: is capabilityManifestId really a PlanId field, and does resolved-inputs.v2's predicateRelativeFacts sentence really forbid a provider rank there? If either fails the ruling loses its dispositive leg and must stand on the weaker three.",
+    "12. Look for a positional consumer of any of the four collections. The ruling rests partly on there being none.",
+    "13. Confirm no status, disposition, verdict or seal outside this document changed, that CD-RT-5 remains BLOCKED_ON_PHASE_1A, and that no head was repointed.",
+    "14. Reproduce capabilityManifestIdentity.recordClosure: build the three documents and confirm all three mint the SAME id under the proposal grammar read by field name, and that ADM-CLOSED refuses two of them here.",
+    "15. Attack DL-INJ-1 detector: find an admitted x for which decode(encode(x)) == x holds and a degree of freedom nevertheless exists. That is the class the detector cannot see, and this document says so rather than claiming otherwise.",
+    "16. Parse this file with a duplicate-key-rejecting object_pairs_hook."
+  ]
+}

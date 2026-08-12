@@ -542,7 +542,12 @@ identities the policy plane never authorised.
 
 ---
 
-**CANDIDATE (VERSIONING).** Contract-complete, unreviewed.
+**CANDIDATE (VERSIONING).** ~~Contract-complete, unreviewed.~~ **Review status is
+intentionally not maintained here; consult freeze §3 and blueprint §1.1.**
+
+*(The struck clause is withdrawn 2026-08-04. It was false — these bytes have been
+independently reviewed — and it is replaced by a pointer rather than by a fresh
+verdict, because a review state restated in narrative goes stale by construction.)*
 
 ## A changed detector is not a regression
 

@@ -104,8 +104,15 @@ This is the difference between content-addressed caching and unsound memoization
 
 ---
 
-**CANDIDATE (RESOLVED-INPUTS).** Contract-complete, unreviewed. Binding artifact:
+**CANDIDATE (RESOLVED-INPUTS).** ~~Contract-complete, unreviewed.~~ Binding artifact:
 [`resolved-inputs.v2.json`](../artifacts/resolved-inputs.v2.json).
+
+**Corrected 2026-08-04 — "unreviewed" is withdrawn.** These bytes have been
+independently reviewed; as recorded on that date, blueprint §1.1 carries
+RESOLVED-INPUTS as **PASSED with changes**. The binding-artifact pointer above is
+unaffected and still current. Do not copy the verdict out of this sentence: review
+state is not maintained in this file, and freeze §3 and blueprint §1.1 are the
+authorities for it.
 
 ## The ambient-input closure
 

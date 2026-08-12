@@ -133,7 +133,7 @@ register distinguishes those states. Prose and this inventory do not replace it.
 | `d9-exit-contract.v1.14.json` + `check-d9-v1.14.py` | Binding termination contract, 45 goldens, closed cause enums, cross-axis invariants | **BINDING; independently reviewed, NOT APPLIED** — review of exactly these bytes is PASS at 0 blocking findings with 2 advisories (`R-V114-F1`, `R-V114-F2`) tabled as verifier residuals; self-declared `CANDIDATE-NOT-APPLIED`. The total axes-to-class function is obtained by *executing* the checker, not by reading the JSON or a lower version |
 | Superseded `d9-exit-contract.v1.13.json` | Immediate predecessor, still pinned by `rust-provider-protocol.v4#d9JoinV4` and by `evidence.v10` | **Superseded by v1.14** — those pins are one version behind and are escalation material, not a fallback; all 45 goldens rederive identically under both, so the divergence is in the pin, not the semantics |
 | `d9-exit-contract.v1.5.json` … `.v1.6.json` | Superseded termination contracts, 39 and 43 goldens | **Superseded** — retained as the evidence trail for B-D9V15-01..05 and A1-D9-V15-01..06 |
-| `r1-lifetime-neutrality.conformance.v1.5.json` + `r1-lifetime-neutrality.freeze-closure-coordinator.v1.json` + `check-r1-v1.5.py` | R-1 conformance, LN-01..14 across 4 suites, v1 topology closure | **Independently reviewed PASS at 0 blocking findings and 0 findings of any severity; `CANDIDATE-NOT-APPLIED`** — one-shot host + pure core is the only v1 topology; residency is parked, runtime capability authority is NOT DISCHARGED, and implementation conformance remains to be demonstrated. The freeze-closure coordinator is the accepted v1 architecture-scope closure but adjudicates the prior version's review, not the head bytes. `LN-13` stays unverifiable until the parked `EvidenceDigest` recipe closes |
+| `r1-lifetime-neutrality.conformance.v1.6.json` + `r1-lifetime-neutrality.freeze-closure-coordinator.v1.json` + `check-r1-v1.5.py` | R-1 conformance, LN-01..14 across 4 suites, v1 topology closure | **Independently reviewed PASS at 0 blocking findings and 0 findings of any severity; `CANDIDATE-NOT-APPLIED`** — one-shot host + pure core is the only v1 topology; residency is parked, runtime capability authority is NOT DISCHARGED, and implementation conformance remains to be demonstrated. The freeze-closure coordinator is the accepted v1 architecture-scope closure but adjudicates the prior version's review, not the head bytes. `LN-13` stays unverifiable until the parked `EvidenceDigest` recipe closes |
 | `fact-identity-policy.v2.json` + `fact-identity-policy.freeze-closure-coordinator.v1.json` + `check-fact-identity.py` | FACT-IDENTITY ladder, canonical byte grammar, transition witness, authority exclusion | **SEAL-WITH-CHANGES recommendation** — grammar and ladder fixed; TypeScript/Rust corpora remain implementation evidence; third-party imperative authority excluded on ARCH.PROBE-CONTRACT |
 | `retention-tiers.v24.json` + `check-retention-custody-v24.py` | Retention/custody candidate: semantic closure, lease protocol, operational custody projection, storage and lineage, first-run retention consent, and executable purge semantics | **CANDIDATE, independently reviewed PASS on both parts at 0 blockers, EXPLICITLY NOT APPLIED** — it is not the Phase-1A insertion, closes no `CD-RT-5`, selects no retention default and does not unblock G19; its own `integrationState` records V10 `UNRESOLVED`, `CD-RT-5` `BLOCKED_ON_PHASE_1A`, G19 `BLOCKED`. Its `productAuthorityBoundary` and the `custodyPolicy` fragment it carries both record `durableDefault: UNSELECTED` / `AWAITING-PRODUCT-DISPOSITION`. It **carries the V10 item-3 discharge** (purge semantics), on a basis its reviewer states exactly — Part A re-derived, Part B a verified byte-identical carry from v23 whose predecessor verdict v24 refuses to inherit. **V10 as a whole is not closed** |
 | Superseded `retention-tiers.v22.json` + `check-retention-custody-v22.py` | Prior retention/custody head, the binding citation until the v22 → v24 repoint | **Superseded, not rejected** — independently reviewed PASS at 0 blockers at its own bytes. Retained as the evidence trail; it binds nothing. Its frozen bytes still pin the defective `c2-plan-stage-schema.v3` digest and `check-c2.py`, which §7.2 forbids re-pinning in place; the head does not |
@@ -178,8 +178,20 @@ The binding rationale and source evidence are in
 
 ## Graduation path
 
-These documents are **local-only working architecture**, in a gitignored tree.
-They are not durable.
+~~These documents are **local-only working architecture**, in a gitignored tree.
+They are not durable.~~
+
+**Withdrawn 2026-08-04 — struck above rather than deleted.** These documents are
+tracked at `opensip/docs/coop`: `git ls-files` returns all twelve of them and
+`git check-ignore` matches none. They are durable, and they are the greenfield
+design for the product being built.
+
+**This correction also governs the table and the note below**, which still argue
+from the withdrawn premises — a "hypothetical rebuild", "a system that does not
+exist", an "accepted impermanence risk", and a durable home still owed. Those
+premises are gone. What survives is the rule they were used to support: this
+material stays here and must **not** be copied into the shipping TypeScript
+repository's ADR log.
 
 | Content | Destination | Trigger |
 |---------|-------------|---------|

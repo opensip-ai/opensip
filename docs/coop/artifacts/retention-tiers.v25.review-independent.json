@@ -1,0 +1,581 @@
+{
+ "artifact": "retention-tiers.v25.review-independent",
+ "version": 1,
+ "date": "2026-08-05",
+ "status": "INDEPENDENT-REVIEW-COMPLETE",
+ "reviewer": "independent reviewer, did not author retention-tiers.v25.json or any predecessor in this lineage",
+ "decision": "REJECT FOR REPAIR",
+ "reviewPosture": "This review owes the artifact nothing. Every figure it publishes was recomputed from bytes on disk rather than read from the artifact, per IMPLEMENTATION-FREEZE.md section 7.2.2: measurements get hard comparison, invariants get semantic gates. Where the artifact binds anything as a derivation over its predecessor, the derivation was RESOLVED and the resolved result compared against the stated result, per section 7.3 and the CMP-IR-01 record. Four blocking findings are reported. Three of the four were found by resolving rather than by reading.",
+
+ "verdict": {
+  "overall": "REJECT FOR REPAIR -- 4 blocking findings, 9 non-blocking observations",
+  "totalBlockingFindingCount": 4,
+  "nonBlockingObservationCount": 9,
+  "blockingFindingIds": [
+   "IR-RT25-B1-DEMAND-EXPRESSIONS-EVICT-EVERYTHING-AT-THEIR-OWN-DISABLE-VALUES",
+   "IR-RT25-B2-THE-ONE-RULE-DOES-NOT-RESOLVE-TO-THE-STATED-REPAIR",
+   "IR-RT25-B3-CHANGED-SURFACE-SET-IS-INCOMPLETE-AND-FALSIFIES-INHERITED-PART-A",
+   "IR-RT25-B4-A-VERBATIM-FIELD-QUOTES-TEXT-THAT-EXISTS-NOWHERE-IN-ITS-SOURCE"
+  ],
+  "sealRecommendation": "DO-NOT-SEAL (unchanged; not this review's to change)",
+  "statusChangesMadeByThisReview": "NONE. CD-RT-5 remains BLOCKED_ON_PHASE_1A. durableDefault remains UNSELECTED in the binding packet. No artifact was signed, sealed, applied, frozen or restatused. This review wrote exactly one file: itself. retention-tiers.v25.json was not edited, and its digest is byte-identical at the end of this review to the digest at dispatch.",
+  "whyRejectRatherThanAcceptWithObservations": "Three separate blockers are cases where the artifact's stated conclusion and its stated mechanism disagree, and in each case the mechanism -- which is what an implementer builds from -- is the wrong one. B1 is the sharpest: the artifact spends an entire section, a proof, three negative controls and a departure record attacking a shipping-product defect in which a bound's disable behaviour sits outside the bound's expression, and then publishes three demand expressions whose disable behaviour sits outside the expression, each of which evaluates to 'evict the entire evictable set' at its own declared disable value -- which is the DEFAULT configuration of every unconfigured project. The direction of that failure is toward more deletion, which is the direction this artifact itself names as the worst possible one for a silent failure.",
+  "whatIsGoodAndShouldSurviveTheRepair": "The central design judgement -- a total resolution rule rather than a schema field, with provenance carried alongside posture and the default never persisted -- is correct, well argued, and survives every attack this review made on it. The EPHEMERAL_ONLY-IS-ALWAYS-CONSENTED property holds on the resolved decision table. The refusal genuinely moves rather than vanishing. The artifact's authority hygiene is the best in this lineage: it designs against an unapplied draft without once leaning on it as authority, and it reports the measurement over the expectation in the one place where the draft asserted a closure that the live D9 bytes refute. None of the four blockers touches the posture design itself."
+ },
+
+ "reviewHygiene": {
+  "subjectFrozenAtDispatch": "The dispatch recorded artifacts/retention-tiers.v25.json at sha256 d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52, 146939 bytes. This reviewer re-hashed before beginning and again immediately before finalising. Both measurements equal the dispatch digest. No re-baselining occurred and no measurement in this review was taken against different bytes.",
+  "independence": "This reviewer wrote its own walkers, its own demand evaluator and its own quotation normaliser. No script written by the authoring lane was read or executed. The two predecessor checkers were executed as shipped, unmodified, only to test the artifact's own environment claim about them.",
+  "interpreter": "python3, invoked as `python3 -I -B` for every checker execution. The macOS host has no timeout(1) and none was used.",
+  "workspaceMutations": "NONE. No file under docs/coop was created, edited, moved or deleted by this review other than this review artifact itself. retention-tiers.v25.json was opened read-only.",
+  "formattingDiscipline": "IMPLEMENTATION-FREEZE.md section 7.7. Every quotation check in this review folds markdown structure -- blockquote markers, list bullets, table pipes, emphasis runs, trailing backslashes -- and normalises whitespace and unicode punctuation BEFORE concluding a phrase is absent. Two phrases were still reported absent after that folding; both were then confirmed absent by a raw token search, and one of them turned out to be present in a different wording, which is recorded rather than reported as a fabrication. See IR-RT25-B4 for the distinction."
+ },
+
+ "measurementsIRecomputed": {
+  "rule": "Section 7.2.2: a recorded measurement gets a hard comparison. Every figure below was recomputed from bytes and hard-compared against the artifact's declared value. An uncompared measurement is prose that looks like evidence.",
+
+  "leafCensus": {
+   "method": "Recursive walk of the parsed document descending dicts and lists, testing bool BEFORE int because bool subclasses int in Python. The document was parsed from raw disk bytes under an object_pairs_hook that raises on any repeated key at any depth.",
+   "result": "ALL SEVEN FIGURES EXACT",
+   "comparison": [
+    {"field": "scalarLeafPositions", "declared": 1416, "measured": 1416, "agree": true},
+    {"field": "nonStringLeafPositions", "declared": 381, "measured": 381, "agree": true},
+    {"field": "intLeafPositions", "declared": 196, "measured": 196, "agree": true},
+    {"field": "boolLeafPositions", "declared": 184, "measured": 184, "agree": true},
+    {"field": "floatLeafPositions", "declared": 1, "measured": 1, "agree": true},
+    {"field": "nullLeafPositions", "declared": 0, "measured": 0, "agree": true},
+    {"field": "stringLeafPositions", "declared": 1035, "measured": 1035, "agree": true}
+   ],
+   "arithmetic": "196 + 184 + 1 + 0 = 381 non-string, and 381 + 1035 = 1416. Internally consistent and externally exact.",
+   "floatLeafPaths": "declared ['$.partC_retentionBounds.vectors.rows[6].bounds.keepCount']; measured identical, one path, and rows[6] is PC-V-07-EXACT-TYPE-FLOAT, so the float is where the artifact says it is and is there for the reason it says.",
+   "nullLeafPaths": "declared empty; measured empty.",
+   "boolWireValueClaim": "$.partC_retentionBounds.vectors.rows[5].bounds.keepCount is PC-V-06-EXACT-TYPE-BOOL and is a JSON boolean. Verified.",
+   "duplicateKeys": {"declared": 0, "measured": 0, "hook": "object_pairs_hook raising on any repeated key at any depth"},
+   "noteOnTheDispatch": "The dispatch to this reviewer transcribed the bool figure as 183. The artifact declares 184 and the measurement is 184. The artifact is right and the dispatch transcription was wrong. Reported because a review that silently adopted the dispatch figure would have manufactured a blocker.",
+   "noteOnTheEarlierFalseFloatClaim": "$.leafCensus.whyThereIsExactlyOneFloat discloses that an earlier draft asserted floats were deliberately absent while the walk measured one, and that the claim was false on the artifact's own bytes and was replaced by the measured path list. This reviewer confirms the repair is complete: everyFloatIsDeliberate is true, the path list is present, non-empty, and exact. The self-disclosure is credited.",
+   "whyThisReviewPublishesNoCensusOfItself": "Section 7.2.2's class record: a self-report that measures the object before the self-report is attached to it undercounts by exactly the size of the self-report. The cheapest correct answer when the measurement is self-referential is not to publish one, and this review does not."
+  },
+
+  "recordedInputDigests": {
+   "declaredCount": 15,
+   "listLength": 15,
+   "recomputedExactAndAgreeing": 12,
+   "moved": 3,
+   "movedDetail": [
+    {
+     "path": "IMPLEMENTATION-FREEZE.md",
+     "recorded": "3e0b0195890720b1592dd3a589c42ec3fab64992334ed33ccee1ca25063a2463",
+     "live": "9bea5ce46ee9b9dc9c7158517cf0d60d053446e6e2eae3cab669c945eefb80f1",
+     "gate": "CITED-DIGEST-RECORDED-NOT-GATED",
+     "disposition": "NOT A FINDING. The artifact declares this file under concurrent edit by another lane and records it as cited-not-gated for exactly that reason. Section 7.2.1 clause 4: drift discovered mid-review is a fact about this review's conditions and is recorded here."
+    },
+    {
+     "path": "IMPLEMENTER-BLUEPRINT.md",
+     "recorded": "f6963a5c35758e7c80483f140bb08934d236e1f132ba373798848b4bbbbc9b5f",
+     "live": "5f040376d69af066c5278ff98cacf9bc305b2eddfc06f3ced882061aba3043db",
+     "gate": "CITED-DIGEST-RECORDED-NOT-GATED",
+     "disposition": "NOT A FINDING, same reason."
+    },
+    {
+     "path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json",
+     "recorded": "4bbcd6fa9113a689063ce880611e98dcf3599eaa0f5846419886deb4033922ea",
+     "live": "872c67be307866a645d246104a61065d1ab6c6d812618e0a40bbd837c4b0edb0",
+     "gate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN",
+     "disposition": "REPORTED AS OBSERVATION IR-RT25-N02. The artifact's own instruction is that a mismatch on any of the twelve artifacts/ inputs IS a finding, so this review reports it as one. It is graded non-blocking because the drift is provably post-authoring."
+    }
+   ],
+   "allTwelveArtifactsInputsAgreeExcept": "the amendment draft. retention-tiers.v24/.v23/.v22, both v24 and v23 reviews, check-retention-custody-v24.py, check-retention-custody-v23.py, d9-exit-contract.v1.14.json, product-dispositions.v1.json, threat-model.v3.json and evidence.v10.json all recompute EXACT.",
+   "planDigestVerbatim": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e recomputes exact against ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md; planDigestConfirmedUnchanged is true."
+  },
+
+  "internalCounts": {
+   "result": "19 of 19 DECLARED COUNTS AGREE WITH THE COLLECTIONS THEY DESCRIBE",
+   "checked": [
+    "digestsRecordedCount 15 == len(recorded) 15",
+    "surfacesChangedCount 7 == len(surfacesThisArtifactChanges) 7",
+    "surfacesExplicitlyUnchangedCount 18 == len(surfacesThisArtifactDoesNotChange) 18",
+    "retainedResidualCount 17 == len(retainedResiduals) 17",
+    "newResidualCount 5 == len(newResiduals) 5",
+    "declaredDependencyCount 10 == len(declaredDependencies) 10",
+    "invariantCount 19 == len(invariants) 19, being 14 RT25-C plus 5 RT25-D",
+    "vectors.count 16 == len(rows) 16",
+    "negativeControlCount 15 + nonControlRowCount 1 == 16",
+    "boundsRecord.fieldCount 8 == len(orderedFields) 8",
+    "cause memberCount 4 == len(members) 4, and meanings covers exactly those 4 keys",
+    "noAskCasesReDerivedCount 3 == len(noAskCasesReDerived) 3",
+    "askDecisionTable cellsChanged 2 == len(changedCells) 2, and 2 + cellsUnchanged 10 == cellCount 12",
+    "interactionOutcomes outcomesChanged 4 == len(changed) 4, outcomesUnchanged 3 == len(unchanged) 3, and 4 + 3 == count 7",
+    "postureResolution rowCount 3 == len(rows) 3",
+    "frozenArtifactCount 1 == len(frozenArtifacts) 1"
+   ],
+   "note": "This is a genuinely clean result and is unusual in this corpus. The counting discipline is not where this artifact fails."
+  },
+
+  "blastRadiusReMeasured": {
+   "instruction": "The dispatch asked for these to be re-measured rather than read. They were, against retention-tiers.v24.json at its recorded and recomputed digest ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277.",
+   "decisionTable": {
+    "claimed": "2 of 12 cells change outcome",
+    "measured": "CORRECT",
+    "method": "v24's askDecisionTable.cells has exactly 12 members and exactly 1 with askPerformed true, matching its own declared cellCount 12 and askPerformedCellCount 1. The artifact's stated selection rule -- policyPresence ABSENT and requestedCustody DURABLE_AUTHORITATIVE -- selects exactly cells at index 1 (ci) and index 7 (local-interactive). Index 1 reads outcome REFUSE, index 7 reads outcome ASK. Both change. No third cell satisfies the rule.",
+    "spotCheckAlsoVerified": "The four EPHEMERAL_OR_ADVISORY cells under ABSENT and PRESENT-DURABLE_RETAINED are indices 0, 4, 6 and 10 and all four read PROCEED-EPHEMERAL. The two PRESENT-EPHEMERAL_ONLY DURABLE_AUTHORITATIVE cells are indices 3 and 9 and both read REFUSE. Both spot-check sentences are true of v24's bytes."
+   },
+   "interactionOutcomes": {
+    "claimed": "4 of 7 outcomes change terminal behaviour",
+    "measured": "CORRECT",
+    "method": "v24's interactionOutcomes.outcomes has exactly 7 members. Exactly 5 carry terminatesTheRequest true: PA-INT-02, 03, 04, 05, 06. PA-INT-02 is the answered-ephemeral refusal and is correctly retained as unchanged. The four dismissals are exactly the set the artifact names as changed. PA-INT-01 and PA-INT-07 already carry terminatesTheRequest false and are correctly named unchanged. v24's policyPersistingOutcomeIds is exactly ['PA-INT-01-ANSWERED-RETAIN','PA-INT-02-ANSWERED-EPHEMERAL'], matching both the before and after lists.",
+    "onePedanticNote": "PA-INT-06's terminatesAfter is 'NOT-DECIDED-HERE' rather than a value, so strictly 3 outcomes change and 1 becomes undecided. The artifact is explicit about this in the same object and the count of 4 is defensible, since the outcome's previous derivation demonstrably no longer describes it either way."
+   },
+   "outcomeBeforeIsAParaphraseNotAFieldValue": "For the local-interactive cell the artifact writes outcomeBefore as 'ASK, and refuse if not answered'. v24's cell 7 outcome field is the bare string 'ASK'; the refusal lives in the interaction outcomes. The field is not labelled Verbatim and the composite is a fair characterisation, so this is recorded for precision only and is not a finding."
+  },
+
+  "partCMeasuredDeltas": {
+   "result": "ALL 18 MEASURED DELTAS AGREE WITH v24's BYTES",
+   "detail": [
+    "availabilityStates 4 -> 4: v24 lattice.states has 4 members. EXACT.",
+    "terminalStates 1 -> 1: v24 lattice.terminalStates == ['PURGED']. EXACT. reversibility.PURGED is false, as the artifact's evidence list claims.",
+    "ledgerEntryOrderedFields 7 -> 7: v24 ledger.entryOrderedFields has 7 members and 'cause' is at index 6, i.e. ordered position 7. The artifact's orderedPosition 7 and fieldIsNotNew claims are both EXACT.",
+    "ledgerEntryTypes 1 -> 1: v24 ledger.entryType is the single value 'AvailabilityTransitionV1'. EXACT.",
+    "purgeMutatesExactly 2 -> 2 and purgeDoesNotMutate 16 -> 16: v24 purgeMutationBoundary has len 2 and len 16. EXACT, and independently corroborated by v24's own RT23-B-RES-03 measuredValues.",
+    "effectiveCapabilityInputs 3 -> 3: v24 effectiveCapabilityDerivation.inputs has 3 members, named sealedCapability, units, availabilityRecords. EXACT.",
+    "effectiveCapabilityForbiddenInputs 11 -> 12: v24's list has exactly 11 members and does NOT contain 'cause'. Adding it gives 12. EXACT, and the monotonicity argument is sound -- adding a member to a forbidden list can only shrink the readable input set.",
+    "typedRefusalKinds 3 -> 3: v24 lattice.refusalKinds has 3 entries. EXACT.",
+    "newRecordTypesIntroduced 1, reviewedRecordShapesEdited 0, newAvailabilityStatesIntroduced 0, newLedgerMutationsIntroduced 0: consistent with everything above."
+   ],
+   "predecessorEvidenceClaims": "All five members of whyThisIsSmallerThanItLooks.evidenceInThePredecessor were checked against the bytes they cite. AF-03-VERIFY-PURGED is present in both v22 and v24, carries state PURGED, retains its recordCasRef, and its expectedEffectiveCapability is 'recorded'. The lattice carries PURGED as its single terminal state with reversibility false. The ledger is append-only and its terminalRule refuses any later non-PURGED entry for a purged key. AvailabilityTransitionV1 carries cause at ordered position 7. RETENTION_EVIDENCE_PURGED exists and refusalPrecedence is ['PURGED','MISSING-DEPENDENCY','OUTAGE'], so it does precede the other two. FIVE OF FIVE EXACT."
+  },
+
+  "d9MeasuredLiveFromPinnedBytes": {
+   "source": "artifacts/d9-exit-contract.v1.14.json at 8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31, recomputed exact",
+   "result": "EVERY D9 FIGURE IN THE ARTIFACT IS EXACT",
+   "detail": [
+    "deficiencyMemberCount 9: codeMaps.deficiencyToReasonCode has 9 keys. EXACT.",
+    "reasonCodeCount 9: codeVocabulary.reasonCodes has 9 members. EXACT.",
+    "errorCodeCount 19: codeVocabulary.errorCodes has 19 members. EXACT.",
+    "The 7-token retention predicate applied uppercased to all three collections matches 0, 0 and 0. The measuredStatement '0 of 9 deficiency members, 0 of 9 reason codes and 0 of 19 error codes' is EXACT.",
+    "The 18-versus-19 nuance is EXACT and independently reproduced: the union of rejectionCauseToErrorCode and faultCauseToErrorCode has 18 distinct values, and the single member of codeVocabulary.errorCodes in neither map is SYSTEM.OUTCOME.ILLEGAL_STATE, named correctly.",
+    "CONFIG.INVALID is a live member of codeVocabulary.errorCodes. codeAlreadyExistsInTheLiveVocabulary and measuredPresent are both EXACT.",
+    "STRONGER THAN THE ARTIFACT CLAIMS: CONFIG.INVALID is reachable as a DERIVED value, not merely present. rejectionCauseToErrorCode['config-invalid'] == 'CONFIG.INVALID', so the (request-rejected, exit 2, CONFIG.INVALID) triple the artifact publishes is genuinely producible by the reference derivation from rejectionCause config-invalid, rather than being an authored pairing. This reviewer checked because an authored pairing would have violated the inherited derive-never-author rule. It is not authored."
+   ],
+   "doesThisCloseRT23BRES01": "The artifact says NO and reports the measurement over the expectation recorded in the amendment draft. That is correct and is the single best judgement call in the file. RT23-B-RES-01's closing condition is d9VocabularyMembersNamingRetentionLoss becoming non-zero; it measures 0 live; the artifact adds nothing to D9 and cannot move it. Confirmed independently."
+  },
+
+  "vectorArithmeticReExecuted": {
+   "method": "This reviewer implemented the artifact's published demand expressions and re-executed the five arithmetic vector rows against them, under the equal-object-size reading that PC-V-04's own note confirms (size demand 2, count demand 3).",
+   "resultUnderTheGuardedReading": "5 of 5 rows agree, including every expectedCauses value under the largest-demand attribution rule with the AGE/SIZE/COUNT tiebreak. PC-V-01 count 3 cause COUNT; PC-V-02 size 4 cause SIZE; PC-V-03 size 4 cause SIZE; PC-V-04 max(3,2)=3 cause COUNT, and sum would be 5 exactly as the row's note says; PC-V-10 0 with overBound true.",
+   "resultUnderTheLITERALPUBLISHEDEXPRESSIONS": "4 of 5 rows CONTRADICT the artifact's own expectations. This is blocking finding IR-RT25-B1."
+  },
+
+  "environmentClaim": {
+   "claim": "$.freezeDeclaration.whyTheFreezeAndTheCheckersAreNotTouched asserts that check-retention-custody-v23.py and check-retention-custody-v24.py carry FREEZE_ANCHORS compared against the live freeze on every run, and that both must keep exiting 0.",
+   "tested": "Both were executed as shipped under python3 -I -B against the live tree, in which IMPLEMENTATION-FREEZE.md has moved since the artifact was authored.",
+   "result": "BOTH EXIT 0. v24: 'pins 37, scalar leaves 2817, guarded int/bool 414, unruled 0 ... PASS'. v23: 'pins 35, scalar leaves 2166, guarded int/bool 337, unruled 0 ... PASS'. The artifact's environment claim holds, and the concurrent freeze edits by the other lane did not break either anchor set.",
+   "whatThisDoesAndDoesNotShow": "It shows the artifact did not damage its neighbours. It shows nothing whatever about retention-tiers.v25.json, which neither checker reads. Section 7.8: a green companion run is author-side evidence at best, and these two are not even companions to this subject."
+  }
+ },
+
+ "derivationResolution": {
+  "rule": "IMPLEMENTATION-FREEZE.md section 7.3 and the CMP-IR-01 record in section 7: a derivation must be RESOLVED, not read. The dispatch records that this exact mistake has been made five times in this corpus.",
+  "isV25ADeclaredDerivation": "NOT IN THE RESOLVABLE SHAPE, AND THAT IS ITSELF THE PROBLEM. inheritance.mode is BY-REFERENCE. There is no operation list -- no set/add verbs, no paths, no values -- so check-completeness.py's derivation reader, which locates a derivation by shape as one artifact filename plus one sha256 plus one non-empty operation list, would not recognise this as a derivation at all. What v25 supplies instead is a prose delta: 7 named changed surfaces, 18 named unchanged surfaces, one narrative generating rule, and a blanket sentence that everything else in Part A is inherited unchanged.",
+  "soHowThisReviewResolvedIt": "By reconstructing the delta by hand against v24's bytes: applying the generating rule to v24's 12 cells and 7 outcomes, then partitioning v24's Part A and Part B key sets against the changed and unchanged lists to find what the artifact accounts for and what it does not.",
+  "whatResolvingFound": "Three of this review's four blockers. None of them is visible from reading the artifact; all three appear only when the stated delta is applied to the predecessor's actual bytes and the result is compared against the stated result. B2 is the generating rule producing a different Part A from the one the artifact describes. B3 is the changed-surface set being incomplete against the key sets it partitions. B1 is the same discipline applied within Part C, resolving the published expressions at the values the artifact declares for them.",
+  "recommendationToTheSuccessor": "If v25's successor keeps BY-REFERENCE inheritance, it should publish the delta as a resolvable operation list over the predecessor digest, so that a reader can materialise the effective contract mechanically instead of reconstructing it. The prose form is what made three of these four blockers invisible to a reader and visible only to a resolver."
+ },
+
+ "silentDemotionAdjudication": {
+  "instruction": "The dispatch named this the most important thing to check. It was checked first and hardest.",
+  "theClaimUnderTest": "$.postureResolution.lawFourteenPosition.theDemotionThatIsStillForbidden asserts isItReachableUnderTheNewDefault false, on the ground that under DURABLE_RETAINED a durable request writes durably, under EPHEMERAL_ONLY it is refused, and there is no branch that accepts a durable request and produces ephemeral evidence.",
+  "howItWasTested": "By enumerating every path from a DURABLE_AUTHORITATIVE request to a terminal behaviour in the RESOLVED decision table, not in the artifact's description of it. v24's 12 cells contain exactly 6 with requestedCustody DURABLE_AUTHORITATIVE, at indices 1, 3, 5, 7, 9 and 11. Applying v25's stated repair: index 1 becomes PROCEED-DURABLE; indices 3 and 9 remain REFUSE under a persisted EPHEMERAL_ONLY; indices 5 and 11 are already PROCEED-DURABLE; index 7 asks and then hands off to the 7 interaction outcomes, of which PA-INT-01 proceeds durable, PA-INT-02 refuses under a persisted EPHEMERAL_ONLY, PA-INT-03/04/05 now proceed durable under DEFAULTED, and PA-INT-06 is undecided.",
+  "verdictOnReachability": "NO REACHABLE SILENT DEMOTION WAS FOUND. Every terminal path either writes durably or refuses. No path accepts a durable-authoritative request and produces ephemeral evidence while reporting success. The artifact's claim survives the strongest attack this reviewer could construct against it.",
+  "verdictOnTheKeyProperty": "EPHEMERAL_ONLY-IS-ALWAYS-CONSENTED HOLDS, with one load-bearing premise made explicit. The resolution table has 3 rows and EPHEMERAL_ONLY appears in exactly one, keyed on a PRESENT policy, so (EPHEMERAL_ONLY, DEFAULTED) is unproducible by the function. But the function derives provenance from policy PRESENCE, not from the consent record the policy carries. What makes presence imply consent is inherited invariant RT24-A-INV-06 -- a policy is persisted only with a ConsentRecordV1 whose promptTextDigest equals the digest of a declared disclosure text -- reinforced by the artifact's own RT25-D-INV-03. Both hold, so the property holds. It is recorded here because the property's soundness rests on an inherited invariant the artifact never names, and a successor that weakened RT24-A-INV-06 would silently falsify the artifact's most important claim.",
+  "verdictOnTheRefusalMoving": "CORRECT AND WELL ARGUED. The refusal does move rather than vanish. whyItCannotBeDeleted is sound: under the key property the surviving refusal always means a person was asked and declined, proceeding durably would override a recorded human answer, and proceeding ephemerally while reporting success is law 14's first clause exactly. This reviewer verified the law 14 text is quoted correctly from IMPLEMENTATION-FREEZE.md, whitespace-normalised.",
+  "theOneCrackAndItIsNarrow": "RT25-D-INV-04 states the refusal condition as an IF AND ONLY IF: a durable-authoritative request is refused if and only if the effective posture is EPHEMERAL_ONLY. DEP-RT25-09 simultaneously leaves SIGINT undecided. If SIGINT retains v24's derivation it terminates the request at request-rejected / exit 2 / REQUEST.UNSATISFIABLE -- the same class, code and exit as the retention refusal -- while the effective posture is DURABLE_RETAINED. Under that branch the 'only if' is false. The artifact's prose elsewhere carries the saving qualifier ('the only request that is still refused FOR RETENTION REASONS') but the invariant does not. See IR-RT25-N05. This is a statement-strength defect, not a demotion: the undecided branch abandons the run, it does not quietly do less than asked.",
+  "whatWouldHaveMadeMeCallItReachable": "A branch in which the artifact's own repair leaves durableSourceDerivedWritePermitted false on a cell whose outcome became PROCEED-DURABLE. That combination is exactly a run that reports success and writes nothing durable. It does not occur, because the generating rule maps the ABSENT cells onto index 5 and index 11, both of which carry durableSourceDerivedWritePermitted true. The generating rule rescues this position even though it fails elsewhere -- see IR-RT25-B2. The artifact never states the flag's new value directly, so the rescue is incidental rather than declared, and a successor should state it."
+ },
+
+ "blockers": [
+  {
+   "id": "IR-RT25-B1-DEMAND-EXPRESSIONS-EVICT-EVERYTHING-AT-THEIR-OWN-DISABLE-VALUES",
+   "severity": "BLOCKING -- the strongest finding of this review",
+   "surface": "$.partC_retentionBounds.sweep.demands.rows[*].demand, .composition; $.partC_retentionBounds.sweep.neverRunsWhenBoundsAreDefaulted; $.partC_retentionBounds.boundsRecord.theDefaultIsUnbounded.soNoBoundEverFiresUntilSomeoneConfiguresOne; $.partC_retentionBounds.sweep.boundIndependence.proof",
+   "statement": "The three published demand expressions do not encode their own disable semantics. Each one, evaluated at the value the artifact declares disables it, returns len(evictable) -- evict the entire evictable set -- rather than 0. The disable behaviour lives in a sibling scalar, disabledWhen, outside every expression. Since the defaulted bounds are 0 / 0 / 0, this is the configuration of every project that has never been configured.",
+   "measured": {
+    "publishedExpressions": {
+     "count": "max(0, len(evictable) - keepCount), disabledWhen keepCount == 0",
+     "size": "the smallest k such that total_bytes(evictable[k:]) <= maxTotalBytes, or len(evictable) if no such k exists, disabledWhen maxTotalBytes == 0",
+     "time": "the number of leading members of the eviction order whose admission time is older than now - maxAgeSeconds, disabledWhen maxAgeSeconds == 0",
+     "composition": "evictionCount := max(demand_count, demand_size, demand_time)"
+    },
+    "evaluatedAtTheDefault": {
+     "evictableCount": 5,
+     "demand_count_at_keepCount_0": 5,
+     "demand_size_at_maxTotalBytes_0": 5,
+     "demand_time_at_maxAgeSeconds_0": "every member already admitted, since 'older than now - 0' is 'older than now'; 5",
+     "evictionCount": 5,
+     "meaning": "the entire evictable set is purged"
+    },
+    "whatTheArtifactAssertsInstead": [
+     "$.partC_retentionBounds.sweep.neverRunsWhenBoundsAreDefaulted.statement: 'with provenance DEFAULTED the three values are 0, every demand is 0, and the sweep emits nothing'",
+     "$.partC_retentionBounds.sweep.neverRunsWhenBoundsAreDefaulted.soTheDefaultConfigurationNeverPurges: true",
+     "$.partC_retentionBounds.boundsRecord.theDefaultIsUnbounded.soNoBoundEverFiresUntilSomeoneConfiguresOne: true",
+     "$.partC_retentionBounds.sweep.boundIndependence.proof: 'Disabling a bound sets its demand to 0'"
+    ],
+    "itsOwnVectorsDisagreeWithItsOwnExpressions": [
+     {"id": "PC-V-01-COUNT-ONLY", "expectedEvictionCount": 3, "underLiteralExpressions": 5, "agrees": false},
+     {"id": "PC-V-02-PARASITISM-CONTROL-KEEP-ZERO", "expectedEvictionCount": 4, "underLiteralExpressions": 5, "agrees": false},
+     {"id": "PC-V-03-PARASITISM-CONTROL-KEEP-ONE", "expectedEvictionCount": 4, "underLiteralExpressions": 5, "agrees": false},
+     {"id": "PC-V-04-INDEPENDENCE-MAX-NOT-SUM", "expectedEvictionCount": 3, "underLiteralExpressions": 5, "agrees": false},
+     {"id": "PC-V-10-PROTECTED-SET-EXCEEDS-BOUND", "expectedEvictionCount": 0, "underLiteralExpressions": 0, "agrees": true}
+    ],
+    "underTheGuardedReading": "applying disabledWhen as a guard outside each expression, all 5 rows agree exactly, including every expectedCauses value. So the artifact's INTENT is unambiguous and correct. Its published MECHANISM is not the intent."
+   },
+   "whyThisIsBlockingAndNotCosmetic": [
+    "The failure direction is toward MORE deletion, on the default configuration, in every project nobody has configured. $.shippingProductEvidence.departed[1].why names that exact direction as 'the worst possible direction for a silent failure'.",
+    "The time dimension is the worst of the three, and it is the one DEP-RT25-01 forces to 0. maxAgeSeconds MUST be 0 until that dependency resolves -- and 0 is precisely the value at which the published time expression demands the whole set. So the only legal configuration of the age bound is the one whose published expression evicts everything.",
+    "It is the same shape the artifact is written to refuse, one level up. $.partC_retentionBounds.sweep.boundIndependence.theDefectThisRefusesToInherit says of the shipping product: 'The defect is not that one guard sits in the wrong place. It is that the size demand was expressed in terms of the count configuration at all... Making each demand a pure function of its own configured value and the shared order makes the class unrepresentable.' The artifact then makes each demand a pure function whose value at its own disable point is wrong, and reintroduces an out-of-expression guard to correct it. The guard is a different guard in a different place; it is still a guard outside the expression.",
+    "boundIndependence.proof is not a proof of what the expressions do. 'Disabling a bound sets its demand to 0' is asserted, not derived from the published expressions, and is false of them. The monotonicity argument that follows is correct about max and irrelevant to the defect."
+   ],
+   "whatRepairWouldLookLike": "State each demand as a total expression that is correct at every value in its domain, for example demand_count := 0 if keepCount == 0 else max(0, len(evictable) - keepCount), and the same for the other two -- so that the disable behaviour is inside the function rather than beside it. Then the boundIndependence proof becomes a statement about the published expressions rather than about an unstated guarded version of them, and PC-V-01 through PC-V-04 become checks on what is published.",
+   "confidence": "VERY HIGH. Reproduced by direct evaluation of the published expressions against the artifact's own five arithmetic rows. The contradiction is internal and needs no external premise."
+  },
+
+  {
+   "id": "IR-RT25-B2-THE-ONE-RULE-DOES-NOT-RESOLVE-TO-THE-STATED-REPAIR",
+   "severity": "BLOCKING",
+   "surface": "$.partA_repairsForcedByThePostureDecision.theOneRuleThatGeneratesAllOfIt",
+   "statement": "The artifact declares one rule as the generator of the entire Part A repair, marks it derivedNotEnumerated true, and names exactly two exceptions to it. Resolved against v24's own cells, the rule needs at least two more exceptions, and applied literally it produces a Part A that is materially worse than the one the artifact describes -- it deletes the first-run disclosure from every ABSENT cell and deletes the only ask in the table.",
+   "theRuleVerbatim": "every ABSENT row now behaves exactly as the corresponding PRESENT-DURABLE_RETAINED row, except that no policy is persisted and the provenance is DEFAULTED",
+   "measured": {
+    "method": "For each of the four (invocationProfile, requestedCustody) pairs, diff v24's ABSENT cell against v24's PRESENT-DURABLE_RETAINED cell field by field. Every field on which they differ is a field the rule silently changes.",
+    "pairwiseDiffs": [
+     {"pair": "ci / EPHEMERAL_OR_ADVISORY", "fieldsDifferingBesidesPolicyPresence": ["firstRunDisclosureEmitted: true -> false"]},
+     {"pair": "ci / DURABLE_AUTHORITATIVE", "fieldsDifferingBesidesPolicyPresence": ["outcome: REFUSE -> PROCEED-DURABLE", "firstRunDisclosureEmitted: true -> false", "durableSourceDerivedWritePermitted: false -> true", "d9Axes: object -> null", "derivedClass: request-rejected -> NOT-A-TERMINATION", "derivedExitCode: 2 -> -1", "derivedErrorCode: REQUEST.UNSATISFIABLE -> NONE"]},
+     {"pair": "local-interactive / EPHEMERAL_OR_ADVISORY", "fieldsDifferingBesidesPolicyPresence": ["firstRunDisclosureEmitted: true -> false"]},
+     {"pair": "local-interactive / DURABLE_AUTHORITATIVE", "fieldsDifferingBesidesPolicyPresence": ["askPerformed: true -> false", "outcome: ASK -> PROCEED-DURABLE", "firstRunDisclosureEmitted: true -> false", "durableSourceDerivedWritePermitted: false -> true"]}
+    ],
+    "unstatedExceptionsRequired": [
+     "firstRunDisclosureEmitted must NOT follow the rule. All four ABSENT cells carry true and all four PRESENT-DURABLE_RETAINED cells carry false. Applied literally the rule sets all four to false, deleting the first-run disclosure from exactly the cells that exist to carry it. The artifact lists $.partA_firstRunRetentionConsent.disclosure among surfaces it does not change, so the intent is plainly that the disclosure survives -- but the rule as written removes it.",
+     "askPerformed must NOT follow the rule at local-interactive / DURABLE_AUTHORITATIVE. v24 index 7 carries true and v24 index 11 carries false. Applied literally the rule sets index 7's askPerformed to false, taking askPerformedCellCount from 1 to 0 -- while the artifact states askPerformedCellCountAfter 1, askStillPerformed true, and builds a whole paragraph (whyTheAskSurvives) on the ask surviving."
+    ]
+   },
+   "whyThisIsBlockingAndNotCosmetic": [
+    "The ask is not decorative. It is the ONLY path by which provenance can ever become CONSENTED. $.overriddenArchitecturalRecommendation.whatMitigatesThem[0] names it as the first mitigation of the override's named exposure: 'The ask still happens at the first local-interactive durable-authoritative run, so the un-asked window is bounded by the first interactive use rather than lasting forever.' An implementer who applies the artifact's own stated generator deletes that mitigation and makes CONSENTED unreachable from a fresh project by any path. DEP-RT25-07's whatWouldChangeIfItWereRevisited says 'only the CI cell. The local-interactive cell reaches an ask on the first durable run' -- which is false of the artifact's own generating rule.",
+    "The first-run disclosure is the other half. Deleting firstRunDisclosureEmitted from the ABSENT cells means durable evidence is written into a user's project with neither an ask nor a disclosure, which is strictly worse than the exposure the product authority was told about and accepted.",
+    "derivedNotEnumerated true is an explicit instruction to derive rather than to read the enumeration, so the rule is the normative artefact and the two changed cells are illustrations of it. The artifact says so: 'those are enumerable BY MEASUREMENT rather than by search'. The measurement was not run over all fields, only over outcomes.",
+    "Section 7.3 and CMP-IR-01 are the governing rule: a derivation must be resolved, not read. Resolved, this one does not produce what the artifact says it produces."
+   ],
+   "whatTheArtifactAlreadyHalfKnows": "RT25-RES-05 concedes that no instrument confirmed the 2 cells and 4 outcomes are ALL the places that branch on absence. That is the right residual for the wrong axis: the gap is not only which SITES were found, it is which FIELDS the generating rule touches at the sites that were found.",
+   "whatRepairWouldLookLike": "Either state the rule with its full exception set -- posture-derived behaviour follows PRESENT-DURABLE_RETAINED, while firstRunDisclosureEmitted, askPerformed and policy persistence do not -- or drop derivedNotEnumerated and publish the two changed cells as complete field-by-field rows, which is what an implementer needs anyway and what v24 does.",
+   "confidence": "VERY HIGH. Reproduced by field-level diff of v24's twelve cells; the four pairwise diffs are stated above and are checkable in one pass."
+  },
+
+  {
+   "id": "IR-RT25-B3-CHANGED-SURFACE-SET-IS-INCOMPLETE-AND-FALSIFIES-INHERITED-PART-A",
+   "severity": "BLOCKING",
+   "surface": "$.inheritance.surfacesThisArtifactChanges, $.inheritance.surfacesChangedCount, $.inheritance.surfacesThisArtifactDoesNotChange, $.retainedResidualsWhoseBasisMoved, $.partA_repairsForcedByThePostureDecision.scope",
+   "statement": "surfacesChangedCount 7 is published as a measurement of a closed set, and $.partA_repairsForcedByThePostureDecision.scope adds a blanket assertion that 'Everything else in Part A is inherited BY-REFERENCE and unchanged'. Resolved against v24's actual key sets, the two together assert that surfaces the design demonstrably falsifies are unchanged. Twenty of v24's thirty-five Part A and Part B keys appear in neither list, and at least two of them are changed in substance.",
+   "measured": {
+    "partitionOfV24": {
+     "partAKeys": 19,
+     "partAKeysNamedByV25": ["askDecisionTable", "askProtocol", "consentRecord", "disclosure", "identity", "interactionOutcomes", "noAskCases", "planIdExclusion", "policyObject"],
+     "partAKeysInNeitherList": ["counterexampleFixtures", "g4Binding", "id", "invariants", "invocationProfileClassification", "policyVectorRule", "policyVectors", "presupposedBy", "residuals", "subject"],
+     "partBKeys": 16,
+     "partBKeysNamedByV25": ["availabilityStateLattice", "effectiveCapabilityDerivation", "invariants", "ledger", "purgeMutationBoundary", "vectors"],
+     "partBKeysInNeitherList": ["consentPromise", "counterexampleFixtures", "d9VocabularyGap", "distinction", "id", "obligation", "predecessorFixtureReproduction", "purgedRunInspection", "residuals", "unitIdRecomputation"]
+    },
+    "instance1_RT24_A_INV_11": {
+     "invariantVerbatim": "Every terminal class, error code and exit code in Part A is derived by calling the pinned D9 v1.14 reference derivation on the row's declared axes. None is authored.",
+     "whereItLives": "$.partA_firstRunRetentionConsent.invariants -- a key in neither of v25's lists, therefore inherited unchanged by the blanket sentence",
+     "howV25FalsifiesIt": [
+      "The changed ci cell's d9After is set to NOT-A-TERMINATION / -1 / NONE by copying v24's sentinel from a sibling row. The artifact says so in its own words: 'No D9 class was authored and no D9 derivation was run.' A value that is neither derived by running the derivation nor authored is copied, and copying is not what the invariant requires.",
+      "Four interaction outcomes retain v24's request-rejected / 2 / REQUEST.UNSATISFIABLE triples which the artifact itself states 'no longer describe them'. So the resolved Part A carries four D9 triples known by their own author to be wrong, under an invariant requiring all of them to be derived.",
+      "No d9Axes object is published for any new or changed row, while every one of v24's twelve cells and seven outcomes carries one. The invariant requires derivation 'on the row's declared axes'; the rows declare none."
+     ],
+     "thePredecessorsOwnCounterexampleNamesThisExactMutation": "v24's Part A counterexampleFixtures.structural carries PA-CX-19-D9-ROW-AUTHORED: mutation 'alter a derived exit code away from the live derivation', expectedFindingId RT24-A-INV-11, exercisedBy selftest-mutation. v25 performs that mutation on the ci cell.",
+     "whatIsAndIsNotConceded": "DEP-RT25-08 concedes the recomputation gap honestly and precisely (outcomesNeedingRecomputation 4, outcomesRecomputedHere 0). What is NOT conceded is that RT24-A-INV-11 is thereby a changed surface. The dependency is declared; the inheritance is not corrected. A reader resolving the inheritance gets both 'all Part A terminals are derived' and 'five Part A terminals are not derived'."
+    },
+    "instance2_RT24_A_RES_05": {
+     "carriedForwardIn": "$.retainedResiduals, unqualified",
+     "declaredAsBasisMoved": false,
+     "retainedResidualsWhoseBasisMovedNamesOnly": ["RT24-A-RES-03"],
+     "itsRecordedMeasurement": {"askCells": 12, "askingCells": 1, "nonAskingCells": 11, "refusingCells": 3, "refusingCellsBecauseThePolicySaysNo": 2, "refusingCellsForWantOfAPolicy": 1},
+     "whatV25MakesOfIt": "v25's changed ci cell is exactly the one cell counted by refusingCellsForWantOfAPolicy. Under the repair, refusingCells becomes 2 and refusingCellsForWantOfAPolicy becomes 0.",
+     "itsMeasuredBoundarySentence": "'3 cells refuse a durable-authoritative request: 1 for want of a policy and 2 because the persisted policy says no. The first of those is the only place a durable default would be selected if one existed, and no value in this artifact selects it.' That sentence describes precisely what v25 changes, and it is carried forward as a live residual.",
+     "whyThisMatters": "Section 7.2.2's rider, verbatim in substance: a wrong figure in a document is a defect; a wrong figure in the instructions to the next reviewer is a defect that recruits its own corroboration. retainedResidualRule states 'A residual list that shrinks without a measurement is how a corpus forgets what it owes.' The converse is also true: a residual list that carries a falsified measurement forward without qualification is how a corpus forgets what it changed."
+    },
+    "instance3_weakerAndRecordedForCompleteness": {
+     "surface": "RT24-A-INV-05: 'A durable source-derived write is permitted only in cells whose outcome is PROCEED-DURABLE.'",
+     "issue": "v25 gives the local-interactive ABSENT cell outcomeAfter 'ASK, and proceed durable under DEFAULTED if not answered', which is not the literal string PROCEED-DURABLE, while that cell now permits a durable source-derived write. v25 never states the cell's resulting outcome or durableSourceDerivedWritePermitted field values, so whether the invariant survives depends on a value the artifact does not publish.",
+     "gradedWeaker": "because a successor could satisfy the invariant simply by declaring the cell's outcome field, which it should do anyway."
+    },
+    "instance4_recordedNotPressed": {
+     "surface": "RT24-A-INV-10: 'ProjectRetentionPolicyV1 declares no default posture field, and absence of a policy is a distinct state rather than a posture value.'",
+     "adjudication": "NOT FALSIFIED, and this reviewer declines to claim it is. The invariant is about the SCHEMA -- ABSENT is a state of the store, not a member of the posture enum -- and v25 preserves both halves: hasNoDefaultField stays true and postureEnum stays at exactly two members with ABSENT in neither. v24's counterexample PA-CX-18-DEFAULT-POSTURE-INTRODUCED mutates 'add a defaultPosture field to the policy schema' and would still fire, because v25 deliberately chose a resolution rule over a schema field. That choice is what keeps this invariant alive and it is a point in the artifact's favour. It is recorded here only because RT24-A-INV-10 restates the very field v25 lists as changed with predecessorVerdictStillApplies false, so the invariant should have been named alongside it."
+    }
+   },
+   "whyThisIsBlockingAndNotCosmetic": [
+    "surfacesChangedCount is a recorded measurement of a closed partition. Section 7.2.2 gives recorded measurements a hard comparison, and hard-compared against v24's key sets it is short.",
+    "The consequence is not bookkeeping. inheritance.modeRule justifies BY-REFERENCE on the ground that copying 209890 bytes 'creates two places a sentence can drift and verifies nothing the digest does not already verify'. That argument is correct only if the delta is complete. An incomplete delta over an unread predecessor is strictly worse than a copy, because the reader has no way to notice the omission without doing what this review did.",
+    "The artifact holds itself to exactly this standard elsewhere and meets it: whatIsOverturnedAndWhatSurvives restates rather than deletes, theUncomfortableFactAboutThisInheritance names the overturn plainly, and retainedResidualsWhoseBasisMoved exists as a category precisely for this class. The category is right and its membership is short by at least one."
+   ],
+   "whatRepairWouldLookLike": "Add RT24-A-INV-11 to surfacesThisArtifactChanges with changeKind naming the derive-never-author obligation as unmet pending DEP-RT25-08; add RT24-A-RES-05 to retainedResidualsWhoseBasisMoved; publish the two changed cells as complete field rows including outcome, durableSourceDerivedWritePermitted, firstRunDisclosureEmitted and d9Axes; and either extend the two surface lists to partition v24's key sets exhaustively or state that they do not and that the blanket unchanged sentence is bounded accordingly.",
+   "confidence": "HIGH. The partition is mechanical and reproducible in one pass. The adjudication of which unlisted surfaces are substantively changed is a judgement, and this review deliberately pressed only the two it could demonstrate and explicitly declined to press RT24-A-INV-10."
+  },
+
+  {
+   "id": "IR-RT25-B4-A-VERBATIM-FIELD-QUOTES-TEXT-THAT-EXISTS-NOWHERE-IN-ITS-SOURCE",
+   "severity": "BLOCKING",
+   "surface": "$.partA_repairsForcedByThePostureDecision.noAskCasesReDerived[2].thePolarityReversalThatMattersMost.predecessorReasonVerbatim, and $.partC_retentionBounds.d9ReasonCodePosition.whyOneAndNotFour.d9OwnRuleVerbatim",
+   "statement": "Two fields explicitly named Verbatim carry text that is not verbatim. One of them carries a sentence that appears nowhere in the artifact it is attributed to, nor anywhere else in this corpus.",
+   "measured": {
+    "instance1": {
+     "field": "predecessorReasonVerbatim",
+     "attributedTo": "retention-tiers.v24, the immediate predecessor, pinned at ba29c115...",
+     "textAsPublished": "A dismissal that silenced the next ask would become EPHEMERAL_ONLY by attrition.",
+     "textInV24": "A dismissal that silenced the next ask would become EPHEMERAL_ONLY by exhaustion, which is consent obtained by outlasting the user.",
+     "locationInV24": "$.partA_firstRunRetentionConsent.askProtocol.whyDismissalDoesNotSuppress",
+     "differences": ["the operative word is 'exhaustion', not 'attrition'", "the second clause, 'which is consent obtained by outlasting the user', is dropped with no ellipsis"],
+     "corpusWideTokenSearch": "The token 'attrition' occurs in exactly ONE file in docs/coop: retention-tiers.v25.json. It occurs in v24 zero times, in v23 zero times, in every review in the lineage zero times, and in IMPLEMENTATION-FREEZE.md zero times. This is not a line-wrapping false negative -- it is a raw token search over the whole tree, run after the whitespace-and-markdown-folding search of section 7.7 had already reported the phrase absent."
+    },
+    "instance2": {
+     "field": "d9OwnRuleVerbatim",
+     "attributedTo": "D9, and used as the authority for the one-reason-code-not-four derivation",
+     "textAsPublished": "two codes with the same remedy are a smell and two remedies behind one code are a defect",
+     "textInD9": "two codes with the same remedy are a smell, two remedies behind one code is a defect",
+     "locationInD9": "d9-exit-contract.v1.14.json#/codeVocabulary/rule",
+     "differences": ["a comma is replaced by 'and'", "'is a defect' is replaced by 'are a defect'"]
+    },
+    "theOtherSeventeen": "This review enumerated all 19 string-valued fields in v25 whose key ends in 'verbatim' and checked each against the source it names, with whitespace, unicode punctuation and markdown structure folded first. SEVENTEEN OF NINETEEN ARE EXACT, including freeze law 14, the section 7.2 rule, all six v22 recommendation fields, the packet's ruleWhilePending, v24's hasNoDefaultField justification, v24's noAskCase 1 decision and case 2 choice, the v24 review's overall verdict string, and both copies of the V10 item 3 obligation. The quotation discipline in this artifact is strong; these two are the exceptions, and they were found by checking all nineteen rather than by sampling."
+   },
+   "whyThisIsBlockingAndNotCosmetic": [
+    "Section 7.8 records this precise failure THREE TIMES in one session and names it: 'That is the third time in one session that a report was converted into a claim about bytes... A lane's summary is testimony about an artifact; it is not the artifact.' The freeze's own correction of its own record was triggered by a phrase that 'exists nowhere in this corpus, verified whitespace-normalised'. This is the same measurement with the same result, and letting it stand makes it the fourth.",
+    "The artifact holds itself to this standard explicitly and in writing. $.overriddenArchitecturalRecommendation.theRecommendation.quotedNotParaphrased is true. $.inheritance.recordedInputs entry for the v24 review states the review is 'quoted, never paraphrased into a stronger claim'. A field named Verbatim that is not verbatim falsifies the artifact's own declared method.",
+    "It is load-bearing in the first instance in a specific way. The whole thePolarityReversalThatMattersMost block is a parallel construction -- predecessor 'EPHEMERAL_ONLY by attrition', successor 'DURABLE_RETAINED by attrition' -- and it asserts isThisANewReason true. The parallel is manufactured by attributing the successor's own chosen word back to the predecessor. The substantive argument survives intact, because 'exhaustion' and 'attrition' mean the same thing here and the polarity reversal is real; what does not survive is the claim that the predecessor said it."
+   ],
+   "whatRepairWouldLookLike": "Restore both quotations exactly, or rename the fields to drop the Verbatim suffix and mark them as paraphrase. This is a cheap repair and it is why it is worth blocking on: nothing is lost by being right.",
+   "explicitFairness": "This reviewer states plainly that the SUBSTANCE of both quotations is faithful. Neither misrepresents its source's meaning. The finding is about the assertion of verbatimness, which is a claim about bytes, and which is false on those bytes. A reviewer who graded this non-blocking would not be unreasonable; this reviewer grades it blocking because the corpus has already paid for this lesson three times and the repair costs nothing.",
+   "confidence": "VERY HIGH for instance 1, which is a raw token search over the whole tree. VERY HIGH for instance 2, which is a direct string comparison."
+  }
+ ],
+
+ "nonBlockingObservations": [
+  {
+   "id": "IR-RT25-N01-SIX-OTHER-NON-TERMINATING-CELLS-IS-NINE",
+   "severity": "non-blocking; false measurement, correct conclusion",
+   "surface": "$.partA_repairsForcedByThePostureDecision.askDecisionTable.changedCells[0].d9AfterIsStructuralNotAuthored",
+   "claim": "'the cell no longer terminates the request, and v24's own sentinel for a non-terminating cell is NOT-A-TERMINATION / -1 / NONE, used by the six other non-terminating cells'",
+   "measured": "v24's askDecisionTable has NINE non-terminating cells, at indices 0, 2, 4, 5, 6, 7, 8, 10 and 11, all nine carrying derivedClass NOT-A-TERMINATION, derivedExitCode -1, derivedErrorCode NONE and d9Axes null. Exactly three cells terminate: indices 1, 3 and 9. Before the change there are nine cells other than the changed one that are non-terminating; after it there are still nine. Under no reading is the figure six.",
+   "whyNonBlocking": "The substantive point is right and is unaffected: the sentinel triple is v24's own and is not an invention of this artifact. Only the count is wrong. Section 7.2.2 nonetheless gives a recorded measurement a hard comparison, so it is reported rather than waved through.",
+   "possibleOrigin": "Six of v24's cells are both non-terminating and EPHEMERAL_OR_ADVISORY. That is a true statement about a different set."
+  },
+  {
+   "id": "IR-RT25-N02-A-HARD-PINNED-INPUT-MOVED-AND-ITS-REVIEWED-BYTES-ARE-UNRECOVERABLE",
+   "severity": "non-blocking; a fact about this review's conditions, reported as a finding because the artifact's own rule requires it",
+   "surface": "$.recordedInputs.recorded[9], $.recordedInputs.citedDigestsThatMovedDuringAuthoring.whatIsGatedInstead, $.productAuthorityBoundary.amendmentDraft",
+   "measured": {
+    "path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json",
+    "recordedDigest": "4bbcd6fa9113a689063ce880611e98dcf3599eaa0f5846419886deb4033922ea",
+    "liveDigestAtReview": "872c67be307866a645d246104a61065d1ab6c6d812618e0a40bbd837c4b0edb0",
+    "declaredGate": "HARD-PIN-EXIT-2-ON-MISMATCH-IF-A-CHECKER-IS-EVER-WRITTEN",
+    "theArtifactsOwnInstruction": "$.recordedInputs.citedDigestsThatMovedDuringAuthoring.consequenceForAReviewer: 'A mismatch on any of the other thirteen is a finding.' This review obeys that instruction.",
+    "timing": "The draft's mtime is later than the subject's. The drift is post-authoring, so the artifact did not record a stale digest; a file it classified as stable proved not to be.",
+    "whatTheDriftDid": "The live draft has repaired, in place, all three of the things v25 says about it: the false RT23-B-RES-01 closure claim is withdrawn under a new key correctionWithdrawingAFalseClosureClaim, whatTheAuthorityShouldCheckBeforeApplying[1] is marked SUPERSEDED, and sharpestThingTheAuthorityShouldKnow is marked DISCHARGED. The live draft credits the repair to 'the lane authoring retention-tiers.v25, which reported the measurement over the expectation'. So v25's three observations about that input were true when made and have been acted on."
+   },
+   "consequenceForThisVerdict": "THREE OF V25's CLAIMS ARE NOW UNVERIFIABLE RATHER THAN VERIFIED. The two staleness observations and the quoted 'closes residual RT23-B-RES-01' phrase all cite bytes that no longer exist. The file is untracked in git and has no history, so the pinned bytes are unrecoverable. This review therefore neither confirms nor disputes those three claims and records them under whatITookOnTrust. The corroborating evidence -- that the live draft's own correction block describes exactly the defect v25 reported -- is strong but is not the same as reading the pinned bytes.",
+   "theActualDefectInTheArtifact": "The gate classification. whatIsGatedInstead asserts 'the twelve artifacts/ inputs, which are not under concurrent edit and whose digests are stable across the whole authoring session'. A prepared amendment draft, authored the same day, whose two internal staleness defects the artifact itself observed, is exactly the profile of a file under concurrent edit. It belonged in the cited-not-gated column with the freeze and the blueprint.",
+   "whyNonBlocking": "No claim in v25 depends on those bytes being frozen for its correctness, and nothing in the corpus gates on this digest today because no checker exists to gate on anything."
+  },
+  {
+   "id": "IR-RT25-N03-NO-WORKED-VECTOR-ANCHORS-THE-NEW-IDENTITY-RECIPE",
+   "severity": "non-blocking; a distinct gap not covered by any declared residual",
+   "surface": "$.partC_retentionBounds.identity",
+   "measured": "v25 specifies RETENTION-BOUNDS-ID-V1 in full -- domain string, recipeVersion 1, fieldCount 6, a complete framed preimage and a 12-member exclusion list -- and publishes ZERO worked values. The token 'rbnd1:' occurs twice in the file, both times inside the pattern and the textual-form description; no computed digest is published. By contrast v24's Part A publishes three computed rpol1: identities inside policyVectors, and none of v25's 16 vectors exercises the bounds identity at all.",
+   "checkedAnyway": "The recipe is internally coherent: fieldCount 6 matches the six framed fields (projectId, retentionPolicyId, maxAgeSeconds, maxTotalBytes, keepCount, boundsRevision), the four integer fields are framed as tag || u32be(8) || u64be(value) which is structurally the fixed-width form of v24's frame(), and schemaVersion and retentionBoundsId are correctly excluded from their own preimage. The freeze law 6 argument for a separate identity rather than a seventh field on ProjectRetentionPolicyV1 is correct and is corroborated by v24's identity block, which does declare recipeVersion 1 over fieldCount 3.",
+   "whyItMatters": "RT25-RES-01 covers 'no checker' generally, but an unanchored identity recipe is a specific and nameable gap the predecessor did not have. A single worked vector would let any reviewer recompute the recipe from the published preimage without an instrument, which is exactly the kind of check that survives the absence of a checker. It should be a named residual."
+  },
+  {
+   "id": "IR-RT25-N04-NO-D9-AXES-ARE-DECLARED-FOR-ANY-NEW-OR-CHANGED-ROW",
+   "severity": "non-blocking; reinforces IR-RT25-B3",
+   "surface": "$.partA_repairsForcedByThePostureDecision.askDecisionTable.changedCells[0].d9After, $.partC_retentionBounds.sweep.disableSemantics.howAnInvalidConfigurationIsReported",
+   "measured": "Every one of v24's 12 cells and 7 interaction outcomes carries a d9Axes object or an explicit null. v25 publishes class, exit code and error code for its changed cell and for the new CONFIG.INVALID row, and publishes no axes for either. RT24-A-INV-11 requires derivation 'on the row's declared axes'.",
+   "positiveResultRecordedAlongside": "The CONFIG.INVALID triple is nonetheless genuinely derivable and this reviewer confirmed it rather than assuming it: d9-exit-contract.v1.14.json#/codeMaps/rejectionCauseToErrorCode maps 'config-invalid' to 'CONFIG.INVALID', and codeMaps.rule declares both maps total and injective. So the value is right; only its derivation input is undeclared."
+  },
+  {
+   "id": "IR-RT25-N05-RT25-D-INV-04-IS-STATED-MORE-STRONGLY-THAN-DEP-RT25-09-PERMITS",
+   "severity": "non-blocking; statement strength, not behaviour",
+   "surface": "$.partC_retentionBounds.invariants (RT25-D-INV-04), $.declaredDependencies DEP-RT25-09",
+   "measured": "RT25-D-INV-04 reads 'A durable-authoritative request is refused if and only if the effective posture is EPHEMERAL_ONLY.' DEP-RT25-09 leaves the SIGINT case undecided. v24's PA-INT-06-DISMISSED-SIGINT derives request-rejected / exit 2 / REQUEST.UNSATISFIABLE -- the same class, code and exit as the retention refusal -- with effective posture DURABLE_RETAINED. If SIGINT retains that derivation, the 'only if' half is false.",
+   "theArtifactsOwnSaferWording": "$.postureResolution.theKeyProperty.whyItMatters says 'the only request that is still refused FOR RETENTION REASONS', which is correct. The invariant drops the qualifier.",
+   "whyNonBlocking": "This is a wording defect in an invariant, on a case the artifact explicitly declares undecided and hands to the product authority. It creates no reachable demotion and no wrong implementation; an implementer reading DEP-RT25-09 knows the case is open."
+  },
+  {
+   "id": "IR-RT25-N06-AN-INHERITED-PREDECESSOR-INCONSISTENCY-TRAVELS-BY-REFERENCE",
+   "severity": "non-blocking; a fact about v24 carried into v25's inheritance, not a defect authored here",
+   "measured": "v24's PA-INT-07-NOT-ASKED describes itself as 'Sentinel for the seven cells that never ask.' v24's own RT24-A-RES-05 records nonAskingCells 11, and this reviewer measures 11 (12 cells minus the single askPerformed cell). v24 is internally inconsistent at 7 versus 11.",
+   "whyItIsRecordedHere": "v25 inherits Part A by reference and RT25-RES-05 concedes its tables were 'read by hand' with 0 surfaces searched mechanically. A by-reference inheritance carries a predecessor's internal inconsistencies forward invisibly, and this is a concrete instance of that cost. It is not a finding against v25's authorship.",
+   "notEscalated": "This review makes no claim against retention-tiers.v24, whose own verdict binds its own bytes."
+  },
+  {
+   "id": "IR-RT25-N07-RT23-B-INV-10-REQUIRES-A-PER-RUN-RECOMPUTATION-NOTHING-PERFORMS",
+   "severity": "non-blocking; inside RT25-RES-01's disclosed scope",
+   "measured": "v24's RT23-B-INV-10 reads 'The measured D9 reason-code gap is recomputed from the pinned D9 bytes on every run and no reason code, error code or deficiency member is added by this artifact.' v25 lists $.partB_purgeSemantics.invariants among surfaces it does not change, retains no checker, and restates only the second half at RT25-C-INV-14, dropping 'recomputed on every run'. So the resolved contract requires a per-run recomputation that no instrument performs.",
+   "whyNonBlocking": "RT25-RES-01 declares the total absence of an instrument in exactly these terms, with measured values 0 of 16 vectors and 0 of 19 invariants, and instructs the reader to weigh every claim as unverified prose. This is that residual applied to one inherited invariant, not a new gap.",
+   "creditWhereDue": "This reviewer independently recomputed the gap the invariant is about and it is still 0 of 9, 0 of 9 and 0 of 19. The figure is right; only its enforcement is absent."
+  },
+  {
+   "id": "IR-RT25-N08-THE-CAUSE-ATTRIBUTION-RULE-IS-CORRECT-AND-WAS-RE-EXECUTED",
+   "severity": "non-blocking; a positive result, recorded because a review that reports only defects is not reporting a measurement",
+   "measured": "This reviewer implemented attributionRuleWhenSeveralDemandsCover -- largest demand wins, ties break AGE then SIZE then COUNT -- and re-derived the expectedCauses of every arithmetic vector row under the guarded reading. All agree: PC-V-01 RETENTION_COUNT_BOUND, PC-V-02 RETENTION_SIZE_BOUND, PC-V-03 RETENTION_SIZE_BOUND, PC-V-04 RETENTION_COUNT_BOUND with size demand 2 against count demand 3 exactly as the row's own note states. exactlyOneCausePerEntry is well founded and the argument against a set of causes -- that it would make the field's type depend on overlap and defeat exact-type admission -- is sound.",
+   "alsoConfirmed": "The max-not-sum composition is correct given a single total eviction order, and whySameOrderForEveryDimension derives the sharing from the prefix property rather than asserting it. This is the best-argued section of the artifact and IR-RT25-B1 does not touch it: the composition is right, the expressions composed are not."
+  },
+  {
+   "id": "IR-RT25-N09-THE-AUTHORITY-BOUNDARY-IS-HELD-CORRECTLY-AND-THIS-WAS-CHECKED-ADVERSARIALLY",
+   "severity": "non-blocking; a positive result",
+   "whatWasChecked": "Whether v25 leans on the unapplied draft in ways it should not. This reviewer looked specifically for the section 4.4 shape: a recommendation or an intent converted into a constituted decision.",
+   "measured": [
+    "product-dispositions.v1.json is byte-identical to its recorded digest and CD-RT-5 still reads BLOCKED_ON_PHASE_1A. Nothing was amended.",
+    "productAuthorityBoundary.durableDefault reads UNSELECTED -- the PACKET's value -- while recordedIntentPosture reads DURABLE_RETAINED in a separate field explicitly marked recordedIntentPostureIsNotAPacketValue true. Keeping the two fields apart is the correct move and the artifact's stated reason for it is the right one.",
+    "The one place the draft asserts a closure, the artifact CONTRADICTS the draft on measurement and says so: doesThisCloseRT23BRES01 answers NO, quotes the draft's contrary claim, and reports the live D9 measurement against it. An artifact that leaned on an unapplied draft would have taken the closure.",
+    "overriddenArchitecturalRecommendation records the override against the artifact's own interest, quotes v22's recommendation exactly at six fields, names three exposures without softening them, and states plainly that nothing mitigates what is written before the first ask.",
+    "whatArchitectureMayNotDoAboutIt forbids re-litigating the decision by defaulting bounds aggressively, and the artifact's own default of 0/0/0 is consistent with that -- IR-RT25-B1 is a mechanism defect, not evidence of smuggling."
+   ],
+   "verdict": "The authority discipline in this artifact is exemplary and is the reason three of the four blockers are mechanism defects rather than authority defects."
+  }
+ ],
+
+ "centralClaimAdjudications": [
+  {"claim": "The leaf census is exact on the artifact's own written bytes, with bool tested before int.", "adjudication": "UPHELD -- 7 of 7 figures recomputed exact.", "basis": "independent walk of raw disk bytes under a duplicate-key-rejecting hook"},
+  {"claim": "The blast radius is 2 of 12 decision-table cells and 4 of 7 interaction outcomes.", "adjudication": "UPHELD -- both re-measured against v24's bytes and both correct.", "basis": "enumeration of v24's cells and outcomes by the artifact's own stated selection rule"},
+  {"claim": "Freeze law 14 still holds because the refusal MOVES rather than vanishing, and silent demotion is unreachable.", "adjudication": "UPHELD -- no reachable silent demotion found on the resolved decision table. This was the hardest attack this review made and the claim survived it.", "basis": "path enumeration over the 6 durable-authoritative cells and the 7 interaction outcomes after applying the stated repair"},
+  {"claim": "EPHEMERAL_ONLY is reachable only with provenance CONSENTED.", "adjudication": "UPHELD, with its load-bearing premise named -- it rests on inherited RT24-A-INV-06, which the artifact does not cite.", "basis": "the 3-row resolution table plus v24's persistence invariant"},
+  {"claim": "The default is never persisted, so ABSENT survives on disk.", "adjudication": "UPHELD as a design position and UNVERIFIED as a property, exactly as the artifact says. RT25-D-INV-03 and PC-V-15 state it; no instrument tests it.", "basis": "reading plus RT25-RES-01"},
+  {"claim": "Closing the cause partition cannot disturb section 4.6's discharge, because cause is unreachable from the capability fold.", "adjudication": "THE STRUCTURAL ARGUMENT IS ACCEPTED. See dispositionOfRT25RES02 below for the reasoning and its bound.", "basis": "v24's effectiveCapabilityDerivation.algorithm and foldRule read directly"},
+  {"claim": "This artifact adds nothing to D9 and does not close RT23-B-RES-01.", "adjudication": "UPHELD and independently re-measured. Reporting the measurement over the draft's contrary expectation is the artifact's best single act.", "basis": "live measurement of d9-exit-contract.v1.14.json"},
+  {"claim": "Part C is independent of Part D and would stand if the posture decision were reversed.", "adjudication": "UPHELD. Nothing in the bounds design reads the posture; posture and consentRecordRef are forbidden fields on the bounds record and the reason given -- that two provenances must not share a record -- is correct. The separability claim is real and a reviewer can indeed reject one part without the other.", "basis": "field-level inspection of ProjectRetentionBoundsV1 and the reference direction"},
+  {"claim": "The one rule generates the whole Part A repair.", "adjudication": "REJECTED -- see IR-RT25-B2. Resolved, it does not.", "basis": "field-level diff of v24's four ABSENT/PRESENT-DURABLE_RETAINED cell pairs"},
+  {"claim": "The default configuration never purges.", "adjudication": "REJECTED AS PUBLISHED -- see IR-RT25-B1. True of the artifact's intent, false of its published expressions.", "basis": "evaluation of the three demand expressions at 0/0/0"}
+ ],
+
+ "dispositionOfRT25RES02": {
+  "theArtifactsOwnInvitation": "$.partC_retentionBounds.section46DischargePreservation.saidLoudlyAsRequired states: 'A reviewer who disagrees with the structural argument should treat this as a blocker rather than an observation.' This review takes the invitation seriously and answers it explicitly rather than by silence.",
+  "theArgumentUnderTest": "That closing the cause partition cannot disturb P5-CAUSE-BLIND, because the fold rule states the current state of a raw key is the toState of its last entry, the algorithm reads no other field of a ledger entry, and cause is therefore already unreachable from the derivation.",
+  "adjudication": "THE ARGUMENT IS ACCEPTED. RT25-RES-02 is NOT escalated to a blocker.",
+  "reasoning": [
+   "The premise is checkable without an instrument and this reviewer checked it: v24's effectiveCapabilityDerivation declares exactly three inputs, none of which is a ledger entry field other than through the fold, and its algorithm and foldRule read toState only. The 11-member forbiddenInputs list contains no field of an entry at all.",
+   "The change is monotone in the safe direction. Adding cause to forbiddenInputs takes the list from 11 to 12 and can only shrink the set of inputs the function may read. It cannot admit an input previously refused, so it cannot weaken P1 through P5.",
+   "RT25-C-INV-05 is genuinely strictly stronger than P5, not a restatement: P5 is blindness ACROSS states, RT25-C-INV-05 is blindness WITHIN a state. Strengthening a property whose mechanism you have not changed does not require re-running the trials that established the weaker one.",
+   "The artifact itself identifies this as the riskiest part of the change, names why, and declines to claim the 40,000 trials travel to these bytes. whatIsNotClaimed is four items long and all four are correct disclaimers."
+  ],
+  "theBoundOnThatAcceptance": "This is acceptance of an ARGUMENT, not verification of a PROPERTY. Section 7.8's standing bound applies: what discharges a residual is independent re-derivation, not more assertions from the same lane. This reviewer re-read the predecessor's algorithm and confirmed the premise; it did not re-run the 46 cause comparisons with the partition populated, and no instrument exists that could. RT25-RES-02 stands as written and its howItWouldClose is the right closing condition."
+ },
+
+ "dispositionOfRT25RES01": {
+  "residual": "no retained checker; 0 of 16 vectors and 0 of 19 invariants mechanised",
+  "adjudication": "ACCEPTED AS DISCLOSED, NOT DISCHARGED, AND NOT ESCALATED TO A BLOCKER OF ITS OWN.",
+  "reasoning": "The residual is stated with measured values rather than asserted, its measuredBoundary is honest about being total rather than partial, its severityIfUnaddressed instructs the reader to weigh every claim as unverified prose, and its howItWouldClose is specific enough to build from. That is the correct handling of a known-disqualifying gap in a candidate that binds nothing. Section 7.1 grades this residual disqualifying for APPLICATION, and nothing here is applied.",
+  "onTheConcurrentLane": "The dispatch notes another lane is authoring a retained checker. This review grades the artifact it was given. A checker that does not exist in these bytes discharges nothing about these bytes, and section 7.2 would in any case bind such an instrument to its own review rather than to this one.",
+  "whatTheAbsenceCostTheARTIFACT": "IR-RT25-B1 is precisely the class of defect a retained checker running PC-V-01 through PC-V-04 against an implementation of the published demand expressions would have caught on the first run. The artifact wrote the four vectors that falsify its own expressions and then had no instrument to execute them. That is the sharpest available demonstration of what RT25-RES-01 costs, and it is offered as evidence for the residual rather than as a separate finding."
+ },
+
+ "whatIVerified": [
+  "The subject digest at dispatch, at the start of review, and immediately before finalising -- all three equal d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52 at 146939 bytes. No drift, no re-baseline.",
+  "The complete leaf census: 1416 scalar leaves, 381 non-string, 196 int, 184 bool, 1 float, 0 null, 1035 string, with bool tested before int, walked from raw disk bytes. All seven exact. Float and null path lists exact.",
+  "That the document parses with zero duplicate keys at any depth under an object_pairs_hook that raises on repetition.",
+  "12 of 15 recorded input digests, recomputed against live disk. The 3 that moved are itemised with their live values.",
+  "All 19 declared internal counts against the collections they describe.",
+  "The 2-of-12 and 4-of-7 blast radius, re-measured against v24's bytes by enumeration rather than read from the artifact.",
+  "All 18 measuredDeltas in Part C against v24's and v23's bytes, plus all 5 predecessorEvidence claims.",
+  "Every D9 figure against the pinned v1.14 bytes: 9 deficiency members, 9 reason codes, 19 error codes, 0/0/0 token matches, the 18-versus-19 map discrepancy and its single named cause, CONFIG.INVALID present AND derivable via rejectionCauseToErrorCode.",
+  "19 of 19 fields whose key ends in 'verbatim', each against the source it names, with markdown structure and whitespace folded first per section 7.7. 17 exact, 2 not.",
+  "The five arithmetic vector rows re-executed against both the literal published expressions and the guarded reading, with cause attribution re-derived.",
+  "The full resolution of the stated Part A generating rule against v24's twelve cells, field by field.",
+  "The partition of v24's 19 Part A keys and 16 Part B keys against v25's changed and unchanged lists.",
+  "Every path from a DURABLE_AUTHORITATIVE request to a terminal behaviour in the resolved decision table, for reachable silent demotion.",
+  "That check-retention-custody-v24.py and check-retention-custody-v23.py both still exit 0 under python3 -I -B against the live tree.",
+  "That product-dispositions.v1.json is unamended and CD-RT-5 still reads BLOCKED_ON_PHASE_1A.",
+  "That RETENTION-BOUNDS-ID-V1's preimage is internally coherent -- fieldCount 6 matching six framed fields, correct self-exclusion of schemaVersion and retentionBoundsId."
+ ],
+
+ "whatITookOnTrust": [
+  "The recorded product intent of 2026-08-05. Nothing in this corpus can verify that a conversational record reflects what the product owner meant, and RT25-RES-CORPUS-04 says so first and correctly. If that record is wrong, the design is aimed at the wrong shape and this review's acceptance of the posture argument is worth nothing.",
+  "The pinned bytes of product-dispositions.cd-rt-5-amendment.draft.v1.json. They moved before this review began and are unrecoverable -- the file is untracked in git with no history. Three of v25's claims about that input therefore could not be checked at all: the two staleness observations and the quoted 'closes residual RT23-B-RES-01' phrase. The live bytes corroborate all three indirectly, but corroboration is not verification and this review does not treat it as such.",
+  "Everything in $.shippingProductEvidence. This reviewer did not open /Users/sb/code/opensip-ai/opensip-cli and re-measured none of the 7 recorded product claims. The artifact grades them the same way at RT25-RES-04 and states that 5 of 5 adoptions carry an independent corpus justification, which this reviewer did check and confirm -- so no design element here depends on the product evidence being true.",
+  "The predecessor reviews' from-scratch derivations: the 40,000 randomised trials, the 276 exhaustive derivations, the 46 cause comparisons and the two sealed unitId recomputations. None was re-run. v25 does not claim them and explicitly disclaims their travel, so nothing in this verdict rests on them.",
+  "That v24 and v23 are correct within themselves. This review compared v25 against their bytes; it did not re-adjudicate them. IR-RT25-N06 records one internal inconsistency in v24 found incidentally and escalates nothing.",
+  "The correctness of IMPLEMENTATION-FREEZE.md's own text as an authority. It was read as data and quoted from, not audited."
+ ],
+
+ "whatIDidNotCheck": [
+  "Whether Part A contains other sites that branch on policy ABSENCE rather than on posture. This is RT25-RES-05's own declared gap and this review did not close it: no mechanical walk of v24's Part A for presence tests was performed. IR-RT25-B2 shows the rule is under-specified at the sites that WERE found; it says nothing about sites that were not.",
+  "Whether the RETENTION-BOUNDS-ID-V1 recipe produces correct digests. No implementation was written and none could be validated, because the artifact publishes no worked vector to compare against. See IR-RT25-N03.",
+  "The eviction order's realisability. 'ascending atSequence of the raw key's most recent AVAILABLE-entering ledger entry, tiebroken by recordCasRef lexicographic ascending' was read for internal coherence and accepted; no ledger fixture exercises it and this reviewer built none.",
+  "Anything about physical storage: RT25-RES-03's subject. No real object was measured, no footprint model was evaluated, and the size demand's relationship to actual disk occupancy was not examined.",
+  "The four changed interaction outcomes' correct D9 terminations. Computing them requires executing the pinned reference derivation, which requires a checker. This review confirms only that the values currently carried are the ones v25 itself says no longer describe them.",
+  "Whether accepting the posture decision is WISE. That is a product judgement and no oracle exists for it. This review adjudicated whether the artifact designs against it honestly and mechanically correctly, and on the first count the answer is emphatically yes.",
+  "Mutation resistance of any kind. No leaf was respelled as a float, a boolean or a numeric string and re-admitted, because no instrument exists to admit it. RT25-RES-CORPUS-02 states this about the artifact's own census and it is equally true of this review.",
+  "Whether the concurrently-authored checker named in the dispatch exists, works, or would change any finding here. It was not sought, not read and not run."
+ ],
+
+ "freezeRehashObligation": {
+  "rule": "IMPLEMENTATION-FREEZE.md#7.2.1 clauses 2 and 3: the reviewer re-hashes before finalising, and the review records the digest it actually reviewed rather than the digest it was given.",
+  "digestGivenInDispatch": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52",
+  "digestAtStartOfReview": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52",
+  "digestImmediatelyBeforeFinalising": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52",
+  "bytes": 146939,
+  "subjectMovedDuringReview": false,
+  "reBaselineOccurred": false,
+  "everyMeasurementInThisReviewWasTakenAgainst": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52",
+  "inputDriftDuringReview": "Three recorded inputs differ from their recorded digests; all three are itemised at measurementsIRecomputed.recordedInputDigests.movedDetail. Two are declared cited-not-gated by the artifact and are not findings. One is declared hard-pinned and is reported at IR-RT25-N02. Per clause 4 this drift is recorded as a fact about this review's conditions and was not absorbed by re-running."
+ },
+
+ "verifiedInputs": {
+  "recordingRule": "IMPLEMENTATION-FREEZE.md section 7.2 recording obligation: filename and SHA-256 for every input this verdict depends on. A count is not a record and a prose assertion is not a record. Every digest below was recomputed by this reviewer against live disk during this review.",
+  "subjectUnderReview": [
+   {"path": "artifacts/retention-tiers.v25.json", "sha256": "d62c1c0f3eec5ac7b496a4f2fe60b73daafdc69a2cbd500685d0800e54eeca52", "bytes": 146939, "movedDuringReview": false}
+  ],
+  "retainedChecker": {"path": "NONE", "note": "The subject declares retainedChecker NONE. There is no instrument in the verdict's closure, which is itself finding-relevant and is handled at dispositionOfRT25RES01."},
+  "predecessorAndChain": [
+   {"path": "artifacts/retention-tiers.v24.json", "sha256": "ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277", "role": "predecessor; the bytes every blast-radius and inheritance measurement in this review was taken against", "recomputedExact": true},
+   {"path": "artifacts/retention-tiers.v24.review-independent.json", "sha256": "633301d5fb6400858a1e10acca50aefe8e58502ef346d5f3d06f6da5cff0084a", "role": "source of the quoted PASS verdict string, verified exact", "recomputedExact": true},
+   {"path": "artifacts/retention-tiers.v23.json", "sha256": "3f8c1df562bde9dbaa6e6d87cfb611a7f2a88710f01519344ca72c5005a0891b", "role": "origin of Part B semantics; read for the askProtocol wording check", "recomputedExact": true},
+   {"path": "artifacts/retention-tiers.v23.review-independent.json", "sha256": "039419b49d06999d4142346f8982eadb511ab6efc635b5e116f0694d6412719f", "role": "recorded input of the subject; digest verified, contents not re-adjudicated", "recomputedExact": true},
+   {"path": "artifacts/retention-tiers.v22.json", "sha256": "52aa540df75a047f0abc09b4fab4b472ab2934ad1f488146bb370ed6050743e1", "role": "source of recommendedDefaultPosture and of AF-03-VERIFY-PURGED; six quoted fields verified exact", "recomputedExact": true}
+  ],
+  "measurementSources": [
+   {"path": "artifacts/d9-exit-contract.v1.14.json", "sha256": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31", "role": "every D9 figure in this review was measured from these bytes", "recomputedExact": true},
+   {"path": "artifacts/product-dispositions.v1.json", "sha256": "b9a87839606981a5be46f62aca2d85a17c3da5082c8d0aad02a211f3025fd91c", "role": "CD-RT-5 state and the ruleWhilePending quotation; confirmed unamended", "recomputedExact": true},
+   {"path": "artifacts/threat-model.v3.json", "sha256": "56734a4047b61e1fc702f75ccb21e8721b334adb449093d266756d0b08adc499", "role": "V10 item 3 obligation quotation", "recomputedExact": true},
+   {"path": "artifacts/evidence.v10.json", "sha256": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4", "role": "recorded input of the subject; digest verified", "recomputedExact": true},
+   {"path": "ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md", "sha256": "47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e", "role": "planDigestVerbatim check", "recomputedExact": true}
+  ],
+  "executedInstruments": [
+   {"path": "artifacts/check-retention-custody-v24.py", "sha256": "9a309302df6d2f1108f1fbfb4978bfc93b102eb0394c99ba7be7fc550d7fa909", "invocation": "python3 -I -B", "exit": 0, "role": "tests the subject's environment claim only; reads nothing of the subject", "recomputedExact": true},
+   {"path": "artifacts/check-retention-custody-v23.py", "sha256": "18e94f7603869e8fdf295664f8d7eb46d9075ea8fc1791769045fb194b4a96a8", "invocation": "python3 -I -B", "exit": 0, "role": "same", "recomputedExact": true}
+  ],
+  "inputsWhoseDigestDoesNotMatchTheSubjectsRecord": [
+   {"path": "artifacts/product-dispositions.cd-rt-5-amendment.draft.v1.json", "recordedBySubject": "4bbcd6fa9113a689063ce880611e98dcf3599eaa0f5846419886deb4033922ea", "liveAtReview": "872c67be307866a645d246104a61065d1ab6c6d812618e0a40bbd837c4b0edb0", "verdictDependency": "NONE. No finding in this review rests on either version of these bytes; the drift is itself the observation at IR-RT25-N02."},
+   {"path": "IMPLEMENTATION-FREEZE.md", "recordedBySubject": "3e0b0195890720b1592dd3a589c42ec3fab64992334ed33ccee1ca25063a2463", "liveAtReview": "9bea5ce46ee9b9dc9c7158517cf0d60d053446e6e2eae3cab669c945eefb80f1", "verdictDependency": "Quotations of freeze law 14 and the section 7.2 rule were verified against the LIVE bytes named here, not against the recorded digest. Both were found exact. Declared so a later reader knows which bytes the quotation checks ran against."},
+   {"path": "IMPLEMENTER-BLUEPRINT.md", "recordedBySubject": "f6963a5c35758e7c80483f140bb08934d236e1f132ba373798848b4bbbbc9b5f", "liveAtReview": "5f040376d69af066c5278ff98cacf9bc305b2eddfc06f3ced882061aba3043db", "verdictDependency": "NONE. Not relied on."}
+  ]
+ },
+
+ "workspaceMutations": {
+  "filesCreatedByThisReview": 1,
+  "fileCreated": "artifacts/retention-tiers.v25.review-independent.json",
+  "filesEditedByThisReview": 0,
+  "subjectEdited": false,
+  "statement": "Section 7.2 forbids editing reviewed bytes and that includes this reviewer. retention-tiers.v25.json was opened read-only and its digest is unchanged. No other artifact, checker, freeze row, blueprint row, register entry, status, disposition or seal was written, edited or moved."
+ },
+
+ "authorityBoundary": {
+  "whatThisReviewIs": "An independent adjudication of the exact bytes named at freezeRehashObligation. It grants no standing, applies no candidate, seals nothing and decides no product question.",
+  "whatThisReviewIsNot": [
+   "It is not a product decision. CD-RT-5 remains BLOCKED_ON_PHASE_1A and durableDefault remains UNSELECTED.",
+   "It does not apply, endorse or authorise applying product-dispositions.cd-rt-5-amendment.draft.v1.json.",
+   "It does not adjudicate retention-tiers.v24 or retention-tiers.v23, whose own verdicts bind their own bytes.",
+   "It does not claim V10 item 3 discharged or disturbed on any bytes.",
+   "It grades no instrument, because the subject retains none."
+  ],
+  "howAREJECTShouldBeRead": "Four blockers, all repairable, none touching the central design judgement. This is a REJECT of a candidate's MECHANISM, not of its position. The posture resolution rule, the provenance split, the never-persisted default and the moved refusal are all correct and all survive. A successor that repairs the three demand expressions, states the generating rule's full exception set, completes the changed-surface partition and restores two quotations would in this reviewer's judgement have very little left standing against it.",
+  "sectionSevenTwoRider": "Section 7.2's rider applies to this verdict as it does to any: it binds what this reviewer examined and is scoped by whatIDidNotCheck. It is not a statement about the artifact's whole surface, and a signer must not infer coverage from it."
+ }
+}
