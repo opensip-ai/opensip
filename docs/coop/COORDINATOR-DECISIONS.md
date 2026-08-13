@@ -57,38 +57,277 @@ consensus after 3 turns each; parked for the user), `SUPERSEDED`,
 
 ---
 
-## D-001 — Definition of "completed" (RESERVED, in progress)
+## D-001 — Definition of "completed" for the V2 design
 
-- **Date:** opened 2026-08-12; scope set by the user mid-conversation: **the
-  completion target is the V2 design**, anchored at
-  `docs/v2/architecture/08-decision-and-readiness-register.md`.
-- **Status:** IN PROGRESS
-- **What it will decide:** the operational finish line. The register defines
-  its own: the five-condition **Blueprint-readiness decision** (register §
-  "Blueprint-readiness decision"), ending with authorization of
-  `docs/v2/implementation/`. D-001 will adopt that checklist as the
-  definition of done and decide, per row, the closure ROUTE:
-  1. DR-001..DR-011 — V1 successor through the coop process, versus an
-     explicit, scoped, reviewed pre-blueprint disposition (the register's own
-     alternative), per row. DR-012 is release-only and explicitly NOT part of
-     completion.
-  2. DR-101..DR-129 — which rows affect the FIRST BLUEPRINT SLICE (the slice
-     definition is itself a preference-laden decision, expected to become
-     D-002) and must be decided; which get explicit deferral dispositions.
-  3. DR-201..DR-205 — adversarial re-reviews dispatched and ACCEPTED, or
-     findings individually routed.
-  4. DR-G01..DR-G22 — named harness and owner per required gate; no
-     QUALIFIED/DEMONSTRATED claims anywhere.
-  5. The final authorization act — made under D-000 on the user's behalf,
-     marked PREFERENCE-LADEN, reviewed adversarially, and staged as the last
-     commit so it is trivially revertible.
-- **Known input facts:** the register's whole-document freeze pins
-  (`e1cdb71d…`) were re-stranded by today's freeze riders (freeze now
-  `c4560fc3…`) — the register's own pin-move record calls this a known defect
-  of the citation form and prescribes verify-then-move; today's coop work
-  already advances DR-009 (r1 v1.9 candidate + gate), DR-011-R07/R09 (checker
-  review standing), and the DR-002/DR-006 routes (evidence lineage v9 owed).
-- **Process:** a register-verification workflow is running — parallel readers
-  verifying each register section against live corpus state and classifying
-  every row's closure route and decision type. Its output becomes the D-001
-  draft, which then goes to adversarial review per D-000.
+- **Date:** opened 2026-08-12; scope set by the user mid-conversation: the
+  completion target is the V2 design, anchored at
+  `docs/v2/architecture/08-decision-and-readiness-register.md`
+  (sha256 `528cab56ae2459876a1c17a60c11681eaa3190849dc9c2ad3d253d31f1cfce8a`).
+  Draft synthesized from a six-reader register verification against live
+  corpus bytes at HEAD `0ada5b3` (freeze `e4797f47…`, blueprint `a8c16cca…`,
+  claim register `95097b3f…`), persisted as
+  `docs/coop/artifacts/v2-register-verification.v1.json`
+  (`172cffb47319123aaa0c2d03e889cfedae00675680dc65b1eb61ee9216ccbc2b`) so
+  every citation below is auditable from corpus bytes (adversarial review
+  MF-7). HEAD has since advanced (v10, `4cfd9d4`); route texts below are
+  written head-relative for exactly that reason (reviewer NOTE-2 / freeze
+  §7.10: pin properties, not current values).
+- **Amended 2026-08-13** in response to the turn-1 adversarial review
+  (`coordinator-decisions.D-001.review-adversarial.json`, `6de5a03b…`,
+  OBJECTIONS: 8 MUST-FIX, 4 SHOULD-FIX, 2 NOTE — every objection accepted;
+  none rebutted).
+- **Status:** **ADOPTED 2026-08-13** — consensus reached under D-000 at turn
+  3 of 3: final verdict CONSENT, on the merits, at
+  `artifacts/coordinator-decisions.D-001.review-adversarial.turn3.json`
+  (`97b20341…`). Three non-blocking observations are recorded in that
+  verdict, including one routed onward: the applied EIR v6 rests on a
+  candidate-grade warrant — the class the route-A acceptance property now
+  forbids prospectively — flagged as DR-204/DR-011 audit material.
+- **Decision type:** RULE-GOVERNED in its adoption (the checklist already
+  exists and is the register's sole active one — verified: no topic doc
+  maintains a competing list); PREFERENCE-LADEN in the specific routes marked
+  in §4 below. This entry does not hide the second kind inside the first.
+
+### 1. The definition of done
+
+D-001 adopts the five-condition **Blueprint-readiness decision** of register
+file 08 as the complete and only definition of "completed" for the V2 design,
+quoted byte-for-byte from the register (MF-1 — the previous draft
+paraphrased while claiming verbatim, dropping condition 3's guard sentence
+and DR-012's "or authoritative launch"):
+
+> Readiness requires all of the following in this register, and this
+> paragraph is the only active readiness checklist:
+>
+> 1. DR-001 through DR-011 are `SATISFIED` or the owning V1 authority records
+>    an explicit, scoped, reviewed pre-blueprint disposition that names what
+>    may be designed without pretending the blocked semantics are settled.
+>    DR-012 is not a blueprint-entry prerequisite; it remains mandatory
+>    before release or authoritative launch.
+> 2. DR-101 through DR-127 that affect the first blueprint slice are
+>    `SATISFIED`; deferred items have explicit product/architecture scope
+>    dispositions.
+> 3. Each DR-201 through DR-205 re-review is `ACCEPTED`; alternatively, every
+>    rejecting finding is individually identified, closed or lawfully routed
+>    to an owning authority/register item, and backed by retained evidence.
+>    Merely receiving a rejecting disposition never satisfies this gate.
+> 4. Required release gates have named harnesses and owners; no document
+>    claims `QUALIFIED` or `DEMONSTRATED` without retained evidence.
+> 5. Product and architecture authorities explicitly authorize creation of
+>    `docs/v2/implementation/` against a refreshed exact authority baseline.
+
+Completion is an evidence state, not a declaration. Measured starting
+position (HEAD `0ada5b3`): condition 4's claims half is ALREADY satisfied
+(zero affirmative QUALIFIED/DEMONSTRATED claims in docs/v2; the obligation is
+continued abstinence); condition 3 stands at zero of five re-reviews
+dispatched; condition 4's harness half at 0 of 22 named; condition 5's
+precondition holds (`docs/v2/implementation/` absent); condition 1 has one
+row satisfied-but-reopened (DR-001 — the baseline drifted 28/31 through
+lawful post-anchor session work and its own scope clause re-opens it), one
+partially satisfied (DR-008), nine hard-blocked, and DR-011's 16-row
+subledger (R07 NARROWED, the rest OPEN).
+
+### 2. D-002 isolated: the first blueprint slice
+
+Conditions 2 and 4 quantify over "the first blueprint slice," which no
+document defines (measured: referenced in files 07/08/10, defined nowhere).
+That selection — commands, language roles, closures, statefulness — is
+preference-laden, though not unbounded (SF-2): the register already fixes
+part of the space — DR-123 makes the CLI baseline mandatory for every
+slice, DR-128 excludes third-party/untrusted scope from MVP, DR-129 makes a
+TUI optional and projection-only, and file 10 bounds MVP scope. D-002
+selects within those recorded bounds and cannot quietly relitigate them.
+It is isolated as **D-002**, sequenced FIRST among product asks because
+DR-118, DR-108, DR-G13 and readiness conditions 2/4 are unevaluable until
+it lands. D-001 deliberately smuggles no slice choice.
+
+### 3. Closure routes, per row
+
+Three lawful routes: **(A)** V1 successor through the coop process (author →
+independent review → coordinator apply → freeze/claim-register motion);
+**(B)** an explicit, scoped, reviewed pre-blueprint disposition (condition
+1's own alternative); **(C)** a product decision through the
+product-disposition process.
+
+**Condition 1:**
+- **DR-001** route A, two stages (MF-8): regeneration of both manifests at
+  HEAD is mechanical and may run now, recorded as MEASURED; the SATISFIED
+  re-record happens only after DR-204's re-review audits the disposition —
+  re-recording before it would repeat the exact provenance defect D-001
+  flags (SATISFIED requires independent review; the 2026-08-12 disposition
+  was coordinator-recorded without one).
+- **DR-002** route A: `evidence.v11` disposing EV10-IR-01..03, carrying
+  `sealedCapabilityContract`/`availabilityDifferential`. The item-4 carrier
+  choice — route (b) evidence.v11 versus route (a) retention v29 restore —
+  is RECOMMENDED (b) here but DECIDED only at its own D-000-reviewed entry
+  (SF-4: previously pre-selected in one section and parked open in another).
+  Reviewer NOTE-1 adopted as a standing instruction: the successor's checker
+  must not be named `check-evidence-v11.py` — that name is already taken by
+  v10's own checker (the corpus's recorded naming trap); the new instrument
+  carries an unambiguous name and the change record says why.
+- **DR-003** route A, stated completely (SF-1): applying the reviewed
+  `v10-disposition.v4` is necessary but NOT sufficient — its own PASS review
+  states it "ADJUDICATES NOTHING" and leaves one item NOT DISCHARGED; the
+  row closes only with the V10/custody + G19 demonstration and TM's final
+  disposition recorded by the owning authorities.
+- **DR-004** route A: the exact eight-bullet Phase-1A packet; plus commission
+  the missing §3.1-item-to-supplier binding instrument.
+- **DR-005** route A joint (evidence + storage + operability).
+- **Standing route-A acceptance property (T2-02),** stated once and
+  referenced wherever a candidate's applicability is at issue: a candidate
+  is applicable when its independent review returns **0 blockers AND grants
+  application-grade acceptance with no express reservation** — no
+  candidate-only limitation, no EXPRESSLY-NOT-FOR-APPLICATION language, no
+  named apply-condition left undischarged on the record — and the
+  coordinator then applies per route A. "0 blockers" alone is measured
+  insufficient by three corpus precedents (EIR v6: accepted as CANDIDATE
+  only; delivery.v5: expressly not for application; r1 v1.9: apply-condition
+  chain), so the weaker phrase is struck everywhere.
+- **DR-006** route A, head-relative (MF-2, corrected per T2-01's census):
+  acceptance of the evidence-identity lineage head satisfying the route-A
+  acceptance property. Measured lineage at this amendment: v6 reviewed
+  **ACCEPT AS A CANDIDATE, 0 blockers** (`7a0d93e4…`) and APPLIED
+  2026-08-12; v1–v5 and v7–v10 REJECTED; v11 (`cf273bf5…`) is the head,
+  under review. Then binding per-surface recipes; the §7.1 PROPERTY is the
+  boundary.
+- **DR-007** route A: D9 successor to v1.14.
+- **DR-008** posture CLOSED; join half via DR-002/004; the checker review
+  (R07 dispatch) closes the checker residual.
+- **DR-009** route A, gated on DR-204's adjudication of the dialect-repair
+  review's date anomaly before reliance.
+- **DR-010** route C PREFERENCE-LADEN (P-1/P-2/G3 successor, jointly with
+  DR-117 and R16).
+- **DR-011**, all sixteen residuals routed by name (MF-4):
+  R01 FACT-PLANE successor closing subject-set agreement, the sufficiency
+  `view` type and the `rungUnavailableBecause` vocabulary with a refreshed
+  D9 join, or a reviewed scoped disposition keeping facts/Coverage design
+  blocked (depends DR-006/007). R02 FACT-IDENTITY: close or lawfully
+  preserve every checker-declared limitation (13/14 implementable;
+  capability property NOT DISCHARGED) with exact corpus/authority evidence —
+  its own route, owned by the fact-identity surface. R03 C2 checker
+  standing: instrument-review dispatch (`check-c2-v12.py`) plus pinned
+  effective-checker standing. R04 DELIVERY (MF-3): a successor discharging
+  the §7.1 disqualifier its own review names — that review is EXPRESSLY not
+  an application warrant — or a scoped disposition retaining OBS-1 (the
+  contestable half); "apply delivery.v5" is struck as unlawful. R05 protocol
+  adjudication of PC-7 preserving the merged-major-2 demarcation. R06
+  EVIDENCE residuals: closes with the DR-002 chain. R07 retention checker
+  review dispatch; join half with DR-002/004. R08 D9 advisories and the
+  three contract gaps: the DR-007 successor. R09 R-1 (T2-03, head-relative
+  with the apply-condition chain named): application of the r1 lineage head
+  satisfying the route-A acceptance property — at this writing v1.9, whose
+  review's express condition (DO-NOT-APPLY-UNTIL-CORPUS-RESOLVER-CHECK) is
+  discharged on the record at corpus-resolution.v1 (REFUSED, pre-repair) →
+  corpus-resolution.v2 (POSITIVE, whose instrument-reliance caveat chains
+  into the DR-204 gate, = DR-009's gate) — plus retained-validator standing
+  and CIR-B1 closure.
+  R10 the final blind consumer-B litmus — structurally LAST. R11
+  OPERABILITY G19: the DR-005 successor. R12 evaluation-proof BOTH halves
+  (MF-4): the v8 claim-shape obligation reconciled separately AND v13's
+  19 limitations + 7 observations + 4 escapes individually closed or
+  lawfully disposed. R13 VERSIONING successor covering stale D9, RC-14, the
+  name collision, rejected v14–v16 and unreviewed v17. R14 RESOLVED-INPUTS
+  stale-note reconciliation — rule-governed, not mechanical (T2-04,
+  implementing the accepted turn-1 objection's named half): the
+  reconciliation must not reopen the resolved CFG-6 threat root nor mask
+  live TM blockers, so it is recorded as a disposition with that scope
+  stated, never made as a silent edit. R15 TRUSTED-REQUEST-CONTEXT:
+  the DR-006 lineage under the §7.1 property. R16 with DR-010/DR-117
+  (route C). Parent DR-011 reconciles only after new rows open for the
+  2026-08-12/13 lineage motion.
+- **DR-012** excluded from completion per the register's own text (quoted
+  above): not a blueprint-entry prerequisite; mandatory before release or
+  authoritative launch.
+
+**Condition 2 — all 29 rows classified (MF-5 closed the DR-108 gap):**
+product decisions (route C, PREFERENCE-LADEN): DR-104, DR-115, DR-116,
+DR-117, DR-118, DR-119, DR-123, DR-128, DR-129. Rule-governed architecture
+authoring with review: DR-101, DR-102, DR-103, DR-105, DR-107 (+DR-G18),
+DR-110, DR-111, DR-112, DR-114, DR-120, DR-121, DR-122, DR-125, DR-126,
+DR-127. Inherit-blocked: DR-106, DR-109, DR-113, DR-124 (its evidence
+class). **DR-108** slice-conditional: decided if and only if D-002's slice
+includes credential-requiring features, else it receives an explicit
+deferral disposition — named here so its handling is never silence.
+Register-content changes are DECISIONS, not hygiene (MF-6): the V1→V2
+transition-contract row (V2TOPIC-F-02) and the DR-117 widening to file 02's
+seven binding items (V2TOPIC-F-04) each get their own D-000-reviewed entry
+and commit. New-row rule (SF-3): condition 2's quantifier is evaluated over
+the register as it stands at readiness evaluation; adding a row is itself a
+reviewed decision under this protocol, so the quantifier can only grow by a
+recorded act, never by drift — and because the quoted condition's literal
+text reads "DR-101 through DR-127," the C4a commit that adds a row MUST also
+amend file 08's condition-2 wording through the register's own process, so
+the checklist text and the register never disagree (turn-2 NOTE-1). Only
+V2TOPIC-F-01 (a stale prose recital) and
+status-label normalization are hygiene. Items D-002 excludes get explicit
+deferral dispositions, never silence.
+
+**Condition 3:** dispatch all five adversarial re-reviews against the frozen
+digests recorded by the verification (DR-201: file 01 @ `40ab9a3e…`; DR-202:
+04 @ `fcb70d2f…` + 03 @ `52158469…`; DR-203: prototype ref @ `69a71aac…` +
+05 @ `1a57c9ca…`; DR-204: baseline/pin apparatus — must audit DR-001's
+disposition, verify-then-move the six stranded `e1cdb71d…` pins, correct the
+pin-move record's two measured defects (the unanchored `4314af9e…` digest;
+the factually false "unresolvable" claim about the matrix-L45 stdout
+digests, which reproduce byte-exactly), and adjudicate the future-dated
+instrument review; DR-205: 02 @ `1811c682…` + 10 @ `5378cdba…`).
+
+**Condition 4:** claims half — maintain abstinence. Harness half — after
+D-002 fixes the required set: one named harness identifier per required gate
+under its named owner; fix DR-G16's vague owner cell; DR-G10's selector
+refresh + a named V2 runner over pinned goldens; DR-G17's named parity
+runner; DR-G13 waits on DR-118. DR-G06/G11 may be named now but execute only
+after the condition-1 chain.
+
+**Condition 5:** the final authorization is a separate PREFERENCE-LADEN act,
+taken under D-000, adversarially reviewed, staged as the last commit so
+reverting it costs one `git revert`.
+
+### 4. Honesty about preference
+
+Decided only via D-000 adversarial consensus or parked CONTESTED: D-002;
+DR-010/DR-117/DR-011-R16; DR-104; DR-115; DR-116; DR-118; DR-119; DR-123;
+DR-128; DR-129; the item-4 route choice (a vs b); OBS-1 retention in R04;
+reliance timing on the future-dated instrument review; the condition-5
+authorization itself. Everything else closes on evidence.
+
+### 5. Staged commit plan (D-000 clause 4)
+
+C1 `D-001 adopted`; C2 `D-002 slice` (or CONTESTED parking); C3 `DR-001
+manifests regenerated @ HEAD — MEASURED, disposition pending DR-204`
+(MF-8: the SATISFIED re-record is a separate later commit, after DR-204);
+C4 `register hygiene` — ONLY genuinely mechanical items (MF-6): pin-move
+record corrections, the six verify-then-moves, V2TOPIC-F-01's stale-prose
+fix, status-label normalization; C4a and C4b: V2TOPIC-F-02 (new transition
+row) and V2TOPIC-F-04 (DR-117 widening) as separate D-000-reviewed decision
+commits; C5..C9 one per re-review disposition; onwards one commit per
+product decision, per V1 apply/acceptance, per V2 decision closure, per
+gate-naming batch (grouped by owner); matrix/baseline refresh commits after
+each head repoint; C-final `Blueprint-readiness: conditions 1–5 evaluated;
+docs/v2/implementation authorized` — standalone, last, trivially
+revertible.
+
+### 6. Reversibility and overturn
+
+Every commit individually revertible. Preference-laden entries carry an
+overturn procedure cheaper than the decision: one-line register supersession
+plus `git revert` of the single commit. Overturning D-001 itself means
+recording a successor definition of done here; nothing hard-codes this
+checklist anywhere but the register that already owned it.
+
+- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (8
+  MUST-FIX, 4 SHOULD-FIX, 2 NOTE) at
+  `artifacts/coordinator-decisions.D-001.review-adversarial.json`
+  (`6de5a03b…`); all fourteen accepted and amended, none rebutted. Turn 2:
+  OBJECTIONS narrowed to 2 MUST-FIX + 2 SHOULD-FIX + 2 NOTE at
+  `artifacts/coordinator-decisions.D-001.review-adversarial.turn2.json`
+  (`82484bf6…`), with 12 of 14 turn-1 items RESOLVED-VERIFIED against bytes
+  and a recorded expectation of CONSENT; all four turn-2 items accepted and
+  amended above (T2-01 lineage census corrected, T2-02 route-A acceptance
+  property adopted as standing, T2-03 R09 chain named, T2-04 R14
+  reclassified), plus turn-2 NOTE-1's file-08 wording rule (the verdict
+  file's id for it is ADV-D001-T2-05 — citation note per turn 3). Turn 3:
+  **CONSENT**, on the merits, all four items verified against bytes
+  (`…turn3.json`, `97b20341…`).
+- **Commit:** C1 (this commit), with the verification artifact and all
+  three verdict files.
