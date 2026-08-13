@@ -1023,7 +1023,7 @@ decision; nothing here forecloses slice 2.
 
 ## D-011 — Register content: DR-117 widened to file 02's seven binding items (V2TOPIC-F-04)
 
-- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Date/Status:** opened 2026-08-13; **ADOPTED 2026-08-13** — per-entry CONSENT at turn 3 of the batch review (turn 1 `15838fe8…` OBJECTIONS ×4, turn 2 `f0e0457e…`, turn 3 `cd08c5f0…` CONSENT ×4 on the merits, nothing waived).
 - **Decision type:** RULE-GOVERNED register-content change (the
   verification record measured the mismatch: file 02 enumerates seven
   binding product-boundary items; DR-117's decision column names five),
