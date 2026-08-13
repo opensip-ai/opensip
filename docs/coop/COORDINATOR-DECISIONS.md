@@ -809,3 +809,54 @@ decision; nothing here forecloses slice 2.
   script fault) plus the completion commit that follows, which carries
   the adoption edits and the named file-08 edits. Recorded honestly, not
   rewritten.
+
+---
+
+## D-007 — DR-118: TypeScript role acceptance structure
+
+- **Date:** opened 2026-08-13
+- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000.
+- **Decision type:** PREFERENCE-LADEN (route C). D-002 selected the
+  slice-1 role list ({TypeScript}); this entry decides WHAT ACCEPTANCE
+  REQUIRES for that role — the matrix shape, pinning discipline, baseline
+  reference and threshold ownership DR-118's row names. The matrix and
+  corpus themselves are ACCEPTANCE EVIDENCE authored during
+  qualification; deciding their required structure now is what unblocks
+  that authoring without pretending it done.
+- **Decided requirements for the TypeScript role's acceptance:**
+  1. **Capability/parity matrix shape:** one row per analysis capability
+     the role advertises (parse fidelity, semantic resolution, graph
+     construction, finding classes, output projections), each row carrying:
+     the capability's DEFINITION by reference to the host contract; the
+     prototype-baseline measurement AT THE PINNED COMMIT `a62509d6…`
+     (or an explicit "no prototype baseline exists" statement per the
+     prototype reference's own rule); the V2 target (parity or named
+     improvement); and the measurement method with digest-pinned corpus.
+  2. **Corpus discipline:** the language-quality corpus is digest-pinned
+     per file (exact fixtures/goldens), product-approved before any
+     measurement claims against it, and versioned by supersession — the
+     EIR lineage's measured-or-cited-at-digest discipline applies to every
+     matrix cell.
+  3. **Baseline reference:** the prototype at `a62509d6…` (verified
+     available and byte-checked by the DR-203 re-review) is the ONLY
+     admissible "existing behavior" reference; matrix rows may not cite
+     unpinned recollections of prototype behavior.
+  4. **Thresholds:** parity-or-improvement per row is a PRODUCT approval
+     at matrix acceptance (the DR-115 pattern: structure decided now,
+     numbers at their evidence gate); no row may ship with a silent
+     regression against its stated baseline.
+  5. **No-silent-fallback:** DR-G13's rule becomes a required NEGATIVE
+     test class in the matrix — for each capability, a test that the role
+     REFUSES (typed, loud) rather than degrading to a weaker
+     parser/syntactic tier when its capability is unavailable.
+  6. **Row disposition on adoption:** DR-118 moves to
+     `DECIDED-V1-NOT-INTEGRATED` — role list (D-002) and acceptance
+     structure (this entry) DECIDED; the matrix/corpus evidence half is
+     discharged at DR-G13/G14 qualification.
+- **What this does NOT do:** author the matrix or corpus; qualify
+  anything; extend the role list (a slice-2+ decision); touch DR-119's
+  self-contained-closure acceptance (its own entry).
+- **Overturn:** supersession here + revert of C-D007.
+- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
+  here.
+- **Commit:** C-D007, on adoption.
