@@ -1,0 +1,75 @@
+{
+ "artifact": "opensip.evidence-identity-recipes.v6",
+ "version": 6,
+ "date": "2026-08-12",
+ "documentClass": "IDENTITY-RECIPES-SUCCESSOR",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "purpose": "Clear both blockers from the independent review of v5, which returned REJECT. No recipe changes. Neither blocker touched a recipe; both were measurements about the artifact rather than cryptography inside it.",
+ "reviewBeingAnswered": {
+  "subject": "evidence-identity-recipes.v5.json",
+  "subjectSha256": "064c820bc3f052bd8122faf315ee3ce9e5417b12b98a08446125ce6bd505dc49",
+  "verdict": "REJECT, 2 blockers",
+  "review": "artifacts/evidence-identity-recipes.v5.review-independent.json",
+  "whatTheReviewConfirmed": "275 independent assertions, 0 failures, from an encoder written against evaluation-proof.v8 and evidence.v10 grammar prose sharing no line with the subject. All four commissioned pins reproduce from first principles; outcomeSetCommitment == outcomeSetDigest CONFIRMED on three measured legs; F-1 survived every attack including chosen-sibling non-membership, fabricated promoted-leaf path, extra step, cross-tree and internal-node impersonation; the self-certification machinery that killed v3 and v4 is genuinely repaired (2520 leaves, staleness sweep 0 outside allowlist against v4's 12)."
+ },
+ "blockersCleared": {
+  "B-EIR5-01": {
+   "defect": "whatThisArtifactAdds[3] said 'thirty executed test vectors ... plus 4 new ones'.",
+   "measured": "The five arrays under $.testVectors hold 7+6+6+7+6 = 32. The BND group (sharedPrimitives-textComponent) holds 6, ids BND-1..BND-6. Carried = 32-6 = 26, which the sentence already had right.",
+   "whyItSurvived": "The file's own staleness register carried 'four new BND vectors' guarded by 'retired: there are six BND vectors' -- retired, then re-carried in a spelling the gate could not match, inside an allowlisted section. The v5 diff manifest edited items 0 and 6 of this very list for the stated reason 'the adds-list must describe v5, not v4'. Item 3 was not.",
+   "note": "F-1's separate 8-vector block is not part of this count and is not affected."
+  },
+  "B-EIR5-02": {
+   "defect": "DUD-5's caveat asserted scalar-value order and UTF-8-byte order 'differ above the BMP'.",
+   "measured": "Exhaustive over all 1112064 valid Unicode scalars: 0 inversions between UTF-8 byte order and scalar order; they are one total order. UTF-16 has exactly 1 adjacent inversion, at U+FFFF vs U+10000.",
+   "severity": "The defect is not a misnamed encoding. Because the two named policies are ONE policy, the caveat was VACUOUS -- it disclosed a limitation that cannot exist -- and it displaced the real undetermined pair, which is live as canonical-json-profile.v1 UR-1 and reaches applied delivery.v4, whose release-manifest canonicalisation is defined as sha256 over JCS. RFC 8785 JCS sorts by UTF-16 code units.",
+   "lineage": "v5 inherited this from evidence-identity-recipes.v1 and replicated it into a v5-AUTHORED block absent from v4. Nine occurrences across seven artifacts carry the sentence. v1-v4 and evidence-identity-recipes.v2.review-independent are reviewed bytes and keep it permanently (freeze \u00a77.2, \u00a77.6). uncomputable-identity-fields.sweep.v1 is repaired by its own successor, sweep.v2, because it is hard-pinned by digest in ten artifacts."
+  }
+ },
+ "derivedFrom": {
+  "artifact": "evidence-identity-recipes.v5.json",
+  "sha256": "064c820bc3f052bd8122faf315ee3ce9e5417b12b98a08446125ce6bd505dc49",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "resolutionChain": "v6 -> v5. Resolve FULL-CHAIN to v5's reviewed standalone bytes (freeze \u00a77.3 / CMP-IR-01).",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/theShapeOfTheGap/whatThisArtifactAdds/3",
+    "from": "thirty executed test vectors -- 26 carried forward and recomputed, 7 of which reproduce values pinned in the corpus before either version existed, plus 4 new ones that make the restored text-component clauses falsifiable",
+    "value": "thirty-two executed test vectors -- 26 carried forward and recomputed, 7 of which reproduce values pinned in the corpus before either version existed, plus 6 new ones that make the restored text-component clauses falsifiable",
+    "why": "B-EIR5-01: vector census stale; 32 not 30, 6 new not 4"
+   },
+   {
+    "op": "set",
+    "path": "/declaredUnresolvedDependencies/entries/4/v1sMeasurement",
+    "from": "v1 reproduced evidence.v10's pinned evaluationProofBundleCasRef sha256:cc27c2be... from evaluation-proof.v8's EP8-POS-NOMATCH-PASS bundle under sorted-key, separator-compact JSON, and stated the limits of that measurement: the bundle is pure ASCII, so it CANNOT distinguish escaping policies for non-ASCII, and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP.",
+    "value": "v1 reproduced evidence.v10's pinned evaluationProofBundleCasRef sha256:cc27c2be... from evaluation-proof.v8's EP8-POS-NOMATCH-PASS bundle under sorted-key, separator-compact JSON, and stated the limits of that measurement: the bundle is pure ASCII, so it CANNOT distinguish escaping policies for non-ASCII, and nor key-sort by Unicode scalar value from key-sort by UTF-16 code units. CORRECTED in v6: scalar-value order and UTF-8-byte order are the SAME total order -- measured exhaustively over all 1112064 valid Unicode scalars, ZERO inversions -- so the pair v1 named could never differ and the caveat disclosed nothing. The pair that genuinely diverges is {scalar == UTF-8} versus {UTF-16 code units, as RFC 8785 JCS specifies}, first differing at U+FFFF vs U+10000; settling vector keys U+E000 and U+10000, where scalar/UTF-8 emit U+E000 first and UTF-16 emits U+10000 first because its surrogate pair opens 0xD800 < 0xE000. This is canonical-json-profile.v1#$.undeterminedRegister.UR-1 and it remains OPEN.",
+    "why": "B-EIR5-02: vacuous ordering caveat, site 1 of 2"
+   },
+   {
+    "op": "set",
+    "path": "/independentSourceReproduction/evaluationProofBundleCasRefReproduction/caveatsCarriedFromV1Unnarrowed",
+    "from": "the bundle is pure ASCII, so this measurement cannot distinguish escaping policies for non-ASCII and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP. A reproduced value is not a defined profile; DUD-5 remains open.",
+    "value": "the bundle is pure ASCII, so this measurement cannot distinguish escaping policies for non-ASCII and nor key-sort by Unicode scalar value from key-sort by UTF-16 code units. CORRECTED in v6: scalar-value order and UTF-8-byte order are the SAME total order -- measured exhaustively over all 1112064 valid Unicode scalars, ZERO inversions -- so the pair v1 named could never differ and the caveat disclosed nothing. The pair that genuinely diverges is {scalar == UTF-8} versus {UTF-16 code units, as RFC 8785 JCS specifies}, first differing at U+FFFF vs U+10000; settling vector keys U+E000 and U+10000, where scalar/UTF-8 emit U+E000 first and UTF-16 emits U+10000 first because its surrogate pair opens 0xD800 < 0xE000. This is canonical-json-profile.v1#$.undeterminedRegister.UR-1 and it remains OPEN. A reproduced value is not a defined profile; DUD-5 remains open.",
+    "why": "B-EIR5-02: vacuous ordering caveat, site 2 of 2"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 3,
+  "sets": 3,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0,
+  "recipesChanged": 0,
+  "whyNoDigestMoves": "All three leaves are prose ABOUT the artifact. None is an input to any preimage. Every commissioned pin, golden vector and reproduction of v5 stands unchanged."
+ },
+ "whatThisDoesNotDo": [
+  "does not close UR-1 -- that belongs to the canonical-json profile's owning surface",
+  "does not address the non-blocking capabilityManifestId observation; the review found v5's sentence true and park status unchanged",
+  "does not re-open F-1, which the review could not break"
+ ]
+}

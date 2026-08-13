@@ -1,0 +1,107 @@
+{
+ "artifact": "opensip.r1-lifetime-neutrality.conformance.v1.9.corpus-resolution",
+ "version": 1,
+ "date": "2026-08-12",
+ "role": "CORPUS-RESOLVER-EXECUTION-RECORD",
+ "binds": "NOTHING",
+ "purpose": "Execute freeze §7.3 rider 3 -- 'Before applying ANY derivation, execute the resolver against it and require a POSITIVE resolution -- not merely the absence of an error' -- against the v1.9 chain, the one gate its independent review (ACCEPT-AS-CANDIDATE, 0 blockers) named as still owed before apply.",
+ "outcome": "REFUSED-BY-BOTH-INSTRUMENTS. The §7.3 rider-3 apply gate is NOT met. v1.9 must not be applied on the strength of this record, and the refusal is an INSTRUMENT-DIALECT finding, not a defect in the subject's derivation semantics -- see cause and whatIsNeverthelessVerified.",
+ "subject": {
+  "path": "artifacts/r1-lifetime-neutrality.conformance.v1.9.json",
+  "sha256AtStart": "37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab",
+  "sha256AtEnd": "37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab",
+  "startEqualsEnd": true
+ },
+ "instruments": [
+  {
+   "path": "artifacts/check-completeness.py",
+   "sha256": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+   "standing": "the corpus's primary resolver; its derivation reader was independently reviewed 2026-08-04 at 0 blockers (artifacts/check-completeness.derivation-reader.review-independent.json, sha256 97d47b1cf3d6598b989ed3e7ee9048bedb5e5fd0a85c55dea25bc7ce47af1916)"
+  },
+  {
+   "path": "artifacts/check-completeness-v2.py",
+   "sha256": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+   "standing": "second corpus resolver, named alongside the first by the freeze's §7.3 census riders; executed here as a corroborating instrument"
+  }
+ ],
+ "invocation": "python3 -I -B; each instrument imported as a module; derivation_declaration(subject) then resolve_derivation('artifacts/r1-lifetime-neutrality.conformance.v1.9.json', declaration); every chain file additionally parsed under a duplicate-key-rejecting object_pairs_hook (none found). Reproduction requires nothing but those two calls.",
+ "execution": {
+  "declarationDetection": {
+   "bothInstrumentsAgree": true,
+   "fires": {
+    "r1-lifetime-neutrality.conformance.v1.9.json": true,
+    "r1-lifetime-neutrality.conformance.v1.8.json": true,
+    "r1-lifetime-neutrality.conformance.v1.7.json": true,
+    "r1-lifetime-neutrality.conformance.v1.6.json": false
+   },
+   "terminusHonoured": "resolution stopped at v1.6's reviewed bytes because v1.6 declares no derivation -- §7.3's terminus rule observed by construction, not by luck",
+   "v16KeyNameFalseHitNotTaken": "$.policyDerivationIdentity.orderingRuling.planStageIds.derivedFrom is string-valued; the shape detector does not fire on it. The v1.9 review's negative control, reproduced by both instruments."
+  },
+  "chainDigestVerification": {
+   "verdict": "EVERY HOP VERIFIED, declared == measured, under both instruments",
+   "hops": [
+    {"predecessor": "artifacts/r1-lifetime-neutrality.conformance.v1.8.json", "declaredAndMeasured": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "operationsDeclaredByV19": 1, "depth": 1},
+    {"predecessor": "artifacts/r1-lifetime-neutrality.conformance.v1.7.json", "declaredAndMeasured": "30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0", "operationsDeclaredByV18": 5, "depth": 2},
+    {"predecessor": "artifacts/r1-lifetime-neutrality.conformance.v1.6.json", "declaredAndMeasured": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c", "operationsDeclaredByV17": 28, "depth": 3}
+   ]
+  },
+  "refusal": {
+   "where": "applying v1.7's 28 operations against verified v1.6 bytes, at depth 3; v1.8's and v1.9's operations were therefore never reached",
+   "errors": "26 of 28 operations refuse, every one with 'does not resolve against the predecessor': operation indices 0-4 and 7-27, all sets",
+   "identicalUnderBothInstruments": true,
+   "theTwoThatDidNotError": "operations 5 and 6 are adds ('/successorContextV17', '/findingIdentity'). Under the mis-parsed grammar each would have SUCCEEDED by inserting a literal top-level key named with the full slash string -- an invented contract, not the declared one. The loud refusal of this chain is therefore LUCK, not design: sets are guarded by the from-restatement and existence check; adds carry no guard against a mis-parsed path."
+  }
+ },
+ "cause": {
+  "measured": "the r1 lineage declares operation paths in RFC 6901 JSON-Pointer form ('/positiveVectors/4/...'). Both instruments walk dotted paths only: STEP_RE, inherited from check-c2-v9.py, tokenises 'a.b[3].c'. A pointer path does not match that grammar, and path_steps does not refuse it -- it mis-tokenises the entire path into ONE step ('/version' -> ['/version']) because '/' is not an excluded character. No predecessor key equals that token, so every set refuses.",
+  "theSharpEdge": "path_steps' own docstring states 'Guessing at a malformed path is how a resolver invents a contract the artifact never declared' -- and for pointer paths the function does exactly what it warns against: it returns a confident wrong parse instead of None. The refusal branch ('path is not plainly resolvable') is unreachable for this entire dialect.",
+  "class": "this is the third instance of the §7.3 rider class 'a deliberate, reasonable authoring choice is unreadable to the consuming instrument': (1) array-token paths, refused silently, recorded 2026-08-10; (2) the v26 change-log false positive, recorded 2026-08-10; (3) JSON-Pointer paths, measured here -- sets refused loudly, adds mis-applied silently."
+ },
+ "blastRadius": {
+  "measuredOver": "every artifacts/*.json parsing as a JSON object, 2026-08-12; declarations located by each instrument's own shape detector, plus a separate scan for operation-shaped lists with non-string paths (which the primary detector cannot see)",
+  "dialects": {
+   "dotted": {
+    "count": 12,
+    "artifacts": ["c2-plan-stage-schema.v5..v11 (7)", "delivery.v3/v4/v5 (3)", "retention-tiers.v26 (its own terminus false positive, already recorded)", "retention-tiers.v28", "threat-model-storage-namespace.v4"],
+    "note": "the only dialect the instruments walk. Counting v26 the list is 13 documents; 12 excluding it as a non-derivation misread."
+   },
+   "jsonPointer": {
+    "count": 6,
+    "artifacts": ["r1-lifetime-neutrality.conformance.v1.7", "r1-lifetime-neutrality.conformance.v1.8", "r1-lifetime-neutrality.conformance.v1.9", "evidence-identity-recipes.v6 -- APPLIED 2026-08-12", "evidence-identity-recipes.v7", "uncomputable-identity-fields.sweep.v2"],
+    "note": "NONE resolvable by either instrument. One is already APPLIED: evidence-identity-recipes.v6's application predates this measurement, so the §7.3 rider-3 gate cannot have been satisfied by either corpus instrument for it; its independent reviews carried the resolution evidence instead. evidence-identity-recipes.v8 (78aff46e0a94b9d905694f2e308328fe48b655726bd5924d0507d9c29a4d4c7e, CANDIDATE-NOT-APPLIED) extends this lineage and inherits the same gate."
+   },
+   "arrayTokens": {
+    "count": 7,
+    "artifacts": ["v10-disposition.v2", "v10-disposition.v3", "v10-disposition.v4", "versioning-policy.v14", "versioning-policy.v15", "versioning-policy.v16", "versioning-policy.v17"],
+    "note": "invisible to the primary detector, refused silently as (None, []). The freeze's §7.3 rider counts FOUR such artifacts; the census is now SEVEN -- v10-disposition.v4, versioning-policy.v16 and versioning-policy.v17 postdate the rider. The freeze figure is stale and this record is the measurement saying so."
+  }
+ }
+ },
+ "whatIsNeverthelessVerified": {
+  "byThisRecord": "declaration detection correct on all four chain files including the terminus and the key-name false hit; every predecessor digest verified declared == measured at every hop under both instruments; the subject byte-identical at start and end of the pass; no duplicate keys in any chain file",
+  "byTheIndependentReview": "artifacts/r1-lifetime-neutrality.conformance.v1.9.review-independent.json (sha256 3914c9c512b6f96b329135bbcac9b0d7ead4773be7b2b715ac54898ecc02297d) resolved this same chain with a pointer-correct reader at 28/28 + 5/5 + 1/1 operations and 0 errors, and returned ACCEPT-AS-CANDIDATE at 0 blockers. The chain is resolvable; the corpus instruments cannot read its dialect.",
+  "notEquated": "those two facts are recorded side by side, not merged: §7.8 -- evidence produced outside a retained corpus instrument does not discharge an instrument gate."
+ },
+ "consequence": [
+  "v1.9 remains CANDIDATE-NOT-APPLIED. The §7.3 rider-3 gate stands unmet, now with its cause measured rather than unknown.",
+  "the same gate blocks applying anything in the evidence-identity-recipes lineage, including the v8 candidate, until the instruments are repaired or the coordinator records a deliberate alternative gate.",
+  "repair direction, for a coordinator's deliberate act (CMP-IR-01 precedent: the derivation reader was built, independently reviewed at 0 blockers, and only then relied on): (1) teach both instruments RFC 6901 pointer paths; (2) make path_steps REFUSE -- return None -- for any path it cannot express, so an unreadable dialect is a loud finding for adds exactly as for sets; (3) extend the same treatment to array-token paths, closing the silent (None, []) class; (4) have the instrument print which dialect it read, so the next dialect is a census row rather than a surprise. None of this is done by this record.",
+  "the freeze's §7.3 silent-refusal census ('FOUR of those are refused SILENTLY') is stale at seven; the freeze's maintainer should reconcile against blastRadius.arrayTokens."
+ ],
+ "environment": {
+  "date": "2026-08-12",
+  "python": "3.14.6",
+  "gitHead": "b0fdc5e69d794830b25a7315806704f3cb4c7f97",
+  "gitState": "working tree modified relative to HEAD; the uncommitted working-tree bytes are what was measured, per corpus practice",
+  "freeze": {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "e1cdb71d383a3208987e909981ec4bdbf2d87f8e137dba3ab55d62227a2af10b"},
+  "claimRegister": {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0"}
+ },
+ "whatThisRecordDoesNotDo": [
+  "does not apply v1.9, v1.8 or v1.7 -- application is a separate coordinator act recorded in the freeze",
+  "does not seal anything and binds nothing",
+  "does not re-review v1.9; the independent review's verdict and six advisories stand exactly as written",
+  "does not modify either instrument, and must not be read as licensing a quiet instrument patch -- §7.3's own precedent makes instrument repair a deliberate, reviewed act",
+  "does not adjudicate how evidence-identity-recipes.v6 came to be applied ahead of a satisfiable instrument gate; it records the measured fact and leaves the disposition to the coordinator",
+  "does not present the refusal as a finding about v1.9's content (§7.8.1 discipline: the instruments' dialect gap is the moving part here, and it is reported against the instruments)"
+ ]
+}

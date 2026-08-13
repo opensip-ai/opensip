@@ -1,0 +1,412 @@
+{
+ "artifact": "opensip.r1-lifetime-neutrality.conformance.v1.8.review-independent",
+ "reviewOf": "artifacts/r1-lifetime-neutrality.conformance.v1.8.json",
+ "date": "2026-08-12",
+ "documentClass": "INDEPENDENT-REVIEW",
+ "reviewerStance": "I did not author the subject and I owe it nothing. I am not bound by the v1.7 reviewer's opinions, and this review tests its guidance rather than merely checking that the guidance was followed.",
+
+ "verdict": {
+  "recommendation": "ACCEPT-AS-CANDIDATE-WITH-BLOCKERS",
+  "sealRecommendation": "DO-NOT-SEAL",
+  "applyRecommendation": "DO-NOT-APPLY",
+  "blockerCount": 3,
+  "advisoryCount": 6,
+  "bindsBytes": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288",
+  "bindsEnvironment": "IMPLEMENTATION-FREEZE.md 6e0d36a606215e9935fe95d0e4a8f30dda38caf145388db76430ba0c3a06dc0f",
+  "summary": "B-R17-01 IS REPAIRED. All three original repairs are independently recomputed and correct, all five operations apply at zero errors, and every structural claim v1.8 makes about itself -- 0 digests moved, 5 sets / 0 adds / 0 removes, no design decision changed, still NOT shippable as production finding identity -- is verified TRUE. The blockers are not against the repair; they are against the NEW surface v1.8 added in discharging G-2. The derived class of self-measurements does not do what it is offered as doing: its published size is unrecomputable by construction, it misses the artifact's own designated self-report block almost entirely, and the limitation it discloses against itself is FALSE in its load-bearing clause. One newly authored self-measurement is false of the value it will bind.",
+  "wouldClearWith": "B-R18-01 and B-R18-03 are each a small, mechanical edit. B-R18-02 requires changing the derivation BASIS, not widening the pattern -- see advisory A-R18-02.",
+  "scoredBy": "FINDING-SET DELTA against the resolved value. No exit code was consulted; no checker was executed."
+ },
+
+ "subjectIntegrity": {
+  "rule": "freeze 7.2.1 -- the subject is frozen at dispatch; measured at START and at END; a verdict binds the START bytes and is never re-baselined",
+  "declaredAtDispatch": {"sha256Prefix": "d53aa31d040699b4", "bytes": 10139},
+  "measuredAtStart": {"sha256": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "bytes": 10139},
+  "measuredAtEnd": {"sha256": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "bytes": 10139},
+  "drift": false,
+  "startEqualsEnd": true,
+  "allInputsRemeasuredAtEnd": true,
+  "inputDriftAcrossTheReview": "NONE. All six inputs -- subject, v1.7, v1.6, evaluation-proof.v8, IMPLEMENTATION-FREEZE.md, claim-register.v1 -- are byte-identical at START and END.",
+  "note": "The dispatch warned that subject drift has occurred three times in this corpus. It did not occur here."
+ },
+
+ "resolutionDiscipline": {
+  "rule": "freeze 7.3 / CMP-IR-01 -- a derivation must be RESOLVED, not read flat. This corpus has committed the flat-read error five times, twice on the day of this review.",
+  "chain": "v1.8 -> v1.7 -> v1.6",
+  "terminus": "v1.6, a full-text standalone and the reviewed terminus. Resolution stops at its reviewed bytes; resolving THROUGH it would discard the only reviewed bytes in the chain (freeze 7.3, resolved 2026-08-10).",
+  "resolverProvenance": "Written for this review. Shares no code with check-completeness.py, check-completeness-v2.py, check-r1-v1.7.py or any other corpus instrument.",
+  "parseDiscipline": "Every JSON file was parsed under an object_pairs_hook that RAISES on a duplicate object key and names it. 0 duplicate keys in v1.6, v1.7, v1.8 or evaluation-proof.v8.",
+  "typedEquality": "Every `from` operand was compared under exact JSON type equality with bool tested BEFORE int, because bool subclasses int in Python.",
+  "predecessorPinsVerified": [
+   {"child": "v1.8", "pins": "30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0", "actualV17": "30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0", "match": true},
+   {"child": "v1.7", "pins": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c", "actualV16": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c", "match": true}
+  ],
+  "deliveredBytesNotAuthoringIntermediate": "CONFIRMED. v1.8 derives from 30810d73..., which is the v1.7 file on disk. It is not 242d80f8..., the authoring intermediate the original v1.7 review bound. v1.8 states this and it measures true.",
+  "flatReadTrapObservedDuringThisReview": "A flat grep of v1.8's DELTA bytes for 'OPEN-DEP-FI-02' returns 0, because the delta writes the range form 'OPEN-DEP-FI-01..07'. RESOLVED, the identifier is present at two leaves. Had I read flat I would have raised a false finding that v1.8 dropped an open-dependency disclosure -- the identical mistake that produced the withdrawn A-7."
+ },
+
+ "derivationDetector": {
+  "rule": "Detect derivations by VALUE SHAPE at any depth -- an operations array of {op,path} records plus a sibling sha256 pin -- NEVER by key name.",
+  "implementation": "Walks every object at every depth. Fires only when one sibling value is a non-empty array of objects each carrying both `op` and `path`, AND another sibling value is a 64-hex string. `path` type is NOT constrained to str.",
+  "positiveControls": [
+   {"case": "synthetic declaration nested at depth 4 under keys named `totallyUnrelatedName`/`predecessorPin`/`steps`", "result": "FIRES at $/a/b/0/c/totallyUnrelatedName", "proves": "detection is independent of key name and of nesting depth"},
+   {"case": "synthetic declaration whose operation `path` is an ARRAY of tokens (['version']) rather than a string", "result": "FIRES", "proves": "this detector reads the four artifacts freeze 7.3 records as SILENTLY REFUSED by check-completeness.py, whose is_operation_list() requires isinstance(path, str)"},
+   {"case": "v10-disposition.v2.json", "result": "FIRES at $/derivation"},
+   {"case": "v10-disposition.v3.json", "result": "FIRES at $/derivation"},
+   {"case": "versioning-policy.v14.json", "result": "FIRES at $/derivation"},
+   {"case": "c2-plan-stage-schema.v9.json", "result": "FIRES at $/derivedFrom"},
+   {"case": "retention-tiers.v28.json", "result": "FIRES at $/derivedFrom"},
+   {"case": "r1-lifetime-neutrality.conformance.v1.7.json", "result": "FIRES at $/derivedFrom, 28 operations"},
+   {"case": "r1-lifetime-neutrality.conformance.v1.8.json", "result": "FIRES at $/derivedFrom, 5 operations"}
+  ],
+  "negativeControls": [
+   {"case": "r1-lifetime-neutrality.conformance.v1.6.json", "shapeDetector": "0 declarations -- CORRECT, v1.6 is a full-text standalone", "keyNameSearch": "returns a FALSE HIT at $.policyDerivationIdentity.orderingRuling.planStageIds.derivedFrom, a STRING-valued provenance citation reading \"closedTypes.SealedStageInput.fields.planStageIds.orderRule, verbatim: 'caller-declared Plan stage order; preserve byte-f...\"", "proves": "a name-based detector would attempt to resolve THROUGH the terminus on a string; the shape detector does not"},
+   {"case": "document carrying a 64-hex digest and no operation list", "result": "0 declarations"},
+   {"case": "document carrying an operation list and no digest", "result": "0 declarations"}
+  ],
+  "conclusion": "The detector fires on every true derivation tested including two forms the corpus resolver misses, and does not fire on the one document in this chain that is not a derivation."
+ },
+
+ "verificationItem1_operationsApply": {
+  "asked": "All 5 operations apply with every `from` matching exactly. Report operations-applied and error count.",
+  "v18": {"operationsDeclared": 5, "operationsApplied": 5, "errors": 0, "fromMismatches": 0, "missingPaths": 0, "unsupportedVerbs": 0},
+  "v17": {"operationsDeclared": 28, "operationsApplied": 28, "errors": 0, "fromMismatches": 0, "distinctPaths": 28},
+  "fullChain": "RESOLVES. 28/28 then 5/5, 0 errors at both stages.",
+  "operationAccountingVerified": {
+   "claimed": {"total": 5, "sets": 5, "adds": 0, "removes": 0},
+   "measuredLeafDelta": {"leavesBefore": 2726, "leavesAfter": 2726, "added": 0, "removed": 0, "changed": 5},
+   "changedPaths": [
+    "$.measuredSelfReport.maxTextComponentBytesAcrossAllVectors",
+    "$.measuredSelfReport.the4096BoundHeadroom",
+    "$.measuredSelfReport.shasumCrossCheck.rawByteStringsHashedOutsidePython",
+    "$.policyDerivationIdentity.primitives.componentFrameOccurrencesMeasuredHere",
+    "$.policyDerivationIdentity.primitives.text.measuredHeadroom"
+   ],
+   "verdict": "EXACT. The measured leaf delta is the operation list and nothing else."
+  }
+ },
+
+ "verificationItem2_theThreeRepairs": {
+  "asked": "Recompute all three B-R17-01 repairs yourself: count distinct findingId and Digest literals in the resolved value and measure their byte widths.",
+  "independentCensusOverTheRESOLVEDValue": {
+   "distinctFindingIdLiterals": 5,
+   "findingIdOccurrences": 13,
+   "findingIdByteWidths": [79],
+   "distinctBareDigestLiterals": 57,
+   "bareDigestOccurrences": 159,
+   "digestByteWidths": [71],
+   "distinctDigestLiteralsIncludingThoseInsideFindingIds": 57,
+   "pinnedVectorsCount": 17,
+   "note": "v1.6 carries 0 findingId literals and 54 distinct Digests; the 79-byte findingId is genuinely a v1.7 introduction, exactly as v1.8 states."
+  },
+  "crossCheckAgainstV18sOwnMeasurementBlock": {
+   "pddVectors": {"claimed": 17, "measured": 17, "agree": true},
+   "findingIdLiteralWidthBytes": {"claimed": 79, "measured": 79, "agree": true},
+   "digestLiteralWidthBytes": {"claimed": 71, "measured": 71, "agree": true},
+   "distinctFindingIdLiterals": {"claimed": 5, "measured": 5, "agree": true},
+   "distinctDigestLiterals": {"claimed": 57, "measured": 57, "agree": true},
+   "widthDerivation": {"claimed": "8 + 71 = 79", "measured": "len('finding:') = 8; len('sha256:' + 64 hex) = 71; 8 + 71 = 79", "agree": true}
+  },
+  "repair1_maxTextComponentBytesAcrossAllVectors": {
+   "v16AndResolvedV17": "71",
+   "resolvedV18": "79",
+   "trueMaxIndependentlyMeasured": 79,
+   "scope": "text components of the 17 pinned vectors' recordValue -- the scope primitives.text.ruleAsApplied itself declares: 'Applied to EVERY text component of every record'",
+   "widestTwo": ["vectors[2].recordValue.findings[0].findingId (79)", "vectors[12].recordValue.findings[0].findingId (79)"],
+   "nextWidest": "71, five Digest-valued fields in vectors[9] and vectors[8]",
+   "scopeTransparency": "Wider strings exist in the vector subtrees -- completeRecordHex at 1108 bytes, outerPreimageHex at 172 -- but these are hex ENCODINGS of the record, not text components of it, and are correctly outside the 4096-byte text rule's scope.",
+   "verdict": "CORRECT"
+  },
+  "repair2_the4096BoundHeadroom": {
+   "v16AndResolvedV17": "about 57x. Retained and exercised anyway (REJ-02).",
+   "resolvedV18": "about 51.8x (4096/79). Retained and exercised anyway (REJ-02). DERIVED from the 79-byte findingId, not a constant.",
+   "arithmetic": {"4096/79": 51.8481, "4096/71": 57.6901},
+   "diagnosisOfTheSupersededFigure": "v1.8 says 'about 57x' was 4096/71, the predecessor's width. Measured 57.6901. CORRECT.",
+   "publishedHeadroomString": {"claimed": "4096/79 = 51.85x; the superseded 57.69x is 4096/71", "measured": "51.8481 rounds to 51.85; 57.6901 rounds to 57.69", "agree": true},
+   "verdict": "CORRECT"
+  },
+  "repair3_primitivesTextMeasuredHeadroom": {
+   "statesTheNumber79": true,
+   "statesWidestComponentIsADerivedFindingId": true,
+   "withdrawsTheFalseReasonTheWidthOfADigest": true,
+   "statesTheReDerivationObligation": "yes -- 'It moves if either the findingId prefix or the hash width changes, and any future change to either MUST re-derive this figure.'",
+   "verdict": "CORRECT. G-1 and G-3 are genuinely discharged: the reason was repaired, not only the number, and the width is expressed as derived at both sites."
+  },
+  "overallOnB_R17_01": "REPAIRED. This is the blocker v1.8 exists to close and it is closed."
+ },
+
+ "verificationItem3_operation4ReferentTrap": {
+  "asked": "Recompute both figures. Confirm or refute that $.measuredSelfReport.componentFrameOccurrencesInEP8 carries the same figure under an honest name.",
+  "ep8Figure": {
+   "file": "evaluation-proof.v8.json",
+   "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+   "digestCitedByOperation4": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303",
+   "digestMatches": true,
+   "objectKeysNamedComponentFrame": 1,
+   "stringLeafOccurrences": 49,
+   "total": 50,
+   "rawByteSubstringCount": 50,
+   "claimed": "50, comprising 1 object key and 49 string-leaf mentions",
+   "verdict": "EXACT ON BOTH THE TOTAL AND THE DECOMPOSITION. The referent trap is REAL and operation 4's primary claim is TRUE: 50 counts evaluation-proof.v8.json, not this artifact, and the key name 'componentFrameOccurrencesMeasuredHere' does read as this artifact."
+  },
+  "honestNameTwin": {
+   "path": "$.measuredSelfReport.componentFrameOccurrencesInEP8",
+   "value": "50",
+   "presentInV16": true,
+   "presentInResolvedV17": true,
+   "presentInResolvedV18": true,
+   "unchangedByV18": true,
+   "verdict": "CONFIRMED. The same figure does already exist under an honest name, exactly as operation 4 states."
+  },
+  "theEightFigure": "REFUTED -- see blocker B-R18-03."
+ },
+
+ "verificationItem4_operation5Regrade": {
+  "asked": "Judge whether that regrade is correct or whether it is an evasion of a real obligation.",
+  "judgment": "THE REGRADE IS CORRECT IN SUBSTANCE AND IS NOT AN EVASION -- but it is INCOMPLETE IN SCOPE, and the partial labelling makes the block less honest in aggregate than it was before. See advisory A-R18-01.",
+  "whyCorrect": [
+   "rawByteStringsHashedOutsidePython = 47 counts an ACTION taken during authoring -- strings piped to an out-of-process shasum(1) -- not a property of any byte state. There is no artefact against which a reviewer could recompute it.",
+   "freeze 7.2.2's rider names precisely this shape: gates that 'run at write time, once, in a process nobody can re-execute', so that 'a reviewer can verify the properties they produced; it cannot verify that they ran'. The freeze grades this WEAK EVIDENCE. It does not grade it a standing recompute obligation.",
+   "v1.8 does not delete the figure, does not soften it and does not claim it verified. It retains it as provenance, states plainly that it must NOT be handed to a reviewer as a recompute task, and names the concrete remedy: 'emit the 47 strings, or their digests, as data in the artifact'. That remedy is correct and sufficient.",
+   "The direction of the change is toward LESS claimed assurance, which is the honest direction. An evasion would move the other way."
+  ],
+  "whyIncomplete": "The regrade is applied to the one leaf in the shasumCrossCheck block that carries NO assurance weight, and not to the siblings that do. See A-R18-01."
+ },
+
+ "blockers": [
+  {
+   "id": "B-R18-01",
+   "title": "classSize: 59 is not recomputable by construction and is not reproduced by any defensible reading of the stated predicate",
+   "severity": "BLOCKER",
+   "path": "$.guidanceFollowed.G-2_deriveTheClassDoNotPatchRows.classSize",
+   "class": "freeze 7.2.2 -- a recorded measurement must be compared to the measurement it records",
+   "finding": "v1.8 publishes 59 as a DERIVED figure and states its method. The method turns on 'a numeral or a WORD-numeral'. No word-numeral vocabulary is published, and the 59 members are not enumerated anywhere in the artifact -- only 5 repaired and 5 named unaffected. Neither the method nor the extension permits the hard comparison 7.2.2 requires.",
+   "independentReimplementation": {
+    "basis": "v1.8's stated key pattern and prose fallback, applied leaf-by-leaf to the fully RESOLVED v1.7 value, bool tested before int",
+    "results": [
+     {"reading": "digits only, key + prose fallback", "size": 68},
+     {"reading": "digits only, key pattern only", "size": 62},
+     {"reading": "digits + 30 cardinal words, key + prose", "size": 69},
+     {"reading": "digits + 30 cardinal words, key only", "size": 63},
+     {"reading": "digits + cardinals + ordinals, key + prose", "size": 69},
+     {"reading": "digits + cardinals + ordinals + vague quantifiers, key + prose", "size": 70}
+    ],
+    "claimed": 59,
+    "reproduced": false,
+    "range": "62 to 70; 59 falls below every reading"
+   },
+   "whyThisIsABlockerAndNotAnAdvisory": "The freeze AT THE PINNED DIGEST 6e0d36a6... records this exact defect being caught and repaired ONE DAY BEFORE v1.8 was authored, in the very section v1.8 cites as its authority for counting word-numerals. Section 7.2.2: 'VOCABULARY PUBLISHED 2026-08-11, because this table committed its own section's defect. An independent reviewer reported it could reproduce the integer halves exactly and neither word figure -- the counts were published under an unpublished vocabulary, so they were not recomputable, which is precisely what 7.2.2 forbids.' And its rule, verbatim: 'A figure without its definition is not a measurement, however true it is.' The freeze even records the corrective act and praises the artifact that took it for 'publishing its own 41-token vocabulary in full'. v1.8 publishes none.",
+   "notAClaimThat59IsWrong": "I am not asserting 59 is arithmetically false. I am asserting it is UNCHECKABLE, which under 7.2.2 is the finding. My 62-70 range is evidence of non-reproducibility, not proof of miscount.",
+   "repair": "Publish the word-numeral vocabulary as a closed token list, and publish the extension -- the 59 member paths -- so the figure can be hard-compared. Both are mechanical."
+  },
+  {
+   "id": "B-R18-02",
+   "title": "The derived class does not contain the self-measurements it exists to derive; it catches 5 of 41 leaves in the artifact's own self-report block, and the limitation v1.8 discloses against itself is FALSE in its load-bearing clause",
+   "severity": "BLOCKER",
+   "path": "$.guidanceFollowed.G-2_deriveTheClassDoNotPatchRows",
+   "class": "CMP-IR-01 reproduced one level up -- detection by KEY NAME, the basis freeze 7.3 replaced with detection by VALUE SHAPE",
+   "decisiveTest": {
+    "method": "Apply v1.8's stated predicate to $.measuredSelfReport -- the block whose entire purpose is self-measurement, and whose own `rule` leaf cites 'IMPLEMENTATION-FREEZE.md section 7.2.2: a recorded measurement gets a HARD COMPARISON'.",
+    "leavesInBlock": 41,
+    "caught": 5,
+    "missed": 36,
+    "caughtByProseFallback": 0,
+    "quantitativeSelfMeasurementsMissed": [
+     "pinnedVectors = 17", "equivalenceControls = 4", "separationControls = 5",
+     "rejectionControls = 15", "decoderMalformedProbes = 6", "encoderComparisons = 180",
+     "encoderDisagreements = 0", "ep8FramingGateAssertions = 69", "ep8FramingGateFailures = 0",
+     "ep8ClausesClassified = 44 of 44 enumerated", "ep8ClausesSilentlyDropped = 0",
+     "ep8DomainListMembers = 9 -- NOT EXTENDED", "componentFrameOccurrencesInEP8 = 50",
+     "shasumCrossCheck.mismatches = 0", "v15VectorsDeclaringExpectProjectionEqualTo = 4",
+     "v15DistinctDerivationDigestPlaceholders = 4", "v15PositionsCarryingOne = 7",
+     "v15VectorsSharingOneStageInputAndDeps = 10 of 10",
+     "c2PlanIntentCommitmentPinnedFixtures = 7",
+     "predecessorSha256AtStartOfAuthoring / AtEmit, archPlanSha256AtStartOfAuthoring / AtEmit, checkerSha256AtEmit_readOnly -- five digests-of-a-moment, the exact class freeze 7.3's 2026-08-05 rider says ages silently"
+    ]
+   },
+   "theSharpestInstance": {
+    "missed": "$.measuredSelfReport.componentFrameOccurrencesInEP8 = '50'  -- NOT in the class",
+    "caught": "$.policyDerivationIdentity.primitives.componentFrameOccurrencesMeasuredHere -- IN the class, because its key contains 'Measured' and matches /measur/i",
+    "why": "'componentFrameOccurrencesInEP8' contains none of measur|max|count|longest|width|headroom|total|bytes|size|tally|census, and its value '50' is a bare numeral carrying no prose for the fallback.",
+    "consequence": "Operation 4 of THIS ARTIFACT names componentFrameOccurrencesInEP8 as 'the honest name for the same figure'. So the class's reach is a direct function of the naming defect v1.8 is repairing: the misleadingly-named leaf is a member and its honestly-named twin is not. Renaming a leaf honestly REMOVES it from the derived class. A class that shrinks when the corpus gets more honest is the wrong instrument for auditing honesty."
+   },
+   "secondMissClass": {
+    "path": "$.parseDiscipline",
+    "leaves": 4,
+    "caught": 0,
+    "keyLeaf": "$.parseDiscipline.duplicateKeysFound = '0'",
+    "why": "This is a measurement of the artifact's OWN emitted bytes under the freeze 7.5 duplicate-key hook. The key 'duplicateKeysFound' ends in nothing the key pattern catches -- structurally identical to the freeze's canonical defective leaf 'recordedInputs'. I verified both directly: the pattern matches neither.",
+    "alsoMissed": "$.policyDerivationIdentity.primitives.framingGate.assertions = '69' and .failures = '0' -- a gate result this authoring produced, keys 'assertions' and 'failures' matching nothing."
+   },
+   "theDisclosedLimitationIsFalse": {
+    "rule": "freeze 7.2.2.1 -- the vacuous caveat. A DISCLOSED LIMITATION can be false; reviewers hunt overclaims and pass over concessions. Recompute limitations, not just claims.",
+    "v18Text": "'Freeze 7.2.2's retention-tiers.v26 case is exactly a defective leaf whose key -- recordedInputs -- ends in nothing the key pattern would catch. The prose fallback mitigates that. Whether it CLOSES it is not measured, and a reviewer should assume it does not.'",
+    "clause1_theRetentionTiersDiagnosis": "TRUE. Verified: the key pattern does not match 'recordedInputs'. v1.8 names the right case.",
+    "clause2_theProseFallbackMitigatesThat": "MEASURED FALSE. Across the ENTIRE resolved value the prose fallback rescues exactly 6 leaves, and 0 of them are self-measurements -- they are contract prose (fieldSetRule.theHonestStatement, primitives.text.ruleAsApplied, a declaredDepartures note) and three encoder error strings from rejectionControls. It rescues 0 leaves in $.measuredSelfReport. Worse, it is STRUCTURALLY INCAPABLE of the case it claims to mitigate: the fallback requires /longest|widest|headroom|across all|text component|bound is/ to match the VALUE, and the retention-tiers.v26 shape is a BARE NUMERAL ('15' where the bytes held 19). A bare numeral carries no prose, so the fallback can never fire on it. Mitigation is not merely unmeasured -- it is impossible.",
+    "clause3_aReviewerShouldAssumeItDoesNot": "Honest and correct, but it is guarding a sentence that is false rather than merely unproven. The concession understates a systemic 88% miss rate in the designated self-report block as an edge case."
+   },
+   "conclusion": "G-2 is NOT discharged. v1.8 replaced a hand-listed class with a DERIVED class, which is the right move, and then chose the one derivation basis this corpus has recorded as broken most often. The result is an instrument that would not have caught B-R17-01's own sibling defects and does not cover the block it was built for.",
+   "repair": "Change the BASIS, do not widen the pattern. Widening the alternation reproduces the CMP-IR-01 remedy the freeze already recorded as insufficient ('does not close the class'). See A-R18-02 for the recommended basis."
+  },
+  {
+   "id": "B-R18-03",
+   "title": "Operation 4 publishes a self-measurement that is false of the value it will bind, inside the one operation whose subject is false self-measurement referents",
+   "severity": "BLOCKER",
+   "path": "$.derivedFrom.operations[3].value",
+   "class": "freeze 7.2.2 -- 'A self-report that measures the object before the self-report is attached to it is structurally guaranteed to undercount, by exactly the size of the self-report.'",
+   "claim": "\"This artifact's own bytes contain componentFrame 8 times, not 50.\"",
+   "measured": {
+    "v18DeltaBytes": {"objectKeys": 1, "stringLeafOccurrences": 4, "total": 5, "rawByteSubstringCount": 5},
+    "resolvedV18Value": {"objectKeys": 4, "stringLeafOccurrences": 7, "total": 11},
+    "resolvedV17Value": {"objectKeys": 4, "stringLeafOccurrences": 4, "total": 8},
+    "v16Value": {"total": 8}
+   },
+   "finding": "8 is true of the RESOLVED PREDECESSOR only. Neither reading of 'this artifact' yields 8: the delta bytes hold 5, and the resolved v1.8 value -- the value that BINDS -- holds 11. The undercount is exactly 3, and 3 is exactly the number of times 'componentFrame' appears inside operation 4's own value string. This is the freeze's named class instantiated to the digit.",
+   "aggravating": [
+    "It is AUTHORED FRESH in v1.8, not carried. v1.8 cannot claim the AUTHORSHIP mode as a mitigation.",
+    "It sits inside the operation whose entire normative purpose is correcting a self-measurement whose referent was wrong -- the same error one level up.",
+    "It is a bare-numeral self-measurement, so v1.8's own derived class would not catch it either. B-R18-02 and B-R18-03 are the same failure seen from two sides."
+   ],
+   "mitigating": "Operation 4's PRIMARY and normative claim is TRUE and I confirmed it exactly: 50 counts evaluation-proof.v8.json (1 object key + 49 string leaves, digest as cited), not this artifact, and the referent trap the operation repairs is real. The 8 is diagnostic colour supporting a correct repair, not the repair itself.",
+   "repair": "One clause. Scope the referent the way the operation scopes the 50: '8 in the resolved predecessor; 11 in the resolved value once this sentence is present.' Or state the delta-bytes figure. Any of the three is checkable; the present sentence is not true of any of them."
+  }
+ ],
+
+ "advisories": [
+  {
+   "id": "A-R18-01",
+   "title": "Operation 5's regrade is right but scope-incomplete, and partial labelling creates a false contrast",
+   "severity": "ADVISORY",
+   "path": "$.measuredSelfReport.shasumCrossCheck",
+   "finding": "The regrade is applied to rawByteStringsHashedOutsidePython = '47', the one leaf in the block that carries no assurance weight. Its siblings mismatches = '0' and mismatchExamples = [] have IDENTICAL epistemic status -- the same unre-executable authoring process, the same moment, no artefact to recompute against -- and mismatches = 0 is the leaf a reader actually relies on, since the block's whole stated purpose is a cross-implementation check (hashlib versus shasum(1)). After operation 5, one leaf in the block is explicitly labelled UNVERIFIABLE AUTHORING ATTESTATION and its siblings are not. A reader will reasonably infer the unlabelled siblings ARE verifiable. In aggregate the block is now less honest than before the repair, which inverts the operation's intent.",
+   "notABlockerBecause": "The direction is toward less claimed assurance, the labelled statement is true, and the named remedy would fix all three leaves at once.",
+   "repair": "Label the shasumCrossCheck BLOCK rather than one leaf, or take the remedy operation 5 already names -- emit the 47 strings or their digests as data -- which discharges 47, mismatches and mismatchExamples together and converts the whole block from attestation to evidence."
+  },
+  {
+   "id": "A-R18-02",
+   "title": "G-2, the prior reviewer's guidance, was under-specified, and v1.8's faithful execution of it is what produced B-R18-02. I do not endorse G-2 as written.",
+   "severity": "ADVISORY",
+   "testingTheGuidanceNotTheCompliance": "The dispatch asked whether the guidance was RIGHT, not merely whether it was followed. It was followed. It was not sufficient.",
+   "finding": "'Derive the class, do not patch rows' is correct in principle and fixes the ENUMERATION mode (hand-listed versus derived). It does not say derive it BY WHAT. v1.8 chose key name -- the single basis this corpus has recorded as broken most often: CMP-IR-01 itself; the retention-tiers.v26 'recordedInputs' case; and freeze 7.3, which explicitly REPLACED name-based detection with VALUE-SHAPE detection 'precisely because locating a declaration by name reproduces the defect'. Fixing ENUMERATION with an instrument vulnerable to SCOPING trades one of the freeze's four named modes for another.",
+   "recommendedBasisForASuccessor": [
+    "PRIMARY, by value shape: every leaf whose value is a bare numeral, or a numeral-plus-unit or numeral-plus-qualifier string ('44 of 44 enumerated', '9 -- NOT EXTENDED'), or a digest. This catches duplicateKeysFound, componentFrameOccurrencesInEP8, framingGate.assertions and every measuredSelfReport leaf B-R18-02 lists.",
+    "SECONDARY, by structural position: every leaf beneath the artifact's declared self-report blocks -- measuredSelfReport, parseDiscipline, primitives.framingGate -- regardless of key or value.",
+    "KEY NAME used only to ADD members, never to BOUND the class.",
+    "Publish the extension, not only the cardinality, so the class itself can be hard-compared (this also discharges B-R18-01)."
+   ],
+   "note": "Under that basis the class is materially larger than 59. The right successor move is a bigger, published, shape-derived class -- not a wider regex, which freeze 7.2.2 already records as 'does not close the class'."
+  },
+  {
+   "id": "A-R18-03",
+   "title": "No retained instrument exists for this candidate, confirmed on live bytes",
+   "severity": "ADVISORY",
+   "rule": "freeze 7.8 -- a green checker run is AUTHOR-SIDE evidence only",
+   "measured": "check-r1-v1.7.py declares at its line 2 'Retained checker for r1-lifetime-neutrality.conformance.v1.6.json' and at line 200 SUBJECT = 'r1-lifetime-neutrality.conformance.v1.6.json'; it hash-pins v1.6 and v1.5. Its version number is the CHECKER's own, not its subject's. claim-register.v1.json binds R-1 to r1-lifetime-neutrality.conformance.v1.6.json and check-r1-v1.7.py.",
+   "finding": "There is no instrument for v1.8 and none was offered. No checker was executed during this review, and none could have produced evidence about this candidate. Recorded so the absence is not later read as a review omission, and so that no future reader mistakes check-r1-v1.7.py for a v1.7 or v1.8 instrument.",
+   "note": "Correct posture for a CANDIDATE-NOT-APPLIED artifact. Not a defect in v1.8."
+  },
+  {
+   "id": "A-R18-04",
+   "title": "The authoringNote about the superseded earlier v1.8 draft is unverifiable and is accepted on trust",
+   "severity": "ADVISORY",
+   "path": "$.authoringNote",
+   "finding": "v1.8 discloses that an earlier v1.8 draft was written and superseded IN PLACE before any review was dispatched and while nothing pinned it, and characterises what that draft did and did not do. Those bytes do not exist on disk and nothing pins them. I can neither confirm nor refute the characterisation.",
+   "assessment": "Disclosing it is the right act under freeze 7.2.1 and is to the author's credit -- a superseded draft that leaves no trace is indistinguishable from one that never existed. But a disclosure is not a verification, and this review binds only d53aa31d..., which is consistent with v1.8's own G-5 acknowledgement."
+  },
+  {
+   "id": "A-R18-05",
+   "title": "The G-2 accounting triple invites a wrong reading",
+   "severity": "ADVISORY",
+   "path": "$.guidanceFollowed.G-2_deriveTheClassDoNotPatchRows",
+   "finding": "classSize: 59, touchedPathsInTheV17Delta: 28 and membersRepairedHere: 5 sit adjacently and read as a partition of the class. They are not one. 28 is verified CORRECT as 'distinct paths the v1.7 delta touched' -- v1.7 declares 28 operations over 28 distinct paths -- but only 2 of those 28 are class members under v1.8's own key predicate (vectors/2/recordBytes and vectors/12/recordBytes, the two rows v1.8 separately names as fresh).",
+   "repair": "Name the referent of 28 in the key or adjacent prose, as operation 4 now does for the 50."
+  },
+  {
+   "id": "A-R18-06",
+   "title": "The entire self-measurement class is stored as JSON strings, not integers, which defeats the corpus's standard integer-leaf sweep",
+   "severity": "ADVISORY",
+   "finding": "Every repaired leaf is a string -- '79', '71', '50', '47' -- as are pinnedVectors '17', encoderComparisons '180', duplicateKeysFound '0'. This is consistent with the predecessor, is declared at measuredSelfReport.leafTypesInThisSection = ['int','str'], and v1.8 introduces no type change, so it is NOT a defect in v1.8.",
+   "whyRecorded": "It compounds B-R18-02. An integer-leaf census -- the instrument freeze 7.2.2 discusses at length and the one a reviewer would reach for first -- reaches almost none of this artifact's self-measurements. Combined with a key-name class predicate, this artifact's recorded measurements are invisible to both standard corpus instruments simultaneously. A successor should say so explicitly rather than leave it to be rediscovered."
+  }
+ ],
+
+ "claimsVerifiedTRUE": [
+  {"claim": "operationAccounting.digestsMoved = 0", "verdict": "HOLDS", "method": "209 digest-valued leaf paths in the resolved value; 0 changed between resolved v1.7 and resolved v1.8. 95 distinct 64-hex digests before and 95 after; 0 added, 0 removed. One occurrence-COUNT change: evaluation-proof.v8's own digest 4bb33f77... goes from 2 to 3 occurrences because operation 4 CITES it in prose. That is an added citation, not a moved digest, and the claim as worded is correct."},
+  {"claim": "v1.8 changes NO design decision", "verdict": "HOLDS", "method": "All 5 changed leaves are measurement or prose. None lies in $.findingIdentity or any design block. The finding-identity design reviewed at v1.7 -- same finding = identical canonical tuple of ruleId, ruleMajor, stabilityClass, typed subject, typed proof anchor, with findingId derived as 'finding:' || valueDigest -- is untouched."},
+  {"claim": "OPEN-DEP-FI-01 and -02 remain open and this design is NOT shippable as production finding identity", "verdict": "STILL STATED", "method": "whatThisDoesNotDo[0] reads 'does not close any of OPEN-DEP-FI-01..07; ruleId's rename-stable join and ruleMajor's producing rule remain absent, so this design is implementable as a library and NOT shippable as production finding identity'. In the RESOLVED value both identifiers are present -- OPEN-DEP-FI-01 at $.findingIdentity.openDependencies[0].id and $.findingIdentity.implementationBoundary.cannotBeClaimedYet, OPEN-DEP-FI-02 at $.findingIdentity.openDependencies[1].id and $.findingIdentity.inputSchema.fields.ruleMajor.source."},
+  {"claim": "v1.8's account of the withdrawn A-7", "verdict": "EXACTLY CORRECT, independently confirmed", "method": "driftDisclosure is 2 in v1.6 and 2 in the RESOLVED v1.7 (and 2 in resolved v1.8); AtEmit 4 and 4; AtStartOfAuthoring 2 and 2. All three tokens are 0 in the v1.7 DELTA file, which is the flat read that produced A-7. 'declared-mobile' is 0 in all three resolved values, consistent with v1.8's statement that it came from check-r1-v1.7.py's STDOUT."},
+  {"claim": "touchedPathsInTheV17Delta = 28", "verdict": "HOLDS", "method": "v1.7 declares 28 operations over 28 distinct JSON pointers."},
+  {"claim": "v1.8's citations of the freeze at digest 6e0d36a6...", "verdict": "ACCURATE", "method": "Checked under freeze 7.7's FOLD rule (markdown emphasis, smart quotes, dashes and whitespace normalised before comparison). The 7.2.2 retention-tiers.v26 / recordedInputs case is present verbatim. The write-time-gate rider matches folded ('its gates now run at write time, once, in a process nobody can re-execute'). The SCOPING key-name-versus-referent mode is present. Three phrases that return ABSENT byte-literally are FOUND folded -- consistent with 7.7's warning and not a defect in v1.8."}
+ ],
+
+ "onTheV17ReviewsGuidance": {
+  "instruction": "Test whether the guidance was RIGHT, not merely whether it was followed.",
+  "G-1_repairTheReasonNotOnlyTheNumber": "RIGHT, and discharged. This was the sharpest thing in the v1.7 review. The false reason ('the width of a Digest') was the actual defect; the number was its symptom.",
+  "G-2_deriveTheClassDoNotPatchRows": "RIGHT IN PRINCIPLE, UNDER-SPECIFIED IN PRACTICE, and its execution is the source of two of my three blockers. See A-R18-02. The guidance named the mode to fix (ENUMERATION) without constraining the basis, and the basis chosen reintroduces SCOPING.",
+  "G-3_expressTheDerivedDependency": "RIGHT, and discharged well. Stating 79 = 8 + 71 with a named re-derivation obligation is strictly better than stating 79, and would have prevented B-R17-01 had it been present in v1.7.",
+  "G-4_foldInTheRelatedAdvisories": "RIGHT. v1.8's decision to record A-7's raising AND withdrawal in full is correct and I endorse the stated reason: 'a withdrawn finding that leaves no trace is indistinguishable from one never raised.' Its account is independently verified above.",
+  "G-5_thisIsANewByteState": "RIGHT, and observed. This review binds d53aa31d... and nothing else.",
+  "netAssessment": "Four of five items of guidance were right and are discharged. The fifth was right in aim and wrong in the freedom it left, and v1.8 fell into that freedom rather than through any carelessness. The prior reviewer's own stated non-checks were, as the dispatch suggested, its most useful output."
+ },
+
+ "whatIDidNotCheck": [
+  "I did not verify that the 5 findingId values are the CORRECT digests of their canonical tuples. I measured WIDTH (79) and COUNT (5 distinct, 13 occurrences) only. Whether finding:sha256:f4d9aba7... is the true FINDING-VALUE-DIGEST-V1 of its ruleId/ruleMajor/stabilityClass/subject/anchor tuple is a design-level recomputation I did not perform. It was reviewed at v1.7 and v1.8 moves no digest, but it is NOT re-earned by this review.",
+  "I did not recompute any of the 209 digest-valued leaves against their preimages. I compared them across resolved v1.7 and resolved v1.8 for MOVEMENT only. 'digestsMoved: 0' is verified as NO DIGEST CHANGED, never as ALL DIGESTS ARE CORRECT.",
+  "I did not verify whyNoDigestMoves ('None of the five leaves is an input to any preimage') by tracing the preimage grammar. I verified the observable CONSEQUENCE -- no digest changed -- which is consistent with the mechanism but does not prove it. A leaf could be a preimage input and still leave digests unmoved if its own repair were compensated elsewhere; I did not rule that out.",
+  "I did not execute check-r1-v1.7.py or any other corpus checker against anything, including as a sanity control. Under freeze 7.8 a green run is author-side evidence only, and per A-R18-03 no instrument for this candidate exists. I read check-r1-v1.7.py's header and SUBJECT declaration and nothing else in it.",
+  "I did not verify the TRUTH of any measuredSelfReport figure the predicate misses -- the 47 shasum strings, 69 framing-gate assertions, 180 encoder comparisons, 15 rejection controls, 6 decoder probes, 44 EP8 clauses, 7 c2 fixtures, or the five digests-of-a-moment. I established only that the derived class MISSES them. Their truth is unexamined here, and per B-R18-02 nothing in v1.8 examines them either. This is the largest unexamined surface in the chain and I want it named plainly rather than buried.",
+  "I did not audit the superseded earlier v1.8 draft. Its bytes are absent and nothing pins them (A-R18-04).",
+  "I did not verify A-1's substance -- whether the FINDING-VALUE-DIGEST-V1 string was supplied verbatim by implementer-litmus.v4.json recorded input #11. v1.8 acknowledges A-1 without repairing it; I took the acknowledgement at face value and did not open implementer-litmus.v4.json.",
+  "I did not check OPEN-DEP-FI-03 through -07 individually. I confirmed the range statement 'OPEN-DEP-FI-01..07' and the presence of -01 and -02 in the resolved value.",
+  "I did not independently re-establish that v1.6 is the correct resolution terminus by reading v1.6's own independent review. I applied freeze 7.3's terminus rule as stated, and corroborated it only weakly: my shape detector finds 0 derivation declarations in v1.6, consistent with a full-text standalone.",
+  "My reimplementation of v1.8's predicate is MY reading of an under-specified English sentence. The 62-70 range is evidence that 59 is not reproducible; it is NOT proof that 59 is arithmetically wrong. If v1.8 publishes its vocabulary and its 59 members, that range becomes irrelevant and the figure becomes checkable -- which is the whole of B-R18-01.",
+  "I did not sweep the freeze or the wider corpus for other vacuous caveats. Per the dispatch I recomputed only the ONE limitation v1.8 discloses about itself. There may be others in the resolved v1.6 text I inherited without adjudicating.",
+  "I did not systematically sweep v1.8's own prose for word-numeral errors -- the ENCODING trap turned on the SUBJECT rather than on its predicate. Spot reading found none ('seventeen' in the carried and repaired measuredHeadroom strings is consistent with the measured 17 vectors), but I ran no exhaustive word-numeral census over v1.8's bytes.",
+  "I did not adjudicate the ~2300 leaves of v1.6 that v1.8 inherits untouched. Freeze 7.3's 2026-08-05 rider warns that inherited MEASUREMENTS age silently under the successor's name; v1.8 addresses this only for the class its predicate reaches, and B-R18-02 bounds how far that reaches. Everything outside it enters this candidate on v1.6's review, not on mine.",
+  "I did not test whether v1.8's own bytes would resolve under either corpus resolver (check-completeness.py or check-completeness-v2.py). Freeze 7.3 requires a POSITIVE resolution before applying ANY derivation, and that check is owed before application. My resolver is not either of those two and its success does not substitute for theirs."
+ ],
+
+ "recordedInputs": [
+  {"n": 1, "path": "artifacts/r1-lifetime-neutrality.conformance.v1.8.json", "role": "SUBJECT", "sha256": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "bytes": 10139, "sha256AtStart": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "sha256AtEnd": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288", "moved": false},
+  {"n": 2, "path": "artifacts/r1-lifetime-neutrality.conformance.v1.7.json", "role": "PREDECESSOR DELTA -- pinned by the subject", "sha256": "30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0", "bytes": 82675, "moved": false},
+  {"n": 3, "path": "artifacts/r1-lifetime-neutrality.conformance.v1.6.json", "role": "RESOLUTION TERMINUS -- full-text standalone", "sha256": "14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c", "bytes": 211900, "moved": false},
+  {"n": 4, "path": "artifacts/evaluation-proof.v8.json", "role": "REFERENT of the 50 in operation 4", "sha256": "4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303", "bytes": 609746, "moved": false},
+  {"n": 5, "path": "IMPLEMENTATION-FREEZE.md", "role": "ENVIRONMENT -- all freeze-dependent claims resolved at THIS digest", "sha256": "6e0d36a606215e9935fe95d0e4a8f30dda38caf145388db76430ba0c3a06dc0f", "bytes": 399800, "moved": false},
+  {"n": 6, "path": "artifacts/claim-register.v1.json", "role": "ENVIRONMENT -- R-1 binding", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0", "bytes": 128949, "moved": false},
+  {"n": 7, "path": "artifacts/check-r1-v1.7.py", "role": "READ ONLY, NOT EXECUTED -- to establish its declared subject is v1.6", "declaredSubject": "r1-lifetime-neutrality.conformance.v1.6.json", "executed": false}
+ ],
+
+ "environment": {
+  "rule": "freeze 7.2 -- a verdict binds BYTES and an ENVIRONMENT",
+  "date": "2026-08-12",
+  "implementationFreezeSha256": "6e0d36a606215e9935fe95d0e4a8f30dda38caf145388db76430ba0c3a06dc0f",
+  "implementationFreezeBytes": 399800,
+  "claimRegisterSha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0",
+  "freezeDependentClaimsResolvedAtThisDigest": [
+   "7.2.2 retention-tiers.v26 / recordedInputs case -- used in B-R18-02",
+   "7.2.2 word-numeral vocabulary rule ('A figure without its definition is not a measurement, however true it is') -- used in B-R18-01",
+   "7.2.2 self-report undercount class -- used in B-R18-03",
+   "7.2.2 write-time-gate rider -- used in verificationItem4 and A-R18-01",
+   "7.2.2.1 the vacuous caveat -- used in B-R18-02",
+   "7.3 terminus rule and shape-versus-name detection -- used in resolutionDiscipline and A-R18-02",
+   "7.3 2026-08-05 inherited-measurement rider -- used in whatIDidNotCheck",
+   "7.7 FOLD before concluding a quotation is absent -- used in claimsVerifiedTRUE",
+   "7.8 a green run is author-side evidence -- used in A-R18-03"
+  ],
+  "disclosure": "The freeze moved several times on 2026-08-12. Every freeze-dependent claim above was resolved at 6e0d36a6... and at no other digest. Per 7.8.1, no input moved during this review, so no finding here is an artefact of a moved input.",
+  "python": "python3 -I -B for every measurement script",
+  "tooling": "All measurement code was written for this review and shares no code with any corpus instrument. All JSON parsed under a duplicate-key-rejecting object_pairs_hook. bool tested before int throughout.",
+  "instrumentExecuted": "NONE. No corpus checker was run. Scoring is by finding-set delta only."
+ },
+
+ "recommendationToTheCoordinator": {
+  "disposition": "Return to the author. v1.8 is a genuine improvement on v1.7 and its titular repair is complete and correct. Do not seal, do not apply.",
+  "cheapestPathToClear": [
+   "B-R18-03: one clause -- scope the 8 the way operation 4 already scopes the 50.",
+   "B-R18-01: publish the word-numeral vocabulary as a closed token list, and publish the class extension.",
+   "B-R18-02: the only one requiring thought. Re-derive the class by VALUE SHAPE and STRUCTURAL POSITION per A-R18-02, expect a materially larger number than 59, and either withdraw the 'prose fallback mitigates that' clause or replace it with the measured figure (6 rescues corpus-wide, 0 of them self-measurements, 0 possible on bare numerals)."
+  ],
+  "whatShouldNotHappen": "Do not widen the key-name alternation. Freeze 7.2.2 already records that remedy against CMP-IR-01 and its own verdict on it: it restores individual instances and 'does not close the class'. Widening here would move 59 to some other unpublished number and leave the basis defect exactly where it is.",
+  "standingPosition": "OPEN-DEP-FI-01 and -02 remain open. Whatever happens to these blockers, this design stays implementable as a library and NOT shippable as production finding identity. v1.8 states this correctly and should keep stating it."
+ }
+}

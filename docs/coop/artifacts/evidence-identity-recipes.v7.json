@@ -1,0 +1,61 @@
+{
+ "artifact": "opensip.evidence-identity-recipes.v7",
+ "version": 7,
+ "date": "2026-08-13",
+ "documentClass": "IDENTITY-RECIPES-SUCCESSOR",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "purpose": "Repair the third vacuity-bearing site, which v6 left live because blocker B-EIR5-02 scoped its repair instruction to the false CLAUSE rather than to the VACUITY. v6 was applied on 2026-08-12 carrying this defect.",
+ "whyV6MissedIt": {
+  "theInstruction": "B-EIR5-02 read 'strike \"which differ above the BMP\" at both sites' -- scoped to the symptom.",
+  "theDefect": "the defect is the vacuity (naming two spellings of ONE total order as though they could differ), not the clause that justified it.",
+  "consequence": "v5 carries THREE vacuity-bearing sites and TWO clause-bearing ones. v6 repaired exactly the two. Two independent reviewers disagreed on whether v6 was complete and BOTH were right -- one counted clause-bearing sites, the other vacuity-bearing sites. A reviewer who greps for the clause certifies a repair that left the defect standing.",
+  "recordedIn": "IMPLEMENTATION-FREEZE.md \u00a77.2.2.1(a) item 3 and \u00a77.2.2.1(b)"
+ },
+ "howThisRepairWasScoped": {
+  "basis": "the VACUITY, derived by predicate over the RESOLVED v6 value -- never over v6's delta bytes, and never by grepping the clause.",
+  "predicate": "/distinguish[^.]{0,80}scalar value[^.]{0,80}UTF-?8 bytes|scalar value[^.]{0,60}(?:from|versus|vs)[^.]{0,60}UTF-?8 bytes/i",
+  "measuredResult": "exactly 1 vacuity-bearing leaf remains live in the applied head; the two v6 repaired no longer match because their corrected text names UTF-16 code units. That asymmetry is the intended signature.",
+  "afterThisRepair": "0 vacuity-bearing leaves in the resolved successor."
+ },
+ "theMeasurement": {
+  "method": "exhaustive, not sampled: every valid Unicode scalar 0x0000-0x10FFFF excluding surrogates D800-DFFF",
+  "scalarsTested": 1112064,
+  "utf8VsScalarInversions": 0,
+  "utf16VsScalarInversions": 1,
+  "utf16FirstAdjacentInversion": "U+FFFF vs U+10000",
+  "notOnInversionCounts": "utf16VsScalarInversions is an ADJACENT-PAIR count and is labelled as one. The count of all inverting PAIRS is far larger; an adjacent-pair count settles order equality and is not a claim about extent."
+ },
+ "derivedFrom": {
+  "artifact": "evidence-identity-recipes.v6.json",
+  "sha256": "bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "resolutionChain": "v7 -> v6 -> v5. v5 is the full-text standalone and the resolution TERMINUS. Resolve FULL-CHAIN (freeze \u00a77.3 / CMP-IR-01).",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/declaredUnresolvedDependencies/entries/4/reproductionStatusInV5",
+    "from": "CHANGED IN v5, STATED PLAINLY: THIS PASS REPRODUCED THE PINNED VALUE. Serializing the pinned EP8-POS-NOMATCH-PASS bundle object with sorted keys, compact separators and ASCII output and hashing it yields exactly sha256:cc27c2beef32f3343d167c5727aa255b51884993ca416c4a862388e3be96a829 -- the value evidence.v10 pins. That is the SECOND reproduction ever; v1's was the first and no reviewer has verified either. v1's own caveats carry forward UNNARROWED: the bundle is pure ASCII, so this measurement cannot distinguish escaping policies for non-ASCII and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8 bytes. AND THE DEPENDENCY REMAINS OPEN, because a reproduced VALUE is not a DEFINED PROFILE: 'opensip-canonical-json-v1' is still named exactly once by evidence.v10 and defined nowhere in it, and no artifact states which object it canonicalises. See independentSourceReproduction.evaluationProofBundleCasRefReproduction for the measurement.",
+    "value": "CHANGED IN v5, STATED PLAINLY: THIS PASS REPRODUCED THE PINNED VALUE. Serializing the pinned EP8-POS-NOMATCH-PASS bundle object with sorted keys, compact separators and ASCII output and hashing it yields exactly sha256:cc27c2beef32f3343d167c5727aa255b51884993ca416c4a862388e3be96a829 -- the value evidence.v10 pins. That is the SECOND reproduction ever; v1's was the first and no reviewer has verified either. v1's own caveats carry forward UNNARROWED: the bundle is pure ASCII, so this measurement cannot distinguish escaping policies for non-ASCII and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-16 code units. CORRECTED IN v7: v5 named the pair {scalar value, UTF-8 bytes}, which cannot differ -- measured exhaustively over all 1112064 valid Unicode scalars, ZERO inversions; UTF-8 byte order IS Unicode scalar-value order, on characters and on strings. The caveat as written was VACUOUS: it disclosed a limitation that does not exist. The pair that genuinely diverges is {scalar == UTF-8} versus {UTF-16 code units, as RFC 8785 JCS specifies}, first differing at U+FFFF vs U+10000, with settling vector keys U+E000 and U+10000 (scalar/UTF-8 emit U+E000 first; UTF-16 emits U+10000 first, its surrogate pair opening 0xD800 < 0xE000). See canonical-json-profile.v1#$.undeterminedRegister.UR-1, which remains OPEN. AND THE DEPENDENCY REMAINS OPEN, because a reproduced VALUE is not a DEFINED PROFILE: 'opensip-canonical-json-v1' is still named exactly once by evidence.v10 and defined nowhere in it, and no artifact states which object it canonicalises. See independentSourceReproduction.evaluationProofBundleCasRefReproduction for the measurement.",
+    "why": "third vacuity site; keyed on the vacuity, not the clause"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 1,
+  "sets": 1,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0,
+  "recipesChanged": 0,
+  "whyNoDigestMoves": "the leaf is prose about a reproduction's limits; it is not an input to any preimage. Every commissioned pin, golden vector and reproduction of v5 and v6 stands unchanged."
+ },
+ "whatThisDoesNotDo": [
+  "does not close UR-1 -- that belongs to the canonical-json profile's owning surface (\u00a76 law 19)",
+  "does not repair evidence-identity-recipes v1-v4 or v2's independent review: reviewed bytes keep the sentence permanently (\u00a77.2, \u00a77.6)",
+  "does not reach evidence-identity-recipes.v1.review-independent.json, which carries the claim in a VARIANT SPELLING containing 'above the BMP' zero times and uniquely ENDORSES it -- 'is correct and I did not narrow it'. Those are reviewed bytes; the corpus permanently contains an independent certification of the falsehood",
+  "does not confirm RFC 8785's UTF-16 ordering against a primary source -- the sweep.v2 reviewer flagged that gap explicitly and it is still open"
+ ]
+}

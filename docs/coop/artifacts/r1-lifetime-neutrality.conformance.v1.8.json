@@ -1,0 +1,107 @@
+{
+ "artifact": "opensip.r1-lifetime-neutrality.conformance.v1.8",
+ "version": "v1.8",
+ "date": "2026-08-12",
+ "documentClass": "DESIGN-PROPOSAL-SUCCESSOR",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "purpose": "Repair blocker B-R17-01 from the independent review of v1.7, following guidance G-1..G-5 in that review's re-binding addendum and its subsequent correction. No digest moves; no design decision changes.",
+ "authoringNote": "An earlier v1.8 draft was written and then superseded IN PLACE before any review was dispatched against it and while nothing pinned it. That draft repaired the three numbers but did not derive the measurement class (G-2) and did not express the width as derived (G-3). These are its bytes; no verdict has ever bound the earlier draft.",
+ "guidanceFollowed": {
+  "G-1_repairTheReasonNotOnlyTheNumber": "DONE. primitives.text.measuredHeadroom now states 79 AND that the widest component is a derived findingId, not a Digest.",
+  "G-2_deriveTheClassDoNotPatchRows": {
+   "whatWasDone": "The class was DERIVED by predicate over the fully resolved v1.7 value, not hand-listed: every leaf whose KEY matches /measur|max|count|longest|width|headroom|total|bytes|size|tally|census/i and whose value carries a numeral or a WORD-numeral (word-numerals included because freeze \u00a77.2.2's ENCODING mode records that digit-only sweeps miss them), plus every leaf whose prose carries a numeral together with /longest|widest|headroom|across all|text component|bound is/i.",
+   "classSize": 59,
+   "touchedPathsInTheV17Delta": 28,
+   "membersRepairedHere": 5,
+   "membersVERIFIEDUNAFFECTED": [
+    "pinnedVectors.count = 17",
+    "measuredSelfReport.v15PositiveVectorCount = 10",
+    "rejectionControls.count = 15",
+    "standingUnderLaw19.ep8DomainCount = 9",
+    "pinnedVectors.vectors[2].recordBytes = 760 and [12].recordBytes = 731 -- SET by delta operations 15 and 23, therefore fresh"
+   ],
+   "residualsFromTheFirstPass_NOWDISCHARGED": {
+    "componentFrameOccurrencesMeasuredHere": "DISCHARGED. I first reported this unrecomputable for want of a component-frame decoder. That was wrong: no decoder is needed. Recomputed as a literal count in evaluation-proof.v8.json -- 1 object key + 49 string leaves = 50 exact, digest unmoved. What made it look hard was the referent trap, now repaired by operation 4.",
+    "rawByteStringsHashedOutsidePython": "REGRADED, not recomputed. It is not a measurement of a byte state and there is nothing to recompute it against. Operation 5 relabels it as an unverifiable authoring attestation and states what would make it verifiable."
+   },
+   "knownLimitOfThePredicate": "Offered against my own instrument: the predicate is scoped by key name plus a prose fallback. Freeze \u00a77.2.2's retention-tiers.v26 case is exactly a defective leaf whose key -- recordedInputs -- ends in nothing the key pattern would catch. The prose fallback mitigates that. Whether it CLOSES it is not measured, and a reviewer should assume it does not."
+  },
+  "G-3_expressTheDerivedDependency": "DONE. 79 = len(\"finding:\") 8 + 71-byte Digest text, stated at both sites, with the re-derivation obligation named.",
+  "G-4_foldInTheRelatedAdvisories": {
+   "A-1": "ACKNOWLEDGED, not repaired here. FINDING-VALUE-DIGEST-V1 is listed as author-chosen though the string was supplied verbatim by implementer-litmus.v4.json, recorded input #11. The error is in the over-claiming-originality direction; repairing it needs the forced/chosen boundary re-derived from the architecture side, which the reviewer did not close.",
+   "A-5": "ACKNOWLEDGED. One carried v1.6 row describes the old literal at a path the delta repairs; prose, not a measurement.",
+   "A-7": "RAISED AND WITHDRAWN IN FULL by the reviewer in its correction artifact, after the coordinator measured against it. Second half (v1.7 dropped v1.6's driftDisclosure protections) was a token count over the DELTA file used to conclude something about the SUCCESSOR: driftDisclosure is 2 in v1.6 and 2 in the RESOLVED v1.7, AtEmit 4 and 4, AtStartOfAuthoring 2 and 2; declared-mobile was never in either artifact and came from check-r1-v1.7.py's STDOUT. First half was a fact with the wrong frame -- $.recordedInputs[4].sha256 is authoring provenance, and \u00a77.2's signer check is scoped to review artifacts in \u00a73 rows. Recorded here because a withdrawn finding that leaves no trace is indistinguishable from one never raised."
+  },
+  "G-5_thisIsANewByteState": "ACKNOWLEDGED. Neither the original v1.7 verdict nor its re-binding addendum binds these bytes. v1.8 requires its own independent review."
+ },
+ "measurementSupportingThisRepair": {
+  "method": "Recomputed against the fully resolved v1.7 value, never against its delta bytes.",
+  "pddVectors": 17,
+  "findingIdLiteralWidthBytes": 79,
+  "digestLiteralWidthBytes": 71,
+  "distinctFindingIdLiterals": 5,
+  "distinctDigestLiterals": 57,
+  "widthDerivation": "8 (\"finding:\") + 71 (\"sha256:\" + 64 hex) = 79",
+  "headroom": "4096/79 = 51.85x; the superseded 57.69x is 4096/71"
+ },
+ "derivedFrom": {
+  "artifact": "r1-lifetime-neutrality.conformance.v1.7.json",
+  "sha256": "30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "resolutionChain": "v1.8 -> v1.7 -> v1.6. v1.6 is the full-text standalone and the resolution TERMINUS. Resolve FULL-CHAIN (freeze \u00a77.3 / CMP-IR-01).",
+  "subjectIsTheDELIVEREDBytes": "This derives from 30810d73..., the bytes the author delivered -- NOT 242d80f8..., the authoring intermediate the original review bound. The re-binding addendum re-verified every measurement on the delivered bytes and moved no figure.",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/policyDerivationIdentity/primitives/text/measuredHeadroom",
+    "from": "the 4096 bound is retained and EXERCISED (REJ-02), and it is never binding on a conforming R-1 value: the longest text component across all seventeen vectors is 71 bytes, the width of a Digest. Stated because a bound with no symptom is the kind that gets silently dropped -- which is exactly what B-EIR-02 caught in a sibling lineage.",
+    "value": "the 4096 bound is retained and EXERCISED (REJ-02), and it is never binding on a conforming R-1 value: the longest text component across all seventeen vectors is 79 bytes. That width is DERIVED, not a constant: len(\"finding:\") = 8, plus a 71-byte Digest text (\"sha256:\" + 64 lowercase hex), = 79. It moves if either the findingId prefix or the hash width changes, and any future change to either MUST re-derive this figure. CORRECTED in v1.8: v1.7 said 71 bytes, \"the width of a Digest\" -- wrong in the number AND in the reason. 71 was the predecessor's widest component; v1.7 itself introduced the 79-byte findingId as a committed text component.",
+    "why": "G-1 and G-3: predecessor's width asserted with a false reason; width now stated as derived"
+   },
+   {
+    "op": "set",
+    "path": "/measuredSelfReport/maxTextComponentBytesAcrossAllVectors",
+    "from": "71",
+    "value": "79",
+    "why": "true max text component across all seventeen vectors is the 79-byte findingId"
+   },
+   {
+    "op": "set",
+    "path": "/measuredSelfReport/the4096BoundHeadroom",
+    "from": "about 57x. Retained and exercised anyway (REJ-02).",
+    "value": "about 51.8x (4096/79). Retained and exercised anyway (REJ-02). DERIVED from the 79-byte findingId, not a constant. CORRECTED in v1.8: v1.7 said \"about 57x\", which is 4096/71 -- the predecessor's width.",
+    "why": "headroom recomputed against the true width and marked derived"
+   },
+   {
+    "op": "set",
+    "path": "/policyDerivationIdentity/primitives/componentFrameOccurrencesMeasuredHere",
+    "from": "50",
+    "value": "50 -- occurrences of componentFrame in evaluation-proof.v8.json (4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303), comprising 1 object key and 49 string-leaf mentions, recomputed in v1.8. REFERENT CORRECTED in v1.8: the key name says \"MeasuredHere\", which reads as THIS artifact. This artifact's own bytes contain componentFrame 8 times, not 50. The honest name for the same figure already exists at $.measuredSelfReport.componentFrameOccurrencesInEP8; the misleading spelling is the one sitting in the normative primitives block. Freeze \u00a77.2.2 SCOPING: key-name versus referent.",
+    "why": "G-2 residual 1: referent trap -- 'MeasuredHere' names EP8, not this artifact (8 vs 50)"
+   },
+   {
+    "op": "set",
+    "path": "/measuredSelfReport/shasumCrossCheck/rawByteStringsHashedOutsidePython",
+    "from": "47",
+    "value": "47 -- UNVERIFIABLE AUTHORING ATTESTATION, regraded in v1.8. This counts an ACTION taken during v1.7's authoring (raw byte strings hashed by an out-of-process shasum run), not a property of any byte state, so there is nothing any reviewer can recompute it against. Freeze \u00a77.2.2's rider names this shape: a gate that runs at write time, once, in a process nobody can re-execute. It is retained as provenance and must NOT be read as a verifiable measurement or handed to a reviewer as a recompute task. WHAT WOULD MAKE IT VERIFIABLE: emit the 47 strings, or their digests, as data in the artifact.",
+    "why": "G-2 residual 2: regrade an unverifiable authoring attestation rather than leave it as a standing recompute obligation"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 5,
+  "sets": 5,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0,
+  "whyNoDigestMoves": "None of the five leaves is an input to any preimage. They describe the vectors and the authoring; they are not hashed into them."
+ },
+ "whatThisDoesNotDo": [
+  "does not close any of OPEN-DEP-FI-01..07; ruleId's rename-stable join and ruleMajor's producing rule remain absent, so this design is implementable as a library and NOT shippable as production finding identity",
+  "does not close A-4: cross-run collision suppression is guarded only by OPEN-DEP-FI-04/-05",
+  "does not recompute the two disclosed unrecomputed class members"
+ ]
+}

@@ -1,0 +1,291 @@
+{
+ "artifact": "opensip.evidence-identity-recipes.v6.review-independent",
+ "version": 1,
+ "date": "2026-08-12",
+ "role": "INDEPENDENT-REVIEW",
+ "status": "REVIEW",
+ "applicationState": "NOT APPLIED",
+ "binds": "NOTHING",
+ "authorityClaim": "NONE. This verdict binds the exact subject bytes and environment recorded below and nothing else.",
+ "sealRecommendation": "NOT A SEAL DECISION. The subject itself recommends DO-NOT-SEAL and binds NOTHING; this review does not disturb that.",
+
+ "subject": "artifacts/evidence-identity-recipes.v6.json",
+ "subjectSha256": "bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523",
+ "subjectByteLength": "8070",
+ "subjectDigestFrozenAtDispatch": "bed154dce8b49c1c... (prefix), 8070 bytes",
+ "subjectDigestIMeasuredAtSTART": "bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523",
+ "subjectDigestIMeasuredAtEND": "bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523",
+ "subjectDigestAgrees": "YES. Measured with shasum -a 256 at the start and again at the end of this review. The full digest extends the dispatched prefix correctly and the byte length matches. NO DRIFT: the START bytes and the END bytes are the same bytes, so no drift binding was required.",
+
+ "verdict": "ACCEPT AS A CANDIDATE -- 0 BLOCKERS",
+ "blockerCount": "0",
+
+ "theHEADLINE": "BOTH BLOCKERS ARE GENUINELY CLEARED, AND THE ONE THAT MATTERED IS DIAGNOSED CORRECTLY. I recomputed the Unicode fact exhaustively rather than sampling it: over all 1,112,064 valid scalars, UTF-8 byte order and scalar-value order have ZERO inversions -- they are one total order -- while UTF-16 has exactly one, at U+FFFF vs U+10000. v6 does not merely rename the encoding. It identifies the defect as a VACUOUS caveat -- a disclosed limitation that could not exist -- and correctly names what the vacuous caveat DISPLACED. I verified every link of that displacement chain independently and every link holds: canonical-json-profile.v1 states the fact correctly and UR-1 is genuinely open; delivery.v4 is APPLIED per freeze section 3; it resolves to delivery.v2, whose releaseManifestSchema.canonicalization is RFC 8785 JCS; and JCS sorts by UTF-16 code units. The settling vector reproduces exactly. v6 broke none of v5's cryptography: I resolved the full chain and leaf-diffed it -- 3 leaves changed out of 2520, key sets identical, not one of the three under any recipe, vector or pin, and not one hex digest token anywhere in a from- or value-field.",
+
+ "theONESENTENCEVERSION": "Three prose leaves changed, both blockers cleared on recomputation rather than on the author's word, zero recipe surface touched, and the custody reasoning about reviewed bytes is correct on all counts I could measure.",
+
+ "parseDiscipline": "Every JSON input was parsed with json.load under a duplicate-key-rejecting object_pairs_hook. Zero duplicate keys were raised on any input. Leaf classification tests bool BEFORE int throughout. Corpus checkers were invoked as python3 -I -B.",
+
+ "howIResolvedTheSubject": {
+  "rule": "FULL-CHAIN per freeze section 7.3 / CMP-IR-01. v6's own bytes are a DELTA and were never flat-read.",
+  "chain": "v6 -> v5. I confirmed v5 is a STANDALONE document, not itself a delta, BY VALUE SHAPE and never by key name: I walked every node of v5 and searched for the derivation shapes (a dict carrying op+path, a dict carrying from+value, a dict carrying baseArtifact+operations, or a derivedFrom key). ZERO shape hits in 287480 bytes. v5 therefore terminates the chain and is the standalone reviewed bytes.",
+  "predecessorPinVerified": "v6 pins v5 at 064c820bc3f052bd8122faf315ee3ce9e5417b12b98a08446125ce6bd505dc49. The live file measures exactly that, at 287480 bytes, and that digest equals the subjectSha256 the v5 independent review recorded. The chain base is verified, not trusted.",
+  "applicationMethod": "I re-implemented the JSON-pointer set operation, asserted each path resolved in live v5, hard-compared each operation's declared from-value against the live leaf, then applied. I did not accept any from-value on assertion."
+ },
+
+ "operationVerification": {
+  "declared": "total 3, sets 3, adds 0, removes 0",
+  "measured": "3 operations, all op=set. All three paths resolved in live v5. ALL THREE from-values matched the live v5 leaf EXACTLY, byte for byte.",
+  "leafCountBefore": "2520",
+  "leafCountAfter": "2520",
+  "keySetsIdentical": "TRUE -- the set of leaf paths before and after application is identical, which independently confirms adds:0 and removes:0 rather than accepting the accounting's word.",
+  "leavesChanged": "3, exactly the three the operations name",
+  "changedPaths": [
+   "/theShapeOfTheGap/whatThisArtifactAdds/3",
+   "/declaredUnresolvedDependencies/entries/4/v1sMeasurement",
+   "/independentSourceReproduction/evaluationProofBundleCasRefReproduction/caveatsCarriedFromV1Unnarrowed"
+  ],
+  "leafCountCorroboration": "2520 is the figure v5's own emittedFileLeafCensus publishes and the figure the v5 independent review confirmed. My independent walk reproduces it, and the delta does not move it."
+ },
+
+ "B-EIR5-01-vectorCensus": {
+  "claimUnderTest": "v6 sets whatThisArtifactAdds[3] to 'thirty-two executed test vectors -- 26 carried forward and recomputed, 7 of which reproduce values pinned in the corpus before either version existed, plus 6 new ones'.",
+  "iCountedThemMyself": "I enumerated every array under $.testVectors by walking the tree, not by trusting the group names.",
+  "theFiveArrays": {
+   "$.testVectors.R-2-universeCommitment.vectors": "7 -- UC-1-EMPTY-UNIVERSE, UC-2-EP8-ACCEPTED, UC-3-EP5-GOLDEN, UC-4-LENGTH-MAJOR-ORDER, UC-5-ODD-NODE-THREE, UC-6-FIELD-BOUNDARY-A, UC-6-FIELD-BOUNDARY-B",
+   "$.testVectors.R-3-outcomeSetCommitment.vectors": "6 -- OC-1 through OC-6",
+   "$.testVectors.R-4-subjectSetCommitment.vectors": "6 -- SS-1 through SS-6",
+   "$.testVectors.R-1-EvidenceDigest.vectors": "7 -- ED-1 through ED-7",
+   "$.testVectors.sharedPrimitives-textComponent.vectors": "6 -- BND-1-TEXT-BOUND-INCLUSIVE, BND-2-TEXT-BOUND-EXCEEDED, BND-3-THE-BOUND-COUNTS-BYTES-NOT-CODE-POINTS, BND-4-NFC-IS-REJECTED-NOT-NORMALIZED, BND-5-NFC-UNSTABLE-SINGLETONS-ARE-REJECTED, BND-6-NFC-IS-NOT-NFKC"
+  },
+  "sum": "7+6+6+7+6 = 32. CONFIRMED.",
+  "bndGroup": "6, ids BND-1..BND-6. CONFIRMED.",
+  "carried": "32-6 = 26. CONFIRMED, and the sentence already had that figure right.",
+  "theSevenCorpusReproductions": "CONFIRMED as 7 and named: UC-2, UC-3, OC-2, OC-3, SS-2, SS-3, ED-1. This matches $.testVectors.totals.reproducingAPreexistingCorpusDigest, which enumerates the same seven.",
+  "theDefectWasAnINTERNALCONTRADICTION": "v5's own $.testVectors.totals.publishedDerivedFromTheFiveVectorArrays already read '32'. The stale sentence contradicted a figure eleven blocks away in the same file. v6's correction reconciles them.",
+  "everyFigureIsNowARRAYDERIVABLE": "The v5 reviewer's remedy was 'derive the two figures from the arrays they count, or delete them'. All four figures in the repaired sentence are now properties of published arrays: 32 = sum of the five arrays; 26 = 32 minus the BND array; 6 = len(BND array); 7 = the enumerated corpus-pinned set. The remedy is satisfied by derivation, not by deletion.",
+  "theF1EXCLUSIONIsCORRECTAndNotMerelyCONVENIENT": {
+   "measured": "$.F-1-subjectInclusionVerification.testVectors.vectors holds 8: IP-1-TWO-STEP-INCLUSION-IN-A-CORPUS-PINNED-TREE, IP-2-ONE-STEP-INCLUSION-VIA-PROMOTION, IP-3-BALANCED-FOUR-LEAF-INCLUSION, IP-NEG-1-CORRUPTED-SIBLING, IP-NEG-2-CORRECT-SIBLING-WRONG-SIDE, IP-NEG-3-INTERNAL-NODE-CANNOT-POSE-AS-A-LEAF, IP-NEG-4-A-PROOF-DOES-NOT-CROSS-DOMAINS, IP-NEG-5-NOTHING-VERIFIES-AGAINST-AN-EMPTY-COMMITMENT.",
+   "whyTheExclusionIsSOUND": "Three independent reasons, and I looked for the convenient reading first. (1) The exclusion is DECLARED IN ADVANCE in the block being counted: $.testVectors.totals.newVectorInputsInV5 reads 'NONE in this block. The commissioned F-1 vectors live inside F-1-subjectInclusionVerification.testVectors and are counted there, not here.' That sentence predates the blocker. (2) F-1's eight are DISCLOSED IN THE SAME LIST, one item later: whatThisArtifactAdds[6] separately credits 'the inclusion verification relation and its executable vectors at F-1'. Nothing is hidden by the exclusion -- the reader of the list is told about them either way. (3) F-1 carries its own countDerivedFromVectors, so the eight are censused where they live. A census that folded 8 into 32 to publish 40 would have double-counted against item 6 and broken F-1's own derived count.",
+   "verdict": "CORRECT. Excluding them makes the sentence true of the block it describes; including them would have made two other published figures false."
+  },
+  "status": "CLEARED"
+ },
+
+ "B-EIR5-02-theVacuousOrderingCaveat": {
+  "claimUnderTest": "v5 asserted, in a v5-AUTHORED block, that key-sort by Unicode scalar value and key-sort by UTF-8 bytes 'differ above the BMP'.",
+  "iVerifiedTheFactEXHAUSTIVELYRatherThanBySampling": {
+   "domain": "All valid Unicode scalars: 0x0000-0x10FFFF excluding the surrogate range D800-DFFF. Count measured, not quoted: 1112064. This matches the figure v6 publishes.",
+   "utf8VersusScalarOnSINGLECHARACTERS": "Encoded every one of the 1112064 scalars to UTF-8 and compared each to its scalar-order predecessor. ADJACENT INVERSIONS: 0. Because a strictly increasing map on a totally ordered chain is order-preserving throughout, zero adjacent inversions establishes the two are the SAME TOTAL ORDER, not merely locally agreeing. UTF-8 is order-preserving by construction.",
+   "utf8VersusScalarOnSTRINGS": "Also verified at the string level, because key-sorting compares strings and not characters. (a) A full cross-product of 2-character strings over 17 boundary scalars spanning every UTF-8 length transition and both sides of the surrogate gap and the BMP edge -- U+0000, U+0001, U+007F, U+0080, U+07FF, U+0800, U+D7FF, U+E000, U+E001, U+FFFD, U+FFFE, U+FFFF, U+10000, U+10001, U+1F600, U+10FFFE, U+10FFFF -- 83521 ordered pairs, MISMATCHES: 0. (b) 400000 random string pairs of lengths 0-3 drawn uniformly from the full valid scalar set, MISMATCHES: 0.",
+   "utf16": "Encoded every scalar to UTF-16 code units and to UTF-16BE bytes. ADJACENT INVERSIONS: exactly 1, in both representations, at U+FFFF versus U+10000. Exactly as v6 states.",
+   "conclusion": "The v5 sentence is FALSE. The two policies it named are ONE policy. CONFIRMED INDEPENDENTLY."
+  },
+  "theSETTLINGVECTORReproduces": {
+   "keys": "U+E000 and U+10000",
+   "underScalarOrder": "U+E000 first",
+   "underUTF8Order": "U+E000 first",
+   "underUTF16CodeUnitOrder": "U+10000 first",
+   "why": "U+10000 encodes to the surrogate pair (0xD800, 0xDC00) and 0xD800 < 0xE000, so the pair opens below the private-use BMP character. MEASURED, not reasoned: I emitted the units and sorted. Exactly as v6 and canonical-json-profile.v1 both state.",
+   "firstDivergence": "The largest scalar x below U+10000 for which UTF-16 places U+10000 first is U+FFFF, confirming 'first differing at U+FFFF vs U+10000'."
+  },
+  "judgingV6sFRAMINGOfTheDefect": {
+   "theQuestion": "Is the defect a misnamed encoding, or is it that the caveat was VACUOUS and DISPLACED the real undetermined pair?",
+   "myFinding": "v6's framing is CORRECT, and it is the stronger and more useful diagnosis. A misnaming would be a typo with a one-word fix. What actually happened is worse in kind: the sentence existed to DISCLOSE A LIMITATION, and the limitation it disclosed cannot exist, because the two candidate policies it offered to discriminate between are the same policy. There was never anything to discriminate. A reader who accepted the caveat came away believing an ordering risk had been disclosed when none had been. That is why it survived four independent reviews -- it reads as a concession, and reviewers audit claims of merit, not admissions of limit. The corpus's own freeze reaches the same conclusion at section 7.2.2.1 and adds the correct standing rule: a caveat is a measurement, recompute limitations too. I reached the arithmetic independently before reading that section and it agrees.",
+   "andTheDISPLACEMENTIsRealNotRhetorical": "The genuinely undetermined pair is {scalar value == UTF-8 bytes} versus {UTF-16 code units}. That pair is live, named and open in the corpus. So the false caveat did not merely fail to inform -- it occupied the sentence where the true caveat belonged, and spent the reader's trust doing it.",
+   "theREPLACEMENTIsTRUE": "I checked that the new caveat is not vacuous in its turn. The EP8-POS-NOMATCH-PASS bundle is pure ASCII. For ASCII keys, scalar order, UTF-8 order AND UTF-16 order all coincide, so the reproduction genuinely CANNOT discriminate scalar/UTF-8 from UTF-16. The replacement discloses a limitation that really exists. This is the exact remedy the v5 reviewer specified."
+  },
+  "theDISPLACEMENTCHAINVerifiedLINKByLINK": {
+   "link1_theProfileSTATESTheFactCORRECTLY": "VERIFIED. canonical-json-profile.v1.json (6f7c906cb739a1313d68f5dd8bc31285d5f213c63649d3d54e1f9e88e5496710) carries UR-1 whose question reads 'Object-key ordering PLANE: Unicode scalar value (== UTF-8 bytes) or UTF-16 code units?'. It explicitly EQUATES scalar with UTF-8 -- the very equation v5 denied -- and its state adds 'sibling CVE1 says UTF-8 key bytes (the same order)'. Its settlingVector names U+E000 and U+10000 and gives the surrogate reason D800 < E000, matching my computed vector exactly.",
+   "link2_UR1IsGENUINELYOPEN": "VERIFIED. UR-1 sits in $.undeterminedRegister, whose entries are undetermined by construction, and its state reads 'Recorded as undetermined AT THE VECTOR LEVEL'. I checked the whole register: 5 entries, UR-1 through UR-5, none marked resolved or closed. UR-1 is open. v6's 'it remains OPEN' is accurate.",
+   "link3_delivery_v4IsAPPLIED": "VERIFIED, and I checked this the hard way because the artifact's own fields say otherwise. delivery.v4.json self-describes as status CANDIDATE, applicationState NOT APPLIED, binds NOTHING. That is its AUTHORED self-description. Application in this corpus is recorded in the freeze, never by editing reviewed bytes (section 7.2), and IMPLEMENTATION-FREEZE.md section 3's DELIVERY row reads 'Applied 2026-08-05' and pins 3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121, which is exactly the live file's digest. v6's 'applied delivery.v4' is CORRECT. Reading the artifact's own status field alone would have produced a false finding here.",
+   "link4_theCANONICALISATIONIsJCS": "VERIFIED by full-chain resolution, not by reading v4 flat. delivery.v4 is itself a DELTA: it derives from delivery.v2.json pinned at 47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3, and the live delivery.v2 measures exactly that. delivery.v2 releaseManifestSchema.canonicalization declares algorithm 'RFC 8785 JSON Canonicalization Scheme', signedBytes \"UTF8('opensip.release-manifest.v1\\u0000') || JCS(manifest with manifestId and signatures omitted)\", manifestId 'sha256(signedBytes), lowercase hex'. I then checked all 21 of v4's operations: NONE touches releaseManifestSchema.canonicalization (the only two operations under releaseManifestSchema are adds at ArtifactEntry.capabilityManifestArtifactRule and ProfileEntry.capabilityManifestBinding). The resolved, applied v4 contract therefore carries JCS canonicalisation.",
+   "link5_JCSSortsByUTF16CodeUnits": "VERIFIED against corpus witnesses. RFC 8785 specifies key sorting on UTF-16 code units; the corpus corroborates this twice independently of the subject -- canonical-json-profile.v1's jcsHazardMeasured describes 'A faithful JCS serializer (UTF-16 code-unit key ordering...)' and its consequence names 'the ordering plane (Unicode scalar value versus UTF-16 code units -- divergent for keys mixing supplementary-plane characters with U+E000..U+FFFF)', which is precisely the divergence I measured.",
+   "link6_theEXPOSUREIsNotTHEORETICALButAlsoNotYETBITING": "The profile's jcsHazardMeasured records that a faithful JCS serializer reproduces 7/7 pinned planIntentCommitment vectors byte-exactly because every pinned key is ASCII, and warns 'Do not implement JCS (or RFC 8949, or any named standard) and check it against the vectors.' So the green suite cannot see the difference. The hazard is real and unexercised.",
+   "verdict": "EVERY LINK HOLDS. I attempted to refute each and could refute none."
+  },
+  "status": "CLEARED"
+ },
+
+ "whatV6MustNotHaveDone_verified": {
+  "declared": "operationAccounting.digestsMoved = 0, recipesChanged = 0",
+  "howIVerifiedRatherThanAccepted": [
+   "PATH TEST: none of the three changed paths lies under any recipe or vector root. I tested membership against /R-0-typedComponentMerkleSet, /R-1-EvidenceDigest, /R-2-universeCommitment, /R-3-outcomeSetCommitment, /R-4-subjectSetCommitment, /F-1-subjectInclusionVerification, /sharedPrimitives, /testVectors and /numericRepresentationRule. All three are NO.",
+   "TOKEN TEST: I extracted every hex token of length 16-64 from each operation's from-value and value-value. All six sets are EMPTY and pairwise equal. No digest, counter-digest, root, preimage hex or commissioned pin appears anywhere in the changed text, so none could have moved.",
+   "LEAF-DIFF TEST: the resolved document differs from v5 in exactly 3 leaves out of 2520, and the leaf-path key sets are identical. Every recipe, every one of the 32 vectors, all 8 F-1 vectors, every counter-digest, the diff manifest, the transcription sweep totals, the divergences and every disposition are BYTE-IDENTICAL to the v5 bytes the independent review confirmed.",
+   "SCOPE-BAR TEST: the v5 reviewer wrote 'A v6 that touches anything beyond those two leaves, the allowlist, and its own recordedInputs is a v6 I would expect to reject for a tenth time. AND DO NOT WRITE A TWELFTH ENCODER.' v6 touches the two B-EIR5-02 leaves plus the one leaf B-EIR5-01 itself names, does not touch the allowlist, and contains no encoder. Within the bar."
+  ],
+  "consequenceForV5sCryptography": "The v5 review's 275 assertions with 0 failures, the four commissioned pins reproduced from first principles, outcomeSetCommitment == outcomeSetDigest on three measured legs, and F-1's survival of chosen-sibling non-membership, fabricated promoted-leaf path, extra step, cross-tree and internal-node impersonation all stand over bytes v6 does not alter. I did not re-execute those attacks; I established by leaf-diff that v6 changes nothing they ran against, which is the correct scope for reviewing a 3-operation prose delta.",
+  "verdict": "digestsMoved = 0 and recipesChanged = 0 are BOTH CONFIRMED INDEPENDENTLY."
+ },
+
+ "custodyClaimVerified": {
+  "theNineOccurrencesAcrossSevenArtifacts": {
+   "method": "I swept all 616 .json/.md/.py/.txt files under docs/coop. I applied SCOPING rigorously -- a file MENTIONING scalar ordering is not a file CARRYING the false claim -- by requiring, within a single sentence, a scalar-order term AND a UTF-8-order term AND a 'differ/diverge above the BMP' assertion, over text FOLDED for whitespace, markdown emphasis, blockquote markers and en/em dashes per section 7.7. I then re-ran the classification at LEAF level on every candidate JSON so I could see the exact path and judge authorship.",
+   "mentionsScalarOrdering": "33 files. Most carry no claim. Classification by grep on one phrasing would have been wrong in both directions.",
+   "CARRYING_the_false_assertion": {
+    "evidence-identity-recipes.v1.json": "1 -- /declaredUnresolvedDependencies/entries/4/measured",
+    "evidence-identity-recipes.v2.json": "1 -- /declaredUnresolvedDependencies/entries/4/v1sMeasurement",
+    "evidence-identity-recipes.v2.review-independent.json": "1 -- /additionalAttacks/theEightDeclaredDependencies/DUD-5-theCLOSESTToFatalAndTheMostHONESTLYHandled/theSHARPPart",
+    "evidence-identity-recipes.v3.json": "1 -- /declaredUnresolvedDependencies/entries/4/v1sMeasurement",
+    "evidence-identity-recipes.v4.json": "1 -- /declaredUnresolvedDependencies/entries/4/v1sMeasurement",
+    "evidence-identity-recipes.v5.json": "2 -- /declaredUnresolvedDependencies/entries/4/v1sMeasurement AND /independentSourceReproduction/evaluationProofBundleCasRefReproduction/caveatsCarriedFromV1Unnarrowed",
+    "uncomputable-identity-fields.sweep.v1.json": "2 -- /positions/delegated/5/isTheDelegateComputable AND /nonDiscriminatingVectors/cases/2"
+   },
+   "total": "1+1+1+1+1+2+2 = 9 occurrences across 7 artifacts. EXACTLY as v6 and freeze 7.2.2.1 claim. CONFIRMED.",
+   "correctly_NOT_counted_because_they_QUOTE_rather_than_ASSERT": {
+    "IMPLEMENTATION-FREEZE.md": "1 -- quotes the sentence in order to debunk it at 7.2.2.1",
+    "evidence-identity-recipes.v5.review-independent.json": "2 -- /blockers/1/theText is the quoted sentence under indictment; /blockers/1/whatIMeasured/0 is the refutation",
+    "uncomputable-identity-fields.sweep.v2.json": "2 -- both at /derivedFrom/operations/*/from, i.e. the BEFORE-values of a repair delta",
+    "evidence-identity-recipes.v6.json": "2 -- both at /derivedFrom/operations/*/from, the before-values of this very repair"
+   },
+   "note": "A digit-and-phrase grep would have returned 15 occurrences in 11 files and been wrong by 6. The distinction is authorship, and it is only visible by reading the sentence and its path."
+  },
+  "theTwoSitesInV5AreEXHAUSTIVE": "CRITICAL AND CONFIRMED. v5 carries exactly 2 occurrences, and v6's operations 1 and 2 target exactly those 2 paths. 'site 1 of 2' and 'site 2 of 2' is a complete repair of the subject's lineage, not a partial one. I looked specifically for a third site in a ninth spelling and found none.",
+  "noREVIEWEDBYTESWereEdited": {
+   "measured": "v1 = 7661c58bcd039423f0f41db9a58a1b5edbec61b901494bfbb2ee6f9758b7b13a; v2 = fbdb51f184cea265f6f324046c062ba75e7f76da8ab2cd27d18b281088810ca1; v3 = ad098ed387e87aea3001a562d75023a90f5ce3c898ffcb46f006f7ad2da004c8; v4 = bd9e31481a30b7f3171a1960e84907a29530567454ebf8751cd943fb23fb4386.",
+   "comparison": "All four reproduce EXACTLY the digests v5's predecessor block pins for them. All four, plus evidence-identity-recipes.v2.review-independent.json, still carry the false sentence.",
+   "verdict": "NO REVIEWED BYTES WERE EDITED. The historical record stands, the false sentence stays in it permanently, and the repair happens only in a successor -- which is exactly what freeze 7.2 and 7.6 require. Had v6 silently repaired v1-v4 in place, that would have been a serious blocker; it did not."
+  },
+  "theTENPINClaim": {
+   "sweepV1Digest": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a",
+   "measured": "The digest appears in 11 files: code-only-identity-rules.sweep.v1.json (3 occurrences), evidence-identity-recipes.v3.json, evidence-identity-recipes.v3.review-independent.json, evidence-identity-recipes.v4.json, evidence-identity-recipes.v5.json, evidence-identity-recipes.v5.review-independent.json, execution-plan-commitment.investigation.v1.json, plan-and-policy-identity-recipes.v2.json, r1-lifetime-neutrality.conformance.v1.7.json, r1-lifetime-neutrality.conformance.v1.7.review-independent.json, and uncomputable-identity-fields.sweep.v2.json.",
+   "decomposition": "Ten of these are artifacts that HARD-PIN sweep.v1 as an input. The eleventh, uncomputable-identity-fields.sweep.v2.json, pins it as its own DERIVATION BASE -- a categorically different citation, and the successor performing the repair cannot sensibly be counted among the pins that force repair-by-successor.",
+   "verdict": "'hard-pinned by digest in TEN artifacts' is CONFIRMED under the correct decomposition.",
+   "andTheREPAIRISBYSUCCESSOR": "sweep.v1's live bytes still hash to the pinned 8e7294b0..., so it was NOT edited. Its successor uncomputable-identity-fields.sweep.v2.json (a84f8eed7f73b97f832fdfeb31974150fe9e5146e3883ee6560ce0bcaafd8823) exists on disk and carries the two occurrences only as operation from-values, with the stated reason 'vacuous caveat: scalar and utf-8 orders are identical; name the pair that actually diverges'. The custody reasoning v6 states is the custody actually practised."
+  },
+  "verdict": "THE ENTIRE CUSTODY CLAIM IS CORRECT AS STATED."
+ },
+
+ "theTRAPSCheckedExplicitly": {
+  "theVacuousCaveatItself": "RECOMPUTED, NOT READ. I treated the caveat as a measurement and re-derived it exhaustively over the full scalar space and over strings, before consulting freeze 7.2.2.1. This is the trap that survived four reviews; I did not take v6's word for the refutation any more than I would have taken v5's word for the claim.",
+  "SCOPING": "APPLIED. Classification was by reading sentences at leaf paths, never by grepping one phrasing. This changed the answer: a naive sweep returns 15 occurrences in 11 files; the correct answer is 9 in 7. Four files quote the sentence to kill it and would have been miscounted as carriers.",
+  "ENCODING_wordNumerals": "APPLIED AND DECISIVE. My census sweep matched word-numerals (zero..twelve, twenty, thirty, forty, thirty-two, twenty-six) alongside digits. A digit-only sweep would have missed 'thirty executed test vectors' entirely -- which is precisely how this defect reached a fifth version -- and would also have missed the staleness patterns 'thirty vectors' and 'four new BND vectors'.",
+  "AUTHORSHIP_carriedVersusAuthored": {
+   "theV5Pattern": "CONFIRMED as v6 describes it. v5's staleness register carries pattern 13, 'four new BND vectors', guarded by 'retired: there are six BND vectors' -- so the figure was formally retired -- yet the live sentence spelled it 'plus 4 new ones', which the substring gate cannot match, and sat inside .theShapeOfTheGap, which is the eighteenth and last entry of the quotation-site allowlist. Retired, re-carried in an unmatchable spelling, inside an allowlisted section. Both halves verified.",
+   "doesV6REPEATIt": "NO. I re-ran the whole staleness sweep against the RESOLVED document. Pattern 11 '26 vectors' does not match the new text ('26 carried forward'). Pattern 12 'thirty vectors' does not match ('thirty-two executed test vectors'). Pattern 13 'four new BND vectors' does not match. No new occurrence appears at any non-allowlisted path, so stalenessSweepOccurrencesOutsideQuotationSites = 0 remains true of the resolved bytes. patternCountDerived '16' still equals the 16 published patterns and quotationSiteCountDerived '18' still equals the 18 published sites; I recounted both. v6 introduces no retired figure in a new spelling.",
+   "v5AuthorshipClaimVerified": "v6 states the second site is in a 'v5-AUTHORED block absent from v4'. CONFIRMED: independentSourceReproduction exists in v4, but its child evaluationProofBundleCasRefReproduction does NOT -- v4's block has keys rule, evaluationProofV8CommitmentGoldens, evaluationProofV8RECORDGoldensRebuiltFromLOGICALVALUES, evidenceV10AcceptedGolden, retentionTiersV22, theTHREEDerivationsThatBearOnB_EIR2_01, theTWOThatRESISTED. So v5 did replicate the false sentence into new material of its own, which is what made it v5's defect and not merely an inherited one.",
+   "diffManifestClaimVerified": "v6 states v5's diff manifest edited items 0 and 6 of this list but not item 3. CONFIRMED: carriedBlockDiffManifest block 11 records leavesChanged = [theShapeOfTheGap.whatThisArtifactAdds.0, theShapeOfTheGap.whatThisArtifactAdds.6] and no row for item 3."
+  },
+  "boolBeforeInt": "APPLIED in every leaf walk.",
+  "duplicateKeyHook": "APPLIED to every JSON parse. Zero duplicates raised.",
+  "checkerInvocation": "python3 -I -B used throughout.",
+  "markdownFOLD_7_7": "APPLIED before concluding anything absent. Folding whitespace, emphasis and blockquote markers is what let me find the quotation inside IMPLEMENTATION-FREEZE.md, which is line-wrapped and blockquote-marked mid-sentence; an unfolded search would have wrongly reported it absent."
+ },
+
+ "checkerRun": {
+  "isThereARetainedCheckerForThisLineage": "NO. I searched every .py in artifacts/ for any mention of 'evidence-identity-recipes' and found ZERO. This lineage has no companion instrument, so there is no green run to over-read and none to demand of v6.",
+  "check-package-coherence.py": "Ran to completion under python3 -I -B. FINDINGS: 3 -- PC-7-PINNED-ARTIFACT-IS-REJECTED on rust-provider-protocol.v2.json, PC-7 on threat-model.v3.json, and PC-5-STALE-HEAD on delivery (documents name v4, disk has v5). All three are on OTHER surfaces and none references evidence-identity-recipes.",
+  "FINDING_SET_DELTA_attributable_to_v6": "ZERO. Scored by finding-set delta, never by exit code. v6 binds NOTHING, is named in no register and no freeze row, and cannot move any of the three.",
+  "notRun": "check-evidence-v10.py and check-evidence-v11.py both exceeded a 120s timeout and were NOT run to completion. Recorded honestly in whatIDidNotCheck rather than reported as a pass or a failure."
+ },
+
+ "environmentNotes": {
+  "claimRegisterAdvance": "artifacts/claim-register.v1.json measures 95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0, the advanced digest, and eleven artifacts still pin the superseded 685259e7... Per freeze 7.6 that IS the correct steady state and is NOT breakage. I did not raise it and I did not treat it as a finding.",
+  "section7_8_1_discipline": "No input that moved after v6 was authored is presented anywhere in this review as a finding about v6. In particular the delivery PC-5-STALE-HEAD finding, the two PC-7 findings and the claim-register advance are environment facts, not defects of the subject."
+ },
+
+ "blockers": [],
+
+ "advisories": [
+  {
+   "id": "ADV-EIR6-01",
+   "severity": "non-blocking",
+   "title": "'plus 6 new ones' is now arithmetically right but its referent is unanchored -- relative to v5 itself, ZERO vectors are new",
+   "measured": "I traced the BND group through the whole lineage rather than assuming. v1 published 26 vectors and no BND group. v2 published 30, adding BND-1..BND-4, and its totals say newInV2 = 4. v3 published 32, adding BND-5 and BND-6, totals newInV3 = 2. v4 published 32 with totals newInV4 = 0 and carriedForwardFromV3 = 32. v5 publishes 32 with totals carriedInputsFromV4 = 'all of them; no vector input changed' and newVectorInputsInV5 = 'NONE in this block'.",
+   "theTension": "So all six BND vectors are 'new' only relative to v1; relative to v5's own predecessor, nothing in the five arrays is new. The same seven-item list uses 'carried byte-identical from v4' at item 0 and 'NEW IN v5 UNDER COORDINATOR COMMISSION' at item 6, which trains the reader to read 'new' as 'new in v5'. Under that reading 'plus 6 new ones' is false, and it is contradicted by v5's own totals block.",
+   "whyThisIsNOTABlocker": "The v5 reviewer's remedy was specifically 'derive the two figures from the arrays they count, or delete them'. Both figures are now exact properties of published arrays -- 32 is the sum of the five, 6 is the length of the BND array -- and the sentence is internally consistent at 26+6=32 with the 7 corpus reproductions independently confirmed. The descriptive clause is also true: the six BND vectors are exactly the ones that make the restored text-component clauses falsifiable. The residue is one unanchored adjective, not a wrong number, and the blocker was about the numbers.",
+   "recommendation": "In any successor, anchor the word: 'plus the six BND text-component vectors, new since v1 (four in v2, two in v3)'. That removes the last figure in this sentence whose truth depends on knowing which version it is measured against."
+  },
+  {
+   "id": "ADV-EIR6-02",
+   "severity": "non-blocking",
+   "title": "The resolved v6 document inherits one census figure that is a property of v5's emitted file and of no v6 artifact",
+   "measured": "v5's emittedFileLeafCensus publishes emittedFileByteLength = '287480'. Resolving v6 full-chain changes three string leaves, so the resolved document is not 287480 bytes under any serialisation. The other census figures survive intact and I verified each: totalLeaves 2520 and stringLeaves 2520 both still measure exactly, jsonNumberLeaves/jsonBooleanLeaves/jsonNullLeaves/nonStringObjectKeys/duplicateKeysOnReparse all still 0, and stalenessSweepOccurrencesOutsideQuotationSites still 0.",
+   "whyThisIsNOTABlocker": "Three independent reasons. (1) The v5 reviewer expressly ruled it out of scope: 'NO CENSUS FIGURE ... NEEDS TO MOVE. I checked all of them and they are right', and warned that a v6 touching anything further would be rejected. v6 obeyed. (2) A resolved delta has no canonical serialisation -- indent, separators and key order are all unfixed -- so emittedFileByteLength is not even computable for it; the figure is well-defined only for an emitted file, and v5's emitted file still exists unchanged at its pinned digest. (3) The corpus has already settled this residual class in the opposite direction from a blocker: freeze section 3's C-2 row records that the resolved effective contract 'still names check-c2-v9.py, so the artifact's own statement of its instrument now disagrees with this row -- section 7.2 forbids editing the reviewed bytes, so it is RECORDED rather than patched'. The DELIVERY row records the identical pattern for retainedChecker.path.",
+   "recommendation": "Nothing to change in v6. Recorded here so the residual is on the record rather than discovered later, per the convention those two rows establish. If this lineage is ever emitted as a whole document again rather than as a delta, the byte length must be re-derived at that fixed point."
+  },
+  {
+   "id": "ADV-EIR6-03",
+   "severity": "non-blocking, cosmetic",
+   "title": "UR-1 is cited with a dot path into what is actually a JSON array",
+   "measured": "v6 cites 'canonical-json-profile.v1#$.undeterminedRegister.UR-1' at three places. $.undeterminedRegister is a LIST of 5 objects identified by an 'id' field, so the strict path is $.undeterminedRegister[0], or $.undeterminedRegister[?(@.id=='UR-1')] if position is not to be relied on. The dot form does not resolve literally.",
+   "impact": "None on correctness. 'UR-1' occurs exactly once in the register so the referent is unambiguous. v6 inherited the citation form verbatim from freeze section 7.2.2.1, which uses the same shape. Flagged only because this corpus has been bitten repeatedly by paths that look resolvable and are not."
+  },
+  {
+   "id": "ADV-EIR6-04",
+   "severity": "non-blocking, cosmetic",
+   "title": "One quoted reason is attributed to two diff-manifest rows but belongs to only one",
+   "measured": "v6 writes that the v5 diff manifest 'edited items 0 and 6 of this very list for the stated reason \"the adds-list must describe v5, not v4\"'. That quoted reason is the stated reason of the item-6 row only. The item-0 row's stated reason is 'updated to name the carry rather than claim novelty'.",
+   "impact": "None on the argument. The load-bearing claim -- that both neighbours were edited and item 3 was not -- is exactly correct, and I verified it against carriedBlockDiffManifest block 11 directly."
+  },
+  {
+   "id": "ADV-EIR6-05",
+   "severity": "non-blocking, cosmetic",
+   "title": "Both replacement values contain an ungrammatical 'and nor ... from ...' construction",
+   "measured": "Both new values read '...cannot distinguish escaping policies for non-ASCII, and nor key-sort by Unicode scalar value from key-sort by UTF-16 code units.' The verb 'cannot distinguish' is elided across 'nor', which does not license the trailing 'from' complement.",
+   "impact": "None on meaning or on the technical content, which I verified is correct. Worth a copy-edit in any successor because this is a sentence four reviews already failed to read carefully."
+  },
+  {
+   "id": "ADV-EIR6-06",
+   "severity": "non-blocking",
+   "title": "The delivery canonicalisation is paraphrased slightly short",
+   "measured": "v6 renders it as 'sha256 over JCS'. The actual definition in delivery.v2 is sha256 over a domain-separated preimage: UTF8('opensip.release-manifest.v1\\u0000') || JCS(manifest with manifestId and signatures omitted).",
+   "impact": "None on the hazard being argued. The domain prefix and the omission rule do not affect whether JCS's UTF-16 key ordering is load-bearing in the preimage -- it is. Noted for precision only."
+  }
+ ],
+
+ "whatIDidNotCheck": [
+  "I did NOT write an independent encoder and did NOT re-derive R-0, R-1, R-2, R-3, R-4 or F-1 from the evidence.v10 and evaluation-proof.v8 source grammars. This was deliberate: the v5 reviewer's standing instruction was 'DO NOT WRITE A TWELFTH ENCODER', and the correct scope for a 3-operation prose delta is to prove the delta touches no cryptography, which I did by leaf-diff and by hex-token extraction. It does mean my verdict on v5's cryptography is INHERITED from the v5 independent review, not re-earned.",
+  "I did NOT reproduce the four commissioned pins from first principles, and I did NOT reproduce evaluationProofBundleCasRef sha256:cc27c2be... from the EP8-POS-NOMATCH-PASS bundle. I verified only that v6 changes no byte any of those derivations reads.",
+  "I did NOT re-run any F-1 attack -- not chosen-sibling non-membership, not the fabricated promoted-leaf path, not the extra step, not cross-tree, not internal-node impersonation. I established that /F-1-subjectInclusionVerification is byte-identical to v5 and stopped there.",
+  "I did NOT verify outcomeSetCommitment == outcomeSetDigest on any leg. Same reasoning: unchanged bytes.",
+  "check-evidence-v10.py and check-evidence-v11.py were NOT run to completion -- both exceeded a 120-second timeout and I killed them. I therefore have NO result from them, favourable or otherwise, and I am not reporting one. I did confirm that no .py file in artifacts/ mentions evidence-identity-recipes at all, so neither is a checker for this lineage.",
+  "I did NOT read RFC 8785 itself -- no network access was used in this review. The claim that JCS sorts by UTF-16 code units rests on my own knowledge plus two corroborating corpus witnesses (canonical-json-profile.v1's jcsHazardMeasured and orderingPlanes), which is weaker than reading the normative text.",
+  "The UTF-8/scalar string-order equivalence is exhaustive on SINGLE SCALARS (all 1,112,064) but NOT exhaustive on strings, which is an infinite set. String-level evidence is an 83,521-pair boundary cross-product and 400,000 random pairs, both with zero mismatches, plus the structural argument that UTF-8 is order-preserving by construction. I regard this as settled but the string case is argued, not enumerated.",
+  "I examined UR-1 closely and read the other four UR entries only for their open/closed state. I did NOT audit the rest of canonical-json-profile.v1 -- not its recipeRegistry, vectorIndex, workedExamples, discrepancyRegister or reproductionLog -- and I did NOT verify its own measuredSelfReport. Its review-independent file exists on disk and I did not read it.",
+  "I did NOT review uncomputable-identity-fields.sweep.v2.json as a repair. I only classified its two occurrences as operation from-values and confirmed sweep.v1's bytes are unedited. Whether sweep.v2 is a correct or complete repair is not my subject and I make no claim about it.",
+  "I did NOT resolve delivery.v4's other 19 operations or review the resolved delivery contract. I verified only that its base pin matches the live delivery.v2, that releaseManifestSchema.canonicalization reads as quoted, and that no operation modifies it.",
+  "I did NOT verify the eleven artifacts still pinning the superseded claim-register digest, nor re-derive the freeze's own section 3 rows beyond the DELIVERY row I needed.",
+  "I did NOT independently re-derive the v5 review's own figures beyond spot-checking 275 (theELEVENTHEncoder.assertionsTotalDerived) and 2520. I did not audit the v5 review as an artifact.",
+  "I did NOT attempt to determine whether v6's author derived the Unicode analysis independently or transcribed it from freeze section 7.2.2.1, which states the same result in near-identical terms. The result is true either way, which is what my verdict rests on, but v6 presents the measurement as its own and I cannot confirm provenance."
+ ],
+
+ "recordedInputs": {
+  "measurementNote": "Every digest below measured with shasum -a 256 during this review. Subject measured at START and at END.",
+  "inputs": [
+   {"path": "artifacts/evidence-identity-recipes.v6.json", "sha256": "bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523", "byteLength": "8070", "role": "SUBJECT (delta, 3 operations)"},
+   {"path": "artifacts/evidence-identity-recipes.v5.json", "sha256": "064c820bc3f052bd8122faf315ee3ce9e5417b12b98a08446125ce6bd505dc49", "byteLength": "287480", "role": "CHAIN BASE -- standalone reviewed bytes, confirmed non-delta by value-shape scan"},
+   {"path": "artifacts/evidence-identity-recipes.v5.review-independent.json", "sha256": "2152f8a68b6af6866a001abad318726ba75451df902e6b75b3b76a1a95735e69", "role": "the REJECT being answered"},
+   {"path": "artifacts/evidence-identity-recipes.v4.json", "sha256": "bd9e31481a30b7f3171a1960e84907a29530567454ebf8751cd943fb23fb4386", "role": "lineage / census provenance / reviewed bytes retaining the sentence"},
+   {"path": "artifacts/evidence-identity-recipes.v3.json", "sha256": "ad098ed387e87aea3001a562d75023a90f5ce3c898ffcb46f006f7ad2da004c8", "role": "lineage -- BND-5, BND-6 originate here"},
+   {"path": "artifacts/evidence-identity-recipes.v2.json", "sha256": "fbdb51f184cea265f6f324046c062ba75e7f76da8ab2cd27d18b281088810ca1", "role": "lineage -- BND-1..BND-4 originate here"},
+   {"path": "artifacts/evidence-identity-recipes.v1.json", "sha256": "7661c58bcd039423f0f41db9a58a1b5edbec61b901494bfbb2ee6f9758b7b13a", "role": "origin of the false sentence"},
+   {"path": "artifacts/evidence-identity-recipes.v2.review-independent.json", "sha256": "67c411f1d2564b68d51b9b19f143757848c9ae62fd9b9eab5d0c5345fe58bc56", "role": "reviewed bytes retaining the sentence"},
+   {"path": "artifacts/canonical-json-profile.v1.json", "sha256": "6f7c906cb739a1313d68f5dd8bc31285d5f213c63649d3d54e1f9e88e5496710", "role": "UR-1 -- the displaced real undetermined pair"},
+   {"path": "artifacts/delivery.v4.json", "sha256": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121", "role": "applied surface reached by the chain; digest matches the freeze section 3 DELIVERY pin"},
+   {"path": "artifacts/delivery.v2.json", "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3", "role": "delivery.v4's derivation base; carries releaseManifestSchema.canonicalization"},
+   {"path": "artifacts/uncomputable-identity-fields.sweep.v1.json", "sha256": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a", "role": "hard-pinned in ten artifacts; carries 2 of the 9 occurrences; UNEDITED"},
+   {"path": "artifacts/uncomputable-identity-fields.sweep.v2.json", "sha256": "a84f8eed7f73b97f832fdfeb31974150fe9e5146e3883ee6560ce0bcaafd8823", "role": "the repair-by-successor for sweep.v1; not reviewed here"},
+   {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "6e0d36a606215e9935fe95d0e4a8f30dda38caf145388db76430ba0c3a06dc0f", "byteLength": "399800", "role": "environment; sections 7.2, 7.2.2.1, 7.3, 7.6, 7.7, 7.8.1 and the section 3 DELIVERY row"},
+   {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0", "byteLength": "128949", "role": "environment; ADVANCED today from 685259e7..., eleven artifacts still pin the old digest, and per freeze 7.6 that is the correct steady state"}
+  ]
+ },
+
+ "environment": {
+  "reviewDate": "2026-08-12",
+  "workingDirectory": "/Users/sb/code/opensip-ai/opensip/docs/coop",
+  "python": "python3 -I -B for every corpus checker and every measurement script",
+  "parseHook": "duplicate-key-rejecting object_pairs_hook on every JSON parse; 0 duplicates raised on any input",
+  "leafClassification": "bool tested BEFORE int",
+  "digestTool": "shasum -a 256",
+  "network": "NOT USED. No claim in this review rests on a fetched document.",
+  "filesScannedInCorpusSweep": "616 (.json, .md, .py, .txt under docs/coop)",
+  "subjectStability": "subject digest measured identical at start and end of review; no drift, no re-baselining required",
+  "freezeStable": "IMPLEMENTATION-FREEZE.md and claim-register.v1.json both measured identical at start and end",
+  "filesWritten": "exactly one: artifacts/evidence-identity-recipes.v6.review-independent.json. No existing file was edited or overwritten by this review.",
+  "verdictBinds": "the subject bytes bed154dc... at 8070 bytes, resolved against v5 at 064c820b..., in the environment recorded above, and nothing else"
+ },
+
+ "reviewerPosition": "PASS. I came to this looking for the fifth flat-read and for a repair that quietly edited reviewed bytes, and found neither. The two things that could have made this a REJECT were: a third site in v5 carrying the false sentence that 'site 1 of 2 / site 2 of 2' would have silently left behind, and a recipe or pin moving under cover of a prose fix. I checked both directly -- v5 carries exactly two sites and v6 repairs exactly those two, and the resolved document differs from v5 in 3 leaves out of 2520 with no hex token anywhere in the diff. The strongest thing I can say for v6 is that its central judgement is right and non-obvious: the defect was not a misnamed encoding but a caveat that disclosed a limitation which cannot exist, and which occupied the place where a real and still-open limitation belonged. That distinction is the difference between a typo and a four-review failure, and v6 gets it right. The strongest thing I can say against it is ADV-EIR6-01: the sentence at whatThisArtifactAdds[3] now has four correct, array-derivable figures joined by one adjective -- 'new' -- whose truth still depends on knowing which version you are measuring against, and v5's own totals block says plainly that nothing in that block is new. That is a smaller version of the same disease, and it is why I recorded it rather than waving it through, but it is not worth a tenth rejection of a lineage whose arithmetic no reviewer has been able to break."
+}

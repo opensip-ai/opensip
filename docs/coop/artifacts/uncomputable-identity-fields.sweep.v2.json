@@ -1,0 +1,55 @@
+{
+ "artifact": "opensip.uncomputable-identity-fields.sweep.v2",
+ "version": 2,
+ "date": "2026-08-12",
+ "documentClass": "MEASUREMENT-ONLY",
+ "binds": "NOTHING",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "purpose": "Repair the two occurrences of the vacuous UTF-8/scalar ordering caveat carried by v1. Nothing else changes.",
+ "whyASuccessorAndNotAnEdit": "v1 is hard-pinned BY DIGEST in ten artifacts (plan-and-policy-identity-recipes.v2, execution-plan-commitment.investigation.v1, code-only-identity-rules.sweep.v1, evidence-identity-recipes.v3/v4/v5, evidence-identity-recipes.v3/v5 reviews, r1-lifetime-neutrality.conformance.v1.7 and its review, plus the freeze payload manifest). Editing v1 in place would silently falsify all ten. Freeze \u00a77.2 and \u00a77.6: repairs are successors.",
+ "theMeasurement": {
+  "method": "Exhaustive, not sampled. Every valid Unicode scalar 0x0000-0x10FFFF excluding surrogates D800-DFFF.",
+  "scalarsTested": 1112064,
+  "utf8VsScalarInversions": 0,
+  "utf16VsScalarInversions": 1,
+  "utf16FirstInversion": "U+FFFF vs U+10000",
+  "stringLevelCheck": "18102 distinct strings drawn from a pool spanning 1-, 2-, 3- and 4-byte scalars: UTF-8 sort == code-point sort TRUE; UTF-16 sort == code-point sort FALSE, first divergence at index 22.",
+  "conclusion": "UTF-8 byte order IS Unicode scalar-value order. v1's caveat named two spellings of one order and called them different."
+ },
+ "whyThisMattered": "The false half was the JUSTIFICATION of a disclosed limitation, so it read as candour and four independent reviews passed over it. Because the two named policies are one policy, the caveat disclosed nothing -- and it displaced the real undetermined pair, {scalar == UTF-8} vs {UTF-16 code units}, which is live as canonical-json-profile.v1 UR-1 and reaches applied delivery.v4, whose release-manifest canonicalisation is defined as sha256 over JCS -- and RFC 8785 JCS sorts by UTF-16 code units.",
+ "derivedFrom": {
+  "artifact": "uncomputable-identity-fields.sweep.v1.json",
+  "sha256": "8e7294b07b30606115dc98bf0f8476731ecfbfdca0151f1dd0d3758604ab539a",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/positions/delegated/5/isTheDelegateComputable",
+    "from": "INCOMPLETE. The chain reaches a definition, but two gaps remain and the corpus names both: no artifact ever STATES that this field uses canonicalJsonRawCas (it is inferred from the RawCasRef<...> type), and the one reproduction was over a pure-ASCII bundle, so it cannot distinguish escaping policies for non-ASCII, nor key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP.",
+    "value": "INCOMPLETE. The chain reaches a definition, but two gaps remain and the corpus names both: no artifact ever STATES that this field uses canonicalJsonRawCas (it is inferred from the RawCasRef<...> type), and the one reproduction was over a pure-ASCII bundle, so it cannot distinguish escaping policies for non-ASCII, nor key-sort by Unicode scalar value from key-sort by UTF-16 code units. CORRECTED v2: scalar-value order and UTF-8-byte order are the SAME total order -- measured exhaustively over all 1112064 valid scalars, zero inversions -- so v1's stated pair was vacuous. The pair that genuinely diverges is {scalar == UTF-8} versus {UTF-16 code units, as RFC 8785 JCS specifies}, first differing at U+FFFF vs U+10000; see canonical-json-profile.v1#$.undeterminedRegister.UR-1, which remains OPEN.",
+    "why": "vacuous caveat: scalar and UTF-8 orders are identical; name the pair that actually diverges"
+   },
+   {
+    "op": "set",
+    "path": "/nonDiscriminatingVectors/cases/2",
+    "from": "evaluationProofBundleCasRef -- the single reproduction was over a pure-ASCII bundle and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8 bytes, which differ above the BMP.",
+    "value": "evaluationProofBundleCasRef -- the single reproduction was over a pure-ASCII bundle and cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-16 code units. CORRECTED v2: scalar-value order == UTF-8-byte order (exhaustively measured, 0 inversions over 1112064 scalars); v1 named a pair that cannot differ. The live divergence is against JCS-style UTF-16 ordering, settled by keys U+E000 and U+10000: scalar/UTF-8 emit U+E000 first, UTF-16 emits U+10000 first because its surrogate pair opens 0xD800 < 0xE000.",
+    "why": "same defect, second site"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 2,
+  "sets": 2,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0
+ },
+ "whatThisDoesNotDo": [
+  "does not close UR-1 -- that is the canonical-json profile's to close",
+  "does not repair evidence-identity-recipes v1-v5; v1-v4 and the v2 review are reviewed bytes and keep the sentence permanently (\u00a77.6), and v5 repairs in its own v6 under blocker B-EIR5-02",
+  "does not change any digest, verdict, status or seal"
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "artifact": "opensip.check-completeness.dialect-repair",
+ "version": 1,
+ "date": "2026-08-12",
+ "role": "INSTRUMENT-CHANGE-RECORD",
+ "status": "APPLIED-TO-WORKING-TREE",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "binds": "NOTHING",
+ "purpose": "Repair the operation-path dialect gap measured in r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v1.json: both corpus resolvers walked dotted paths only, mis-tokenised RFC 6901 pointer paths into one bogus step (sets refused loudly; adds would have silently invented a literal slash-named key), and check-completeness.py could not see array-token paths at all, refusing them silently as (None, []). This is the deliberate instrument-repair act the record called for -- performed at the coordinator's explicit instruction, not as a quiet side effect.",
+ "instruments": {
+  "check-completeness.py": {
+   "sha256Before": "6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6",
+   "sha256After": "af9f8837a5abc561cefebf071b862e2dd5fb427304f4738f7fadf5872c4f0f1f",
+   "changes": [
+    "path_steps: now reads three dialects, each strictly -- ARRAY token lists (a bool token refuses, bool tested before int), RFC 6901 POINTER strings ('~1'/'~0' escapes, empty token refuses, undefined '~' escape refuses, array-index-form tokens are integer indices), and the original DOTTED grammar unchanged for every path it already parsed. Every string parse must ROUND-TRIP to the exact declared path; a parse that does not is refused (None) instead of walked on a guess -- closing the silent add-invention hazard for all dialects at once.",
+    "is_operation_list: widened from string-only paths to string-or-token-array, so array-encoded declarations are recognised instead of silently invisible (the (None, []) class).",
+    "operation_shaped (new): weak detection used only by the refusal path, deliberately independent of is_operation_list, so an operation list this reader cannot execute is reported with a named reason -- the freeze §7.3 rider's 'give the refusal path an independent test'.",
+    "derivation_declaration: new loud refusal branch using operation_shaped.",
+    "resolve_derivation: provenance now records pathDialect, so the next dialect is a census row rather than a surprise."
+   ]
+  },
+  "check-completeness-v2.py": {
+   "sha256Before": "b08824e86ea22720bdea649cdc663a39ef6d1fc483adfa6aa49cc19dc8666dd7",
+   "sha256After": "dbe1e6955f66b0ccb032df115ca03fa780895b129b51fb39a49593581901bfb9",
+   "changes": [
+    "path_steps: RFC 6901 pointer branch plus strict round-trip for both string dialects, identical semantics to the check-completeness.py repair. Array paths were already read by array_path_steps and are untouched.",
+    "describe_unreadable_operations: refusal wording now names the pointer encoding among what this resolver walks.",
+    "resolve_derivation: provenance now records pathDialect."
+   ]
+  }
+ },
+ "verification": {
+  "selftests": "check-completeness.py --selftest exit 0 with 9 new dialect cases (pointer resolve/nested/index/add-top, array read, bool-token refusal, bad-escape refusal, guessed-path refusal, unreadable-operations loud); check-completeness-v2.py --selftest exit 0 at 49/49 with 7 new pointer cases. The sharpest new case in each: an add whose path parses only by guessing is REFUSED ('refusal, not invention'), and a pointer add lands on the named key with the literal '/key' spelling asserted ABSENT.",
+  "regression": "every artifact that resolved before the change resolves after it to the IDENTICAL canonical digest, under both instruments -- 11 under check-completeness.py, 18 under check-completeness-v2.py, zero moved, zero newly refused. Baseline captured before the first edit; comparison run after the last.",
+  "crossInstrumentAgreement": "every artifact resolving under both instruments after the change produces byte-identical canonical values -- zero disagreements.",
+  "threeWayAgreement": "for the three candidate subjects an INDEPENDENT pointer resolver sharing no walk code with either instrument produced byte-identical resolved values: r1-lifetime-neutrality.conformance.v1.9 canonical 27d27bc073cfd3c647f73eaf3a5236a513dee72f7a6c891e78ece72922e2bf1d; evidence-identity-recipes.v7 canonical 0f8022352100ee48fc1075b1a9837678745a0fd727037ff1d8583f28c9690d37; evidence-identity-recipes.v8 canonical b64f5b8888a560bf2f3638dad44a8d0987629d303f77eede5aa663f5f79fdd70.",
+  "newlyReadable": "under check-completeness.py: the six json-pointer derivations (r1 v1.7/v1.8/v1.9, evidence-identity-recipes v6/v7, uncomputable-identity-fields.sweep.v2) plus evidence-identity-recipes.v8 all resolve at 0 errors; array-token v10-disposition.v2 and versioning-policy v14-v17 now resolve, byte-identical to check-completeness-v2.py's readings. Under check-completeness-v2.py: the same seven pointer artifacts now resolve; its array readings are unchanged."
+ },
+ "surfacedResiduals": [
+  "check-completeness.py does NOT implement content-addressed predecessor identity (check-completeness-v2.py does). v10-disposition.v3 (0 names, 3 digests) and v10-disposition.v4 (0 names, 4 digests) therefore now refuse LOUDLY under check-completeness.py -- before this change their blocks were invisible and the refusal was silent. Loud is the intended direction; closing the gap means porting check-completeness-v2.py's content branch, which is successor work not smuggled into this repair.",
+  "pathDialect is recorded in resolve provenance only; the census printers were not extended.",
+  "dotted-grammar ambiguities that happen to round-trip (a key containing '/' or '.') parse exactly as before -- the round-trip rule refuses only parses that disagree with the declared spelling.",
+  "a pointer token in array-index form addressing a DICT keyed by that numeric string refuses at walk time; the corpus contains no such path today."
+ ],
+ "reviewBinding": {
+  "statement": "The 2026-08-04 independent review of the derivation reader (check-completeness.derivation-reader.review-independent.json, sha256 97d47b1cf3d6598b989ed3e7ee9048bedb5e5fd0a85c55dea25bc7ce47af1916) binds the PRE-EDIT bytes. A verdict binds bytes (§7.2); it does NOT carry forward to the edited instruments. An independent review of this change is OWED before any apply decision leans on the repaired instruments, and this record's reviewStatus says so on its face."
+ },
+ "environment": {
+  "date": "2026-08-12",
+  "python": "3.14.6",
+  "invocation": "python3 -I -B throughout; instruments imported as modules for the regression and agreement runs",
+  "freeze": {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "e1cdb71d383a3208987e909981ec4bdbf2d87f8e137dba3ab55d62227a2af10b"},
+  "claimRegister": {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0"}
+ },
+ "whatThisRecordDoesNotDo": [
+  "does not apply any candidate artifact; the §7.3 rider-3 gate outcome after this repair is recorded separately in r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v2.json",
+  "does not claim the repaired instruments are reviewed -- they are not, and the corpus-resolution v2 record carries that caveat forward",
+  "does not close check-completeness.py's content-addressing gap, the freeze's stale silent-refusal census, or the retention-tiers.v26 terminus false positive -- all named, none touched"
+ ]
+}

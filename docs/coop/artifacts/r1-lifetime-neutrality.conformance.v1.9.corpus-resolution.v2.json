@@ -1,0 +1,62 @@
+{
+ "artifact": "opensip.r1-lifetime-neutrality.conformance.v1.9.corpus-resolution",
+ "version": 2,
+ "date": "2026-08-12",
+ "role": "CORPUS-RESOLVER-EXECUTION-RECORD",
+ "binds": "NOTHING",
+ "predecessorRecord": {
+  "path": "artifacts/r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v1.json",
+  "sha256": "3aff78f1c35f5bb6fc7517695f420c6dc6681491dbdaa57a581e94b127be48b0",
+  "relation": "v1 records the PRE-REPAIR execution: both instruments refused the chain on the pointer-dialect gap. v1 is not edited and stays true of the bytes it measured. This v2 records the SAME gate re-executed after the instrument dialect repair."
+ },
+ "purpose": "Re-execute freeze §7.3 rider 3 against the v1.9 chain after the instrument repair recorded in check-completeness.dialect-repair.v1.json.",
+ "outcome": "POSITIVE-UNDER-BOTH-INSTRUMENTS, WITH ONE STANDING CAVEAT. Declaration detected, every chain digest verified, all 34 operations (28 + 5 + 1) applied at 0 errors, terminus honoured at v1.6's reviewed bytes, and the resolved canonical value is byte-identical across check-completeness.py, check-completeness-v2.py, and an independent pointer resolver sharing no walk code with either. THE CAVEAT: the repaired instruments are NOT yet independently reviewed (their change record says so on its face). §7.8 discipline -- a coordinator applying v1.9 on this record either waits for the instrument-change review or records that reliance deliberately. The gate is mechanically satisfied; its assurance pedigree is one review short.",
+ "subject": {
+  "path": "artifacts/r1-lifetime-neutrality.conformance.v1.9.json",
+  "sha256AtStart": "37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab",
+  "sha256AtEnd": "37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab",
+  "startEqualsEnd": true,
+  "identicalToV1RecordSubject": true
+ },
+ "instruments": [
+  {"path": "artifacts/check-completeness.py", "sha256": "af9f8837a5abc561cefebf071b862e2dd5fb427304f4738f7fadf5872c4f0f1f", "standing": "dialect-repaired 2026-08-12, selftest exit 0; repair unreviewed -- see check-completeness.dialect-repair.v1.json"},
+  {"path": "artifacts/check-completeness-v2.py", "sha256": "dbe1e6955f66b0ccb032df115ca03fa780895b129b51fb39a49593581901bfb9", "standing": "dialect-repaired 2026-08-12, selftest 49/49; repair unreviewed -- same record"}
+ ],
+ "execution": {
+  "declarationDetection": "fires on v1.9, v1.8, v1.7; does not fire on v1.6 (terminus, reviewed bytes); the v1.6 string-valued derivedFrom false hit is not taken -- identical to the v1 record, under both instruments",
+  "chainDigestVerification": "declared == measured at every hop, identical to the v1 record: v1.8 d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288, v1.7 30810d738f207d90ef3d4f205a111dbf34489064de1dd40d8955381bbd90b8a0, v1.6 14c46b6582b573c1ac253d891e4813bcc436117adacaa5fc74ede0ab5ae23d3c",
+  "operationsApplied": "v1.7: 28/28, v1.8: 5/5, v1.9: 1/1 -- 0 errors under both instruments, matching the independent review's own pointer-correct resolution (28/28 + 5/5 + 1/1 at 0 errors)",
+  "pathDialect": "json-pointer at every hop, as recorded in resolve provenance by the repaired instruments",
+  "resolvedCanonical": {
+   "sha256": "27d27bc073cfd3c647f73eaf3a5236a513dee72f7a6c891e78ece72922e2bf1d",
+   "form": "check-completeness-v2.py canonical_bytes: sorted keys, compact separators, UTF-8, no trailing newline",
+   "agreement": "byte-identical from check-completeness.py, check-completeness-v2.py, and an independent RFC 6901 resolver sharing no walk code with either instrument -- three-way"
+  }
+ },
+ "alsoResolvedByTheSameRepair": {
+  "note": "recorded here because the v1 record named these as blocked by the same dialect gap; each now resolves at 0 errors under both instruments, byte-identical",
+  "evidence-identity-recipes.v7": "0f8022352100ee48fc1075b1a9837678745a0fd727037ff1d8583f28c9690d37",
+  "evidence-identity-recipes.v8": "b64f5b8888a560bf2f3638dad44a8d0987629d303f77eede5aa663f5f79fdd70",
+  "uncomputable-identity-fields.sweep.v2": "ffc322f867a10b1b95d8f4641f1638f896f1e0ea765f23c78a4130e8d9ebbf34",
+  "censusAfterRepair": "under check-completeness.py 23 derivations resolve (11 dotted + 7 json-pointer + 5 array-token), v10-disposition.v3/.v4 refuse LOUDLY on the content-addressing gap it does not implement, retention-tiers v26/v27/v28 refuse exactly as before (the recorded terminus false positive, untouched); under check-completeness-v2.py 25 resolve"
+ },
+ "consequence": [
+  "the §7.3 rider-3 gate for v1.9 is now MET at the mechanical level: a corpus resolver positively resolves the chain, and two of them agree byte-for-byte with a third independent implementation",
+  "the one assurance step still owed before an apply decision leans on this: independent review of the instrument dialect repair (check-completeness.dialect-repair.v1.json, AWAITING-INDEPENDENT-REVIEW)",
+  "the independent review's other standing conditions are untouched: ACCEPT-AS-CANDIDATE with six advisories, do not seal; applying is a separate coordinator act",
+  "the same statement now holds for the evidence-identity-recipes lineage: v8's resolverStatus disclosure ('until the instruments learn the dialect') is answered by this repair as of these instrument bytes, pending the same review"
+ ],
+ "environment": {
+  "date": "2026-08-12",
+  "python": "3.14.6",
+  "gitHead": "b0fdc5e69d794830b25a7315806704f3cb4c7f97",
+  "gitState": "working tree modified relative to HEAD; uncommitted working-tree bytes measured",
+  "freeze": {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "e1cdb71d383a3208987e909981ec4bdbf2d87f8e137dba3ab55d62227a2af10b", "unchangedSinceV1Record": true},
+  "claimRegister": {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0", "unchangedSinceV1Record": true}
+ },
+ "whatThisRecordDoesNotDo": [
+  "does not apply v1.9 or any other candidate; does not seal; does not re-review",
+  "does not retire the v1 record -- the refusal it measured was real and its cause analysis is the basis of the repair",
+  "does not claim the repaired instruments are reviewed; the caveat above is the record's most important sentence"
+ ]
+}

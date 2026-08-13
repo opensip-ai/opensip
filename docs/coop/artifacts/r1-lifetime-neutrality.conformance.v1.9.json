@@ -1,0 +1,99 @@
+{
+ "artifact": "opensip.r1-lifetime-neutrality.conformance.v1.9",
+ "version": "v1.9",
+ "date": "2026-08-12",
+ "documentClass": "DESIGN-PROPOSAL-SUCCESSOR",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "purpose": "Clear the three blockers raised against v1.8 by its independent review. All three were against the G-2 self-measurement-class surface v1.8 introduced, not against the B-R17-01 repair, which that review confirmed correct (209 digest leaves, 0 changed).",
+ "blockersCleared": {
+  "BLOCKER-1_classSizeUnrecomputable": {
+   "defect": "v1.8 published classSize: 59 under a predicate turning on 'a WORD-numeral' with no published vocabulary. Six defensible readings give 62-70, never 59. The freeze had recorded this exact defect being fixed for word-numerals on 2026-08-11, one day earlier, in the section v1.8 cites.",
+   "fix": "The vocabulary is now published verbatim and is the freeze's own: exactly twelve tokens, case-insensitive, word-bounded.",
+   "vocabularyV12": [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve"
+   ],
+   "countingRule": "A leaf qualifies if its value, rendered as a string, contains any character in [0-9] OR any word-bounded case-insensitive token of V12. bool is tested BEFORE int, because bool subclasses int in Python."
+  },
+  "BLOCKER-2_classMissedTheClassItDerives": {
+   "defect": "v1.8's key-name predicate caught 5 of 41 leaves in $.measuredSelfReport. It MISSED componentFrameOccurrencesInEP8 -- the honest name that v1.8's own operation 4 nominates -- while CATCHING its misnamed twin, because that key contains 'Measured'. Renaming a leaf honestly removed it from the class. It also missed $.parseDiscipline.duplicateKeysFound. v1.8's claimed mitigation, the prose fallback, was measured false: it rescues 6 leaves corpus-wide, none of them self-measurements, and is structurally incapable of firing on a bare numeral, which is the shape it claimed to mitigate.",
+   "fixIsAChangeOfBASIS": "Key name is no longer the basis. It is now ADDITIVE ONLY. The basis is VALUE SHAPE plus STRUCTURAL POSITION, as the reviewer prescribed, because the freeze already records regex-widening as not closing a class.",
+   "theDerivation": {
+    "stage1_shapeAndPosition": "every leaf whose value satisfies the counting rule above AND whose path does NOT begin with one of the excluded DATA prefixes",
+    "excludedDataPrefixes": [
+     "/policyDerivationIdentity/pinnedVectors/vectors",
+     "/findingIdentity/workedVectors/vectors",
+     "/positiveVectors",
+     "/policyDerivationIdentity/rejectionControls/controls",
+     "/policyDerivationIdentity/orderingRuling/exhibitA_planStageIdsSequenceVsSet"
+    ],
+    "whyThoseAreExcluded": "they are the measured OBJECTS -- vectors, preimages, control cases -- not measurements ABOUT the artifact. Excluding them is a position rule, not a name rule, and the prefixes are published so the exclusion is recomputable.",
+    "stage3_keyNameAddsBack": "any leaf inside an excluded prefix whose KEY matches /measur|max|count|longest|width|headroom|total|bytes|size|tally|census|occurrences/i is added back. Key name can only ADD, never exclude.",
+    "measuredCounts": {
+     "stage1": 867,
+     "excludedAsData": 481,
+     "stage3AddedBack": 31,
+     "CLASS": 898
+    },
+    "coverageProof": {
+     "measuredSelfReportLeavesInClass": 37,
+     "measuredSelfReportLeavesTotal": 41,
+     "theFourNotInClass": [
+      "leafTypesInThisSection[0] = 'int'",
+      "leafTypesInThisSection[1] = 'str'",
+      "leafTypesExcludingTheCarriedWorkedExampleCompletion[0] = 'str'",
+      "driftDisclosure.authorsPosition (prose, no quantity)"
+     ],
+     "statement": "the four excluded leaves are two type-name lists and one prose line; none states a quantity. Coverage of the QUANTITATIVE leaves in that block is complete. v1.8's predicate covered 5 of 41."
+    },
+    "leavesNowCaughtThatV18MISSED": [
+     "/measuredSelfReport/componentFrameOccurrencesInEP8",
+     "/parseDiscipline/duplicateKeysFound"
+    ]
+   },
+   "honestBoundOnThisClaim": "898 members are DERIVED and recomputable. They are NOT all individually verified, and v1.9 does not claim they are. What is verified is the three repaired leaves plus the five named in v1.8 as unaffected. A class that is recomputable and large is a better instrument than one that is small and unrecomputable, but it is still only an instrument."
+  },
+  "BLOCKER-3_selfInvalidatingMeasurement": {
+   "defect": "v1.8 operation 4 published 'this artifact's own bytes contain componentFrame 8 times'. Measured: resolved v1.7 holds 8, resolved v1.8 holds 11, and operation 4's own value string contains the token 3 times. 11 - 8 = 3. The sentence was true when written and made false by being written -- inside an operation whose entire purpose was repairing a false self-measurement.",
+   "fix": "Operation 1 below withdraws the self-count entirely rather than restating it at a new value, because no value survives its own publication.",
+   "whyNotJustRecomputeItTo11": "A fixed point would have to hold with itself included, and would break on the next edit to any leaf naming the token. Freeze \u00a77.2.2.1(a) item 4 states the rule: when the measurer is inside the measured, publish the boundary. Here the honest boundary is to state the EP8 figure, which is external and stable, and to state no figure for this document."
+  }
+ },
+ "whatIsUnchanged": "The B-R17-01 repair (79 bytes, 51.8x, derived-width statement), the referent correction naming EP8, and operation 5's regrade of the 47-count as an unverifiable authoring attestation -- the review judged that regrade correct and not an evasion. No design decision moves. OPEN-DEP-FI-01..07 remain open.",
+ "derivedFrom": {
+  "artifact": "r1-lifetime-neutrality.conformance.v1.8.json",
+  "sha256": "d53aa31d040699b4ab11d25f2094d7ee4dacbb9dd53fbe780b9bd953e6084288",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "resolutionChain": "v1.9 -> v1.8 -> v1.7 -> v1.6. v1.6 is the full-text standalone and the resolution TERMINUS. Resolve FULL-CHAIN (freeze \u00a77.3 / CMP-IR-01).",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/policyDerivationIdentity/primitives/componentFrameOccurrencesMeasuredHere",
+    "from": "50 -- occurrences of componentFrame in evaluation-proof.v8.json (4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303), comprising 1 object key and 49 string-leaf mentions, recomputed in v1.8. REFERENT CORRECTED in v1.8: the key name says \"MeasuredHere\", which reads as THIS artifact. This artifact's own bytes contain componentFrame 8 times, not 50. The honest name for the same figure already exists at $.measuredSelfReport.componentFrameOccurrencesInEP8; the misleading spelling is the one sitting in the normative primitives block. Freeze \u00a77.2.2 SCOPING: key-name versus referent.",
+    "value": "50 -- occurrences of componentFrame in evaluation-proof.v8.json (4bb33f772c8c510c470643082f6bfb8a4df28a050b4720dda6cdd5187bd3e303), comprising 1 object key and 49 string-leaf mentions. REFERENT CORRECTED in v1.8, SELF-MEASUREMENT WITHDRAWN in v1.9. The key name says \"MeasuredHere\", which reads as THIS artifact; the honest name for the same figure is $.measuredSelfReport.componentFrameOccurrencesInEP8. v1.8's correction additionally stated a count of this token in this document. That statement was true of the resolved predecessor and was made FALSE BY BEING WRITTEN: the sentence names the token three further times, so the resolved successor holds three more than the predecessor did. No count of this token in THIS document is stated here, and none should be: it is a self-measurement whose subject includes the act of recording it, so it has no value that survives its own publication, let alone the next edit. See freeze \u00a77.2.2.1(a) item 4.",
+    "why": "BLOCKER-3: withdraw a self-measurement whose subject includes the act of recording it"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 1,
+  "sets": 1,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0,
+  "whyNoDigestMoves": "the leaf is prose about EP8 and about this document; it is not an input to any preimage."
+ }
+}

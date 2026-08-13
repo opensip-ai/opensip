@@ -526,14 +526,14 @@ written; it was DECIDED on 2026-08-05 by `sfbreen` (§4.5). The adjudication
 recorded here neither closed it nor contributed to closing it.**
 
 | PRODUCT | [`product-dispositions.v1.json`](artifacts/product-dispositions.v1.json)<br>`bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017` | binding product packet | decided rows are frozen per §5 | **`CD-RT-5` DECIDED 2026-08-05 by `sfbreen`** — amended by the product authority, who was asked how to attribute it and supplied both `decidedBy` and `decidedOn`; **the coordinator selected neither**, because §4.4 is this document's forensic record of a fabricated authority attribution. Retention is bounded on **time, size and count**, the three bounds independent by construction; a bound firing transitions to the existing **PURGED** state — degradation, not deletion — and **tombstones survive**. Default posture **`DURABLE_RETAINED`**, `implicitDurableRetention: YES`, which **overrides** `retention-tiers.v22#recommendedDefaultPosture` (status `AWAITING-PRODUCT-DISPOSITION`; architecture recommends, the authority decides). Validated by **`check-product-dispositions-v2.py` — UNREVIEWED**: the retained `check-product-dispositions.py` hardcodes `CD-RT-5` as the **sole pending** Phase-2 decision and cannot pass *any* decided state, so this application **forced** the checker column exactly as §7.9 describes. **Four artifacts still assert the pre-decision state** — `retention-tiers.v24` (×2), `v10-disposition.v1`, `versioning-policy.v8` — each closable by one successor; see §4.5 |
-| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json)<br>`685259e76bf55d0eb1a3d3197f7ecd90a7ba737be13755137e167c8240b88b22` | per-claim status register | not a surface | final reconciliation against every row above |
+| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json)<br>`95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0` | per-claim status register | not a surface | final reconciliation against every row above |
 
 Independently `PASSED` but **explicitly unapplied** Phase-1A candidates, recorded
 so their existence is visible and escalable and for no other purpose:
 
 | Candidate | SHA-256 | Independent review | Standing |
 |---|---|---|---|
-| [`retention-tiers.v24.json`](artifacts/retention-tiers.v24.json) | `ba29c115a9064ab1cd66ea01751b238acf092b3d699ca43027de7a8dfe55a277` | **PASSED — both parts, 0 blockers** — [review](artifacts/retention-tiers.v24.review-independent.json) `633301d5fb6400858a1e10acca50aefe8e58502ef346d5f3d06f6da5cff0084a`, over checker `check-retention-custody-v24.py` `9a309302df6d2f1108f1fbfb4978bfc93b102eb0394c99ba7be7fc550d7fa909` | `CANDIDATE-NOT-APPLIED`. Not the §3.1 insertion. **Does not close `CD-RT-5`** — it selects no retention default, and `durableDefault` remains `UNSELECTED` in its own bytes. | **Carries the V10 item-3 discharge** (§4.6). Part B is carried byte-identically from v23 — canonical `sha256:199b55e1…`, verified independently by the reviewer — and v24 **enforces `predecessorPartBVerdictAppliesToTheseBytes: false`**, refusing to inherit its own predecessor's verdict because the instrument and the shared base both changed. The reviewer re-earned it and named which part it inherited. Part A repairs `IR-RT23-01` by **measuring** the PLAN-ID-V1 closure rather than enumerating it: 191 positions probed, 39 refused, 152 admitted, 0 admitted positions leaving the PlanId unchanged. Two non-blocking corrections stand against it — a **sixth** open sub-structure (`$.resolvedConfiguration[*].value`, which the contract closes to four keys while putting **no type** on `value`), so the published count of five understates; and `RT24-A-RES-08` states its own error in the wrong **direction** — its one checker-side literal `STAGE_KEYS` (9 keys) is *narrower* than the live `c2-plan-stage-schema.v4#stageSchemas` (12), so it **understates** the admitting set rather than overstating it. Neither blocks, because `RT24-A-INV-08` is universally quantified over any preimage position — the repair v23's reviewer prescribed. |
+| [`retention-tiers.v28.json`](artifacts/retention-tiers.v28.json) | `e622b3cc19ba6a550348d849eedf5867e27a0302800b5b705a57e3bb611f9de2` | **PASSED — `ACCEPT AS A CANDIDATE`, 0 blocking, 6 non-blocking** — [review](artifacts/retention-tiers.v28.review-independent.json), over retained checker **`check-retention-custody-v28.py` — UNREVIEWED**, named here in full knowledge of that (20/20 vectors, 24/24 invariants, 160/160 mutations, 966 type respellings 0 admitted). Predecessors `check-retention-custody-v23/v24.py` are permanently `exit 2 RT23-PIN-REFUSED` — they hard-pin the product packet, which legitimately advanced when `CD-RT-5` was decided; they are retained and immutable, so this is §7.6/§7.10 and is not repairable. | **APPLIED 2026-08-12** at the product authority's explicit instruction, superseding `retention-tiers.v24` (`ba29c115…`, `CANDIDATE-NOT-APPLIED`, which selected no default and left `durableDefault` `UNSELECTED`). **This application implements the decided `CD-RT-5` posture and closes nothing else.** Lineage: v25 **REJECTED** at 4 blockers — its eviction demands returned `len(evictable)` at the values declared to *disable* them, and `0/0/0` is every unconfigured project — v26 **ACCEPT** at 0 blockers repairing all four inside the algebra, v27 repairing three stale self-measurements, v28 repairing three derivation-**form** defects so the corpus resolver can materialise it. v28 declares under **both** `check-completeness.py` and `check-completeness-v2.py` and applies **8/8 operations at 0 errors**; resolved canonical `4241f87b…`. Form-only was proven, not asserted: repairing v27's form and applying its own operations reproduces v27's published `resolvedValue.sha256` exactly, and v28's resolved value differs at **5 leaf paths of 2935, all IDENTITY, 0 added, 0 removed**. **Silent demotion re-verified unreachable** — every path from a `DURABLE_AUTHORITATIVE` request across the resolved table, 6 cells and 7 outcomes, `RT26-A-INV-18/-19` at 0 violations; freeze law 14 holds. **What this does NOT do**: it is not the §3.1 Phase-1A insertion, it supplies no EVIDENCE/D9 join, and register row `DR-008` therefore remains open on its integration half. **Full-chain resolution still refuses at 30 errors and that is not this artifact's defect** — `retention-tiers.v26` is a full-text standalone whose narrative change-log both resolvers misread as an executable derivation; per §7.3's terminus rule, resolution must stop at v26's reviewed bytes rather than recurse through them. | **Carries the V10 item-3 discharge** (§4.6). Part B is carried byte-identically from v23 — canonical `sha256:199b55e1…`, verified independently by the reviewer — and v24 **enforces `predecessorPartBVerdictAppliesToTheseBytes: false`**, refusing to inherit its own predecessor's verdict because the instrument and the shared base both changed. The reviewer re-earned it and named which part it inherited. Part A repairs `IR-RT23-01` by **measuring** the PLAN-ID-V1 closure rather than enumerating it: 191 positions probed, 39 refused, 152 admitted, 0 admitted positions leaving the PlanId unchanged. Two non-blocking corrections stand against it — a **sixth** open sub-structure (`$.resolvedConfiguration[*].value`, which the contract closes to four keys while putting **no type** on `value`), so the published count of five understates; and `RT24-A-RES-08` states its own error in the wrong **direction** — its one checker-side literal `STAGE_KEYS` (9 keys) is *narrower* than the live `c2-plan-stage-schema.v4#stageSchemas` (12), so it **understates** the admitting set rather than overstating it. Neither blocks, because `RT24-A-INV-08` is universally quantified over any preimage position — the repair v23's reviewer prescribed. |
 | [`evaluation-proof.v13.json`](artifacts/evaluation-proof.v13.json) | `1497e8872217e7f2b196888483d2e443d25d554a3023c3bcede9e5722d0c5abe` | **PASSED** — `PASS-WITH-RESIDUALS`, **0 blockers**, 7 non-blocking observations — [review](artifacts/ep13.review-independent.json) `c7b80c396caa51d67db5fbade110f7ff1ade44c962b50de9bfc905a2b585d53d`, over checker `check-evaluation-proof-v13.py` `0de5b5bfe16dcee539abcfd9f10de74062c90582fb0eeaebb92b52e33f3e04a1` | `CANDIDATE-NOT-APPLIED`. Not the §3.1 insertion. Does not close `CD-RT-5`. | **Converged after five rounds** — v9 `REJECT`(2), v10 `REJECT`(1), v11 `REJECT`(2), v12 `REJECT`(1), v13 **PASS**. Each round established a strictly different property: v9 that the guard exists **in source**; v10 that a **call** was made; v11 that the **seat** named the repaired module; v12 that the returned value **is** the anchored object, compared by `is`; v13 that the published **scope** is a characterisation of the class rather than a list of variant names. The reviewer that routed the gate built its own `MD2`/`MD3` and reproduced the v12 defeat exactly (stdout byte-identical to an honest run), then found a **fourth** means of distinguishing (`SB-MD6`) which routes the accept/reject gate itself and is disclosed as `IR-EP13-NB-01`. It ruled the terminus acceptable on a stated test — *does a reader applying the published boundary draw a false conclusion?* — and recorded that **v13 nowhere claims the class is unclosable**, so rejecting it for not closing a hole it never claimed to close would be rejecting it for accuracy. The disclosure is **enforced, not intended**: a declared escape that is ever *caught* raises a finding, so the live escape cannot be retired by quietly breaking it. **The v8 defect record below stands as history** and is superseded, not withdrawn: `check-evaluation-proof-v8.py` still admits a wrong plan identity on its own frozen bytes, and seven `evaluation-proof` versions still pin the defective C-2 v3 bytes (§7.2 forbids re-pinning in place). **CRITICAL — v13 DOES NOT SUPERSEDE v8 FOR V10, and the two are not interchangeable.** Measured 2026-08-03 while authoring the V10 disposition, and independently reproduced by the coordinator: the `evaluation-proof` lineage **changed the claim it serves at v10**. `evaluation-proof.v8` carries `claimId: EVIDENCE` with `proofObligationsByClaimShape` — a closed six-shape map (local-match, relationship-match, aggregate-match, no-match, indeterminate, error) with 7 positive vectors. `v10` through `v13` carry **zero** occurrences of `no-match`, `relationship` or `proofObligationsByClaimShape`; the coverage is present through v9 and drops at v10, while each of v10..v13 declares `supersedesProofObligationsOf` its predecessor. The `claimId` moves separately and later: v8..v11 carry `EVIDENCE`, and the switch to `CD-RT-5` happens at **v12** — measured, after an earlier revision of this row wrongly placed it at v10. **The obligations lapse two versions before the declared claim changes**, which is why neither signal alone would have caught it. **The v10..v13 chain repairs C-2 join answer-provenance; it does not carry the claim-shape proof obligations V10's `requiredResolution` item 1 names.** The corpus already resolved this correctly on its own: `evidence.v10` pins `evaluation-proof.v8` and **not** the chain head. So `v13` is the head of the provenance lineage and `v8` remains the artifact discharging V10 item 1; neither is stale and a signer must not read one as replacing the other. |
 
 **Defect record — `check-evaluation-proof-v8.py` (`c80ac50e21dcd350e5f5285958a6cfb94d52c5c3f7d64f2396d91b544fa82769`), recorded 2026-08-02.**
@@ -2894,6 +2894,186 @@ expectation.**
    silent correction, because the authority should be able to weigh *"a false
    closure claim survived here"* when judging how carefully the rest was checked.
 
+
+
+#### 7.2.2.1 The vacuous caveat — a fifth instance, and the most durable one
+
+Measured 2026-08-12, exhaustively rather than by sampling.
+
+Nine occurrences across seven artifacts carry one sentence, propagated verbatim
+from `evidence-identity-recipes.v1`:
+
+> *"cannot distinguish key-sort by Unicode scalar value from key-sort by UTF-8
+> bytes -- the two differ above the BMP."*
+
+**The justification is false.** Over all 1,112,064 valid Unicode scalars
+(0x0000-0x10FFFF less the surrogate range D800-DFFF), UTF-8 byte order and
+Unicode scalar-value order have **zero inversions**: they are the *same total
+order*, on single characters and on strings. UTF-8 is order-preserving by
+construction. The encoding whose order genuinely differs is **UTF-16**, which
+has exactly one adjacent inversion, at U+FFFF versus U+10000 -- precisely "above
+the BMP". The sentence is a true statement about UTF-16 attached to UTF-8.
+
+**The defect is not the wrong word. It is that the caveat is VACUOUS.** The
+sentence exists to disclose a limitation: a pure-ASCII bundle cannot discriminate
+between two candidate key-ordering policies. But those two policies are one
+policy. There was never anything to discriminate. A reader who accepted the
+caveat came away believing the corpus had disclosed an ordering risk when it had
+disclosed nothing.
+
+**And it displaced the real limitation.** The genuine undetermined pair is
+{scalar value == UTF-8 bytes} versus {UTF-16 code units}, which is exactly
+`canonical-json-profile.v1#$.undeterminedRegister.UR-1` -- open, not closed. That
+profile states the fact correctly (*"sibling CVE1 says UTF-8 key bytes (the same
+order); JCS-style UTF-16 ordering survives every pinned vector"*) and warns
+*"Do not implement JCS (or RFC 8949, or any named standard) and check it against
+the vectors."* The exposure is not theoretical: applied `delivery.v4` defines
+release-manifest canonicalisation as *"sha256 over JCS of a ReleaseManifestV1"*,
+and RFC 8785 JCS sorts by UTF-16 code units. The settling vector is two keys,
+U+E000 and U+10000: scalar and UTF-8 order emit U+E000 first, UTF-16 emits
+U+10000 first, because the surrogate pair opens 0xD800 < 0xE000. It has not bitten
+only because no `ReleaseManifestV1` instance exists yet and every pinned vector is
+ASCII.
+
+**Why it survived four independent reviews.** It reads as a *concession*.
+Reviewers hunt for claims that are too strong; this is a claim that the artifact
+knows LESS than it does. §7.2.2's four modes are all recomputations under a
+different definition -- but nobody recomputes a limitation, because admitting a
+limit is not an assertion of merit. **Add the mode: a caveat is a measurement.**
+A disclosed weakness that is false is worse than an overclaim, because it buys
+the reader's trust with the appearance of candour and spends it hiding a real gap.
+
+**Custody of the repair.** `evidence-identity-recipes` v1-v4 and
+`evidence-identity-recipes.v2.review-independent` are reviewed bytes and keep this
+sentence permanently (§7.2, §7.6); a verdict binds the bytes it saw, and the
+historical record stands. `v5` carries it in a **v5-authored** block and is the
+subject of blocker `B-EIR5-02`; it repairs in a `v6` successor.
+`uncomputable-identity-fields.sweep.v1` is hard-pinned by digest in **ten**
+artifacts and therefore repairs by successor, never by edit.
+
+
+##### 7.2.2.1(a) Corrections to the record above, and one new mode
+
+Three independent reviews on 2026-08-12 measured against §7.2.2.1 and against the
+artifacts written to repair it. All four items below are the coordinator's
+defects, recorded because a correction that leaves no trace is indistinguishable
+from an error never made.
+
+**1. "Nine occurrences across seven artifacts" is not reproducible as written.**
+It is true only under a scoping this section failed to publish, which is the
+precise defect §7.2.2 exists to catch. The figure counts **occurrences of the
+clause in artifacts that ASSERT it**, excluding reviews that report it as a
+finding and excluding successors that quote it while repairing it, measured
+**as of 2026-08-12 before `v6` and `sweep.v2` were authored**. Under that
+definition it is exactly: `evidence-identity-recipes` v1 (1), v2 (1), v2's
+independent review (1), v3 (1), v4 (1), v5 (2), and
+`uncomputable-identity-fields.sweep.v1` (2) = **9 across 7**. A raw string count
+of the live tree now returns 23 across 11, because the repairs quote the clause
+in order to strike it. Other defensible scopings return 16/11, 11/8 and 9/6.
+**A figure without its definition is not a measurement, however true it is** —
+this section published one anyway, one day after the same lesson was recorded
+for word-numerals. **The figure itself is correct**: an independent reviewer of
+`evidence-identity-recipes.v6`, working from the artifacts and without this
+section, derived *"exactly 9 occurrences across 7 artifacts"* by leaf-level
+scoping and noted that a naive grep returns 15 across 11 and is wrong by 6
+"because four files quote the sentence to kill it". Two reviewers reached
+different totals from the same tree, and both were right, because they scoped
+differently. That is the whole lesson.
+
+**2. A carrier was missed because the sweep keyed on one spelling.**
+`evidence-identity-recipes.v1.review-independent.json` contains
+`above the BMP` **zero** times and carries the claim in a variant spelling —
+and it is the one artifact that **endorses** it: *"The subject's own caveat …
+nor key-sort by Unicode scalar value from key-sort by UTF-8 bytes — is correct
+and I did not narrow it."* It is reviewed bytes and keeps that sentence
+permanently. **The corpus therefore contains a permanent independent
+certification of the falsehood**, and §7.2.2.1 did not name it.
+
+**3. The repair instruction was scoped to the symptom, not the disease.**
+Blocker `B-EIR5-02` reads *"strike 'which differ above the BMP' at both sites"* —
+scoped to the false clause. `evidence-identity-recipes.v6` repairs those two and
+misses a third, `$.declaredUnresolvedDependencies.entries[4].reproductionStatusInV5`,
+which carries **the vacuity without the clause**. Both this section and `v6`
+correctly state that the defect is the vacuity rather than the wrong word, then
+both keyed the repair on the word. A successor must key on the vacuity.
+
+The third site is now confirmed by direct reading. `v5` carries **three**
+vacuity-bearing sites and **two** clause-bearing ones; `v6` repairs exactly the
+two. `$.declaredUnresolvedDependencies.entries[4].reproductionStatusInV5` reads
+*"the bundle is pure ASCII, so this measurement cannot distinguish escaping
+policies for non-ASCII and cannot distinguish key-sort by Unicode scalar value
+from key-sort by UTF-8 bytes"* — the vacuity intact, the tell-tale clause absent.
+Two independent reviewers disagreed on whether `v6` was complete; **both were
+correct**, one counting clause-bearing sites and the other vacuity-bearing sites.
+A reviewer who greps for the clause certifies a repair that left the defect
+standing.
+
+**4. NEW MODE — the self-invalidating measurement.**
+`r1-lifetime-neutrality.conformance.v1.8` operation 4 repairs a referent trap and,
+in doing so, publishes *"this artifact's own bytes contain `componentFrame` 8
+times."* Measured: the resolved predecessor holds **8**, the resolved successor
+holds **11**, and operation 4's own value string contains the token **3** times.
+`11 - 8 = 3`. **The sentence was true when written and made false by being
+written.** This is not SCOPING, ENUMERATION, ENCODING or AUTHORSHIP: the
+definition was published, the enumeration was derived, the encoding was integer,
+and the author authored it. The measurement's subject **includes the act of
+recording it**, so the value is stale at the instant of publication. It appeared
+inside an operation whose entire purpose was to repair a false self-measurement.
+
+**The rule.** A self-measurement whose subject includes the artifact that carries
+it must either be stated as a **fixed point** — recomputed after the sentence is
+written, and re-verified as still true with itself included — or scoped
+explicitly to a state that excludes it (*"as of the predecessor"*, *"excluding
+this block"*). Absent that, it is not measurable by anyone, including its author.
+The general form: **whenever the measurer is inside the measured, publish the
+boundary.**
+
+
+##### 7.2.2.1(b) APPLIED 2026-08-12 — the two BMP repairs
+
+Applied at the product authority's explicit instruction, both at **0 blocking
+findings** under independent review.
+
+| artifact | sha256 | verdict |
+|---|---|---|
+| [`evidence-identity-recipes.v6.json`](artifacts/evidence-identity-recipes.v6.json) | `bed154dce8b49c1cfc59663b91a45a74dd8d3dd4cfa2e4c9ccbf7fef3d34e523` | **ACCEPT AS A CANDIDATE — 0 blockers**, 6 advisories |
+| [`uncomputable-identity-fields.sweep.v2.json`](artifacts/uncomputable-identity-fields.sweep.v2.json) | `a84f8eed7f73b97f832fdfeb31974150fe9e5146e3883ee6560ce0bcaafd8823` | **ACCEPT — 0 blockers**, 6 advisories |
+
+**What "applied" means here, precisely — it is not what it meant for
+`retention-tiers.v28`.** Neither artifact is a §3 surface, neither appears in the
+claim register as a binding artifact, and both declare `binds: NOTHING`. No head
+row moves. Application means only this: **each is the document of record for its
+lineage from this date, and its predecessor's ordering caveat is superseded.**
+Nothing is sealed, no claim status changes, and no signature is implied.
+
+**READER ROUTING — this is the operative part.** The three citations of
+`uncomputable-identity-fields.sweep.v1` elsewhere in this freeze (the 74
+classified positions / 33 unparked union, the parked-list measurement of
+2026-08-04, and the two-corpus-wide `semanticCapabilityClosureCommitment`
+finding) **correctly continue to name v1**, because those are citations of what
+v1 measured and v1's bytes carry those measurements (§7.2, §7.6). A reader
+following any of them will nonetheless encounter v1's ordering caveat, which is
+**false**. Route it: **for object-key ordering, v1 is superseded by `sweep.v2`;
+for every other measurement, v1 stands.**
+
+**What application does NOT close.**
+- `canonical-json-profile.v1#$.undeterminedRegister.UR-1` — *"Object-key ordering
+  PLANE: Unicode scalar value (== UTF-8 bytes) or UTF-16 code units?"* — remains
+  **OPEN**. It belongs to the canonical-JSON profile's owning surface, and neither
+  applied artifact may close it (§6 law 19).
+- The JCS exposure in applied `delivery.v4`, whose release-manifest
+  canonicalisation is defined as sha256 over JCS while RFC 8785 JCS sorts by
+  UTF-16 code units. Its independent reviewer verified the chain and recorded one
+  honest gap: it did **not** confirm the RFC's ordering against a primary source.
+  **Confirm that before anyone implements a release manifest.**
+- The third vacuity site. `v6` repairs `v5`'s two **clause-bearing** sites; the
+  third, `$.declaredUnresolvedDependencies.entries[4].reproductionStatusInV5`,
+  carries the vacuity without the clause and is **still live**. A `v7` keyed on
+  the vacuity is outstanding, and until it lands the applied head of this lineage
+  still contains one instance of the defect it was authored to remove.
+- The permanent endorsement in
+  `evidence-identity-recipes.v1.review-independent.json`, which is reviewed bytes
+  and keeps its certification of the falsehood forever (§7.6).
 ### 7.3 Standing rule — executing a verified closure is not building against it
 
 **Accepted 2026-08-02. Applies to every surface, retroactively and going forward.**
@@ -2966,6 +3146,113 @@ passing review unpark anything: `evidence.v10`'s shape is portable under bluepri
 note **N-3**, and every §7.1 identity recipe is still open. Where a
 derivation exists only as an executable, that is still a real contract gap: the D9
 row of §3 carries it, and it is closed by a binding artifact, not by this record.
+
+**Rider added 2026-08-12 — THE THIRD DIALECT, AND THE FIRST INSTRUMENT REPAIR.
+JSON-Pointer operation paths were unreadable to BOTH resolvers: every `set`
+refused loudly, and an `add` would have silently INVENTED a literal slash-named
+key. Both instruments now read three dialects strictly, the gate has been
+re-executed POSITIVE, and the repair awaits its independent review.**
+
+Measured 2026-08-12 by executing rider 3 below against
+`r1-lifetime-neutrality.conformance.v1.9` — the first candidate to reach the
+gate in the pointer dialect. Both resolvers detected all three delta
+declarations, verified every chain digest, honoured the v1.6 terminus, and then
+refused 26 of v1.7's 28 operations with *"does not resolve against the
+predecessor"*. The cause is the step grammar: `STEP_RE` walks dotted paths, and
+`path_steps` did not refuse a pointer path — it mis-tokenised the WHOLE path
+into one bogus step (`'/version'` → `['/version']`), doing exactly what its own
+docstring warns against: returning a confident wrong parse instead of `None`.
+The 26 sets refused only because the `from`-restatement guard caught them; the
+two `add` operations (`/successorContextV17`, `/findingIdentity`) would have
+SUCCEEDED by inserting literal slash-named top-level keys. **The loud refusal
+was luck, not design: sets are guarded, adds were not.** Full record with the
+corpus-wide dialect census:
+[`r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v1.json`](artifacts/r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v1.json)
+(`3aff78f1…`).
+
+**The census, measured before the repair — and it corrects the rider below.**
+Three path dialects were live: 12 dotted (11 resolving, plus
+`retention-tiers.v26`'s recorded terminus false positive), 6 JSON-Pointer
+(`r1` v1.7/v1.8/v1.9; `evidence-identity-recipes` v6 — **already APPLIED
+2026-08-12** — and v7; `uncomputable-identity-fields.sweep.v2`), none of them
+resolvable by any corpus instrument, and 7 array-token, silent under
+`check-completeness.py`. **The 2026-08-10 census rider's figure of FOUR
+silently-refused artifacts was stale by two days: `v10-disposition.v4`,
+`versioning-policy.v16` and `versioning-policy.v17` postdate it, making
+SEVEN.** This is the third instance of this section's class — a deliberate,
+reasonable authoring choice unreadable to the consuming instrument — after the
+array-token hardening and the v26 change-log false positive.
+
+**The repair, applied 2026-08-12 at the coordinator's explicit instruction**
+([`check-completeness.dialect-repair.v1.json`](artifacts/check-completeness.dialect-repair.v1.json),
+`683b3db8…`; instruments `6c52a5f9…` → `af9f8837…` and `b08824e8…` →
+`dbe1e695…`). `path_steps` in both instruments reads ARRAY tokens (bool tested
+before int), RFC 6901 POINTER strings, and the unchanged DOTTED grammar — and
+every string parse must **round-trip to the exact declared path or refuse**,
+closing the silent add-invention hazard for all dialects with one rule.
+`check-completeness.py` additionally recognises array-token operation lists
+(the `(None, [])` class closes), gains a refusal branch INDEPENDENT of its
+success predicate — rider consequence 1 below, implemented — and both
+instruments record `pathDialect` in resolve provenance so the next dialect is a
+census row rather than a surprise. Evidence: selftests green with 9 and 7 new
+dialect cases; ZERO canonical-digest movement across every previously-resolving
+artifact under both instruments; zero cross-instrument disagreements; and
+three-way byte-identical resolution — both instruments plus an independent
+pointer resolver sharing no walk code — on all three candidate subjects.
+**The repair itself is UNREVIEWED and says so on its face
+(`AWAITING-INDEPENDENT-REVIEW`); the 2026-08-04 derivation-reader review binds
+the PRE-edit bytes (§7.2) and does not carry forward. The independent review
+was dispatched 2026-08-12.**
+
+**The gate, re-executed**
+([`r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v2.json`](artifacts/r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v2.json),
+`f79ccd04…`): **POSITIVE under both instruments** — 28/28 + 5/5 + 1/1
+operations at 0 errors, matching the independent review's own resolution,
+resolved canonical `27d27bc0…`. The same repair makes the whole
+`evidence-identity-recipes` lineage and `sweep.v2` resolvable (resolved
+canonicals recorded there). Rider 3's gate is now mechanically satisfiable for
+every pointer-dialect candidate, **pending the instrument-change review — a
+coordinator applying on these instruments before that review must record the
+reliance deliberately.**
+
+**State of the two candidate lineages, for the apply decisions this rider does
+not take.** `r1-lifetime-neutrality.conformance.v1.9` (cited by path, not
+linked: `artifacts/r1-lifetime-neutrality.conformance.v1.9.json`, `37897be0…`)
+is `CANDIDATE-NOT-APPLIED`, reviewed `ACCEPT-AS-CANDIDATE` at 0 blockers and 6
+advisories (`3914c9c5…`), gate positive as above.
+`evidence-identity-recipes.v7` was reviewed `REJECT` at 1 blocker `B-EIR7-01`
+(`901e2d8c…`) — a falsified verification-status sentence re-carried in the very
+leaf it rewrote. That v7 review also CLOSED this corpus's open RFC 8785 item
+from the primary source: JCS §3.2.3 sorts property names as UTF-16 code-unit
+arrays, confirmed by executing the RFC's own test vector — the `delivery.v4`
+JCS exposure argument stands. The successor `evidence-identity-recipes.v8`
+(cited by path: `artifacts/evidence-identity-recipes.v8.json`, `78aff46e…`)
+repairs that one sentence and derives the defect CLASS over the resolved value
+rather than the named symptom — and its independent review returned
+2026-08-12: **`REJECT` at 1 blocker `B-EIR8-01`** (verdict at
+`artifacts/evidence-identity-recipes.v8.review-independent.json`,
+`ac4ae439…`). The named repair verified exact — 1 changed leaf of 2520, census
+delta exactly the two declared citation digests, every figure in the new
+sentence recomputed, every carried-tail claim re-verified fresh, and the
+reviewer reproduced `cc27c2be…` from first principles as the FIFTH
+reproduction on record — but the CLASS claim failed recomputation: a second
+falsified verification-status carrier stands at `$.knownLimitations[2]`,
+spelled with "corroborated" — one spelling outside the predicate vocabulary
+v8's own `spellingAssumptions` disclosed as its bound — and falsified by the
+same v5 review that falsified B-EIR7-01's sentence (its suites corroborated
+every F-1 path at 0 failures). v8's `measuredResult` ("EXACTLY 1") and
+`afterThisRepair` ("0 falsified leaves") are therefore false, the v6
+incompleteness mode at one further remove. **A v9 owes one leaf plus corrected
+scoping claims; no apply decision arises for this lineage until then.**
+
+**What this rider does NOT do.** It applies nothing and seals nothing.
+`check-completeness.py` still lacks content-addressed predecessor identity —
+`v10-disposition.v3`/`.v4` now refuse LOUDLY under it where they were silent
+(check-completeness-v2.py resolves both); porting that branch is named
+successor work. The `retention-tiers.v26` terminus false positive stands
+exactly as recorded. And nothing here alters any reviewed byte: the v1
+refusal record is not edited, and the pre-edit instrument bytes remain
+recoverable at git `b0fdc5e`.
 
 **Rider added 2026-08-10 (second) — `CMP-IR-01` HAS A MIRROR. Name-based detection
 gives false NEGATIVES; shape-based detection gives false POSITIVES. And the mirror
@@ -4814,7 +5101,7 @@ Python:      3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0]
 Host:        Darwin 25.5.0 arm64 (macOS 26.5.2, build 25F84)
 Taken against:
   ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md  47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e
-  claim-register.v1.json                  685259e76bf55d0eb1a3d3197f7ecd90a7ba737be13755137e167c8240b88b22
+  claim-register.v1.json                  95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0
   check-completeness.py                   6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6
 
 Command:     python3 -I -B artifacts/check-completeness.py          -> exit 1
