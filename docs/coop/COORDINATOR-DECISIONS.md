@@ -954,7 +954,7 @@ decision; nothing here forecloses slice 2.
 
 ## D-009 — DR-123 acceptance: mandatory CLI baseline
 
-- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Date/Status:** opened 2026-08-13; **ADOPTED 2026-08-13** — per-entry CONSENT at turn 3 of the batch review (turn 1 `15838fe8…` OBJECTIONS ×4, turn 2 `f0e0457e…`, turn 3 `cd08c5f0…` CONSENT ×4 on the merits, nothing waived).
 - **Decision type (relabeled per turn 1):** RULE-GOVERNED IN SUBSTANCE —
   the register and file 01 already mandate the CLI baseline for every
   slice; this entry is the awaited assent, and PREFERENCE-LADEN would
