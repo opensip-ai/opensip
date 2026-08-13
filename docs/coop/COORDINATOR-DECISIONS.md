@@ -917,7 +917,7 @@ decision; nothing here forecloses slice 2.
 
 ## D-008 — DR-119 acceptance: self-contained language-closure product rule
 
-- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Date/Status:** opened 2026-08-13; **ADOPTED 2026-08-13** — per-entry CONSENT at turn 3 of the batch review (turn 1 `15838fe8…` OBJECTIONS ×4, turn 2 `f0e0457e…`, turn 3 `cd08c5f0…` CONSENT ×4 on the merits, nothing waived).
 - **Decision type:** PREFERENCE-LADEN (route C).
 - **Decision (amended per turn 1):** the proposed product rule (file 02,
   DR-119 row) is **ACCEPTED UNIVERSALLY** — it binds EVERY supported
