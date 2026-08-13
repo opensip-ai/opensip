@@ -1,0 +1,177 @@
+{
+  "artifact": "check-delivery-v5.review-independent.json",
+  "surface": "DELIVERY",
+  "date": "2026-08-13",
+  "role": "INDEPENDENT REVIEW of the instrument artifacts/check-delivery-v5.py, executing the checker-standing half of DR-011-R04 under the adopted D-001 plan (COORDINATOR-DECISIONS.md, R04: 'a successor discharging the section 7.1 disqualifier its own review names ... or a scoped disposition retaining OBS-1'). I did not author the subject, the artifact it checks, or any predecessor instrument. I set out to make it pass on wrong bytes.",
+  "status": "REVIEW",
+  "applicationState": "NOT APPLIED",
+  "binds": "NOTHING",
+  "headRepointing": "NONE. DELIVERY's head remains artifacts/delivery.v4.json at 3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121. This review closes no row, repoints no head, and edits no existing file. ONE new file was written: this one.",
+
+  "verdict": "ACCEPT-STANDING. The instrument earns reviewed standing as the retained checker of the APPLIED head artifacts/delivery.v4.json. Every claim its 171-line header makes that I could execute, I executed, and every one reproduced: exit 0 / FINDINGS: 0 on the live pinned bytes in 0.12s; all 14 shape-preserving meaning-inverting artifact mutations refused, including the ten escapes that rejected check-delivery-v4.py, reproduced byte-for-byte from that review's escape list; all 17 code mutations fail for their own named reason; the 277-position statement-seal domain derives from the artifact and equals STATEMENT_SEALS exactly both ways, with zero duplicate keys in the source dict and sample seal digests reproducing under my own independent NFC/sha256 pipeline; the append-a-false-sentence census reproduces its published figures exactly (989 distinct string leaves, 554 refused, 432 admitted, 3 unreachable) and 0 of the 432 admitted positions is sealed or inside a compiled block; my own falsity attacks outside the built-in suites (a published boolean flipped true, a published byte length moved by one, a committedBytesHex made odd-length) were each refused with a single finding naming the exact position in (recomputed, published) order, with no traceback. BOUNDARY: this verdict grants CHECKER STANDING ONLY. It does not apply delivery.v5.json, does not discharge the section 7.1 disqualifier on that candidate (which STANDS AT FULL STRENGTH per its own review, 1e5de421...), does not modify DELIVERY's freeze row, and does not close DR-011-R04 - it characterizes the fixture-skew half of R04 at fixtureSkewMeasured and leaves the successor-or-disposition decision, including OBS-1's retention, to the coordinator.",
+
+  "subjectIdentified": {
+    "instrument": "artifacts/check-delivery-v5.py",
+    "sha256AtStart": "c70f153342c3f0275c8a838c38548c3954f70eb0f911600da2b53914fdad1724",
+    "sha256AtEnd": "c70f153342c3f0275c8a838c38548c3954f70eb0f911600da2b53914fdad1724",
+    "boundTo": "START bytes; start and end digests are identical, so no drift occurred during this review",
+    "whatItActuallyChecks": "artifacts/delivery.v4.json at pinned digest 3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121 - the APPLIED DELIVERY head. The 'v5' in the filename is the CHECKER'S OWN lineage number (successor to the REJECT-FOR-REPAIR check-delivery-v4.py), not the subject's. MEASURED: the string 'delivery.v5.json' occurs 0 times in the instrument; SUBJECT is the literal 'artifacts/delivery.v4.json' at line 186. The corpus's recorded naming trap (D-001 DR-002 NOTE-1: 'check-evidence-v11.py is v10's own checker') recurs here in exactly the form the delivery.v5 review measured: NO instrument in this corpus reads delivery.v5.json, and this one does not either.",
+    "executionRecord": {
+      "command": "python3 -I -B artifacts/check-delivery-v5.py",
+      "exit": 0,
+      "findings": 0,
+      "wallClock": "0.12s",
+      "headline": "9 inputs hash-verified before any parse; 277 statementsSealed; 65 digestsAccountedFor; 21 operationsApplied; 7 roundTrips; 7 hexReEncodes; 17 controlsExecuted; 13 injectiveOverTheWholeCorpus; 10 verbatimQuotationsVerified; 3 danglingIntraDocumentPointers reported-not-asserted; 2 recordedInputsDECLAREDDRIFTED (IMPLEMENTATION-FREEZE.md, IMPLEMENTER-BLUEPRINT.md - both declared at authoringConditions.emissionDigests, consistent with section 7.7's no-pin rule for documents under concurrent edit)"
+    }
+  },
+
+  "blockers": [],
+  "blockerCount": 0,
+
+  "advisories": [
+    {
+      "id": "IR-CDV5-A1",
+      "position": "run_all line 3378 (parse_json of the subject, outside guard())",
+      "finding": "A duplicate JSON key in the SUBJECT propagates as an uncaught DuplicateKey traceback at exit 1 rather than a formatted finding. MEASURED in the scratch posture (pin re-pointed, 'surface' key duplicated): process exits 1 with 'DuplicateKey: duplicate JSON key 'surface' in artifacts/delivery.v4.json' as a raw traceback. The refusal is loud and NAMES the key (section 7.5 satisfied), but exit 1 is the same code the docstring assigns to 'findings', so a CI reader cannot distinguish 'subject has findings' from 'subject failed to parse' - the section 7.8.1 rule-3 shape one size smaller. Mitigation measured: on the live bytes this path is unreachable, because the whole-file pin fires at exit 2 BEFORE any parse; only an attacker who has already re-pointed PINNED reaches it, and they still get a refusal, never a pass.",
+      "grade": "NON-BLOCKING"
+    },
+    {
+      "id": "IR-CDV5-A2",
+      "position": "load_sources / gate_quotations, on the deliberately UNPINNED IMPLEMENTATION-FREEZE.md",
+      "finding": "Removing the unpinned IMPLEMENTATION-FREEZE.md from the tree yields exit 1 with 4 findings, two of which are DV5-QUOTE findings reading 'a VERBATIM-marked quotation ... is present in NO source this checker can read' - a missing input presenting as a substantive fabricated-quotation accusation against the artifact, which is section 7.8.1's D-6 class. MEASURED mitigation in the same run: DV5-INPUT at IMPLEMENTATION-FREEZE.md 'a recorded input is absent from the tree' and a DV5-ACCOUNT finding both name the true cause, so the output contains the diagnosis alongside the misleading findings. This is partial 7.8.1 compliance (the absence is NAMED) but not the rule-2 shape (a scoped, named skip of only the quotation class). Removing a PINNED input, by contrast, refuses perfectly: exit 2, 'pinned input is absent: artifacts/fact-plane.v1.json', nothing parsed.",
+      "grade": "NON-BLOCKING"
+    },
+    {
+      "id": "IR-CDV5-A3",
+      "position": "gate_pointer_resolution docstring, line 2113",
+      "finding": "The docstring states 'the count is printed on every run and --selftest requires it not to grow'. The second half is FALSE of the code: selftest() contains no assertion on danglingIntraDocumentPointers (measured: the identifier appears only at the bump site and in the docstring; no suite compares the count to its baseline of 3). Dangling pointers are notes, never findings, so growth would pass every suite silently. A one-line doc fix or a one-line selftest assertion closes it; recorded because a false sentence about what an instrument's own selftest enforces is the exact class this instrument exists to hunt.",
+      "grade": "NON-BLOCKING"
+    },
+    {
+      "id": "IR-CDV5-A4",
+      "position": "claim-register.v1.json DELIVERY row, field 'validator'",
+      "finding": "The register names check-delivery-v5.py as DELIVERY's validator. Scope overstatement, measured: the register's nine DELIVERY invariants (DL-PROV, DL-ELIG, DL-SUPPLY, DL-PROF, DL-AIRGAP, DL-PLATFORM, DL-EXPL, DL-TM, DL-ASSURE) occur ZERO times in the instrument, and 'releaseFixtures' occurs ZERO times. The instrument is the retained checker of the delivery.v4 identity/derivation/admission surface (DL-CLOSED-1, DL-DOM-1, DL-ORD-1, DL-INJ-1, DL-CUST-1..4), not a validator of the DELIVERY surface's release semantics. This is a register-wording residual for the R04/PC-6 reconciliation, not a defect in the instrument, which claims nothing beyond its subject.",
+      "grade": "NON-BLOCKING, routed to the coordinator's register reconciliation"
+    },
+    {
+      "id": "IR-CDV5-A5",
+      "position": "gate_derivation / run_all line 3396",
+      "finding": "gate_derivation builds the resolved effective contract (verified delivery.v2 plus the 21 operations, each 'set' from-value compared type-exactly against the verified predecessor via exact_equal, bool distinguished from int by type identity) and run_all DISCARDS the return value. No later gate reads the resolved document as one object; resolution coverage is instead distributed - Contract compiles from the operations' own values (which equal the resolved values at every added path, given the verified clean application), and gate_contract/gate_registries/gate_vectors read the verified delivery.v2 bytes directly. Measured consequence: none today (every block Contract needs is introduced by an operation, and _op_value fails the run if two operations write one path). Recorded so a successor knows the resolved-object diff is a coverage seam, not an implemented check.",
+      "grade": "NON-BLOCKING"
+    },
+    {
+      "id": "IR-CDV5-A6",
+      "position": "the measured residual, declared at the header and at --append-census",
+      "finding": "432 of 989 distinct string leaves admit an appended false sentence with the whole-file pin neutralised - free narrative prose (operation 'why' fields, repair narratives, reviewer-checklist items). Reproduced exactly this run: 989/554/432/3. Verified: 0 of the 432 is a sealed position and 0 is inside a compiled block (follows from the both-ways domain equality plus the measured empty intersection). The residual is real, measured, published by the instrument itself, and consistent with the corpus's quantified boundary (versioning-policy.v10's 'admitted at 80'). It is a declared limitation, not an escape: every NORMATIVE position is in the refused set.",
+      "grade": "NON-BLOCKING, declared by the subject itself"
+    }
+  ],
+
+  "standingChecks": {
+    "hashBeforeRead": "VERIFIED. verify_pins hashes all 9 pinned inputs before any parse and returns the verified bytes; the subject's bytes are threaded from verify_pins to every gate (gate_digest_accountability takes raw_text as a parameter; nothing re-opens the subject). Predecessor's re-read-after-verify window is closed as claimed. Pin drift and pin absence both refuse at exit 2 before parsing, measured directly (SUBJECT_DRIFT suite case; my S7 removal of fact-plane.v1.json).",
+    "loudRefusals": "VERIFIED with the two carve-outs at IR-CDV5-A1/A2. Exit 2 refusals name the file and print 'refusing to parse bytes this checker has not verified'.",
+    "dupKeyHooks": "VERIFIED. Every parse_json call installs the object_pairs_hook; the hook RAISES and NAMES the key; gate_duplicate_key_hook probes the hook on every run and fails the run if it admits or fails to name; DUP_KEY_HOOK_OFF suite case passes. Residual at IR-CDV5-A1: subject-side presentation is a traceback.",
+    "boolBeforeInt": "VERIFIED at every site: encA (type is bool at line 865 before type is int at 871), _cve1_type_name (914 before 916), derive_scalar_kinds (1720 before 1722), _leaf_census (3203 before 3205), adm_type's is_int uses type identity so bool cannot pass the integer gate; exact_equal compares type identity first. Never isinstance except inside the EXACT_TYPE_OFF and LEAF_CENSUS_BLIND mutations, whose whole purpose is to demonstrate the miscount (139 vs 108+31), and both suite cases pass.",
+    "censusConstantsRederived": "VERIFIED. No hand-typed key list, member list, sort key, gate order, position name or domain label describes the subject anywhere in the file: record shapes come from recordShape cross-checked against delivery.v2#capabilityManifestSchema[*].required, the 14 reachable scalar positions (6 bound + 8 open) are derived by walking compiled shapes over 9+ real samples, registries resolve BY OBSERVATION against candidates built only from delivery.v2/fact-plane.v1, PLAN-ID-V1 comes from resolved-inputs.v2#planIdContract, and the domain label from the artifact's closed vocabulary cross-checked against three recipe spellings. The two hand-held constant classes are PINNED (whole-file digests, produced by shasum) and STATEMENT_SEALS (content digests at DERIVED paths, existing precisely to survive the pin-re-pointing attack that killed the predecessor; three sampled seals reproduce under my own pipeline)."
+  },
+
+  "recomputedClaims": {
+    "sealCount": "277 claimed ('TWO HUNDRED AND SEVENTY-SEVEN'), 277 in the dict, 277 textual keys with 0 duplicates, 277 derived, both set differences empty, statementsSealed 277 at runtime",
+    "digestLedger": "'Sixty-five distinct 64-hex literals' - digestsAccountedFor 65 at runtime; NO_RECOMPUTE_LEDGER mutation yields 40 DV5-ACCOUNT findings, demonstrating the ledger is load-bearing",
+    "leafCensus": "'108 integers + 31 booleans = 139' - reproduced; LEAF_CENSUS_BLIND yields 'recomputed 139, artifact publishes 108' exactly as documented",
+    "vectorsAndControls": "7 published vectors (7 roundTrips, 7 hexReEncodes, distinctness 7/7/7), 17 negative controls all executed with named conditions matched at 12 positions, declared-but-not-executed refusal demonstrated by SKIP_ONE_CONTROL",
+    "goldens": "both pinned PLAN-ID-V1 goldens (planid-v1-ci-minimal, planid-v1-ci-full-providers) recomputed end-to-end (DV5-ORACLE x4), three derived PlanIds recomputed with byte-diff spans (DV5-PLANID x12)",
+    "appendCensus": "989/554/432/3 published in the header, 989/554/432/3 measured this run",
+    "danglingPointers": "3 reported (the header narrates 1, the DL-INJ-1 boundsSTATED pointer, at two positions, plus reviewerChecklist[14] 'restated'); reported as notes on every run, consistent with the artifact's ACCEPT review not being re-litigated",
+    "selftest": "SELFTEST OK - 14 artifact mutations (all PASS, including the nine-item escape list from the predecessor's rejection reproduced exactly: V3_CLOSED_TEXT, NEGATE_DL_DOM_1, NEGATE_DL_ORD_1, REVERSE_DL_INJ_1_DETECTOR, FABRICATE_LAW_2, MEMBER_COUNT_99, INVENT_REGISTRY_MEMBERS, REBIND_RELATION_IDS, MOVE_DOMAIN_LABEL, INPUT_DIGEST_ALL_F, plus APPEND_REVERSAL, COLLAPSE_VECTOR_IDS, DROP_A_SORT_KEY, RECORD_KEY_SET_DRIFT), 17 code mutations (all PASS for their own named reason), unmutated run 0 findings"
+  },
+
+  "independentAttacks": [
+    {"id": "S1", "attack": "FALSITY not removal: DCM-1-core.authoringFormAdmissible flipped false->true in the subject, pin re-pointed at the mutated digest", "result": "REFUSED, exit 1, exactly one finding: 'DV5-VECTOR at DCM-1-core.authoringFormAdmissible: recomputed False, artifact publishes True' - correct (recomputed, published) order"},
+    {"id": "S2", "attack": "published committedByteLength moved by one", "result": "REFUSED, exit 1, one finding at the exact position"},
+    {"id": "S3", "attack": "false sentence appended to a free-narrative 'why' leaf (inside the declared 432-leaf residual)", "result": "ADMITTED at exit 0 - consistent with the instrument's own published residual measurement; see IR-CDV5-A6"},
+    {"id": "S4", "attack": "duplicate 'surface' key injected into the subject, pin re-pointed", "result": "REFUSED, exit 1, as an uncaught DuplicateKey traceback naming the key - see IR-CDV5-A1"},
+    {"id": "S5", "attack": "committedBytesHex made odd-length", "result": "REFUSED, exit 1, two findings naming the vector ('raised ValueError while being recomputed'), no traceback - the predecessor's unhandled-EncErr repair holds"},
+    {"id": "S6", "attack": "unpinned IMPLEMENTATION-FREEZE.md removed", "result": "exit 1 with the absence NAMED but also two quotation findings that read as accusations - see IR-CDV5-A2"},
+    {"id": "S7", "attack": "pinned fact-plane.v1.json removed", "result": "REFUSED, exit 2 before any parse: 'pinned input is absent'"}
+  ],
+
+  "obs1Status": {
+    "whatOBS1Is": "The delivery.v4 review's non-blocking observation: the artifact's capabilityManifestSchema.valueDomains.censusIsEXHAUSTIVE claims 'the retained checker recomputes this census from the schema and fails the run if any reachable scalar position is in neither list', measured FALSE of check-delivery-v4.py (hardcoded BOUND_SCALARS/OPEN_SCALARS, reachability computed nowhere). The freeze DELIVERY row carries it forward 'and does not spend it'. R04 names OBS-1 retention as the contestable half of a scoped disposition.",
+    "whatThisInstrumentDoes": "gate_scalar_census PERFORMS the recomputation the claim describes: derive_scalar_positions walks the compiled record shapes over real admitted values, the derived set is hard-compared against boundPositions union declaredOPEN (14 = 6 + 8), overlap and double-binding each fail the run. So the census behaviour the artifact ascribes to 'the retained checker' is now true of the CURRENT validator.",
+    "whatThisDoesNotDo": "It does NOT close OBS-1. The artifact's own retainedChecker.path still names check-delivery-v4.py (reviewed bytes, section 7.2 forbids the edit), of which the claim remains false; section 7.1 disqualifies a checker from closing a register row in any case; and the freeze row's carried-forward invitation is the coordinator's to spend under R04, not this review's. OBS-1's disposition - retain in a scoped disposition or close in a successor - remains exactly where R04 left it."
+  },
+
+  "fixtureSkewMeasured": {
+    "claim": "DR-011-R04's second half: 'release fixtures remain inconsistent with the effective major-1 substrate'. Characterized here from live bytes for the successor-or-disposition decision. The effective substrate = verified delivery.v2 (47b6cfd1...) with delivery.v4's 21 operations applied and nothing else (the applied-head derivation, freeze DELIVERY row); its manifest schema is CapabilityManifestV1 at schemaVersion 1 (major 1).",
+    "measuredInconsistencies": [
+      {
+        "id": "SKEW-1-releaseFixtures-internal",
+        "where": "delivery.v2#releaseFixtures (5 fixtures)",
+        "measurement": "FOUR of the five fixtures are rejection scenarios (valid:false - reject-missing-provider and reject-revoked and reject-network-verification violating DL-SUPPLY, reject-unlisted-platform violating DL-PLATFORM on freebsd-x86_64) and EVERY ONE of the four carries expect:'installed', identical to the single accepting fixture (complete-supported-full). An install-scenario oracle whose rejection rows expect installation cannot be executed as an oracle in either direction. This is the freeze DELIVERY row's 'releaseFixtures expectations are internally inconsistent and must be repaired before they are used as an oracle', reproduced from bytes."
+      },
+      {
+        "id": "SKEW-2-substrate-declares-them-unusable",
+        "where": "effective substrate at delivery.v4 operations[18] (theCLOSE) and declaredUnresolvedDependencies",
+        "measurement": "The effective major-1 substrate itself states, at whatThisCloseDOESNOTDO[1]: 'it does not make delivery.v2's five releaseFixtures usable as an oracle. They remain abstract install scenarios carrying no ArtifactEntry instance', and DUD-V4-1 records 'no ReleaseManifestV1 has ever been built and all five of delivery.v2's releaseFixtures are abstract install scenarios carrying no ArtifactEntry'. So the skew is DECLARED by the substrate, OPEN as a release-qualification obligation, and unrepaired."
+      },
+      {
+        "id": "SKEW-3-live-manifest-fixtures-inadmissible",
+        "where": "delivery.v2#installProfiles.profiles[*].capabilityManifest (4 live manifests) versus the effective substrate's own ADM-ORDER",
+        "measurement": "All four live capability-manifest fixtures FAIL the effective substrate's admission in authoring form - authoringFormViolations 5/2/3/1 for DCM-1-core/DCM-2-typescript-deep/DCM-3-rust-deep/DCM-4-full, dominated by 'AbsentCapability.relationIds: not strictly ascending by declared key UTF-8 bytes' - recomputed this run and equal to the artifact's published lists. The substrate states this at ADM-ORDER.andTHISISWHYTHELIVEFIXTURESAREINADMISSIBLE ('MEASURED: all four ... fail ADM-ORDER as written') and frames installProfiles as an authoring catalogue, not a release; a reader who commits those four objects as-is would mint four ids the artifact does not publish."
+      },
+      {
+        "id": "SKEW-4-repair-is-blocked-in-place",
+        "where": "process constraint",
+        "measurement": "delivery.v2 is reviewed bytes; freeze section 7.2 forbids editing them, so neither SKEW-1's expect fields nor SKEW-3's unsorted arrays can be repaired where they sit. Closure is exactly R04's fork: a DELIVERY successor through route A, or a scoped reviewed disposition (the OBS-1-retaining variant being the contestable, PREFERENCE-LADEN half per D-001 section 4)."
+      }
+    ],
+    "checkerCoverageOfTheSkew": "check-delivery-v5.py MEASURES and PINS SKEW-3 (it recomputes the four violation lists and fails on any drift in the published inadmissibility record, demonstrated by my S1 attack) and would surface SKEW-2 drift via seals on the operations[18] block. It does NOT cover SKEW-1 at all: 'releaseFixtures' occurs zero times in the instrument, so the five install fixtures are outside its subject and no instrument in the corpus executes or validates them. The skew therefore SURVIVES this review with reviewed-checker standing on the identity surface and NO instrument coverage on the release-fixture surface.",
+    "whatThisMeansForR04": "The checker-standing half of R04 is now discharged in the ACCEPT direction for the delivery.v4 identity surface: 'reviewed v4 checker standing' is superseded as the effective bound - the effective validator check-delivery-v5.py now HAS reviewed standing (this file), while check-delivery-v4.py remains REJECT-FOR-REPAIR and pinned. The fixture-skew half remains OPEN as characterized above and cannot be closed by any checker (section 7.1: 'None may be closed by this record, by the blueprint, by a checker, or by an implementer')."
+  },
+
+  "boundaryDiscipline": {
+    "thisReviewDoesNOT": [
+      "apply delivery.v5.json (5d059db7...) or advance it toward application in any degree - its own independent review (1e5de421...) is EXPRESSLY NOT an application warrant and says so: 'THE SECTION 7.1 DISQUALIFIER STANDS AT FULL STRENGTH AND THIS VERDICT DOES NOT DISCHARGE IT'; D-001 strikes 'apply delivery.v5' as unlawful under R04; and the route-A acceptance property (T2-02) is not met by that candidate's EXPRESSLY-NOT-FOR-APPLICATION verdict",
+      "discharge the section 7.1 disqualifier on delivery.v5: of DUD-V4-7's two named obligations this review discharges only the first (an independent review of check-delivery-v5.py); the second - an instrument whose SUBJECT is delivery.v5.json and which resolves the chain - still does not exist, measured: no instrument in this corpus reads those bytes, and the instrument reviewed here reads them zero times",
+      "modify DELIVERY's freeze row, the claim register, or any head, status or disposition",
+      "close DR-011-R04, OBS-1, or any register row - section 7.1 forbids a checker (and this review of one) from closing identity rows, and the fixture skew is characterized, not disposed",
+      "re-litigate delivery.v4.json, which was reviewed ACCEPT (c73e32f6...) and is not the subject here",
+      "elevate a green run of this instrument beyond section 7.8's grade: author-side evidence that the artifact says what it says consistently and that drift will be caught - never that the artifact is right"
+    ]
+  },
+
+  "whatIDidNotCheck": [
+    "delivery.v4.json's substantive correctness - its ACCEPT review stands as the record of those bytes; I verified only that this instrument checks them as it claims",
+    "delivery.v5.json's content beyond its standing metadata and its review's disqualifier language",
+    "all 277 seal digests individually against an independent pipeline - I verified the full domain equality both ways at runtime and independently recomputed a 3-seal sample (DL-CLOSED-1, DL-DOM-1, DL-ORD-1), all reproducing; the remaining 274 are verified by the instrument's own sha_text path, which the sample validates",
+    "the checker's PLAN-ID-V1 arithmetic against a third-party encoder - the two internal encoders plus the shared-nothing decoder plus the pinned goldens from resolved-inputs.v2 constitute the cross-check I relied on",
+    "the five releaseFixtures against any executable install semantics - none exists in the corpus to check them against, which is SKEW-1/SKEW-2's point",
+    "timing/TOCTOU windows narrower than whole-file moves - gate_recorded_inputs and gate_digest_accountability each read non-pinned recorded inputs from live disk, so a file swapped between those two reads in one run could present inconsistently; both reads are of deliberately unpinned, declared-drifting documents and the subject itself is never re-read"
+  ],
+
+  "recordedInputs": {
+    "note": "All digests measured by shasum -a 256 on live bytes in this environment at review start; the subject and both environment files re-measured at review end with no drift. Section 7.8.1 posture: a coordinator lane is active; every input below was re-hashed immediately before use and none moved during this review.",
+    "inputs": [
+      {"path": "artifacts/check-delivery-v5.py", "sha256": "c70f153342c3f0275c8a838c38548c3954f70eb0f911600da2b53914fdad1724", "role": "SUBJECT, bound at START bytes; end measurement identical"},
+      {"path": "artifacts/delivery.v4.json", "sha256": "3cffece076289a4e62f3e0680cb8cc7c6a134b3190a6b39b7ec14b007704a121", "role": "the artifact the subject checks; equals the subject's pin and the freeze row's applied-head digest, verified"},
+      {"path": "artifacts/delivery.v2.json", "sha256": "47b6cfd17338fafd407c554afe1951ab23d2896aac99bcfd272fc0894e3cabf3", "role": "binding predecessor; source of releaseFixtures and installProfiles measured at fixtureSkewMeasured"},
+      {"path": "artifacts/check-delivery-v4.py", "sha256": "c422c2f168ffd95921d46eef593857e2613120796ae6f16db72a27e1646e6d3d", "role": "REJECT-FOR-REPAIR predecessor instrument, read for differential context only"},
+      {"path": "artifacts/delivery.v5.json", "sha256": "5d059db73369b4d3cee7f06095a3aca3536b70b470e8ce2d9bbfc05d50adbd34", "role": "the NOT-APPLIED candidate this review expressly does not advance"},
+      {"path": "artifacts/delivery.v5.review-independent.json", "sha256": "1e5de421039aca66c0a86c9bdf89bb51c28898db07f0e7d30d99a934e1d79aac", "role": "source of the section 7.1 disqualifier language and the DUD-V4-7 two-obligation structure"},
+      {"path": "artifacts/delivery.v4.review-independent.json", "sha256": "c73e32f644fd2acfd42cd78213a7ca96c8fb495d116d3e8ef5449aa787c36a58", "role": "the ACCEPT review of the checked artifact; source of OBS-1"},
+      {"path": "COORDINATOR-DECISIONS.md", "sha256": "1bd7c6366d7a3661460763c1c37bd2f13a04c12d4daa5e24792c28faea123839", "role": "D-001 plan text: R04 route, route-A acceptance property T2-02, OBS-1 preference marking"}
+    ]
+  },
+
+  "environment": {
+    "measuredAtReviewStartAndEnd": [
+      {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "e4797f477ce92f0317fa83ff47d8b47b3d95bc83f2705c0735f78341d26fa091", "note": "stable across the review; matches D-001's measured baseline 'freeze e4797f47...'; the subject correctly treats it as UNPINNED per section 7.7 and its recorded-input row correctly reports DECLARED drift against the artifact's older emission digest b5b3a562..."},
+      {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0", "note": "stable across the review; matches D-001's measured baseline 'claim register 95097b3f...'; its DELIVERY row names check-delivery-v5.py as validator (see IR-CDV5-A4) and delivery.v4.json as bindingArtifact"}
+    ],
+    "platform": "darwin, python3 via -I -B, working directory docs/coop",
+    "scratchPosture": "all mutation attacks ran in an isolated scratch copy of the 12-file input closure; no file under docs/coop was modified by this review; the only write is this artifact, which did not previously exist"
+  },
+
+  "reviewerStatement": "I set out to make this instrument pass on wrong bytes, using the same posture that killed its predecessor: a scratch copy with the whole-file pin re-pointed. I could not. Falsity is caught where removal used to be the only trigger; the seals close the append channel at every normative position and the instrument publishes, and reproduces, the exact boundary of where they do not; the census constants genuinely derive from the artifact - I found no Python literal describing the subject anywhere in the file; and the ten escapes that rejected check-delivery-v4.py are all refused, which I confirmed both through the built-in suite and independently. Six advisories, none blocking, two of them one-line fixes (A1, A3). The verdict is ACCEPT-STANDING for the instrument, bound to c70f1533..., and nothing more: delivery.v5 stays where its own review put it, the section 7.1 disqualifier stays at full strength, the freeze row stays untouched, and the release-fixture skew stays open, now characterized in bytes at fixtureSkewMeasured for the coordinator's successor-or-disposition decision."
+}

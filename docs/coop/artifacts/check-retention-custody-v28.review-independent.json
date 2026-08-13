@@ -1,0 +1,185 @@
+{
+  "artifact": "check-retention-custody-v28.review-independent",
+  "version": 1,
+  "date": "2026-08-13",
+  "reviewKind": "INDEPENDENT-REVIEW-OF-A-RETAINED-CHECKER",
+  "mandate": "DR-011-R07 checker-standing half under the adopted D-001 plan (COORDINATOR-DECISIONS.md). The freeze section 3 retention row names this instrument UNREVIEWED in full knowledge; this review closes that gap or blocks it.",
+  "reviewerIndependence": "This lane did not author the subject instrument, the artifact it checks, or any predecessor in either lineage. No figure below is relayed from the instrument's own comments without recomputation; every quoted count was produced by executing the instrument or by an implementation written in this lane.",
+
+  "subject": {
+    "path": "artifacts/check-retention-custody-v28.py",
+    "sha256AtReviewStart": "aaaef43d1c933ed6927ac5f5fde6e0ffdfcfb50ca623aa6f6c6a8a9557001489",
+    "sha256AtReviewEnd": "aaaef43d1c933ed6927ac5f5fde6e0ffdfcfb50ca623aa6f6c6a8a9557001489",
+    "bytesUnchangedAcrossTheReview": true,
+    "verdictBindsTheStartBytes": true,
+    "lines": 5198,
+    "bytes": 277986,
+    "checkedHead": {
+      "artifact": "artifacts/retention-tiers.v28.json",
+      "sha256": "e622b3cc19ba6a550348d849eedf5867e27a0302800b5b705a57e3bb611f9de2",
+      "freezeStatus": "APPLIED 2026-08-12 per freeze section 3 retention row",
+      "resolvedCanonicalSha256": "4241f87b0edd8675d9f1819e130e24f4b6aa6d0db9d07b73ede3a0ff46c2ef2a"
+    }
+  },
+
+  "verdict": "ACCEPT-STANDING",
+  "verdictScope": "Standing is granted OVER THE INSTRUMENT'S RETAINED CLOSURE: the GATED pin set as it stood before commit c06eaea (recoverable at commit bee116c). In that closure, reconstructed byte-exactly in an isolated tree, the instrument's default run PASSES the applied head at exit 0 and every claimed figure it prints was independently reproduced. On the LIVE tree the instrument now permanently and CORRECTLY refuses at exit 2 (RT28-PIN-REFUSED): the 2026-08-12 dialect repair advanced both gated resolvers in place. Standing here means the instrument is sound and its retained-closure verdict on the applied head's bytes is trustworthy; it does not mean the instrument can gate future runs — a successor instrument is required for that, exactly as with v23/v24.",
+  "verdictReason": "Executed in full (default, --selftest, --limits, --falsification, --part a/c/d); source read in full; claims recomputed; attacked with on-disk mutations and in-memory probes. Detection held everywhere reachability allows: repair-reversion caught (12 findings), a coherent lie against the declared resolved digest caught by the instrument-owned RECORDED constant, predecessor mutation refused loudly before parse, terminus falsification correctly attributed, 57/57 mutation cases caught by their own named family, unreadable REQUIRED input a named exit-2 refusal with zero tracebacks, per-class unavailability a named exit-4 partial. No path to a false PASS was found. Every defect found is either loud-failing by the instrument's own guards, unreachable while the gated closure holds, or a defect of a governing surface rather than of these bytes; none blocks.",
+
+  "blockers": [],
+
+  "advisories": [
+    {
+      "id": "IR-RC28-A01-FREEZE-ROW-ATTRIBUTES-THE-REFERENCE-SUITE-TO-THIS-INSTRUMENT",
+      "severity": "CLAIM-CORRECTION for the freeze section 3 retention row",
+      "finding": "The row's parenthetical record for this checker reads '20/20 vectors, 24/24 invariants, 160/160 mutations, 966 type respellings 0 admitted'. Recomputed: 20/20, 24/24 and 966/0 reproduce exactly (banner of the reconstructed-closure run). '160/160 mutations' is NOT this instrument's measurement: its mutation suite holds exactly 57 cases (counted in source; selftest prints '57/57 mutations caught by their own named family'). 160 is the mutation-suite size of the EXECUTED REFERENCE check-retention-custody-v26.py, whose own independent review records '160/160 mutations'. Three of the four figures belong to the named instrument; the fourth belongs to a module it executes.",
+      "consequence": "A reader of the row credits this instrument with a suite nearly three times its size. The correction is one clause in a successor freeze edit; the instrument bytes are not wrong about themselves."
+    },
+    {
+      "id": "IR-RC28-A02-PUBLISHED-FALSIFICATION-RECORD-IS-A-PLACEHOLDER-WEARING-A-MEASURED-COMMENT",
+      "severity": "B-R17/EIR CLASS, self-punishing by construction",
+      "finding": "MEASURED_FALSIFICATION ships as {attempted: 0, bound: 0, free: 0, unclaimed: 0, ratePercent: 0.0} under a comment reading 'MEASURED 2026-08-11 by --falsification over the written bytes of the subject'. A 0-attempted sweep is impossible over a document with 1799 scalar leaves, so the comment asserts a measurement that never happened on these bytes. The instrument's own guard (falsification_record_state) grades the record UNMEASURED ('attempted is not positive') and every channel fails loud: --selftest appends the failure and exits 1 even over a clean base (observed: 57/57 caught, then SELFTEST-FAIL); --falsification prints FALSIFICATION-UNMEASURED and exits 1; --limits prints '*** NOT YET MEASURED ON THESE BYTES ***'.",
+      "consequence": "Two of the instrument's four modes can NEVER certify on the retained bytes, so no green --selftest of this file has ever existed and none ever can. The false statement lives only in a source comment; no output channel presents the placeholder as a measurement, so no reader can be deceived by RUNNING the instrument — only by reading the comment. Repair requires a successor instrument (section 7.8: a new checker is a new file), which IR-RC28-A03 independently requires anyway."
+    },
+    {
+      "id": "IR-RC28-A03-PERMANENT-LIVE-TREE-REFUSAL-SINCE-THE-DIALECT-REPAIR-AND-THE-FREEZE-DOES-NOT-RECORD-IT",
+      "severity": "CORPUS-STATE, for the coordinator",
+      "finding": "Commit c06eaea (2026-08-12 23:17, the coordinator-instructed dialect repair, reviewed PASS 0 blockers) advanced both resolvers in place: check-completeness.py 6c52a5f9... -> af9f8837... and check-completeness-v2.py b08824e8... -> dbe1e695.... Both are GATED pins of this instrument, so every live-tree invocation now exits 2 RT28-PIN-REFUSED / 'NOTHING WAS PARSED OR EXECUTED' (measured this review, twice). This is the identical permanent class the freeze row records for check-retention-custody-v23/v24 ('permanently exit 2 RT23-PIN-REFUSED... section 7.6/7.10 and is not repairable') - re-verified this review, both still exit 2 - but the freeze does not record that it now also holds for the v28 checker: the retention row still presents this instrument as the applied head's retained gate with no note that it can no longer run.",
+      "consequence": "The APPLIED retention head currently has no runnable retained checker on the live tree. The refusal is correct instrument behaviour, and the pinned closure is byte-recoverable at commit bee116c (verified: both restored files hash to the pinned digests), so the retained verdict is reproducible. A successor instrument gating the af9f8837/dbe1e695 resolver bytes is required for any future run, and the freeze row needs the same one-sentence acknowledgment it already gives v23/v24."
+    },
+    {
+      "id": "IR-RC28-A04-NON-FINITE-FLOAT-IN-A-MUTATED-SUBJECT-REPRODUCES-THE-B1-CRASH-SIGNATURE",
+      "severity": "HOSTILE-INPUT ROBUSTNESS; no false verdict reachable",
+      "finding": "parse_json accepts Python's non-standard Infinity/NaN JSON tokens, and canonical() serialises with allow_nan=False. A mutated subject carrying an operation whose value is Infinity at the one float-typed position (from: 200.0 matches v26's $.partC_retentionBounds.vectors.rows[6].bounds.keepCount) passes every operation guard, and canonical(effective) at resolve_subject then raises an UNCAUGHT ValueError: measured EXIT 1, EMPTY STDOUT, traceback on stderr. That is byte-for-byte the predecessor-B1 signature this file's header says was repaired: a crash presented at the findings exit code, with the refusal neither scoped nor named, and even the RT28-SUBJECT-MOVED notice lost because the crash precedes the banner. resolve_subject is called in main() outside any try; the same call is correctly wrapped inside --selftest and --falsification.",
+      "consequence": "Requires deliberately mutated subject bytes, and the exit direction (1) is not a false pass, so this does not block standing on the retained bytes. A successor should refuse non-finite floats at parse (parse_constant hook) or wrap the main-line resolve_subject in the same named-refusal discipline as the modes."
+    },
+    {
+      "id": "IR-RC28-A05-BLOCKING-TALLY-TAKES-THE-MINIMUM-AND-NONBLOCKING-KEYS-MATCH-ITS-REGEX",
+      "severity": "LATENT; latched shut by the GATED pin on the declared review",
+      "finding": "_blocking_tally selects the MINIMUM integer over every object member whose folded key matches 'blocking' AND a counting word. 'nonBlockingFindingsCount' matches the 'blocking' substring, so a document carrying {blockingFindingsCount: 4, nonBlockingFindingsCount: 0} tallies as 0 blockers (demonstrated in an in-memory probe). A rejecting review with zero non-blocking findings would satisfy the terminus test's 'reports ZERO blocking findings'.",
+      "consequence": "Unreachable for this subject's verdict: the declared review retention-tiers.v26.review-independent.json is GATED at ffd8a80d... and genuinely reports 0 blockers, and mutating it refuses at exit 2 before any tally. The defect affects only the discovered-population count on this corpus, but any successor that reuses this tally inherits it. Anchor the regex on a word boundary (or require the key NOT to match 'non.?blocking') and take the tally from the matched review's own verdict object rather than a document-wide minimum."
+    },
+    {
+      "id": "IR-RC28-A06-THE-BICONDITIONAL-HALF-OF-THE-LAW-14-CROSS-CHECK-READS-PINNED-V24-ROWS-ONLY",
+      "severity": "BANNER PRECISION; covered by the oracle union",
+      "finding": "cross_check_demotion's demotion scan substitutes the resolved document's after-rows into the pinned v24 cells (verified live: a doctored changed cell with outcome PROCEED-EPHEMERAL or PROCEED-DURABLE/write-false fires RT28-XCHECK immediately). But its d9Axes<->NOT-A-TERMINATION biconditional walks the PINNED v24 cells and outcomes only: a doctored resolved-value changed cell with d9Axes null and derivedClass 'TERMINATION' yields 0 deviations and 0 findings from THIS gate (demonstrated). The banner prints the biconditional line under 'ASSERTED OVER THE RESOLVED VALUE, NOT THE DELTA BYTES', which overstates that one line's subject.",
+      "consequence": "The gap is closed by the executed reference: the same doctored value drives RT26-A-INV-19 to fire by name ('changed cell 1 has null d9Axes and derivedClass TERMINATION, not NOT-A-TERMINATION') - demonstrated this review - so no reachable silent pass exists; freeze law 14's protection on the resolved table rests on the executed reference plus the demotion half of the cross-check, and the banner should attribute the biconditional to the pinned population it actually walks."
+    },
+    {
+      "id": "IR-RC28-A07-BANNER-LITERALS-THAT-LOOK-MEASURED-AND-ARE-NOT",
+      "severity": "OUTPUT PRECISION",
+      "finding": "Three banner phrases are string literals, not measurements: '0 of them naming an operation of this artifact' (the 0 is hardcoded in the f-string; the real count IS computed and gated elsewhere), 'all explained by an operation path', and 'all IDENTITY'. Each is backed by a gate that emits a finding when violated, so a false literal can only print alongside a contradicting finding and the exit code stays honest - but a reader of the banner line alone reads a literal as a result, the exact presentation class section 7.2.2 grades.",
+      "consequence": "A successor should interpolate the computed values it already holds."
+    },
+    {
+      "id": "IR-RC28-A08-MOVED-TREE-AND-MOVED-SUBJECT-ARE-NOTICES-THAT-DO-NOT-REACH-THE-EXIT-CODE",
+      "severity": "CONSUMER CONTRACT",
+      "finding": "RT28-SUBJECT-MOVED and RT28-TREE-MOVED are notices only; the exit matrix ignores them. A run over a mid-run-moved tree, or over subject bytes that differ from the dispatched digest but produce no finding (the disclosed E1-E12 free-prose surfaces), still exits 0 with 'PASS'. The TREE-MOVED notice itself says the correct response is to re-run rather than read the output, yet a machine consumer keying on the exit code takes a PASS.",
+      "consequence": "Documented behaviour, deliberate for SUBJECT-MOVED (refusing would hide every other finding); the residual is that nothing distinguishes 'PASS over the dispatched bytes' from 'PASS over moved bytes' except prose. A successor could reserve a distinct exit for clean-run-over-moved-inputs."
+    },
+    {
+      "id": "IR-RC28-A09-THE-PASS-LINE-DESCRIBES-A-CORPUS-STATE-THAT-HAS-SINCE-CHANGED",
+      "severity": "STALE PROSE, accurate about the artifact, stale about the corpus",
+      "finding": "The PASS line prints 'CANDIDATE-NOT-APPLIED... section 7.1 still grades the residual DISQUALIFYING FOR APPLICATION'. That is true of the artifact's own frozen $.status and $.retainedChecker fields (which section 7.2 forbids editing) and was true of the corpus when the instrument was written (2026-08-11), but v28 was APPLIED 2026-08-12, so the line now misdescribes the head's standing to any reader of checker output alone. check_identity also REQUIRES $.status to contain CANDIDATE-NOT-APPLIED - correct for these retained bytes, and one more reason the successor artifact/instrument pair must move together.",
+      "consequence": "No repair possible in place; noted for the v29 instrument author and for any reader quoting the PASS line."
+    },
+    {
+      "id": "IR-RC28-A10-CLAIM-REGISTER-ROW-IS-MIXED-STALE-ON-THIS-SURFACE",
+      "severity": "REGISTER STATE, for the coordinator; same class as the recorded C-2 PC-6 finding",
+      "finding": "claim-register.v1.json claims[28] (ARCH.RETENTION-TIERS) binds bindingArtifact 'artifacts/retention-tiers.v28.json' beside bindingArtifactSha256 'ba29c115...' - which is retention-tiers.v24's digest per the freeze row - with bindingArtifactReview still v24's review, status CANDIDATE against the freeze's APPLIED, and validator naming this instrument. The filename and the digest describe two different artifacts in one row.",
+      "consequence": "Reconciling the register is a separate coordinator act (the freeze records the same posture for the C-2 row); recorded here because the row names this review's subject as validator."
+    }
+  ],
+
+  "executionRecord": {
+    "invocation": "python3 -I -B (CPython 3.14.6, above the 3.9 floor); all runs isolated per the instrument's own environment prerequisites",
+    "liveTree": {
+      "defaultRun": "EXIT 2 - RT28-PIN-REFUSED on artifacts/check-completeness.py (gated 6c52a5f9..., live af9f8837...) and artifacts/check-completeness-v2.py (gated b08824e8..., live dbe1e695...), 'NOTHING WAS PARSED OR EXECUTED'. Loud, named, correctly attributed to the dialect repair's in-place advance; not a finding about the subject."
+    },
+    "reconstructedRetainedClosure": {
+      "method": "Full copy of docs/coop into an isolated scratch tree; the two resolver files restored byte-exactly from git commit bee116c (restored digests verified equal to the GATED pins); the instrument itself byte-identical at aaaef43d...; no corpus file touched at any point.",
+      "defaultRun": "EXIT 0 - PASS over resolved value 4241f87b..., 2 RT28-PIN-ADVANCED notices (freeze, blueprint), 20/20 vectors with 20 rejected readings 0 vacuous, 24/24 invariants, B1 7/7 published vs 1/7 predecessor expressions, 201-size default-config sweep 0 evictions (200 under the predecessor's), law-14 scan 6 cells x 7 outcomes 0 reachable demotions with RT26-A-INV-18/-19 declared driven and named by 0 findings, 966 respellings 0 admitted with 790 guarded 0 unruled, 477-document terminus sweep with TERMINUS True on the declared review at 0 blockers, 601-file destroyed-digest sweep 0 carriers, execution-edge audit 3 loader edges / 3 declared / 1 exec node AGREES",
+      "selftest": "EXIT 1 - '57/57 mutations caught by their own named family' then SELFTEST-FAIL solely on the falsification record state (IR-RC28-A02); base clean with 2 advancing notices correctly graded not-dirt",
+      "limits": "EXIT 0 - honestly prints '*** NOT YET MEASURED ON THESE BYTES ***' for the falsification record; 12 enumerated escapes; 9 structural limits",
+      "falsification": "Structurally EXIT 1 on these bytes regardless of figures (record graded UNMEASURED). The sweep itself was left running to completion in this lane's scratch tree and had reached 400/1799 slots (73 bound / 327 free) at review close, the free run dominated by the disclosed E3 surface, consistent with the design's partition claim; the full-sweep figures are not needed for the structural conclusion and are not asserted here.",
+      "partScoped": "--part a, c, d each EXIT 0 with named RT28-PART-SCOPED skips and no false findings - the predecessor's B3 defect (4/2/6 false findings) verified repaired",
+      "exitTaxonomy": "chmod 000 on per-class input delivery.v3.json -> EXIT 4 with three named RT28-CLASS-SKIPPED lines; chmod 000 on REQUIRED IMPLEMENTATION-FREEZE.md -> EXIT 2 named RT28-INPUT-UNAVAILABLE, zero tracebacks (predecessor's B1 verified repaired for the unreadable-input class)"
+    },
+    "attacks": [
+      "A1 repair-reverted (operations[5].value 19->15 on scratch subject): EXIT 1, 12 findings; the derived referent sweep independently reproduces the defect ('declares 15 and the container... measures [11, 12, 19]')",
+      "A2 coherent lie (revert + declared resolvedValue.sha256 rewritten to the correctly-recomputed digest of the mutated operations): EXIT 1 - caught by the instrument-owned RECORDED resolved digest, by RT28-DERIV-EXACTLY, and by the sweep; the flat-read trap is closed - the instrument asserts over the resolved head and pins that head's canonical digest in its own bytes",
+      "A3 predecessor mutation (silent-demotion vector: v26 changedCells[0].after.outcome -> PROCEED-EPHEMERAL on disk): EXIT 2 RT28-PIN-REFUSED before parse - every file-level path to the demotion table runs through the gated predecessor",
+      "A4 non-finite float: EXIT 1 with empty stdout and uncaught traceback (IR-RC28-A04)",
+      "A5 terminus falsification (predecessorReviewSha256 -> e...e): EXIT 1 - RT28-TERMINUS-LOST names the cause, recursion refuses with 30 errors all attributed to the predecessor's block, none to the subject's operations; both terminus branches confirmed live",
+      "In-memory probes: demotion detector fires on both demotion forms (PROCEED-EPHEMERAL; PROCEED-DURABLE with write false); executed reference fires RT26-A-INV-19 on a biconditional-violating resolved table (closing IR-RC28-A06's gap); _blocking_tally minimum defect demonstrated (IR-RC28-A05)"
+    ],
+    "predecessorRefusalsReverified": "check-retention-custody-v23.py and v24.py both EXIT 2 RT23-PIN-REFUSED on the product-dispositions pin, as the freeze row records",
+    "writesNothing": "Confirmed: no write/remove/rename call in the source; no file appeared or changed in any monitored run"
+  },
+
+  "recomputedClaims": {
+    "vectors": {"claimed": "20/20", "recomputed": "20/20 executed, 20 rejected readings, 0 vacuous", "agrees": true},
+    "invariants": {"claimed": "24/24", "recomputed": "24/24 executed; RT26-A-INV-18/-19 present, driven by name, named by 0 findings", "agrees": true},
+    "mutations": {"claimed": "160/160 (freeze row)", "recomputed": "57/57 for THIS instrument's suite; 160 is check-retention-custody-v26.py's suite (counted in its source; its review records 160/160)", "agrees": false, "correction": "IR-RC28-A01"},
+    "typeRespellings": {"claimed": "966 attempted 0 admitted", "recomputed": "966/0, 790 guarded int/bool positions 0 unruled", "agrees": true},
+    "resolvedCanonicalDigest": {"claimed": "4241f87b...", "recomputedByAThirdEncoderInThisLane": "4241f87b0edd8675d9f1819e130e24f4b6aa6d0db9d07b73ede3a0ff46c2ef2a", "agrees": true, "note": "This lane's own application of the 8 operations to v26 under the published canonical recipe, sharing no code with the instrument or the resolvers, reproduces the digest byte-for-byte; the same encoder also reproduced the instrument's measured digest for a mutated operation list (attack A2), so agreement is not coincidental."},
+    "measuredFalsificationRecord": {"claimed": "MEASURED 2026-08-11 (comment)", "recomputed": "attempted: 0 is not a possible sweep output over 1799 leaves; the instrument's own guard grades it UNMEASURED and fails every channel", "agrees": false, "correction": "IR-RC28-A02"}
+  },
+
+  "whatIDidNotCheck": [
+    "The full same-type falsification sweep to termination: at review close it stood at 400/1799 slots (73 bound / 327 free). The structural conclusion (--falsification exits 1 on these bytes regardless) does not depend on it; the final rate and unclaimed set were not measured by this review.",
+    "The semantic correctness of the 20 vectors and 24 invariants beyond executing the pinned reference and probing the demotion/biconditional detectors directly: this review wrote no third implementation of the cap algebra (the instrument's own second implementation and the reference agree on all 7 rows and the 201-size sweep; that agreement is between two implementations in one closure).",
+    "The internal soundness of check-retention-custody-v26.py beyond hash-verification, executing it, counting its 160 mutation cases in source, and driving it against doctored values; its own review artifact was not re-executed.",
+    "The internal soundness of the two resolvers at either byte state; the dialect repair carries its own PASS review (b161c7e6...), relied on as recorded.",
+    "Whether v28 SHOULD have been applied, and every other product/coordinator judgement; out of scope per section 7.8's boundary - this review binds the instrument, not decisions.",
+    "Exit 3 (selftest over a dirty base) was verified by code reading only; every observed selftest base was clean.",
+    "The Half-A discovery sweep's behaviour on a corpus containing a crafted hostile 'review' of the predecessor (population-count spoofing via IR-RC28-A05); demonstrated on synthetic objects in memory, not by planting files."
+  ],
+
+  "recordedInputs": {
+    "measuredAtReviewClose": "2026-08-13, all under docs/coop; every digest below was measured by this review, none relayed",
+    "rows": [
+      {"path": "artifacts/check-retention-custody-v28.py", "sha256": "aaaef43d1c933ed6927ac5f5fde6e0ffdfcfb50ca623aa6f6c6a8a9557001489", "role": "SUBJECT OF THIS REVIEW; start and end measurements equal"},
+      {"path": "artifacts/retention-tiers.v28.json", "sha256": "e622b3cc19ba6a550348d849eedf5867e27a0302800b5b705a57e3bb611f9de2", "role": "the APPLIED head the subject checks; matches the freeze row and the instrument's SUBJECT_SHA256"},
+      {"path": "artifacts/retention-tiers.v26.json", "sha256": "a6546408fb38df95166f0ec41b1d9d9dae0dbda580684ff8a6e94f57145ad97e", "role": "verified predecessor / resolution terminus; matches the GATED pin"},
+      {"path": "artifacts/retention-tiers.v26.review-independent.json", "sha256": "ffd8a80d5d7a9273e04192d467fdc5d6a063d8201186c73be2fb0a9115aff916", "role": "the terminus-establishing review; matches the GATED pin"},
+      {"path": "artifacts/retention-tiers.v27.json", "sha256": "d39800b7595f58ab42a65316d4880754ef9a14022d52f7ca68fdbab423e7314c", "role": "predecessor lane; matches the GATED pin"},
+      {"path": "artifacts/check-retention-custody-v27.py", "sha256": "cebddeddfd09633e426b8ced16db745f68447ba9fe06cbbffbcb204eaaeba77e", "role": "predecessor instrument; matches the GATED pin"},
+      {"path": "artifacts/check-retention-custody-v26.py", "sha256": "7402759ff6d2b1378b61d4d76727648aebf216795dce965e37c2acf7647d18b9", "role": "executed reference (INSTRUMENT-OWNED gate); matches the GATED pin; its 160-case suite is the referent of the freeze row's mutation figure"},
+      {"path": "artifacts/check-completeness.py", "sha256": "af9f8837a5abc561cefebf071b862e2dd5fb427304f4738f7fadf5872c4f0f1f", "role": "RESOLVER 1, LIVE bytes - DRIFTED from the GATED pin 6c52a5f9... by the dialect repair; pinned bytes verified recoverable at commit bee116c"},
+      {"path": "artifacts/check-completeness-v2.py", "sha256": "dbe1e6955f66b0ccb032df115ca03fa780895b129b51fb39a49593581901bfb9", "role": "RESOLVER 2, LIVE bytes - DRIFTED from the GATED pin b08824e8... by the dialect repair; pinned bytes verified recoverable at commit bee116c"},
+      {"path": "IMPLEMENTER-BLUEPRINT.md", "sha256": "a8c16cca569fad6e407c92e74eec04efe8d1878313c7aaaa250453f317f35a54", "role": "REQUIRED input of the subject, ADVANCING class; live"}
+    ],
+    "gitReferencePoints": {
+      "headAtReviewClose": "c42507c42abf9998c40f751d25dca69fc8364431",
+      "dialectRepairCommit": "c06eaea5879070f982743d4d5c2c42ebfacb7f26 (2026-08-12 23:17 -0700) - the in-place resolver advance that took this instrument to permanent live-tree refusal",
+      "pinnedClosureRecoveryPoint": "bee116ccc687a4f6a9cc298da1bb7f3472edfb73 - both resolver files at this commit hash to the instrument's GATED pins (verified)"
+    }
+  },
+
+  "environment": {
+    "measuredPerTheMandate": [
+      {"path": "IMPLEMENTATION-FREEZE.md", "sha256": "e4797f477ce92f0317fa83ff47d8b47b3d95bc83f2705c0735f78341d26fa091", "note": "stable across the review (start and close measurements equal); its section 3 retention row carries the IR-RC28-A01 attribution error and the IR-RC28-A03 unrecorded refusal state"},
+      {"path": "artifacts/claim-register.v1.json", "sha256": "95097b3fbb8986fc1761511059cfb8210dd2a2bc80b409f604fb1809405453d0", "note": "claims[28] ARCH.RETENTION-TIERS is mixed-stale (IR-RC28-A10): v28 filename beside v24's digest ba29c115..., v24's review, status CANDIDATE"}
+    ],
+    "interpreter": "CPython 3.14.6, invoked python3 -I -B throughout",
+    "platform": "darwin 25.5.0",
+    "isolation": "All mutations and reconstructions performed in a session scratch tree (full copy of docs/coop); no corpus file was created, edited, or deleted by this review except this review file itself, which is new; scratch subject and predecessor were digest-verified restored to their originals after each attack",
+    "concurrentLaneNote": "A coordinator lane is active; per section 7.8.1 all live-tree measurements above were taken at named instants with digests recorded, and the only input observed moving during the review window was none - the freeze and register digests at review close equal their review-start values"
+  },
+
+  "positiveFindings": [
+    "The instrument binds the RESOLVED HEAD, not the delta bytes: it resolves the derivation itself, pins the resolved canonical digest in its own RECORDED table (defeating the A2 coherent lie), requires the declared digest, the two executed resolvers and its own resolver to agree, and refuses to assert over delta bytes when resolution fails (observed in A4/A5: 'NO PROPERTY OF THE RESOLVED DOCUMENT WAS CHECKED').",
+    "The review-terminus rule is genuinely implemented, not shape-screened: standing discovered by corpus sweep (477 documents), Half B verified against the discovered population, both branches exercised (terminus held in baseline; terminus loss correctly attributed in A5 with all 30 recursion errors assigned to the predecessor).",
+    "Refusal discipline is real and matches section 7.8.1: unreadable REQUIRED input is a named exit-2 with zero tracebacks; per-class unavailability is a named exit-4 partial that names what did not run; GATED drift refuses before anything is parsed or executed; the predecessors' RT23-PIN-REFUSED posture is preserved and re-verified.",
+    "The four predecessor blockers (B1-B4) are verifiably repaired in their named classes: B1 (unreadable-input crash) re-tested by chmod 000, B2's floor and delta-scoping observed in the family gates, B3 re-tested under --part a/c/d at zero false findings, B4's execution-edge audit verified AGREES with exactly one exec node and all three modules gated.",
+    "The mutation suite is aimed, not noisy: 57/57 caught by their own named family under delta discipline over a clean base.",
+    "This lane's third encoder reproduced the resolved canonical digest 4241f87b... from the contract prose alone, sharing no code with the instrument or resolvers."
+  ],
+
+  "coordinatorActionsSuggested": [
+    "Record in the freeze section 3 retention row: (1) the 160/160 figure belongs to the executed reference check-retention-custody-v26.py, this instrument's suite is 57; (2) since c06eaea this instrument is permanently RT28-PIN-REFUSED on the live tree, the v23/v24 class exactly; (3) this review closes the row's UNREVIEWED gap on the terms stated in verdictScope.",
+    "Commission the successor instrument (check-retention-custody-v29) gating the reviewed af9f8837/dbe1e695 resolver bytes; carry IR-RC28-A02/A04/A05/A06/A07 as its birth requirements, including writing in a real measured falsification record.",
+    "Reconcile claim-register claims[28] (IR-RC28-A10) as a separate coordinator act."
+  ]
+}
