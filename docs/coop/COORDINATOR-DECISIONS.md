@@ -1049,7 +1049,12 @@ decision; nothing here forecloses slice 2.
 
 ## D-012 — DR-104: component identity, namespace and collision policy
 
-- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Date/Status:** opened 2026-08-13; **ADOPTED 2026-08-13** — CONSENT on
+  the merits at turn 3 (`artifacts/coordinator-decisions.D-012.review-adversarial.turn3.json`,
+  `e7b5c2b9…`; turns 1–2 at `b08c5f8d…`/`016160c1…`): 11 findings, all
+  landed on bytes, none waived; the no-drop sweep clean; OBS-D012-T3-01
+  (authenticated manifest declarations) routed to C-D012's change
+  record. Closes the slice-1 product-decision phase.
 - **Decision type:** PREFERENCE-LADEN (route C). The last undecided
   product row of the slice-1 set (DR-116/128/129 carry D-002 deferral
   dispositions; DR-117's successor rides the DR-010 process).
