@@ -1044,3 +1044,51 @@ decision; nothing here forecloses slice 2.
   edit; on mismatch it ABORTS to the DR-205 successor path (a moved
   source needs its re-review refreshed before the row may cite it).
 - **Overturn:** supersession + revert of C-D011.
+
+---
+
+## D-012 — DR-104: component identity, namespace and collision policy
+
+- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Decision type:** PREFERENCE-LADEN (route C). The last undecided
+  product row of the slice-1 set (DR-116/128/129 carry D-002 deferral
+  dispositions; DR-117's successor rides the DR-010 process).
+- **Decided policy (bounded by the prototype's admission evidence —
+  manifest-first, deny-by-default, stable IDs distinct from
+  versions/aliases):**
+  1. **Component identity:** a stable, immutable component ID, assigned at
+     first admission, never derived from mutable state and never reused;
+     display names and aliases are mutable metadata that resolve THROUGH
+     the ID, never the reverse (the corpus's PROJECT-ID-V1 pattern:
+     identity separate from location/name).
+  2. **Command namespace:** host-owned, single flat top-level namespace
+     for slice 1; first-party commands reserve their names at admission;
+     a collision at admission is a typed REFUSAL, never silent shadowing,
+     ordering-dependent resolution, or auto-renaming.
+  3. **Rename/alias governance:** renames keep the old name as a
+     deprecated alias for at least one compatibility window (DR-111's
+     surface windows govern duration); alias cycles are refused at
+     admission; an alias may never shadow a different component's live
+     name.
+  4. **Ownership transfer:** slice 1 is first-party-only (D-002), so
+     transfer reduces to registry bookkeeping under the host's authority;
+     the third-party transfer/dispute policy is EXPLICITLY DEFERRED to the
+     DR-116/DR-010 successor — a named deferral, not silence.
+  5. **Migration:** namespace migrations (renames of published commands)
+     require a recorded deprecation entry with typed remediation in
+     `doctor`; negative tests per the row's cell (collision, cycle,
+     shadow, stale-alias cases) are acceptance evidence at qualification.
+- **File-08 edit C-D012 carries:** the DR-104 row moves to
+  `DECIDED-V1-NOT-INTEGRATED`, annotated "policy DECIDED (D-012);
+  negative-test evidence at qualification"; the source cell carries the
+  D-012 citation.
+- **Alternatives considered:** hierarchical/prefixed namespaces (rejected
+  for slice 1 — a flat namespace with typed refusal is auditable and the
+  prototype's model; hierarchy remains reachable at the DR-117 successor
+  when third-party depth exists); silent last-wins resolution (rejected —
+  the corpus's deny-by-default admission evidence and DR-G21's
+  containment posture both forbid order-dependent behavior).
+- **Overturn:** supersession + revert of C-D012.
+- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
+  here.
+- **Commit:** C-D012, on adoption.
