@@ -290,6 +290,7 @@ constraint. The v8 claim-shape obligation must be reconciled separately.
 | DR-127 | Anti-lockstep compatibility and host-owned control/data race precedence | Protocol + versioning + release owners | [Control demarcation](02-distribution-and-components.md#exact-controldata-plane-demarcation); [compatibility](04-lifecycle-delivery-and-operations.md#separate-compatibility-matrices) | Bidirectional N/N+1 skew, independent rollback/coexistence, no bundle promotion gate; hostile dual-channel race/fault/EOF/duplicate/teardown goldens with byte-opaque provider frames | OPEN | Hard blocker for independent-release blueprint |
 | DR-128 | Future third-party sandbox/product boundary | Product security + product owner + platform owners | DR-010/117; [Confinement honesty](03-configuration-and-security.md#preserved-confinement-honesty) | Explicit post-MVP successor/approval; demonstrated OS/WASM enforcement, permission/platform matrix, escape tests, revocation and incident ownership | OPEN — deferred post-MVP by recorded scope (DR-128/file 10; normalized 2026-08-13, C4) | Not an MVP blueprint blocker. MVP permits first-party/explicitly trusted components with DR-G21 fault containment only; public marketplace/untrusted native/WASM/imperative/network-granted roles stay excluded |
 | DR-129 | Optional interactive TUI is only a host-owned projection | Product/CLI + output/operability owners | [Output projections](01-semantic-model-and-host-authority.md#output-projections-including-sarif); DR-123; DR-G01–G05/G12/G17 | If a slice includes TUI: parity/non-authority, non-packaging, offline, footprint, cancellation, and fallback-to-CLI evidence; concrete framework remains implementation design | OPEN — deferred; applies only to a slice that elects a TUI, which slice 1 does not (normalized 2026-08-13, C4) | Blocks only a slice that elects to include a TUI; never blocks or replaces the mandatory CLI baseline |
+| DR-130 | V1→V2 transition contract — migration/coexistence posture for existing V1-prototype users and their local state (row added by `COORDINATOR-DECISIONS.md` D-010 = D-001's C4a item, CONSENT `cd08c5f0…`) | Product + lifecycle owners | [V1→V2 relationship](05-v1-to-v2-relationship.md) §Migration constraints (by anchor); prototype reference pinned `69a71aac…` / commit `a62509d6…` | An INDEPENDENTLY REVIEWED transition statement satisfying file 05 §Migration constraints AS WRITTEN — the six-member "No migration silently…" enumeration, the five-item preserve list, the five distinctions (count-pinned 6/5/5; any change to those enumerations re-opens this row) | OPEN — slice 1 claims no upgrade continuity and its deferral disposition is RECORDED HERE (D-010, C-D010): DR-130 does not affect the first blueprint slice | Blocks any slice claiming upgrade continuity |
 
 ## Five-review findings and dispositions
 
@@ -345,7 +346,11 @@ register, and this paragraph is the only active readiness checklist:
    designed without pretending the blocked semantics are settled. DR-012 is not
    a blueprint-entry prerequisite; it remains mandatory before release or
    authoritative launch.
-2. DR-101 through DR-127 that affect the first blueprint slice are `SATISFIED`;
+2. Every row of the V2 architecture and product decisions table that affects
+   the first blueprint slice is `SATISFIED` (wording made range-free by
+   `COORDINATOR-DECISIONS.md` D-010 per D-001's new-row rule — the delta:
+   DR-128/129 enter this condition's literal text for the first time, benign
+   because both carry D-002 dispositions; and DR-130 joins the table);
    deferred items have explicit product/architecture scope dispositions.
 3. Each DR-201 through DR-205 re-review is `ACCEPTED`; alternatively, every
    rejecting finding is individually identified, closed or lawfully routed to

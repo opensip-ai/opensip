@@ -116,6 +116,11 @@ and DR-012's "or authoritative launch"):
 > 5. Product and architecture authorities explicitly authorize creation of
 >    `docs/v2/implementation/` against a refreshed exact authority baseline.
 
+*(Pin-note 2026-08-13, D-010: the blockquote above reflects the register as
+adopted; D-010 later made condition 2's wording range-free and added DR-130
+per D-001's own new-row rule. The quote is history; the register is
+operative.)*
+
 Completion is an evidence state, not a declaration. Measured starting
 position (HEAD `0ada5b3`): condition 4's claims half is ALREADY satisfied
 (zero affirmative QUALIFIED/DEMONSTRATED claims in docs/v2; the obligation is
@@ -978,7 +983,7 @@ decision; nothing here forecloses slice 2.
 
 ## D-010 — Register content: the V1→V2 transition-contract row (V2TOPIC-F-02)
 
-- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Date/Status:** opened 2026-08-13; **ADOPTED 2026-08-13** — per-entry CONSENT at turn 3 of the batch review (turn 1 `15838fe8…` OBJECTIONS ×4, turn 2 `f0e0457e…`, turn 3 `cd08c5f0…` CONSENT ×4 on the merits, nothing waived).
 - **Decision type:** RULE-GOVERNED register-content change (the
   verification record measured the gap: no DR row owns the V1→V2
   product/state transition), reviewed per D-001's MF-6 discipline.
