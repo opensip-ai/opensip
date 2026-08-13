@@ -544,3 +544,44 @@ decision; nothing here forecloses slice 2.
 - **Overturn:** supersession entry here + `git revert` of the C-D003
   commit; the freeze line then re-records the prior head.
 - **Commit:** C-D003 (this commit).
+
+---
+
+## D-004 — Instrument-standing and citation reconciliation
+
+- **Date:** 2026-08-13
+- **Status:** ADOPTED — rule-governed execution of independently-reviewed
+  rulings: the DR-204 adjudications (verdict `0934ffbe…`) and the three
+  instrument-standing reviews. No consensus loop is required where every
+  act executes a reviewed ruling with its evidence attached; nothing here
+  is preference-laden.
+- **Acts, each with its warrant:**
+  1. **Claim-register repairs** (per DR-204 + `check-c2-v12` review):
+     C-2's `bindingArtifactSha256` moved from v9's digest to v11's
+     (`d35b677d…`) with the v11 review (`d25e77e9…`, PASS, 0 blockers)
+     installed as the binding review; ARCH.RETENTION-TIERS moved from
+     v24's digest/review to the v28 pair (`e622b3cc…` / `58113366…`, with
+     all six IR-RT28-N ids recorded). History retained in both notes per
+     the register's own 2026-08-03 repair precedent; claim status stays
+     CANDIDATE per the DELIVERY convention (application is freeze-recorded,
+     not claim status). Register now `ef59f860…`.
+  2. **Freeze corrections** (per the retention-checker review `3b548c28…`):
+     the §3 retention row's 160/160 misattribution corrected (the figure is
+     the executed v26 reference's; the instrument's own suite is 57/57);
+     the checker's UNREVIEWED gap closed with its ACCEPT-STANDING; the
+     permanent live-tree refusal recorded as correct §7.8.1 behavior; the
+     `check-retention-custody-v29` and `check-c2-v13` successors
+     commissioned as named work.
+  3. **Instrument-standings rider** added (delivery-v5 `e6a1b3b2…`, c2-v12
+     `15bff475…`, retention-v28 `3b548c28…`), including the R04 fixture-
+     skew characterization.
+  4. **EIR v6 lawful-disposition note** (per DR-204 adjudication 5): the
+     candidate-grade warrant window 2026-08-12→13, closed by v12's
+     property-compliant application, residual NIL on the two-prose-leaf
+     v6→v12 delta evidence.
+  5. **Pin re-move**: the six freeze pins re-moved `2650bc14…` →
+     `f877f30e…` with the three D-004 diff hunks verified outside every
+     cited section.
+- **Overturn:** `git revert` of the C-D004 commit restores all surfaces at
+  once; the individual rulings remain in their verdict files regardless.
+- **Commit:** C-D004 (this commit).
