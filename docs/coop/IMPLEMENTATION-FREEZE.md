@@ -526,7 +526,7 @@ written; it was DECIDED on 2026-08-05 by `sfbreen` (§4.5). The adjudication
 recorded here neither closed it nor contributed to closing it.**
 
 | PRODUCT | [`product-dispositions.v1.json`](artifacts/product-dispositions.v1.json)<br>`bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017` | binding product packet | decided rows are frozen per §5 | **`CD-RT-5` DECIDED 2026-08-05 by `sfbreen`** — amended by the product authority, who was asked how to attribute it and supplied both `decidedBy` and `decidedOn`; **the coordinator selected neither**, because §4.4 is this document's forensic record of a fabricated authority attribution. Retention is bounded on **time, size and count**, the three bounds independent by construction; a bound firing transitions to the existing **PURGED** state — degradation, not deletion — and **tombstones survive**. Default posture **`DURABLE_RETAINED`**, `implicitDurableRetention: YES`, which **overrides** `retention-tiers.v22#recommendedDefaultPosture` (status `AWAITING-PRODUCT-DISPOSITION`; architecture recommends, the authority decides). Validated by **`check-product-dispositions-v2.py` — UNREVIEWED**: the retained `check-product-dispositions.py` hardcodes `CD-RT-5` as the **sole pending** Phase-2 decision and cannot pass *any* decided state, so this application **forced** the checker column exactly as §7.9 describes. **Four artifacts still assert the pre-decision state** — `retention-tiers.v24` (×2), `v10-disposition.v1`, `versioning-policy.v8` — each closable by one successor; see §4.5 |
-| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json)<br>`cd65c9af9f9ef0e5d5c1820b180b963b7c324a08e9ba9bd907412e08ca4ccc8c` | per-claim status register | not a surface | final reconciliation against every row above |
+| CLAIMS | [`claim-register.v1.json`](artifacts/claim-register.v1.json)<br>`767dc210d4fa8b6d2588a6746df124192ff19af9da4e7be663164e9fde32d59c` | per-claim status register | not a surface | final reconciliation against every row above |
 
 Independently `PASSED` but **explicitly unapplied** Phase-1A candidates, recorded
 so their existence is visible and escalable and for no other purpose:
@@ -5140,7 +5140,7 @@ Python:      3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0]
 Host:        Darwin 25.5.0 arm64 (macOS 26.5.2, build 25F84)
 Taken against:
   ARCHITECTURE-TO-IMPLEMENTATION-PLAN.md  47df412dba5d62a823ca7c008c382c489b8a10c797fd8656f3d4dd5d6c342e2e
-  claim-register.v1.json                  cd65c9af9f9ef0e5d5c1820b180b963b7c324a08e9ba9bd907412e08ca4ccc8c
+  claim-register.v1.json                  767dc210d4fa8b6d2588a6746df124192ff19af9da4e7be663164e9fde32d59c
   check-completeness.py                   6c52a5f9a4ac6a3ec3dae9fb0c87e82552744b18eb8cc38d1c4522ade3e549d6
 
 Command:     python3 -I -B artifacts/check-completeness.py          -> exit 1
