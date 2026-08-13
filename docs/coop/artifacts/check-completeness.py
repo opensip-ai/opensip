@@ -102,8 +102,11 @@ FINAL_STATES = {"RESOLVED", "REJECTED"}
 # mutates precisely that case.
 JSON_NAME_RE = re.compile(r"^[A-Za-z0-9._][A-Za-z0-9._/-]*\.json$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
-# Same step grammar as check-c2-v9.py `_STEP_RE`, so this reader walks the
-# declared paths the way the surface's own registered checker walks them.
+# Dotted-dialect step grammar, same as check-c2-v9.py `_STEP_RE`, so this
+# reader walks dotted paths the way the surface's own registered checker walks
+# them.  RFC 6901 pointer paths and array-token paths are parsed by separate
+# strict branches in `path_steps`, and a string parse must round-trip to the
+# exact declared path (repair of 2026-08-12; see the corpus-resolution record).
 STEP_RE = re.compile(r"\[(\d+)\]|\.?([^.\[\]]+)")
 DERIVATION_OPS = ("set", "add")
 DERIVATION_MAX_DEPTH = 8
@@ -145,14 +148,64 @@ def exact_equal(left: object, right: object) -> bool:
     return left == right
 
 
-def path_steps(path: str) -> list | None:
-    """Steps of a dotted/indexed path, or None when the path is not plainly
-    expressible.  Guessing at a malformed path is how a resolver invents a
-    contract the artifact never declared."""
-    if not path or path.startswith(".") or path.endswith(".") or ".." in path:
+def path_steps(path) -> list | None:
+    """Steps of a declared operation path, or None when the path cannot be
+    expressed in a grammar this reader walks.  Three dialects are read, each
+    STRICTLY -- a string parse must round-trip to the exact declared path,
+    because guessing at a malformed path is how a resolver invents a contract
+    the artifact never declared.  Until 2026-08-12 this function did exactly
+    that to RFC 6901 pointer paths, tokenising '/a/b' into ONE bogus step:
+    every set then refused loudly, but an add would have SUCCEEDED by
+    inventing a literal slash-named top-level key.  Measured in
+    r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v1.json.
+
+      ARRAY    ['a', 'b', 0] -- a string token is an object key, an int a
+               zero-based index.  bool is tested BEFORE int because bool
+               subclasses int, so [True] would otherwise be index 1.
+      POINTER  '/a/b/0' -- RFC 6901.  '~1' -> '/', '~0' -> '~', any other '~'
+               refuses; an empty token refuses; a token in array-index form
+               (0|[1-9][0-9]*) is an integer index, so a dict keyed by such a
+               numeric string is refused at walk time rather than guessed at.
+      DOTTED   'a.b[0]' -- the original grammar, unchanged for every path it
+               already parsed; a parse that does not round-trip now refuses
+               instead of walking a guess."""
+    if isinstance(path, list):
+        if not path:
+            return None
+        for token in path:
+            if isinstance(token, bool) or not isinstance(token, (str, int)):
+                return None
+            if isinstance(token, str) and not token:
+                return None
+            if isinstance(token, int) and token < 0:
+                return None
+        return list(path)
+    if not isinstance(path, str) or not path:
+        return None
+    if path.startswith("/"):
+        steps: list = []
+        for token in path[1:].split("/"):
+            if not token or re.search(r"~(?![01])", token):
+                return None
+            if re.fullmatch(r"0|[1-9][0-9]*", token):
+                steps.append(int(token))
+            else:
+                steps.append(token.replace("~1", "/").replace("~0", "~"))
+        rebuilt = "".join(
+            "/" + (str(step) if isinstance(step, int)
+                   else step.replace("~", "~0").replace("/", "~1"))
+            for step in steps)
+        return steps if rebuilt == path else None
+    if path.startswith(".") or path.endswith(".") or ".." in path:
         return None
     steps = [int(index) if index else name for index, name in STEP_RE.findall(path)]
-    return steps or None
+    if not steps:
+        return None
+    rebuilt = "".join(
+        f"[{step}]" if isinstance(step, int)
+        else (step if position == 0 else f".{step}")
+        for position, step in enumerate(steps))
+    return steps if rebuilt == path else None
 
 
 def has_step(node: object, step: object) -> bool:
@@ -173,10 +226,29 @@ def resolve_steps(root: object, steps: list) -> tuple[bool, object]:
 
 
 def is_operation_list(value: object) -> bool:
+    """A list this reader can execute.  A path may be a non-empty string
+    (pointer or dotted dialect) or a non-empty array of tokens; each operation
+    is read on its own terms.  Widened 2026-08-12 from string-only, which made
+    the array encoding invisible: the block was not recognised at all and the
+    artifact silently fell back to key-name scoring -- the exact CMP-IR-01
+    behaviour the array encoding was adopted to escape (freeze §7.3 rider)."""
     return (isinstance(value, list) and bool(value)
             and all(isinstance(item, dict) and isinstance(item.get("op"), str)
-                    and isinstance(item.get("path"), str) and item.get("path")
+                    and ((isinstance(item.get("path"), str) and item.get("path"))
+                         or (isinstance(item.get("path"), list)
+                             and bool(item.get("path"))))
                     for item in value))
+
+
+def operation_shaped(value: object) -> bool:
+    """WEAK detection used ONLY by the refusal path, deliberately independent
+    of `is_operation_list` -- a validity gate whose error branch shares its
+    success branch's predicate cannot report the case where the predicate is
+    wrong (freeze §7.3 rider, 2026-08-10)."""
+    return (isinstance(value, list) and bool(value)
+            and all(isinstance(item, dict) for item in value)
+            and any("op" in item for item in value)
+            and not is_operation_list(value))
 
 
 def declaration_fields(block: dict) -> dict | None:
@@ -213,6 +285,13 @@ def derivation_declaration(artifact: dict) -> tuple[dict | None, list[str]]:
                 f"'{key}' carries an operation list and {len(names)} predecessor "
                 f"name(s) and {len(digests)} digest(s); a derivation must state "
                 "exactly one of each, so no effective contract can be materialised")
+        elif (names or digests) and any(operation_shaped(v) for v in value.values()):
+            errors.append(
+                f"'{key}' states a predecessor identity and a list that declares "
+                "operations, but this reader cannot execute that list (an "
+                "operation's path must be a non-empty string or a non-empty array "
+                "of tokens); no effective contract can be materialised, and the "
+                "refusal is loud by design (2026-08-12)")
     if len(found) > 1:
         errors.append("ambiguous derivation: "
                       + ", ".join(sorted(key for key, _ in found)))
@@ -280,7 +359,15 @@ def resolve_derivation(artifact_rel: str, declaration: dict,
     if "/" in name:
         candidates.append(name)
     provenance = {"predecessor": candidates[0], "declaredDigest": declaration["sha256"],
-                  "operations": len(declaration["operations"]), "depth": len(seen) + 1}
+                  "operations": len(declaration["operations"]), "depth": len(seen) + 1,
+                  # Which path dialect(s) this declaration writes, so the next
+                  # dialect is a census row rather than a surprise (2026-08-12).
+                  "pathDialect": sorted({
+                      "array-tokens" if isinstance(op.get("path"), list)
+                      else "json-pointer" if isinstance(op.get("path"), str)
+                      and op.get("path").startswith("/")
+                      else "dotted"
+                      for op in declaration["operations"]})}
 
     raw = None
     for candidate in candidates:
@@ -611,6 +698,30 @@ def derivation_selftest() -> tuple[bool, list[str]]:
         "no-derivation": {"artifact": "plain", "stageSchemas": {"a": {}},
                           "planFixtures": [{"id": "a"}]},
         "plain-no-shape": {"artifact": "plain", "notes": {"a": 1}},
+        # --- dialects repaired 2026-08-12 ------------------------------------
+        "pointer-preserving": delta([{"op": "set", "path": "/version",
+                                      "from": 4, "value": 9}]),
+        "pointer-nested": delta([
+            {"op": "set", "path": "/counters/contractRoot/containerPaths",
+             "from": 794, "value": 797},
+            {"op": "add", "path": "/stageSchemas/kinds/rule-evaluation",
+             "value": {"forbidden": ["operator"]}}]),
+        "pointer-index": delta([{"op": "set", "path": "/planFixtures/1/valid",
+                                 "from": False, "value": True}]),
+        "pointer-add-top": delta([{"op": "add", "path": "/extraFixtures",
+                                   "value": [{"id": "c"}]}]),
+        "array-preserving": delta([{"op": "set", "path": ["version"],
+                                    "from": 4, "value": 9}]),
+        "array-bool-token": delta([{"op": "set",
+                                    "path": ["planFixtures", True, "valid"],
+                                    "from": False, "value": True}]),
+        "pointer-bad-escape": delta([{"op": "set", "path": "/ver~2sion",
+                                      "from": 4, "value": 9}]),
+        "guessed-path-add": delta([{"op": "add", "path": "]extraFixtures[",
+                                    "value": [{"id": "c"}]}]),
+        "unreadable-operations": {"artifact": "delta", "derivedFrom": {
+            "artifact": "base.json", "sha256": digest,
+            "operations": [{"op": "set", "path": 7, "from": 4, "value": 9}]}},
     }
     paths = {f"artifacts/{name}.json": doc for name, doc in documents.items()}
 
@@ -628,7 +739,8 @@ def derivation_selftest() -> tuple[bool, list[str]]:
         # score -- can be asserted, including that one resolution cannot leak
         # into another through a shared mutable base.
         effective = {}
-        for name in ("nested-paths", "preserving"):
+        for name in ("nested-paths", "preserving", "pointer-nested",
+                     "pointer-add-top"):
             rel = f"artifacts/{name}.json"
             declaration, _ = derivation_declaration(paths[rel])
             effective[name], _, _ = resolve_derivation(rel, declaration)
@@ -714,6 +826,41 @@ def derivation_selftest() -> tuple[bool, list[str]]:
          and measured["plain-no-shape"]["score"] == 2,
          "accept  artifact carrying neither schema nor goldens still scores 2/4",
          "FAIL    a shapeless artifact gained a point"),
+        # ---- dialects repaired 2026-08-12 ----------------------------------
+        (resolved("pointer-preserving", True, 2, 4),
+         "accept  RFC 6901 POINTER path resolves (dialect repair)",
+         "ESCAPE  a pointer-form derivation was refused -- the dialect gap is back"),
+        (resolved("pointer-nested", True, 2, 4)
+         and effective["pointer-nested"]["counters"]["contractRoot"]["containerPaths"] == 797
+         and "rule-evaluation" in effective["pointer-nested"]["stageSchemas"]["kinds"]
+         and exact_equal(effective["pointer-nested"], effective["nested-paths"]),
+         "accept  nested POINTER set/add land, exactly equal to the dotted spelling",
+         "FAIL    the pointer and dotted spellings of one derivation diverged"),
+        (resolved("pointer-index", True, 2, 4),
+         "accept  POINTER numeric token addresses a list index",
+         "FAIL    a pointer index token was not walked"),
+        (resolved("pointer-add-top", True, 3, 4)
+         and "extraFixtures" in effective["pointer-add-top"]
+         and "/extraFixtures" not in effective["pointer-add-top"],
+         "accept  POINTER add lands on the named key, never on a literal '/key'",
+         "ESCAPE  a pointer add invented a literal slash-named key -- the silent hazard"),
+        (resolved("array-preserving", True, 2, 4),
+         "accept  ARRAY-form path is now read (the silent (None, []) class closes)",
+         "ESCAPE  an array-form derivation is still invisible to this reader"),
+        (refused("array-bool-token", "path is not plainly resolvable"),
+         "reject  array token True is not index 1 -- bool before int",
+         "ESCAPE  a bool token was coerced to an array index"),
+        (refused("pointer-bad-escape", "path is not plainly resolvable"),
+         "reject  pointer with an undefined '~' escape",
+         "ESCAPE  a malformed pointer escape was guessed at"),
+        (refused("guessed-path-add", "path is not plainly resolvable"),
+         "reject  add whose path parses only by GUESSING -- refusal, not invention",
+         "ESCAPE  a non-round-tripping path was walked on a guess"),
+        (measured["unreadable-operations"]["source"] == "own-keys/DERIVATION-UNRESOLVED"
+         and any("cannot execute that list" in item
+                 for item in measured["unreadable-operations"]["errors"]),
+         "reject  operation-shaped list with an unreadable path is LOUD, not silent",
+         "ESCAPE  an unreadable operation list fell back to key-name scoring"),
     ]
     lines = [f"  {ok_text}" if ok else f"  {bad_text}" for ok, ok_text, bad_text in checks]
     return all(ok for ok, _, _ in checks), lines

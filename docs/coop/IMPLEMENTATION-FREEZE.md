@@ -3202,7 +3202,25 @@ pointer resolver sharing no walk code — on all three candidate subjects.
 **The repair itself is UNREVIEWED and says so on its face
 (`AWAITING-INDEPENDENT-REVIEW`); the 2026-08-04 derivation-reader review binds
 the PRE-edit bytes (§7.2) and does not carry forward. The independent review
-was dispatched 2026-08-12.**
+was dispatched 2026-08-12.** *(Landed the same day —
+[**PASS at 0 blockers, 5 advisories**](artifacts/check-completeness.dialect-repair.v1.review-independent.json),
+`b161c7e6…`. The reviewer recomputed the diff from digest-verified git
+pre-edit bytes and found it complete in both directions; wrote an independent
+resolver from RFC 6901's own ABNF — fetched, digest recorded — sharing no
+walk code, and reproduced all three candidate canonicals byte-for-byte;
+re-ran the regression pre/post over the whole corpus, confirming 11→23 and
+18→25 with every previously-resolving artifact byte-identical and
+retention-tiers v26/v27/v28 refusal text unchanged; demonstrated the
+silent-invention hazard closed on the REAL r1 adds — pre-edit bytes invented
+literal `/successorContextV17` and `/findingIdentity` keys at zero errors,
+post-edit bytes land the proper keys; and swept all 852 declared operation
+paths at zero parser disagreements. Advisories DR-A1..A5 stand recorded in
+the review; the two sharpest: the pointer round-trip gate is UNREACHABLE —
+mutually redundant with the escape gate, real defense-in-depth but invisible
+to mutation coverage — and cc1's content-addressed refusal wording
+misattributes the reader's own gap to the artifact, to be corrected with the
+content-addressing port. The instrument bytes and this review commit
+together.)*
 
 **The gate, re-executed**
 ([`r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v2.json`](artifacts/r1-lifetime-neutrality.conformance.v1.9.corpus-resolution.v2.json),
@@ -3213,7 +3231,10 @@ resolved canonical `27d27bc0…`. The same repair makes the whole
 canonicals recorded there). Rider 3's gate is now mechanically satisfiable for
 every pointer-dialect candidate, **pending the instrument-change review — a
 coordinator applying on these instruments before that review must record the
-reliance deliberately.**
+reliance deliberately.** *(Discharged same day: the review returned PASS at 0
+blockers — see the repair paragraph above. The gate for pointer-dialect
+candidates is now satisfied on REVIEWED instrument bytes, with no recorded
+reliance required.)*
 
 **State of the two candidate lineages, for the apply decisions this rider does
 not take.** `r1-lifetime-neutrality.conformance.v1.9` (cited by path, not
