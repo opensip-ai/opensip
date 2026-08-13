@@ -919,17 +919,31 @@ decision; nothing here forecloses slice 2.
 
 - **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
 - **Decision type:** PREFERENCE-LADEN (route C).
-- **Decision:** the proposed product rule (file 02, DR-119 row) is ACCEPTED
-  as binding for slice 1: every supported language role ships a signed,
-  platform-qualified, self-contained closure of its runtime/parser/
-  compiler/language-server-class dependencies; TypeScript specifically must
-  not require user-managed Node; ambient/implicit-download refusal is
-  typed; any unbundleable customer-owned external-system exception needs
-  explicit product approval and a doctor contract, and is never labeled
-  self-contained. Slice-1 scope: the TypeScript role only (D-002); the
-  rule binds future roles at their own acceptance. Row → the acceptance
-  recorded; evidence half (signed closures, clean-machine offline tests)
-  at DR-G14 qualification.
+- **Decision (amended per turn 1):** the proposed product rule (file 02,
+  DR-119 row) is **ACCEPTED UNIVERSALLY** — it binds EVERY supported
+  language role, per the row's own unconditional quantifier (turn-1 MF:
+  the draft's per-role re-acceptance hook is struck); only the EVIDENCE
+  is slice-scoped (TypeScript now, each future role's closure evidence at
+  its own DR-G14 qualification). The accepted rule, restated at full
+  source fidelity (turn-1 SF): every supported role ships a signed,
+  platform-qualified, self-contained closure of runtime/parser/compiler/
+  language-server-class (or analogous non-system) dependencies, with
+  MANIFEST DECLARATIONS of licenses/SBOM/attestation/platform/capability/
+  performance; clean-machine offline tests; refusal of ambient/implicit
+  downloads AND typed remediation as separate obligations; any
+  unbundleable customer-owned external-system exception needs explicit
+  product approval and a doctor contract, is VISIBLE in the manifest with
+  typed absence/failure behavior, and is never marketed or silently
+  treated as self-contained. TypeScript must not require user-managed
+  Node.
+- **File-08 edit C-D008 carries (turn-1 MF):** the DR-119 row moves to
+  `DECIDED-V1-NOT-INTEGRATED`, annotated "rule ACCEPTED universally
+  (D-008); closure evidence per role at DR-G14 qualification."
+- **Alternatives considered (D-000 clause 3):** per-role acceptance was
+  the draft's shape and is rejected as a re-litigation hook against the
+  row's quantifier; declining the rule entirely would force a register
+  amendment and contradict file 10's MVP commitment — the dissent path
+  remains a successor decision.
 - **Overturn:** supersession + revert of C-D008.
 
 ---
@@ -937,15 +951,22 @@ decision; nothing here forecloses slice 2.
 ## D-009 — DR-123 acceptance: mandatory CLI baseline
 
 - **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
-- **Decision type:** PREFERENCE-LADEN (route C), though heavily
-  register-bounded (DR-123 already declares itself mandatory for every
-  slice; this entry is the product ACCEPTANCE its "OPEN ACCEPTANCE"
-  status awaited).
+- **Decision type (relabeled per turn 1):** RULE-GOVERNED IN SUBSTANCE —
+  the register and file 01 already mandate the CLI baseline for every
+  slice; this entry is the awaited assent, and PREFERENCE-LADEN would
+  overstate the discretion. The dissent path is named as the alternative:
+  a product owner could decline and force a register amendment; declining
+  is rejected because every recorded surface (DR-123, file 01, file 10,
+  D-002) already builds on the baseline.
 - **Decision:** ACCEPTED as binding: every slice-1 command works
   non-interactively in CI without a TUI; stable human and machine output
   schemas, exit vocabulary, redaction, output-failure behavior, offline
   operation and footprint evidence per the row's cell. The acceptance
   changes no gate; DR-G01..G05/G12/G17 carry the evidence.
+- **File-08 edit C-D009 carries (turn-1 MF — the draft named none, the
+  C-D006 overclaim class):** the DR-123 row moves to
+  `DECIDED-V1-NOT-INTEGRATED`, annotated "baseline acceptance DECIDED
+  (D-009); evidence at DR-G01..G05/G12/G17."
 - **Overturn:** supersession + revert of C-D009.
 
 ---
@@ -959,15 +980,26 @@ decision; nothing here forecloses slice 2.
 - **Decision:** add register row **DR-130**: "V1→V2 transition contract —
   migration/coexistence posture for existing V1-prototype users and their
   local state" — owner: product + lifecycle; source pin: file 05 (V1→V2
-  relationship) and the prototype reference; acceptance evidence: a
-  reviewed transition statement covering what V1-prototype state (if any)
-  migrates, what is explicitly abandoned with notice, and the
-  no-silent-loss rule; status OPEN; blueprint impact: blocks any slice
-  claiming upgrade continuity, and slice 1 (which claims none) records an
-  explicit deferral disposition. Per D-001's new-row rule, C-D010 also
-  amends file 08's condition-2 literal quantifier text ("DR-101 through
-  DR-127") to "DR-101 through DR-130" with the change cited to this
-  decision.
+  relationship, §Migration constraints by anchor) and the prototype
+  reference; acceptance evidence (turn-1 MF — bound by REFERENCE, the
+  D-007 SF-6 cure, because the draft's "no-silent-loss rule" was defined
+  nowhere): an INDEPENDENTLY REVIEWED transition statement satisfying
+  file 05 §Migration constraints AS WRITTEN — its six-member "No
+  migration silently…" enumeration, its five-item preserve list, and its
+  five distinctions, cited by anchor and count-pinned (6/5/5; any change
+  to those enumerations re-opens this row); status OPEN; blueprint
+  impact: blocks any slice claiming upgrade continuity; slice 1 claims
+  none and its deferral disposition is RECORDED IN THE ROW ITSELF at
+  C-D010 (the named artifact and commit, per turn-1 SF). Per D-001's
+  new-row rule, C-D010 amends file 08's condition-2 wording — adopting
+  the RANGE-FREE form the D-001 turn-2 verdict recorded (turn-1 SF: a
+  range-to-range edit re-arms the staleness trap): the condition
+  quantifies over "every row of the V2 architecture and product decisions
+  table that affects the first blueprint slice." The now-historical range
+  in D-001's §1 blockquote is handled by a dated PIN-NOTE appended to
+  D-001's entry (adopted bytes are quoted history, never silently
+  edited): the quote reflects the register as adopted; the register is
+  operative.
 - **Overturn:** supersession + revert of C-D010.
 
 ---
@@ -979,9 +1011,15 @@ decision; nothing here forecloses slice 2.
   verification record measured the mismatch: file 02 enumerates seven
   binding product-boundary items; DR-117's decision column names five),
   reviewed per MF-6.
-- **Decision:** DR-117's decision column is widened to enumerate file 02's
-  seven binding items verbatim (measured at the DR-205 frozen digest and
-  re-verified at edit time), so the row's quantifier matches its source's;
-  status, owner and evidence cells unchanged; the DR-205 re-review's
-  KNOWN-VERIFIED finding is cited.
+- **Decision (amended per turn 1 — reference, not duplication):** DR-117's
+  decision column is widened by COUNT-PINNED REFERENCE: it covers "the
+  SEVEN binding product-boundary items file 02's product-boundary section
+  enumerates (count pinned at seven; any change to that enumeration
+  re-opens this row)" — the lane's boundary-source-by-reference cure,
+  because a verbatim second copy would reproduce the exact drift
+  mechanism under repair (the ALTERNATIVE, verbatim duplication with a
+  same-commit sync obligation, is recorded and rejected for that reason).
+  The seven-vs-five mismatch and file 02's byte-identity with the DR-205
+  frozen digest (`1811c682…`) were independently verified by the turn-1
+  review; status, owner and evidence cells unchanged.
 - **Overturn:** supersession + revert of C-D011.
