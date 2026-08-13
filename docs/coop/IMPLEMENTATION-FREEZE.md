@@ -3265,6 +3265,22 @@ every F-1 path at 0 failures). v8's `measuredResult` ("EXACTLY 1") and
 `afterThisRepair` ("0 falsified leaves") are therefore false, the v6
 incompleteness mode at one further remove. **A v9 owes one leaf plus corrected
 scoping claims; no apply decision arises for this lineage until then.**
+*(Continued 2026-08-13 — the lineage converged and its head is APPLIED. v9,
+v10 and v11 were each REJECTED on ever-narrower self-description defects —
+one unmeasured clause per generation — while the resolved value stayed
+byte-stable and verified clean from v9 onward (canonical `872883db…`,
+byte-identical across four independent resolutions). v12 (`f0bfaebd…`)
+adopted the measured-or-cited-at-digest discipline — every empirical clause
+in its scope declaration is measured by its build or cited to a review at a
+declared digest — and its independent review returned **ACCEPT at 0
+blockers with no reservation language** (`d5f748b2…`), the lineage's first
+acceptance in eight generations. **APPLIED 2026-08-13** as the EIR head,
+superseding applied v6, under the route-A acceptance property recorded in
+`COORDINATOR-DECISIONS.md` D-003 — in deliberate contrast to v6's
+candidate-grade warrant, which remains flagged as DR-204/DR-011 audit
+material. DO-NOT-SEAL stands; applying is not sealing; DR-006's
+binding-per-surface-recipes half remains successor work and is NOT closed
+by this application.)*
 
 **What this rider does NOT do.** It applies nothing and seals nothing.
 `check-completeness.py` still lacks content-addressed predecessor identity —

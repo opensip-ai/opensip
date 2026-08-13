@@ -503,3 +503,44 @@ decision; nothing here forecloses slice 2.
   **CONSENT**, on the merits, all four items verified landed in bytes,
   set arithmetic re-verified 27/27 + 22/22 (`…turn3.json`, `a15f9ac2…`).
 - **Commit:** C2 (this commit), with all three verdict files.
+
+---
+
+## D-003 — Apply evidence-identity-recipes.v12
+
+- **Date:** 2026-08-13
+- **Status:** ADOPTED — rule-governed application under the standing
+  route-A acceptance property (D-001, T2-02), with the property's
+  conditions measured rather than inferred; no separate consensus loop is
+  required where the adopted property makes the act mechanical, and the
+  evidence is attached.
+- **Decision type:** RULE-GOVERNED.
+- **The property's conditions, measured:** (1) independent review verdict
+  `ACCEPT` at 0 blockers
+  (`artifacts/evidence-identity-recipes.v12.review-independent.json`,
+  `d5f748b2…`) — the FIRST acceptance in this lineage after seven
+  consecutive REJECTs; (2) application-grade with NO express reservation —
+  a reservation-language sweep over the verdict file returns zero hits
+  (no DO-NOT-APPLY, no candidate-only limitation, no application-warrant
+  carve-out), in deliberate contrast to this lineage's v6 precedent whose
+  verdict said "ACCEPT AS A CANDIDATE"; (3) no named apply-condition
+  exists to discharge. The subject's own CANDIDATE-NOT-APPLIED
+  self-declaration is the author's pre-review posture, not a verdict
+  (blueprint reading rule 2, per the TM-row precedent).
+- **What is applied:** `evidence-identity-recipes.v12` (`f0bfaebd…`) as
+  the EIR lineage head, superseding applied v6. Resolved canonical
+  `872883db…` (byte-identical from v9 onward; the resolved delta versus
+  applied v6 is the v7/v8/v9 prose corrections — every digest, pin,
+  golden, recipe and vector byte-identical, verified across eight
+  independent reviews). `sealRecommendation: DO-NOT-SEAL` stands; applying
+  is not sealing.
+- **What this advances:** DR-006's route (the accepted head exists; the
+  binding per-surface recipes remain successor work), DR-011-R15's flank.
+  It does NOT close DR-006.
+- **Advisories carried:** the v12 review's three advisories (warrant
+  misfiled to a sibling declared input; a terminology dual-use; citation
+  hygiene) are birth requirements for the next EIR successor, not
+  repairable in reviewed bytes.
+- **Overturn:** supersession entry here + `git revert` of the C-D003
+  commit; the freeze line then re-records the prior head.
+- **Commit:** C-D003 (this commit).
