@@ -1,0 +1,149 @@
+{
+ "artifact": "opensip.evidence.v12.review-independent",
+ "reviewDate": "2026-08-13",
+ "reviewerRole": "INDEPENDENT-REVIEWER (DR-002 AC-2 dispatch; did not author the subject; subject frozen at dispatch)",
+ "subject": {
+  "file": "artifacts/evidence.v12.json",
+  "sha256": "2077c0868c374907e10c0fa13c2578065afd9d3efb2a22e06a959f8e51af618a",
+  "measuredAtStart": true,
+  "measuredAtEnd": true,
+  "drift": "NONE. This verdict binds the start bytes, which are byte-identical to the end bytes."
+ },
+ "verdict": {
+  "decision": "REJECT",
+  "blockingFindingCount": 5,
+  "advisoryCount": 4,
+  "candidateState": "CANDIDATE-NOT-APPLIED",
+  "routeAAcceptanceProperty": "NOT MET (T2-02: 0 blockers required; 5 measured)",
+  "findingSetDelta": {
+   "EV11-IR-01": "NOT DISPOSED. The rescope route remains lawful and the if-True evasion is cited accurately, but the corrected boundary is wrong for the third generation in a row, now in BOTH directions at once: the positive-coverage clause dropped the review's word PLAIN and re-admits the exact EV10-OBS-09 class the review's requiredRepair named first (a module-level ASYNC def with fully direct syntax, reached by a direct-name call, runs silently green -- blocker EV12-IR-01, measured), and the new negative-reach clause claims nested-def consumptions are outside a scan that deliberately descends into them (blocker EV12-IR-02, measured).",
+   "EV11-IR-02": "PARTIALLY DISPOSED. The understatement is corrected and the correction is true and exactly cited: a flagless second direct dispatch produced precisely TEN new findings in my independent reproduction, including both quoted PR-21 sentences. But the replacement blind-spot sentence -- 'requires an ALIASED dispatch gated outside comparison nodes -- both indirection and a non-compared gate together' -- is falsified by measurement: an aliased dispatch gated INSIDE a comparison node, against a DECLARED flag literal, also evades (blocker EV12-IR-03). The wording follows the v11 review's own requiredRepair clause, which carried the same imprecision; inherited, but it is the load-bearing corrected boundary, which is exactly the position v11's own rescope was blocked from.",
+   "EV11-IR-03": "PARTIALLY DISPOSED, AND THE CLASS IT NAMED SURVIVES ONE ENTRY GROUP AWAY. The false existence recital is gone, every replacement fact is verified on disk (file present, sha256 345380e2..., verdict PASS), and v11's restatement authorship is acknowledged as the review demanded. But the sentence's causal frame is now a fresh non-sequitur -- 'deliberately not pinned here, because its own independent review EXISTS' -- and the DR-011-R13 skew rationale the review ordered promoted into the residual appears NOWHERE in the resolved artifact (blocker EV12-IR-04). And the stale-recital class EV11-IR-03 adjudicated is still present in the same restated array: entry 3's 'CD-RT-5 and G19 remain blocked' has been false about CD-RT-5 since the product authority decided it on 2026-08-05 (blocker EV12-IR-05)."
+  },
+  "headline": "The derivation mechanics are flawless under both resolvers, every declared carriage and disposal is byte-verified undisturbed, and the two things v12 says the instrument now does that v11 denied (the flagless-dispatch catch, the ten findings) reproduce exactly. The candidate fails where its predecessors failed: the corrected bounds are still not the measured bounds. Three of the four rewritten prose surfaces misdescribe the instrument in ways a one-hour probe falsifies, and the restated residual array still recites a product state that ended eight days before this candidate was authored. All five blockers are clause-sized repairs inside the existing four operations."
+ },
+ "blockers": [
+  {
+   "id": "EV12-IR-01-POSITIVE-COVERAGE-STILL-OVERSTATES-MODULE-LEVEL-IS-NOT-PLAIN",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v12.json#derivedFrom.operations[0].value (pathConsumerGuard.rule)",
+    "evidence.v12.json#derivedFrom.operations[1].value (reviewFindingTransfers[32].closure, restates the same coverage)",
+    "evidence.v12.json#whatThisDoesNotDo[3] ('it makes the measured bounds the stated bounds' -- not achieved)"
+   ],
+   "finding": "The new positive-coverage sentence binds the guarantee to consumptions 'located inside MODULE-LEVEL function definitions that the scan reaches from the checking entrypoints by following direct-name calls'. The v11 review's requiredRepair route (a) said MODULE-LEVEL PLAIN FUNCTION DEFINITIONS and explicitly listed async definitions as outside the scan's reach; v12 dropped the word PLAIN and the async exclusion. The scan's function table is subject.body filtered to ast.FunctionDef only (check-evidence-v10.py lines 3249-3250), so a module-level ast.AsyncFunctionDef -- a module-level function definition by Python's grammar and by any plain reading of the sentence -- is not in the table, cannot be descended into, and its consumptions are invisible even under fully direct syntax and direct-name reachability. The only reading that saves the sentence is 'the scan covers whatever the scan reaches', which is the vacuous caveat and not a bound; under that reading the sentence states nothing, and under the natural reading it is false. A lambda bound to a module-level name is a second form inside the sentence's plain words and outside the table.",
+   "measurement": "Control first: in a disposable copy (/tmp/ev12rev, never the repo) a module-level PLAIN def with an unguarded direct _path_steps consumption, called by direct name from _grammar_delta_findings behind a runtime-unreachable gate, was REPORTED ('candidate-supplied path consumption is not enclosed by a handler for Malformed: _ev12_probe_plain line 4821') with a 13-finding cascade -- the positive coverage is real and the probe protocol is valid. Then the identical construction as a module-level ASYNC def: checker stdout and stderr BYTE-IDENTICAL to the four-finding baseline. Then the identical consumption in a lambda bound to a module-level name, direct-name call from the same site: BYTE-IDENTICAL to baseline. Direct-name syntax inside a module-level function definition, reached from an entrypoint by a direct-name call, ran silently green -- against the corrected sentence's exact words.",
+   "requiredRepair": "Either restore the review's boundary verbatim -- direct-name consumptions inside module-level PLAIN function definitions (ast.FunctionDef direct children of the module body) reached through direct-name calls that resolve to such definitions; async definitions, block-nested definitions, class methods, lambdas and exec-created callables are outside the scan's reach and governed by review -- or bind the reachability-walk extension onto the successor instrument and say the current instrument does not cover those forms.",
+   "repairSize": "one clause in operations[0].value, one clause in operations[1].value"
+  },
+  {
+   "id": "EV12-IR-02-NEGATIVE-REACH-CLAUSE-UNDERSTATES-NESTED-DEFS-ARE-SCANNED",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v12.json#derivedFrom.operations[0].value ('Everything else is outside its reach: ... AND any consumption inside a function definition that is not a module-level def')"
+   ],
+   "finding": "False in the direction of understating the instrument, the exact class EV11-IR-02 blocked v11 for, and this corpus's standard is that a caveat is a measurement. _collect_path_calls (check-evidence-v10.py lines 3226-3231) deliberately DESCENDS into nested FunctionDef, AsyncFunctionDef and Lambda nodes inside every reached function, resetting protected to False ('a nested definition runs later, possibly elsewhere; it inherits no protection'). A consumption inside a function definition that is not a module-level def -- a def nested within a reached module-level def -- is therefore inside the scan's reach and is reported, with no call to it required anywhere. The sentence tells a future author that nesting a consumer hides it; the instrument's actual behavior is the opposite for this form. The clause cannot be rescued by reading 'inside a module-level def' transitively, because under that reading it would exclude nothing lexically inside a reached def and contradict the v12 sentence's own if-True citation, whose def is inside no function at all.",
+   "measurement": "In a disposable copy, a def nested inside _grammar_delta_findings containing an unguarded direct _path_steps consumption -- never called from anywhere -- produced 'candidate-supplied path consumption is not enclosed by a handler for Malformed: _grammar_delta_findings line 2825' plus the SB-18/PR-23 cascade (16 findings vs the 4-finding baseline). Claimed outside the scan's reach; measured inside it.",
+   "requiredRepair": "State the lexical rule as coded: within each reached module-level plain def the scan sees every recognised consumption at ANY nesting depth, including inside nested defs and lambdas, which it treats as unprotected by enclosing handlers; what it never sees is any consumption lexically outside the reached module-level plain defs.",
+   "repairSize": "one clause in operations[0].value"
+  },
+  {
+   "id": "EV12-IR-03-BLIND-SPOT-SENTENCE-OVERSTATES-A-COMPARED-DECLARED-GATE-ALSO-EVADES",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v12.json#derivedFrom.operations[2].value (reviewFindingTransfers[33].closure)",
+    "evidence.v12.json#purpose ('the blind spot is stated as measured (alias plus non-compared gate together)')",
+    "evidence.v12.json#whatThisDoesNotDo[3]"
+   ],
+   "finding": "The corrected closure ends: 'the scan's measured blind spot requires an ALIASED dispatch gated outside comparison nodes -- both indirection and a non-compared gate together.' The requirement of a non-compared gate is false. The Compare-node collection detects only literals that would CHANGE the flags set: a gate that compares a DECLARED flag literal adds nothing to the set, the set equality holds, and the aliased callee is never counted by the dispatch rule -- so an aliased dispatch gated INSIDE a comparison node evades the scan. The measured blind spot is: an indirect (aliased) dispatch whose gate introduces no UNDOCUMENTED flag literal into any comparison node; whether the gate is a comparison is irrelevant. As written, the sentence tells a future author that gating a covert aliased dispatch with a comparison makes it visible -- an overstatement of the instrument on the exact clause EV11-IR-02 was raised to fix. Inheritance recorded for fairness: v12's wording follows the v11 review's own requiredRepair clause ('gated without a comparison'), which carried the same imprecision; but the clause is the load-bearing corrected boundary, the same position from which v11's own inherited rescope was blocked.",
+   "measurement": "Four probes in disposable copies, all runtime-unreachable insertions in main() after the guarded dispatch, scored as finding-set deltas against the four-finding baseline. (D) second DIRECT dispatch, no flag literal: exactly TEN new findings, including 'main() dispatches to the selftest suite 2 time(s); exactly one dispatch is permitted' and 'a dispatch to the selftest suite is not guarded by a declared flag' -- v12's ten-findings citation reproduced exactly, the corrected first half of the sentence is TRUE. (E2) ALIASED dispatch gated by a compared UNDOCUMENTED literal ('--ev12-covert'): 15 new findings ('a second undocumented entrypoint is refused') -- caught, as the sentence implies. (F) ALIASED dispatch, non-compared gate: BYTE-IDENTICAL to baseline -- the blind spot v12 names is real. (E) ALIASED dispatch gated INSIDE a comparison node against the DECLARED literal ('--selftest' == str(len(flags))): BYTE-IDENTICAL to baseline -- inside the actual blind spot, outside the sentence's stated one.",
+   "requiredRepair": "Replace the final clause with the measured boundary: 'the scan's blind spot is an indirect (aliased) dispatch whose gate puts no undocumented flag literal inside a comparison node -- a gate comparing a DECLARED flag literal also evades; indirection is required, a non-compared gate is not.'",
+   "repairSize": "one clause in operations[2].value"
+  },
+  {
+   "id": "EV12-IR-04-RESIDUAL-12-TRUE-FACTS-FALSE-CAUSE-RATIONALE-NOT-PROMOTED",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v12.json#derivedFrom.operations[3].value[12] (retainedResiduals[12])"
+   ],
+   "finding": "The corrected residual reads: 'A v1.14 successor is under concurrent authorship and is deliberately not pinned here, because its own independent review EXISTS (corrected in v12, ...)'. Every fact inside the parenthetical is verified true (file on disk, sha256 345380e2..., verdict PASS, v11's restatement authorship acknowledged), but the sentence's causal frame is a fresh non-sequitur asserted in the resolved artifact's own voice: the existence of a PASS review is not a reason to withhold a pin -- it is the strongest fact in the other direction. EV11-IR-03's requiredRepair was explicit: state that the pin is deferred NOT for want of a review but because re-pinning the artifact ahead of its instrument (which executes check-d9-v1.13.py) would create the DR-011-R13 skew class -- 'promote whatThisDoesNotDo[2]'s rationale into the residual it contradicts.' v12 declined, and says so: its whatThisDoesNotDo[2] scopes the fix to 'only the false EXISTENCE claim'. Measured consequence: the resolved artifact contains the skew rationale nowhere ('DR-011', 'skew' and 'ahead of its instrument' have zero occurrences in the resolved bytes; the sole 'R13' hit is the unrelated id RR13-01), so the only stated reason for the deferral in the effective contract is a false one. This is the EV11-IR-01 pattern applied to IR-03: one wrong sentence replaced with another wrong sentence.",
+   "measurement": "Existence/digest/verdict verified on disk at start and end (345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2, PASS); resolved-artifact byte search for the rationale performed on my own resolution, which is exact-equal to the corpus resolver's.",
+   "requiredRepair": "One clause: '...deliberately not pinned here -- not for want of a review (its independent review exists: d9-exit-contract.v1.14.review-independent-prefreeze.json, 345380e2..., PASS; the stale contrary recital survived the v11 restatement, making v11 its author) -- but because the retained instrument executes check-d9-v1.13.py, and re-pinning the artifact ahead of its instrument would create the DR-011-R13 skew class; the re-pin is bound to the successor-instrument generation.'",
+   "repairSize": "one clause in operations[3].value[12]"
+  },
+  {
+   "id": "EV12-IR-05-RESIDUAL-3-RECITES-CD-RT-5-AS-BLOCKED-EIGHT-DAYS-AFTER-IT-WAS-DECIDED",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v12.json#derivedFrom.operations[3].value[3] (retainedResiduals[3])"
+   ],
+   "finding": "Entry 3, freshly restated in full on 2026-08-13 as part of the same operations[3] array whose entry 12 v12 corrects for exactly this defect class, says 'V10 remains unresolved. CD-RT-5 and G19 remain blocked.' CD-RT-5 does not remain blocked. The binding packet product-dispositions.v1.json -- the sole constitutive authority for product decisions under the register's own productDecisionAuthority rule, recorded after the fabricated-sign-off forensics -- carries $.decisions.CD-RT-5 with status DECIDED, decidedOn 2026-08-05, decidedBy sfbreen, and its PD-5 supersession note says in terms that 'CD-RT-5 is now RESOLVED'. The staleness is machine-visible in this lineage's own baseline: the four RC-14 findings every current run of check-evidence-v10.py emits read '$product.CD-RT-5: exact live state must be BLOCKED_ON_PHASE_1A, got None' -- the checker fails precisely BECAUSE the blocked state left the live corpus. This is the stale-recital class the corpus already adjudicates (DR-202 F1 / V2TOPIC-F-01) and the exact v11 lesson: a restated array's every sentence is freshly asserted. The rest of the entry survives measurement: 'V10 remains unresolved' is true (the packet states the decided default is NOT an accepted artifact and the Phase-1A input is still owed), 'G19 remain[s] blocked' is true (freeze section 3 TM row: reconcile V10/custody and G19 'untouched and still block'), and 'this artifact does not decide the product default and does not sign CD-RT-5' remains true and is the load-bearing half. Fairness recorded in full: the sentence is v10's bytes and was true when authored 2026-08-02; the staleness predates v11; the v11 review did not flag it even while its own environment section recorded 'CD-RT-5 was DECIDED 2026-08-05' -- v12 is therefore the second generation to restate the recital against a fact recorded in the very review it disposes. The register's ARCH.RETENTION-TIERS disposition map still carries 'BLOCKED_ON_PHASE_1A' wording from the 2026-08-03 strike narrative, which gives the recital a colorable citation -- but a non-constitutive one, by the corpus's own adjudicated rule.",
+   "measurement": "artifacts/product-dispositions.v1.json (sha256 bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017) read at $.decisions.CD-RT-5: status DECIDED, decidedOn 2026-08-05, decidedBy sfbreen, with attributionProvenance. Baseline checker output containing the RC-14 'got None' cause reproduced in a disposable copy this window. Freeze G19 recitals read at the measured 93a4f74f... bytes.",
+   "requiredRepair": "Restate entry 3 to the current facts: V10 remains unresolved and G19 remains blocked; CD-RT-5 was DECIDED 2026-08-05 by the product authority in product-dispositions.v1.json, deliberately without the Phase-1A packet, which remains owed; this artifact still decides no product default and signs nothing.",
+   "repairSize": "one clause in operations[3].value[3]"
+  }
+ ],
+ "advisories": [
+  {
+   "id": "EV12-IR-A1-LINE-3327-CITATION-CARRIED-A-THIRD-TIME",
+   "note": "operations[2].value again cites 'the checker's own line-3327 comment'; the narrowing-rationale comment begins at line 3328 (spanning 3328-3333 in the 0379bb9b... bytes). Inherited from the v10 review's citation through v11, flagged by the v11 review as A2(a), and carried unchanged into v12's corrected sentence. Not load-bearing; a successor touching this sentence for EV12-IR-03 should fix the line number in the same stroke."
+  },
+  {
+   "id": "EV12-IR-A2-RESIDUAL-13-R8-WORDING-STILL-CARRIES-BOTH-MEASURED-IMPRECISIONS",
+   "note": "retainedResiduals[13] is byte-identical from v11 (lawful -- v12 claimed only entry 12), so EV11-IR-A1 carries forward with sharper measurements now on record: for the flag scan, indirection alone does NOT yield a green run (my probe E2: an aliased dispatch gated by a compared undocumented literal drew 15 findings); for the path scan, no indirection is needed at all (my probes B and G: async def and module-bound lambda, fully direct syntax, both green). The next restatement of the array should rewrite [13] to the measured boundaries rather than carry R8 verbatim a third time."
+  },
+  {
+   "id": "EV12-IR-A3-EXITCODES-LEAF-STILL-CARRIES-NO-POINTER",
+   "note": "checkerModeContract.exitCodes remains a bare four-row map with no cross-reference to the fifth termination behavior disclosed at hostileInputTotalityContract.exitDiscipline. EV11-IR-A3 carried forward unchanged; v12 did not claim to fix it and its four operations lawfully do not touch the leaf."
+  },
+  {
+   "id": "EV12-IR-A4-RESIDUAL-5-GENERATION-COUNT-UNPINNED",
+   "note": "retainedResiduals[5]'s 'carried across four generations' is restated freshly for the second time since v10 with no statement of what a generation counts (checker generations, evidence generations, or review windows). It is ambiguous rather than measurably false -- the retained foundation has executed under no new instrument since v10 -- but under the freshly-asserted doctrine an unpinned count is one corpus event away from being EV12-IR-05. The next restatement should pin the referent or date the count."
+  }
+ ],
+ "verifiedClean": {
+  "derivationMechanics": "All four operations verified under my own resolver AND the corpus resolver (check-completeness.py derivation reader, af9f8837..., loaded as a module): declaration found by shape at 0 errors; chain resolved v12 -> v11 -> v10 at depth 2 with both link digests measured and matched (c3d94910..., 62a3a071...); every 'from' byte-exact against the RESOLVED predecessor under type-exact comparison (bool-before-int enforced by my resolver and confirmed in the reader's exact_equal: True != 1 in both directions); duplicate-key hook clean on all three documents; no vacuous operation (value != from on all four); both resolutions exact-equal; v10 confirmed full-text TERMINUS (no derivation declaration); path dialect json-pointer throughout.",
+  "leafCensus": "Resolved v12 vs resolved v11: 2236 leaves each under my convention; changed leaves are EXACTLY the four declared paths (/hostileInputTotalityContract/pathConsumerGuard/rule, /reviewFindingTransfers/32/closure, /reviewFindingTransfers/33/closure, /retainedResiduals/12); zero added, zero removed. 70 digest-shaped leaves before and after, zero moved, zero added, zero removed -- digestsMoved 0 verified. Zero recipe-named members exist in the resolved artifact -- recipesChanged 0 verified (vacuously). operationAccounting (4/4/0/0) and whyNoDigestMoves accurate.",
+  "carriage": "sealedCapabilityContract and availabilityDifferential PRESENT in v10 and EXACT-EQUAL in resolved v12 (measured by direct structural comparison against v10's parsed bytes, not by digest convention) -- the freeze 3.1 item-4 route-(b) carriage is intact through the second derivation generation.",
+  "unchangedDisposals": "By leaf comparison of the two resolutions: the EV10-IR-03 exit-discipline disclosure byte-identical from v11; retainedResiduals[13] (the R8 adoption) byte-identical from v11; retainedResiduals[0..11] byte-identical; hostileInputTotalityContract.measurement (census) unmoved; the EV11-recorded deferrals undisturbed.",
+  "accurateNewClaims": "v12's recital of the v11 review's if-True measurement is faithful to the frozen 0d1d4d1f... bytes. The ten-findings citation reproduced EXACTLY (probe D: 14 findings vs 4-finding baseline, both quoted PR-21 sentences present). residual[12]'s replacement facts all true on disk (v1.14 review exists, 345380e2..., PASS); residual[12]'s first sentence verified (d9 v1.13 review 88ab60ef..., decision PASS, blockingFindingCount 0). whatThisDoesNotDo[0] confirmed against the register (EVIDENCE = CANDIDATE, bindingArtifact evidence.v10.json 62a3a071..., review 5ce636fa... PASS); whatThisDoesNotDo[1] confirmed (retained checker 0379bb9b... unmoved this window; the naming constraint stands in the v11 metadata unchanged)."
+ },
+ "whatIDidNotCheck": [
+  "v10's full probe/mutation batteries, commitments, goldens and the from-scratch encoder reproduction -- bound by the frozen 5ce636fa... review's confirmations; my checker executions were finding-set-delta instruments only.",
+  "--selftest and --emit-candidate modes of check-evidence-v10.py in any tree.",
+  "The v11 review's nine-variant and 12337-case two-position batteries -- I built seven independent probes (A, B, C, D, E, E2, F, G) instead of reproducing theirs.",
+  "check-evidence-v11.py's behavior (nothing executed from it; digest recorded by the v11 review, not re-measured here since no claim of v12 depends on it).",
+  "The d9-exit-contract.v1.14 review's content beyond existence, digest and verdict field -- sufficient for EV12-IR-04's fact-check, not an endorsement of that review.",
+  "try/with-wrapped and exec-created module-level definition forms for the path scan -- cited to the v11 review's if-True measurement as the same table-exclusion class; only the async-def and module-bound-lambda forms were executed this window.",
+  "G19's gate state beyond the freeze section 3 recitals at the measured 93a4f74f... bytes -- 'G19 remains blocked' is accepted on the freeze's word.",
+  "The three untracked concurrent-lane review artifacts present in artifacts/ -- none opened, per freeze 7.8.1.",
+  "The register's ARCH.RETENTION-TIERS disposition-map history beyond the CD-RT-5 lines quoted in EV12-IR-05 -- its residual 'BLOCKED_ON_PHASE_1A' wording is recorded there as a colorable citation, not adjudicated here."
+ ],
+ "recordedInputs": {
+  "artifacts/evidence.v12.json": "2077c0868c374907e10c0fa13c2578065afd9d3efb2a22e06a959f8e51af618a",
+  "artifacts/evidence.v11.json": "c3d9491028ac862115f8a70af222e875cf464c1c2d1b7fbe9b54a42b278198c3",
+  "artifacts/evidence.v10.json": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+  "artifacts/evidence.v11.review-independent.json": "0d1d4d1f43aa3d07c9e30f62220cc9b2b9e917b5468e487e4f22fdd9fe848a70",
+  "artifacts/evidence.v10.review-independent-prefreeze.json": "5ce636fa1ceadc83699e8990babe421b8df89f4f99955de05444d84a9621676e",
+  "artifacts/check-evidence-v10.py": "0379bb9b9006558be9546774b177ed2a1e8c23d8000d16cc4a2cff9d8ed12bbd",
+  "artifacts/check-completeness.py": "af9f8837a5abc561cefebf071b862e2dd5fb427304f4738f7fadf5872c4f0f1f",
+  "artifacts/claim-register.v1.json": "767dc210d4fa8b6d2588a6746df124192ff19af9da4e7be663164e9fde32d59c",
+  "IMPLEMENTATION-FREEZE.md": "93a4f74f744a49e09a8ccc38b8355bdeb85dccc5c99c193eda97659ad8e8e1ab",
+  "artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json": "345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2",
+  "artifacts/d9-exit-contract.v1.13.review-independent-prefreeze.json": "88ab60efb21f603213ebff722f62f310b422f03981895e3f6779f2febe734c5b",
+  "artifacts/product-dispositions.v1.json": "bbe24527f732f9c265f9cf71b988303a326e45fec0c6adb0d934536d515d6017",
+  "COORDINATOR-DECISIONS.md": "a3d0d26675bfa0512daebd2f5fcc818346aec7cc1ac2eb07878647ce5e2ddb8f",
+  "windowStatement": "Every hash above was measured with shasum -a 256 before any probe ran and re-measured after the last probe completed; all values byte-identical at start and end. All checker executions and all source edits happened exclusively in disposable copies under /tmp/ev12rev/; no file in the repository was opened for writing except this verdict, which did not exist before this review."
+ },
+ "environment": {
+  "freezeAndRegister": "IMPLEMENTATION-FREEZE.md measured 93a4f74f... and claim-register.v1.json 767dc210... at start and end of this window -- both byte-identical to the values the v11 review (0d1d4d1f...) recorded, so this AC-2 turn ran in the same freeze/register state as the review whose blockers the candidate disposes; freeze citations here bind my measured bytes only.",
+  "coordinatorLaneActive": "Yes. Untracked concurrent review artifacts present in artifacts/ (check-c2-v12, check-delivery-v5, check-retention-custody-v28 review-independent files); none opened, none reported as drift, per freeze 7.8.1 discipline on concurrent lanes.",
+  "movedInputBaseline": "Per freeze 7.2 and 7.8.1: check-evidence-v10.py on the live-equivalent tree exits 1 with exactly four findings (PR-07/PR-08/PR-22/PR-26, all the single RC-14 cause '$product.CD-RT-5: exact live state must be BLOCKED_ON_PHASE_1A, got None') -- reproduced as my baseline in a disposable copy before any probe. Every measurement in this review is a FINDING-SET DELTA against that baseline, never an absolute exit code; no probe treats exit 1 as a verdict about the candidate. The same RC-14 cause text is itself evidence in EV12-IR-05.",
+  "interpreter": "python3 -I -B for every checker and resolver execution; Darwin 25.5.0."
+ }
+}
