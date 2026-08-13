@@ -933,9 +933,13 @@ decision; nothing here forecloses slice 2.
   downloads AND typed remediation as separate obligations; any
   unbundleable customer-owned external-system exception needs explicit
   product approval and a doctor contract, is VISIBLE in the manifest with
-  typed absence/failure behavior, and is never marketed or silently
-  treated as self-contained. TypeScript must not require user-managed
-  Node.
+  typed absence/failure behavior, NAMES its ownership, trust, network and
+  prerequisite expectations, and is never marketed or silently treated as
+  self-contained; and the role NEVER SILENTLY SUBSTITUTES a system tool
+  or weakens semantics (turn-2 SF — the anti-fallback heart of the rule,
+  restored so "full source fidelity" is true). TypeScript must not
+  require user-managed Node. The row's SOURCE cell also carries the D-008
+  citation per the DR-115/118 pattern (turn-2 NOTE).
 - **File-08 edit C-D008 carries (turn-1 MF):** the DR-119 row moves to
   `DECIDED-V1-NOT-INTEGRATED`, annotated "rule ACCEPTED universally
   (D-008); closure evidence per role at DR-G14 qualification."
@@ -966,7 +970,8 @@ decision; nothing here forecloses slice 2.
 - **File-08 edit C-D009 carries (turn-1 MF — the draft named none, the
   C-D006 overclaim class):** the DR-123 row moves to
   `DECIDED-V1-NOT-INTEGRATED`, annotated "baseline acceptance DECIDED
-  (D-009); evidence at DR-G01..G05/G12/G17."
+  (D-009) for EVERY FIRST-SLICE CORE COMMAND (the turn-2 consent's rider
+  carried); evidence at DR-G01..G05/G12/G17."
 - **Overturn:** supersession + revert of C-D009.
 
 ---
@@ -981,7 +986,7 @@ decision; nothing here forecloses slice 2.
   migration/coexistence posture for existing V1-prototype users and their
   local state" — owner: product + lifecycle; source pin: file 05 (V1→V2
   relationship, §Migration constraints by anchor) and the prototype
-  reference; acceptance evidence (turn-1 MF — bound by REFERENCE, the
+  reference PINNED at `69a71aac…` / commit `a62509d6…` (turn-2 SF); acceptance evidence (turn-1 MF — bound by REFERENCE, the
   D-007 SF-6 cure, because the draft's "no-silent-loss rule" was defined
   nowhere): an INDEPENDENTLY REVIEWED transition statement satisfying
   file 05 §Migration constraints AS WRITTEN — its six-member "No
@@ -999,7 +1004,14 @@ decision; nothing here forecloses slice 2.
   in D-001's §1 blockquote is handled by a dated PIN-NOTE appended to
   D-001's entry (adopted bytes are quoted history, never silently
   edited): the quote reflects the register as adopted; the register is
-  operative.
+  operative. Turn-2 residual notes, landed: DR-130 IS the C4a item of
+  D-001's commit plan (the equivalence stated); file 05's Readiness
+  banner is untouched by this row's addition and stays governed by its
+  own refresh rule; and the range-free wording pulls DR-128/129 into
+  condition 2's literal text for the first time — warranted by D-001
+  MF-5, benign because both carry D-002 dispositions, and STATED in
+  C-D010's change record so the delta never lands silently (the
+  reviewer's own turn-1 miss, credited).
 - **Overturn:** supersession + revert of C-D010.
 
 ---
@@ -1021,5 +1033,9 @@ decision; nothing here forecloses slice 2.
   same-commit sync obligation, is recorded and rejected for that reason).
   The seven-vs-five mismatch and file 02's byte-identity with the DR-205
   frozen digest (`1811c682…`) were independently verified by the turn-1
-  review; status, owner and evidence cells unchanged.
+  review; status, owner and evidence cells unchanged. **Edit-time
+  re-verification restored (turn-2 SF — the dropped-clause class):**
+  C-D011 re-verifies file 02 at `1811c682…` immediately before the row
+  edit; on mismatch it ABORTS to the DR-205 successor path (a moved
+  source needs its re-review refreshed before the row may cite it).
 - **Overturn:** supersession + revert of C-D011.
