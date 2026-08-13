@@ -815,7 +815,14 @@ decision; nothing here forecloses slice 2.
 ## D-007 — DR-118: TypeScript role acceptance structure
 
 - **Date:** opened 2026-08-13
-- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000.
+- **Status:** **ADOPTED 2026-08-13** — CONSENT on the merits at turn 2
+  (`artifacts/coordinator-decisions.D-007.review-adversarial.turn2.json`,
+  `1fbbce62…`), the lane's fastest convergence: all ten turn-1 findings
+  verified RESOLVED per-item against their governing sources, none
+  partially landed. Two observations routed within the consent:
+  OBS-T2-01 (performance-baseline runner/environment recording — to
+  matrix authoring and the DR-G13/G14 acceptance checklist) and OBS-T2-02
+  (the manifest/DR-125 dual boundary — to those closure acts).
 - **Decision type:** PREFERENCE-LADEN (route C). D-002 selected the
   slice-1 role list ({TypeScript}); this entry decides WHAT ACCEPTANCE
   REQUIRES for that role — the matrix shape, pinning discipline, baseline
@@ -823,40 +830,85 @@ decision; nothing here forecloses slice 2.
   corpus themselves are ACCEPTANCE EVIDENCE authored during
   qualification; deciding their required structure now is what unblocks
   that authoring without pretending it done.
-- **Decided requirements for the TypeScript role's acceptance:**
-  1. **Capability/parity matrix shape:** one row per analysis capability
-     the role advertises (parse fidelity, semantic resolution, graph
-     construction, finding classes, output projections), each row carrying:
-     the capability's DEFINITION by reference to the host contract; the
-     prototype-baseline measurement AT THE PINNED COMMIT `a62509d6…`
-     (or an explicit "no prototype baseline exists" statement per the
-     prototype reference's own rule); the V2 target (parity or named
-     improvement); and the measurement method with digest-pinned corpus.
-  2. **Corpus discipline:** the language-quality corpus is digest-pinned
-     per file (exact fixtures/goldens), product-approved before any
-     measurement claims against it, and versioned by supersession — the
-     EIR lineage's measured-or-cited-at-digest discipline applies to every
-     matrix cell.
-  3. **Baseline reference:** the prototype at `a62509d6…` (verified
-     available and byte-checked by the DR-203 re-review) is the ONLY
-     admissible "existing behavior" reference; matrix rows may not cite
-     unpinned recollections of prototype behavior.
-  4. **Thresholds:** parity-or-improvement per row is a PRODUCT approval
-     at matrix acceptance (the DR-115 pattern: structure decided now,
-     numbers at their evidence gate); no row may ship with a silent
-     regression against its stated baseline.
-  5. **No-silent-fallback:** DR-G13's rule becomes a required NEGATIVE
-     test class in the matrix — for each capability, a test that the role
-     REFUSES (typed, loud) rather than degrading to a weaker
-     parser/syntactic tier when its capability is unavailable.
-  6. **Row disposition on adoption:** DR-118 moves to
+- **Decided requirements for the TypeScript role's acceptance (amended
+  per the turn-1 review — five dropped source elements restored):**
+  1. **Matrix shape — role × capability × PLATFORM (MF-3):** the platform
+     axis is D-002's four; a cell may state "platform-invariant"
+     explicitly (a verifiable claim), never omit the axis. One row per
+     capability the role's component manifest advertises, derived from
+     the host-contract capability declaration (DR-125's contract) — the
+     five named areas (parse fidelity, semantic resolution, graph
+     construction, finding classes, output projections) are an
+     ILLUSTRATIVE FLOOR; the manifest is the boundary source (SF-6, the
+     register's own quantifier-as-boundary cure). Each row carries: the
+     capability's DEFINITION by host-contract reference; the
+     prototype-baseline measurement at the pinned commit; the V2 target;
+     the measurement method with digest-pinned corpus.
+  2. **Known limitations (MF-1, restored):** every row carries its
+     documented known limitations and unsupported tiers; a row with none
+     states that explicitly — absence of limitations is a claim, not a
+     default.
+  3. **Performance (MF-2, restored and routed):** every row carries a
+     BEHAVIOR baseline and a PERFORMANCE baseline (prototype-measured at
+     the pin where applicable, else the explicit absence statement), with
+     V2 performance targets product-approved at acceptance. Workload-level
+     RSS/latency for `analyze` join the same qualification-harness
+     decision D-006 routed them to — named here so the two entries route
+     to ONE place, silence nowhere.
+  4. **Corpus discipline:** digest-pinned per file, product-approved
+     before any measurement claim, versioned by supersession; the EIR
+     measured-or-cited-at-digest discipline applies to every cell.
+  5. **Baseline reference (SF-7/NOTE-10, completed):** the prototype at
+     `a62509d6…` is the only admissible EXISTING-behavior reference —
+     with DR-203's caveats carried (SHA-1 identity, out-of-corpus
+     custody; the commit is re-verified at each measurement time) — and
+     rows state "no prototype baseline exists" OR "prototype baseline
+     inapplicable" per the reference's own rule; a missing or
+     inapplicable baseline is replaced ONLY by a product-approved
+     language-native corpus, the reference's lawful replacement path.
+  6. **Identity and Coverage golden classes ride DR-006 (MF-4):** file
+     02's required identity and Coverage goldens depend on parked recipes
+     (finding fingerprint, `subjectScopeCommitment`,
+     `typescriptStdlibMerkleRoot`, `capabilityManifestId`). Per D-002's
+     symmetry clause: those matrix rows are authored only on the DR-006
+     closure they ride, and matrix prose can NEVER settle a parked
+     recipe — if DR-006 closes by disposition, the dependent rows follow
+     that disposition's terms.
+  7. **Thresholds:** parity-or-improvement per row is a PRODUCT approval
+     at matrix acceptance (the DR-115 pattern); no row ships with a
+     silent regression against its stated baseline.
+  8. **No-silent-fallback (MF-5, full enumeration):** a required NEGATIVE
+     test class per capability — the role REFUSES (typed, loud) rather
+     than degrading to a weaker parser, syntactic tier, semantic model,
+     graph, or finding model.
+  9. **Row disposition on adoption (NOTE-9):** DR-118 moves to
      `DECIDED-V1-NOT-INTEGRATED` — role list (D-002) and acceptance
-     structure (this entry) DECIDED; the matrix/corpus evidence half is
-     discharged at DR-G13/G14 qualification.
+     structure (this entry) DECIDED — with the annotation stating that
+     PER-ROW THRESHOLDS REMAIN UNDECIDED (unlike DR-115, whose numbers
+     were decided); the matrix/corpus evidence half discharges at
+     DR-G13/G14 qualification.
+- **Alternatives considered (SF-8, recorded per D-000 clause 3):**
+  a THINNER slice-1 matrix (parse+findings only) was rejected — it would
+  defer exactly the capability rows (semantic, graph) where the
+  prototype's value concentrates and invite scope disputes at
+  qualification; THRESHOLDS-NOW was rejected — no measured denominator
+  exists pre-blueprint, and inventing numbers would repeat the class
+  D-006's reviewer struck (a threshold whose runner/workload is unnamed
+  measures nothing). Either remains reachable by successor decision.
 - **What this does NOT do:** author the matrix or corpus; qualify
   anything; extend the role list (a slice-2+ decision); touch DR-119's
   self-contained-closure acceptance (its own entry).
 - **Overturn:** supersession here + revert of C-D007.
-- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
-  here.
-- **Commit:** C-D007, on adoption.
+- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (5
+  MUST-FIX, 3 SHOULD-FIX, 2 NOTE) at
+  `artifacts/coordinator-decisions.D-007.review-adversarial.json`
+  (`78a5f7dc…`) — five dropped source elements (known limitations,
+  performance, the platform axis, the identity/Coverage DR-006 rides, the
+  full fallback enumeration), the capability-list boundary, the completed
+  missing-baseline rule, and the recorded alternatives; all ten accepted
+  and amended above, none rebutted. The reviewer confirmed the
+  structure-now/evidence-later frame itself survives refutation. Turn 2:
+  **CONSENT** (`…turn2.json`, `1fbbce62…`), all ten verified in a single
+  hunk confined to this entry, the edits-before-messages discipline
+  explicitly confirmed held.
+- **Commit:** C-D007 (this commit), with the DR-118 row edit.
