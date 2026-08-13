@@ -1101,18 +1101,31 @@ decision; nothing here forecloses slice 2.
      EXPLICITLY DEFERRED to the DR-117 successor process (owned by
      DR-010), with DR-116 carrying the support/vulnerability policy side
      — routing made consistent.
-  7. **Migration and negative tests (turn-1 SF, completed):** namespace
-     migrations require a recorded deprecation entry with typed `doctor`
-     remediation; the negative-test evidence covers collision, cycle,
-     shadow, stale-alias, parent-linkage collision, reserved-name claim,
-     the scope-precedence disclosure, ID/version distinctness and
-     multi-version coexistence (file 05's goldens class) at
-     qualification.
-- **File-08 edit C-D012 carries (annotation honesty per turn-1 SF):** the
-  DR-104 row moves to `DECIDED-V1-NOT-INTEGRATED`, annotated "identity,
-  namespace, reservation, scope-precedence and alias policy DECIDED
-  (D-012), sub-grammar ownership recorded; negative-test evidence at
-  qualification"; the source cell carries the D-012 citation.
+  7. **Migration and negative tests (turn-1 SF, completed; T2-02
+     landed):** reservation and collision computation are METADATA-ONLY —
+     derived from manifest declarations alone, with NO component
+     execution during admission or discovery (the bounding quote's
+     operative half, now a clause) — and the negative-test evidence
+     covers collision, cycle, shadow, stale-alias, parent-linkage
+     collision, reserved-name claim, the scope-precedence disclosure,
+     ID/version distinctness, multi-version coexistence (file 05's
+     goldens class), AND a no-execution-during-admission probe, at
+     qualification. Namespace migrations require a recorded deprecation
+     entry with typed `doctor` remediation.
+- **File-08 edit C-D012 carries (annotation honesty, T2-01 landed):** the
+  DR-104 row moves to `DECIDED-V1-NOT-INTEGRATED`, annotated "DECIDED
+  (D-012): identity model, root namespace + sub-grammar ownership,
+  reservation, scope precedence, alias window, in-class ownership
+  transfer, metadata-only admission; DEFERRED by name: namespace depth
+  beyond mounted roots and third-party transfer/dispute, to the DR-117
+  successor (DR-010); negative-test evidence at qualification"; the
+  source cell carries the D-012 citation. C-D012's change record also
+  carries the four routed turn-2 observations: the registry's uniqueness
+  universe is PER-INSTALL (not global); custody records are
+  provenance-bound so the same-vs-different-component discriminator is
+  the (ID, provenance) pair; "one minor release cycle" means the HOST
+  CORE's release train; and the lane's report-ahead-of-bytes note now
+  extends to per-item landing claims.
 - **Alternatives considered (corrected per turn-1 — the previous block
   misdescribed the pin):** admission-time host-minted IDs (the draft's
   own first shape) rejected because the pinned prototype's
