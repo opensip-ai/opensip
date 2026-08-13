@@ -27,15 +27,23 @@ Phase-1A, apply a retention artifact, or add a D9 code. In particular, its own
 correction says the reason requirement does **not** close retention-loss D9
 residual `RT23-B-RES-01`.
 
-Retention v24 is passed but not applied; v25 attempted the decided posture and
-was rejected at four blockers. Therefore replay, verification, inspection,
-purge, degradation, and their typed result/exit remain open pending the accepted
-evidence/retention + D9 successor. DR-008 and DR-113 own that closure.
+Retention lineage, restated at the applied head: v24 passed review but was
+never applied; v25 attempted the decided posture and was rejected at four
+blockers; **v28 implements the decided CD-RT-5 posture and is APPLIED
+(2026-08-12)**, closing the posture half. Replay, verification, inspection,
+purge, degradation, and their typed result/exit remain open pending the
+accepted evidence/retention + D9 successor — the integration half. DR-008
+(PARTIALLY SATISFIED) and DR-113 own that closure.
 
-## Authoritative storage is mandatory for analysis
+## Authoritative storage is mandatory for authoritative analysis closures
 
-Persistence mechanics are optional only for the management-only core install.
-Every supported authoritative offline analysis closure includes either:
+Persistence mechanics are mandatory wherever an analysis closure claims
+authoritative results. An install whose analysis surfaces are declared
+non-authoritative — the management-only core install, or a slice whose
+recorded scope disposition defers authoritative closure (see the central
+register's first-slice dispositions) — defers storage mechanics by that
+recorded disposition, never silently. Every supported authoritative offline
+analysis closure includes either:
 
 1. a mandatory verified storage-mechanics component; or
 2. a minimal backend inside the signed distribution-core closure and TCB
