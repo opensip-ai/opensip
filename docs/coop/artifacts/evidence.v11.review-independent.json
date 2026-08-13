@@ -1,0 +1,125 @@
+{
+ "artifact": "opensip.evidence.v11.review-independent",
+ "reviewDate": "2026-08-13",
+ "reviewerRole": "INDEPENDENT-REVIEWER (DR-002 AC-2 dispatch; did not author the subject; subject frozen at dispatch)",
+ "subject": {
+  "file": "artifacts/evidence.v11.json",
+  "sha256": "c3d9491028ac862115f8a70af222e875cf464c1c2d1b7fbe9b54a42b278198c3",
+  "measuredAtStart": true,
+  "measuredAtEnd": true,
+  "drift": "NONE. This verdict binds the start bytes, which are byte-identical to the end bytes."
+ },
+ "verdict": {
+  "decision": "REJECT",
+  "blockingFindingCount": 3,
+  "advisoryCount": 4,
+  "candidateState": "CANDIDATE-NOT-APPLIED",
+  "routeAAcceptanceProperty": "NOT MET (T2-02: 0 blockers required; 3 measured)",
+  "findingSetDelta": {
+   "EV10-IR-01": "NOT DISPOSED. The disposal ROUTE (honest rescoping per the review's own requiredRepair[4] 'sufficient on its own' clause, DR-002 AC-1's 'repairing/disposing', and freeze 7.2/7.6 which forbid in-place hardening of the reviewed checker) is LAWFUL, including for a REQUIRED-HARDENING finding, because the hardening path would itself require the successor instrument v11 binds as an obligation. But the rescoped sentences still overstate the scan (blocker EV11-IR-01, measured): the rescope replaces one wrong boundary with another wrong boundary.",
+   "EV10-IR-02": "PARTIALLY DISPOSED. The closure sentence now describes the Compare-node collection and the line-3327-cited rationale accurately (verified against source), but the appended contrast clause introduces a NEW false claim about the scan (blocker EV11-IR-02, measured).",
+   "EV10-IR-03": "DISPOSED. The disclosure is byte-accurate (measured: uncaught PinMismatch from the module-level bootstrap raise at check-evidence-v10.py line 367, raw 8-line traceback on stderr, exit 1, for both a hash-flipped and a deleted pinned input; stdout empty; today's environment makes the exit-1 indistinguishability literal, since the baseline red candidate also exits 1). Disclosure-plus-bound-successor-obligation is lawful on the register's own rules: the review's requiredRepair offered documentation of the fifth disposition as an explicit alternative to an exit-code repair, and freeze 7.2/7.6 forbid editing the retained checker; the artifact's 7.2 reason is genuine.",
+   "EV10-IR-R8": "ADOPTED. retainedResiduals[13] is faithful to R8's own wording; the wording's imprecision is inherited from R8 and graded advisory (A1).",
+   "EV10-IR-R9": "DEFERRAL HONEST AND LAWFUL IN MECHANISM, STALE IN RECITAL. The skew rationale is structurally real (the retained checker pins check-d9-v1.13.py at its line 114/163, so re-pinning the artifact ahead of its instrument reproduces the DR-011-R13 artifact/instrument skew class as recorded at v2-register-verification.v1.json id DR-011-R13), and the deferral is named, not silent. But the restated residual justification is now false (blocker EV11-IR-03)."
+  },
+  "headline": "Three of the five operations do exactly what they claim and the derivation mechanics are flawless under both resolvers; the candidate fails because two rescoped sentences are still wrong about the checker in measurable ways, and one restated residual recites a fact that stopped being true before this candidate was authored. All three blockers are prose-sized repairs inside the existing five operations; no new mechanism is needed."
+ },
+ "blockers": [
+  {
+   "id": "EV11-IR-01-RESCOPED-GUARANTEE-STILL-OVERSTATES-DIRECT-SYNTAX-IS-NOT-SUFFICIENT-FOR-VISIBILITY",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v11.json#derivedFrom.operations[0].value (pathConsumerGuard.rule)",
+    "evidence.v11.json#derivedFrom.operations[1].value (reviewFindingTransfers[32].closure)",
+    "evidence.v11.json#derivedFrom.operations[4].value[13] (retainedResiduals[13], shared boundary error)"
+   ],
+   "finding": "The rescoped rule states the closure is computed 'BY FOLLOWING DIRECT NAME CALLS' and concludes 'The guarantee as stated: no DIRECT-SYNTAX consumer escapes the handler discipline'; the rescoped EV9-IR-01 closure states 'a fourth omitted site OF THE SAME DIRECT SYNTAX (direct-name calls, direct-name reachability) cannot recur silently as the third one did'. Both are falsified by measurement. _path_guard_scan builds its function table from subject.body filtered to ast.FunctionDef only (check-evidence-v10.py lines 3247-3248), so a definition in any of the three forms EV10-OBS-09 names (module-level AsyncFunctionDef, a FunctionDef nested inside a module-level if/try/with block, a ClassDef method) is not in the table, the walk cannot descend into it, and every consumption inside it is invisible EVEN WHEN the consumption is a direct ast.Name call to _path_steps and the function is reached from a checking entrypoint by direct name calls. Direct syntax plus direct-name reachability is NOT sufficient for visibility; the true bound is direct-name consumption inside module-level plain FunctionDefs reached through direct-name calls that resolve to module-level plain FunctionDefs.",
+   "measurement": "In a disposable copy of the tree I added, at module level, `if True:` enclosing `def _ev11_probe_helper(row): _ = _path_steps(row.get('path', ''))` (an unguarded candidate-supplied consumption of the exact direct syntax the scan recognises), plus a direct name call `_ev11_probe_helper(row)` inside _grammar_delta_findings gated on two simultaneously-hostile positions, replicating the review's additive protocol. python3 -I -B artifacts/check-evidence-v10.py produced output BYTE-IDENTICAL to the unmodified baseline (same 4 environment findings, no PR-23 finding, scan counters unchanged). A fourth omitted site of the same direct syntax recurred silently, against the rescoped sentence's exact words. This is EV10-OBS-09's class, present in the same review whose findings this candidate disposes, and it is dropped by the rescope.",
+   "requiredRepair": "Either (a) rescope once more, naming the definition-form bound: the guarantee covers direct-name consumptions lexically inside MODULE-LEVEL PLAIN FUNCTION DEFINITIONS reachable through direct-name calls between such definitions; consumptions inside async definitions, block-nested definitions and class methods are outside the scan's reach (EV10-OBS-09) and governed by review; or (b) bind EV10-IR-01 requiredRepair item 4 (extend the reachability walk to the three missed definition forms) onto the successor instrument alongside the exit-code obligation, and say in the rule that the current instrument does not cover them.",
+   "repairSize": "one clause in operations[0].value, one clause in operations[1].value, optionally one sentence in retainedResiduals[13]"
+  },
+  {
+   "id": "EV11-IR-02-DISPATCH-CONTRAST-CLAUSE-UNDERSTATES-THE-SCAN",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v11.json#derivedFrom.operations[2].value (reviewFindingTransfers[33].closure)"
+   ],
+   "finding": "The corrected closure ends: 'a dispatch reached without a compared flag literal is outside the scan's reach'. False in the direction of understating the instrument, and this corpus's EIR lineage standard is that a caveat is a measurement. _selftest_entrypoint_scan counts every ast.Call whose func is the ast.Name 'selftest' outside the selftest definition, independent of any flag literal, and the pinned predicate requires dispatchCount == 1 and guardedDispatchCount == 1 (check-evidence-v10.py lines 1605-1606). A second DIRECT dispatch with no compared flag literal anywhere is therefore inside the scan's reach and is reported twice over. The evasion the review actually measured requires avoiding BOTH a compared flag literal AND the direct name (its covert variant aliased the callee). The sentence as written tells a future author the scan is weaker than it is and misstates where the residual hole lies.",
+   "measurement": "In a disposable copy I inserted into main(), after the guarded dispatch, `if len(flags) < 0: return selftest(candidate, source, authority, path)` — a second direct dispatch, runtime-unreachable, zero string literals, no compared flag. The run produced TEN new findings versus baseline, including 'main() dispatches to the selftest suite 2 time(s); exactly one dispatch is permitted' and 'a dispatch to the selftest suite is not guarded by a declared flag', plus the SB-19 predicate failures. The dispatch was emphatically not outside the scan's reach.",
+   "requiredRepair": "Replace the clause with the measured boundary: 'a dispatch that avoids both a compared flag literal and the direct name selftest — an aliased or otherwise indirect call gated without a comparison — is outside the scan's reach (retainedResiduals[13])'.",
+   "repairSize": "one clause in operations[2].value"
+  },
+  {
+   "id": "EV11-IR-03-RESTATED-RESIDUAL-12-RECITES-A-REVIEW-THAT-EXISTS-AS-NONEXISTENT",
+   "severity": "BLOCKING",
+   "confidence": "CERTAIN",
+   "affected": [
+    "evidence.v11.json#derivedFrom.operations[4].value[12] (retainedResiduals[12])",
+    "evidence.v11.json#whatThisDoesNotDo[2] (internally contradicted)"
+   ],
+   "finding": "retainedResiduals[12], restated in full as part of operations[4].value on 2026-08-13, says the D9 v1.14 successor 'is deliberately not pinned here, because its own independent review does not yet exist.' That review exists: artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json (sha256 345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2, verdict PASS), and it is cited BY THE VERY REVIEW THIS CANDIDATE DISPOSES (EV10-IR-01.whyNotBlocking: 'the d9-exit-contract.v1.14 independent review graded ADVISORY while returning PASS'). The candidate simultaneously records the correct, current deferral rationale in whatThisDoesNotDo[2] (DR-011-R13 skew avoidance, deferral to the successor-instrument generation), so the same document carries two rationales for the same deferral, one of them false at publication. The lineage standard this candidate is scored against — every empirical claim measured or cited at digest — fails on a freshly restated present-tense claim; this is the stale-recital class this corpus already adjudicates (DR-202 F1 / V2TOPIC-F-01). Inheritance note recorded for fairness: the sentence is v10's bytes, restated; its staleness predates v11, and the v10 reviewer accepted it in v10's window while himself citing the v1.14 review. v11 is the first generation to restate it alongside the contradicting fact.",
+   "measurement": "shasum of the v1.14 review at start and end of this window: 345380e2... . Verdict field read: PASS. The disposing review's citation of it read in the frozen 5ce636fa... bytes.",
+   "requiredRepair": "Within the same operations[4] restatement, update entry 12 to the current facts: v1.14 exists and its independent review exists (PASS, 345380e2...); the pin is deferred not for want of a review but because the retained instrument executes check-d9-v1.13.py, and re-pinning the artifact ahead of its instrument would create the DR-011-R13 skew class; the re-pin is bound to the successor-instrument generation — i.e., promote whatThisDoesNotDo[2]'s rationale into the residual it contradicts.",
+   "repairSize": "one sentence in operations[4].value[12]"
+  }
+ ],
+ "advisories": [
+  {
+   "id": "EV11-IR-A1-R8-WORDING-OVERSTATES-THE-FLAG-SCAN-HOLE",
+   "note": "retainedResiduals[13] ('a future author who reaches a path consumer or a flag dispatch through any indirection gets a green run from both scans') is faithful to EV10-IR-R8's own words, so this is graded advisory, but both halves are imprecise as measured. For the flag scan, indirection alone does not yield green: an aliased dispatch gated by a COMPARED undocumented literal is still reported through the flags-set equality; green requires evading the Compare collection AND the direct name together. For the path scan, per EV11-IR-01 no indirection is needed at all — a fully direct route through a missed definition form is also green. The next generation should restate the residual to the measured boundaries rather than carry R8 verbatim."
+  },
+  {
+   "id": "EV11-IR-A2-CITATION-PRECISION",
+   "note": "Three citation-level imprecisions, none load-bearing: (a) the narrowing rationale comment begins at check-evidence-v10.py line 3328 (spanning 3328-3334), not 3327; the off-by-one is inherited from the review's own citation ('line-3327 comment'). (b) operations[0].value's parenthetical 'alias, bound method, comprehension-carried callable, higher-order dispatch' is attributed to the review's nine-variant measurement, but 'bound method' and 'comprehension-carried callable' were not among the measured variants (measured evasions: module-level alias, local alias, getattr, dispatch table, renamed copy); both examples are nonetheless true by code inspection of the recognition predicate, verified this review. (c) operations[3].value's 'measured by the review across three tamper shapes' — the review records four failure shapes (byte flip, appended comment, tampered verdict, deleted input), and the inherited-not-introduced confirmation specifically was measured on one shape (check-evidence-v9.py over a tampered evidence.v8.json)."
+  },
+  {
+   "id": "EV11-IR-A3-EXITCODES-LEAF-CARRIES-NO-POINTER-TO-THE-FIFTH-BEHAVIOR",
+   "note": "The EV10-IR-03 disclosure lives in hostileInputTotalityContract.exitDiscipline only. checkerModeContract.exitCodes — the other leaf the finding named — remains a bare four-row map; a reader of that leaf alone still sees a complete-looking table. The review's repair alternative is met in substance and the non-renumbering reason is sound, but a successor should add a one-line cross-reference at the exitCodes leaf."
+  },
+  {
+   "id": "EV11-IR-A4-ROUTE-B-DISCHARGE-PHRASING",
+   "note": "purpose says 'On application this successor also discharges freeze 3.1 item 4's route (b)'. COORDINATOR-DECISIONS.md records the item-4 carrier choice (route (b) evidence.v11 vs route (a) retention v29 restore) as RECOMMENDED (b) but DECIDED only at its own D-000-reviewed entry. The conditional phrasing keeps this lawful, and DR-002's closureRoute does record this successor as route (b); the apply step should record the carrier decision explicitly so the discharge does not rest on a recommendation."
+  }
+ ],
+ "verifiedClean": {
+  "derivationMechanics": "All five operations verified under my own resolver AND the corpus resolver (check-completeness.py derivation reader, af9f8837...): predecessor digest 62a3a071... verified; every 'from' byte-exact under type-exact comparison (bool-before-int enforced both by my hook and by the reader's exact_equal); duplicate-key hook clean on both documents; both resolutions produce identical effective bytes; v10 confirmed full-text TERMINUS (no derivation declaration; depth 1; no 'via').",
+  "leafCensus": "2188 leaves in v10, 2189 resolved; changed leaves are EXACTLY the four declared scalar paths plus added /retainedResiduals/13; zero removed. 70 digest-shaped leaves before and after, zero moved, zero added — digestsMoved: 0 verified. Zero recipe-named leaves exist — recipesChanged: 0 verified (vacuously). All five operations non-vacuous (value != from). operationAccounting (5/5/0/0) and whyNoDigestMoves accurate. transfers[32]/[33] confirmed to be the EV9-IR-01/EV9-IR-02 objects. retainedResiduals[0..12] byte-identical to v10; only [13] new — 'the corpus verbs cannot append' confirmed against DERIVATION_OPS=('set','add') with add restricted to named object members.",
+  "carriage": "sealedCapabilityContract and availabilityDifferential PRESENT in v10 and byte-identical in the resolved candidate (canonical-JSON subtree digests 059d0b99..., a098bbab...) — the section 3.1 item-4 route-(b) carriage is CARRIED, not merely mentioned.",
+  "exitDisclosure": "operations[3]'s five factual claims all measured true: uncaught propagation from the module-level bootstrap (line 414 statement, raise at line 367), raw traceback, exit 1 (the findings code), stderr-only distinction, and both tamper and deletion shapes produce it.",
+  "namingTrap": "Accurate and register-confirmed: check-evidence-v11.py exists (6bc940c9..., 67367 bytes, 2026-08-05), is by its own header the v10 register-validator successor re-pointed at the decided CD-RT-5 state, and DR-002 liveState plus the standing NOTE-1 instruction record exactly this trap. The obligation sentence matches the standing instruction.",
+  "acRemainders": "whatThisDoesNotDo[0]'s claim that AC-2/AC-3/AC-4 remain is confirmed: claim-register (767dc210...) holds EVIDENCE=CANDIDATE, validator=check-evidence-v10.py, currentReviewArtifacts=[the 5ce636fa... prefreeze review]."
+ },
+ "whatIDidNotCheck": [
+  "v10's full probe/mutation batteries, commitments, goldens and the from-scratch encoder reproduction — bound by the frozen 5ce636fa... review's confirmations; my checker executions were finding-set-delta instruments only.",
+  "The inherited-behavior claim's v9 half (check-evidence-v9.py over a tampered evidence.v8.json) — cited to the review, not re-executed.",
+  "--selftest and --emit-candidate modes of check-evidence-v10.py in any tree.",
+  "A distinct AuthorityLoadError (non-PinMismatch) termination shape — PinMismatch subclasses it and both propagate from the same uncaught bootstrap statement; only PinMismatch shapes were executed.",
+  "The d9-exit-contract.v1.14 review's content beyond existence, digest and verdict field — sufficient for EV11-IR-03, not an endorsement of that review.",
+  "The review's nine-variant and 12337-case two-position batteries — I built two independent counterexamples of my own instead of reproducing theirs.",
+  "check-evidence-v11.py's behavior (executed nothing from it; read header only for the naming-trap determination)."
+ ],
+ "recordedInputs": {
+  "artifacts/evidence.v11.json": "c3d9491028ac862115f8a70af222e875cf464c1c2d1b7fbe9b54a42b278198c3",
+  "artifacts/evidence.v10.json": "62a3a07194062c8499f6e943b4986d7a77bdecc0c4ec499851ac078fd548e9b4",
+  "artifacts/evidence.v10.review-independent-prefreeze.json": "5ce636fa1ceadc83699e8990babe421b8df89f4f99955de05444d84a9621676e",
+  "artifacts/check-evidence-v10.py": "0379bb9b9006558be9546774b177ed2a1e8c23d8000d16cc4a2cff9d8ed12bbd",
+  "artifacts/check-evidence-v11.py": "6bc940c9699a88ffa5554d5610fc219206f63928edcc9aac0aadb3ecf1d84e46",
+  "artifacts/check-completeness.py": "af9f8837a5abc561cefebf071b862e2dd5fb427304f4738f7fadf5872c4f0f1f",
+  "artifacts/claim-register.v1.json": "767dc210d4fa8b6d2588a6746df124192ff19af9da4e7be663164e9fde32d59c",
+  "IMPLEMENTATION-FREEZE.md": "93a4f74f744a49e09a8ccc38b8355bdeb85dccc5c99c193eda97659ad8e8e1ab",
+  "artifacts/d9-exit-contract.v1.13.json": "fc2c546a4cdbe2038f3a5db333ab9903d21ae9d6223777b139b58551fb2f2fae",
+  "artifacts/d9-exit-contract.v1.14.json": "8dd3303855f49bfdbb2751ee65f54a906405f0654159ebe815472f73cdf7da31",
+  "artifacts/d9-exit-contract.v1.14.review-independent-prefreeze.json": "345380e2ce63aafb790fd9c7bec2e299e8d1bc9b235949a1483c77ab2faa9dc2",
+  "artifacts/v2-register-verification.v1.json": "172cffb47319123aaa0c2d03e889cfedae00675680dc65b1eb61ee9216ccbc2b",
+  "COORDINATOR-DECISIONS.md": "a3d0d26675bfa0512daebd2f5fcc818346aec7cc1ac2eb07878647ce5e2ddb8f",
+  "windowStatement": "Every hash above was measured with shasum -a 256 before any probe ran and re-measured after the last probe completed; all values byte-identical at start and end. All checker executions and all source edits happened exclusively in disposable copies under /tmp/ev11rev/; no file in the repository was opened for writing except this verdict, which did not exist before this review."
+ },
+ "environment": {
+  "freezeAndRegister": "IMPLEMENTATION-FREEZE.md measured 93a4f74f... and claim-register.v1.json 767dc210... at start and end of this window (register digest matches the live register recorded by the DR-001 turn-3 review). The freeze is a moving document in the active lane — DR-204's review recorded a different live freeze digest at its own HEAD — so freeze citations here bind my measured bytes only.",
+  "coordinatorLaneActive": "Yes. Untracked concurrent review artifacts present in artifacts/ (check-c2-v12, check-delivery-v5, check-retention-custody-v28 review-independent files); none opened, none reported as drift, per freeze 7.8.1 discipline on concurrent lanes.",
+  "movedInputBaseline": "Per freeze 7.2 and 7.8.1: the environment the 5ce636fa... verdict bound no longer exists. CD-RT-5 was DECIDED 2026-08-05, product-dispositions moved, and check-evidence-v10.py on today's live-equivalent bytes exits 1 with exactly the four findings check-evidence-v11.py's header records (PR-07/PR-08/PR-22/PR-26, all the single RC-14 cause) — reproduced as my baseline in a disposable copy. Every measurement in this review is therefore a FINDING-SET DELTA against that baseline, never an absolute exit code; the review-era green banner is unreachable in any current environment, and no probe here treats exit 1 as a verdict about the candidate (7.8.1: those four findings are a moved input presenting as substantive findings).",
+  "interpreter": "python3 -I -B for every checker and resolver execution; Darwin 25.5.0."
+ }
+}

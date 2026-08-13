@@ -1,0 +1,92 @@
+{
+ "artifact": "opensip.evidence.v12",
+ "version": 12,
+ "date": "2026-08-13",
+ "documentClass": "EVIDENCE-SUCCESSOR",
+ "status": "CANDIDATE-NOT-APPLIED",
+ "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+ "sealRecommendation": "DO-NOT-SEAL",
+ "binds": "NOTHING",
+ "purpose": "Repair the three blockers of evidence.v11's independent review (0d1d4d1f43aa3d07...): EV11-IR-01 -- the v11 rescope still overstated the guard scan's coverage (the review evaded it with direct syntax inside a conditionally-wrapped def); the guarantee is now bound to the scan's measured POSITIVE coverage with no recurrence claim beyond it. EV11-IR-02 -- v11 understated the flag scan (a flagless second dispatch IS caught); the blind spot is stated as measured (alias plus non-compared gate together). EV11-IR-03 -- the restated residuals carried a stale recital ('the D9 v1.14 review does not yet exist' -- it exists, PASS, verified at build); corrected, with v11's authorship of the carried sentence acknowledged. The EV10-IR-03 disposal, the R8 adoption, the item-4 carriage and every deferral stand unchanged from v11, all confirmed by its review.",
+ "derivedFrom": {
+  "artifact": "evidence.v11.json",
+  "sha256": "c3d9491028ac862115f8a70af222e875cf464c1c2d1b7fbe9b54a42b278198c3",
+  "rule": "apply operations in order; every set carries its exact prior value",
+  "resolutionChain": "v12 -> v11 -> v10. v10 is the full-text standalone and the resolution TERMINUS.",
+  "operations": [
+   {
+    "op": "set",
+    "path": "/hostileInputTotalityContract/pathConsumerGuard/rule",
+    "from": "Every candidate-supplied string consumed as a path, index or key inside a checking layer is consumed through a total accessor, or inside a handler for Malformed that emits a deterministic finding. CORRECTED IN v11 (EV10-IR-01, review 5ce636fa...): this is enforced by a SYNTACTIC self-scan, not site by site and not semantically -- the checker parses its own source, computes the function closure reachable from the checking entrypoints BY FOLLOWING DIRECT NAME CALLS, and requires every consumption its scan can RECOGNISE (an ast.Call whose func is an ast.Name literally spelled _path_steps, _resolve or _assign) to be lexically enclosed by a handler for Malformed. The scan proves a property of the source's SYNTAX, not its semantics: a consumption reached through any indirection (alias, bound method, comprehension-carried callable, higher-order dispatch) is invisible to it and runs green -- measured by the review with nine indirection variants of the EV9-IR-01 victim site. The guarantee as stated: no DIRECT-SYNTAX consumer escapes the handler discipline; indirect consumers are outside the scan's reach and are governed by review, not by this instrument. See retainedResiduals[13].",
+    "value": "Every candidate-supplied string consumed as a path, index or key inside a checking layer is consumed through a total accessor, or inside a handler for Malformed that emits a deterministic finding. CORRECTED IN v12 (EV11-IR-01, review 0d1d4d1f..., after the v11 rescope was itself measured as an overstatement): the syntactic self-scan's POSITIVE coverage is exactly this -- consumptions spelled as an ast.Call whose func is an ast.Name literally spelled _path_steps, _resolve or _assign, located inside MODULE-LEVEL function definitions that the scan reaches from the checking entrypoints by following direct-name calls. Everything else is outside its reach: any indirection (alias, bound method, comprehension-carried callable, higher-order dispatch) AND any consumption inside a function definition that is not a module-level def -- the v11 review added a fully direct-syntax unguarded consumption inside an if-True-wrapped module-level block and the checker's output was byte-identical to baseline. NO recurrence guarantee is stated beyond the positive coverage; sites outside it are governed by review, not by this instrument. See retainedResiduals[13].",
+    "why": "EV11-IR-01: guarantee bound to measured positive coverage; the if-True evasion cited"
+   },
+   {
+    "op": "set",
+    "path": "/reviewFindingTransfers/32/closure",
+    "from": "Repaired in two places rather than one. (1) SYNTACTIC (rescoped in v11, EV10-IR-01 -- the prior sentence claimed a structural guarantee the scan does not provide): every candidate-supplied path consumption OF THE DIRECT SYNTACTIC FORM (direct-name calls, direct-name reachability) inside the function closure reachable from the checking entrypoints must be lexically enclosed by a handler for Malformed, and this checker enforces that over its own abstract syntax tree -- so a fourth omitted site OF THE SAME DIRECT SYNTAX cannot recur silently as the third one did; an INDIRECT consumer remains invisible to the scan and is not covered by this closure (retainedResiduals[13]). The grammar editorial delta path is consumed through a total accessor that returns a deterministic finding on an empty or unparsable path. (2) MEASUREMENT: unchanged from the predecessor's verified half -- the hostile-input generator enumerates every path of this artifact at unlimited depth and at every array index, including scalar leaf positions, which is exactly the space the totality claim quantifies over.",
+    "value": "Repaired in two places rather than one. (1) SYNTACTIC (bounds corrected in v12, EV11-IR-01 -- v11's own rescope still claimed 'a fourth omitted site of the same direct syntax cannot recur silently', and the v11 review made a fourth site recur silently with fully direct syntax inside a conditionally-wrapped def): the scan enforces the handler discipline over its POSITIVE COVERAGE ONLY -- direct-name consumptions inside module-level defs reached by direct-name calls from the entrypoints. Within that coverage an omitted site is reported; outside it, nothing is guaranteed. The grammar editorial delta path is consumed through a total accessor that returns a deterministic finding on an empty or unparsable path. (2) MEASUREMENT: unchanged from the predecessor's verified half -- the hostile-input generator enumerates every path of this artifact at unlimited depth and at every array index, including scalar leaf positions, which is exactly the space the totality claim quantifies over.",
+    "why": "EV11-IR-01: the recurrence claim scoped to the positive coverage only"
+   },
+   {
+    "op": "set",
+    "path": "/reviewFindingTransfers/33/closure",
+    "from": "The unenforced sub-clause is now mechanically enforced BY A DELIBERATELY NARROWED SCAN, described here as the code performs it (CORRECTED IN v11, EV10-IR-02 -- the prior sentence described a wider scan than exists): the reachability scan collects the string literals beginning with two hyphens that appear INSIDE COMPARISON NODES of this checker's syntax tree, plus the DECLARED_FLAGS constant's literals -- inert data such as the refusal battery's hostile vectors gates nothing, the narrowing's recorded rationale at the checker's own line-3327 comment -- and requires that collected set to equal the declared flag set, requires the declared flag set to equal the flags implied by checkerModeContract.entrypoints, and requires exactly one call to the selftest suite, lexically guarded by a declared flag. Inserting a second dispatch gated by a COMPARED undocumented flag literal is reported; a dispatch reached without a compared flag literal is outside the scan's reach (retainedResiduals[13]).",
+    "value": "The unenforced sub-clause is now mechanically enforced BY A DELIBERATELY NARROWED SCAN, described here as the code performs it: the reachability scan collects the string literals beginning with two hyphens that appear INSIDE COMPARISON NODES of this checker's syntax tree, plus the DECLARED_FLAGS constant's literals -- inert data such as the refusal battery's hostile vectors gates nothing, the narrowing's recorded rationale at the checker's own line-3327 comment -- and requires that collected set to equal the declared flag set, requires the declared flag set to equal the flags implied by checkerModeContract.entrypoints, and requires exactly one call to the selftest suite, lexically guarded by a declared flag. CORRECTED IN v12 (EV11-IR-02 -- v11 understated the scan): a direct second dispatch WITHOUT any flag literal IS reported (the exactly-one-call rule fired ten findings in the v11 review's probe); the scan's measured blind spot requires an ALIASED dispatch gated outside comparison nodes -- both indirection and a non-compared gate together. See retainedResiduals[13].",
+    "why": "EV11-IR-02: the understatement corrected to the measured blind spot"
+   },
+   {
+    "op": "set",
+    "path": "/retainedResiduals",
+    "from": [
+     "The checker uses guarded durable-state and session test doubles plus copy/validate/swap. No production store, transaction, restart, crash durability or atomicity implementation was executed or demonstrated. The evidence grade remains IMPLEMENTABLE_UNEXECUTED and independent re-review of these exact bytes remains REQUIRED.",
+     "A1-RTV4-02 is retained as a measurement residual. This artifact claims no cost advantage, no orders-of-magnitude advantage and no measured performance property of any kind.",
+     "All Evidence v5/v6/v8/v9 SemanticEvidence, EvidenceDigest, RunId, TerminalRun and runSeal identities are unchanged. This successor changes neither what those identities are nor how they are proved; it repairs the totality of the checking layers over hostile input and the honesty of the measurement that quantifies it.",
+     "V10 remains unresolved. CD-RT-5 and G19 remain blocked. This artifact does not decide the product default and does not sign CD-RT-5.",
+     "The tautology residual is retained: genuinely new prose in this successor is authored in the checker that emits it, so for that prose the equality comparison proves self-consistency only. The executable probes and the pinned dependency predicates, not the prose, are the semantic oracle.",
+     "The 23-object acquire/retry/release, pending-expiry, crash-gap repin and contention probes are executed only by the retained lineage foundation and have now been carried across four generations without any reviewer reimplementing them independently.",
+     "The recovery matrix alias rows inside the retained lineage foundation remain author-summarised and are not claimed to be executed.",
+     "acceptedGolden.id and acceptedGolden.sourceVectorId remain frozen labels from an earlier generation. They enter no commitment and no encoded record; the load-bearing accepted vector identity is read from the pinned evaluation-proof artifact.",
+     "The grammar is bound to the encoder through its machine-readable tag, field-name and field-order table. The prose of the scalar and record rules is checked for the exact set rule only; the remaining prose is not parsed and could still diverge from the table without detection.",
+     "The hostile-input measurement injects a single value at a single position per case. Combinatorial multi-position hostile inputs are not explored, so a zero escape count over this space is a bound on single-position non-totality and not a proof of totality over all hostile inputs.",
+     "d9Mapping row COVERAGE remains checker-authored. Every row derives its class, ordered code payload and exit code from the pinned reference derivation, but the fault axes and situation prose that select the rows are constructed in this checker, bounded only by the enforced requirement that the rows cover every pinned termination class.",
+     "Exactly one accepted evaluation-proof vector is bound, so only the no-match claim shape is exercised at this layer.",
+     "The pinned termination contract is d9-exit-contract.v1.13, which passed independent review with zero blocking findings. A v1.14 successor is under concurrent authorship and is deliberately not pinned here, because its own independent review does not yet exist.",
+     "BOTH-SELF-SCANS-ARE-SYNTACTIC (adopted in v11 from the review's EV10-IR-R8, stated in the artifact rather than left for the next reviewer to rediscover): PR-23 and PR-21 prove properties of this checker's source SYNTAX, never of its semantics. A future author who reaches a path consumer or a flag dispatch through any indirection gets a green run from both scans. The executable probes, not the self-scans, are the semantic oracle; both scans are drift tripwires for the direct-syntax forms only."
+    ],
+    "value": [
+     "The checker uses guarded durable-state and session test doubles plus copy/validate/swap. No production store, transaction, restart, crash durability or atomicity implementation was executed or demonstrated. The evidence grade remains IMPLEMENTABLE_UNEXECUTED and independent re-review of these exact bytes remains REQUIRED.",
+     "A1-RTV4-02 is retained as a measurement residual. This artifact claims no cost advantage, no orders-of-magnitude advantage and no measured performance property of any kind.",
+     "All Evidence v5/v6/v8/v9 SemanticEvidence, EvidenceDigest, RunId, TerminalRun and runSeal identities are unchanged. This successor changes neither what those identities are nor how they are proved; it repairs the totality of the checking layers over hostile input and the honesty of the measurement that quantifies it.",
+     "V10 remains unresolved. CD-RT-5 and G19 remain blocked. This artifact does not decide the product default and does not sign CD-RT-5.",
+     "The tautology residual is retained: genuinely new prose in this successor is authored in the checker that emits it, so for that prose the equality comparison proves self-consistency only. The executable probes and the pinned dependency predicates, not the prose, are the semantic oracle.",
+     "The 23-object acquire/retry/release, pending-expiry, crash-gap repin and contention probes are executed only by the retained lineage foundation and have now been carried across four generations without any reviewer reimplementing them independently.",
+     "The recovery matrix alias rows inside the retained lineage foundation remain author-summarised and are not claimed to be executed.",
+     "acceptedGolden.id and acceptedGolden.sourceVectorId remain frozen labels from an earlier generation. They enter no commitment and no encoded record; the load-bearing accepted vector identity is read from the pinned evaluation-proof artifact.",
+     "The grammar is bound to the encoder through its machine-readable tag, field-name and field-order table. The prose of the scalar and record rules is checked for the exact set rule only; the remaining prose is not parsed and could still diverge from the table without detection.",
+     "The hostile-input measurement injects a single value at a single position per case. Combinatorial multi-position hostile inputs are not explored, so a zero escape count over this space is a bound on single-position non-totality and not a proof of totality over all hostile inputs.",
+     "d9Mapping row COVERAGE remains checker-authored. Every row derives its class, ordered code payload and exit code from the pinned reference derivation, but the fault axes and situation prose that select the rows are constructed in this checker, bounded only by the enforced requirement that the rows cover every pinned termination class.",
+     "Exactly one accepted evaluation-proof vector is bound, so only the no-match claim shape is exercised at this layer.",
+     "The pinned termination contract is d9-exit-contract.v1.13, which passed independent review with zero blocking findings. A v1.14 successor is under concurrent authorship and is deliberately not pinned here, because its own independent review EXISTS (corrected in v12, EV11-IR-03: the stale recital survived the v11 restatement, making v11 its author -- the review is on disk at d9-exit-contract.v1.14.review-independent-prefreeze.json, sha256 345380e2ce63aafb..., PASS).",
+     "BOTH-SELF-SCANS-ARE-SYNTACTIC (adopted in v11 from the review's EV10-IR-R8, stated in the artifact rather than left for the next reviewer to rediscover): PR-23 and PR-21 prove properties of this checker's source SYNTAX, never of its semantics. A future author who reaches a path consumer or a flag dispatch through any indirection gets a green run from both scans. The executable probes, not the self-scans, are the semantic oracle; both scans are drift tripwires for the direct-syntax forms only."
+    ],
+    "why": "EV11-IR-03: the stale v1.14-review recital corrected; restatement authorship acknowledged"
+   }
+  ]
+ },
+ "operationAccounting": {
+  "total": 4,
+  "sets": 4,
+  "adds": 0,
+  "removes": 0,
+  "digestsMoved": 0,
+  "recipesChanged": 0,
+  "whyNoDigestMoves": "four prose corrections; no pin, golden, recipe, schema or vector leaf is touched; the item-4 blocks remain byte-identical to v10."
+ },
+ "whatThisDoesNotDo": [
+  "does not close DR-002: AC-2 for THIS candidate, AC-3 and AC-4 remain",
+  "does not modify the retained checker; the successor-instrument obligation and its naming constraint stand as v11 bound them",
+  "does not re-pin D9 v1.13 to v1.14 -- the deferral and its skew rationale stand exactly as v11 recorded them; the v12 correction fixes only the false EXISTENCE claim about the v1.14 review, not the pinning decision",
+  "does not extend either self-scan's coverage -- it makes the measured bounds the stated bounds"
+ ]
+}
