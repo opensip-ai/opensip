@@ -591,19 +591,49 @@ decision; nothing here forecloses slice 2.
 ## D-005 — Apply r1-lifetime-neutrality.conformance.v1.9
 
 - **Date:** opened 2026-08-13
-- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000. This entry
-  exists because the route-A acceptance property leaves one genuine
-  question that must be answered on the record, not by inference.
+- **Status:** **ADOPTED 2026-08-13** — consensus at turn 3 of 3: final
+  verdict CONSENT on the merits
+  (`artifacts/coordinator-decisions.D-005.review-adversarial.turn3.json`,
+  `7ddace47…`), with the grade ruling SUSTAINED FOR APPLICATION across all
+  three turns and the chain independently re-resolved as the fourth
+  reproduction. OBS-D005-T3-01 recorded against the coordinator: the
+  third report-ahead-of-bytes instance in this lane (both digests in the
+  verdict); "edits land before messages send" is now load-bearing
+  standing discipline. Executed at C-D005.
+- **Commit structure (OBS-D005-T3-02):** the application and the DR-001
+  re-record route land as SEPARATE commits for decision-granularity
+  revert — C-D005 carries the application (freeze R-1 record + register
+  R-1 repair-with-history + this adoption); the DR-001 route commit
+  follows, sharing the R-1 repair by citation, never by re-edit.
+  OBS-D005-T3-03 noted: the turn-3 consent covers this entry's spec only;
+  the DR-001 review is its own lane.
 - **Decision type:** RULE-GOVERNED if the grade question resolves as
   proposed; the grade question itself is the reviewable judgment.
-- **The measured chain, all discharged:** v1.9 (`37897be0…`) reviewed at
-  0 blockers, 6 advisories (`3914c9c5…`); its single named apply-condition
-  — "do not apply until a corpus resolver positively resolves the chain
-  (freeze §7.3 — the one gate still owed)" — discharged at
-  corpus-resolution.v1 (REFUSED, pre-repair) → v2 (POSITIVE, canonical
-  `27d27bc0…`, on instrument bytes whose dialect repair was independently
-  reviewed PASS); the v2 record's reliance caveat adjudicated CLEAN by
-  DR-204 (UTC-boundary artifact; monotonic timestamps).
+- **The measured chain, all discharged (amended per turn-1 SF-3/MF-2 —
+  verbatim sentences, no splicing):** v1.9 (`37897be0…`) reviewed at 0
+  blockers, 6 advisories (`3914c9c5…`). The review's
+  `recommendationToTheCoordinator.disposition`, verbatim: *"All three
+  blockers against v1.8 are cleared by v1.9, verified by independent
+  recomputation at zero disagreements on every published figure. No new
+  blocker. Accept as candidate. Do not seal; do not apply until a corpus
+  resolver (check-completeness.py or -v2) has positively resolved the
+  chain, which freeze 7.3 requires and which no review substitutes for."*
+  And its `whatIDidNotCheck`, verbatim: *"…Freeze 7.3 requires a positive
+  corpus-resolver run before APPLYING any derivation; my resolver's
+  success does not substitute. This is the one gate still owed before
+  application, hence the apply recommendation."* The condition is
+  discharged at corpus-resolution.v1 (REFUSED, pre-repair) → v2
+  (POSITIVE, canonical `27d27bc0…`), on instrument bytes whose dialect
+  repair was independently reviewed PASS. The DR-204 reliance ruling is
+  CONDITIONAL and is quoted with its proviso (MF-2): reliance is clean
+  *"PROVIDED reliance continues to bind the reviewed instrument digests
+  and carries the five advisories as live advisories"* — the application
+  motion therefore re-verifies at motion time that the instruments remain
+  at their reviewed digests (`af9f8837…`, `dbe1e695…`) and carries the
+  five dialect-repair advisories as live. The D-005 adversarial review
+  independently re-resolved the chain with a fresh resolver — 34/34
+  operations, canonical `27d27bc0…` reproduced exactly, the FOURTH
+  independent reproduction on record.
 - **The grade question, both readings stated:**
   - *For application:* the verdict's construction is
     DO-NOT-APPLY-**UNTIL** — the reviewer contemplated application and
@@ -620,15 +650,40 @@ decision; nothing here forecloses slice 2.
   candidate-only clause exists to block promotions the reviewer never
   contemplated — and this reviewer's own words name the apply path and
   its gate. If the adversarial review does not consent, the AGAINST
-  reading's remedy is a targeted re-review of v1.9 requesting an explicit
-  application-grade verdict, and this entry parks CONTESTED meanwhile.
-- **What application would do:** record v1.9 as the r1 lineage head in the
-  freeze (superseding the v1.6-resolved state as the reviewed candidate
-  line), advancing DR-009/DR-011-R09's first half. It does NOT close
-  DR-009 (LN-13, derivationDigest, R1-PARK-*, retained-validator standing
-  and CIR-B1 remain), does not seal, and moves no design decision.
+  reading's remedy is a targeted grade-clarification review putting the
+  NEUTRAL question — "is this acceptance application-grade once its named
+  condition is discharged?" — to a fresh reviewer against the review's
+  frozen bytes (reworded per turn-1 NOTE: a remedy must ask, never
+  request an outcome), and this entry parks CONTESTED meanwhile.
+- **What application would do (amended per turn-1 MF-1/SF-1):** record
+  v1.9 as the applied r1 head in the freeze, advancing DR-009/DR-011-R09's
+  first half, with the motion carrying the §7.9 site census the D-005
+  review enumerated (`7c5f590d…`): the claim-register R-1 row's validator
+  column, the PC-6/CHK-5 finding movements, and the resolved canonical.
+  The motion ALSO repairs, with history retained, the live defect that
+  review found (MF-1, previously recorded nowhere): R-1's
+  `bindingArtifact` names v1.6 while `bindingArtifactSha256` carries
+  v1.5's digest (`557b9f97…`) and the binding review is v1.5's — the
+  promote-by-name class DR-204 adjudicated for C-2. On application the
+  row moves coherently to the v1.9 pair (artifact `37897be0…`, review
+  `3914c9c5…`) with the found defect recorded in the note. The freeze
+  application record carries the review's `standingPosition` verbatim, as
+  that review instructs (turn-2 ADV-D005-T2-01 / turn-1 item 04):
+  *"OPEN-DEP-FI-01..07 remain open in the resolved value and v1.9 says so.
+  Whatever happens to the advisories, this design remains implementable as
+  a library and NOT shippable as production finding identity. That
+  statement survives resolution intact and should keep being carried
+  forward verbatim."* It does NOT
+  close DR-009 (LN-13, derivationDigest, R1-PARK-*, retained-validator
+  standing and CIR-B1 remain), does not seal, and moves no design
+  decision.
 - **Overturn:** supersession here + `git revert` of the application
   commit.
-- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
-  here.
+- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (2
+  MUST-FIX, 3 SHOULD-FIX, 1 NOTE) at
+  `artifacts/coordinator-decisions.D-005.review-adversarial.json`
+  (`7c5f590d…`) — **with the grade ruling itself SUSTAINED FOR
+  APPLICATION** on the review's own bytes, and the chain independently
+  re-resolved as the fourth reproduction. All six items accepted and
+  amended above; none rebutted. Turn 2 pending.
 - **Commit:** C-D005, on adoption.
