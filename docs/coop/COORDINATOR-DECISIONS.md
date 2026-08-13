@@ -912,3 +912,76 @@ decision; nothing here forecloses slice 2.
   hunk confined to this entry, the edits-before-messages discipline
   explicitly confirmed held.
 - **Commit:** C-D007 (this commit), with the DR-118 row edit.
+
+---
+
+## D-008 — DR-119 acceptance: self-contained language-closure product rule
+
+- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Decision type:** PREFERENCE-LADEN (route C).
+- **Decision:** the proposed product rule (file 02, DR-119 row) is ACCEPTED
+  as binding for slice 1: every supported language role ships a signed,
+  platform-qualified, self-contained closure of its runtime/parser/
+  compiler/language-server-class dependencies; TypeScript specifically must
+  not require user-managed Node; ambient/implicit-download refusal is
+  typed; any unbundleable customer-owned external-system exception needs
+  explicit product approval and a doctor contract, and is never labeled
+  self-contained. Slice-1 scope: the TypeScript role only (D-002); the
+  rule binds future roles at their own acceptance. Row → the acceptance
+  recorded; evidence half (signed closures, clean-machine offline tests)
+  at DR-G14 qualification.
+- **Overturn:** supersession + revert of C-D008.
+
+---
+
+## D-009 — DR-123 acceptance: mandatory CLI baseline
+
+- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Decision type:** PREFERENCE-LADEN (route C), though heavily
+  register-bounded (DR-123 already declares itself mandatory for every
+  slice; this entry is the product ACCEPTANCE its "OPEN ACCEPTANCE"
+  status awaited).
+- **Decision:** ACCEPTED as binding: every slice-1 command works
+  non-interactively in CI without a TUI; stable human and machine output
+  schemas, exit vocabulary, redaction, output-failure behavior, offline
+  operation and footprint evidence per the row's cell. The acceptance
+  changes no gate; DR-G01..G05/G12/G17 carry the evidence.
+- **Overturn:** supersession + revert of C-D009.
+
+---
+
+## D-010 — Register content: the V1→V2 transition-contract row (V2TOPIC-F-02)
+
+- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Decision type:** RULE-GOVERNED register-content change (the
+  verification record measured the gap: no DR row owns the V1→V2
+  product/state transition), reviewed per D-001's MF-6 discipline.
+- **Decision:** add register row **DR-130**: "V1→V2 transition contract —
+  migration/coexistence posture for existing V1-prototype users and their
+  local state" — owner: product + lifecycle; source pin: file 05 (V1→V2
+  relationship) and the prototype reference; acceptance evidence: a
+  reviewed transition statement covering what V1-prototype state (if any)
+  migrates, what is explicitly abandoned with notice, and the
+  no-silent-loss rule; status OPEN; blueprint impact: blocks any slice
+  claiming upgrade continuity, and slice 1 (which claims none) records an
+  explicit deferral disposition. Per D-001's new-row rule, C-D010 also
+  amends file 08's condition-2 literal quantifier text ("DR-101 through
+  DR-127") to "DR-101 through DR-130" with the change cited to this
+  decision.
+- **Overturn:** supersession + revert of C-D010.
+
+---
+
+## D-011 — Register content: DR-117 widened to file 02's seven binding items (V2TOPIC-F-04)
+
+- **Date/Status:** opened 2026-08-13; DRAFT — UNDER ADVERSARIAL REVIEW.
+- **Decision type:** RULE-GOVERNED register-content change (the
+  verification record measured the mismatch: file 02 enumerates seven
+  binding product-boundary items; DR-117's decision column names five),
+  reviewed per MF-6.
+- **Decision:** DR-117's decision column is widened to enumerate file 02's
+  seven binding items verbatim (measured at the DR-205 frozen digest and
+  re-verified at edit time), so the row's quantifier matches its source's;
+  status, owner and evidence cells unchanged; the DR-205 re-review's
+  KNOWN-VERIFIED finding is cited.
+- **Overturn:** supersession + revert of C-D011.
