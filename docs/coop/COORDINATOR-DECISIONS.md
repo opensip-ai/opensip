@@ -701,33 +701,94 @@ decision; nothing here forecloses slice 2.
   Linux x86_64/arm64) over gates DR-G01..G05, plus the regression rule.
   These are ARCHITECTURE TARGETS gating qualification measurements — not
   qualification claims (DR-012 untouched; nothing here is QUALIFIED).
+- **DR-115's fate on adoption (turn-1 MF-1):** the row's acceptance cell
+  conjoins "reproducible measurements AND product-owned threshold
+  decision"; this entry supplies the DECISION half, and the measurement
+  half structurally cannot exist pre-blueprint. On adoption, C-D006
+  carries the file-08 edits: the DR-115 row status moves to
+  **`DECIDED-V1-NOT-INTEGRATED`** — the register's existing label, whose
+  definition fits exactly (turn-2 NOTE-03: the closed status vocabulary
+  stays closed; coining an analog would itself be a register-content
+  decision) — annotated "thresholds DECIDED (D-006); measurement half
+  discharged at qualification" — with a condition-2
+  scope disposition recorded to exactly that effect, and the now-false
+  "numeric open" cells in the DR-G01..G05 rows and the gate-registry
+  preamble sentence updated to cite this decision.
+- **Reference-runner class, named now (turn-1 MF-2):** all ms/RSS numbers
+  bind to this runner class — macOS arm64: base-configuration Apple
+  Silicon entry chip (M1-class), 8 GB; **macOS x86_64: native Intel-class
+  hardware, never Rosetta-on-Apple-Silicon (turn-2 SF-02 — measurements
+  on translated binaries measure the translator, and the platform's users
+  run native Intel)**; Linux x86_64 and arm64: 4-vCPU / 8 GB standard
+  cloud-runner class. The EXACT machine identifiers, OS versions
+  and cache-state protocol are pinned by the G03/G04 harness-naming,
+  which is itself a REVIEWED decision commit with product sign-off on
+  representativeness — the harness-namer executes this class, never
+  co-authors the threshold.
 - **Proposed thresholds:**
   1. **DR-G01 (core download):** signed compressed distribution-core
-     ≤ 25 MB per platform. Rationale: an order below typical Electron-class
-     tooling, holding the "small core" direction falsifiable without
-     starving a native binary + signing + index client.
+     ≤ 25 MB per platform. Rationale: several-fold below typical
+     Electron-class tooling (arithmetic corrected per turn-1 NOTE — ~4×,
+     not an order), holding the "small core" direction falsifiable without
+     starving a native binary + signing + index client. The core excludes
+     every language runtime closure (file 02's split; the TS/Node closure
+     is a DR-119/G14 component — verified by the turn-1 review).
   2. **DR-G02 (installed core/TCB):** immutable installed tree ≤ 80 MB;
      mandatory-closure inventory enumerated, zero undeclared dependencies
      (the qualitative half is DR-126's).
-  3. **DR-G03 (startup):** `--help`/`--version` cold-cache p95 ≤ 150 ms,
-     p99 ≤ 250 ms; warm p95 ≤ 50 ms; on the fixed reference runners the
-     harness names; loads no components and no project (already the gate's
-     text).
-  4. **DR-G04 (memory):** baseline RSS peak ≤ 100 MB for lifecycle
-     commands (`--help`, `--version`, `doctor` in read-only mode).
+  3. **DR-G03 (startup):** `--help`/`--version` on the named runner class:
+     cold-cache p50 ≤ 100 ms, p95 ≤ 150 ms, p99 ≤ 250 ms; warm p95
+     ≤ 50 ms, p99 ≤ 100 ms (all five percentiles bounded per turn-1 NOTE);
+     loads no components and no project (the gate's own text).
+  4. **DR-G04 (memory), tightened per turn-1 SF-4:** the gate's two
+     quantities bound separately — `--help`/`--version` RSS: steady
+     baseline ≤ 40 MB, peak ≤ 50 MB (a runtime-in-core regression MUST
+     fail this gate; the prior 100 MB bar could not discriminate it —
+     adopted from the review, with its general-knowledge caveat recorded);
+     `doctor` read-only RSS: steady baseline ≤ 60 MB, peak ≤ 100 MB
+     (turn-2 NOTE-04 — no quantity left silently unbounded). **Explicit exclusion, not
+     silence (turn-1 NOTE):** `analyze` and doctor-with-consented-probes
+     RSS are DELIBERATELY outside D-006 — they need real workloads and are
+     set by the qualification-harness decisions with product sign-off.
   5. **DR-G05 (component delta):** slice 1 mandates MEASUREMENT AND
      VISIBILITY (download/install/start/RSS delta published per component,
-     per platform) with NO numeric cap — caps become product decisions at
-     first-component acceptance, when a real denominator exists. An
-     explicit deferral disposition, not silence.
-  6. **Regression rule:** a qualified measurement may not regress >10%
-     against the previous qualified release without an expiring waiver
-     carrying product + release sign-off (the register's waiver form).
+     per platform) with NO numeric cap in this decision — caps become
+     product decisions at the first component-acceptance decision under
+     DR-G05's own evidence column. **Trigger defined (turn-1 SF-1):**
+     since slice 1's TypeScript provider IS a component, that trigger
+     fires within slice 1's own qualification cycle — the deferral is
+     short-lived by design, and that is recorded here, not discovered
+     later.
+  6. **Regression rule (operative sentence restored per turn-2 MF-01; the
+     turn-1 amendment had polished the frame and dropped the rule):**
+     a qualified clause 1–4 measurement may not REGRESS more than 10%
+     against the previous qualified release without a waiver in the
+     register's full form — regress-only, one direction; improvements are
+     unbounded. Domain: the CORE quantities of clauses 1–4 only; component
+     deltas (clause 5) are visibility-only until their cap decision sets
+     their own regime — this clause is NOT a hidden growth cap on them.
+     Base case: the FIRST qualified release qualifies against the clause
+     1–4 thresholds alone; the rule activates from the second qualified
+     release onward. Waivers per the register's full form (turn-1 SF-2):
+     product AND release authority, an expiry, a MEASURED RESIDUAL, and
+     never waiving an inherited semantic/trust blocker.
 - **Falsifiability note:** every number binds a HARNESS measurement under
   DR-G01..G05's own evidence columns (raw samples, cache state, traces
   retained). If early implementation shows a number infeasible, the lawful
   path is a successor decision with the measurement attached — never a
   silent waiver.
-- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
-  here.
+- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (3
+  MUST-FIX, 4 SHOULD-FIX, 3 NOTE) at
+  `artifacts/coordinator-decisions.D-006.review-adversarial.json`
+  (`048d5623…`) — all structural, with the numbers' quantification
+  verified in D-006's favor (the core excludes language-runtime closures;
+  the corpus contains no contradicting numeric prose). All ten items
+  accepted and amended above: DR-115's fate and file-08 edits named
+  (MF-1), the runner class named now with exact pinning as a reviewed act
+  (MF-2), clause 6's domain and base case stated (MF-3/SF-3), the G05
+  trigger defined and its slice-1 collapse recorded (SF-1), the waiver
+  form restored in full (SF-2), the RSS bar tightened to discriminate the
+  runtime-in-core regression (SF-4), the arithmetic corrected, all five
+  percentiles bounded, and the analyze/probes exclusion made explicit
+  (NOTEs). Turn 2 pending.
 - **Commit:** C-D006, on adoption.
