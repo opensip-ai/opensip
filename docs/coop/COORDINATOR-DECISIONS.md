@@ -1054,40 +1054,76 @@ decision; nothing here forecloses slice 2.
   product row of the slice-1 set (DR-116/128/129 carry D-002 deferral
   dispositions; DR-117's successor rides the DR-010 process).
 - **Decided policy (bounded by the prototype's admission evidence —
-  manifest-first, deny-by-default, stable IDs distinct from
-  versions/aliases):**
-  1. **Component identity:** a stable, immutable component ID, assigned at
-     first admission, never derived from mutable state and never reused;
-     display names and aliases are mutable metadata that resolve THROUGH
-     the ID, never the reverse (the corpus's PROJECT-ID-V1 pattern:
-     identity separate from location/name).
-  2. **Command namespace:** host-owned, single flat top-level namespace
-     for slice 1; first-party commands reserve their names at admission;
-     a collision at admission is a typed REFUSAL, never silent shadowing,
-     ordering-dependent resolution, or auto-renaming.
-  3. **Rename/alias governance:** renames keep the old name as a
-     deprecated alias for at least one compatibility window (DR-111's
-     surface windows govern duration); alias cycles are refused at
-     admission; an alias may never shadow a different component's live
-     name.
-  4. **Ownership transfer:** slice 1 is first-party-only (D-002), so
-     transfer reduces to registry bookkeeping under the host's authority;
-     the third-party transfer/dispute policy is EXPLICITLY DEFERRED to the
-     DR-116/DR-010 successor — a named deferral, not silence.
-  5. **Migration:** namespace migrations (renames of published commands)
-     require a recorded deprecation entry with typed remediation in
-     `doctor`; negative tests per the row's cell (collision, cycle,
-     shadow, stale-alias cases) are acceptance evidence at qualification.
-- **File-08 edit C-D012 carries:** the DR-104 row moves to
-  `DECIDED-V1-NOT-INTEGRATED`, annotated "policy DECIDED (D-012);
-  negative-test evidence at qualification"; the source cell carries the
-  D-012 citation.
-- **Alternatives considered:** hierarchical/prefixed namespaces (rejected
-  for slice 1 — a flat namespace with typed refusal is auditable and the
-  prototype's model; hierarchy remains reachable at the DR-117 successor
-  when third-party depth exists); silent last-wins resolution (rejected —
-  the corpus's deny-by-default admission evidence and DR-G21's
-  containment posture both forbid order-dependent behavior).
+  manifest-first, deny-by-default, stable IDs distinct from versions and
+  aliases, and no implicit execution during discovery — the full bounding
+  quote per turn-1 NOTE):**
+  1. **Component identity (T1-01, realigned to the pinned bytes and the
+     pattern's TRUE strength):** the component ID is an author-declared
+     immutable UUID in the manifest — the pinned prototype's model
+     (`stableId`) — and the HOST enforces global uniqueness at admission
+     against its persisted admission registry: TWO custody records
+     (manifest declaration + host registry) with a uniqueness constraint
+     between them, which is PROJECT-ID-V1's actual two-record shape
+     adapted to author-supplied identity. A UUID is never derived from
+     mutable state; a retired ID is retained in the registry and never
+     readmitted for a different component; display names and aliases are
+     mutable metadata resolving THROUGH the ID, never the reverse.
+  2. **Command namespace (T1-02, corrected to the pinned model):** the
+     ROOT namespace is host-owned and flat; below a component's mounted
+     root command, sub-command grammar is DECLARATIVE (CommandSpec with
+     parent relationships) and HOST-INTERPRETED — the component declares,
+     the host owns all parsing and dispatch, and manifest discovery never
+     hands a component raw root parser authority. A collision at
+     admission — over name, alias, OR parent linkage — is a typed
+     REFUSAL, never silent shadowing or auto-renaming.
+  3. **Host-reserved commands (T1-04, restored from the pinned
+     mechanism):** the host maintains a static reserved root-command list
+     (the prototype's ADR-0159 shape); no component may claim or alias a
+     reserved name; a CI parity test between the reserved list and the
+     live grammar is part of the negative-test evidence.
+  4. **Scope precedence (turn-1 SF, decided rather than regressed):** a
+     component admitted at both project and global scope resolves by the
+     DECLARED precedence order project-shadows-global with a required
+     disclosure at resolution — a deterministic declared order, which is
+     not the forbidden ordering-dependence; the pin's warn-first-wins
+     variant is the recorded alternative.
+  5. **Rename/alias governance (T1-03, the number decided HERE, the
+     DR-111 borrow struck as an undefined-rule citation):** a rename
+     keeps the old name as a deprecated alias for AT LEAST one minor
+     release cycle AND no fewer than 90 days from the deprecating
+     release, whichever is longer; alias cycles are refused at admission;
+     an alias may never shadow any live name or reserved name.
+  6. **Ownership transfer (T1-06, quote corrected):** slice 1 is
+     first-party/EXPLICITLY-TRUSTED (D-002's actual class); transfer
+     within that class is registry bookkeeping under host authority WITH
+     the same two-custody update discipline; namespace depth beyond the
+     mounted-root model AND third-party transfer/dispute policy are both
+     EXPLICITLY DEFERRED to the DR-117 successor process (owned by
+     DR-010), with DR-116 carrying the support/vulnerability policy side
+     — routing made consistent.
+  7. **Migration and negative tests (turn-1 SF, completed):** namespace
+     migrations require a recorded deprecation entry with typed `doctor`
+     remediation; the negative-test evidence covers collision, cycle,
+     shadow, stale-alias, parent-linkage collision, reserved-name claim,
+     the scope-precedence disclosure, ID/version distinctness and
+     multi-version coexistence (file 05's goldens class) at
+     qualification.
+- **File-08 edit C-D012 carries (annotation honesty per turn-1 SF):** the
+  DR-104 row moves to `DECIDED-V1-NOT-INTEGRATED`, annotated "identity,
+  namespace, reservation, scope-precedence and alias policy DECIDED
+  (D-012), sub-grammar ownership recorded; negative-test evidence at
+  qualification"; the source cell carries the D-012 citation.
+- **Alternatives considered (corrected per turn-1 — the previous block
+  misdescribed the pin):** admission-time host-minted IDs (the draft's
+  own first shape) rejected because the pinned prototype's
+  author-declared-UUID model is working evidence and host-minting would
+  break manifest portability — the host's registry custody supplies the
+  missing uniqueness enforcement instead; a STRICTLY flat namespace with
+  no sub-grammar (the draft's second shape) rejected because the pin
+  itself mounts declarative sub-grammar and flatness-only would regress
+  it; warn-first-wins scope resolution (the pin's variant) rejected in
+  favor of declared precedence with required disclosure — quieter
+  failure modes lose to explicit ones under this corpus's discipline.
 - **Overturn:** supersession + revert of C-D012.
 - **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
   here.
