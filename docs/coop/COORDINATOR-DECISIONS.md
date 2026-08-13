@@ -687,3 +687,47 @@ decision; nothing here forecloses slice 2.
   re-resolved as the fourth reproduction. All six items accepted and
   amended above; none rebutted. Turn 2 pending.
 - **Commit:** C-D005, on adoption.
+
+---
+
+## D-006 — DR-115: numeric size/startup/memory thresholds
+
+- **Date:** opened 2026-08-13
+- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000.
+- **Decision type:** PREFERENCE-LADEN (route C). Numbers are not derivable
+  from any rule; the register says so ("numeric open"). Decided on the
+  user's behalf; overturn is one supersession line + one revert.
+- **Scope:** thresholds for the D-002 slice's platforms (macOS arm64/x86_64,
+  Linux x86_64/arm64) over gates DR-G01..G05, plus the regression rule.
+  These are ARCHITECTURE TARGETS gating qualification measurements — not
+  qualification claims (DR-012 untouched; nothing here is QUALIFIED).
+- **Proposed thresholds:**
+  1. **DR-G01 (core download):** signed compressed distribution-core
+     ≤ 25 MB per platform. Rationale: an order below typical Electron-class
+     tooling, holding the "small core" direction falsifiable without
+     starving a native binary + signing + index client.
+  2. **DR-G02 (installed core/TCB):** immutable installed tree ≤ 80 MB;
+     mandatory-closure inventory enumerated, zero undeclared dependencies
+     (the qualitative half is DR-126's).
+  3. **DR-G03 (startup):** `--help`/`--version` cold-cache p95 ≤ 150 ms,
+     p99 ≤ 250 ms; warm p95 ≤ 50 ms; on the fixed reference runners the
+     harness names; loads no components and no project (already the gate's
+     text).
+  4. **DR-G04 (memory):** baseline RSS peak ≤ 100 MB for lifecycle
+     commands (`--help`, `--version`, `doctor` in read-only mode).
+  5. **DR-G05 (component delta):** slice 1 mandates MEASUREMENT AND
+     VISIBILITY (download/install/start/RSS delta published per component,
+     per platform) with NO numeric cap — caps become product decisions at
+     first-component acceptance, when a real denominator exists. An
+     explicit deferral disposition, not silence.
+  6. **Regression rule:** a qualified measurement may not regress >10%
+     against the previous qualified release without an expiring waiver
+     carrying product + release sign-off (the register's waiver form).
+- **Falsifiability note:** every number binds a HARNESS measurement under
+  DR-G01..G05's own evidence columns (raw samples, cache state, traces
+  retained). If early implementation shows a number infeasible, the lawful
+  path is a successor decision with the measurement attached — never a
+  silent waiver.
+- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
+  here.
+- **Commit:** C-D006, on adoption.
