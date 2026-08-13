@@ -315,7 +315,7 @@ plus `git revert` of the single commit. Overturning D-001 itself means
 recording a successor definition of done here; nothing hard-codes this
 checklist anywhere but the register that already owned it.
 
-- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (8
+- **Reviewer (D-001):** adversarial review under D-000. Turn 1: OBJECTIONS (8
   MUST-FIX, 4 SHOULD-FIX, 2 NOTE) at
   `artifacts/coordinator-decisions.D-001.review-adversarial.json`
   (`6de5a03b…`); all fourteen accepted and amended, none rebutted. Turn 2:
@@ -331,3 +331,175 @@ checklist anywhere but the register that already owned it.
   (`…turn3.json`, `97b20341…`).
 - **Commit:** C1 (this commit), with the verification artifact and all
   three verdict files.
+
+---
+
+## D-002 — The first blueprint slice
+
+- **Date:** opened 2026-08-13, per D-001 §2 (the slice is referenced by
+  readiness conditions 2 and 4 and defined nowhere; its selection is
+  preference-laden and sequenced first among product asks).
+- **Status:** **ADOPTED 2026-08-13** — consensus reached under D-000 at
+  turn 3 of 3: final verdict CONSENT, on the merits, at
+  `artifacts/coordinator-decisions.D-002.review-adversarial.turn3.json`
+  (`a15f9ac2…`). The verdict records OBS-T3-01 against the coordinator's
+  process (twice this lane, a report ran slightly ahead of bytes; reports
+  must trail measurements — absorbed as standing discipline: register
+  edits land before messages send).
+- **Decision type:** PREFERENCE-LADEN (route C), decided on the user's
+  behalf under D-000. Bounded, not free: DR-123 makes the CLI baseline
+  mandatory for every slice; DR-128 excludes third-party/untrusted scope
+  from MVP; DR-129 makes a TUI optional and projection-only; file 10's
+  scope map and the pinned prototype evidence (`prototype-evidence-reference.md`,
+  commit `a62509d6…`) bound the candidate space. D-002 selects within
+  those recorded bounds.
+
+### The slice: "Trusted TypeScript analysis — CLI-first, offline, contained"
+
+**Commands:** `analyze` (non-interactive project analysis), `doctor`
+(read-only/no-network default, consented probes), plus the trivial
+`--help`/`--version` surfaces DR-G03 already names. Stable human and
+machine (JSON) output for every command; **SARIF 2.1.0 advertised for
+`analyze` only** (DR-122's preserved-projection shape; DR-G17 gates then
+apply to exactly that surface). SARIF's parity evidence requires canonical
+Run/Finding IDs — parked identities; see the Identity-dependencies section
+below (MF-01).
+
+### Identity dependencies — named, not avoided (turn-1 MF-01/MF-02)
+
+The previous draft claimed the slice "touches nothing the V1 chain blocks";
+that was FALSE on the freeze's own bytes, and the honest structure is
+better: readiness condition 1 requires DR-001..011 SATISFIED or lawfully
+disposed BEFORE any blueprint starts, so the slice does not need to avoid
+parked identities — it needs to NAME which of its features ride which
+condition-1 closure, presuming nothing settled now:
+
+- **SARIF for `analyze`** rides DR-006's closure of the RunId derivation
+  recipe and the Finding fingerprint (§7.1 parks both). If DR-006 closes by
+  scoped disposition rather than binding recipes, SARIF drops from slice 1
+  by that disposition's terms.
+- **The rebuildable cache/index state class** rides the parked
+  cache/regeneration-key recipes (DR-006).
+- **Coverage on the TypeScript provider dispatch path** rides the parked
+  `subjectScopeCommitment` (DR-006).
+- **PlanId for the TypeScript role** rides a producing rule for
+  `typescriptStdlibMerkleRoot`, which the freeze records as PlanId-affecting
+  with no rule (DR-006's park-coverage property).
+- **Doctor's D9 mapping (DR-114) and containment goldens (DR-G21)** ride
+  DR-007's successor closing the observation→faultCause gap.
+
+Every one of these is already in D-001's condition-1 routes; the slice adds
+no new blocker and settles none of them by prose. The SARIF consequence
+clause holds SYMMETRICALLY for all five rides (T2-04): if any named
+condition-1 closure lands by scoped disposition rather than binding
+recipes, the dependent feature — including the three rides under `analyze`
+itself — ships reduced, re-scoped, or waits, by that disposition's terms;
+none of them survives on prose.
+
+**Language roles:** **TypeScript, alone.** The prototype's strongest
+inventory; DR-119 names it as the role that "must not require user-managed
+Node." D-002 selects the slice-1 role set; it does NOT close DR-118, which
+still requires the capability/parity matrix, digest-pinned corpus and
+thresholds for this one role.
+
+**Components:** first-party/explicitly-trusted only (DR-128's MVP
+boundary), under the one host lifecycle/control model, with DR-G21 fault
+containment required immediately.
+
+**State:** local, non-authoritative only — rebuildable cache/index and
+operational metadata classes (DR-124), plus doctor/purge honesty (DR-G12).
+**Authoritative sealed closure, replay, and evidence custody are OUT of
+slice 1**, and — correcting the previous draft's unlawful row splits
+(turn-1 MF-03) — **DR-106, DR-109 and DR-113 are deferred WHOLLY**: their
+acceptance-evidence cells all begin with applied DR-002..008 successors,
+and DR-113's "purge half" would have designed the typed purge result DR-007
+expressly forbids inventing. The slice's local purge/doctor needs route
+through DR-124/DR-114/DR-G12/DR-107 instead. **Baseline/ratchet is a
+CONDITIONAL deferral** (turn-1 axis-6): OUT of slice 1 as drafted, but if
+DR-006's closure lands binding fingerprint recipes, the slice-2 decision
+revisits it first. **The trade, recorded in bytes (T2-02):** deferring it
+gives up the prototype's proven highest-leverage CI behavior — gating
+net-new findings against a recorded corpus — so slice 1 ships analysis
+without ratcheting, a materially weaker CI story; in exchange the slice
+presumes nothing about the parked fingerprint recipe and takes on no
+analysis-affecting durable state class. A product owner could defensibly
+choose the opposite; this entry chooses honesty about the park over early
+CI leverage, and the conditional-revisit rule is the hedge.
+
+**Platforms:** macOS (arm64, x86_64) and Linux (x86_64, arm64). Windows
+deferred with explicit disposition.
+
+**Explicit deferrals (each gets its recorded disposition, never
+silence):** DR-108 (no credential-requiring features in slice 1), DR-110
+(self-update/repair — install is fresh signed download in slice 1),
+DR-116 (no third-party support policy needed yet), DR-128 (post-MVP by
+register), DR-129 (no TUI in slice 1), Windows platform support,
+baseline/ratchet (conditional — see State), and **DR-106, DR-109, DR-113,
+each deferred WHOLLY** (T2-01: the previous "halves" wording here
+contradicted the entry's own MF-03 withdrawal and is struck). Each scoped
+inclusion elsewhere in this entry (DR-105, DR-124/G19, G09, and G08 —
+added per the turn-3 observation) is likewise recorded as a scope
+disposition with its own artifact and commit when executed, so no scope
+exists only inside this register entry (turn-1 NOTE-10). The DR-110
+disposition, when authored, must draw the DR-107/G18
+generation-rollback versus self-update-rollback boundary and address file
+02's unexercised "updates" inventory entry (turn-3 observation).
+
+**Condition-2 affected-row set under this slice:** DR-101, DR-102,
+DR-103, DR-104, DR-105 (scoped to the permissions the slice actually
+exercises: local read/write + consented doctor probes — a scoping the row's
+own per-platform truth-table text supports), DR-107, DR-111, DR-112,
+DR-114, DR-115, DR-117 (the slice's install shape presumes the small-core /
+component-closure split, whose product-boundary half rides the DR-010/117
+successor — named per turn-1 SF; it proceeds on that track regardless),
+DR-118 (TypeScript role), DR-119, DR-120, DR-121, DR-122, DR-123, DR-124
+(touched classes), DR-125, DR-126, DR-127. **DR-106, DR-109, DR-113:
+deferred wholly** (MF-03), closing via the condition-1 chain; their design
+enters a later slice. **Condition-4 required-gate set:** DR-G01..G05, G07,
+G08 (SCOPED to the trust surfaces the slice ships — root/index/core/
+component install trust; the repair-media/rollback surfaces defer with
+DR-110, named per turn-1 SF), G09 (scoped), **G10 (in the required set —
+the TypeScript provider is the slice's substrate; its own selector-refresh
+precondition stands)**, G12, G14 (TypeScript), G15, G16, G17 (analyze),
+G18, G19 (touched classes), G20, G21, G22. **G06/G11: NOT
+slice-1-required** — both guard AUTHORITATIVE closure/storage, which the
+slice excludes; pre-named now for hygiene, required by the first slice
+that includes an authoritative closure (turn-1 NOTE-09). DR-G13
+(TypeScript) after DR-118.
+
+### Rationale
+
+Smallest coherent product that maximizes the architectural surface whose
+DESIGN work is unblocked (CLI, distribution, packaging, containment,
+protocol, state classes, doctor), with every identity-dependent feature
+NAMED and mapped to the condition-1 closure it rides (see
+Identity-dependencies above) — never designed as if settled. Blueprint
+work starts when conditions 1–4 land; the slice adds no blocker beyond
+that chain and settles nothing by prose. One language role minimizes the
+DR-118/G13/G14 acceptance surface while the prototype supplies real
+migration evidence for it. Every exclusion is reversible by a later slice
+decision; nothing here forecloses slice 2.
+
+- **Overturn:** one-line supersession here + `git revert` of the C2
+  commit; slice-2+ decisions are separate entries. The one-revert path is
+  available only BEFORE dependent commits (deferral dispositions, gate
+  namings, DR-118 corpus work) land on the slice; after that, overturn is
+  a successor slice decision that must also disposition or supersede the
+  dependents (turn-1 NOTE-11).
+- **Reviewer:** adversarial review under D-000. Turn 1: OBJECTIONS (3
+  MUST-FIX, 5 SHOULD-FIX, 3 NOTE) at
+  `artifacts/coordinator-decisions.D-002.review-adversarial.json`
+  (`ea0e397b…`) — the central refutation (blocked-semantics leakage)
+  accepted in full and restructured as the Identity-dependencies section;
+  the unlawful DR-106/109/113 splits withdrawn (deferred wholly); G08
+  scoped, G10 admitted to the required set, the small-core/DR-010
+  presumption named, baseline/ratchet made a conditional deferral. Turn 2:
+  OBJECTIONS narrowed to 1 MUST-FIX + 1 SHOULD-FIX + 2 NOTE at
+  `artifacts/coordinator-decisions.D-002.review-adversarial.turn2.json`
+  (`e17659fb…`), 7 of 11 turn-1 items RESOLVED-VERIFIED, expectation of
+  CONSENT recorded; all four accepted and landed (T2-01 stale "halves"
+  line struck, T2-02 the baseline trade recorded in bytes, turn-1 NOTEs
+  09/10/11 each implemented, T2-04 symmetry clause added). Turn 3:
+  **CONSENT**, on the merits, all four items verified landed in bytes,
+  set arithmetic re-verified 27/27 + 22/22 (`…turn3.json`, `a15f9ac2…`).
+- **Commit:** C2 (this commit), with all three verdict files.
