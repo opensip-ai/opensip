@@ -585,3 +585,50 @@ decision; nothing here forecloses slice 2.
 - **Overturn:** `git revert` of the C-D004 commit restores all surfaces at
   once; the individual rulings remain in their verdict files regardless.
 - **Commit:** C-D004 (this commit).
+
+---
+
+## D-005 — Apply r1-lifetime-neutrality.conformance.v1.9
+
+- **Date:** opened 2026-08-13
+- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000. This entry
+  exists because the route-A acceptance property leaves one genuine
+  question that must be answered on the record, not by inference.
+- **Decision type:** RULE-GOVERNED if the grade question resolves as
+  proposed; the grade question itself is the reviewable judgment.
+- **The measured chain, all discharged:** v1.9 (`37897be0…`) reviewed at
+  0 blockers, 6 advisories (`3914c9c5…`); its single named apply-condition
+  — "do not apply until a corpus resolver positively resolves the chain
+  (freeze §7.3 — the one gate still owed)" — discharged at
+  corpus-resolution.v1 (REFUSED, pre-repair) → v2 (POSITIVE, canonical
+  `27d27bc0…`, on instrument bytes whose dialect repair was independently
+  reviewed PASS); the v2 record's reliance caveat adjudicated CLEAN by
+  DR-204 (UTC-boundary artifact; monotonic timestamps).
+- **The grade question, both readings stated:**
+  - *For application:* the verdict's construction is
+    DO-NOT-APPLY-**UNTIL** — the reviewer contemplated application and
+    named its single precondition, unlike EIR v6 (bare candidate
+    acceptance, no apply path) and delivery.v5 (EXPRESSLY NOT FOR
+    APPLICATION). A named, now-discharged condition plus 0 blockers is
+    the property's "application-grade acceptance with no express
+    reservation and no undischarged named condition."
+  - *Against:* the verdict labels itself "ACCEPT-AS-CANDIDATE," and the
+    property's text forbids "candidate-only limitation"; on that reading
+    the until-clause governs when candidacy may be RECONSIDERED, not an
+    application warrant, and application requires a fresh acceptance.
+- **Proposed ruling:** the FOR reading, on the ground that the property's
+  candidate-only clause exists to block promotions the reviewer never
+  contemplated — and this reviewer's own words name the apply path and
+  its gate. If the adversarial review does not consent, the AGAINST
+  reading's remedy is a targeted re-review of v1.9 requesting an explicit
+  application-grade verdict, and this entry parks CONTESTED meanwhile.
+- **What application would do:** record v1.9 as the r1 lineage head in the
+  freeze (superseding the v1.6-resolved state as the reviewed candidate
+  line), advancing DR-009/DR-011-R09's first half. It does NOT close
+  DR-009 (LN-13, derivationDigest, R1-PARK-*, retained-validator standing
+  and CIR-B1 remain), does not seal, and moves no design decision.
+- **Overturn:** supersession here + `git revert` of the application
+  commit.
+- **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
+  here.
+- **Commit:** C-D005, on adoption.
