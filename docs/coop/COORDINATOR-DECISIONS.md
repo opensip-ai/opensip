@@ -693,7 +693,14 @@ decision; nothing here forecloses slice 2.
 ## D-006 — DR-115: numeric size/startup/memory thresholds
 
 - **Date:** opened 2026-08-13
-- **Status:** DRAFT — UNDER ADVERSARIAL REVIEW per D-000.
+- **Status:** **ADOPTED 2026-08-13** — consensus at turn 3 of 3: CONSENT
+  on the merits (`artifacts/coordinator-decisions.D-006.review-adversarial.turn3.json`,
+  `bfd8a758…`). Fourteen findings across two turns, all accepted and
+  landed in bytes, none rebutted or waived. OBS-T3-02 recorded: native
+  Intel Mac hardware is scarcity-exposed — the G03/G04 harness-naming act
+  must verify procurability under its product sign-off, and
+  unprocurability routes through this entry's successor-decision path,
+  never silent Rosetta substitution.
 - **Decision type:** PREFERENCE-LADEN (route C). Numbers are not derivable
   from any rule; the register says so ("numeric open"). Decided on the
   user's behalf; overturn is one supersession line + one revert.
@@ -790,5 +797,15 @@ decision; nothing here forecloses slice 2.
   form restored in full (SF-2), the RSS bar tightened to discriminate the
   runtime-in-core regression (SF-4), the arithmetic corrected, all five
   percentiles bounded, and the analyze/probes exclusion made explicit
-  (NOTEs). Turn 2 pending.
-- **Commit:** C-D006, on adoption.
+  (NOTEs). Turn 2: OBJECTIONS narrowed to 1 MUST-FIX + 1 SHOULD-FIX + 2
+  NOTE (`…turn2.json`, `b9ff5c17…`) — the amendment had dropped the
+  operative regression sentence itself; restored regress-only, the macOS
+  x86_64 runner class decided (native Intel, never Rosetta), the closed
+  status vocabulary respected, doctor's steady baseline bounded. Turn 3:
+  **CONSENT** (`…turn3.json`, `bfd8a758…`), all fourteen findings
+  verified landed (three-turn record completed per OBS-T3-01).
+- **Commit:** C-D006 = commit `bf6538b` (verdict artifacts; its message
+  overclaimed — it carried NO register or file-08 edits due to a staging
+  script fault) plus the completion commit that follows, which carries
+  the adoption edits and the named file-08 edits. Recorded honestly, not
+  rewritten.
