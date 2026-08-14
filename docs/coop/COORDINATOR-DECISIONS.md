@@ -2927,3 +2927,92 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D073 restores the false `a4495d16…`
   recital in D-069. Does not overturn D-069, D-071, or D-072.
 - **Commit:** C-D073.
+
+---
+
+## D-074 — Record the DR-006 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-074-076.review-adversarial.claude2.json`,
+  `b78c428ee198335d37ffb52f41e32af2e5c6dde6095397b220ca5335534f2d62`).
+  Codex
+  (`artifacts/coordinator-decisions.D-074-076.review-adversarial.codex.json`,
+  `8dc573eabdac5b664333a8bc03bc4716f85188af89e182ec9babd771d01e5318`).
+  Subject `coordinator-decisions.D-074-076.draft.md`
+  `7da3adf88694b3f8232801206bb424ada99409a725fdbd62172406b990128e02`.
+- **Decision type:** RULE-GOVERNED. Records independent ACCEPT
+  of the D-069 disposition draft. Same form as D-049.
+- **Subject:** `route-b.DR-006.preview-disposition.v2.json`
+  `28fb23ec9f01de17753624d9e90bec53d75df2344d62594321c17da8a799d161`.
+- **Verdicts:** Claude 2
+  `route-b.DR-006.preview-disposition.v2.review-independent.claude2.json`
+  `d1f309203ecee7a1c8aee9f0d1090e2885cc9e3feb4a0ad7d90dfe9046c9d1ab`
+  ACCEPT, 0 blockers. Codex
+  `route-b.DR-006.preview-disposition.v2.review-independent.codex.json`
+  `821ce53f9b42ec98fb707dc5388864261782ac11e321ff81b40c431376349fc1`
+  ACCEPT, 0 blockers.
+- **Decision:** Record that v2 disposition as the accepted draft
+  D-069 authorized. Owner remains each identity-owning V1
+  surface + FACT-PLANE/evidence authorities + coordinator. This
+  is not owner recording. An ACCEPT verdict is not owner
+  recording. DR-006 stays HARD-BLOCKED. Binding recipes remain
+  owed. Condition 1 does not discharge until those owners
+  record. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D074.
+- **Commit:** C-D074.
+
+---
+
+## D-075 — Record the DR-007 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-1
+  verdicts as D-074.
+- **Decision type:** RULE-GOVERNED. Records independent ACCEPT
+  of the D-071 disposition draft.
+- **Subject:** `route-b.DR-007.preview-disposition.v2.json`
+  `53b72a910507e31dd8d20e29c8d3dd9c673a68944f086c7e33d9ca39af5f42b7`.
+- **Decision:** Record that v2 disposition as the accepted draft
+  D-071 authorized. Owner remains D9 authority +
+  evidence/retention owner. This is not owner recording. DR-007
+  stays HARD-BLOCKED. No D9 code is invented. Condition 1 does
+  not discharge until the owner records. Conditions 2–5 remain.
+  Condition 5 remains the only implementation authorization.
+  Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D075.
+- **Commit:** C-D075.
+
+---
+
+## D-076 — Record the DR-009 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-1
+  verdicts as D-074.
+- **Decision type:** RULE-GOVERNED. Records independent
+  ACCEPT-WITH-ADVISORIES plus rider. Same form as D-039.
+- **Subject:** `route-b.DR-009.preview-disposition.v2.json`
+  `5e2f6572d1473176545d83ee2f8babf8daf8a3d7702ffa55bca7c7065841b782`
+  plus rider RB-DR009-V2-A1.
+- **Decision:** Record the v2 disposition as the accepted draft
+  D-072 authorized. The disposition owners must record is v2
+  plus rider RB-DR009-V2-A1: the applied lineage head is
+  `docs/coop/artifacts/r1-lifetime-neutrality.conformance.v1.9.json`
+  `37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab`.
+  Application of that head is still not park closure and is
+  still not SATISFIED. The rider answers Claude 2 advisory
+  RBDR009V2-C2-A1. Owner remains R-1/evidence authorities.
+  This is not owner recording. DR-009 stays HARD-BLOCKED.
+  Condition 1 does not discharge until the owner records v2
+  plus the rider. Conditions 2–5 remain. Condition 5 remains
+  the only implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D076.
+- **Commit:** C-D076.
