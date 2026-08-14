@@ -3257,3 +3257,39 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D082.
 - **Commit:** C-D082.
+
+---
+
+## D-083 — Owner-record the DR-011 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-083.review-adversarial.claude2.json`,
+  `96ae9aa5728651c23da8064581f9bf37d40e786d6fb6da6d6c0693116205f83f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-083.review-adversarial.codex.json`,
+  `00d877a9b0df36261d5227db77ab338f2b0caceb3f02ef0eaf6ac6d63924667a`).
+  Subject `coordinator-decisions.D-083.draft.md`
+  `1ad58b169d4328919a190bf8576f6b18cf4db296763b0c077f01d43980f6d41d`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** V1 coordinator and each surface owner.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-011.preview-disposition.v3.json`
+  `f1c7f6b7f6a827b34e0aac1533bab581198181d7a35236eceb9de64ca41be1b1`
+  plus riders RB-DR011-V3-A1, RB-DR011-V3-A2, and RB-DR011-V3-A3
+  as the owner-recorded preview Route B disposition for the
+  DR-011 parent. May discharge condition 1 for that parent
+  within architecture-preview scope only. Residuals stay not
+  CLOSED. This parent adds no independent semantic permission.
+  Does not mark DR-011 SATISFIED. Conditions 2–5 remain.
+  Condition 5 remains the only implementation authorization.
+  Does not edit file 08.
+- **Readiness effect:** Condition 1 for the DR-011 parent may
+  discharge within preview scope. Residuals stay not CLOSED.
+  Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D083, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-055, D-082, D-054, or D-057.
+- **Commit:** C-D083.
