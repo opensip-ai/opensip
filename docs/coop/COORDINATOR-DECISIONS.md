@@ -3502,3 +3502,40 @@ file-09 D-000 act. Left whole-document until then.
   harness-cell prefixes and the prior condition-4 "Measured
   now" cell. Does not overturn D-086. Overturn: C-D088.
 - **Commit:** C-D088.
+
+---
+
+## D-085 — Record DR-102 SATISFIED under D-056 Class A
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-085.review-adversarial.claude2.turn3.json`,
+  `828f0fdc25b595a3099e6fc55c99f147988046bc10f633f0829e97b32a05c6b9`).
+  Codex
+  (`artifacts/coordinator-decisions.D-085.review-adversarial.codex.turn3.json`,
+  `1f8adb0ccec93b19f7f4fb76725ec3ab9f89a6374ccb0152eaa42fdb1b163df5`).
+  Turn-1 Codex MUST-FIX ADV-D085-01 and Claude 2 SHOULD-FIX
+  D085-SF-1 accepted. Turn-2 Codex SHOULD-FIX ADV-D085-T2-01
+  accepted (remeasure after D-088). Turn-3 subject
+  `coordinator-decisions.D-085.turn3.draft.md`
+  `f0c6e54e17f3d67ae2b14fcfbfb81818d1595bf94d1e2fd01143c84a4681aae6`.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
+  D-056 Class A. File-08 MF-6. Does not execute CC-1..CC-11.
+  Does not claim QUALIFIED. Does not overturn D-088.
+- **Decision:** Record DR-102 SATISFIED for architecture-preview
+  condition 2. CC-1..CC-11 execution remains condition 4 /
+  DR-G21 / DR-012. Replace the DR-102 lead, SATISFIED-bar,
+  and Blueprint-impact hard-blocker. Rewrite condition 2 to
+  1 of 30 SATISFIED, standing NOT MET. Replace only
+  "condition 2 remains 0 of 30 SATISFIED" in the one-sentence
+  summary. Do not edit D-088 gate-harness cells. Do not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 becomes 1 of 30 SATISFIED
+  and stays NOT MET. Condition 4 remains PARTLY MET at 16 of
+  18. Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D085 plus restore of the prior DR-102
+  lead, SATISFIED-bar, Blueprint impact cell, condition-2
+  snapshot row, and "0 of 30" clause. Does not overturn
+  D-056, D-086, D-088, or D-015. Overturn: C-D085.
+- **Commit:** C-D085.
