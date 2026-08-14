@@ -3157,3 +3157,35 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-072, D-076, D-080, D-077, D-078, D-054, or D-057.
 - **Commit:** C-D079.
+
+---
+
+## D-081 — File 08 MF-6 notes for DR-006 / DR-007 / DR-009 owner recordings
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-081.review-adversarial.claude2.turn2.json`,
+  `b8d1166d71414b0293abba26d15bb14ccce7a196527ecd7084508d0cdf9803bc`).
+  Codex
+  (`artifacts/coordinator-decisions.D-081.review-adversarial.codex.turn2.json`,
+  `205c2f2b2d1f52053cf6fde05dd9baf424f11579859a0843d2ba8b81b3885e98`).
+  Turn-1 Codex SHOULD-FIX ADV-D081-01 accepted (preamble count
+  six → nine). Turn-2 subject
+  `coordinator-decisions.D-081.turn2.draft.md`
+  `e2d2ae296ca3c38b2cfbf03495902acdd84d63440a8fb0d2a5cbb8c9e7f652dc`.
+- **Decision type:** RULE-GOVERNED. File-08 content change (D-001
+  MF-6). Does not mark SATISFIED.
+- **Decision:** Keep leading labels. Append the three scoped
+  owner-recording notes for DR-006, DR-007, and DR-009. Update
+  the snapshot preamble count from six to nine explicitly
+  disposed. Rewrite the condition-1 "Measured now" cell to
+  1 SATISFIED + 9 preview-disposed + 1 unresolved (DR-011). Do
+  not coin a new file-08 status token. Do not edit the six
+  D-070 notes. Do not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 1 remains NOT MET. 1 + 9 + 1
+  = 11. Zero SATISFIED added.
+- **Reversibility:** C-D081 plus restore of the prior three
+  cells, prior condition-1 row, and prior preamble count.
+  Does not overturn D-070, D-077, D-078, or D-079.
+- **Commit:** C-D081.
