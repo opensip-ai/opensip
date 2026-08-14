@@ -3422,3 +3422,49 @@ file-09 D-000 act. Left whole-document until then.
   second recital and removal of the union sentence. Does not
   overturn D-056. Overturn: C-D087.
 - **Commit:** C-D087.
+
+---
+
+## D-086 — Record gate-harness-naming.v3 as the condition-4 naming candidate
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-086.review-adversarial.claude2.turn3.json`,
+  `a70a7451d92fd8725e7d937e166b5e5e2140de78d6bf339a4a304968acdcd51b`).
+  Codex
+  (`artifacts/coordinator-decisions.D-086.review-adversarial.codex.turn3.json`,
+  `008408ba665059f43b7960a258da719d426184e8d1bf055cb70b4a03bdbdf1d4`).
+  Turn-1 Claude 2 SHOULD-FIX D086-SF-1 accepted (scope
+  "remove countable"). Turn-2 MUST-FIX D086-T2-MF-1 /
+  D086-T2-MF-2 / ADV-D086-T2-01 / ADV-D086-T2-02 accepted
+  (delete working notes; correct Codex turn-1 digest). Turn-2
+  SHOULD-FIX D086-T2-SF-1 accepted (N-1 disposition
+  accepted-and-edited). Turn-3 subject
+  `coordinator-decisions.D-086.turn3.draft.md`
+  `30c8a985bbd5f838d1313c2d005b12a159c7eae07216ce19228434a83d0832d6`.
+- **Decision type:** RULE-GOVERNED. Records independent ACCEPT /
+  ACCEPT-WITH-ADVISORIES (0 blockers) plus rider RB-GHN-V3-A1.
+  Does not mark SATISFIED. Does not make condition 4 MET.
+- **Decision:** Record
+  `docs/coop/artifacts/gate-harness-naming.v3.json`
+  `b5236612394a3d24259f3b11b99e9928b530a4be3d147d2007d00c3ee96c3ccd`
+  as the condition-4 naming candidate, plus operative rider
+  RB-GHN-V3-A1: the later MF-6 write uses "presently
+  recordable required identifiers", scopes removal of
+  "countable" to that sentence only, retains v3's protective
+  refusals, and must not present 16 as the required-gate
+  denominator. Required-now set is 18; presently recordable
+  names are 16. G03/G04 remain required and unnamed. G17 is
+  dropped. G13 is reserved behind DR-118. Does not edit file
+  08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero at adoption. Condition 4 stays
+  PARTLY MET (owners 22 of 22; named-harness half 0 of 18 in
+  file 08). After a later MF-6 the honest measurement would
+  be 16 of 18 and still not MET. No SATISFIED. Condition 5
+  remains last.
+- **Reversibility:** Total before any dependent MF-6 write.
+  After one lands, overturn also requires restoring the prior
+  harness cells. Does not overturn D-056 or D-087. Overturn:
+  C-D086.
+- **Commit:** C-D086.
