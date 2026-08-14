@@ -1409,3 +1409,78 @@ current to a later auditor.
 - **Recorded limit.** No review turn examined the SUBSTANCE of the applied artifact; every
   objection audited whether this entry's statements about the verdict replicate. If the v15
   verdict is wrong on the merits, nothing in this cycle catches it.
+
+---
+
+## D-018 — Name D-002's slice an architecture preview
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13** — CONSENT from both independent reviewers at turn 2 of
+  the D-017/D-018 cycle. Claude 2
+  (`artifacts/coordinator-decisions.D-017-021.review-adversarial.claude2.turn2.json`,
+  `36b60ca596a726913b27681674346fd8e214770790a7add3de51b66fef47bf44`): D-018 CONSENT, 0
+  MUST-FIX, 0 SHOULD-FIX, 1 NOTE. Codex
+  (`artifacts/coordinator-decisions.D-017-021.review-adversarial.codex.turn2.json`,
+  `0bfa404f410fc63f7fe2a5dc835b67bc1dd595b4b3b512a8172e7b7eff0ae36e`): D-018 CONSENT, 0
+  MUST-FIX, 0 SHOULD-FIX, 0 NOTE. The NOTE (cite DR-123/DR-G17 as the basis for "verdict and
+  D9 exit") is recorded, not adopted into this entry's bytes.
+- **Decision type:** **PREFERENCE-LADEN** (route C). D-002 already selected the first
+  blueprint slice. This entry names that slice. It does not select Route B, does not adopt
+  an execution sequence, and does not change D-002's command set, language-role set,
+  platform set, deferral set, identity-dependency rides, condition-2 affected-row set, or
+  condition-4 required-gate set.
+- **Subject:** D-002's name only.
+
+### Decision
+
+1. **Naming.** D-002's adopted slice is the first milestone and is named **architecture
+   preview**. "Slice 0" is an accepted synonym in new prose. Existing adopted bytes that
+   say "first blueprint slice" or "slice 1" remain historically accurate names for the same
+   D-002 decision; they are not silently rewritten. New coordinator and register prose uses
+   "architecture preview" or "D-002 preview."
+2. **What the name does not change.** This entry does not add or remove commands, language
+   roles, platforms, deferrals, identity rides, or gates from D-002. Narrowing those sets
+   is not decided here. If chosen later, that is a scoped D-002 successor with its own
+   D-000 review.
+3. **What the name forbids in later prose.** No later document may describe the D-002
+   slice as:
+   - producing an **authoritative sealed gate**,
+   - **OpenSIP MVP**, or
+   - **upgrade continuity** for `opensip-cli` users.
+   The slice does produce a verdict and a D9 exit. What it cannot produce is a durable
+   authoritative record of having gated, and it has no baseline/ratchet. That is D-002's
+   T2-02 trade (this file, D-002 State paragraph), not a new surrender. DR-130 already
+   records that the first slice claims no upgrade continuity.
+4. **This entry does not select a condition-1 route** for any inherited row. Route
+   selection is D-019 and D-020, if adopted.
+5. **This entry does not authorize `docs/v2/implementation/`.** Condition 5 still forbids
+   that until D-001's five conditions hold.
+6. **File 11 item 1 is consumed only in part:** the preview-versus-MVP *naming*. The
+   parallel-product posture half of file 11 item 1 remains undecided.
+
+Changing any of the above requires a separately reviewed successor or supersession of this
+entry.
+
+- **Alternatives considered:** (a) *Treat D-002 as product MVP and leave the name
+  unchanged* — rejected on D-002's own bytes: the slice's declared state classes are
+  rebuildable cache/index and operational metadata; authoritative sealed closure, replay,
+  and evidence custody are out; baseline/ratchet is deferred. Calling that slice MVP would
+  describe a product the slice cannot be. (b) *Also select Route B, or also adopt an
+  execution sequence, in this entry* — rejected: turn-1 bundling; D-016. (c) *Shrink
+  D-002's platforms or independent-release machinery as part of the rename* — named as
+  reachable, not foreclosed; rejected in this entry because it would rewrite D-002's
+  adopted sets.
+- **Honesty about the trade (D-000 clause 5):** What is given up: the first milestone will
+  not be described as "measure, gate, and prove," and a prototype user still has no
+  ratchet reason to switch. What is gained: later prose cannot overclaim the slice. A
+  product owner could defensibly keep the D-002 name and accept the overclaim risk. This
+  entry chooses the name.
+- **Readiness effect:** Zero. No file 08 status cell moves. No freeze, claim-register, or
+  pin motion.
+- **Reversibility:** total.
+- **Overturn:** one-line supersession plus `git revert` of C-D018. Revert restores D-002's
+  unlabeled slice name and does not touch Route B selections or any sequence.
+- **Reviewer:** two independent adversarial reviewers under D-000, turn 2 of 3. Both
+  CONSENT on this entry. All MUST-FIX and SHOULD-FIX against the predecessor bundle were
+  accepted and this entry is the naming-only remainder. Zero rebutted.
+- **Commit:** C-D018.
