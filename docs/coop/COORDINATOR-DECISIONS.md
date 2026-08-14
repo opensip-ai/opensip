@@ -2290,3 +2290,68 @@ file-09 D-000 act. Left whole-document until then.
   lands. After one lands, overturn also requires that
   disposition's owning-authority supersession. Overturn: C-D048.
 - **Commit:** C-D048.
+
+---
+
+## D-049 — Record the DR-002 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-049-050.review-adversarial.claude2.json`,
+  `087f65f8a51440df217f236fa8816db031fdbb6474db94019bdb86b1197665cb`).
+  Codex
+  (`artifacts/coordinator-decisions.D-049-050.review-adversarial.codex.json`,
+  `5fcd333af92be7e5645985d6c4d6428beb89047c01fe9f822ec3df6b523e8a19`).
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT of
+  the D-047 disposition draft. Same form as D-038 / D-040.
+- **Subject:** `route-b.DR-002.preview-disposition.v2.json`
+  `301ea338c4f4a5b7194cdf8a827c21bdc99a2b8cc091880b553a7c4a6f7dfc06`.
+- **Verdicts:** Claude 2
+  `route-b.DR-002.preview-disposition.v2.review-independent.claude2.json`
+  `4619a113518271d2539f057dd6338c36e25d7ddb4208c141521f9385d8266ec1`
+  ACCEPT, 0 blockers. Codex
+  `route-b.DR-002.preview-disposition.v2.review-independent.codex.json`
+  `b3be13e2f26609aaf4fc33fbe5da9031226f1ef49858349c4c6f9661119f7485`
+  ACCEPT, 0 blockers.
+- **Decision:** Record that v2 disposition as the accepted draft
+  D-047 authorized. Owner remains Evidence authority + V1
+  coordinator. This is not owner recording. An ACCEPT verdict is
+  not owner recording. DR-002 stays HARD-BLOCKED. AC-1, AC-3, and
+  AC-4 stay not discharged. Condition 1 does not discharge until
+  those owners record. Conditions 2–5 remain. Condition 5 remains
+  the only implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D049.
+- **Commit:** C-D049.
+
+---
+
+## D-050 — Record the DR-004 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-1
+  verdicts as D-049.
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT of
+  the D-048 disposition draft. Same form as D-038 / D-040.
+- **Subject:** `route-b.DR-004.preview-disposition.v2.json`
+  `2866dd87b9950650b08b5323ea299db050a4ba42f0488bb7b1130dcd86a6da76`.
+- **Verdicts:** Claude 2
+  `route-b.DR-004.preview-disposition.v2.review-independent.claude2.json`
+  `a2ab3306fabc9438e6ffc1fab77dbe651f2e62d426239892293ed158f869ab5e`
+  ACCEPT, 0 blockers. Codex
+  `route-b.DR-004.preview-disposition.v2.review-independent.codex.json`
+  `9813080054f0acd1960997af650c75fb8148985ccddc0eae568799d8e57cbde3`
+  ACCEPT, 0 blockers.
+- **Decision:** Record that v2 disposition as the accepted draft
+  D-048 authorized. Owner remains Evidence/retention authority.
+  This is not owner recording. An ACCEPT verdict is not owner
+  recording. DR-004 stays HARD-BLOCKED. The eight-bullet Phase-1A
+  packet stays owed. section31 v4 stays the binding instrument,
+  not the packet. Condition 1 does not discharge until the owner
+  records. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D050.
+- **Commit:** C-D050.
