@@ -2117,3 +2117,64 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** compound after the rewrite lands. Overturn:
   C-D044, plus restore of the prior scope clause.
 - **Commit:** C-D044.
+
+---
+
+## D-045 — Record section31-supplier-coverage.v4 as the Lane R successor
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-045.review-adversarial.claude2.turn3.json`,
+  `bf7ba92d2fa8fcd9d54c861840e8c05d74e3ac81492e41bb1bede8e42b927f80`).
+  Codex
+  (`artifacts/coordinator-decisions.D-045.review-adversarial.codex.turn3.json`,
+  `78de029a47e80cf31f72985690b2e115562e724da639446b9deea55cbc8acbbb`).
+  Turn-1 Codex SHOULD-FIX ADV-D045-T1-01 and turn-2 Claude 2
+  SHOULD-FIX C2-D045-T2-01 accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Records independent
+  ACCEPT-WITH-ADVISORIES (0 blockers from both reviewers). Same
+  form as D-035 / D-038 / D-042 / D-043.
+- **Subject:** `docs/coop/artifacts/section31-supplier-coverage.v4.json`
+  `97727684af2d812d3a677add9b15287db81d6fe36aeaa96d72d5118890a847f6`
+  and `docs/coop/artifacts/check-section31-supplier-coverage-v4.py`
+  `a30928260e9ddd36c680a13925d40353c362151f8729b99b021d400b5c2f96c2`.
+- **Verdicts:** Claude 2
+  `section31-supplier-coverage.v4.review-independent.claude2.json`
+  `7bef5029c22dba134db62d7f2c055a631ef9960fdd5caeeb03f99d57bdcf22c7`
+  ACCEPT-WITH-ADVISORIES, 0 blockers. Codex
+  `section31-supplier-coverage.v4.review-independent.codex.json`
+  `1db18b810262bb57ac2b56cb462a5b24bcb91146510f71258c52bd55b8f08fa9`
+  ACCEPT-WITH-ADVISORIES, 0 blockers.
+
+### Decision
+
+1. Record v4 as the accepted §3.1 item-to-supplier binding
+   instrument succeeding D-043's v3. D-043 remains history.
+   S31V3-01 is discharged by execution on these bytes.
+   S31V3-02 and S31V3-CX-A1 are discharged by byte comparison —
+   the doesNotFailWhen disclosure and the pinned predecessor
+   verdict tokens respectively.
+2. It is not the Phase-1A packet. It is not SATISFIED evidence.
+   Bound=1 (CD-RT-5 default posture), unbound=7. Item 1 stays
+   UNBOUND because no head supplies verdict claims together with
+   match / no-match / indeterminate / error.
+3. Remaining unmet, named: the seven UNBOUND items; stale
+   recordedInputs on COORD and file 08 (S31V4-01 / S31V4-CX-A1);
+   whole-file freeze gate after D-044 gave DR-004 a §3.1 segment
+   pin (S31V4-02); adjacent malformed supplier shapes still
+   untyped (S31V4-CX-A2). Those advisories remain owed on a
+   successor.
+4. DR-002 and DR-004 stay HARD-BLOCKED. This recording
+   discharges neither. Condition 1 does not discharge. DR-004's
+   Route A still needs the eight-bullet Phase-1A packet, of
+   which this instrument is the other commissioned limb.
+   Conditions 2–5 remain. Condition 5 remains the only
+   implementation authorization. Does not edit file 08 (MF-6).
+   A later file-08 cell note that names this recording is a
+   separate MF-6 act if it changes register content. No freeze
+   motion. No blueprint.
+
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D045.
+- **Commit:** C-D045.
