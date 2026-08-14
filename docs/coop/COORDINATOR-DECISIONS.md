@@ -1146,3 +1146,54 @@ decision; nothing here forecloses slice 2.
 - **Reviewer:** adversarial review dispatched 2026-08-13; verdict recorded
   here.
 - **Commit:** C-D012, on adoption.
+
+## D-013 — DR-103: the accepted manifest/index/lock design contract
+
+- **Status:** ADOPTED 2026-08-13.
+- **Decision type:** RULE-GOVERNED (D-001 §3 classes DR-102/DR-103 as evidence-closing
+  rows; no product preference is exercised).
+- **Subject:** `component-manifest-schemas.v2.json`
+  `73114ddec12d3ec6dfbcb51b7002d983ff9dbfa1fa39189bb025008f1f501381`.
+- **Verdict:** `component-manifest-schemas.v2.review-independent.json`
+  `42004c95474a66a8bd7685862c9e205fe7c4a7fadc97ab90e408a2fb04f238dd` — **ACCEPT, 0
+  blockers**, 1 new advisory (V2-A1, latent in carried v1 bytes, not repair-minted).
+  Predecessor v1 `2733d766…` REJECTED at 6 blockers, verdict `27965f38…`.
+- **Route-A acceptance property (D-001 T2-02):** MET. 0 blockers; application-grade
+  language; reservation-language sweep of the VERDICT clean — 5 `reserv` hits, all
+  schema-local (three reserved binding points, one reserved-name refusal-family member, one
+  `recordedInputs` filename); zero acceptance reservations. The subject itself carries 60
+  such hits, all schema-local by construction. Zero named apply-conditions.
+
+**Decision.** Record the artifact as DR-103's accepted design contract. Reviewed bytes stay
+immutable (freeze §7.2), so the register row carries the acceptance. The row edit is this
+decision's only effect: DR-103 stays `OPEN`, because the fourth acceptance-evidence element
+(exact-byte test corpus) is unmet on the verdict's own words — the artifact carries fixture
+CLASSES, and no fixtures exist to run.
+
+- **Alternatives considered:** (a) *Use `SATISFIED`* — rejected: `SATISFIED` is
+  legend-defined as "exact acceptance evidence is linked and independently reviewed", and the
+  fourth element is unmet. (b) *Coin a new status label* (the turn-1 draft proposed
+  `DESIGN-ACCEPTED`) — rejected: D-006 turn-2 NOTE-03 states *"the closed status vocabulary
+  stays closed; coining an analog would itself be a register-content decision"*, so the path
+  exists but requires its own D-000-reviewed register-content decision, never a rider on an
+  application. (c) *Defer the row move until fixtures exist* — rejected: it would leave an
+  independently accepted contract unrecorded.
+- **Readiness effect:** condition 2 gains **zero** `SATISFIED` rows; conditions 1, 3, 4, 5
+  untouched. Condition 2's literal text needs no amendment — the row stays inside its
+  quantifier and stays unsatisfied.
+- **No freeze or claim-register motion; no pins move.** The subject's freeze and register
+  citations sit at `/sources/bindingSources` under its own `sources.citationDiscipline`:
+  stated as (path, digest-at-authoring, named property), so a later digest move re-points
+  nothing and strands nothing. Verified: file 08's own digest `f0d72536…` is pinned in no live
+  source.
+- **Reversibility:** total; no pinned source moves.
+- **Overturn:** supersession here + `git revert` of C-D013; revert is total.
+- **Reviewer:** three turns under D-000's clause. Turn 1 — five-lens adversarial panel plus
+  synthesis: 19 MUST-FIX, 7 SHOULD-FIX, 5 objections withdrawn by the reviewer's own
+  re-measurement. Turn 2 — 9 MUST-FIX, 4 SHOULD-FIX. Turn 3 — 13/13 turn-2 findings verified
+  discharged, 2 MUST-FIX, disposition **RECORD**. All 30 MUST-FIX and 11 SHOULD-FIX accepted;
+  **zero rebutted** across three turns.
+- **Commit:** C-D013.
+- **Provenance/environment:** the start-and-end record for file 08 (`f0d72536…`) and this
+  file (`a3d0d266…`) is the control-protocol verdict's `environment.registerAndDecisions`;
+  both re-measured identical at adoption.
