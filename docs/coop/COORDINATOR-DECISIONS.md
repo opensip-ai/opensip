@@ -1992,3 +1992,61 @@ entry.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D042.
 - **Commit:** C-D042.
+
+---
+
+## D-043 — Record section31-supplier-coverage.v3 as the accepted Lane R instrument
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-043.review-adversarial.claude2.turn2.json`,
+  `9c254021fb8b7a1e0b20cf8b0d3ada6717b2a3a9f699d49dfa4c81efe27ddb1e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-043.review-adversarial.codex.turn2.json`,
+  `4d548c6bbdeefd27a3de3c3491eb4f62c22482750a9319664d962f2794c0932f`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D043-01 and NOTE-C2-D043-01
+  accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Records independent
+  ACCEPT-WITH-ADVISORIES (0 blockers from both reviewers). Same
+  form as D-035 / D-038 / D-042.
+- **Subject:** `docs/coop/artifacts/section31-supplier-coverage.v3.json`
+  `9a544eb2a60012d0c312cbb9ce237e7743942472ba9834fe35821bdd1f1e80d0`
+  and `docs/coop/artifacts/check-section31-supplier-coverage-v3.py`
+  `b139c43a6af3237a6d1d3b20791d51d35a7bcf9eefe472fb09601b14b13f6446`.
+- **Verdicts:** Claude 2
+  `section31-supplier-coverage.v3.review-independent.claude2.json`
+  `08cc0583ad1d01a8816480bd671ea70e680bbf004b2445a3fd58373ea08c9fe9`
+  ACCEPT-WITH-ADVISORIES, 0 blockers. Codex
+  `section31-supplier-coverage.v3.review-independent.codex.json`
+  `d7b0fbfba1a6b345a7a691b5de51e81a14de1b322dcf2e2ea0e688b39d85fe41`
+  ACCEPT-WITH-ADVISORIES, 0 blockers.
+
+### Decision
+
+1. Record v3 as the accepted §3.1 item-to-supplier binding
+   instrument D-001 commissioned and D-036 started on Lane R.
+2. It is not the Phase-1A packet. It is not SATISFIED evidence.
+   Bound=1 (CD-RT-5 default posture), unbound=7. Item 1 stays
+   UNBOUND because no head supplies verdict claims together with
+   match / no-match / indeterminate / error.
+3. Remaining unmet, named: the seven UNBOUND items; checker
+   typed-FAIL on a BOUND row with no supplier key (S31V3-01);
+   PASS does not prove semantic completeness of a bound head
+   (S31V3-02); predecessor Codex verdict token is recited in
+   lowercase rather than the pinned `ACCEPT-WITH-ADVISORIES`
+   enum (S31V3-CX-A1). Those advisories remain owed on a
+   successor.
+4. DR-002 and DR-004 stay HARD-BLOCKED. This recording
+   discharges neither. Condition 1 does not discharge. DR-004's
+   Route A still needs the eight-bullet Phase-1A packet, of
+   which this instrument is the other commissioned limb.
+   Conditions 2–5 remain. Condition 5 remains the only
+   implementation authorization. Does not edit file 08 (MF-6).
+   A later file-08 cell note that names this recording is a
+   separate MF-6 act if it changes register content. No freeze
+   motion. No blueprint.
+
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D043.
+- **Commit:** C-D043.
