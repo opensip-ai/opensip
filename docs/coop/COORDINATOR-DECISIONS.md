@@ -3293,3 +3293,47 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-055, D-082, D-054, or D-057.
 - **Commit:** C-D083.
+
+---
+
+## D-084 — File 08 MF-6 note for the DR-011 parent owner recording
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-084.review-adversarial.claude2.turn2.json`,
+  `876fad35c30eb639de02751228afac91bf6b0649bbfc02d34c916321c7837d58`).
+  Codex
+  (`artifacts/coordinator-decisions.D-084.review-adversarial.codex.turn2.json`,
+  `de702e0f66b6469d8c12e75d52c0a0fbf0c456781154a5a7a652f9e0b1b7ef1d`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D084-SF1 and Codex SHOULD-FIX
+  ADV-D084-01 accepted (Readiness-effect enumeration; exact
+  "What that means" replacement; reversibility of that
+  paragraph). Turn-2 subject
+  `coordinator-decisions.D-084.turn2.draft.md`
+  `12cda10a846c7397666f65bd8b6f0f873d515752396a782bf6748bb3bd892ce2`.
+- **Decision type:** RULE-GOVERNED. File-08 content change (D-001
+  MF-6). Does not mark SATISFIED.
+- **Decision:** Keep leading labels. DR-011 stays HARD-BLOCKED.
+  Residuals stay not CLOSED. Append the scoped owner-recording
+  note for the DR-011 parent (D-083 + v3 + RB-DR011-V3-A1/A2/A3).
+  Update the snapshot preamble count from nine to ten
+  explicitly disposed. Rewrite the condition-1 "Measured now"
+  cell to 1 SATISFIED + 10 preview-disposed + 0 unresolved.
+  Standing of condition 1 is MET for architecture-preview
+  scope only. Replace the snapshot "What that means in one
+  sentence" paragraph. Do not coin a new file-08 status token.
+  Do not edit the nine D-070/D-081 notes. Do not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Condition 1 becomes MET for
+  architecture-preview scope only (1 SATISFIED + 10
+  preview-disposed = 11). Zero SATISFIED added. Residuals stay
+  not CLOSED. Condition 2 remains NOT MET. Condition 3 remains
+  MET. Condition 4 remains PARTLY MET. Condition 5 remains
+  NOT MET and last. Does not authorize
+  `docs/v2/implementation/`.
+- **Reversibility:** C-D084 plus restore of the prior DR-011
+  cell, prior condition-1 row, prior preamble count ("nine"),
+  and prior "What that means in one sentence" paragraph. Does
+  not overturn D-081 or D-083.
+- **Commit:** C-D084.
