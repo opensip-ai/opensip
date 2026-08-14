@@ -3375,10 +3375,13 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED bar is superseded for that eligible class only.
   D-015's recording of `control-protocol-contract.v2` stands.
   D-013's SATISFIED-refusal stands until fixture authoring
-  exists. This entry marks no row SATISFIED, rewrites none of
-  D-001's five checklist bullets, edits no file-08 cell,
-  coins no status token, and does not authorize
-  `docs/v2/implementation/`.
+  exists. Eligible in kind, not performed: DR-102, DR-115,
+  DR-119, DR-123. DR-103/104/105/114/118 and the twelve
+  no-contract rows remain ineligible. D-002/D-010 deferrals
+  stay on the deferral limb. This entry marks no row
+  SATISFIED, rewrites none of D-001's five checklist
+  bullets, edits no file-08 cell, coins no status token,
+  and does not authorize `docs/v2/implementation/`.
 - **Readiness effect:** Zero at adoption. Condition 2 stays
   NOT MET. Condition 3 remains MET. Condition 4 remains
   PARTLY MET. Condition 5 remains NOT MET and last. Does not
@@ -3394,46 +3397,28 @@ file-09 D-000 act. Left whole-document until then.
 
 ---
 
-## D-056 — Condition-2 SATISFIED versus qualification remainder
+## D-087 — Remove the duplicate D-056 heading
 
 - **Date:** 2026-08-14
-- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
   independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
-  (`artifacts/coordinator-decisions.D-056.review-adversarial.claude2.turn2.json`,
-  `8a95badbd92866d62f999a55c5226632880fb3498c75062aeab8f01f9bdf3d1c`).
+  (`artifacts/coordinator-decisions.D-087.review-adversarial.claude2.json`,
+  `8f115811adf66590815b1eb5290949a2383ab4e68106f281843b055c0176c5be`).
   Codex
-  (`artifacts/coordinator-decisions.D-056.review-adversarial.codex.turn2.json`,
-  `6e755bee06d991f9ac818899f7765690c9424a8e95199593bbce4ec3888fe434`).
-  Turn-1 Codex MUST-FIX ADV-D056-01 accepted (explicit scoped
-  successor amendment; do not claim evaluation-only). Turn-2
-  subject `coordinator-decisions.D-056.turn2.draft.md`
-  `dfb0c2af39ff31df9bf3609c131f03ee2d87a585dcd684abd633d47ffb11ed82`.
-- **Decision type:** RULE-GOVERNED. Scoped successor amendment
-  to SATISFIED evidence for a named eligible class, and to
-  D-015's SATISFIED-rejection for that class. Does not mark
-  SATISFIED. Does not coin `DESIGN-ACCEPTED`.
-- **Decision:** For an eligible row (Class A accepted T2-02
-  contract, or Class B `DECIDED-V1-NOT-INTEGRATED` whose
-  leftover is only execution/measurement), architecture
-  SATISFIED may later be recorded as the accepted design
-  contract or D-000 decision plus the named C4/DR-G* remainder
-  list. Execution remains condition 4 / DR-012. D-015's
-  design-contract recording stands. D-015's SATISFIED-rejection
-  is superseded for the eligible class only. Live cells stay
-  authoritative until a later own-cycle SATISFIED-GRADE review
-  plus MF-6 edit removes that cell's "until executed" /
-  "until measured" bar. Eligible in kind, not performed:
-  DR-102, DR-115, DR-119, DR-123. DR-103/104/105/114/118 and
-  the twelve no-contract rows remain ineligible. D-002/D-010
-  deferrals stay on the deferral limb. Does not rewrite
-  D-001's five bullets. Does not edit file 08. Does not
-  authorize `docs/v2/implementation/`.
-- **Readiness effect:** Zero at adoption. No SATISFIED. No
-  blueprint. Condition 2 stays NOT MET.
-- **Reversibility:** Total before any dependent SATISFIED
-  re-record. Overturn restores D-015's SATISFIED-rejection as
-  the governing SATISFIED rule for DR-102, restores the
-  live-cell bars, and restores the pre-amendment SATISFIED
-  legend reading. After a dependent re-record, overturn also
-  requires that re-record's supersession. Overturn: C-D056.
-- **Commit:** C-D056.
+  (`artifacts/coordinator-decisions.D-087.review-adversarial.codex.json`,
+  `fafcaf48c39bc1a146a0adf48d00bfaac9c51e7487a6407418d39d31151aa385`).
+  Subject `coordinator-decisions.D-087.draft.md`
+  `c61c2590dfc9d586beb244db78bd8a244fdb1b7aa35d904f093a5809d07cfb58`.
+- **Decision type:** RULE-GOVERNED. Recording hygiene. Does
+  not reopen D-056. Does not mark SATISFIED.
+- **Decision:** Keep the first D-056 recital. Delete the
+  second. Union the eligible/ineligible row-name sentence
+  into the kept Decision. Do not edit file 08. Do not adopt
+  the in-flight D-085 SATISFIED draft. Do not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. D-056's readiness effect is
+  unchanged. Condition 2 stays NOT MET. Condition 5 stays last.
+- **Reversibility:** C-D087 plus restore of the deleted
+  second recital and removal of the union sentence. Does not
+  overturn D-056. Overturn: C-D087.
+- **Commit:** C-D087.
