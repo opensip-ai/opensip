@@ -2178,3 +2178,49 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D045.
 - **Commit:** C-D045.
+
+---
+
+## D-046 — Convert the claim-matrix Key sealed laws pin
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-046.review-adversarial.claude2.turn2.json`,
+  `6e279b84ab89c7e14d594107d5fc0140f297652cac4813cd23a7eca7e0666a74`).
+  Codex
+  (`artifacts/coordinator-decisions.D-046.review-adversarial.codex.turn2.json`,
+  `e89db7c4c5f306f22d94226796c22c5565cbab9741ae709d354dac147e253982`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D046-01 and Codex SHOULD-FIX
+  ADV-D046-T1-01 accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Performs the file-09 conversion
+  D-044 named and routed. Same extraction rule as D-033 / D-044.
+- **Subject:** file 09 Key sealed laws standing citation only.
+
+### Decision
+
+1. Convert the Key sealed laws source pin from whole-file freeze
+   digest `e809d439…` to the §6 property pin
+   (`docs/coop/IMPLEMENTATION-FREEZE.md`, heading `## 6.
+   Non-negotiable implementation laws`, segment
+   `bfa71f42fb1e25d7d9556ea7549723b8e91af205147d3cca0d34558e1eba3b5e`).
+2. Does not edit file 08. Does not edit the baseline JSON.
+   Does not convert any other file-09 row.
+3. No SATISFIED. Condition 1 does not discharge. Conditions
+   2–5 remain. Condition 5 remains the only implementation
+   authorization. No freeze motion. No blueprint.
+   File-09 content change is this D-000-reviewed act (MF-6).
+4. **Refresh-rule classification.** This is property-pin
+   maintenance outside file 09's "Refreshing this matrix"
+   rule. The source path, freeze bytes, section selector,
+   laws 1–19, standings, and every other row remain unchanged.
+   `v1-authority-baseline.json` `/sources/1` intentionally
+   retains the whole-file freeze snapshot. Any later
+   substantive matrix change still triggers the full
+   baseline / every-row / five-lane refresh.
+
+- **Readiness effect:** Zero.
+- **Reversibility:** compound after the rewrite lands. Overturn:
+  C-D046, plus restore of the prior whole-file freeze pin
+  `e809d439…` as the Key sealed laws source pin.
+- **Commit:** C-D046.
