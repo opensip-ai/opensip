@@ -2561,3 +2561,39 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-028, D-039, D-054, or D-057.
 - **Commit:** C-D060.
+
+---
+
+## D-065 — Owner-record the DR-003 scoped preview TM
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-065.review-adversarial.claude2.json`,
+  `f4bc4c435d0a8247dcfbeedfb9cf65b3d7530924a6392839b37a59fe1365114f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-065.review-adversarial.codex.json`,
+  `b4c8e1064870f31025683aacea816dc7c60983c8eddd7e73729a97d834825b78`).
+  Subject `coordinator-decisions.D-065.draft.md`
+  `4c9495c0be14e22742e4337d808dc4a7839362506431acf1b68f702193f9de57`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** Threat-model authority + V1
+  coordinator.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-003.preview-tm.v2.json`
+  `d9084d4dc16bb450562520c2bed77cd80129bc65763f7ec2f55f3476c8989f52`
+  as the owner-recorded scoped preview TM for DR-003. May
+  discharge condition 1 for DR-003 within architecture-preview
+  scope only. Not a security-complete claim. TM stays UNSET for
+  the freeze. Does not mark DR-003 SATISFIED. Reviewed closure
+  of V10/custody and G19, publication-block demonstration, and
+  final TM disposition remain owed on Route A. Conditions 2–5
+  remain. Condition 5 remains the only implementation
+  authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-003 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D065, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-030, D-041, D-054, or D-057.
+- **Commit:** C-D065.
