@@ -1615,3 +1615,71 @@ entry.
   not prevent this recording. No freeze motion. No `SATISFIED`.
 - **Readiness effect:** condition 2 gains zero `SATISFIED` rows.
 - **Overturn:** supersession + revert of C-D035. **Commit:** C-D035.
+
+---
+
+## D-032 — DR-105 / DR-114 actor scope (Option B + measured tails)
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 3 of 3: zero MUST-FIX from
+  either reviewer. Claude 2 SHOULD-FIX (BLK-6 write token) and Codex
+  SHOULD-FIX (catalog + CA-3 routes) accepted into these bytes.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** whether host surfaces under the user's direct
+  instruction are subject to DR-105 component permissions.
+- **Decision:** Host-under-instruction is outside DR-105 (fourth
+  deliberate non-token). Doctor consent is a doctor-side
+  invocation-bound record, not a grant. Component tails (CA-1 spawn,
+  component CA-4 egress) stay in DR-105. Host-actor owners:
+  Operability + security jointly with Security + platform owners. A
+  scoped host-effect authorization contract is **necessary, not
+  sufficient**, before CA-1 host head, CA-2, CA-3, or host CA-4 is
+  exercisable; until then fail-closed. That contract's mandatory
+  minimum includes typed host outcomes: completed,
+  definitely-not-performed, unknown/indeterminate (BLK-3 stays
+  STILL-ROUTED, not discharged). CA-2 also needs DR-119 (and
+  DR-117/128 if third-party). CA-3: out-of-root read, local
+  socket/pipe, privileged facility → host-effect contract;
+  keychain → DR-108, still deferred, unexercisable. `permissionRef`
+  permanently reserved. Slice-1 doctor egress execution side remains
+  for that contract. Join blockers: BLK-1/2/3/4 STILL-ROUTED as
+  above; BLK-5 DISCHARGED; BLK-6 DISCHARGED-AS-INAPPLICABLE for host
+  default **reads and** doctor's operational-metadata write
+  (FS-WRITE-HOST-STATE is not a component grant; fail-closed if that
+  class is denied); BLK-7 REPAIRED-IN-V4. Applies no candidate.
+- **Readiness effect:** Zero. No SATISFIED. No blueprint.
+- **Reversibility:** total before conforming successors; then also
+  their owning-authority supersession. **Commit:** C-D032.
+
+---
+
+## D-036 — Coordinator execution sequence (partial order)
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Claude 2 turn-3 CONSENT
+  (`…claude2.turn3.json`). Codex no MUST-FIX; remaining SHOULD-FIX
+  (pin turn-2 verdicts) accepted into the catalog below.
+- **Decision type:** PREFERENCE-LADEN.
+- **Depends on:** D-018 (ADOPTED). Uses D-028, D-029, D-030
+  (ADOPTED) when their dispositions are authored. Does not require
+  D-025.
+- **Decision:** Two lanes. Lane R = condition-1 Route A work, starts
+  now, including the §3.1 supplier-coverage instrument (one
+  instruction: it starts). Lane P is a **partial order**: P1 product
+  decisions, P2 register-mechanics, P3 actor-scope, P4a D-028
+  disposition, P4b D-029 disposition are independently ready; P4c
+  D-030 waits on P3 only if the TM must name the actor split (test:
+  adopted D-030 bytes + DR-003 file-08 cell); P5 analyze contracts
+  wait on P1 only. Changing that node set requires a successor.
+  Owner = file-08/D-001 surface owner. Contended owner: Lane R item
+  before that owner's Lane P item. Scheduling authorizes drafting
+  only. Authorizes no blueprint. Condition 5 remains the only
+  implementation authorization. Condition 2 follows SF-3; condition
+  4 follows D-001/D-002; this entry changes neither.
+- **Turn-2 verdicts pinned:** Claude 2
+  `cd626b909619fa59b128b0c23478b60d53c90be7370bbd4a916a25c4ae32dbcb`;
+  Codex
+  `cca4d2e53a0090a37205cbfa0c642e4ddefea5a77cf4d3bcbfb40aa1a867983a`.
+- **Readiness effect:** Zero.
+- **Reversibility:** total before execution; then prospective.
+  **Commit:** C-D036.
