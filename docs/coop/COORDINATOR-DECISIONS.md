@@ -1292,3 +1292,120 @@ inside the decision register.
   split itself lawful against D-001 SF-4's actual words and confirmed D-014 reads coherently
   without it.
 - **Commit:** C-D016 — this file only.
+
+## D-014 — EVIDENCE: apply `evidence.v15`; AC-2 satisfied; AC-1 routed; validator commissioned
+
+- **Status:** ADOPTED 2026-08-13.
+- **Decision type:** RULE-GOVERNED throughout. The §3.1 item-4 carrier, which D-001 §4 marks
+  preference-laden, is **not** decided here — it is **D-016**, and this decision asserts
+  nothing about it.
+- **Subject:** `evidence.v15.json`
+  `28dc3c1aaa97f723afa8c079682a43999ca5c79686e7cde0f11e38421a179b29`.
+- **Verdict:** `evidence.v15.review-independent.json`
+  `3018c2f9cb14ba68e4a347092266e807ef620050e6eb2d7a0a5924af82d45aa1` — **ACCEPT, 0 blockers**,
+  1 record-only advisory. Arc: v11 REJECT(3) → v12 REJECT(5) → v13 REJECT(1) → v14 REJECT(2) →
+  v15 ACCEPT. Verdict standing: `sealRecommendation: DO-NOT-SEAL`,
+  `integrationAuthorized: false`.
+- **Route-A property:** MET; the verdict records `routeAAcceptanceProperty: "MET (0 blockers
+  required; 0 measured)"` in its own bytes.
+
+**Part 1 — applied.** The effective contract is the FULL-CHAIN resolution
+v15→v14→v13→v12→v11→v10 — 20 declared operations over five links, every declared link digest
+equal to measured — resolving at **0 errors** under both corpus resolvers to canonical
+`4976151e6ccfd6fd25487e2ebf9e20af3b971e5bc4879b66f11b11c43ba3c573` (163,784 bytes, 43
+top-level keys). `evidence.v10` is the full-text TERMINUS. A one-hop application of v15's three
+operations directly over v10 **REFUSES at 3 errors** and must not be attempted: §7.3's terminus
+rule is retention-v28's shape, and this lineage is its exact inverse. The turn-1 draft's
+"one-hop per §7.3" was measurably false and was struck.
+
+**Part 2 — AC-2 satisfied; AC-1 not discharged, and routed.** AC-2: five independent reviews,
+each dispatched against frozen bytes not under authoring (§7.2.1). AC-1's descent chain and
+resolved pointers are recorded in the DR-002 cell. The composition across five verdicts is the
+**coordinator's**; the only verdict adjudicating AC-1 by name (v11) recorded `EV10-IR-01: NOT
+DISPOSED` and `EV10-IR-02: PARTIALLY DISPOSED`, and no later verdict reverses those by name.
+DR-204 already held the 2026-08-12 DR-001 disposition unlawful for its grade because it was
+coordinator-recorded without independent review; recording a coordinator-composed AC-1 as
+discharged would repeat that defect. **AC-1 is therefore routed to a focused independent
+adjudication**, and the pending position is carried in the register row only — never in the
+freeze rider — so the adjudication's return costs one register edit and no freeze motion, no
+pin cascade and no further DR-001 re-open. No new status token is minted.
+
+**Part 3 — AC-3 and AC-4 not discharged.** AC-3 rests on two true grounds: this decision
+authorises no claim-register motion (the bound both the C-2 and R-1 records name), and AC-3's
+own text requires binding artifact and validator to move together. The commissioned instrument
+`check-evidence-resolved-head-28dc3c1a.py` (`e01d3524…`) exists and discharges both limbs of
+D-001 NOTE-1, but its independent review **RETURNED REJECT at 1 blocker** (`IR-EVRH-B1`,
+hostile-input totality; acceptance property NOT MET; verdict `5ad6b9a5…`), so the validator
+half requires a **repaired successor and a fresh review**, not the return of a pending one; a
+repair is commissioned. Stated correctly, the corpus precedents are: **C-2 is the model** — its
+binding moved once the instrument carried standing; **R-1 is the counter-example the corpus
+records** — its binding sits at v1.9 with the UNREVIEWED `check-r1-v1.7.py`, and
+`check-package-coherence.py` reports `PC-6-REGISTER-AHEAD-OF-LEDGER` on the live tree. A
+binding *has* moved with an unreviewed validator; this decision declines to do it again. AC-4:
+the §3.1 eight-bullet packet does not exist (DR-004). The freeze §3 EVIDENCE seal stays
+`UNSET — BLOCKS FREEZE`.
+
+**Part 4 — DR-001 re-opens**, recorded in its status cell in this same commit, because
+readiness condition 1 is evaluated over row status. Condition 1 nets to **zero** `SATISFIED`
+rows until the re-record lands.
+
+**Edits — one atomic commit.** Atomicity is necessary, not stylistic: this commit moves the
+freeze **and** the blueprint, which together strand the same seven citations the 2026-08-12
+record named, and §7.10 rule 2 holds that an intermediate state is not a pinnable state.
+Landed: the freeze §3 EVIDENCE rider (chain members as **bare code-span digests, never links**,
+because `bind_pairs()` binds any linked non-review `.json` in a §3 row as a binding artifact —
+the tree already carries two `PC-3-ARTIFACT-ONLY-IN-FREEZE` findings created exactly that way
+by the D-005 record); the blueprint §1.1 applied-head row; the register's DR-002, DR-001 and
+DR-011-R06 cells (the last **NARROWED**, a word already in use on the sibling row); the five
+live freeze pins (DR-004, DR-005, DR-006, DR-011, DR-012) and DR-011's blueprint pin; a new
+pin-move record stating the count and **expressly superseding** the terminal-sync note's two
+present-tense sentences, with property verification covering every cited property including §3
+FACT-PLANE, §9, §7 outside the rider, R2-FINAL-03 and blueprint §1.1; the claim matrix's **Key
+sealed laws** pin and its Evidence row; and both v1 manifests, which remain **MEASURED**, not a
+SATISFIED re-record. New freeze `e809d4395f394a507c36c23c069d566c838b2283c931b6d2d13797be53406dbd`; new blueprint `909394c54dbd3588b9e455391f0fb2c5b1d2af51c9ca03b6802b1db47e44b7ad`.
+
+**§7.9 census, measured before and after on this commit.** `check-package-coherence.py`:
+**12 → 12**. `PC-5-STALE-HEAD(evidence)` **closed**; `PC-6-REGISTER-STALE-BINDING(EVIDENCE)`
+**opened by design**, because reconciling the claim register is a separate coordinator act not
+authorised here (the R-1 record of 2026-08-05 records the identical shape); `PC-3` did **not**
+open for the evidence chain — the link discipline held, and the blueprint §1.1 row moved in the
+same commit. Pre-existing and untouched: two `PC-7`, two `PC-3-ARTIFACT-ONLY-IN-FREEZE` and two
+`PC-2-NO-DIGEST` from the D-005 record's links, one `PC-2-DIGEST-DRIFT` and one
+`PC-3-DIGEST-DISAGREE` on the claim register, one `PC-5-STALE-HEAD(delivery)`, one
+`PC-5-STALE-HEAD(r1)`, one `PC-6-REGISTER-AHEAD-OF-LEDGER(R-1)`.
+
+**A standing condition measured and routed, not created here.** `artifacts/freeze-payload-manifest.txt`
+is the §9.2 payload manifest, rooted at `docs/coop` and excluding the freeze itself. Measured at
+this commit: **619 recorded paths against 694 live**, 3 already drifted
+(`check-completeness.py` and `check-completeness-v2.py` from the reviewed dialect repair, and
+`claim-register.v1.json`) and **75 absent**, including `COORDINATOR-DECISIONS.md` itself — the
+coordinator lane's entire output post-dates the manifest's capture. This commit's blueprint edit
+adds a fourth drift. The condition **predates this decision and is not caused by it**;
+regenerating the manifest is a §9.2 act with its own recorded procedure and authority, so it is
+**routed as its own act and is expressly not authorised here**. Recorded rather than left
+silent, because a manifest that is 75 files behind is exactly the kind of surface that reads as
+current to a later auditor.
+
+- **Alternatives considered:** (a) *State the provenance plainly and grade AC-1 discharged* —
+  rejected: DR-204 ruled that shape unlawful for its grade on DR-001, and repeating it inside
+  the decision that repairs an instance of it is indefensible. (b) *One-hop application over
+  v10* — rejected: measured, refuses at 3 errors. (c) *Defer the whole application until the
+  adjudication returns* — rejected: the application is independently warranted at 0 blockers,
+  and deferring would leave the corpus's documents naming v10 while a reviewed successor sits on
+  disk (the live `PC-5-STALE-HEAD(evidence)` finding). (d) *Move the claim-register binding now*
+  — rejected: AC-3 requires artifact and validator together, the validator's review returned
+  REJECT, and the R-1 counter-example shows the cost. (e) *The item-4 carrier route (a)* — not
+  this decision's; see D-016.
+- **Reversibility:** one hop. `git revert C-D014` restores the freeze, blueprint, both manifests
+  and every pin together — which is why it is atomic.
+- **Overturn:** supersession here + `git revert C-D014`; the revert also restores DR-001's
+  SATISFIED standing and re-opens `PC-5-STALE-HEAD(evidence)`. D-016 overturns independently.
+- **Reviewer:** three turns under D-000's clause — turn 1: 19 MUST-FIX, 7 SHOULD-FIX, 5
+  withdrawn; turn 2: 9 MUST-FIX, 4 SHOULD-FIX; turn 3: 13/13 discharges verified, 2 MUST-FIX,
+  disposition **RECORD**. All 30 MUST-FIX and 11 SHOULD-FIX accepted; **zero rebutted**. The
+  turn-3 reviewer additionally verified that routing AC-1 is honest rather than a route to
+  failure, by resolving the chain independently and reading the three dispositions.
+- **Commit:** C-D014.
+- **Recorded limit.** No review turn examined the SUBSTANCE of the applied artifact; every
+  objection audited whether this entry's statements about the verdict replicate. If the v15
+  verdict is wrong on the merits, nothing in this cycle catches it.
