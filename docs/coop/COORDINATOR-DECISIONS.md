@@ -3553,6 +3553,46 @@ file-09 D-000 act. Left whole-document until then.
   (`artifacts/coordinator-decisions.D-089.review-adversarial.codex.turn2.json`,
   `a2291f0740920a63b81c1e9cfaed0da4206ef6ec3cd66b213aed6944b8a46b9a`).
   Turn-1 Claude 2 MUST-FIX D089-MF-1 / D089-MF-2 and SHOULD-FIX
+  D089-SF-1 accepted. Codex SHOULD-FIX ADV-D089-01 / 02 / 03
+  accepted. Turn-2 subject
+  `coordinator-decisions.D-089.turn2.draft.md`
+  `a31cf8ee0d5d161fde998784dda5a518dd0b1eab87e4e124b5e8ccc180930e62`.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
+  D-056 Class B. File-08 MF-6. Does not execute measurement
+  harnesses. Does not claim QUALIFIED.
+- **Decision:** Record DR-115 SATISFIED for architecture-preview
+  condition 2. Measurement remains condition 4 / DR-G01..G05 /
+  DR-012. Replace the unique DR-115 lead prefix and the
+  Blueprint-impact hard-blocker. Rewrite condition 2 to 2 of
+  30 SATISFIED, standing NOT MET, preserving D-085 remainders
+  and the DR-103 contract note. Replace only "condition 2
+  remains 1 of 30 SATISFIED" in the one-sentence summary. Do
+  not edit D-088 gate-harness cells. Do not mark
+  DR-103/118/119/123 SATISFIED. Do not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 becomes 2 of 30 SATISFIED
+  and stays NOT MET. Condition 4 remains PARTLY MET at 16 of
+  18. Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D089 plus restore of the prior unique
+  DR-115 lead prefix, Blueprint impact cell, condition-2
+  snapshot including D-085 remainder text, and "1 of 30"
+  clause. Does not overturn D-006, D-056, D-085, D-086, or
+  D-088. Overturn: C-D089.
+- **Commit:** C-D089.
+
+---
+
+## D-089 — Record DR-115 SATISFIED under D-056 Class B
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-089.review-adversarial.claude2.turn2.json`,
+  `e920fa6ab04422345c0881999959fd3180aadea8a5ab501acef658c23cdad280`).
+  Codex
+  (`artifacts/coordinator-decisions.D-089.review-adversarial.codex.turn2.json`,
+  `a2291f0740920a63b81c1e9cfaed0da4206ef6ec3cd66b213aed6944b8a46b9a`).
+  Turn-1 Claude 2 MUST-FIX D089-MF-1 / D089-MF-2 and SHOULD-FIX
   D089-SF-1 accepted. Turn-1 Codex SHOULD-FIX ADV-D089-01 /
   ADV-D089-02 / ADV-D089-03 accepted. Turn-2 subject
   `coordinator-decisions.D-089.turn2.draft.md`
