@@ -3225,3 +3225,35 @@ file-09 D-000 act. Left whole-document until then.
   lands. After one lands, overturn also requires that
   disposition's owning-authority supersession. Overturn: C-D055.
 - **Commit:** C-D055.
+
+---
+
+## D-082 — Record the DR-011 preview Route B disposition v3
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-082.review-adversarial.claude2.json`,
+  `68049326c7586a2cdb87d4951a819a1f30c15aff85870829b2b66b6b296c8c44`).
+  Codex
+  (`artifacts/coordinator-decisions.D-082.review-adversarial.codex.json`,
+  `1dfc06069cbe9dd5708524a36ae8c39b5a0016e7ecf4a2374790d9da0900c5f7`).
+  Subject `coordinator-decisions.D-082.draft.md`
+  `91fcdbb6e638b99d49ad7c139e9b8bc8a07afe48948335a4c98b5ce13ca94862`.
+- **Decision type:** RULE-GOVERNED. Records independent
+  ACCEPT-WITH-ADVISORIES plus riders. Same form as D-039 / D-076.
+- **Subject:** `route-b.DR-011.preview-disposition.v3.json`
+  `f1c7f6b7f6a827b34e0aac1533bab581198181d7a35236eceb9de64ca41be1b1`
+  plus riders RB-DR011-V3-A1, RB-DR011-V3-A2, RB-DR011-V3-A3.
+- **Decision:** Record v3 as the accepted draft D-055 authorized.
+  Owners remain V1 coordinator and each surface owner. This is
+  not owner recording. The disposition owners must record is v3
+  plus: A1 restores named propertyPins; A2 R06/R07 stay
+  NARROWED; A3 R16 cites DR-010 not D-010. Residuals stay not
+  CLOSED. DR-011 stays HARD-BLOCKED. Condition 1 does not
+  discharge until those owners record. Conditions 2–5 remain.
+  Condition 5 remains the only implementation authorization.
+  Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D082.
+- **Commit:** C-D082.
