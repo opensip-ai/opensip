@@ -1484,3 +1484,41 @@ entry.
   CONSENT on this entry. All MUST-FIX and SHOULD-FIX against the predecessor bundle were
   accepted and this entry is the naming-only remainder. Zero rebutted.
 - **Commit:** C-D018.
+
+---
+
+## D-017 / D-019–D-024 — first completion-sequence cycle (CONTESTED)
+
+- **Date:** 2026-08-13
+- **Status:** **CONTESTED** after three turns under D-000 clause 2. Not adopted. No
+  forced consensus. Parked. Successor drafts are D-025–D-031, a **new** cycle, not a
+  fourth turn of this one.
+- **Decision type:** mixed; see the terminated drafts. D-018 was severed and ADOPTED
+  at C-D018 and is not part of this contest.
+- **Subject drafts:**
+  - turn 1 `coordinator-decisions.D-017-018.draft.md` `920667f9…`
+  - turn 2 `coordinator-decisions.D-017-021.turn2.draft.md` `744ad8e3…`
+  - turn 3 `coordinator-decisions.D-017-024.turn3.draft.md` `4cffad69…`
+- **Terminal verdicts (turn 3):**
+  - Claude 2 `coordinator-decisions.D-017-024.review-adversarial.claude2.turn3.json`
+    `3fdc6294e2a1d5a3dc73d03328911fc44de7d42fdbdc4fc1677a0f4f34b2940c` — OBJECTIONS;
+    consensus unavailable; surviving MUST-FIX: D-020/D-022 inherit D-019 operative
+    clauses; shared recording rule extends D-000 to V1 surface authorities it does
+    not name.
+  - Codex `coordinator-decisions.D-017-024.review-adversarial.codex.turn3.json`
+    `3d89052eeddcab30f2f250cb7474fa5ce699babb1b90321a3c14b925e4ce1548` — OBJECTIONS
+    except D-024 CONSENT; surviving MUST-FIX: D-019–D-023 not self-contained
+    (shared blocks + D-020/D-022 inherit D-019).
+- **Both positions (required by D-000 clause 2):**
+  - **Coordinator:** the destination acts (consume file 11 via D-001 routes; per-row
+    preview Route B; scoped TM; two-lane sequence) remain the intended next
+    decisions. The surviving defects are mechanical: inline operative text; do not
+    extend D-000 to V1 surface owners; distinguish scheduling from live work.
+  - **Reviewers:** CONSENT is unavailable on the turn-3 bytes. Claude 2 notes the
+    MUST-FIX items are narrow and repairable in a fresh dispatch. Codex CONSENTs
+    only D-024.
+- **What proceeds:** work continues on other surfaces and on successor entries
+  D-025–D-031. This contest does not authorize `docs/v2/implementation/`, write a
+  Route B disposition, or move any file 08 status cell.
+- **Commit:** C-D017-cycle-CONTESTED (this record plus the retained turn-3
+  verdicts).
