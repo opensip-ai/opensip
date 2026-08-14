@@ -2463,3 +2463,29 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-047, D-049, D-054, or D-057.
 - **Commit:** C-D058.
+
+---
+
+## D-059 — Owner-record DR-004 (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. Claude 2 turn 3
+  CONSENT
+  (`artifacts/coordinator-decisions.D-059.review-adversarial.claude2.turn3.json`,
+  `532426b62ae6397da62651eed8543d3371d7ddd0f24749381a416f0fabf2cef4`).
+  Codex turn 3 OBJECTIONS, 1 MUST-FIX ADV-D059-T3-01 (prompt
+  rewritten during review) and 1 SHOULD-FIX ADV-D059-T3-02
+  (subject still self-identifies as turn 2)
+  (`artifacts/coordinator-decisions.D-059.review-adversarial.codex.turn3.json`,
+  `99fecafab5708c33005659907732002d2a857a592e3d97889e3bf47d1fe1b4a4`).
+  Decision merits passed on both sides. Process freeze failed.
+- **Decision type:** RULE-GOVERNED. Not adopted.
+- **Subject:** `coordinator-decisions.D-059.turn3.draft.md`
+  `28719de662a2ccd2a0da289e78a554606a7e7623a37ae262b4bc1788d32543ea`.
+- **Decision:** None. DR-004 is not owner-recorded. A later new
+  cycle (not turn 4 of this cycle) may retry.
+- **Readiness effect:** Zero. Condition 1 for DR-004 does not
+  discharge.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D059.
