@@ -2692,3 +2692,38 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D066.
 - **Commit:** C-D066.
+
+---
+
+## D-068 — Product-owner record of product-boundary-preview.v2 for DR-010
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-068.review-adversarial.claude2.json`,
+  `288db3f141dfda53f48a1c0afdc953246835824cb66461c82973dda38afb6f21`).
+  Codex
+  (`artifacts/coordinator-decisions.D-068.review-adversarial.codex.json`,
+  `774c32e7d7ae74b593547cd4644fa3f5e7bb076ae7e7bfc35d57ef77604b6172`).
+  Subject `coordinator-decisions.D-068.draft.md`
+  `469274041da731de484eb2e2c118939f69c2488242778843b39e407fd09d293d`.
+- **Decision type:** PREFERENCE-LADEN. Product-owner recording
+  under D-000. Not D-054.
+- **Owner role (file 08):** Product owner.
+- **Decision:** Record
+  `docs/coop/artifacts/product-boundary-preview.v2.json`
+  `ff7a09130a2b5b409b02725a839f9d7b5fb88e945d7f9bbb63c0d0154c627b85`
+  as the preview-scope product disposition of file 02's seven
+  binding items (PB-1..PB-6 EXCLUDED, PB-7 NOT REPLACED). P-1,
+  P-2, and G3-SUBSTRATE are preserved. CD-RT-5 is untouched.
+  May discharge condition 1 for DR-010 within
+  architecture-preview scope only. Does not mark DR-010
+  SATISFIED. Does not close DR-117 or DR-011-R16. Conditions
+  2–5 remain. Condition 5 remains the only implementation
+  authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-010 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D068, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-066.
+- **Commit:** C-D068.
