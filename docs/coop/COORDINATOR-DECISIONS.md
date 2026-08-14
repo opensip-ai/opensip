@@ -1197,3 +1197,48 @@ CLASSES, and no fixtures exist to run.
 - **Provenance/environment:** the start-and-end record for file 08 (`f0d72536…`) and this
   file (`a3d0d266…`) is the control-protocol verdict's `environment.registerAndDecisions`;
   both re-measured identical at adoption.
+
+## D-015 — DR-102: the accepted control-protocol design contract
+
+- **Status:** ADOPTED 2026-08-13.
+- **Decision type:** RULE-GOVERNED.
+- **Subject:** `control-protocol-contract.v2.json`
+  `c50a79fef566ecccbd8913a3d309b0cf7332f7d77f892474a548ef3d7b4ebdca`.
+- **Verdict:** `control-protocol-contract.v2.review-independent.json`
+  `937626695418d1cad10962bdded0d2aa29dadb005b345408edb7e8fbdc84b015` — **ACCEPT, 0
+  blockers**, 2 new advisories (A-CPC2-01/02). Predecessor v1 `17fa1bcb…` REJECTED at 3
+  blockers, verdict `5ff15a05…`.
+- **Route-A acceptance property:** MET. Reservation-language sweep of the VERDICT clean —
+  three `reserv` hits, all forms of "preserve" (two order-preservation statements, one the
+  technical term "write-boundary non-preservation"); zero acceptance reservations. The subject
+  carries 9, likewise none an acceptance reservation. No apply-conditions.
+
+**Decision.** Record the artifact as DR-102's accepted design contract, on the same terms and
+in the same vocabulary as D-013 — the row stays `OPEN`, because the classes are
+specifications and no harness executes them.
+
+**Correction of record.** The turn-1 draft routed conformance-fixture authoring to
+"DR-120/DR-G15". Measured in the subject: `DR-G15` **0**, `DR-G21` **8**, `DR-120` **4**; the
+verdict likewise carries `DR-G15` 0. DR-G15 is the PACKAGING-ADAPTER-CONFORMANCE gate —
+DR-103's route (correct there, per that artifact's ID-DEP-8), pasted onto this decision. A
+named-but-wrong route reads as closed while stranding CC-1..CC-11 at a gate whose owner set
+contains neither DR-102's protocol authority nor the containment authority. DR-G15 is dropped
+from this row entirely; DR-120 is kept only where the subject puts it (T-4).
+
+- **Alternatives considered:** as D-013 — use `SATISFIED`; coin a label; defer the row move.
+  Rejected on the same grounds.
+- **Readiness effect:** condition 2 gains **zero** `SATISFIED` rows. DR-127 gains **no**
+  design-level supplier from CC-1..CC-11 — the classes are specifications, not executed
+  evidence — and its cell is untouched. Conditions 1, 3, 4, 5 untouched.
+- **No freeze or claim-register motion; no pins move** — same basis as D-013. The subject
+  carries its citations under `recordedInputs.governingSources`, scoped by the sibling field
+  `recordedInputs.discipline` to the authoring session.
+- **One-vocabulary guarantee:** D-013 and D-015 use the same wording class, adopted together
+  after both reached consensus, so no window existed in which the two rows could disagree.
+  They remain separately revertible commits. Verified: `f0d72536…` (file 08), `797d4624…`
+  (claim matrix) and `a3d0d266…` (this file) are pinned in no live document, so C-D013 and
+  C-D015 strand nothing at any ordering relative to C-D014.
+- **Reversibility:** total; no pinned source moves.
+- **Overturn:** supersession here + `git revert` of C-D015; revert is total.
+- **Reviewer:** the same three-turn cycle recorded at D-013.
+- **Commit:** C-D015.
