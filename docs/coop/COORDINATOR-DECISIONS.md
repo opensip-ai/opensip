@@ -2634,3 +2634,29 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-029, D-040, D-054, or D-057.
 - **Commit:** C-D061.
+
+---
+
+## D-051 / D-052 / D-053 — Select Route B for DR-006, DR-007, DR-009 (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. Claude 2 turn 3
+  CONSENT on all three entries
+  (`artifacts/coordinator-decisions.D-051-053.review-adversarial.claude2.turn3.json`,
+  `fb386ef598fb970c168d1270bcdd3029b177d7de5f131be40375dfb8b25a31ad`).
+  Codex turn 3 OBJECTIONS, 0 MUST-FIX, 1 SHOULD-FIX
+  ADV-D051-053-T3-01 (wants a three-turn ledger disposing the
+  turn-2 Codex finding on the frozen subject's protocol line)
+  (`artifacts/coordinator-decisions.D-051-053.review-adversarial.codex.turn3.json`,
+  `9826b2a8b2be5567a5567669ce2a23972ed7ce18b8d803a8df154d8fabef0fb4`).
+  Decision merits passed on Claude's side. Process ledger
+  incomplete on Codex's side.
+- **Decision type:** PREFERENCE-LADEN. Not adopted.
+- **Subject:** `coordinator-decisions.D-051-053.turn3.draft.md`
+  `231abf8ae41a3cde92861d1e270486d65e72c932be5491d6bf5bccb9cde40940`.
+- **Decision:** None. Route B is not selected for DR-006, DR-007,
+  or DR-009. A later new cycle (not turn 4) may retry.
+- **Readiness effect:** Zero.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D051-053.
