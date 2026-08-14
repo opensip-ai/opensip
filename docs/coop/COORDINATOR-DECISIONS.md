@@ -1683,3 +1683,58 @@ entry.
 - **Readiness effect:** Zero.
 - **Reversibility:** total before execution; then prospective.
   **Commit:** C-D036.
+
+---
+
+## D-037 — Consume file 11 via D-001 routes
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-037.review-adversarial.claude2.turn2.json`,
+  `a296494f32c9e2f3151a360074579f108d14970141ff189bb4831ddb7320af93`).
+  Codex
+  (`artifacts/coordinator-decisions.D-037.review-adversarial.codex.turn2.json`,
+  `f7b995208a740ed4beb3322684ccf71229e20e0bc515dd07411779b58bbe5999`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D037-01 and C2-D037-02 accepted into
+  the adopted bytes. Codex NOTE-D037-T2-01 is this recording.
+- **Decision type:** RULE-GOVERNED. Restates file 08's only-checklist
+  rule, file 07/10 competing-list disclaimers, file 11's header, and
+  D-001 A/B/C. Adds no fourth route.
+- **Supersedes:** CONTESTED D-017 and the unadopted D-025 draft only.
+  D-025 has no register entry and is not CONTESTED. D-028, D-029,
+  and D-030 from that cycle are ADOPTED and are not superseded.
+- **Subject:** the relationship between file 08 and file 11.
+
+### Decision
+
+1. File 11 has no authority. File 08 wins on workflow; V1 on
+   meaning; D-001 on done.
+2. "Complete 08 then turn to 11" is not a lawful sequence.
+3. File 11 items become live work only via D-001 A, B, or C.
+   Route C recording forms this corpus has used include, but are
+   not limited to: product packet; user-made coordinator-register
+   record; D-000 on-behalf entry. New forms still need authority
+   from the product-disposition process, D-000, or the user.
+   File-08 amendments are not a fourth route. Per MF-6, any
+   file-08 content change still needs its own D-000-reviewed
+   entry. A product act is not a substitute for that review.
+4. Scheduling (D-036) authorizes drafting only, not live work.
+5. D-001 is not amended. No wholesale gap import. File 11
+   placement not decided.
+6. After an item becomes live work, file 11 is historical for
+   that item, not a queue. This entry creates no execution
+   checklist.
+
+- **Alternatives considered:** (a) Treat 11 as a second checklist —
+  rejected. (b) Closed three-form Route C set — rejected (D-025
+  defect). (c) Product packet substitutes for MF-6 — rejected.
+  (d) Call the unadopted D-025 draft CONTESTED — rejected: no such
+  register record exists; CONTESTED is a closed status word.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D037. If D-036's scheduling
+  citation of this rule exists, that citation is independent
+  (D-036 already states the rule in full).
+- **Reviewer:** two independent adversarial reviewers under D-000,
+  turn 2 of 3. Both CONSENT. Zero rebutted.
+- **Commit:** C-D037.
