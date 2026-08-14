@@ -2224,3 +2224,69 @@ file-09 D-000 act. Left whole-document until then.
   C-D046, plus restore of the prior whole-file freeze pin
   `e809d439…` as the Key sealed laws source pin.
 - **Commit:** C-D046.
+
+---
+
+## D-047 — Select Route B for DR-002 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-047-048.review-adversarial.claude2.turn2.json`,
+  `c0326396aa26863fd68d25da08075664b3989ee2028ab24c067686496e1a5d25`).
+  Codex
+  (`artifacts/coordinator-decisions.D-047-048.review-adversarial.codex.turn2.json`,
+  `1bd7d8ad53ae503bbf67496cd9a5d16c2a7a14dd2e4ef3b13fe0c992de551f7e`).
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-002 only.
+- **Owning V1 authority (file 08):** Evidence authority + V1
+  coordinator.
+- **Decision:** Select Route B for DR-002, architecture preview
+  only. This selection is one row. Preview-scoped. AC-1
+  adjudication, AC-3 validator + claim-register motion, and
+  AC-4 Phase-1A packet remain owed on the authoritative path.
+  Coordinator selects; named owners record; coordinator may
+  draft. D-000 does not make the coordinator the Evidence
+  authority. Independent review is required. A
+  coordinator-composed SATISFIED is unlawful (DR-204). Writes
+  no disposition. Marks nothing SATISFIED. Authorizes no
+  blueprint. A completed, reviewed, owner-recorded disposition
+  may discharge condition 1 for DR-002 within the scope it
+  names. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D047.
+- **Commit:** C-D047.
+
+---
+
+## D-048 — Select Route B for DR-004 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-2
+  verdicts as D-047.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-004 only.
+- **Owning V1 authority (file 08):** Evidence/retention authority.
+- **Decision:** Select Route B for DR-004, architecture preview
+  only. This selection is one row. Preview-scoped. The
+  eight-bullet Phase-1A packet remains owed on the
+  authoritative path. D-043 / D-045 recorded the §3.1 binding
+  instrument; that instrument is not the packet. Coordinator
+  selects; named owners record; coordinator may draft. D-000
+  does not make the coordinator the Evidence/retention
+  authority. Independent review is required. A
+  coordinator-composed SATISFIED is unlawful (DR-204). Writes
+  no disposition. Marks nothing SATISFIED. Authorizes no
+  blueprint. A completed, reviewed, owner-recorded disposition
+  may discharge condition 1 for DR-004 within the scope it
+  names. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D048.
+- **Commit:** C-D048.
