@@ -3121,3 +3121,39 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-071, D-075, D-077, D-054, or D-057.
 - **Commit:** C-D078.
+
+---
+
+## D-079 — Owner-record the DR-009 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-079.review-adversarial.claude2.json`,
+  `91a7d31c46f4e92bebb67f224b26016d08da8f93cc601c9db5b7ea1f06ac5ceb`).
+  Codex
+  (`artifacts/coordinator-decisions.D-079.review-adversarial.codex.json`,
+  `c609ba30cb79c4218b46a4a459b6b83d2717e3b53fc922349e65aac9fd109ae6`).
+  Subject `coordinator-decisions.D-079.draft.md`
+  `90f22d33e9451b8bb5d1bf665a60bd5ccf5abf8fecac701260dc442b83c842c9`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** R-1/evidence authorities.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-009.preview-disposition.v2.json`
+  `5e2f6572d1473176545d83ee2f8babf8daf8a3d7702ffa55bca7c7065841b782`
+  plus rider RB-DR009-V2-A1 (applied head
+  `r1-lifetime-neutrality.conformance.v1.9.json`
+  `37897be0cca011e88c04b93b6f9912f444006b4b3c71e99a08b253d613c9c0ab`)
+  as the owner-recorded preview Route B disposition for DR-009.
+  May discharge condition 1 for DR-009 within
+  architecture-preview scope only. Does not mark DR-009
+  SATISFIED. Parks remain owed. Conditions 2–5 remain.
+  Condition 5 remains the only implementation authorization.
+  Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-009 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D079, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-072, D-076, D-080, D-077, D-078, D-054, or D-057.
+- **Commit:** C-D079.
