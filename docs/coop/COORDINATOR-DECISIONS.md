@@ -2752,3 +2752,36 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D067.
+
+---
+
+## D-070 — File 08 MF-6 notes for preview owner recordings
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-070.review-adversarial.claude2.json`,
+  `c85ea90b64c4a96324d3c5669bc3158fb0db9e8a2dbc79d060e2e0dec36a4323`).
+  Codex
+  (`artifacts/coordinator-decisions.D-070.review-adversarial.codex.json`,
+  `17b82af072db8106742bf3c41ac9e84530b89c16be6e6dc6816e84e117e5b6d1`).
+  Subject `coordinator-decisions.D-070.draft.md`
+  `b1ddc8058d59a2530e510d290e4671c16159634b85a7dd7a4a1810cdd6b8d508`.
+- **Decision type:** RULE-GOVERNED. File-08 content change (D-001
+  MF-6). Does not mark SATISFIED.
+- **Decision:** Keep leading labels as the sole status-token
+  source. Append the exact six scoped owner-recording notes
+  authorized by the subject to DR-002, DR-003, DR-004, DR-005,
+  DR-008, and DR-010. Amend the snapshot regeneration sentence
+  to the two-axis algorithm. Advance the snapshot heading to
+  2026-08-14. Rewrite the condition-1 "Measured now" cell to
+  1 SATISFIED + 6 preview-disposed + 4 unresolved. Do not coin
+  a new file-08 status token. Do not apply a V1 successor. Do
+  not move the freeze or claim register. Do not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Condition 1 remains NOT MET. 1 SATISFIED
+  + 6 preview-disposed + 4 unresolved = 11. Zero SATISFIED
+  added.
+- **Reversibility:** C-D070 plus restore of the prior file-08
+  cells and prior snapshot preamble.
+- **Commit:** C-D070.
