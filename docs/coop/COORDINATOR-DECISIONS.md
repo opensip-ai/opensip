@@ -2395,3 +2395,37 @@ file-09 D-000 act. Left whole-document until then.
   later message. Overturn: C-D054, plus supersession of any
   owner recording that used it.
 - **Commit:** C-D054.
+
+---
+
+## D-057 — Mechanics of preview-scope owner recording
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-057.review-adversarial.claude2.turn3.json`,
+  `3a6ff5ebb49cd87b9d668c4a61e5d03c3244b8c73fd0e4734ca33dc546030e27`).
+  Codex
+  (`artifacts/coordinator-decisions.D-057.review-adversarial.codex.turn3.json`,
+  `b6e99d4f0309bed8f6c78c07f65643263980e2f9ed8bad66b113d8ed921c1022`).
+  Subject `coordinator-decisions.D-057.turn3.draft.md`
+  `3bb8882e0623e7d1f966eb59373d005d03ac557807da745c6425fb29026f3c3d`.
+- **Decision type:** RULE-GOVERNED. Mechanics only. Authority is
+  user-made D-054, not this entry.
+- **Decision:** Later preview-scope owner-recording entries must
+  satisfy the preconditions and pins in the adopted turn-3
+  subject: live D-054 / D-057 / row Route B selection; dual
+  independent ACCEPT or ACCEPT-WITH-ADVISORIES at 0 blockers;
+  a prior separately committed coordinator recording; own
+  D-000 cycle and commit; pins for the D-054 user-amendment
+  path and sha256, D-054/D-057/Route B IDs and commits,
+  disposition and verdicts, owner role, preview scope, Route A
+  remainder, and every operative rider. DR-005 is v2 plus
+  RB-DR005-V2-A1. This entry records no row, marks nothing
+  SATISFIED, and does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero.
+- **Reversibility:** C-D057 revokes these mechanics. D-054
+  remains until C-D054. Overturn also requires superseding
+  every owner recording that cites D-054/D-057 and reconciling
+  each dependent MF-6 note under its own reviewed act.
+- **Commit:** C-D057.
