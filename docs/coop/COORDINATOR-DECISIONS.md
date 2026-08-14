@@ -3047,3 +3047,40 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D080 restores the false `8dc573ea…`
   recital in D-074. Does not overturn D-074, D-075, or D-076.
 - **Commit:** C-D080.
+
+---
+
+## D-077 — Owner-record the DR-006 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-077.review-adversarial.claude2.turn2.json`,
+  `b2f8bc20d78a54ee19f9356d466ea96b4763dd3890db8eea0267c4e9fc44bf7d`).
+  Codex
+  (`artifacts/coordinator-decisions.D-077.review-adversarial.codex.turn2.json`,
+  `1b3fd3ff5bb4b9593a75c2a135f6724b9227045bd71c9fac22a41e711fbaca0d`).
+  Turn-1 Codex SHOULD-FIX ADV-D077-01 accepted via separate
+  ADOPTED D-080. Turn-2 subject
+  `coordinator-decisions.D-077.turn2.draft.md`
+  `3299e438c659da9d69de734ad7a4d99aa0c2af1dbdca2f9528fcec53cca2775a`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** Each identity-owning V1 surface +
+  FACT-PLANE/evidence authorities + coordinator.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-006.preview-disposition.v2.json`
+  `28fb23ec9f01de17753624d9e90bec53d75df2344d62594321c17da8a799d161`
+  as the owner-recorded preview Route B disposition for DR-006.
+  May discharge condition 1 for DR-006 within
+  architecture-preview scope only. Does not mark DR-006
+  SATISFIED. Binding recipes remain owed. SARIF drops; cache
+  keys, Coverage, and PlanId stay conceptual. Conditions 2–5
+  remain. Condition 5 remains the only implementation
+  authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-006 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D077, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-069, D-074, D-080, D-054, or D-057.
+- **Commit:** C-D077.
