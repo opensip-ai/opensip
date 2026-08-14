@@ -2785,3 +2785,115 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D070 plus restore of the prior file-08
   cells and prior snapshot preamble.
 - **Commit:** C-D070.
+
+---
+
+## D-069 — Select Route B for DR-006 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-069-071-072.review-adversarial.claude2.json`,
+  `c6a6e234ddbb15557d03a2b7d0f6f70ec1efc5e905d310b0f339b70d7109c95c`).
+  Codex
+  (`artifacts/coordinator-decisions.D-069-071-072.review-adversarial.codex.json`,
+  `a4495d161df088a442a167befe7df10c8422a070d460d91016878c78b094c77d`).
+  Subject `coordinator-decisions.D-069-071-072.draft.md`
+  `874b681a180cf3d12ab281735afe99ff2189042e223ae46de98e762b89111bff`.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-006 only.
+- **Owning V1 authority (file 08):** Each identity-owning V1 surface +
+  FACT-PLANE/evidence authorities + coordinator.
+- **Decision:** Select Route B for DR-006, architecture preview
+  only. This selection is one row. Preview-scoped. Binding
+  per-surface identity recipes remain owed on the authoritative
+  path. EIR v12 is the applied lineage head (D-003); application
+  of a head is not binding recipes and is not SATISFIED of this
+  row. Named D-002 rides, if later owner-recorded: SARIF for
+  `analyze` drops; rebuildable cache/index keys stay conceptual;
+  Coverage on the TypeScript provider dispatch path stays
+  conceptual; PlanId for the TypeScript role stays conceptual.
+  Coordinator selects; named owners record; coordinator may
+  draft. D-000 does not make the coordinator those
+  identity-owning surfaces. Independent review is required. A
+  coordinator-composed SATISFIED is unlawful (DR-204). Writes
+  no disposition. Marks nothing SATISFIED. Authorizes no
+  blueprint. A completed, reviewed, owner-recorded disposition
+  may discharge condition 1 for DR-006 within the scope it
+  names. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D069.
+- **Commit:** C-D069.
+
+---
+
+## D-071 — Select Route B for DR-007 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-1
+  verdicts as D-069.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-007 only.
+- **Owning V1 authority (file 08):** D9 authority +
+  evidence/retention owner.
+- **Decision:** Select Route B for DR-007, architecture preview
+  only. This selection is one row. Preview-scoped. The D9
+  successor closing observation→faultCause, optional presence,
+  success/policy/interrupted branch, and retention-loss
+  integration remains owed on the authoritative path.
+  `d9-exit-contract.v1.14` stays the live contract. This entry
+  invents no D9 code. Named D-002 rides, if later
+  owner-recorded: doctor's D9 mapping (DR-114) and containment
+  goldens (DR-G21) ship reduced, re-scoped, or wait. Preview may
+  still emit a D9 exit (D-018) using v1.14 without those
+  closures. Coordinator selects; named owners record;
+  coordinator may draft. D-000 does not make the coordinator
+  the D9 authority. Independent review is required. A
+  coordinator-composed SATISFIED is unlawful (DR-204). Writes
+  no disposition. Marks nothing SATISFIED. Authorizes no
+  blueprint. A completed, reviewed, owner-recorded disposition
+  may discharge condition 1 for DR-007 within the scope it
+  names. Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D071.
+- **Commit:** C-D071.
+
+---
+
+## D-072 — Select Route B for DR-009 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Same turn-1
+  verdicts as D-069.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-009 only.
+- **Owning V1 authority (file 08):** R-1/evidence authorities.
+- **Decision:** Select Route B for DR-009, architecture preview
+  only. This selection is one row. Preview-scoped. One-shot /
+  no-reuse remains preserved. `LN-13`,
+  `policyOutcome.derivationDigest`, and `R1-PARK-*` stay parked.
+  Identity-dependent implementation waits. r1 v1.9 is the
+  applied lineage head (D-005). Application of a head is not
+  park closure and is not SATISFIED of this row. DR-204 already
+  ruled the dialect-repair date anomaly CLEAN for reliance.
+  Coordinator selects; named owners record; coordinator may
+  draft. D-000 does not make the coordinator the R-1 authority.
+  Independent review is required. A coordinator-composed
+  SATISFIED is unlawful (DR-204). Writes no disposition. Marks
+  nothing SATISFIED. Authorizes no blueprint. A completed,
+  reviewed, owner-recorded disposition may discharge condition
+  1 for DR-009 within the scope it names. Conditions 2–5 remain.
+  Condition 5 remains the only implementation authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D072.
+- **Commit:** C-D072.
