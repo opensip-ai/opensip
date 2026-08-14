@@ -1242,3 +1242,53 @@ from this row entirely; DR-120 is kept only where the subject puts it (T-4).
 - **Overturn:** supersession here + `git revert` of C-D015; revert is total.
 - **Reviewer:** the same three-turn cycle recorded at D-013.
 - **Commit:** C-D015.
+
+## D-016 — §3.1 item-4 carrier: route (b), the evidence lineage
+
+- **Status:** ADOPTED 2026-08-13.
+- **Decision type:** **PREFERENCE-LADEN.** D-001 §4 "Honesty about preference" names "the
+  item-4 route choice (a vs b)" explicitly, and D-001's DR-002 entry (SF-4) required it be
+  "DECIDED only at its own D-000-reviewed entry". This is that entry. The turn-1 draft carried
+  it as part 4 of D-014 and declined the marking; both were wrong, and the turn-2 review
+  showed why the bundling was not merely untidy: a decision recorded inside another decision's
+  freeze rider cannot be overturned by reverting its own commit, so the overturn procedure
+  would have been formal only.
+
+**Decision.** The §3.1 item-4 carrier is **route (b)**, the evidence lineage.
+
+**Measured basis.** The lineage carries `sealedCapabilityContract` and
+`availabilityDifferential` exact-equal to `evidence.v10.json`'s values in each of the five
+generations, v11 through v15 — measured by canonical-JSON subtree digests at v11
+(`059d0b99…`, `a098bbab…`) and by direct structural comparison from v12 onward, which the v12
+verdict states in terms ("measured by direct structural comparison … not by digest
+convention"). The v15 verdict's `verifiedClean.item4Carriage` records it for both resolved v14
+and v15.
+
+**Attribution.** The supporting analysis is the register's own DR-004/DR-008 finding note
+(file 08, recorded 2026-08-12): *"its two closure routes are (a) a `v29` restoring
+`partB_purgeSemantics.distinction` from v24's reviewed bytes, or (b) applying an evidence
+successor, which is DR-002 AC-1. Route (b) closes two things at once and is the better
+trade"* — unrebutted. **D-001's** own words are weaker: its DR-002 entry RECOMMENDED (b) and
+parked the decision to this entry. The turn-1 draft attributed the register's sentence to
+D-001, which is the EV10-IR-02 defect class — a closure sentence false about its own source —
+inside the decision register.
+
+- **Alternatives considered:** *route (a)* — a `v29` restoring
+  `retention-tiers.v24#$.partB_purgeSemantics.distinction` from v24's reviewed bytes. **Named
+  as reachable, not foreclosed**, at the cost of a new authored artifact, a new independent
+  review, and a **new instrument** (`check-retention-custody-v28.py` permanently refuses on
+  the live tree, so a v29 cannot reuse it). Rejected here on the register note's trade, not on
+  availability.
+- **Reversibility:** total, and genuinely so — this decision touches exactly one file and no
+  pinned source. C-D014's freeze rider names this decision by reference and asserts nothing
+  about it, so reverting D-016 leaves no pinned source asserting a decision that no longer
+  stands.
+- **Overturn:** supersession here + `git revert` of C-D016; revert is total and costs no
+  freeze edit, no pin cascade and no DR-001 re-open.
+- **Severability:** had this entry alone failed consensus it would have parked CONTESTED
+  without parking the v15 application, the AC-2 record, the AC-1 routing or the validator
+  commissioning — all of which are D-014's and stand independently.
+- **Reviewer:** the same three-turn cycle recorded at D-013. The turn-3 reviewer verified the
+  split itself lawful against D-001 SF-4's actual words and confirmed D-014 reads coherently
+  without it.
+- **Commit:** C-D016 — this file only.
