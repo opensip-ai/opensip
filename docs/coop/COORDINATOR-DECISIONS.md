@@ -3189,3 +3189,39 @@ file-09 D-000 act. Left whole-document until then.
   cells, prior condition-1 row, and prior preamble count.
   Does not overturn D-070, D-077, D-078, or D-079.
 - **Commit:** C-D081.
+
+---
+
+## D-055 — Select Route B for DR-011 (preview scope)
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-055.review-adversarial.claude2.json`,
+  `2d3cc49f8382e01015ffc72fb3756db37d7abebd5d5823af483f662e3d0816a5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-055.review-adversarial.codex.json`,
+  `722a132524c18be14d57190b88d46054d541d965263b5e96c1b464a3cf4b92fa`).
+  Subject `coordinator-decisions.D-055.draft.md`
+  `a07fcbb6c23c8adfdf5cb43bcef60e4ffc918aa0725e95b2a549b1c679aaf171`.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-011 parent row only.
+- **Owning V1 authority (file 08):** V1 coordinator and each
+  surface owner.
+- **Decision:** Select Route B for DR-011, architecture preview
+  only. This selection is one row. It does not close, dispose,
+  or reclassify any residual DR-011-R01 through DR-011-R16.
+  Every residual remains owed. A green checker cannot elevate a
+  residual. Coordinator selects; named owners record;
+  coordinator may draft. A coordinator-composed residual
+  CLOSED is unlawful. Writes no disposition. Marks nothing
+  SATISFIED. A completed, reviewed, owner-recorded parent
+  disposition may discharge condition 1 for DR-011 within the
+  scope it names, while residuals stay OPEN. Conditions 2–5
+  remain. Condition 5 remains the only implementation
+  authorization.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition
+  lands. After one lands, overturn also requires that
+  disposition's owning-authority supersession. Overturn: C-D055.
+- **Commit:** C-D055.
