@@ -3582,38 +3582,26 @@ file-09 D-000 act. Left whole-document until then.
 
 ---
 
-## D-089 — Record DR-115 SATISFIED under D-056 Class B
+## D-090 — Remove the duplicate D-089 heading
 
 - **Date:** 2026-08-14
-- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
   independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
-  (`artifacts/coordinator-decisions.D-089.review-adversarial.claude2.turn2.json`,
-  `e920fa6ab04422345c0881999959fd3180aadea8a5ab501acef658c23cdad280`).
+  (`artifacts/coordinator-decisions.D-090.review-adversarial.claude2.json`,
+  `e3774f1b2cb03194f2130f42e41d0de5c4dbc760a32e5cff0afda26d3f4ce25d`).
   Codex
-  (`artifacts/coordinator-decisions.D-089.review-adversarial.codex.turn2.json`,
-  `a2291f0740920a63b81c1e9cfaed0da4206ef6ec3cd66b213aed6944b8a46b9a`).
-  Turn-1 Claude 2 MUST-FIX D089-MF-1 / D089-MF-2 and SHOULD-FIX
-  D089-SF-1 accepted. Turn-1 Codex SHOULD-FIX ADV-D089-01 /
-  ADV-D089-02 / ADV-D089-03 accepted. Turn-2 subject
-  `coordinator-decisions.D-089.turn2.draft.md`
-  `a31cf8ee0d5d161fde998784dda5a518dd0b1eab87e4e124b5e8ccc180930e62`.
-- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
-  D-056 Class B. File-08 MF-6. Does not execute measurement.
-  Does not claim QUALIFIED. Does not overturn D-088.
-- **Decision:** Record DR-115 SATISFIED for architecture-preview
-  condition 2. Measurement remains condition 4 / DR-G01..G05 /
-  DR-012. Unique lead-prefix replacement only. Replace the
-  Blueprint-impact hard-blocker. Rewrite condition 2 to 2 of
-  30 SATISFIED with named remainders for DR-102 and DR-115
-  and DR-103's accepted-contract note. Do not edit D-088
-  gate-harness cells. Do not authorize
+  (`artifacts/coordinator-decisions.D-090.review-adversarial.codex.json`,
+  `fcd104358fdae96f8dd31f16a926228a4b0c33041023f33c1a158660d9d2c7bd`).
+  Subject `coordinator-decisions.D-090.draft.md`
+  `b240d5e9fd191b4a150ee2107e666aa1138fe80d4a1299eeae3ff5e9627071a4`.
+- **Decision type:** RULE-GOVERNED. Recording hygiene. Does
+  not reopen D-089. Does not mark SATISFIED.
+- **Decision:** Keep the first D-089 recital. Delete the
+  second. Do not edit file 08. Do not authorize
   `docs/v2/implementation/`.
-- **Readiness effect:** Condition 2 becomes 2 of 30 SATISFIED
-  and stays NOT MET. Condition 4 remains PARTLY MET at 16 of
-  18. Condition 5 remains NOT MET and last.
-- **Reversibility:** C-D089 plus restore of the prior unique
-  DR-115 lead prefix, prior Blueprint impact cell, prior
-  condition-2 snapshot row including D-085 remainder text,
-  and prior "1 of 30" clause. Does not overturn D-006,
-  D-056, D-085, D-086, or D-088. Overturn: C-D089.
-- **Commit:** C-D089.
+- **Readiness effect:** Zero. D-089's readiness effect is
+  unchanged. Condition 2 stays 2 of 30 SATISFIED and NOT MET.
+  Condition 5 stays last.
+- **Reversibility:** C-D090 plus restore of the deleted
+  second recital. Does not overturn D-089. Overturn: C-D090.
+- **Commit:** C-D090.
