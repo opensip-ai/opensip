@@ -1851,3 +1851,58 @@ entry.
 - **Reviewer:** two independent adversarial reviewers under D-000,
   turn 2 of 3. Both CONSENT. Zero rebutted.
 - **Commit:** C-D033.
+
+---
+
+## D-040 — Record the DR-008 integration-half preview Route B disposition
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-040.review-adversarial.claude2.json`,
+  `1c111016a270b5ea311a99c9a9c805460313a8ab198352b35bd63e077bbe03ab`).
+  Codex
+  (`artifacts/coordinator-decisions.D-040.review-adversarial.codex.json`,
+  `464bbb02a586f93921a286edde51ed5e834e80484f48340f4ae8ac781138958f`).
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT of
+  the D-029 disposition draft. Same form as D-038.
+- **Subject:** `route-b.DR-008.preview-disposition.v2.json`
+  `8b2d21392bde0906ea75a6c29b1083e3b441205fd3eafb66a13135734a9ca41c`.
+- **Decision:** Record that v2 disposition as the accepted draft
+  D-029 authorized, for the EVIDENCE/D9 integration half only.
+  Posture half stays closed. Owner remains evidence/retention
+  authority. This is not owner recording. DR-008 stays PARTIALLY
+  SATISFIED. Condition 1 does not discharge for that half until
+  the owner records. Conditions 2–5 remain. Condition 5 remains
+  the only implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D040.
+- **Commit:** C-D040.
+
+---
+
+## D-041 — Record the DR-003 scoped preview TM disposition
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-041.review-adversarial.claude2.json`,
+  `1f6e121eb0731669d380dfd12b83ffe8a36d26d5cf4f9d018ad93bc3bad3f96b`).
+  Codex
+  (`artifacts/coordinator-decisions.D-041.review-adversarial.codex.json`,
+  `c198509689a2312a144add0795cb9ca0fcfd1b8eb3b18f8f70dd22693a8007ff`).
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT of
+  the D-030 scoped TM draft. Same form as D-038.
+- **Subject:** `route-b.DR-003.preview-tm.v2.json`
+  `d9084d4dc16bb450562520c2bed77cd80129bc65763f7ec2f55f3476c8989f52`.
+- **Decision:** Record that v2 scoped preview TM as the accepted
+  draft D-030 authorized. Owners remain Threat-model authority +
+  V1 coordinator. This is not owner recording and is not a
+  security-complete claim. DR-003 stays HARD-BLOCKED / TM UNSET
+  for the freeze. Full TM / V10 / G19 / publication-block remain
+  Route A. Condition 1 does not discharge until the owners record.
+  Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization. Does not edit file 08.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D041.
+- **Commit:** C-D041.
