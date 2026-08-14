@@ -2355,3 +2355,43 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D050.
 - **Commit:** C-D050.
+
+---
+
+## D-054 — User amendment: preview-scope owner recording
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Made directly by the user in
+  conversation. Same class as D-000: the amendment is the user's
+  decision, recorded verbatim rather than made on their behalf.
+  A coordinator-composed grant was reviewed first and OBJECTED
+  (Claude 2
+  `artifacts/coordinator-decisions.D-054.review-adversarial.claude2.json`
+  `cb4ebcb07897781d8cba05470085dea5126abc6134d9b6fcdf6f7e8a21f3c80e`,
+  C2-D054-01 / C2-D054-02; Codex
+  `artifacts/coordinator-decisions.D-054.review-adversarial.codex.json`
+  `18b765006a5f5c21899602a8f4f5ae7e9cf6b67ebe46774a056966b3d50906c0`,
+  ADV-D054-T1-01..05). C2-D054-01 required this form.
+- **Decision type:** PREFERENCE-LADEN user amendment.
+- **Subject:** condition 1 owner-recording for preview Route B only.
+- **User words, recorded verbatim (this session, 2026-08-14):**
+  1. "could you take control of helping me complete the architecture/design until its totally done following this plan?"
+  2. "i want to be clear. you are in charge… complete the design/architecture without stopping… utilize claude2 and codex as you see fit"
+  3. "please continue with what remains until all is done"
+  4. "keep going until this design/architecture is completely done. for some reason, you continue to stop and I need to remind you to keep going. can you somehow remind yourself that you are not to stop until this goal has been met? also, remmenber that you can utilize claude and codex as needed to help you."
+- **Decision:** The user is the sole human authority. Completing
+  D-001 / file 08 conditions 1–5 without stopping requires the
+  named V1 owners to record accepted preview Route B
+  dispositions. Those owner roles have no other human. The
+  assistant may perform those preview-scope owner recordings on
+  the user's behalf. Quoted completion is not SATISFIED by fiat,
+  not Route A application, not freeze or claim-register motion,
+  not condition 5, and not `docs/v2/implementation/`. Mechanics
+  of exercise are D-057.
+- **Readiness effect:** Zero at this amendment. Condition 1
+  discharges only when a later owner-recording entry, reviewed
+  under D-000, lands for a named row.
+- **Reversibility:** the user may revoke this amendment in any
+  later message. Overturn: C-D054, plus supersession of any
+  owner recording that used it.
+- **Commit:** C-D054.
