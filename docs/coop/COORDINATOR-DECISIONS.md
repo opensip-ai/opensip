@@ -1522,3 +1522,96 @@ entry.
   Route B disposition, or move any file 08 status cell.
 - **Commit:** C-D017-cycle-CONTESTED (this record plus the retained turn-3
   verdicts).
+
+---
+
+## D-028 — Select Route B for DR-005 (preview scope)
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Claude 2 turn-3 CONSENT
+  (`42878e36…`). Codex: no MUST-FIX; operative bytes pass; remaining
+  SHOULD-FIX is the shared draft header, not this entry
+  (`bc5172c4…`).
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-005 only.
+- **Owning V1 authority (file 08):** Evidence, storage, and operability
+  authorities.
+- **Decision:** Select Route B for DR-005, architecture preview only.
+  Preview-scoped. Full V10/custody and G19 demonstration remains owed
+  whether or not a scoped-TM selection is adopted. Coordinator selects;
+  named owners record; coordinator may draft; D-000 does not make the
+  coordinator those authorities. Writes no disposition. Marks nothing
+  `SATISFIED`. A completed, reviewed, owner-recorded disposition may
+  discharge condition 1 for DR-005 within its preview scope. Conditions
+  2–5 remain independently required. Condition 5 remains the only
+  authorization for `docs/v2/implementation/`.
+- **Alternatives:** Leave on full Route A (reachable; rejected for
+  preview scope). Fold into TM selection (rejected: different fact).
+- **Honesty:** Preview does not wait for G19; full demonstration remains
+  owed.
+- **Readiness effect:** Zero at adoption.
+- **Reversibility:** total before any dependent disposition lands.
+  After one lands, overturn also requires that disposition's
+  owning-authority supersession. **Commit:** C-D028.
+
+---
+
+## D-029 — Select Route B for DR-008's integration half (preview scope)
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Claude 2 turn-3 CONSENT. Codex:
+  no MUST-FIX; operative effect accurate; remaining SHOULD-FIX is the
+  shared header.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-008 EVIDENCE/D9 integration half only. Posture remains
+  closed.
+- **Owning V1 authority:** evidence/retention authority (contract half).
+- **Decision:** Select Route B for that half, preview only. Authoritative
+  remaining work (evidence-side successor consuming retention **and**
+  Phase-1A) remains owed. Adoption permits authoring the later
+  disposition; it is not itself design permission. Condition 1
+  discharges only after an owner-recorded reviewed disposition.
+  Conditions 2–5 remain. Condition 5 is the only implementation
+  authorization.
+- **Readiness effect:** Zero.
+- **Reversibility:** total before dependents; then also revert those
+  dispositions. **Commit:** C-D029.
+
+---
+
+## D-030 — Select Route B for a scoped preview threat model under DR-003
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Claude 2 turn-3 CONSENT. Codex:
+  operative bytes pass; remaining SHOULD-FIX is the shared header.
+- **Decision type:** PREFERENCE-LADEN.
+- **Subject:** DR-003, preview scope only.
+- **Owning V1 authority:** Threat-model authority + V1 coordinator.
+- **Decision:** Select Route B for a scoped preview TM covering every
+  boundary D-002 ships, including but not limited to command, input,
+  process/protocol, state, output, platform, and trust (hostile
+  repository/source, parser/provider admission, four-platform matrix,
+  first-install trust, doctor, signed delivery, Node closure). Full TM
+  / V10 / G19 / publication-block stay Route A. D-028 does not
+  discharge that. Wave-through rejected. Writes no TM artifact. Marks
+  nothing `SATISFIED`. Authorizes no blueprint.
+- **Readiness effect:** Zero.
+- **Reversibility:** total before dependents. **Commit:** C-D030.
+
+---
+
+## D-035 — Record doctor-contract.v4 as DR-114's accepted design contract
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13** — RULE-GOVERNED recording of an
+  independent ACCEPT-WITH-ADVISORIES (0 blockers).
+- **Subject:** `doctor-contract.v4.json`
+  `df2e717555616db096e61548458f23b442f7f0e37b2d2461eabc2c33201e94b3`.
+- **Verdict:** `doctor-contract.v4.review-independent.json`
+  `d63288079bcc9d7a68e2de54069e83910eaaf3aa53c53707a45d5730908196b2`.
+- **Decision:** Record v4 as DR-114's accepted design contract on the
+  same terms as D-013/D-015. The row stays `OPEN`: actor-scope and
+  fixture execution unmet. Advisories A1–A6 are not blockers; they do
+  not prevent this recording. No freeze motion. No `SATISFIED`.
+- **Readiness effect:** condition 2 gains zero `SATISFIED` rows.
+- **Overturn:** supersession + revert of C-D035. **Commit:** C-D035.
