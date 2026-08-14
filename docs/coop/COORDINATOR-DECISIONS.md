@@ -1795,3 +1795,59 @@ entry.
 - **Reviewer:** two independent adversarial reviewers under D-000,
   turn 1 of 3. Both CONSENT. Zero rebutted.
 - **Commit:** C-D038.
+
+---
+
+## D-033 — Property pins for DR-001 citations
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-033.review-adversarial.claude2.turn2.json`,
+  `d7a50cf0442be1c79b8b45eea998eddd5de987396085a4070f5a2b6c88fd2fe3`).
+  Codex
+  (`artifacts/coordinator-decisions.D-033.review-adversarial.codex.turn2.json`,
+  `e687ef1e13e80a1a4adaa07c13cc59d36f4528aee6b5315745cc357cc25c4373`).
+  Turn-1 MUST-FIX C2-D033-01 / ADV-D033-01 accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Applies freeze §7.10 to the
+  register's own DR-001 citations. Adds no file-08 status token.
+  Does not amend D-001's five conditions.
+- **Subject:** DR-001 citation form only. Not live-versus-history.
+  Not DESIGN-READY. Not condition 5.
+
+### Decision
+
+1. **Citation form.** Whole-document freeze and blueprint pins used
+   as DR-001 (and, when those rows cite the same way, DR-004 / DR-005
+   / DR-006 / DR-011 / DR-012) standing citations convert to property
+   pins: `(path, named section or selector, segment hash)`. A later
+   edit that does not change the cited property does not re-open the
+   row.
+2. **Scope clause.** DR-001's live scope clause is rewritten, by a
+   later register-content act under MF-6, so the row re-opens only
+   when a *cited property* changes, not on any baseline or freeze
+   motion. This entry authorizes that rewrite. It does not perform
+   it. Performing it is a file-08 content change and needs its own
+   D-000-reviewed commit (D-001 MF-6).
+3. **One last lawful re-open.** Executing clause 2 will re-open
+   DR-001 by today's scope clause. That re-open is expected. The
+   SATISFIED re-record remains the D-001 two-stage act (regeneration
+   MEASURED now; SATISFIED only after DR-204 audits the disposition).
+   This entry is not that re-record.
+4. **No new status token.** File 08 status vocabulary stays closed
+   (D-006 turn-2 NOTE-03).
+5. **No implementation authorization.** Condition 5 is unchanged.
+
+- **Alternatives considered:** (a) Keep whole-document pins —
+  rejected: recorded DR-001 treadmill. (b) Also convert live cells
+  to history and also coin DESIGN-READY — rejected in this entry:
+  bundling. (c) Perform the file-08 rewrite in this same commit —
+  rejected: MF-6.
+- **Readiness effect:** Zero at adoption. Zero SATISFIED. The later
+  MF-6 rewrite will re-open DR-001 once, by today's clause.
+- **Reversibility:** total before the MF-6 rewrite lands. After that
+  rewrite, overturn also requires reverting or superseding the
+  rewrite commit. Overturn: C-D033.
+- **Reviewer:** two independent adversarial reviewers under D-000,
+  turn 2 of 3. Both CONSENT. Zero rebutted.
+- **Commit:** C-D033.
