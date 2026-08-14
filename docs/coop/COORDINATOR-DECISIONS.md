@@ -2939,7 +2939,7 @@ file-09 D-000 act. Left whole-document until then.
   `b78c428ee198335d37ffb52f41e32af2e5c6dde6095397b220ca5335534f2d62`).
   Codex
   (`artifacts/coordinator-decisions.D-074-076.review-adversarial.codex.json`,
-  `8dc573eabdac5b664333a8bc03bc4716f85188af89e182ec9babd771d01e5318`).
+  `7243cd9220c4f4f5f4fe409195ae28a3d0cb31bd1f93707bbe237452109551a5`).
   Subject `coordinator-decisions.D-074-076.draft.md`
   `7da3adf88694b3f8232801206bb424ada99409a725fdbd62172406b990128e02`.
 - **Decision type:** RULE-GOVERNED. Records independent ACCEPT
@@ -3016,3 +3016,34 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D076.
 - **Commit:** C-D076.
+
+---
+
+## D-080 — Correct the D-074/D-075/D-076 Codex verdict digest
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-080.review-adversarial.claude2.turn2.json`,
+  `a7fe6fa157029bc2b3d3735e65bdfee763e270ff87a9775d35a362731e3a093e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-080.review-adversarial.codex.turn2.json`,
+  `d5c497ff133698684160a9a1a874ffbb2193b3599b20faccd35aa1a9877bffeb`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D080-SF1 accepted: D-075/D-076
+  carry disposition/rider digests, not verdict digests.
+  Turn-2 subject `coordinator-decisions.D-080.turn2.draft.md`
+  `f0aed55a7934522c2327d005c22264f0d34616675ea151fe0555470a1960d891`.
+- **Decision type:** RULE-GOVERNED. Pin correction only.
+- **Decision:** Replace the single explicit Codex verdict digest
+  in the D-074 COORD entry from `8dc573ea…` to
+  `7243cd9220c4f4f5f4fe409195ae28a3d0cb31bd1f93707bbe237452109551a5`.
+  D-075 and D-076 remain byte-unchanged and inherit the
+  corrected verdict pin. D-074, D-075, and D-076 remain
+  ADOPTED. Does not reopen those recordings. Does not
+  owner-record. Does not adopt D-077. Does not edit file 08.
+  Does not mark SATISFIED. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Adoption standing unchanged.
+- **Reversibility:** C-D080 restores the false `8dc573ea…`
+  recital in D-074. Does not overturn D-074, D-075, or D-076.
+- **Commit:** C-D080.
