@@ -1948,3 +1948,47 @@ entry.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D039.
 - **Commit:** C-D039.
+
+---
+
+## D-042 — Record permission-truth-tables.v2 as DR-105's accepted design-contract candidate
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-042.review-adversarial.claude2.turn2.json`,
+  `dd663c6c23c9b8c1532edb69d9c392cf6708b055cb61911cc16679c9b1924677`).
+  Codex
+  (`artifacts/coordinator-decisions.D-042.review-adversarial.codex.turn2.json`,
+  `171b22f60bf72311fdb5be909d269b0d492112957a43ddc7c031bcf1143aa889`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D042-01 accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Records independent
+  ACCEPT-WITH-ADVISORIES (0 blockers from both reviewers). Same
+  form as D-035 / D-038.
+- **Subject:** `docs/coop/artifacts/permission-truth-tables.v2.json`
+  `cce3afcaee90bbca388825a474751d6ebb17b30722b35dadcf6c631b34a8731a`.
+- **Verdicts:** Claude 2
+  `permission-truth-tables.v2.review-independent.claude2.json`
+  `021bacaf071dfa682e3e85574f42306adc3f2b12607e0bbd94b01aa344389301`
+  ACCEPT-WITH-ADVISORIES, 0 blockers. Codex
+  `permission-truth-tables.v2.review-independent.codex.json`
+  `c32f98751b848e3d2ccbe6e9927e60ea8e640f0b655315ebd1fc295c5a1e856d`
+  ACCEPT-WITH-ADVISORIES, 0 blockers.
+
+### Decision
+
+1. Record v2 as DR-105's accepted design-contract candidate.
+2. The row stays `OPEN`. Remaining unmet, named: fixture execution
+   (DR-G09); join blockers BLK-1/2/3/4 STILL-ROUTED;
+   host-under-instruction outside this vocabulary (D-032);
+   host-effect live instance (FC-C1) unmet. This recording
+   discharges none of those.
+3. Advisories P2-01, P2-02, P2-03, and PT2-CX-A1 remain owed as
+   honesty work on a successor.
+4. No `SATISFIED`. Does not make any host or component act
+   exercisable. Does not edit file 08. No freeze motion. No
+   blueprint.
+
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D042.
+- **Commit:** C-D042.
