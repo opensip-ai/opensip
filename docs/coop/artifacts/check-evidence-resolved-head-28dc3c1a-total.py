@@ -94,7 +94,11 @@ gave EXIT=1, first line `Traceback (most recent call last):`, 0 stdout lines,
 The resolved head's own `pathConsumerGuard.predecessorDefect` states why a
 per-site fix is the wrong shape: "A per-site fix would not have prevented a
 fourth site, so the property is enforced over the whole reachable closure
-instead."  Four independent mechanisms, each separately measured:
+instead."  And it was right: driving the sweep to zero surfaced a FOURTH and a
+FIFTH site the review had not named -- `read_document` letting any non-JSONDecode
+parse failure through, and the REVIEWED gated resolver bytes raising on a
+non-object candidate this instrument handed them.  SIX independent mechanisms,
+each separately measured:
 
   1. TOTAL ACCESSORS (section 5 below).  A closed, named set of primitives that
      are total over ANY parsed value.  Every checking layer consumes
@@ -114,9 +118,22 @@ instead."  Four independent mechanisms, each separately measured:
      promised.  The refusal names the file, the shape measured, and -- when it
      is also true -- the digest mismatch, so a reader is never told only half
      of what is wrong.
-  4. THE INJECTION SWEEP, in `--selftest`.  The ORACLE.  It calls the UNGUARDED
-     layer functions directly, so mechanism 2 cannot mask an escape, and it
-     requires ZERO unguarded escapes.  See section 6.
+  4. THE GATED-RESOLVER BOUNDARY.  `gated_call` wraps every invocation of the
+     reviewed resolver bytes.  Those bytes are frozen (freeze sections 7.2/7.6)
+     and their totality is not this instrument's to change -- handed a candidate
+     whose root is not a JSON object they raise `AttributeError` -- but THE
+     BOUNDARY IS THIS INSTRUMENT'S.  An exception from inside them becomes a
+     typed `EVRH-GATE-02` finding naming the resolver, the shape handed to it,
+     and the class that consequently did not run.  It is a FINDING, not an
+     integrity failure: `EVRH-GATE-01` stays reserved for the trust root at
+     exit 4.  This mechanism was NOT in the review's prescription; it was found
+     by driving the sweep to zero, and it accounted for the last 39 escapes.
+  5. THE GUARD SCAN (`EVRH-GUARD-01`), a syntactic tripwire over the layer
+     closure.  It found six raw-consumption sites in this file's own first
+     draft, which is the whole reason it exists.
+  6. THE INJECTION SWEEP, in `--selftest`.  The ORACLE.  It calls the UNGUARDED
+     layer functions directly, so mechanisms 2 and 4 cannot mask an escape, and
+     it requires ZERO unguarded escapes.  See section 6.
 
   MEASURED, before and after, by the same harness at the same boundary (the
   resolved head's own 16-name injection vocabulary,
@@ -124,10 +141,28 @@ instead."  Four independent mechanisms, each separately measured:
   EVERY path at unlimited depth, `evidence.v10.json` at depth <= 1 only):
 
       PREDECESSOR  6351 executed cases, 145 escaping cases, 540 escape
-                   records (case x layer), across 8 distinct
-                   (layer, exception) signatures.
-      THIS FILE    the same 6351 executed cases, 0 escaping cases,
-                   0 escape records.
+                   records (case x layer) over 10 swept layers, across 8
+                   distinct (layer, exception) signatures -- every one an
+                   AttributeError or a TypeError.
+      THIS FILE    the same 6351 executed cases, over 12 swept layers (a
+                   SUPERSET: `check_head_leaves` and `check_path_domain` are
+                   new), 0 escaping cases, 0 escape records, 0 signatures.
+
+  The 12-layer figure is the external harness's.  The sweep SHIPPED in this
+  file's `--selftest` drives the same table `validate` drives -- 7 chain layers
+  plus 4 resolution layers, pinned as `LAYER_CENSUS` and hard-compared by
+  `EVRH-HOSTILE-04` so a layer cannot enter the run without entering the sweep
+  -- and measures the same 6351 cases at 0 escapes, over 41,641 unguarded layer
+  invocations.
+
+  ONE DEFECT THE SWEEP FOUND IN ITSELF, recorded because an unrecorded
+  self-correction is the thing freeze section 7.2.2 exists to catch: the first
+  build used `None` as the "injection does not apply here" sentinel, which
+  collided with `null` -- one of the head's own sixteen classes -- at the ROOT
+  position, silently dropping the single most important case in the sweep.  The
+  census read 6,345.  With a distinct sentinel it reads 6,351, and the six
+  recovered cases are exactly `null` at the root of each of the six chain
+  files.
 
   The two counting units are both reported because they answer different
   questions: an escaping CASE is one hostile document that produced at least one
@@ -175,14 +210,22 @@ in the `notMeasured` channel: the 34 top-level keys of the resolved contract
 outside the 9 digest-pinned sections carry no per-section digest and no semantic
 check (43 top-level keys measured, 9 pinned).
 
-`IR-EVRH-A3` (ADVISORY) -- the shipped battery exercised 14 of 36 typed classes.
-REPAIRED by widening the battery from 8 artifact mutations to 17, from 4 source
-self-mutations to 5, from a 1-shape gate probe to 7 shapes, and by adding 3
-input-refusal shapes, the injectivity round trip and the injection sweep as
-scored probes.  The review's own independent finding that the other 22 classes
-are all fireable and that no class is vacuous is RECORDED here, not restated as
-this file's own measurement: it is the review's measurement, at
-`whatIVerifiedAndPassed` and `IR-EVRH-A3`.
+`IR-EVRH-A3` (ADVISORY) -- the shipped battery exercised 14 of 36 typed classes,
+and the review had to fire the other 22 by hand to establish that none was
+vacuous.  REPAIRED by moving that measurement INTO the instrument, where the
+next reader does not have to go and find a verdict to know it.  The battery goes
+from 8 artifact mutations to 17, the source self-mutations from 4 to 5, the gate
+probe from 1 shape to 7; and three input-refusal shapes, the injection sweep and
+a CLASS-COVERAGE PROBE are added.  The coverage probe fires, BY DIRECT CALL
+against a planted input, every class no artifact mutation can reach -- 32 direct
+probes -- and then requires that EVERY class this file declares is required by
+some probe in the shipped suite.  The declared classes are READ FROM THIS FILE'S
+OWN SYNTAX TREE, never transcribed, so the coverage claim cannot drift from the
+code.  MEASURED: 51 declared classes, 51 covered, 0 uncovered, 0 misfires; total
+suite census 34/34.  The `EVRH-PATH-01` probe is worth naming: it fires the
+check against THE PREDECESSOR'S OWN `/`-join encoder, retained in these bytes as
+`naive_join_encode` and used for nothing else, so the injectivity check is shown
+to fire on the exact defect `IR-EVRH-A1` names.
 
 `IR-EVRH-A4` (ADVISORY) -- the gate probe was narrower than the gate it
 certifies (one resolver, one failure mode).  REPAIRED: `_run_gate_probe` now
@@ -392,9 +435,9 @@ is prose that looks like evidence.
 
 5. THE TOTALITY ARCHITECTURE (the `IR-EVRH-B1` repair)
 -------------------------------------------------------
-TOTAL ACCESSORS.  `j_type`, `m_get`, `m_obj`, `m_seq`, `m_keys`, `m_items`,
-`m_str` and `m_text` are total over EVERY Python value, not merely over
-well-shaped JSON.  They are the ONLY place in this file where a raw mapping
+TOTAL ACCESSORS.  `j_type`, `m_get`, `m_has`, `m_obj`, `m_seq`, `m_keys`,
+`m_items`, `m_str` and `m_text` are total over EVERY Python value, not merely
+over well-shaped JSON.  They are the ONLY place in this file where a raw mapping
 method appears, and that exemption is PAID FOR by
 `check_accessor_totality`, which fires each of them against the head's sixteen
 injection classes plus values outside the JSON universe and requires that none
@@ -422,7 +465,14 @@ the `sorted()`-over-mixed-key-types shape that was the predecessor's third
 site.  The `TOTAL_ACCESSORS` bodies are EXEMPT and are the only exemption.
 SUBSCRIPTS ARE NOT SCANNED, and no recurrence guarantee is stated beyond this
 map.  Sites outside it are governed by the ORACLE below and by review, never by
-this scan.
+this scan.  IT IS NOT DECORATIVE: run against this file's own first draft it
+reported six unguarded consumption sites -- two keyless `sorted()` calls in
+`check_grammar`, a raw `.get()` in `check_residuals`, two raw `.items()` calls in
+`check_transfers`, and a `.pop()` in `leaf_paths` -- and all six were repaired
+before this file measured anything.  The `.pop()` was a LIST pop and therefore a
+false positive of a deliberately narrow scan; the walker was rewritten to use
+index arithmetic rather than widening the scan's bright line, because a scan
+that is argued with is a scan that stops working.
 
 
 6. THE INJECTION SWEEP -- THE ORACLE FOR TOTALITY
