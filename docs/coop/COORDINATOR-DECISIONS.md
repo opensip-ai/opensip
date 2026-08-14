@@ -3468,3 +3468,37 @@ file-09 D-000 act. Left whole-document until then.
   harness cells. Does not overturn D-056 or D-087. Overturn:
   C-D086.
 - **Commit:** C-D086.
+
+---
+
+## D-088 — File 08 MF-6: write presently recordable harness identifiers
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-088.review-adversarial.claude2.json`,
+  `08663841c021970f0456bf5c274990e376c7dbaa9c90e1236c63d43f22a8b21e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-088.review-adversarial.codex.json`,
+  `cc67999075f196d936e030b1184e68cc013c36fb3ffe665a4f2bcba8f1ee890f`).
+  Subject `coordinator-decisions.D-088.draft.md`
+  `bf422872713bf6337b0e12a1ecefacde504ac8255276c393422d911d32e81d62`.
+- **Decision type:** RULE-GOVERNED. File-08 content change
+  (D-001 MF-6) bound by D-086 rider RB-GHN-V3-A1. Does not
+  mark SATISFIED. Does not make condition 4 MET.
+- **Decision:** Prefix the 16 presently recordable required
+  harness identifiers into file 08's harness column. G03/G04
+  and G13 receive reservation-only prefixes and are not
+  named. G17 receives a dropped/inapplicable prefix and is
+  not required-now. G06/G11 unchanged. Rewrite the
+  condition-4 snapshot "Measured now" cell to 16 of 18
+  required gates named. Do not present 16 of 16. Do not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 4 stays PARTLY MET.
+  Named-harness half becomes 16 of 18 required in file 08.
+  Owners remain 22 of 22. No QUALIFIED. No SATISFIED.
+  Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D088 plus restore of the prior
+  harness-cell prefixes and the prior condition-4 "Measured
+  now" cell. Does not overturn D-086. Overturn: C-D088.
+- **Commit:** C-D088.
