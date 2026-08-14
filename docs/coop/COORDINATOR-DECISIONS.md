@@ -2489,3 +2489,38 @@ file-09 D-000 act. Left whole-document until then.
   discharge.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D059.
+
+---
+
+## D-064 — Owner-record the DR-004 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-064.review-adversarial.claude2.json`,
+  `c4db21455bb51c1dc6000746abde845077bfa437ed910ec33c1e9b109d434395`).
+  Codex
+  (`artifacts/coordinator-decisions.D-064.review-adversarial.codex.json`,
+  `9170cad03646e3bf913e2572e9917a22153d2f5955a04eaeee8742707206ee42`).
+  Subject `coordinator-decisions.D-064.draft.md`
+  `414fbc921b10bd7ecea1141891678d6a1dec95cd5bf4895057448c8c94b3ff3c`.
+  New cycle after CONTESTED D-059. Not a fourth turn.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** Evidence/retention authority.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-004.preview-disposition.v2.json`
+  `2866dd87b9950650b08b5323ea299db050a4ba42f0488bb7b1130dcd86a6da76`
+  as the owner-recorded preview Route B disposition for DR-004.
+  May discharge condition 1 for DR-004 within architecture-preview
+  scope only. Does not mark DR-004 SATISFIED. The eight-bullet
+  Phase-1A packet, section31 v4 successor honesty, and DR-002
+  AC-4 remain owed on Route A. section31 v4 is not the packet.
+  Conditions 2–5 remain. Condition 5 remains the only
+  implementation authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-004 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D064, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-048, D-050, D-054, or D-057.
+- **Commit:** C-D064.
