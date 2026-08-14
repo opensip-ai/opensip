@@ -2660,3 +2660,35 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D051-053.
+
+---
+
+## D-066 — Record product-boundary-preview.v2 as DR-010's accepted Route C candidate
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-066.review-adversarial.claude2.json`,
+  `4d0a18d35ff14dc7cd331eb50534d98347dcecdd01c68c19d652eddb582c059c`).
+  Codex
+  (`artifacts/coordinator-decisions.D-066.review-adversarial.codex.json`,
+  `8692f13eadc57f1b3143d71d826a217d1c93f569e74f986949e2ab97405b4647`).
+  Subject `coordinator-decisions.D-066.draft.md`
+  `c1de9b3c6e025f56f27a137d1e2cc702a4b7bced9b96e2449549866e0b11198f`.
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT.
+  Same form as D-035 / D-038 / D-042.
+- **Subject:** `docs/coop/artifacts/product-boundary-preview.v2.json`
+  `ff7a09130a2b5b409b02725a839f9d7b5fb88e945d7f9bbb63c0d0154c627b85`.
+- **Decision:** Record v2 as DR-010's accepted Route C
+  design-candidate for architecture-preview scope. The seven
+  file-02 items are EXCLUDED or NOT REPLACED. P-1, P-2, and
+  G3-SUBSTRATE are preserved. CD-RT-5 is untouched. This is not
+  owner recording. An ACCEPT verdict is not owner recording.
+  DR-010 stays HARD-BLOCKED. Condition 1 does not discharge
+  until the product owner records. DR-117 and DR-011-R16 stay
+  independently required. Does not mark SATISFIED. Does not
+  edit file 08. Conditions 2–5 remain. Condition 5 remains the
+  only implementation authorization.
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D066.
+- **Commit:** C-D066.
