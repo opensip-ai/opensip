@@ -2050,3 +2050,70 @@ entry.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D043.
 - **Commit:** C-D043.
+
+---
+
+## D-044 — Perform the D-033 property-pin rewrite
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-044.review-adversarial.claude2.turn2.json`,
+  `a87772f698942eb50d4232ab3aadb5c99692adda1aa2d4dd0b35bb1c2db87edd`).
+  Codex
+  (`artifacts/coordinator-decisions.D-044.review-adversarial.codex.turn2.json`,
+  `2f4255025b1ec2105a691deed61a510b362c555510a999ce79959983701afab3`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D044-01 accepted into these bytes.
+- **Decision type:** RULE-GOVERNED. Performs the file-08 rewrite
+  D-033 authorized and refused to perform in the same commit
+  (D-001 MF-6). Adds no file-08 status token. Does not amend
+  D-001's five conditions.
+- **Subject:** file 08 citation form and DR-001 live scope clause
+  only.
+
+### Decision
+
+1. **Perform the citation conversion.** In file 08, whole-document
+   freeze and blueprint pins used as standing citations on
+   DR-001 / DR-004 / DR-005 / DR-006 / DR-011 / DR-012 convert
+   to the property pins in the adopted table. A later edit that
+   does not change a cited property does not re-open that row.
+2. **Perform the scope rewrite.** DR-001's live scope clause
+   becomes: this row re-opens only when a cited property pin in
+   its source-pin cell changes (path missing, named
+   section/selector/law/row unresolvable, or segment hash
+   mismatch). A whole-document motion of the freeze, blueprint,
+   baseline, or this register that does not change a cited
+   property does not re-open the row. The sentences "A baseline
+   refresh re-opens it" and turn-3 R5 "any pinned-source motion
+   re-opens the row" cease to be live scope. They remain
+   history. Both occurrences of "A baseline refresh re-opens it"
+   in the DR-001 cell cease to be live scope.
+3. **Expected re-open.** This rewrite re-opens DR-001 by today's
+   (pre-rewrite) scope clause. That is the one last lawful
+   re-open D-033 clause 3 predicted. Live standing stays `OPEN`.
+   The 2026-08-13 SATISFIED disposition stays history.
+   SATISFIED re-record remains the D-001 two-stage act
+   (MEASURED regeneration now; SATISFIED only after independent
+   review). This entry is not that re-record.
+4. **Does not edit** `v1-authority-baseline.json` or
+   `v1-status-evidence.json`. Those files stay whole-document
+   until a later MEASURED regeneration. This entry is not that
+   regeneration.
+5. **No new status token.** File 08 status vocabulary stays
+   closed (D-006 turn-2 NOTE-03).
+6. **No implementation authorization.** Condition 5 is unchanged.
+   No freeze motion. No blueprint. No `docs/v2/implementation/`.
+   No row becomes `SATISFIED`.
+7. **Snapshot.** The dated current-position block's condition-1
+   clause is updated so its leading label still matches the
+   DR-001 cell (OPEN, now by D-044). Rows remain authoritative.
+
+The claim-matrix **Key sealed laws** pin is outside this entry's
+file-08 scope and outside D-033 clause 1. Routed to a later
+file-09 D-000 act. Left whole-document until then.
+
+- **Readiness effect:** Zero SATISFIED. DR-001 stays OPEN.
+- **Reversibility:** compound after the rewrite lands. Overturn:
+  C-D044, plus restore of the prior scope clause.
+- **Commit:** C-D044.
