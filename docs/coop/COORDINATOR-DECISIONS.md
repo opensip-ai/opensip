@@ -2445,37 +2445,6 @@ file-09 D-000 act. Left whole-document until then.
   Subject `coordinator-decisions.D-058.draft.md`
   `79f2e4ed01159bea8e472b93e571f30b8f813fb4946bd3b7ddf2cc60c0020f6c`.
 - **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
-  D-057. Own cycle. Not D-059.
-- **Owner role:** Evidence authority + V1 coordinator.
-- **Decision:** Record
-  `docs/coop/artifacts/route-b.DR-002.preview-disposition.v2.json`
-  `301ea338c4f4a5b7194cdf8a827c21bdc99a2b8cc091880b553a7c4a6f7dfc06`
-  as the named owner's preview-scope Route B disposition for
-  DR-002. Condition 1 for DR-002 may discharge within
-  architecture-preview scope only. Does not mark DR-002
-  SATISFIED. AC-1, AC-3, and AC-4 stay owed. Conditions 2–5
-  remain. Condition 5 remains the only implementation
-  authorization. Does not edit file 08.
-- **Readiness effect:** Condition 1 for DR-002 may discharge
-  within preview scope. Zero SATISFIED.
-- **Reversibility:** C-D058, plus any later MF-6 note.
-- **Commit:** C-D058.
-
----
-
-## D-058 — Owner-record the DR-002 preview Route B disposition
-
-- **Date:** 2026-08-14
-- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
-  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
-  (`artifacts/coordinator-decisions.D-058.review-adversarial.claude2.json`,
-  `61ca076ef8fd9c4f4512a0e7b0c40337130e2aeb49969230933ebab906a132ae`).
-  Codex
-  (`artifacts/coordinator-decisions.D-058.review-adversarial.codex.json`,
-  `651b842f2611affd40610e93e05b353a0aae7f3f91d0a83db10e3e7661b81885`).
-  Subject `coordinator-decisions.D-058.draft.md`
-  `79f2e4ed01159bea8e472b93e571f30b8f813fb4946bd3b7ddf2cc60c0020f6c`.
-- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
   D-057. Own D-000 cycle and commit.
 - **Owner role (file 08):** Evidence authority + V1 coordinator.
 - **Decision:** Record
