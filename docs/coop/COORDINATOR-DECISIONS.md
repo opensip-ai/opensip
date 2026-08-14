@@ -2727,3 +2727,28 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-066.
 - **Commit:** C-D068.
+
+---
+
+## D-067 — File 08 MF-6 notes for preview owner recordings (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. Claude 2 turn 3
+  OBJECT, 0 MUST-FIX, 1 SHOULD-FIX C2-D067-T3-SF1 (title still
+  says turn 2)
+  (`artifacts/coordinator-decisions.D-067.review-adversarial.claude2.turn3.json`,
+  `3fad1c85d6dd5c57c603720ff2964866cdbd2e59756b822ce584ebb6f8342467`).
+  Codex turn 3 OBJECTIONS, 0 MUST-FIX, 1 SHOULD-FIX
+  ADV-D067-T3-01 (same title defect)
+  (`artifacts/coordinator-decisions.D-067.review-adversarial.codex.turn3.json`,
+  `0c9da4956a8ec255563d8654278bc05bbcf0d20404966590e512cc13909fa432`).
+  Both reviewers state the file-08 edit merits pass.
+- **Decision type:** RULE-GOVERNED. Not adopted.
+- **Subject:** `coordinator-decisions.D-067.turn3.draft.md`
+  `dc1fd93184f93e510997a2489f5d2e1004da04ad119d6697514a0ccc2733810f`.
+- **Decision:** None. File 08 is not edited. A later new cycle
+  (not turn 4) may retry.
+- **Readiness effect:** Zero.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D067.
