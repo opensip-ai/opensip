@@ -2797,7 +2797,7 @@ file-09 D-000 act. Left whole-document until then.
   `c6a6e234ddbb15557d03a2b7d0f6f70ec1efc5e905d310b0f339b70d7109c95c`).
   Codex
   (`artifacts/coordinator-decisions.D-069-071-072.review-adversarial.codex.json`,
-  `a4495d161df088a442a167befe7df10c8422a070d460d91016878c78b094c77d`).
+  `503d02a28ec575b3c038e8e259c01d470601dcf2e7a4a26ee628c048450921e1`).
   Subject `coordinator-decisions.D-069-071-072.draft.md`
   `874b681a180cf3d12ab281735afe99ff2189042e223ae46de98e762b89111bff`.
 - **Decision type:** PREFERENCE-LADEN.
@@ -2897,3 +2897,33 @@ file-09 D-000 act. Left whole-document until then.
   lands. After one lands, overturn also requires that
   disposition's owning-authority supersession. Overturn: C-D072.
 - **Commit:** C-D072.
+
+---
+
+## D-073 — Correct the D-069/D-071/D-072 Codex verdict digest
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-073.review-adversarial.claude2.turn2.json`,
+  `9e05ba3cb7a816e4427e598012e642f65047d820b62a19d7713a0313bfad0817`).
+  Codex
+  (`artifacts/coordinator-decisions.D-073.review-adversarial.codex.turn2.json`,
+  `ad29f676d145ad9054f5fd784bb229c17eb355071459c2c013bd7dc34391b169`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D073-SF1 and Codex SHOULD-FIX
+  ADV-D073-01 accepted: one COORD locus, not three.
+  Turn-2 subject `coordinator-decisions.D-073.turn2.draft.md`
+  `bec11a558f892947f6a7c8cc1741f2f3ebc9207043bd0703e93538b642ebfae0`.
+- **Decision type:** RULE-GOVERNED. Pin correction only.
+- **Decision:** Replace the single explicit Codex digest in the
+  D-069 COORD entry from `a4495d16…` to
+  `503d02a28ec575b3c038e8e259c01d470601dcf2e7a4a26ee628c048450921e1`.
+  D-071 and D-072 remain byte-unchanged and inherit the
+  corrected pin. D-069, D-071, and D-072 remain ADOPTED. Does
+  not reopen those selections. Does not owner-record. Does not
+  write a disposition. Does not edit file 08. Does not mark
+  SATISFIED. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Adoption standing unchanged.
+- **Reversibility:** C-D073 restores the false `a4495d16…`
+  recital in D-069. Does not overturn D-069, D-071, or D-072.
+- **Commit:** C-D073.
