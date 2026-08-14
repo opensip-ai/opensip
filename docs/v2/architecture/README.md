@@ -34,6 +34,7 @@ The reproducible review inputs are
 | Retention posture, authoritative storage, generations, migration/recovery, exact bytes, compatibility, offline, doctor/purge | [Lifecycle, delivery, and operations](04-lifecycle-delivery-and-operations.md) |
 | V1 relationship, migration constraints, and prototype lessons | [V1-to-V2 relationship](05-v1-to-v2-relationship.md) |
 | Findings and correction disposition from the five independent reviews | [Review record](07-review-record.md) |
+| Non-binding three-reviewer synthesis of direction, concerns, and unnamed gaps | [Direction synthesis](11-three-reviewer-direction-synthesis.md) |
 | MVP commitments, deferred directions, and rejected shapes | [MVP and future scope](10-mvp-and-future-scope.md) |
 
 Topic documents link to register IDs for decisions and blockers. They do not
