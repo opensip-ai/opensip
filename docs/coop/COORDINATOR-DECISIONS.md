@@ -1906,3 +1906,45 @@ entry.
 - **Readiness effect:** Zero.
 - **Reversibility:** total. Overturn: C-D041.
 - **Commit:** C-D041.
+
+---
+
+## D-039 — Record the DR-005 preview Route B disposition
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-039.review-adversarial.claude2.turn2.json`,
+  `0e1994b213e2afc663b13eb7514d557569dfb20d0b20999123d947ade6e9ba5c`).
+  Codex
+  (`artifacts/coordinator-decisions.D-039.review-adversarial.codex.turn2.json`,
+  `8800c096d604f37386adf00b24c799bda133d1aafe2697275f246621691ff578`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D039-01 and C2-D039-02 accepted
+  into these bytes.
+- **Decision type:** RULE-GOVERNED. Records an independently
+  reviewed disposition draft. Codex independent verdict was
+  ACCEPT-WITH-ADVISORIES, not ACCEPT. Same recording form as D-038.
+- **Subject:** `route-b.DR-005.preview-disposition.v2.json`
+  `3b50bcf15e207b698283cb51e77335bceaf46f053f961f0de2b9b8d20982b809`
+  plus the adopted rider in clause 2.
+
+### Decision
+
+1. Record the v2 disposition as the accepted draft D-028
+   authorized. Owners remain Evidence, storage, and operability
+   authorities. This is not owner recording. An ACCEPT or
+   ACCEPT-WITH-ADVISORIES verdict is not owner recording.
+2. The disposition owners must record is v2 plus this rider
+   (RB-DR005-V2-A1): if the Operational metadata class is denied,
+   doctor fails closed (D-032 BLK-6); this disposition supplies no
+   grant or class admission. The rider is operative disposition
+   text.
+3. DR-005 stays HARD-BLOCKED / not SATISFIED. Condition 1 does
+   not discharge until those owners record v2 plus the rider.
+   Conditions 2–5 remain. Condition 5 remains the only
+   implementation authorization.
+4. Does not edit file 08 (MF-6).
+
+- **Readiness effect:** Zero.
+- **Reversibility:** total. Overturn: C-D039.
+- **Commit:** C-D039.
