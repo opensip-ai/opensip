@@ -3084,3 +3084,40 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-069, D-074, D-080, D-054, or D-057.
 - **Commit:** C-D077.
+
+---
+
+## D-078 — Owner-record the DR-007 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-078.review-adversarial.claude2.turn2.json`,
+  `3c896433b77fe2bf4bcbed1068ff3e37be9debd8284329671bba6873f8406f73`).
+  Codex
+  (`artifacts/coordinator-decisions.D-078.review-adversarial.codex.turn2.json`,
+  `bc7ce01c11c0bd7d2e647714b0ae31bac5f778fa8e0d28505a57bdde17a2c4aa`).
+  Turn-1 Claude 2 SHOULD-FIX C2-D078-SF1 and Codex MUST-FIX
+  ADV-D078-01 accepted (D-054 path, revocation, MF-6 limb).
+  Turn-2 subject `coordinator-decisions.D-078.turn2.draft.md`
+  `21616da4e698d0d3428abeb68e8ab93e8e85bdd51533b8ea667002d5b60aaa62`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** D9 authority + evidence/retention
+  owner.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-007.preview-disposition.v2.json`
+  `53b72a910507e31dd8d20e29c8d3dd9c673a68944f086c7e33d9ca39af5f42b7`
+  as the owner-recorded preview Route B disposition for DR-007.
+  May discharge condition 1 for DR-007 within
+  architecture-preview scope only. Does not mark DR-007
+  SATISFIED. Invents no D9 code. Doctor D9 mapping and DR-G21
+  goldens ship reduced, re-scoped, or wait. Conditions 2–5
+  remain. Condition 5 remains the only implementation
+  authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-007 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D078, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-071, D-075, D-077, D-054, or D-057.
+- **Commit:** C-D078.
