@@ -1738,3 +1738,60 @@ entry.
 - **Reviewer:** two independent adversarial reviewers under D-000,
   turn 2 of 3. Both CONSENT. Zero rebutted.
 - **Commit:** C-D037.
+
+---
+
+## D-038 — Record host-effect-authorization.v8 as the accepted host-effect design contract
+
+- **Date:** 2026-08-13
+- **Status:** **ADOPTED 2026-08-13.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-038.review-adversarial.claude2.json`,
+  `294bf1bc9ab8022ae47f0626c3fd0204e7fd84236d40032cb6317c70592afc12`).
+  Codex
+  (`artifacts/coordinator-decisions.D-038.review-adversarial.codex.json`,
+  `f4142a15ad0908448ebaf536e51d37b20757ca3de2c036082b52c9836d61a007`).
+  Claude 2 NOTE-C2-D038-N1 recorded: v8's own header remains
+  AWAITING-INDEPENDENT-REVIEW in its frozen bytes; this entry is
+  the coordinator standing, the same split D-035 used for doctor
+  v4. Codex NOTE-D038-01 is this recording.
+- **Decision type:** RULE-GOVERNED. Records an independent ACCEPT
+  (0 blockers from both reviewers) of the contract adopted D-032
+  commissioned. Same recording form as D-035.
+- **Subject:** `docs/coop/artifacts/host-effect-authorization.v8.json`
+  `2cbad5612e546d3bf915074a8ad3fc4cae444122c997e2ddb3fe067d3cd022dc`.
+- **Verdicts:** Claude 2
+  `host-effect-authorization.v8.review-independent.claude2.json`
+  `36a961e82a375778e71a08e7a66067843abb29a26170c84c38a12f15e121dec9`
+  ACCEPT, 0 blockers. Codex
+  `host-effect-authorization.v8.review-independent.codex.json`
+  `3be46716fd7156e1b1ea23d4e2c5b55e16fafc8b834d824cedc3a8a66d15de93`
+  ACCEPT, 0 blockers.
+
+### Decision
+
+1. Record `host-effect-authorization.v8.json` as the accepted
+   host-effect **design contract** D-032 required.
+2. This recording is the D-035 analogue. It is not FC-C1. FC-C1
+   remains: Operability+security jointly with Security+platform
+   must record a live instance. Coordinator recording of the
+   accepted candidate is not that instance. Host acts stay
+   unexercisable.
+3. DR-105 and DR-114 stay `OPEN`. No `SATISFIED`. No freeze
+   motion. No blueprint. No `docs/v2/implementation/`.
+4. Join blockers BLK-1/2/3/4 remain STILL-ROUTED. This entry
+   discharges none of them.
+5. A later file-08 cell note that names this recording is a
+   separate MF-6 act if it changes register content. This entry
+   does not edit file 08.
+
+- **Alternatives considered:** (a) Leave v8 unrecorded until owners
+  write an instance — rejected: D-035 already records an accepted
+  design contract while the row stays OPEN. (b) Treat this as
+  FC-C1 — rejected: v8's own fail-closed rule forbids it. (c) Mark
+  DR-105 or DR-114 SATISFIED — rejected.
+- **Readiness effect:** Zero. No SATISFIED. No blueprint.
+- **Reversibility:** total. Overturn: C-D038.
+- **Reviewer:** two independent adversarial reviewers under D-000,
+  turn 1 of 3. Both CONSENT. Zero rebutted.
+- **Commit:** C-D038.
