@@ -3605,3 +3605,42 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D090 plus restore of the deleted
   second recital. Does not overturn D-089. Overturn: C-D090.
 - **Commit:** C-D090.
+
+---
+
+## D-091 — Record DR-119 SATISFIED under D-056 Class B
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-091.review-adversarial.claude2.turn2.json`,
+  `31e8e6140f764a417ca0f5ff95957f7e2defb7bbdb024ec9137432da66230794`).
+  Codex
+  (`artifacts/coordinator-decisions.D-091.review-adversarial.codex.turn2.json`,
+  `60d6474725e5a5dc1db21fc24a91f4bc270687c492a913b2c5f0ed83cd32c27c`).
+  Turn-1 Claude 2 SHOULD-FIX D091-SF-1 / D091-SF-2 and Codex
+  SHOULD-FIX ADV-D091-01 accepted. Turn-2 subject
+  `coordinator-decisions.D-091.turn2.draft.md`
+  `cf553e4478defab5d0df9126227a46734c7feddb12db7a960a2958a72e978c04`.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
+  D-056 Class B. File-08 MF-6. Does not execute DR-G14. Does
+  not claim QUALIFIED.
+- **Decision:** Record DR-119 SATISFIED for architecture-preview
+  condition 2. TypeScript-role closure evidence remains
+  condition 4 / DR-G14 / DR-012. Replace the unique D-008
+  lead prefix and the Blueprint-impact hard-blocker. Rewrite
+  condition 2 to 3 of 30 SATISFIED, standing NOT MET,
+  preserving D-085 and D-089 remainders and the DR-103
+  contract note. Replace only "condition 2 remains 2 of 30
+  SATISFIED" in the one-sentence summary. Do not edit D-088
+  gate-harness cells. Do not mark DR-103/118/123 SATISFIED.
+  Do not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 becomes 3 of 30 SATISFIED
+  and stays NOT MET. Condition 4 remains PARTLY MET at 16 of
+  18. Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D091 plus restore of the prior unique
+  DR-119 lead prefix, Blueprint impact cell, condition-2
+  snapshot including D-085/D-089 remainder text, and "2 of 30"
+  clause. Does not overturn D-008, D-056, D-085, D-088, D-089,
+  or D-090. Overturn: C-D091.
+- **Commit:** C-D091.
