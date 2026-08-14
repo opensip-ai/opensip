@@ -2524,3 +2524,40 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-048, D-050, D-054, or D-057.
 - **Commit:** C-D064.
+
+---
+
+## D-060 — Owner-record the DR-005 preview Route B disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-060.review-adversarial.claude2.json`,
+  `a2af8233d53c7f9096d9e2654f493c09ca44045b74fd129f05471ef8236b2286`).
+  Codex
+  (`artifacts/coordinator-decisions.D-060.review-adversarial.codex.json`,
+  `93b97a682fe1409a0dda459b3b8aa21d08d55f987243056589b93fbb46f69e55`).
+  Subject `coordinator-decisions.D-060.draft.md`
+  `c44512ac937c1000a05d813d2b5da148405524bc863bc2d3b95f367beea2d32a`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** Evidence, storage, and operability
+  authorities.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-005.preview-disposition.v2.json`
+  `3b50bcf15e207b698283cb51e77335bceaf46f053f961f0de2b9b8d20982b809`
+  **plus** operative rider RB-DR005-V2-A1 (if Operational
+  metadata is denied, doctor fails closed; D-032 BLK-6; no grant
+  or class admission). May discharge condition 1 for DR-005
+  within architecture-preview scope only. Does not mark DR-005
+  SATISFIED. Applied evidence/retention/D9 integration, executable
+  custody, G19 durable-authoritative negative controls, and full
+  V10/publication-block remain owed on Route A. Conditions 2–5
+  remain. Condition 5 remains the only implementation
+  authorization. Does not edit file 08.
+- **Readiness effect:** Condition 1 for DR-005 may discharge
+  within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D060, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-028, D-039, D-054, or D-057.
+- **Commit:** C-D060.
