@@ -2597,3 +2597,77 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of any later MF-6 note. Does not overturn
   D-030, D-041, D-054, or D-057.
 - **Commit:** C-D065.
+
+---
+
+## D-061 — Owner-record the DR-008 integration-half preview disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-061.review-adversarial.claude2.json`,
+  `b1f0237254b911cfb71f53d5927f8b33f66876387d232a6574153be2a62c7c6b`).
+  Codex
+  (`artifacts/coordinator-decisions.D-061.review-adversarial.codex.json`,
+  `4789614f7e5ac94c4e61f1b860d015b7dfd5fb1a997d30aa4e65343e5017e36f`).
+  Subject `coordinator-decisions.D-061.draft.md`
+  `fe71906bd8be7dac4741577f9667942bc8dc4f633f0fd248c301ad87b9b8481c`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit. Integration half only.
+- **Owner role (file 08):** evidence/retention authority (contract
+  half). Posture remains closed.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-008.preview-disposition.v2.json`
+  `8b2d21392bde0906ea75a6c29b1083e3b441205fd3eafb66a13135734a9ca41c`
+  as the owner-recorded preview Route B disposition for DR-008's
+  EVIDENCE/D9 integration half. May discharge condition 1 for
+  that half within architecture-preview scope only. Does not
+  mark DR-008 SATISFIED. Posture half stays closed. Evidence-side
+  successor consuming retention AND Phase-1A, the §3.1
+  supplier-coverage instrument, and full V10/G19/publication-block
+  remain owed on Route A. Conditions 2–5 remain. Condition 5
+  remains the only implementation authorization. Does not edit
+  file 08.
+- **Readiness effect:** Condition 1 for DR-008's integration half
+  may discharge within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D061, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-029, D-040, D-054, or D-057.
+- **Commit:** C-D061.
+
+---
+
+## D-061 — Owner-record the DR-008 integration-half preview disposition
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-061.review-adversarial.claude2.json`,
+  `b1f0237254b911cfb71f53d5927f8b33f66876387d232a6574153be2a62c7c6b`).
+  Codex
+  (`artifacts/coordinator-decisions.D-061.review-adversarial.codex.json`,
+  `4789614f7e5ac94c4e61f1b860d015b7dfd5fb1a997d30aa4e65343e5017e36f`).
+  Subject `coordinator-decisions.D-061.draft.md`
+  `fe71906bd8be7dac4741577f9667942bc8dc4f633f0fd248c301ad87b9b8481c`.
+- **Decision type:** RULE-GOVERNED. Owner recording under D-054 /
+  D-057. Own D-000 cycle and commit.
+- **Owner role (file 08):** evidence/retention authority (contract
+  half). Product owner remains the posture owner.
+- **Decision:** Record
+  `docs/coop/artifacts/route-b.DR-008.preview-disposition.v2.json`
+  `8b2d21392bde0906ea75a6c29b1083e3b441205fd3eafb66a13135734a9ca41c`
+  as the owner-recorded preview Route B disposition for DR-008's
+  EVIDENCE/D9 integration half only. Posture half stays closed.
+  May discharge condition 1 for that half within
+  architecture-preview scope only. Does not mark DR-008
+  SATISFIED. Evidence-side successor consuming retention and
+  Phase-1A, the Lane R instrument, and full V10/G19/publication-
+  block remain owed on Route A. Conditions 2–5 remain. Condition
+  5 remains the only implementation authorization. Does not
+  edit file 08.
+- **Readiness effect:** Condition 1 for DR-008's integration half
+  may discharge within preview scope. Zero SATISFIED.
+- **Reversibility:** compound. Overturn: C-D061, plus
+  reconciliation of any later MF-6 note. Does not overturn
+  D-029, D-040, D-054, or D-057.
+- **Commit:** C-D061.
