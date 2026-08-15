@@ -3957,3 +3957,38 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero. Condition 4 unchanged.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D101.
+
+---
+
+## D-102 — D-006 fleet-class successor plus G03/G04 named identifiers
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-102.review-adversarial.claude2.turn2.json`,
+  `99cb237f572d81490cad2f263751ade5c2b68b2df5bfba38e71c5d3eac070132`).
+  Codex
+  (`artifacts/coordinator-decisions.D-102.review-adversarial.codex.turn2.json`,
+  `212509cb454d30930d2cb9b972060e258367e59199ee543fae57319f6ef5852d`).
+  Turn-1 Claude 2 SHOULD-FIX D102-T1-SF-1 accepted
+  (`CPU_SUBTYPE_ANY` + `ocount == 1`). Turn-2 subject
+  `coordinator-decisions.D-102.turn2.draft.md`
+  `7780190e87226e6794f55cf6c15bf7c510c975c8ed40affc4eb0a9129f2e8298`.
+  New cycle after D-101 CONTESTED.
+- **Decision type:** PREFERENCE-LADEN scoped D-006 successor
+  plus RULE-GOVERNED naming of the v3 reserved identifiers.
+- **Decision:** Adopt the hosted-fleet-class measurement
+  contract. Write G03/G04 reserved identifiers into file 08
+  as named. Not authored. Not QUALIFIED. Condition 4 becomes
+  18 of 18 named required gates, standing **MET**. MET is
+  not QUALIFIED and does not authorize implementation.
+  Does not name G13. Does not restore G17. Does not mark
+  any row SATISFIED. Does not satisfy D-096 (A).
+- **Readiness effect:** Condition 4 becomes MET. Condition 2
+  stays 4 of 30 NOT MET. Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D102 plus restore of the two reserved
+  cells, 16-of-18 fragment, PARTLY MET, one-sentence clause,
+  D-006's pre-successor exact-machine and exact-OS
+  requirements, and the original D-006 runner classes.
+  Does not overturn D-101 CONTESTED.
+- **Commit:** C-D102.
