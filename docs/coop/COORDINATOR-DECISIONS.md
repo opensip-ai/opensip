@@ -3644,3 +3644,45 @@ file-09 D-000 act. Left whole-document until then.
   clause. Does not overturn D-008, D-056, D-085, D-088, D-089,
   or D-090. Overturn: C-D091.
 - **Commit:** C-D091.
+
+---
+
+## D-092 — Record DR-123 SATISFIED under D-056 Class B
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-092.review-adversarial.claude2.turn2.json`,
+  `6d6b448b4215aa83a5f2f2c1cf5304c20376dbd412677783382880a681985eee`).
+  Codex
+  (`artifacts/coordinator-decisions.D-092.review-adversarial.codex.turn2.json`,
+  `4bd6ef2ef803dd578df2fd7578148d41221608036d78c5633e7f92d2ea6f12ea`).
+  Turn-1 Claude 2 SHOULD-FIX D092-SF-1 accepted. Codex turn-1
+  NOTE ADV-D092-N1 accepted. Turn-2 subject
+  `coordinator-decisions.D-092.turn2.draft.md`
+  `3834381774da0cd208ef3f936ad676df9efdfba25c0b441431dec67a9612b603`.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
+  D-056 Class B. File-08 MF-6. Does not execute DR-G01..G05 /
+  G12. Does not claim QUALIFIED. Does not restore G17.
+- **Decision:** Record DR-123 SATISFIED for architecture-preview
+  condition 2. CLI-baseline evidence remains condition 4 /
+  DR-G01..G05 and DR-G12 / DR-012. Replace the unique D-009
+  lead-plus-evidence prefix, the unique DR-123 source-pin
+  G17 route, and the Blueprint-impact hard-blocker. Rewrite
+  condition 2 to 4 of 30 SATISFIED, standing NOT MET,
+  preserving D-085, D-089, and D-091 remainders and the
+  DR-103 contract note. Replace only "condition 2 remains 3
+  of 30 SATISFIED" in the one-sentence summary. Do not edit
+  D-088 gate-harness cells. Do not edit the DR-129 source-pin.
+  Do not mark DR-103/104/118 SATISFIED. Do not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 becomes 4 of 30 SATISFIED
+  and stays NOT MET. Condition 4 remains PARTLY MET at 16 of
+  18. Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D092 plus restore of the prior unique
+  DR-123 lead-plus-evidence prefix, unique source-pin cell,
+  Blueprint impact cell, condition-2 snapshot including
+  D-085/D-089/D-091 remainder text, and "3 of 30" clause.
+  Does not overturn D-009, D-056, D-077, D-085, D-088, D-089,
+  D-090, or D-091. Overturn: C-D092.
+- **Commit:** C-D092.
