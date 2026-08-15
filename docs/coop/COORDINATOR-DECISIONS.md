@@ -3835,3 +3835,32 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D096. Does not overturn D-002, D-054,
   D-057, D-093, D-094, or D-095.
 - **Commit:** C-D096.
+
+---
+
+## D-097 — Withdraw the coordinator-composed C2 owner grant
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-097.review-adversarial.claude2.turn2.json`,
+  `41e7830a8e7f4fec7972b34a410ee75bd3ed5dea3489d9e3ef859634a9901415`).
+  Codex
+  (`artifacts/coordinator-decisions.D-097.review-adversarial.codex.turn2.json`,
+  `f33c1b55fc128426107f0a45807bcacac3f1d0332ad1f2816079c7e994bf28da`).
+  Turn-1 Claude 2 MUST-FIX D097-MF-1 and Codex MUST-FIX
+  ADV-D097-01 accepted. Turn-2 subject
+  `coordinator-decisions.D-097.turn2.draft.md`
+  `c25cd9771e8e31ce78e80c5cabac9ad1d3435bb8f01164c4b03feceab01fb5eb`.
+- **Decision type:** RULE-GOVERNED withdrawal. Does not adopt
+  a user amendment.
+- **Decision:** Withdraw the turn-1 coordinator-composed
+  condition-2 owner grant. Adopt nothing as D-096 (A).
+  D-096 (A) remains unsatisfied. Owner-recording of the
+  five candidates stays blocked until the user makes an
+  express grant. Do not edit file 08. Do not mark SATISFIED.
+  Do not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 unchanged.
+  Condition 4 stays 16 of 18 PARTLY MET. Condition 5 last.
+- **Reversibility:** C-D097 (withdrawal). Overturn: C-D097.
+- **Commit:** C-D097.
