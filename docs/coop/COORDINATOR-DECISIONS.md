@@ -3895,3 +3895,34 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero. Condition 4 unchanged.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D098.
+
+---
+
+## D-099 — D-006 fleet-class successor plus G03/G04 named identifiers (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. File 08 not edited.
+  Claude 2 turn 3 OBJECT, 1 MUST-FIX D099-T3-MF-1, 1
+  SHOULD-FIX D099-T3-SF-1
+  (`artifacts/coordinator-decisions.D-099.review-adversarial.claude2.turn3.json`,
+  `83b0aefe6487882adff7a7317e10f4445161fc14c65d47aa339d052cafe6f2a7`).
+  Codex turn 3 OBJECTIONS, 1 MUST-FIX ADV-D099-T3-01
+  (`artifacts/coordinator-decisions.D-099.review-adversarial.codex.turn3.json`,
+  `c53c261f71496b86e5c7bf43d6d87d5a606d5a2bc7e129b05db1a8e04a9c1d47`).
+  Turn-3 subject `coordinator-decisions.D-099.turn3.draft.md`
+  `3249a26c738c35cbd20f31ebe442559fc027acc764a610cb4dc93eac3b4ee47a`.
+- **Decision type:** PREFERENCE-LADEN. Not adopted.
+- **Both positions (required by D-000 clause 2):**
+  Both reviewers: the hosted-fleet contract and unique
+  pin table are otherwise in place, but the macOS
+  preflight names a `kinfo_proc` CPU-type member and a
+  `PROC_PIDT_SHORTBSDINFO` start-time member that those
+  structures do not have on macOS 15. CONSENT withheld;
+  G03/G04 stay reserved; condition 4 stays 16 of 18
+  PARTLY MET.
+- **Decision:** None. File 08 is not edited. A later new
+  cycle (not turn 4) may retry.
+- **Readiness effect:** Zero. Condition 4 unchanged.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D099.
