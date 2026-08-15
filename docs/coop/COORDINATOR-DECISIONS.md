@@ -3992,3 +3992,41 @@ file-09 D-000 act. Left whole-document until then.
   requirements, and the original D-006 runner classes.
   Does not overturn D-101 CONTESTED.
 - **Commit:** C-D102.
+
+---
+
+## D-100 — Condition-2 preview-deferral owner-recording mechanics
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-100.review-adversarial.claude2.turn3.json`,
+  `96db1ae053c56dfaaff6575e98ba6d786982d89169855030c2121042aae63ddf`).
+  Codex
+  (`artifacts/coordinator-decisions.D-100.review-adversarial.codex.turn3.json`,
+  `909a9f7c87a180eca33077174b4dc60edbeab29eab67639f92ae032cf707c2a4`).
+  Turn-1 Codex MUST-FIX ADV-D100-01 accepted (106/109/113
+  severability). Turn-2 Claude 2 MUST-FIX D100-T2-MF-1
+  accepted (candidate-keying; Windows is not a file-08
+  row). Turn-3 subject
+  `coordinator-decisions.D-100.turn3.draft.md`
+  `0f41a9f8008a85f4b0e1e5ac785b19aec27a028d252a48fe0008102969b99293`.
+- **Decision type:** RULE-GOVERNED. Mechanics only. Authority
+  is a later user-made D-096 (A) grant, not this entry.
+- **Decision:** Later condition-2 preview-deferral
+  owner-recording entries must satisfy the preconditions
+  and pins in the adopted turn-3 subject. Eligible
+  candidates are the five D-096 artifacts only. The
+  106/109/113 artifact is a shared draft: each recording
+  names exactly one of those rows, own cycle and commit.
+  Windows is not a file-08 row. This file does not grant.
+  D-054 / D-057 do not cover these rows. Mechanics alone
+  never grants. Does not mark SATISFIED. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. D-096 (A) stays unsatisfied.
+  Condition 2 unchanged. Condition 5 last.
+- **Reversibility:** C-D100 revokes these mechanics. D-096
+  remains until C-D096. Overturn also requires superseding
+  every owner recording that cites D-100 and reconciling
+  each dependent MF-6 note under its own reviewed act.
+- **Commit:** C-D100.
