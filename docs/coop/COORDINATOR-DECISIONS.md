@@ -4984,3 +4984,54 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D121.
 - **Commit:** C-D121.
+
+
+---
+
+## D-122 — Record third-party-policy-contract.v1 as DR-116's leftover T2-02 candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-122.review-adversarial.claude2.json`,
+  `7b52f0044fc5e8d407db57f8b1d510e7346faa0c69a072806cf22121399a7fe3`).
+  Codex
+  (`artifacts/coordinator-decisions.D-122.review-adversarial.codex.json`,
+  `01ed25bd5bc21859e13f0e6c6ab8829657b43b055df5a614252ff2f1158ed7b6`).
+  Subject `coordinator-decisions.D-122.draft.md`
+  `baeea88264f10eb8cfbdd94226b38656cbbe791ca2db27684fa5657f8a64c9fb`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 / D-121.
+- **Subject:** `docs/coop/artifacts/third-party-policy-contract.v1.json`
+  `78386c7a386376508d9f44d8a3fbe1388b7c1b78798bceb74ab83002ab3ef442`.
+- **Verdicts:** Claude 2
+  `third-party-policy-contract.v1.review-independent.claude2.json`
+  `dd8f6f7ace90c598e7fff2282c6d31b595a9a0d00fdbca47613f4e24d26a61f0`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories TPP-C2-A1..A4.
+  Codex
+  `third-party-policy-contract.v1.review-independent.codex.json`
+  `dfb773685e08d552eb166620649b3b2b0ab5901f0b6c882e00a6912ea9c930a9`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v1 as DR-116's leftover T2-02 successor
+  candidate. This is coordinator decision D-122, not register
+  row DR-122 (SARIF; recorded at D-115). D-121 remains the last
+  prior adopted recording and is not retargeted. Claude advisories
+  TPP-C2-A1..A4 travel as honesty work. DR-116 stays OPEN. No
+  SATISFIED. No QUALIFIED. D-002 records "no third-party support
+  policy needed yet." The candidate binds NOTHING. D-056 Class A
+  is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-109, DR-110, DR-111, DR-112, DR-113, DR-114,
+  DR-115, DR-117, DR-118, DR-120, DR-121, DR-122, DR-124, DR-125,
+  DR-126, or DR-127. Does not overturn D-106 (corpus recording),
+  D-107, D-108, D-109, D-110, D-111, D-112, D-113, D-114, D-115,
+  D-116, D-117, D-118, D-119, D-120, or D-121. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D122.
+- **Commit:** C-D122.
