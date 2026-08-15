@@ -4070,3 +4070,49 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D103.
 - **Commit:** C-D103.
+
+---
+
+## D-104 — Record component-manifest-schemas.v11 as DR-103's accepted schema successor
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-104.review-adversarial.claude2.turn2.json`,
+  `ce5c7a7e024f9e30c97ab0b4322290c9c840a643fe531a58e799b95ecb4c3555`).
+  Codex
+  (`artifacts/coordinator-decisions.D-104.review-adversarial.codex.turn2.json`,
+  `cda38e9dd8930bf2d215bcd2a00d0441a756623cb8886905cb790262550e5fa8`).
+  Turn-1 Codex SHOULD-FIX D104-SF-1 accepted (header no longer
+  cites unadopted D-103 as a form precedent). Turn-2 subject
+  `coordinator-decisions.D-104.turn2.draft.md`
+  `fe51b4fa36ab3efdcc6cd8d1d48e706fb4584ebb83cfc10cb1c602335fa40eb4`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT-WITH-ADVISORIES (0 blockers, 0 SHOULD-FIX from both
+  reviewers). Same form as D-013 / D-015 / D-035 / D-042.
+- **Subject:** `docs/coop/artifacts/component-manifest-schemas.v11.json`
+  `1c0b8868444a097256aaa7d9caf8ebaa1c6f73fb071dbb4dd712334abb17a005`.
+- **Verdicts:** Claude 2
+  `component-manifest-schemas.v11.review-independent.claude2.json`
+  `45785457b25e50e51be7f3a1393427de637022752a9af70b38e87ecb79ce0f20`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX. Codex
+  `component-manifest-schemas.v11.review-independent.codex.json`
+  `25b2a3fb0200cab5132b333543a708c3bfb024e1fab11b9751c44696e52b1372`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v11 as DR-103's accepted schema successor.
+  D-013 remains the historical recording of schemas.v2 and is
+  not overturned. Advisories CLAUDE-V11-A1, CLAUDE-V11-A2, and
+  CODEX-V11-A1 (distinct findings; same local id) travel as
+  honesty work. Claude D-104 turn-2 advisories ADV-D104T2-01
+  (draft COORD pin is the pre-D-103 snapshot) and ADV-D104T2-02
+  also travel. DR-103 stays OPEN. No SATISFIED. Fixture-corpus
+  half remains unmet. No lock is producible. D-013
+  SATISFIED-refusal stands. D-056 Class A is not opened. Does
+  not edit file 08. Does not mint a D-096 (A) grant. Does not
+  dispose DR-117. Does not retarget corpus v2. Does not
+  authorize `docs/v2/implementation/`. Corpus v3, if authored,
+  may now pin schemas.v11.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D104.
+- **Commit:** C-D104.
