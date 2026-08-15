@@ -4311,3 +4311,48 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D108.
 - **Commit:** C-D108.
+
+---
+
+## D-109 — Record permission-truth-tables.v6 as DR-105's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-109.review-adversarial.claude2.json`,
+  `190b4d2654c58f41e949bf47641a67d1abc1cb5b8e26f6e0c923b8c7b8d7551f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-109.review-adversarial.codex.json`,
+  `96163dd33fe4e0a22f5a28808a0d916243d208bcc20f87d3ef9eb03db295d1b0`).
+  Subject `coordinator-decisions.D-109.draft.md`
+  `0158d9c92ec8d116a98faf286688408ca50ca6a14e28c6cc69b24212a9496acf`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT-WITH-ADVISORIES (0 blockers, 0 SHOULD-FIX from both
+  reviewers). Same form as D-013 / D-015 / D-035 / D-042 / D-103 /
+  D-104 / D-105 / D-106 / D-107 / D-108.
+- **Subject:** `docs/coop/artifacts/permission-truth-tables.v6.json`
+  `ad1bb75d7f029f64979d3c4e6fe5dd3446cd30465b36d4a7b3f9471f06a6dd34`.
+- **Verdicts:** Claude 2
+  `permission-truth-tables.v6.review-independent.claude2.json`
+  `9ec9f0563030e5bb06880fff1f8b483fde28e05465e5cc19d9d1087b08b1e20b`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX. Codex
+  `permission-truth-tables.v6.review-independent.codex.json`
+  `431f9b8629d947825dcaa2ed9289c84c3f376460dcffba80afe700803bbe3a21`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v6 as DR-105's accepted design-contract
+  successor candidate. This is coordinator decision D-109, not
+  register row DR-109. D-042 remains the historical recording of
+  permission-truth-tables.v2 and is not overturned. Advisories
+  CLAUDE-V6-A1 and CODEX-V6-A1 travel as distinct honesty work.
+  DR-105 stays OPEN. No SATISFIED. Host-effect candidate remains
+  D-093 / v8. Joint-owner FC-C1, DR-G09 execution, and BLK-1..BLK-4
+  remain. D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-103, DR-107, DR-111, DR-112, or DR-120. Does not
+  overturn D-106, D-107, or D-108. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D109.
+- **Commit:** C-D109.
