@@ -4818,3 +4818,64 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D119.
 - **Commit:** C-D119.
+
+---
+
+## D-118 — Record offline-analysis-closure-contract.v3 as DR-106's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-118.turn2.review-adversarial.claude2.json`,
+  `9fefb80ad0e26d1f766405ed1d7ee2cd11f93673dca0b96cd2dc15728761fa65`).
+  Codex
+  (`artifacts/coordinator-decisions.D-118.turn2.review-adversarial.codex.json`,
+  `96672f196dd2f96509f89262ddfb9c0daf38a917f3335f0079ce334a487a5e8f`).
+  Subject `coordinator-decisions.D-118.turn2.draft.md`
+  `1a650db7246dd8ddb425f31a3c32675b6f1aebf6f0c19c169df48e4b78ec5ef5`.
+  Turn-1 draft `coordinator-decisions.D-118.draft.md`
+  `c3022178928154c02547187f5fdd90e59c29cccab537d698efbaf4a5369bdc4a`
+  is not retargeted. Turn 1: Claude 2 CONSENT 0/0
+  (`c724dd44fd94c1ac1849cfac96157c325fa9c50fea3a5f3344ba89c3a3596d7e`,
+  advisory CLAUDE-D118-A1 / ADV-D118-01); Codex OBJECT
+  (`d6271460e98442d7c3da3ff25915ab10cb86f413eb0930d4172ed3e0011470f1`,
+  CODEX-D118-M1).
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119.
+- **Subject:** `docs/coop/artifacts/offline-analysis-closure-contract.v3.json`
+  `f3b094bfabcaa20c0e8c8b5af64f7d9d9a14dda76fbc9606805e6b3f489bec11`.
+- **Verdicts:** Claude 2
+  `offline-analysis-closure-contract.v3.review-independent.claude2.json`
+  `78f71c24e74bbf3b652f9a5acc9c2c4bb79b0c47f2aebd77087920e2b84d9dbb`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX, advisory
+  ADV-OACC-V3-01. Codex
+  `offline-analysis-closure-contract.v3.review-independent.codex.json`
+  `235f4991499870341a88856a6c56b7cd35dc4a8d6d8a250b917beacc4530f350`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories OACV3-A1 / OACV3-A2.
+- **Decision:** Record v3 as DR-106's accepted design-contract
+  successor candidate. This is coordinator decision D-118, not
+  register row DR-118. D-119 remains the last prior adopted
+  recording in file order and is not retargeted. D-117 remains
+  adopted and is not retargeted. Claude advisories ADV-OACC-V3-01
+  and Codex OACV3-A1 / OACV3-A2 travel as honesty work. Turn-1
+  advisory CLAUDE-D118-A1 is discharged by the turn-2 remasurement
+  and PASS-NO-SCOPE-EFFECT. DR-106 stays OPEN / inherits hard
+  blockers. No SATISFIED. No QUALIFIED. D-002 defers this row
+  WHOLLY from slice 1. The candidate binds NOTHING. D-056 Class A
+  is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-108, DR-109, DR-110 (register row), DR-111, DR-112, DR-113,
+  DR-114, DR-115, DR-116 (register row), DR-117, DR-118, DR-120,
+  DR-121, DR-122, DR-124, DR-125, DR-126, or DR-127. Does not
+  overturn D-106 (corpus recording), D-107, D-108 (packaging
+  recording), D-109, D-110, D-111, D-112, D-113, D-114, D-115,
+  D-116, D-117, or D-119. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D118.
+- **Commit:** C-D118.
