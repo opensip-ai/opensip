@@ -3766,3 +3766,33 @@ file-09 D-000 act. Left whole-document until then.
   Condition 5 last.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D094.
+
+---
+
+## D-095 — Record the five preview-deferral v2 candidates (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000
+  clause 2. Not adopted. No forced consensus. Parked.
+  Claude 2 turn 3 CONSENT, 0 MUST-FIX, 0 SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-095.review-adversarial.claude2.turn3.json`,
+  `4e204b776680b2035a301d5263582a350a11d4408d7dda73324ae5b5c833ef9f`).
+  Codex turn 3 OBJECTIONS, 1 MUST-FIX ADV-D095-T3-01
+  (`artifacts/coordinator-decisions.D-095.review-adversarial.codex.turn3.json`,
+  `8f0f05e1fe06bef22be94cca0f7a662f728e5146278e7bbf3f69a609be3cf64e`).
+- **Decision type:** RULE-GOVERNED candidate recording. Not
+  adopted.
+- **Subject:** `coordinator-decisions.D-095.turn3.draft.md`
+  `c0c86be97c11256afc65e8950fb1a8373c42575f2db439a54a46545cacdaea34`.
+- **Positions parked:** Claude 2 accepts the coordinator
+  recording and the blocked owner path. Codex refuses
+  adoption while Decision item 3 still lets a mechanics
+  entry substitute for a missing owner grant (`either`
+  user amendment `or` mechanics). Required repair:
+  grant **and** mechanics; mechanics never grants.
+- **Decision:** None. File 08 is not edited. The five v2
+  candidates remain independently ACCEPTED and
+  unrecorded. A later new cycle (not turn 4) may retry.
+- **Readiness effect:** Zero.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D095.
