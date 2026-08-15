@@ -4356,3 +4356,52 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D109.
 - **Commit:** C-D109.
+
+---
+
+## D-110 — Record component-sdk-contract.v4 as DR-125's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-110.review-adversarial.claude2.turn2.json`,
+  `912d59443532484b3c7c402179d6b052fefd51a0b0490db764d5a90da4efca81`).
+  Codex
+  (`artifacts/coordinator-decisions.D-110.review-adversarial.codex.turn2.json`,
+  `dbda1fb66b5cce37a3ff00fa238e2b6795bc47a7699953c9d8834356c305d0d0`).
+  Subject `coordinator-decisions.D-110.turn2.draft.md`
+  `99dc617265413e79b09f168621d68fc5dcf029175e4dae83a98501823066b720`.
+  Turn-1 OBJECT `CLAUDE-D110-S1` is folded; turn-1 draft
+  `dfdc7cce2e20505e4f0f13752a48fec68ede4ae9ce8b985bbe6a4ae99316e5af`
+  is not retargeted.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109.
+- **Subject:** `docs/coop/artifacts/component-sdk-contract.v4.json`
+  `c53d541f12258eb96e86f0f5dbd3924a5f2e189d19c8f8672bae9037532461c3`.
+- **Verdicts:** Claude 2
+  `component-sdk-contract.v4.review-independent.claude2.json`
+  `b4a4b672174ba1893b071984f6cdb0cb56c99fefe0310b821e87ac454a599bff`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, observations O-1/O-2/O-3.
+  Codex
+  `component-sdk-contract.v4.review-independent.codex.json`
+  `c0cfad60a052abefd8ee08ea0f01a60bf9b6b3e459a619d13ddc895b6b0ed559`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v4 as DR-125's accepted design-contract
+  successor candidate. This is coordinator decision D-110, not
+  register row DR-110. Claude observations CLAUDE-V4-O1/O2/O3
+  travel as honesty work. O-4 is resolved. DR-125 stays OPEN.
+  No SATISFIED. No QUALIFIED. G20 remains NAMED-NOT-AUTHORED.
+  Exact SDK APIs/frameworks remain reserved. The candidate binds
+  NOTHING. D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-103, DR-107, DR-108, DR-111, DR-112, DR-120,
+  DR-121, DR-122, DR-124, DR-126, or DR-127. Does not overturn
+  D-106, D-107, D-108, or D-109. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D110.
+- **Commit:** C-D110.
