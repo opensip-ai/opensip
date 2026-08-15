@@ -4765,3 +4765,56 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D117.
 - **Commit:** C-D117.
+
+---
+
+## D-119 — Record replay-purge-contract.v2 as DR-113's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-119.review-adversarial.claude2.json`,
+  `443727f522a277ebae49bb623a8b34abdcd40d29ff28fac8f15e8171b4cb513c`)
+  CONSENT, advisory D119-CLAUDE-A1. Codex
+  (`artifacts/coordinator-decisions.D-119.review-adversarial.codex.json`,
+  `e963a252d87362136df707757e6a5426d44356eaf566da5aa42d05c7c2d05979`).
+  Subject `coordinator-decisions.D-119.draft.md`
+  `ed3a6b83afaf7b21d4075a11e503786188cc32165a2010483b67e083e4772596`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117.
+- **Subject:** `docs/coop/artifacts/replay-purge-contract.v2.json`
+  `48cb28a5ea3a5609b2b74474a7599a386daeb7c373ec662241d35cd92b6a82e2`.
+- **Verdicts:** Claude 2
+  `replay-purge-contract.v2.review-independent.claude2.json`
+  `20ad538feeeb3b0e695a9e2b5b9030eb451cd5e8f648346812115ff897da9e2e`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories CLAUDE-RP2-ADV-1 /
+  CLAUDE-RP2-ADV-2. Codex
+  `replay-purge-contract.v2.review-independent.codex.json`
+  `969c89fb43db9971cef85a37e729f9c92b38f1c512c472e05036c65e0c4b9e51`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v2 as DR-113's accepted design-contract
+  successor candidate. This is coordinator decision D-119, not
+  register row DR-119 (already SATISFIED at D-091). D-117 remains
+  the last prior adopted recording and is not retargeted. D-118
+  remains in review and is not retargeted. Claude advisories
+  CLAUDE-RP2-ADV-1 / CLAUDE-RP2-ADV-2 travel as honesty work on a
+  later successor of the recorded candidate (D119-CLAUDE-A1), as
+  does review advisory D119-CLAUDE-A1. DR-113 stays OPEN /
+  inherits hard blockers. No SATISFIED. No QUALIFIED. D-002
+  defers this row WHOLLY from slice 1. The candidate binds
+  NOTHING. D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-109, DR-110 (register row), DR-111, DR-112,
+  DR-114, DR-115, DR-116 (register row), DR-117, DR-118, DR-120,
+  DR-121, DR-122, DR-124, DR-125, DR-126, or DR-127. Does not
+  overturn D-106, D-107, D-108 (packaging recording), D-109,
+  D-110, D-111, D-112, D-113, D-114, D-115, D-116, or D-117.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D119.
+- **Commit:** C-D119.
