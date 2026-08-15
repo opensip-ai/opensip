@@ -5035,3 +5035,56 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D122.
 - **Commit:** C-D122.
+
+
+---
+
+## D-123 — Record identity-namespace-integration-contract.v3 as DR-104 leftover-integration candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-123.review-adversarial.claude2.json`,
+  `3e14dfa307340652537d8ca79fc9cc10fef2f0ac865d23045e8b28bb89dff751`).
+  Codex
+  (`artifacts/coordinator-decisions.D-123.review-adversarial.codex.json`,
+  `5e0c0931be03052475e8d0eabca75a12c464e5d2294071c0d34cfc0fb1cbf764`).
+  Subject `coordinator-decisions.D-123.draft.md`
+  `0d34ae8557011eefdc9252b41fa847f042459f52f8c7b9a48a6b1671c51b045a`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 / D-121 /
+  D-122.
+- **Subject:** `docs/coop/artifacts/identity-namespace-integration-contract.v3.json`
+  `57bf89826c5c4ff6658bbea5f68b0b049abb134cb19001cd670f15cc0ef97091`.
+- **Verdicts:** Claude 2
+  `identity-namespace-integration-contract.v3.review-independent.claude2.json`
+  `881c9df77635090239172fef7d66aae2105ba259b696c26cbc252e78fa4fbfd7`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories INIC-V3-CL-ADV-1 /
+  INIC-V3-CL-ADV-2. Codex
+  `identity-namespace-integration-contract.v3.review-independent.codex.json`
+  `30fb71405a7286dcfcc7fb73eedd8625d91636fbcd9980f902ba80930fbf1332`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v3 as DR-104's leftover-integration T2-02
+  successor candidate. This is coordinator decision D-123, not
+  register row DR-123 (CLI baseline; SATISFIED at D-092). D-122
+  remains the last prior adopted recording and is not retargeted.
+  Claude advisories INIC-V3-CL-ADV-1 / INIC-V3-CL-ADV-2 travel as
+  honesty work. DR-104 stays DECIDED-V1-NOT-INTEGRATED.
+  leftover-design/OPEN is a finding against a recording of this
+  row. No SATISFIED. No QUALIFIED. The candidate binds NOTHING.
+  D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-109, DR-110, DR-111, DR-112, DR-113, DR-114,
+  DR-115, DR-116, DR-117, DR-118, DR-120, DR-121, DR-122, DR-124,
+  DR-125, DR-126, or DR-127. Does not overturn D-012, D-106
+  (corpus recording), D-107, D-108, D-109, D-110, D-111, D-112,
+  D-113, D-114, D-115, D-116, D-117, D-118, D-119, D-120, D-121,
+  or D-122. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D123.
+- **Commit:** C-D123.
