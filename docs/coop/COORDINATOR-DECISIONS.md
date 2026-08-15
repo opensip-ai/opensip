@@ -5140,3 +5140,56 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D124.
 - **Commit:** C-D124.
+
+---
+
+## D-125 — Record platform-tcb-contract.v45 as DR-126 leftover T2-02 candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-125.review-adversarial.claude2.json`,
+  `f539efd66e46b844b01541cdf3c29eebb11e13951509b66d231e2b86f3777b88`).
+  Codex
+  (`artifacts/coordinator-decisions.D-125.review-adversarial.codex.json`,
+  `75821846b72cde74e011f308902e934c96c24a91fe49ca0306fdd985aa58a963`).
+  Subject `coordinator-decisions.D-125.draft.md`
+  `42a8fae25c636b436c14cf330ad7cefdc420346130f63c3048f0140fe679076f`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 / D-121 /
+  D-122 / D-123 / D-124.
+- **Subject:** `docs/coop/artifacts/platform-tcb-contract.v45.json`
+  `da87bdb4d100c90e9450fb82744b7d327ae6b7332db550ea808bdbdb0444a7e5`.
+- **Verdicts:** Claude 2
+  `platform-tcb-contract.v45.review-independent.claude2.json`
+  `9cb3e5ada811b218be7d5f1145d3a81f31f7e87a1b3f13a81834e350f23e710a`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories CLAUDE-V45-A1 /
+  CLAUDE-V45-A2 / CLAUDE-V45-A3. Codex
+  `platform-tcb-contract.v45.review-independent.codex.json`
+  `3849abbaf4beed9f8ea822ca7a16e4d2452c05047c76cccd89b09436fc4931b8`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v45 as DR-126's leftover T2-02 successor
+  candidate. This is coordinator decision D-125, not register
+  row DR-125 (SDK; recorded at D-110). D-124 remains the last
+  prior adopted recording and is not retargeted. Claude
+  advisories CLAUDE-V45-A1 / CLAUDE-V45-A2 / CLAUDE-V45-A3 and
+  Claude D-000 advisory CLAUDE-D125-A1 travel as honesty work.
+  DR-126 stays OPEN. No SATISFIED. G22 is not QUALIFIED. The
+  candidate binds NOTHING. D-056 Class A is not opened. Does
+  not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-104, DR-105, DR-106, DR-108, DR-109, DR-110, DR-111, DR-112,
+  DR-113, DR-114, DR-115, DR-116, DR-117, DR-118, DR-120, DR-121,
+  DR-122, DR-124, DR-125, DR-126, or DR-127. Does not overturn
+  D-106 (corpus recording), D-107, D-108, D-109, D-110, D-111,
+  D-112, D-113, D-114, D-115, D-116, D-117, D-118, D-119, D-120,
+  D-121, D-122, D-123, or D-124. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D125.
+- **Commit:** C-D125.
