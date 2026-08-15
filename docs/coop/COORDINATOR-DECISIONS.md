@@ -5364,3 +5364,64 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D128.
 - **Commit:** C-D128.
+
+---
+
+## D-129 — Record doctor-actor-join-integration-contract.v8 as DR-114 leftover-integration T2-02 successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-129.review-adversarial.claude2.json`,
+  `9eec1a652132a314c626e4e608e5a175cfdbde45c41aac171acd734d3aa95307`).
+  Codex
+  (`artifacts/coordinator-decisions.D-129.review-adversarial.codex.json`,
+  `bc7cc464d28b4311b98d57261444911e80967daaccc7a7208ba7afee12f985d3`).
+  Subject `coordinator-decisions.D-129.draft.md`
+  `5168fb1e41370be2ef51475d150a21686a2cb29e5543f7d2168da02e1c023bbe`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-093 / D-103 / D-104 /
+  D-105 / D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 /
+  D-113 / D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 /
+  D-121 / D-122 / D-123 / D-124 / D-125 / D-126 / D-127 / D-128.
+- **Subject:** `docs/coop/artifacts/doctor-actor-join-integration-contract.v8.json`
+  `c830f954605a4a1d47c5643230439340994a0c42c4a487359541c578d00bc662`.
+- **Verdicts:** Claude 2
+  `doctor-actor-join-integration-contract.v8.review-independent.claude2.json`
+  `8f596a0b89e73f426295d8053f0e4a5b8a4fc37beff5047479ae67a4856cbbbf`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory CLAUDE-DAJ7-A1.
+  Codex
+  `doctor-actor-join-integration-contract.v8.review-independent.codex.json`
+  `20e9a013dce668f47f18fdf765ba6d1abeba0cc2d66719ab6b6687e079c1c724`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v8 as DR-114's leftover-integration T2-02
+  successor candidate. This is coordinator decision D-129, not
+  register row DR-129 (optional TUI; deferred). D-128 remains
+  the last prior adopted recording and is not retargeted.
+  Actor-join v6 `f63554d5…` remains the D-127 subject and is
+  not retargeted. Permission-truth-tables.v9 `05d55964…`
+  remains the D-128 subject and is not applied. Doctor-
+  contract.v4 `df2e7175…` remains the D-035 subject and is not
+  retargeted. Recorded host-effect v8 `2cbad561…` remains the
+  D-093 subject and is not retargeted. Recorded host-effect
+  v25 `b91b9f73…` remains the D-126 subject and is not
+  retargeted. Claude advisory CLAUDE-DAJ7-A1 travels as
+  honesty work. DR-114 stays OPEN. No SATISFIED. G09 is not
+  QUALIFIED. The candidate binds NOTHING. D-056 Class A is
+  not opened. Does not record FC-C1, admit CA-1 IN_PROCESS,
+  or mint the later D-000 CA-2 gate. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-104, DR-105, DR-106, DR-108, DR-109, DR-110, DR-111, DR-112,
+  DR-113, DR-114, DR-115, DR-116, DR-117, DR-118, DR-120, DR-121,
+  DR-122, DR-124, DR-125, DR-126, or DR-127. Does not overturn
+  D-032, D-035, D-042, D-093, D-106 (corpus recording), D-107,
+  D-108, D-109, D-110, D-111, D-112, D-113, D-114, D-115, D-116,
+  D-117, D-118, D-119, D-120, D-121, D-122, D-123, D-124, D-125,
+  D-126, D-127, or D-128. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D129.
+- **Commit:** C-D129.
