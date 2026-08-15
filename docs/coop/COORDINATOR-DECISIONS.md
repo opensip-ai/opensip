@@ -4265,3 +4265,49 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D107.
 - **Commit:** C-D107.
+
+---
+
+## D-108 — Record component-packaging-contract.v14 as DR-120's accepted design-contract candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-108.review-adversarial.claude2.json`,
+  `bfb93b464b197f4ca8d09a099c25a5013b3eeb3f590057853c473ea0653b9ba7`).
+  Codex
+  (`artifacts/coordinator-decisions.D-108.review-adversarial.codex.json`,
+  `bc1c35952974effea42b2ac02013b88a8399da78a0809d69e5d95ed96e00be5f`).
+  Subject `coordinator-decisions.D-108.draft.md`
+  `2eefe870b4739a04a5a8b09369fffb8ac71901c244fd7fcdcd8deaf958d2b529`.
+  Claude 2 turn-1 advisories CLAUDE-D108T1-A1 and
+  CLAUDE-D108T1-A2 travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107.
+- **Subject:** `docs/coop/artifacts/component-packaging-contract.v14.json`
+  `8321d527843c63592d8e4fd49c3df0ace690da0bcbcd1e268464e578fe30424c`.
+- **Verdicts:** Claude 2
+  `component-packaging-contract.v14.review-independent.claude2.json`
+  `b47485eb9ba2221e223fcecd588e3d6d49e86918aee7e672276c652aabddaf79`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX. Codex
+  `component-packaging-contract.v14.review-independent.codex.json`
+  `ee4fd95833d165a936bd2ba14dac2345dbb59b523985bc30f142f610053170e5`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v14 as DR-120's accepted design-contract
+  candidate. This is coordinator decision D-108, not register
+  row DR-108. Advisories CLAUDE-V14-A1, CODEX-V14-A1, and
+  CODEX-V14-A2 travel as distinct honesty work. DR-120 stays
+  OPEN. No SATISFIED. DR-G15 stays named-not-authored / not
+  QUALIFIED. Adapter implementations remain reserved. D-056
+  Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117.
+  Does not SATISFY DR-103, DR-107, DR-111, DR-112, or DR-105.
+  Does not overturn D-106 or D-107. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D108.
+- **Commit:** C-D108.
