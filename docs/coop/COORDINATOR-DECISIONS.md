@@ -4879,3 +4879,57 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D118.
 - **Commit:** C-D118.
+
+
+---
+
+## D-120 — Record storage-mechanics-contract.v5 as DR-109's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-120.review-adversarial.claude2.json`,
+  `09863c6b0aa8d70c0f9b10add8fbfb2a5f7a1f4da7df6dfc81b4166a5a94ebf5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-120.review-adversarial.codex.json`,
+  `992484d2c021f6c156920cbed6e47b7ae7892c28a4e2534bd7cec98a33bb0d0e`).
+  Subject `coordinator-decisions.D-120.draft.md`
+  `f8f394f189f68a1a1719fd8c10a815631463cb5d2eb48ded913247872d0d25e1`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118.
+- **Subject:** `docs/coop/artifacts/storage-mechanics-contract.v5.json`
+  `8a43c5b53367a85615648129915d8b19e5b12b2bb32c972f2147093233bd20fb`.
+- **Verdicts:** Claude 2
+  `storage-mechanics-contract.v5.review-independent.claude2.json`
+  `745afe2a19a362ab0fac5da8da5c2410812e3cc3657a16a31bb854f8b42322eb`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory CLAUDE-V5-O-1 (O-1).
+  Codex
+  `storage-mechanics-contract.v5.review-independent.codex.json`
+  `d9a10da282e3e792dfa2dddef3f2084027f61cad76cde28ecd2a18eb695d50fa`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v5 as DR-109's accepted design-contract
+  successor candidate. This is coordinator decision D-120, not
+  register row DR-120 (packaging; recorded at D-108). D-118 remains
+  the last prior adopted recording and is not retargeted. D-119
+  remains adopted and is not retargeted. Claude advisory
+  CLAUDE-V5-O-1 travels as honesty work. DR-109 stays OPEN /
+  inherits hard blockers. No SATISFIED. No QUALIFIED. D-002
+  defers this row WHOLLY from slice 1. The candidate binds NOTHING.
+  D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-110 (register row), DR-111, DR-112, DR-113,
+  DR-114, DR-115, DR-116 (register row), DR-117, DR-118, DR-121,
+  DR-122, DR-124, DR-125, DR-126, or DR-127. DR-120 is the
+  packaging row recorded at D-108 and is not a row this recording
+  could SATISFY. Does not overturn D-106 (corpus recording),
+  D-107, D-108 (packaging recording), D-109, D-110, D-111, D-112,
+  D-113, D-114, D-115, D-116, D-117, D-118, or D-119. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D120.
+- **Commit:** C-D120.
