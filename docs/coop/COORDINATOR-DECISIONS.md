@@ -4218,3 +4218,50 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D106.
 - **Commit:** C-D106.
+
+---
+
+## D-107 — Record lifecycle-generation-contract.v2 as DR-107's accepted design-contract candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-107.review-adversarial.claude2.json`,
+  `004f8923698821d2062a64ea7cc7bc8c1825c64f098ef6b3a902a5fba74f67c2`).
+  Codex
+  (`artifacts/coordinator-decisions.D-107.review-adversarial.codex.json`,
+  `b9f2527664bcd9aa43e426f155e4168d0f8ef5be1a63735edc86d8d9f2ef3bd1`).
+  Subject `coordinator-decisions.D-107.draft.md`
+  `caffcbe66416a9aa67863d5171824b704ea9517b00c1474291835db874b5d96a`.
+  Claude 2 turn-1 advisories CLAUDE-D107T1-A1 and
+  CLAUDE-D107T1-A2 travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106.
+- **Subject:** `docs/coop/artifacts/lifecycle-generation-contract.v2.json`
+  `a5f9d6a35f83d64687cdd2a00ec3106251ae407e54a5538727c086dd8f9ab77b`.
+- **Verdicts:** Claude 2
+  `lifecycle-generation-contract.v2.review-independent.claude2.json`
+  `b4d47968e6f25a94907b8933887acba811165a9870640f178c35e98fdcfaa9d2`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX. Codex
+  `lifecycle-generation-contract.v2.review-independent.codex.json`
+  `2643387c882d1de9508a6a413c2734ec1516ad43394a4493fba6c594b2ec69ee`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v2 as DR-107's accepted design-contract
+  candidate. This is coordinator decision D-107, not register
+  row DR-107. Advisory CLAUDE-V2-A1 (`/date` roster) travels as
+  honesty work. DR-107 stays PROPOSED-CLOSED-FOR-REVIEW / OPEN.
+  No SATISFIED. DR-G18 stays named-not-authored / not QUALIFIED.
+  Concrete journal/lock/lease encoding remains reserved.
+  Generation-rollback remains distinct from DR-110 self-update
+  rollback. No lock is producible. D-056 Class A is not opened.
+  Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117.
+  Does not SATISFY DR-103, DR-111, DR-112, or DR-105. Does not
+  overturn D-106. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D107.
+- **Commit:** C-D107.
