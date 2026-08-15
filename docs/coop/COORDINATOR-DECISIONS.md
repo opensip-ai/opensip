@@ -4557,3 +4557,52 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D113.
 - **Commit:** C-D113.
+
+---
+
+## D-114 — Record distribution-core-inventory-contract.v16 as DR-101's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-114.review-adversarial.claude2.json`,
+  `e87b9301e0c37932eb080195925f424da648f65562334496ce1267c3e6fda7b8`).
+  Codex
+  (`artifacts/coordinator-decisions.D-114.review-adversarial.codex.json`,
+  `516eb8146c8d46ad63705bc6c52e176bccbf74952034db5e836c14e219361f60`).
+  Subject `coordinator-decisions.D-114.draft.md`
+  `d212fa63586ab0b134d2206b918ca063ddc436afd5b80f60e8389372fe113567`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113.
+- **Subject:** `docs/coop/artifacts/distribution-core-inventory-contract.v16.json`
+  `429b8c7a9cd5c8f2b495337c055ccbd262e796ba1cc42efb173779c72018fb5b`.
+- **Verdicts:** Claude 2
+  `distribution-core-inventory-contract.v16.review-independent.claude2.json`
+  `81fadf18b33ecd278246f4296a44d77e7aa05091895ef2657cdf6703eff0ada3`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory CLAUDE-V16-A-1. Codex
+  `distribution-core-inventory-contract.v16.review-independent.codex.json`
+  `02a6f590bdef98f7dff16c9b5b85062bf679e48fb70fdb0e5b7686a111d2ead6`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v16 as DR-101's accepted design-contract
+  successor candidate. This is coordinator decision D-114, not
+  register row DR-114 and not the contested C4 decision D-101.
+  D-113 remains the adopted langqual-v13 recording and is not
+  retargeted. D-112 remains the adopted secret-storage-v3
+  recording. Claude advisory CLAUDE-V16-A-1 travels as honesty
+  work. DR-101 stays leftover-design / OPEN. No SATISFIED. No
+  QUALIFIED. The candidate binds NOTHING. D-056 Class A is not
+  opened (the contract itself records Class A ineligibility).
+  Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-103, DR-108, DR-110 (register row), DR-111,
+  DR-112, DR-113, DR-114, DR-118, DR-120, DR-121, DR-122, DR-124,
+  DR-125, DR-126, or DR-127. Does not overturn D-106, D-107,
+  D-108 (packaging recording), D-109, D-110, D-111, D-112, or
+  D-113. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D114.
+- **Commit:** C-D114.
