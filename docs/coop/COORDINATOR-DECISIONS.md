@@ -4663,3 +4663,57 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D115.
 - **Commit:** C-D115.
+
+---
+
+## D-116 — Record product-boundary-successor-contract.v8 as DR-117's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-116.review-adversarial.claude2.json`,
+  `711c2e42cc7ba17059dd6863fa3589cef41a91e9b5d24bee5e5b228f4a8f2175`).
+  Codex
+  (`artifacts/coordinator-decisions.D-116.review-adversarial.codex.json`,
+  `5d0cb0dc7f516ebbf1a3cd887d4d429f665370656c91572c78b4065a50f86e29`).
+  Subject `coordinator-decisions.D-116.draft.md`
+  `d7d80c176302baea2a72f39e8aca51de903b212f0aece45b2c428361c280abfa`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115. Claude's independent verdict was
+  ACCEPT-WITH-ADVISORIES; Codex's was ACCEPT. Both were 0/0.
+- **Subject:** `docs/coop/artifacts/product-boundary-successor-contract.v8.json`
+  `52c70f7715fb869bae70bc588043dc5b4d731b73408d2d451e868b8de963f362`.
+- **Verdicts:** Claude 2
+  `product-boundary-successor-contract.v8.review-independent.claude2.json`
+  `7e48d2d4f0c5b5305f9427b04ddb60450dccfe51f708fb639078c28e065a0b48`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX, advisories
+  PBSCV8-A1 / PBSCV8-A2 (qualify CLAUDE-V8-A1 / CLAUDE-V8-A2).
+  Codex
+  `product-boundary-successor-contract.v8.review-independent.codex.json`
+  `938666820e114972bef8fd431dccfa16cb189d147f8b08b8580acd30bbd5acda`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v8 as DR-117's accepted design-contract
+  successor candidate. This is coordinator decision D-116, not
+  register row DR-116. D-115 remains the adopted SARIF-v15
+  recording and is not retargeted. Claude advisories CLAUDE-V8-A1 /
+  CLAUDE-V8-A2 travel as honesty work on a later successor of the
+  recorded candidate (D116-CLAUDE-A1), as do review advisories
+  D116-CLAUDE-A1 / D116-CLAUDE-A2. Preview exclusion (D-066/D-068)
+  is not this row SATISFIED. DR-117 stays OPEN. No SATISFIED. No
+  QUALIFIED. The candidate binds NOTHING. D-056 Class A is not
+  opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-108, DR-110 (register row), DR-111, DR-112, DR-113, DR-114,
+  DR-115, DR-116 (register row), DR-118, DR-120, DR-121, DR-122,
+  DR-124, DR-125, DR-126, or DR-127. Does not overturn D-106,
+  D-107, D-108 (packaging recording), D-109, D-110, D-111, D-112,
+  D-113, D-114, or D-115. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D116.
+- **Commit:** C-D116.
