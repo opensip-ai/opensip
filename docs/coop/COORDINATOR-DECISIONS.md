@@ -5088,3 +5088,55 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D123.
 - **Commit:** C-D123.
+
+
+---
+
+## D-124 — Record monorepo-ci-contract.v16 as DR-121 leftover T2-02 candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-124.review-adversarial.claude2.json`,
+  `989e12d614f2fe3364ffc1014f723febe8666fe49ce06ded051b669d706861e5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-124.review-adversarial.codex.json`,
+  `5c5f27564ea14e8c01a5f93b9a0016064bc021434ce6d2efaebbc41737e54dce`).
+  Subject `coordinator-decisions.D-124.draft.md`
+  `1d8a05aa065f398cf125268cadb5de55e7e0cb451edb3b7da46b5cd8a2cfb541`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 / D-121 /
+  D-122 / D-123.
+- **Subject:** `docs/coop/artifacts/monorepo-ci-contract.v16.json`
+  `67ca501660a2ba515ce37adc799c5418e4ffd156308189662245e5a5e45a2ddb`.
+- **Verdicts:** Claude 2
+  `monorepo-ci-contract.v16.review-independent.claude2.json`
+  `eb4d3942045710c10923c45f001618a9e006fd885ccbdbe0581f9ecf58e7b8d1`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories CLAUDE-V16-A1 /
+  CLAUDE-V16-A2. Codex
+  `monorepo-ci-contract.v16.review-independent.codex.json`
+  `b7ba80924a2c0d910edd9428afa93908e64f10c8d45e18ea274019bfb97fe975`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory MCICV16-A1.
+- **Decision:** Record v16 as DR-121's leftover T2-02 successor
+  candidate. This is coordinator decision D-124, not register
+  row DR-124 (state-class; recorded at D-117). D-123 remains the
+  last prior adopted recording and is not retargeted. Claude
+  advisories CLAUDE-V16-A1 / CLAUDE-V16-A2 and Codex MCICV16-A1
+  travel as honesty work. DR-121 stays OPEN. No SATISFIED. G16
+  is not QUALIFIED. The candidate binds NOTHING. D-056 Class A
+  is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-109, DR-110, DR-111, DR-112, DR-113, DR-114,
+  DR-115, DR-116, DR-117, DR-118, DR-120, DR-122, DR-124, DR-125,
+  DR-126, or DR-127. Does not overturn D-106 (corpus recording),
+  D-107, D-108, D-109, D-110, D-111, D-112, D-113, D-114, D-115,
+  D-116, D-117, D-118, D-119, D-120, D-121, D-122, or D-123. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D124.
+- **Commit:** C-D124.
