@@ -5306,3 +5306,61 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D127.
 - **Commit:** C-D127.
+
+---
+
+## D-128 — Record permission-truth-tables.v9 as DR-105 leftover T2-02 successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-128.review-adversarial.claude2.json`,
+  `00d4311a5dc53b0b8e29023534df327bddf9a31fa064d62e99b3937d9fe52e2f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-128.review-adversarial.codex.json`,
+  `7cd33a8d2a24f3c750a0ed8a152527ab570918f922dd5d3a69523ab992f03b00`).
+  Subject `coordinator-decisions.D-128.draft.md`
+  `cf3113494af9a983f255bcd3ad2e46b990fe6a3f0275934d4f012af373710e32`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-093 / D-103 / D-104 /
+  D-105 / D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 /
+  D-113 / D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 /
+  D-121 / D-122 / D-123 / D-124 / D-125 / D-126 / D-127.
+- **Subject:** `docs/coop/artifacts/permission-truth-tables.v9.json`
+  `05d559647d103a47c18ed5177b71900a1d9dfcdea6b9a1255aefcec5f09eaccb`.
+- **Verdicts:** Claude 2
+  `permission-truth-tables.v9.review-independent.claude2.json`
+  `ed192b68a08bcafbdc3a3f716e2cf1db77b8b2c60fb7bfa7769fe24c4e7c049f`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX, advisories
+  CLAUDE-V9-ADV-1 / CLAUDE-V9-ADV-2. Codex
+  `permission-truth-tables.v9.review-independent.codex.json`
+  `cec59dc540adeb6f87068f949970f813ad0abb30f27214522ed3001b79d3c854`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v9 as DR-105's leftover T2-02 successor
+  candidate. This is coordinator decision D-128, not register
+  row DR-128 (third-party sandbox; deferred post-MVP). D-127
+  remains the last prior adopted recording and is not
+  retargeted. Permission-truth-tables.v6 `ad1bb75d…` remains
+  the D-109 subject and is not retargeted. Permission-truth-
+  tables.v2 `cce3afca…` remains the D-042 subject and is not
+  retargeted. Claude D-000 advisories CLAUDE-D128-A1 /
+  CLAUDE-D128-A2 / CLAUDE-D128-A3 and Claude v9 advisories
+  CLAUDE-V9-ADV-1 / CLAUDE-V9-ADV-2 travel as honesty work.
+  DR-105 stays OPEN. No SATISFIED. G09 is not QUALIFIED. The
+  candidate binds NOTHING. D-056 Class A is not opened. Does
+  not record FC-C1, apply host-effect, admit CA-1 IN_PROCESS,
+  or mint the later D-000 CA-2 gate. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-104, DR-105, DR-106, DR-108, DR-109, DR-110, DR-111, DR-112,
+  DR-113, DR-114, DR-115, DR-116, DR-117, DR-118, DR-120, DR-121,
+  DR-122, DR-124, DR-125, DR-126, or DR-127. Does not overturn
+  D-032, D-035, D-042, D-093, D-106 (corpus recording), D-107,
+  D-108, D-109, D-110, D-111, D-112, D-113, D-114, D-115, D-116,
+  D-117, D-118, D-119, D-120, D-121, D-122, D-123, D-124, D-125,
+  D-126, or D-127. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D128.
+- **Commit:** C-D128.
