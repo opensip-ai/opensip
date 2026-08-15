@@ -3796,3 +3796,42 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D095.
+
+---
+
+## D-096 — Record the five preview-deferral v2 candidates
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-096.review-adversarial.claude2.json`,
+  `c9e2045724ef08358bfca51111597ca4ce2e33d8a58fe0498a2391a09a4c9ec7`).
+  Codex
+  (`artifacts/coordinator-decisions.D-096.review-adversarial.codex.json`,
+  `d428d0cdf5e75d9844465485933a6e7a6fe11e27fe6688f4080657b2988736b7`).
+  Subject `coordinator-decisions.D-096.draft.md`
+  `df7a6143b0b695aa3de4cee2ecd780630da15e206798dbc430a6bb1144398f95`.
+  New cycle after D-095 CONTESTED. ADV-D095-T3-01 accepted.
+- **Decision type:** RULE-GOVERNED. Coordinator recording of
+  independently accepted design-contract / deferral
+  candidates. Same class as D-013 / D-035 / D-042 / D-066.
+- **Decision:** Record the five preview-deferral v2 artifacts
+  as accepted architecture-preview explicit-deferral
+  candidates. Each stays `CANDIDATE-NOT-RECORDED`, binds
+  NOTHING, remains `DO-NOT-SEAL`. This entry does not make
+  the coordinator those owners. D-054 / D-057 do not supply
+  the later owner path. Owner-recording remains blocked
+  until both (A) an applicable owner grant covering every
+  named role for the candidate being recorded and (B)
+  separately D-000-reviewed condition-2 owner-recording
+  mechanics. A mechanics entry alone never grants. DR-116
+  Route C does not generalize. DEF110-C2-A1 remains owed as
+  honesty work. Does not edit file 08. Does not mark any
+  row SATISFIED. Does not retry D-094. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2
+  unchanged. Condition 4 stays 16 of 18 PARTLY MET.
+  Condition 5 last.
+- **Reversibility:** C-D096. Does not overturn D-002, D-054,
+  D-057, D-093, D-094, or D-095.
+- **Commit:** C-D096.
