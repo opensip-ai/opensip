@@ -4504,3 +4504,56 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D112.
 - **Commit:** C-D112.
+
+---
+
+## D-113 — Record language-quality-matrix-contract.v13 as DR-118's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-113.review-adversarial.claude2.json`,
+  `cec0f279ee1228d0ea41a6596d457f2a537db608589d0979d3a6ead21d4dd919`).
+  Codex
+  (`artifacts/coordinator-decisions.D-113.review-adversarial.codex.json`,
+  `e64005b6cfb46fcd07c8371689c695c27fa2edf383bddf123010080987adbb87`).
+  Subject `coordinator-decisions.D-113.draft.md`
+  `fd629bc2864d80942670c5a22b18b1b0d06fd78abe7cb8604aad6e2848ee9ecf`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112.
+- **Subject:** `docs/coop/artifacts/language-quality-matrix-contract.v13.json`
+  `9efffdb3f7ec806bc967db5eff5868aea0a7d11524b1e026993a46505d35c2ae`.
+- **Verdicts:** Claude 2
+  `language-quality-matrix-contract.v13.review-independent.claude2.json`
+  `c98f6332292720d67b2109920fee6aec0df56c726f6729635bc4fa5f14b146a3`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories CLAUDE-V13-ADV-1 /
+  CLAUDE-V13-ADV-2. Codex
+  `language-quality-matrix-contract.v13.review-independent.codex.json`
+  `ac5cf60ac2a57557168a776cbe1282ce51e5047e6342381d3a6a1313af98e130`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory LQMCV13-A1.
+- **Decision:** Record v13 as DR-118's accepted design-contract
+  successor candidate. This is coordinator decision D-113, not
+  register row DR-113. D-112 remains the adopted secret-storage-v3
+  recording and is not retargeted. D-111 remains the adopted
+  anti-lockstep-v7 recording. D-110 remains the adopted SDK-v4
+  recording. Claude advisories CLAUDE-V13-ADV-1 / CLAUDE-V13-ADV-2
+  and Codex advisory LQMCV13-A1 travel as honesty work, as do
+  review advisories CLAUDE-D113-A1 and CLAUDE-D113-A2. DR-118 stays
+  DECIDED-V1-NOT-INTEGRATED. No SATISFIED. No QUALIFIED. Numeric
+  thresholds remain UNDECIDED (D-007). The matrix/corpus is not
+  authored. The candidate binds NOTHING. D-056 Class A is not
+  opened. D-056 Class B remains ineligible while thresholds are
+  UNDECIDED. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-101, DR-103, DR-108, DR-110 (register row),
+  DR-111, DR-112, DR-113, DR-120, DR-121, DR-122, DR-124, DR-125,
+  DR-126, or DR-127. Does not overturn D-106, D-107, D-108
+  (packaging recording), D-109, D-110, D-111, or D-112. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D113.
+- **Commit:** C-D113.
