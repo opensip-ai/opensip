@@ -3686,3 +3686,49 @@ file-09 D-000 act. Left whole-document until then.
   Does not overturn D-009, D-056, D-077, D-085, D-088, D-089,
   D-090, or D-091. Overturn: C-D092.
 - **Commit:** C-D092.
+
+---
+
+## D-093 — Record host-effect-authorization.v8 as the D-032 host-effect candidate
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 3 of 3, re-dispatched
+  after a freeze-digest mismatch (not a fourth turn; the first
+  turn-3 verdicts were freeze-precondition OBJECTs, not merits
+  reviews): CONSENT from both independent reviewers, 0 MUST-FIX,
+  0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-093.review-adversarial.claude2.turn3.redispatch.json`,
+  `b7593d08f7048f052d2ce4d974e87d03bc4719903390caf486f7e9a3a28fc60d`).
+  Codex
+  (`artifacts/coordinator-decisions.D-093.review-adversarial.codex.turn3.redispatch.json`,
+  `9c7afdb068b8edd08aaa8b29d523ec36268eb6d53830a792676fe152c99d4f4c`).
+  Turn-1 Claude 2 MUST-FIX D093-MF-1 accepted. Turn-2 Codex
+  MUST-FIX ADV-D093-T2-01 accepted. Turn-3 subject
+  `coordinator-decisions.D-093.turn3.draft.md`
+  `856f7cd23ebb433acdbb3c069cbf7b04087380d4e1c246f6f0e02ade4faaba22`.
+- **Decision type:** RULE-GOVERNED. Records independent ACCEPT
+  (0 blockers) of a design-contract candidate. Same recording
+  class as D-013 / D-015 / D-035 / D-042. File-08 MF-6.
+- **Decision:** Record committed
+  `host-effect-authorization.v8.json`
+  `2cbad5612e546d3bf915074a8ad3fc4cae444122c997e2ddb3fe067d3cd022dc`
+  as the host-effect design-contract candidate D-032 requires.
+  The artifact stays `CANDIDATE-NOT-APPLIED`, binds NOTHING,
+  remains `DO-NOT-SEAL`. Existence plus ACCEPT is not the
+  joint-owner FC-C1 recording. DR-105 and DR-114 stay `OPEN`.
+  `permission-truth-tables.v2` (D-042) remains DR-105's
+  accepted design-contract candidate. A full permission v2
+  successor is not owed. Remaining unmet: FC-C1, DR-G09
+  fixture execution, BLK-1..BLK-4, D-042 advisory honesty
+  work, DR-114 actor-join and fixture-corpus execution.
+  Three unique file-08 phrase replacements only. Does not
+  change condition-2 SATISFIED counts. Does not record the
+  uncommitted working-tree mutation `2d95f22c…`. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 4
+  of 30 and NOT MET. Condition 4 unchanged. Condition 5
+  remains NOT MET and last.
+- **Reversibility:** C-D093 plus restore of the three unique
+  DR-105/DR-114 phrases. Does not overturn D-032, D-035,
+  D-042, or D-092. Overturn: C-D093.
+- **Commit:** C-D093.
