@@ -4405,3 +4405,51 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D110.
 - **Commit:** C-D110.
+
+---
+
+## D-111 — Record anti-lockstep-contract.v7 as DR-127's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-111.review-adversarial.claude2.json`,
+  `986509724d9207017c944deb03aedadcd0291cd00c7b95e3579083c7c7a416c5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-111.review-adversarial.codex.json`,
+  `8ca86bdc45e3ca79693c0aec6302a4ea48ae3976cbe3052303c17a5fe27537a2`).
+  Subject `coordinator-decisions.D-111.draft.md`
+  `7eba6fc906cf169952d325f6e62d467556cfa3dad7e41f51bf96a0076f553bdc`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110.
+- **Subject:** `docs/coop/artifacts/anti-lockstep-contract.v7.json`
+  `8c41bddd7c351abc3a0b4b721f9302df29ba7d053352cb950ec8b23e4afdd671`.
+- **Verdicts:** Claude 2
+  `anti-lockstep-contract.v7.review-independent.claude2.json`
+  `73fb7bde942b1b393faa928c4db3538fb7dfa58faee6bb8f4ad66368d2a67235`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory CLAUDE-V7-A-1.
+  Codex
+  `anti-lockstep-contract.v7.review-independent.codex.json`
+  `9f1adab71c6231a0e72a37f301f5e253453f2a76f1545739e27f40eba30d9663`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v7 as DR-127's accepted design-contract
+  successor candidate. This is coordinator decision D-111, not
+  register row DR-111. D-110 remains the adopted SDK-v4 recording
+  and is not retargeted. Claude advisory CLAUDE-V7-A-1 travels as
+  honesty work. DR-127 stays OPEN. No SATISFIED. No QUALIFIED.
+  Hostile dual-channel goldens remain named, not authored here.
+  CC-1..CC-11 remain specifications (D-015), not this row's
+  executed SATISFIED evidence. The candidate binds NOTHING.
+  D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-103, DR-107, DR-108, DR-110 (register row),
+  DR-111, DR-112, DR-120, DR-121, DR-122, DR-124, DR-125, or
+  DR-126. Does not overturn D-106, D-107, D-108, D-109, or D-110.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D111.
+- **Commit:** C-D111.
