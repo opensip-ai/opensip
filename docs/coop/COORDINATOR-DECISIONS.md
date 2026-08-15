@@ -4116,3 +4116,50 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D104.
 - **Commit:** C-D104.
+
+---
+
+## D-105 — Record signed-index-trust-contract.v8 as DR-112's accepted design-contract candidate
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-105.review-adversarial.claude2.json`,
+  `913a69918119f1fba003b099967fb7144ea046f5d5d5c41da35553e7f3b34293`).
+  Codex
+  (`artifacts/coordinator-decisions.D-105.review-adversarial.codex.json`,
+  `930dc4af1aa81887ab3f2ce6c6488f24ffd69d4b4633c4919d1de8ad179ceda8`).
+  Subject `coordinator-decisions.D-105.draft.md`
+  `6cdf1eff18409be9db5d8e4d1730658586979561eaab850c7554f4493ee94107`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104.
+- **Subject:** `docs/coop/artifacts/signed-index-trust-contract.v8.json`
+  `fc171321e969c74464dbc9ff67edd9b874aac1d1c7375c7dc8e431469442efe0`.
+- **Verdicts:** Claude 2
+  `signed-index-trust-contract.v8.review-independent.claude2.json`
+  `559cfad1f29443326734fe4cc480aca802bfac118668080956af59534029dead`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX. Codex
+  `signed-index-trust-contract.v8.review-independent.codex.json`
+  `10784a6de2c2767cec5ce55549cc75d4402cd93f4fe5342e8ff95c5236fead13`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v8 as DR-112's accepted design-contract
+  candidate. This is coordinator decision D-105, not register
+  row DR-105. Advisories CLAUDE-V8-A1 (ADV-V8-01: memberApplicability
+  parenthetical omits recovery PRESENT member 18) and CODEX-V8-A1
+  (SITCV8-A1: Codex v7 pin) travel as honesty work; they are
+  distinct findings. CODEX-V8-A1 is recorded here by pinning
+  Codex v7 `ffe079b9c634fe97a2a735fbda99efac386505870e11b31b2b23753c6f38a1e5`
+  COMPLETE REJECT, 0/1/0, SITCV7-S1 only. DR-112 stays OPEN. No
+  SATISFIED. Quorum, clock/freshness, emergency, and waiver
+  numbers remain RESERVED. Repair-media remains DR-110.
+  Newly-revoked replay remains DR-113. G06/G08 stay
+  named-not-authored / not QUALIFIED. No lock is producible.
+  D-056 Class A is not opened. Does not edit file 08. Does not
+  mint a D-096 (A) grant. Does not dispose DR-117. Does not
+  SATISFY DR-103 or DR-105. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D105.
+- **Commit:** C-D105.
