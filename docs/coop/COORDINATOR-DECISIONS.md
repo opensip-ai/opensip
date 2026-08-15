@@ -4163,3 +4163,58 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D105.
 - **Commit:** C-D105.
+
+---
+
+## D-106 — Record component-manifest-fixture-corpus.v6 as DR-103's accepted fixture-corpus candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-106.review-adversarial.claude2.turn3.json`,
+  `2837edaf7bd40541e755e33b21d7b15839e21a3009e65b01f33e3b57311f24ad`).
+  Codex
+  (`artifacts/coordinator-decisions.D-106.review-adversarial.codex.turn3.json`,
+  `e1254ecdefe977ae6cf45ed63afb3eb7fc8fbe26b1489872c1e148ddb30a8e55`).
+  Turn-1 Claude OBJECT CLAUDE-D106-M1 accepted (the register is
+  `docs/v2/architecture/08-decision-and-readiness-register.md`,
+  not `docs/coop/architecture/08-surfaces-and-topology.md`).
+  Turn-2 Codex OBJECT CODEX-D106T2-M1 accepted (turn-1 Claude
+  pin is the reproducing digest `1e3f4a6a…`, not the
+  unretrievable `06f4c343…`). Turn-3 subject
+  `coordinator-decisions.D-106.turn3.draft.md`
+  `5ff4a9ba3cb9666378c1fe5fabc905f047ee1cb3e6a208ecc2aa744ca8048a44`.
+  Claude 2 turn-3 advisory ADV-D106T3-01 travels as honesty
+  work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  SATISFIED-GRADE ACCEPT (0 blockers, 0 SHOULD-FIX from both
+  reviewers). Same form as D-013 / D-015 / D-035 / D-042 /
+  D-103 / D-104 / D-105.
+- **Subject:** `docs/coop/artifacts/component-manifest-fixture-corpus.v6.json`
+  `8dfa9346ada4fefce0aabca96062208e4fea7371a6aab68eaee75cdc908a21a5`.
+- **Verdicts:** Claude 2
+  `component-manifest-fixture-corpus.v6.review-independent.claude2.json`
+  `b99dda48366dee5e0c90aae2c9475ca82d8152fcf302ad4898f52faaf51d533a`
+  ACCEPT-WITH-ADVISORIES, 0 blockers, 0 SHOULD-FIX. Codex
+  `component-manifest-fixture-corpus.v6.review-independent.codex.json`
+  `4ff72e1088169f0f11132bdc64d8e664d4add7711ffee604681af088f79c2a71`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v6 as DR-103's accepted fixture-corpus
+  candidate. This is coordinator decision D-106, not register
+  row DR-106. Advisories CLAUDE-V6-A1 / CODEX-V6-A1 (same
+  `/date` roster defect) travel as honesty work; they are
+  one class. DR-103 stays OPEN. No SATISFIED. D-013
+  SATISFIED-refusal stands. D-104 schemas.v11 recording
+  stands. Unicode-norm duplicate remains BLOCKED. Locks
+  remain deferred to DR-111. No fixture executed. No lock
+  producible. D-056 Class A is not opened. Does not retarget
+  corpus v2/v3/v4/v5. Does not mutate `fixtures/dr-103.v2/`
+  or `fixtures/dr-103.v4/`. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117.
+  Does not SATISFY DR-111, DR-112, or DR-105. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D106.
+- **Commit:** C-D106.
