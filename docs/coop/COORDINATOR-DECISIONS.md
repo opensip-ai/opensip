@@ -4453,3 +4453,54 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D111.
 - **Commit:** C-D111.
+
+---
+
+## D-112 — Record secret-storage-contract.v3 as DR-108's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-112.review-adversarial.claude2.json`,
+  `f657ca3ca43701f2552863124685fde78d384810c5575c0a05381f67b232ce71`).
+  Codex
+  (`artifacts/coordinator-decisions.D-112.review-adversarial.codex.json`,
+  `02e3e170e343a1994a4051dfaf9b568e04a58b4d8e720b3a6deeb0bb3c5cd260`).
+  Subject `coordinator-decisions.D-112.draft.md`
+  `60e28353d1eff77979e8fdf1bd67a6d0350e40e4d333c56765d3ffa807118ed4`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111.
+- **Subject:** `docs/coop/artifacts/secret-storage-contract.v3.json`
+  `2919b5cd77782cdb3785650390de6b25725c850bd5b359bf7fccd62265651923`.
+- **Verdicts:** Claude 2
+  `secret-storage-contract.v3.review-independent.claude2.json`
+  `1d198228f0eca04ac0bc62ad845be24156ec6409a698a40b4a356c0ae2b99857`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories ADV-1/ADV-2.
+  Codex
+  `secret-storage-contract.v3.review-independent.codex.json`
+  `9561dee0c1584b00b885135a30b5e145095e4ea9d616005aee3005a7a4513261`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v3 as DR-108's accepted design-contract
+  successor candidate. This is coordinator decision D-112, not
+  register row DR-112. D-111 remains the adopted anti-lockstep-v7
+  recording and is not retargeted. D-110 remains the adopted
+  SDK-v4 recording. Claude advisories CLAUDE-V3-A1 (ADV-1) and
+  CLAUDE-V3-A2 (ADV-2) travel as honesty work, as does review
+  advisory CLAUDE-D112-A1 (unqualified ADV-* ids in the draft).
+  DR-108 stays OPEN. No SATISFIED. No QUALIFIED. OS keychain and
+  user-file fallback remain proposed and unexercised in the first
+  slice. Exact APIs remain reserved. The candidate binds NOTHING.
+  D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-103, DR-107, DR-110 (register row), DR-111,
+  DR-112, DR-120, DR-121, DR-122, DR-124, DR-125, DR-126, or
+  DR-127. Does not overturn D-106, D-107, D-108 (packaging
+  recording), D-109, D-110, or D-111. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D112.
+- **Commit:** C-D112.
