@@ -3732,3 +3732,37 @@ file-09 D-000 act. Left whole-document until then.
   DR-105/DR-114 phrases. Does not overturn D-032, D-035,
   D-042, or D-092. Overturn: C-D093.
 - **Commit:** C-D093.
+
+---
+
+## D-094 — D-006 fleet-class successor plus G03/G04 named identifiers (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000
+  clause 2. Not adopted. No forced consensus. Parked.
+  Claude 2 turn 3 CONSENT, 0 MUST-FIX, 0 SHOULD-FIX, 1 NOTE
+  (`artifacts/coordinator-decisions.D-094.review-adversarial.claude2.turn3.json`,
+  `ac65e0ee53c04868118f27128aa27dc9a5cfa33f4d9c4d88946e2532103776ee`).
+  Codex turn 3 OBJECTIONS, 2 MUST-FIX ADV-D094-T3-01 /
+  ADV-D094-T3-02 and 1 SHOULD-FIX ADV-D094-T3-03
+  (`artifacts/coordinator-decisions.D-094.review-adversarial.codex.turn3.json`,
+  `9af90e32136e6902c91713f697d37e0aca44db8a148209f1bc1ba3930fa382d1`).
+- **Decision type:** PREFERENCE-LADEN successor plus
+  RULE-GOVERNED naming. Not adopted.
+- **Subject:** `coordinator-decisions.D-094.turn3.draft.md`
+  `5fd1671050323a84dcd72245cb7ae4fd19e67170dc524ef408dbb5c1bcf19449`.
+- **Positions parked:** Claude 2 accepts the hosted-fleet
+  contract, class-trade table, and 18-of-18 naming. Codex
+  refuses naming until (1) release-to-release regression
+  controls CPU-brand and weekly-image drift (paired or
+  stratified, not same-class-only) and (2) N=11 plus no
+  quantile estimator cannot produce distinct D-006 p95/p99
+  measurements. SHOULD-FIX: preflight observables
+  underspecified.
+- **Decision:** None. File 08 is not edited. G03/G04 stay
+  reserved. Condition 4 stays 16 of 18 and PARTLY MET. A
+  later new cycle (not turn 4) may retry.
+- **Readiness effect:** Zero. Condition 4 unchanged.
+  Condition 5 last.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D094.
