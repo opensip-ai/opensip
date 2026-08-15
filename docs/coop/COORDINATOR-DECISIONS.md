@@ -5425,3 +5425,65 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D129.
 - **Commit:** C-D129.
+
+---
+
+## D-130 — Record identity-namespace-negative-test-corpus.v1 as DR-104 leftover T2-02 successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-130.review-adversarial.claude2.json`,
+  `c9fe21ebfa239abb839f09e46592ae806d17d1ce7b97320da43e499c4e529776`).
+  Codex
+  (`artifacts/coordinator-decisions.D-130.review-adversarial.codex.json`,
+  `deb76ff782d3cce7ee6c9804b01691b244d0ba24f5343fb403ee259657b1dd5e`).
+  Subject `coordinator-decisions.D-130.draft.md`
+  `d983ccdc0df5f153d98dfe45d43840d077f7b35bc2072e9815f4f8dd44a0c1ab`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-093 / D-103 / D-104 /
+  D-105 / D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 /
+  D-113 / D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120 /
+  D-121 / D-122 / D-123 / D-124 / D-125 / D-126 / D-127 / D-128 /
+  D-129.
+- **Subject:** `docs/coop/artifacts/identity-namespace-negative-test-corpus.v1.json`
+  `2c0795cd58e95e56afad46899b3c5d546d4fb520e38e1a8c3f7c132aa69583dd`.
+- **Verdicts:** Claude 2
+  `identity-namespace-negative-test-corpus.v1.review-independent.claude2.json`
+  `7c84969cb06d26c01cd8c5de3f0c99908cc2abe274f5b5f33a2d33258e86fbda`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisories CLAUDE-NTC-V1-ADV-1
+  / CLAUDE-NTC-V1-ADV-2. Codex
+  `identity-namespace-negative-test-corpus.v1.review-independent.codex.json`
+  `8676bac78cbde7415fb9ba3218f5bb1d0efcb0daf716cf37a1f6bfd805e7ed81`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v1 as DR-104's leftover T2-02 successor
+  candidate. This is coordinator decision D-130, not register
+  row DR-130 (V1→V2 transition; slice 1 claims no upgrade
+  continuity). D-129 remains the last prior adopted recording
+  and is not retargeted. Identity v3 `57bf8982…` remains the
+  D-123 subject and is not retargeted. Corpus v6 `8dfa9346…`
+  remains the D-106 subject and is not applied. Claude
+  advisories CLAUDE-NTC-V1-ADV-1 / CLAUDE-NTC-V1-ADV-2 and
+  Claude D-000 advisories CLAUDE-D130-A1 / CLAUDE-D130-A2
+  travel as honesty work. DR-104 stays
+  DECIDED-V1-NOT-INTEGRATED. leftover-design/OPEN is a finding
+  against a recording of this row. No SATISFIED. The candidate
+  binds NOTHING. D-056 Class A is not opened. This recording
+  is not a Class B SATISFIED re-record. Does not mutate
+  `fixtures/dr-103.v2/` or `fixtures/dr-103.v4/`. Does not
+  execute any fixture. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-104, DR-105, DR-106, DR-108, DR-109, DR-110, DR-111, DR-112,
+  DR-113, DR-114, DR-115, DR-116, DR-117, DR-118, DR-120, DR-121,
+  DR-122, DR-124, DR-125, DR-126, or DR-127. Does not overturn
+  D-012, D-032, D-035, D-042, D-093, D-104 (schemas recording),
+  D-106 (corpus recording), D-107, D-108, D-109, D-110, D-111,
+  D-112, D-113, D-114, D-115, D-116, D-117, D-118, D-119, D-120,
+  D-121, D-122, D-123, D-124, D-125, D-126, D-127, D-128, or
+  D-129. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D130.
+- **Commit:** C-D130.
