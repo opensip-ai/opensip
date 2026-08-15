@@ -3864,3 +3864,34 @@ file-09 D-000 act. Left whole-document until then.
   Condition 4 stays 16 of 18 PARTLY MET. Condition 5 last.
 - **Reversibility:** C-D097 (withdrawal). Overturn: C-D097.
 - **Commit:** C-D097.
+
+---
+
+## D-098 — D-006 fleet-class successor plus G03/G04 named identifiers (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. File 08 not edited.
+  Claude 2 turn 3 CONSENT, 0 MUST-FIX, 0 SHOULD-FIX, 1 NOTE
+  (`artifacts/coordinator-decisions.D-098.review-adversarial.claude2.turn3.json`,
+  `414bf343fa61cf42639d99578fd1eeaecea8c335f3090f4aeed5400a36864f2a`).
+  Codex turn 3 OBJECTIONS, 0 MUST-FIX, 1 SHOULD-FIX ADV-D098-T3
+  process-architecture observation
+  (`artifacts/coordinator-decisions.D-098.review-adversarial.codex.turn3.json`,
+  `223689de85d9d49b1b06c92acd86f759e524e4e0b38bfb194413f8d24e40859b`).
+  Turn-3 subject `coordinator-decisions.D-098.turn3.draft.md`
+  `5ad6884a06aa450bc2cbc0f286b3366eb9e029922e92a0ae6937868e37e05031`.
+- **Decision type:** PREFERENCE-LADEN. Not adopted.
+- **Both positions (required by D-000 clause 2):**
+  Claude 2: fleet contract complete; G03/G04 may be named;
+  condition 4 may become MET.
+  Codex: process-architecture recipe still observes the
+  inspector (`file /proc/self/exe`) or a fat-image slice,
+  not the launched target process. CONSENT withheld;
+  G03/G04 stay reserved; condition 4 stays 16 of 18
+  PARTLY MET.
+- **Decision:** None. File 08 is not edited. A later new
+  cycle (not turn 4) may retry.
+- **Readiness effect:** Zero. Condition 4 unchanged.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D098.
