@@ -4933,3 +4933,54 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D120.
 - **Commit:** C-D120.
+
+
+---
+
+## D-121 — Record self-update-repair-contract.v3 as DR-110's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-121.review-adversarial.claude2.json`,
+  `5eff0d39c01f729128dab966fe1c52aecda3fe8c77aed93fa1bb56e8a6712927`).
+  Codex
+  (`artifacts/coordinator-decisions.D-121.review-adversarial.codex.json`,
+  `a38bbe6b68eecef3f9c4331376f71d1a17b81b7544bc6fc501afd375cc36bccc`).
+  Subject `coordinator-decisions.D-121.draft.md`
+  `846fc351ada6961d95726c8e90667a219d7034b6227bf8d153d2aef740350759`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116 / D-117 / D-119 / D-118 / D-120.
+- **Subject:** `docs/coop/artifacts/self-update-repair-contract.v3.json`
+  `73a44c2b07a2b8e8db48497a04557d99d65f91497a717eaf2fdf07fc8008690a`.
+- **Verdicts:** Claude 2
+  `self-update-repair-contract.v3.review-independent.claude2.json`
+  `c4f3cb59c2aacce310f34cf602560850cd2916b52d6142c9e0a00ea91e11df38`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX. Codex
+  `self-update-repair-contract.v3.review-independent.codex.json`
+  `e21b1e33bf2b235367f80bec53cb2ec950b77d27be4988d87c9e441d8cecc8b3`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v3 as DR-110's accepted design-contract
+  successor candidate. This is coordinator decision D-121, not
+  register row DR-121 (monorepo CI). D-120 remains the last prior
+  adopted recording and is not retargeted. D-118 and D-119 remain
+  adopted and are not retargeted. DR-110 stays OPEN. No SATISFIED.
+  No QUALIFIED. D-002 defers self-update/repair from slice 1
+  (fresh signed download). The candidate binds NOTHING. D-056
+  Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not SATISFY DR-101, DR-103,
+  DR-106, DR-108, DR-109, DR-111, DR-112, DR-113, DR-114, DR-115,
+  DR-116 (register row), DR-117, DR-118, DR-120, DR-121, DR-122,
+  DR-124, DR-125, DR-126, or DR-127. Does not overturn D-106
+  (corpus recording), D-107, D-108 (packaging recording), D-109,
+  D-110 (SDK recording), D-111, D-112, D-113, D-114, D-115,
+  D-116, D-117, D-118, D-119, or D-120. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D121.
+- **Commit:** C-D121.
