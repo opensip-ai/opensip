@@ -4606,3 +4606,60 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D114.
 - **Commit:** C-D114.
+
+---
+
+## D-115 — Record sarif-projection-contract.v15 as DR-122's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-115.turn2.review-adversarial.claude2.json`,
+  `b6c913c1f02d089af28a26898d2474900c02953e89a0e8ace9d7dbe8191abf22`).
+  Codex
+  (`artifacts/coordinator-decisions.D-115.turn2.review-adversarial.codex.json`,
+  `2cae9b6afda69e7082539cef12245be945af579af8b3fda92387ff767ca4e843`).
+  Subject `coordinator-decisions.D-115.turn2.draft.md`
+  `d7bc919c6a5bec77ea335e3059d6f5e85e1dec0b4541a14556dae0b9e9392a76`.
+  Turn 1 OBJECT (D115-MF-1) at
+  `coordinator-decisions.D-115.review-adversarial.claude2.json`
+  `64c5402f450af4b3ce13154786cccd400162bc6580920d0fb43015c663a642da`
+  against frozen turn-1 draft
+  `c69557fa3cbdde778252eebc9c349b0d8154bb6b66aad95524740272e0cba2af`
+  (not retargeted).
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114.
+- **Subject:** `docs/coop/artifacts/sarif-projection-contract.v15.json`
+  `8996a92d00ddd47d212dbeecaf51f25b77b90d87aaa618cda9ad00749fd1d589`.
+- **Verdicts:** Claude 2
+  `sarif-projection-contract.v15.review-independent.claude2.json`
+  `fe5f55181b305c5cafd3993b672d30296b7d62c7f10dd236585a81bd99aaaad0`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory ADV-1 (qualify
+  CLAUDE-V15-ADV-1). Codex
+  `sarif-projection-contract.v15.review-independent.codex.json`
+  `9f402c72267ed7c92657a1aa38e4c0fc185a25eaf23bb7aad69042dd9dbfad76`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX, advisory SARIFV15-A1.
+- **Decision:** Record v15 as DR-122's accepted design-contract
+  successor candidate. This is coordinator decision D-115, not
+  register row DR-115 (thresholds; SATISFIED at D-089). D-114
+  remains the adopted inventory-v16 recording and is not
+  retargeted. Claude advisories CLAUDE-V15-ADV-1 and SARIFV15-A1
+  travel as honesty work, as does review advisory D115-T2-ADV-1.
+  DR-122 stays PROPOSED-CLOSED-FOR-REVIEW. No SATISFIED. No
+  QUALIFIED. Preview still does not advertise SARIF. G17 stays
+  inapplicable. The candidate binds NOTHING. D-056 Class A is not
+  opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-101, DR-103, DR-108, DR-110 (register row),
+  DR-111, DR-112, DR-113, DR-114, DR-118, DR-120, DR-121, DR-124,
+  DR-125, DR-126, or DR-127. Does not overturn D-106, D-107,
+  D-108 (packaging recording), D-109, D-110, D-111, D-112, D-113,
+  or D-114. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D115.
+- **Commit:** C-D115.
