@@ -4717,3 +4717,51 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D116.
 - **Commit:** C-D116.
+
+---
+
+## D-117 — Record state-class-contract.v11 as DR-124's accepted design-contract successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-117.review-adversarial.claude2.json`,
+  `b5af88462813f990d962a968aa03a4c6a2123e115d7711748b768beb74b4e4d0`).
+  Codex
+  (`artifacts/coordinator-decisions.D-117.review-adversarial.codex.json`,
+  `53683f974e0064ce140575aecdd0652db2729982a03a3a9af4143922ef2ed5dc`).
+  Subject `coordinator-decisions.D-117.draft.md`
+  `274414aaaaefd9b5553a20fcc8bdd10212277e3e1f07e6b206bd4e3ecefc391f`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042 / D-103 / D-104 / D-105 /
+  D-106 / D-107 / D-108 / D-109 / D-110 / D-111 / D-112 / D-113 /
+  D-114 / D-115 / D-116.
+- **Subject:** `docs/coop/artifacts/state-class-contract.v11.json`
+  `b5456c63e865b53738b1f11f46a898438afca7890a6069a8653aad6ea78d86bb`.
+- **Verdicts:** Claude 2
+  `state-class-contract.v11.review-independent.claude2.json`
+  `c20dc0cc4fd786ef4c5080dee23fe11bd8bfbfa5f963e831efcf39c39dfa3422`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX. Codex
+  `state-class-contract.v11.review-independent.codex.json`
+  `6c40f95aaa0c2e34345942a19662f035368a81a6008a54709a2fe815f2837c75`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v11 as DR-124's accepted design-contract
+  successor candidate. This is coordinator decision D-117, not
+  register row DR-117. D-116 remains the adopted
+  product-boundary-v8 recording and is not retargeted. DR-124
+  stays OPEN. No SATISFIED. No QUALIFIED. Grant-journal assignment
+  remains a proposed supersession. The candidate binds NOTHING.
+  D-056 Class A is not opened. Does not edit
+  `docs/v2/architecture/08-decision-and-readiness-register.md`.
+  Does not mint a D-096 (A) grant. Does not dispose DR-117. Does
+  not SATISFY DR-101, DR-103, DR-108, DR-110 (register row),
+  DR-111, DR-112, DR-113, DR-114, DR-115, DR-116 (register row),
+  DR-118, DR-120, DR-121, DR-122, DR-125, DR-126, or DR-127.
+  Does not overturn D-106, D-107, D-108 (packaging recording),
+  D-109, D-110, D-111, D-112, D-113, D-114, D-115, or D-116.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D117.
+- **Commit:** C-D117.
