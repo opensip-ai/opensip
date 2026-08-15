@@ -4030,3 +4030,43 @@ file-09 D-000 act. Left whole-document until then.
   every owner recording that cites D-100 and reconciling
   each dependent MF-6 note under its own reviewed act.
 - **Commit:** C-D100.
+
+---
+
+## D-103 — Record compatibility-matrices-contract.v5 as DR-111's accepted design-contract candidate
+
+- **Date:** 2026-08-14
+- **Status:** **ADOPTED 2026-08-14.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-103.review-adversarial.claude2.json`,
+  `c132520ac57cf63a0b78d62802d0fdfe68f656831ae4a7da352689c5b80377d3`).
+  Codex
+  (`artifacts/coordinator-decisions.D-103.review-adversarial.codex.json`,
+  `e84548551ced78b4cae23dc989f8f3393686f4579b2c1fdf68bff19f2298e8cb`).
+  Subject `coordinator-decisions.D-103.draft.md`
+  `7f353629e669dfd0ace55163edf637915ab4e5c1d1c2826dddfd4174532eee61`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  form as D-013 / D-015 / D-035 / D-042.
+- **Subject:** `docs/coop/artifacts/compatibility-matrices-contract.v5.json`
+  `d0386cee26d8aafd3d07b46f21352cc3d9d03cdc8f406de0adf571f8c81f7f41`.
+- **Verdicts:** Claude 2
+  `compatibility-matrices-contract.v5.review-independent.claude2.json`
+  `40a638d4c80601f77b3ff3c7c8de570b8c4c1669405003f0eb445bdd4df2f55b`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX. Codex
+  `compatibility-matrices-contract.v5.review-independent.codex.json`
+  `453ec57d98b9caa503b969b49fb99846aa19da830e4b21b70a7395ca550d1731`
+  ACCEPT, 0 blockers, 0 SHOULD-FIX.
+- **Decision:** Record v5 as DR-111's accepted design-contract
+  candidate. Advisories (Claude ADV-1/ADV-2; Codex CMCV5-A1)
+  travel as honesty work. Claude D-103 advisories ADV-D103-01
+  and ADV-D103-02 also travel and do not reopen the recording.
+  DR-111 stays OPEN. No SATISFIED. Numeric windows remain
+  RESERVED. S-EVIDENCE remains deferred with DR-113. No lock
+  is producible. D-056 Class A is not opened. Does not edit
+  file 08. Does not mint a D-096 (A) grant. Does not dispose
+  DR-117. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total. Overturn: C-D103.
+- **Commit:** C-D103.
