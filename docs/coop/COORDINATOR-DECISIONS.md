@@ -3926,3 +3926,34 @@ file-09 D-000 act. Left whole-document until then.
 - **Readiness effect:** Zero. Condition 4 unchanged.
 - **Reversibility:** n/a (not adopted).
 - **Commit:** C-D099.
+
+---
+
+## D-101 — D-006 fleet-class successor plus G03/G04 named identifiers (CONTESTED)
+
+- **Date:** 2026-08-14
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. File 08 not edited.
+  Claude 2 turn 3 CONSENT, 0 MUST-FIX, 0 SHOULD-FIX, 5 NOTES
+  (`artifacts/coordinator-decisions.D-101.review-adversarial.claude2.turn3.json`,
+  `8e3828071c789ec2f05903ee1ed44af376b88751957f6ebf8e90bfa10d8c6921`).
+  Codex turn 3 OBJECTIONS, 0 MUST-FIX, 1 SHOULD-FIX
+  ADV-D101-T3-01 (disposition row vs cold-only sequence)
+  (`artifacts/coordinator-decisions.D-101.review-adversarial.codex.turn3.json`,
+  `b0819a1dc14522c37d0caef61bdfec9c19778af622e44f9ac6b21e1931da6209`).
+  Turn-3 subject `coordinator-decisions.D-101.turn3.draft.md`
+  `ba5f8fc8ae336de0073642fd6e3ac2bc549988256b20068e2864df3ff1e66eae`.
+- **Decision type:** PREFERENCE-LADEN. Not adopted.
+- **Both positions (required by D-000 clause 2):**
+  Claude 2: fleet contract and hash/purge split complete;
+  G03/G04 may be named; condition 4 may become MET.
+  Codex: the D101-T2-MF-1 disposition row still says
+  `stat` immediately before each timed launch, which
+  contradicts the cold-only numbered sequence. CONSENT
+  withheld; G03/G04 stay reserved; condition 4 stays
+  16 of 18 PARTLY MET.
+- **Decision:** None. File 08 is not edited. A later new
+  cycle (not turn 4) may retry.
+- **Readiness effect:** Zero. Condition 4 unchanged.
+- **Reversibility:** n/a (not adopted).
+- **Commit:** C-D101.
