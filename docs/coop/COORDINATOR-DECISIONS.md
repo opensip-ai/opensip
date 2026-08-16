@@ -5773,3 +5773,60 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** Total only before the owed MF-6 or another
   dependent act. Overturn: C-D136.
 - **Commit:** C-D136.
+
+---
+
+## D-137 — Record preview-product-boundary-successor.v5 as DR-117's preview-scoped successor candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-137.review-adversarial.claude2.turn2.json`,
+  `226991bef0b90b528d0d9ee277b9f04cdb84b79d3264e58706484611fbf7f925`).
+  Codex
+  (`artifacts/coordinator-decisions.D-137.review-adversarial.codex.turn2.json`,
+  `e74082e484e6680a1a3d55c4c1590d36758fc55d34d32d0f749d0329093495a4`).
+  Subject `coordinator-decisions.D-137.turn2.draft.md`
+  `a0b31bd7c45c205bb163b8177f7efe0b14f398db8b37b187caf1ab8abecdfe5e`.
+  Turn-1 Claude OBJECT (CLAUDE-D137-SF1) at
+  `53d0d3b169bf7fe1062e9769e2a080142dd4552827c10c5b751402db6e7665ea`;
+  turn-1 Codex OBJECT (D137-SF-1, D137-SF-2)
+  `1217aa4dbdd083e080f4f9c8cf1763d56d8656a52c76637ea009aaabfc23c093`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-successor.v5.json`
+  (0 blockers, 0 SHOULD-FIX from both reviewers). Same
+  no-cell-edit branch as D-116 / D-131 / D-136.
+- **Subject:** `docs/coop/artifacts/preview-product-boundary-successor.v5.json`
+  `5face6a97b311117569044c0214452571e6d3f051e1ab9b38f46abf442ce1262`.
+- **Verdicts:** Claude 2
+  `preview-product-boundary-successor.v5.review-independent.claude2.json`
+  `51289f8efe15123d18f548507090bfa8b6990b94ec491fa2e4b6940b68e23b45`
+  ACCEPT, 0/0, advisories CLAUDE-PPBS-V5-ADV-1 /
+  CLAUDE-PPBS-V5-ADV-2; standing CLAUDE-PPBS-V3-ADV-1. Codex
+  `preview-product-boundary-successor.v5.review-independent.codex.json`
+  `ec1517dc4fade8a43dfaa9f1b174be5c6058a326cc203e392d5f9a8673453dd1`
+  ACCEPT, 0/0, advisory PPBSV4-ADV-1.
+- **Decision:** Record v5 as DR-117's preview-scoped successor
+  candidate, authorized by D-132. This is coordinator decision
+  D-137, not a register row. DR-117 stays `OPEN`. No
+  `SATISFIED`. The candidate binds NOTHING. D-056 Class A is
+  not opened. Recording v5 does not make DR-117 D-056-eligible
+  in kind on v5 alone: most enforcement classes are
+  candidate-owned with no exact DR-G obligation. v8 remains
+  the D-116 leftover T2-02 candidate. D-068 remains the owner
+  recording of preview.v2 for DR-010. Advisories
+  CLAUDE-PPBS-V5-ADV-1, CLAUDE-PPBS-V5-ADV-2, PPBSV4-ADV-1,
+  and standing CLAUDE-PPBS-V3-ADV-1 travel as honesty work.
+  Does not edit file 08. Does not mint a D-096 (A) grant.
+  Does not SATISFY DR-131, DR-133, or any other row. Does not
+  overturn D-116, D-068, D-066, or D-136. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total only before a dependent DR-117
+  status re-record, SATISFIED-grade application, MF-6 edit,
+  or other dependent act lands. After one lands, overturn
+  also requires that act's owning-entry supersession or
+  revert and reconciliation of every dependent record under
+  its own reviewed act. Pre-dependent overturn: C-D137.
+- **Commit:** C-D137.
