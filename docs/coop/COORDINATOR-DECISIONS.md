@@ -6567,3 +6567,59 @@ file-09 D-000 act. Left whole-document until then.
   cycle. Overturn: C-D156. Does not unwrite D-137, D-154,
   or D-155.
 - **Commit:** C-D156.
+
+## D-157 — Add DR-G29 as required-now preview-boundary excluded-form admission obligation
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-157.review-adversarial.claude2.turn2.json`,
+  `0a36909d8e57f3338a8a83f9799d351bcf60809f8b207a5143ed355976598fa3`)
+  CONSENT, advisory CLAUDE-D157-T2-ADV1. Codex
+  (`artifacts/coordinator-decisions.D-157.review-adversarial.codex.turn2.json`,
+  `7a809de15dae314ad5aaf07afaf1d78f0a6648512288983dc829ac63386a4ae4`)
+  CONSENT. Subject `coordinator-decisions.D-157.turn2.draft.md`
+  `d39f18b7162195f930f751f818f66f7eeeb98ed34f8f5a785987a86452aa9b0e`.
+  Turn-1 Claude CONSENT
+  `dc48ceda613af6fce1664210cac2b98313575c61e8c4dd6e3618bb8cdc9da730`;
+  turn-1 Codex OBJECT (D157-MF-1, D157-SF-1)
+  `380b932eb6b46b1294c6ed169ac3c477cc1565012f762712219cbd7518d7fcd6`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. First of
+  D-156's two proposed later works.
+- **Decision:** Assign
+  `DR-G29 PREVIEW-BOUNDARY-EXCLUDED-FORM-ADMISSION`. It owns
+  DR-117 EE-1, EE-2, EE-3b, EE-4, EE-5a, EE-5b, and EE-6a
+  only. Required-now becomes the prior 24-member set plus
+  G29 (cardinality 25). Harness identifier
+  `harness.DR-G29.preview-boundary-excluded-form-admission.preview`
+  is named in the same act. Not authored. Not QUALIFIED.
+  File 08 gains the G29 row and the condition-4 measured
+  cell becomes 29 of 29 owners / 25 of 25 required names /
+  26 OPEN, 3 HARD-BLOCKED. The live row preserves v1-slice
+  §7 item 8's disjunctive fates: admission-time excluded
+  forms refused with no ExecutionId; represented
+  post-admission substitutions rejected before any stage
+  (D157-MF-1). EE-1 uses the source Boolean publisher
+  neither first-party nor explicitly trusted (D157-SF-1).
+  Those seven leftover-design close: remainder is G29
+  execution of both named corpora. EE-7a, EE-7b, and EE-7d
+  remain leftover-design. EE-6b, EE-7c, and EE-7e remain
+  capable-of-riding and unnamed at G09/G14/G16. After this
+  act, D-056 Eligibility gates 2 and 3 do not hold for
+  DR-117. Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Invents no D9 code. Does not restore G17.
+  Does not name EE-6b/EE-7c/EE-7e. Does not authorize
+  `docs/v2/implementation/`. Advisory CLAUDE-D157-T2-ADV1
+  travels as honesty work.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (25 of 25). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D157, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  24-member required-now set. Does not unwrite D-137,
+  D-154, D-155, or D-156.
+- **Commit:** C-D157.
