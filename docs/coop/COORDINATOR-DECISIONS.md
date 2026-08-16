@@ -6481,3 +6481,41 @@ file-09 D-000 act. Left whole-document until then.
   23-member required-now set. Does not unwrite D-138,
   D-147, D-149, D-150, D-151, D-152, or D-153.
 - **Commit:** C-D154.
+
+## D-155 — Record preview-product-boundary-ee-gate-join.v1 as DR-117 leftover-design measurement
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-155.review-adversarial.claude2.json`,
+  `6435aaa5a8e7c7f1fc351acbd01890698c4b79579859d9a98d8ed043ce2fa14f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-155.review-adversarial.codex.json`,
+  `c71d32524b1466ce2173108d0b15f3fc347adca45d0b02f206f4111f2d05dd0f`).
+  Subject `coordinator-decisions.D-155.draft.md`
+  `e40fc2eb20547c5deeed81737a91a4d7fbc2173e418ab8fe0fab6caefa285d18`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-ee-gate-join.v1.json`
+  `ae20b25fcb908a19fcd38dbb8e7c5963eee983b566132936c4bd1e7af34b3de0`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-148.
+- **Subject:** `docs/coop/artifacts/preview-product-boundary-ee-gate-join.v1.json`
+  `ae20b25fcb908a19fcd38dbb8e7c5963eee983b566132936c4bd1e7af34b3de0`.
+- **Decision:** Record v1 as DR-117 leftover-design
+  measurement. The candidate binds NOTHING. DR-117 stays
+  `OPEN`. Leftover-design is not closed. EE-1, EE-2, EE-3b,
+  EE-4, EE-5a, EE-5b, EE-6a, EE-7a, EE-7b, and EE-7d remain
+  leftover-design. EE-3a is discharged by named DR-133
+  classes. EE-6b / EE-7c / EE-7e are capable-of-riding
+  G09 / G14 / G16 and are not named here. Class A is not
+  opened. Gates 2 and 3 do not hold. Required-now stays 24.
+  Advisory CLAUDE-PPBEEJ-V1-ADV1 travels as honesty work.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (24 of 24). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, or SATISFIED cycle.
+  Overturn: C-D155. Does not unwrite D-137 or D-154.
+- **Commit:** C-D155.
