@@ -36,6 +36,7 @@ The reproducible review inputs are
 | Findings and correction disposition from the five independent reviews | [Review record](07-review-record.md) |
 | Non-binding three-reviewer synthesis of direction, concerns, and unnamed gaps | [Direction synthesis](11-three-reviewer-direction-synthesis.md) |
 | MVP commitments, deferred directions, and rejected shapes | [MVP and future scope](10-mvp-and-future-scope.md) |
+| Goal for completing the architecture (non-binding) | [Architecture completion goal](12-architecture-completion-goal.md) |
 
 Topic documents link to register IDs for decisions and blockers. They do not
 contain competing readiness checklists.

@@ -5548,3 +5548,70 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED. Condition 5 last.
 - **Reversibility:** Total. Overturn: C-D131.
 - **Commit:** C-D131.
+
+---
+
+## D-132 — User Route C grant: complete the architecture
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Made directly by the user in
+  conversation. Same class as D-000 / D-054: the grant is the
+  user's decision, recorded verbatim rather than made on their
+  behalf. No subagent review of this entry is required. Later
+  process acts this grant names still require their own D-000
+  cycles.
+- **Decision type:** PREFERENCE-LADEN user amendment. Route C
+  under D-037 clause 3.
+- **Subject:** architecture-completion goal recorded at
+  `docs/v2/architecture/12-architecture-completion-goal.md`.
+  This is coordinator decision D-132, not register row DR-132
+  (no such row is created). File 08's slice-affecting V2 rows
+  still end at DR-130 until a later MF-6 act.
+- **User words, recorded verbatim (this session, 2026-08-15):**
+  1. "i want to set a goal of completing the architecture. you mentioned 5 items as real architecture work. for example: The preview analyze contract is still underspecified as a product promise."
+  2. Architecture-complete means "Five gaps plus lawful blueprint".
+  3. "Keep D-002 as adopted".
+  4. TypeScript component output: "Provider only — recommended".
+  5. Parked identities: "Disposition now — reduce the features".
+  6. Organization: "New completion checklist".
+  7. Section 1 (five new rows join condition 2; one checklist): "Yes — continue".
+  8. Section 2 (SATISFIED means a reviewed binding artifact): "Yes — continue".
+  9. "note, you can use claude and codex to help when you need concensus. we are using herdr so you should be able to communicate with them. use them to answer questions and not me. between the 3 of you, decide."
+  10. "you are the orchestrator and in charge of getting this work completed"
+- **Three-agent repair of the five-new-row shape (Claude w5:p1,
+  Codex w4:p1, Grok w6:p1):** both independent reviewers
+  OBJECTED to five new condition-2 IDs. The adopted venues are
+  those in file 12: new DR-131 and DR-133 only; product
+  boundary stays DR-117; identity reductions cite D-077/D-078;
+  sequence is a D-036 successor, not a row.
+- **Decision:** The user is the sole human authority. Completing
+  the architecture under D-001, with the five design gaps
+  answered and condition 2 still MET, is now live work. This
+  grant authorizes **only**:
+  1. recording the non-binding goal at file 12;
+  2. after D-000 review, a D-056 successor that states the
+     SATISFIED-evidence *property* and does not admit
+     leftover-design rows by name;
+  3. after D-000 review, a scoped D-002 successor that adds
+     only DR-131 and DR-133 to the condition-2 affected-row
+     set;
+  4. after D-000 review, an MF-6 file-08 edit that adds
+     DR-131 and DR-133 as `OPEN` and re-measures the snapshot;
+  5. after those acts, authoring and D-000 review of DR-133,
+     the DR-117 preview successor, DR-131, and a D-036
+     successor;
+  6. using Claude and Codex under D-000 / Herdr to decide
+     remaining questions.
+  This grant is **not** a D-096 (A) owner grant. It marks
+  nothing `SATISFIED`. It does not edit file 08. It does not
+  add register rows. It does not overturn D-056, D-002, D-013,
+  D-015, D-077, D-078, D-097, or D-131. It does not authorize
+  `docs/v2/implementation/`. Quoted completion is not SATISFIED
+  by fiat.
+- **Readiness effect:** Zero at this amendment. Condition 2
+  stays 4 of 30 SATISFIED. Condition 5 last. File 12 has no
+  authority until the named later acts land.
+- **Reversibility:** the user may revoke this grant in any
+  later message. Overturn: C-D132, plus supersession of any
+  later entry that used it. Does not unwrite file 12.
+- **Commit:** C-D132.
