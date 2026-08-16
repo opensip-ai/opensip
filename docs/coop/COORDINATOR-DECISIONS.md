@@ -5615,3 +5615,56 @@ file-09 D-000 act. Left whole-document until then.
   later message. Overturn: C-D132, plus supersession of any
   later entry that used it. Does not unwrite file 12.
 - **Commit:** C-D132.
+
+---
+
+## D-133 — D-056 successor: SATISFIED eligibility is a property
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-133.review-adversarial.claude2.turn3.json`,
+  `7bba79e061b23c4f3ea4e4348e70c78d18cd08c592eb69f3392bf3f269692d56`).
+  Codex
+  (`artifacts/coordinator-decisions.D-133.review-adversarial.codex.turn3.json`,
+  `17d9fb1aa2deb225819363c9af2b11a7f268924fcdb7a39b3c380a6db99ad258`).
+  Subject `coordinator-decisions.D-133.turn3.draft.md`
+  `0fc51c4e9bb0c9b58d9e98e44deb7ae53096c30f89b4aaaee68103c26063081d`.
+  Turn-1 Claude OBJECT (D133-MF-1, D133-SF-1) at
+  `5d949c9154914cf778d22cb3fa6d2bae816f59b9b340f8ecd8f5476fafb2df7f`;
+  turn-1 Codex CONSENT
+  `532314f98e5987518dc5793ba2ceee45d78981241014be0cbfeb0ed9282153e8`.
+  Turn-2 Claude OBJECT (D133-T2-SF-1) at
+  `f79f2077dd0baf19fcc17b97b5f16a5b251b268ce06314762f28d5a0d8870202`;
+  turn-2 Codex CONSENT
+  `36f7ec6707b26fa48d4d839a639fee5178dc391bb3f06554a71a75d480ce0e2e`.
+- **Decision type:** RULE-GOVERNED. Scoped successor amendment
+  to the COORD D-056 Decision paragraph's two name-list
+  sentences. Those sentences are dated measurements. D-056's
+  pinned turn-2 subject `dfb0c2af…` already states eligibility
+  as a property; its five gates govern.
+- **Decision:** The COORD D-056 Decision paragraph's two
+  name-list sentences ("Eligible in kind, not performed:
+  DR-102, DR-115, DR-119, DR-123" and "DR-103/104/105/114/118
+  and the twelve no-contract rows remain ineligible") are
+  dated 2026-08-14 measurements, not the definition of who may
+  use the SATISFIED-evidence rule. A later SATISFIED re-record
+  may use D-056 only when all five gates in the pinned turn-2
+  subject hold for that row at that later cycle. This entry
+  marks no row SATISFIED. It does not admit leftover-design
+  rows. It does not name DR-131 or DR-133 as eligible today.
+  It does not edit file 08. It does not mint a D-096 (A)
+  grant. It does not authorize `docs/v2/implementation/`.
+  **Owed later work, not performed here:** a later
+  recording-hygiene entry must annotate the live COORD D-056
+  Decision paragraph with a forward pointer to this entry
+  (D133-T2-SF-1).
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30
+  SATISFIED. Condition 5 last.
+- **Reversibility:** Total before any later SATISFIED
+  re-record that relies on this clarification for a row that
+  was not among the four 2026-08-14 eligible-in-kind
+  measurements. Overturn: C-D133. Overturn restores the two
+  COORD name-list sentences as definitions. Overturn does not
+  unwrite D-085 / D-089 / D-091 / D-092.
+- **Commit:** C-D133.
