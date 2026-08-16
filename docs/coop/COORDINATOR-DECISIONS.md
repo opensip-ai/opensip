@@ -6801,3 +6801,44 @@ file-09 D-000 act. Left whole-document until then.
   cycle. Overturn: C-D161. Does not unwrite D-013, D-104,
   D-106, or D-160.
 - **Commit:** C-D161.
+
+## D-162 — Record identity-namespace-leftover-join.v2 as DR-104 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-162.review-adversarial.claude2.json`,
+  `093140eeeb563f929066ccaa3bd1a67290e4150ebcec61d621f7cb133923c156`).
+  Codex
+  (`artifacts/coordinator-decisions.D-162.review-adversarial.codex.json`,
+  `5d6adf3d1bff652147c71ec99302ded12d8cea02b625f53c5df6adba570bbf53`).
+  Subject `coordinator-decisions.D-162.draft.md`
+  `ccb9fdd5e52f00022e743350a8f3391dbf1972492fcad4252216957a5df1f1ff`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `identity-namespace-leftover-join.v2.json`
+  `cdb3003bfd2a823730833c05f8cbacb13c98555170ea57d150e0acb055597df3`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-161 / D-160.
+- **Subject:** `docs/coop/artifacts/identity-namespace-leftover-join.v2.json`
+  `cdb3003bfd2a823730833c05f8cbacb13c98555170ea57d150e0acb055597df3`.
+- **Decision:** Record v2 as DR-104 leftover-design
+  measurement. The candidate binds NOTHING. DR-104 stays
+  `DECIDED-V1-NOT-INTEGRATED`. leftover-design/OPEN is a
+  finding against that token. Leftover-design is not
+  closed. Remaining leftover-design: OBL-NT-11-EXECUTION
+  (no live DR-G* owns identity-namespace negative-test
+  execution). D-012 policy and the eleven authored classes
+  are not leftover-authoring. Class A is not opened. Class
+  B SATISFIED is not recorded. Gates 2 and 3 do not hold
+  for DR-104. Advisory CLAUDE-INLJ-V2-ADV1 travels as
+  honesty work. Does not execute fixtures. Does not apply
+  D-130 or D-131. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, or SATISFIED cycle.
+  Overturn: C-D162. Does not unwrite D-012, D-130, D-131,
+  or D-161.
+- **Commit:** C-D162.
