@@ -5930,3 +5930,36 @@ file-09 D-000 act. Left whole-document until then.
   overturn: C-D139. Overturn restores D-036's remaining
   node set and does not unwrite D-136 / D-137 / D-138.
 - **Commit:** C-D139.
+
+## D-140 — File 08 MF-6: record accepted candidate on DR-133
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-140.review-adversarial.claude2.turn2.json`,
+  `711fcdd36c42fcf5907a548214ec924e80968807bc8b6fc52dad89360a45163e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-140.review-adversarial.codex.turn2.json`,
+  `6ebce63b4832beeec714eb3cc35306c3a3ff8d98e5fe7322fa79fdc4e5e8397b`).
+  Subject `coordinator-decisions.D-140.turn2.draft.md`
+  `c1fdb84871f2cd9704f69eb952af1503a73b49ffa12963f13ddda19a61c9619f`.
+  Turn-1 Claude OBJECT (CLAUDE-D140-SF1/SF2) at
+  `3ad3c60733ebb8f6da6771a5cab0bd4b0a2a339902230658fc8bc212309a6a01`;
+  turn-1 Codex OBJECT (CODEX-D140-MF1)
+  `5c0884da3c478c6f6efba8d8df8a415d4ab8abc642afc43c29fa5adc3d6f82df`.
+- **Decision type:** RULE-GOVERNED. File-08 MF-6. Performs
+  D-139 H1 only.
+- **Decision:** Replace DR-133's Status-cell clause
+  `no contract exists` with the recorded D-136 candidate in
+  the established form (link, full digest,
+  `CANDIDATE-NOT-APPLIED`, binds NOTHING). DR-133 stays
+  `OPEN`. Not SATISFIED. Class A not opened. H2 / DR-131
+  is not performed. Does not change condition-2 arithmetic.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED added. Condition 2
+  stays 4 of 32. Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  DR-133 cell rewrite or SATISFIED-grade application.
+  Overturn restores the DR-133 `no contract exists` clause.
+  Does not touch DR-131. Overturn: C-D140.
+- **Commit:** C-D140.
