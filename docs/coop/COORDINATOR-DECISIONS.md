@@ -5886,3 +5886,86 @@ file-09 D-000 act. Left whole-document until then.
   reconciliation of its dependent file-08 record under its
   own reviewed act. Pre-dependent overturn: C-D138.
 - **Commit:** C-D138.
+
+---
+
+## D-139 — D-036 successor: remaining condition-2 sequence
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-139.review-adversarial.claude2.turn2.json`,
+  `16aa867c0181f3a3bc286282193f5b58390d837871ba756df6ba0963602a233d`).
+  Codex
+  (`artifacts/coordinator-decisions.D-139.review-adversarial.codex.turn2.json`,
+  `5a77b7b8c3b6a1d9fd797a949bfdac3f58f98159d663146e58fb5c7c6cbea547`).
+  Subject `coordinator-decisions.D-139.turn2.draft.md`
+  `b5fa22c304b7b33b365f0a49b44ae920bd949b81d1242fff89de384637f854d1`.
+  Turn-1 Claude OBJECT (CLAUDE-D139-SF1) at
+  `4e699fa03175ef10e12f429d0a67fc00bf907abad51103ce4dca41e03779320b`;
+  turn-1 Codex CONSENT
+  `ad7e04d24ead8ad063aa42cc482c354d054d140a50934f5885a6e5c5c0051c62`.
+- **Decision type:** PREFERENCE-LADEN. Sequencing only.
+  Succeeds D-036's remaining node set. Not a register row.
+- **Decision:** Remaining condition-2 work is sequenced as
+  H (owed hygiene: D-136/D-138 MF-6 cells; D-133 COORD
+  pointer), L (already-recorded leftover-design closures,
+  drafting only), and W (wait edges that order drafting of
+  later SATISFIED cycles and add no eligibility criteria).
+  D-056's five gates remain the only SATISFIED eligibility
+  test. Condition 2 follows SF-3; condition 4 follows
+  D-001/D-002; this entry changes neither. Deferral limb
+  DR-128/129/130: no new work. This entry never schedules a
+  SATISFIED re-record, never schedules condition 5, and
+  never authorizes `docs/v2/implementation/`. Scheduling
+  authorizes drafting only. Does not mark SATISFIED. Does
+  not open D-056 Class A. Does not edit file 08. Does not
+  mint a D-096 (A) grant. Does not change D-002 commands,
+  platforms, independent-release, or deferrals.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total before any dependent H or L act
+  lands. After one lands, overturn also requires that act's
+  owning-entry supersession or revert. Pre-dependent
+  overturn: C-D139. Overturn restores D-036's remaining
+  node set and does not unwrite D-136 / D-137 / D-138.
+- **Commit:** C-D139.
+
+## D-139 — D-036 successor: remaining condition-2 sequence
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-139.review-adversarial.claude2.turn2.json`,
+  `16aa867c0181f3a3bc286282193f5b58390d837871ba756df6ba0963602a233d`).
+  Codex
+  (`artifacts/coordinator-decisions.D-139.review-adversarial.codex.turn2.json`,
+  `5a77b7b8c3b6a1d9fd797a949bfdac3f58f98159d663146e58fb5c7c6cbea547`).
+  Subject `coordinator-decisions.D-139.turn2.draft.md`
+  `b5fa22c304b7b33b365f0a49b44ae920bd949b81d1242fff89de384637f854d1`.
+  Turn-1 Claude OBJECT (CLAUDE-D139-SF1) at
+  `4e699fa03175ef10e12f429d0a67fc00bf907abad51103ce4dca41e03779320b`;
+  turn-1 Codex CONSENT
+  `ad7e04d24ead8ad063aa42cc482c354d054d140a50934f5885a6e5c5c0051c62`.
+- **Decision type:** PREFERENCE-LADEN. Sequencing only.
+  Successor of D-036's remaining node set, authorized by
+  D-132 / file 12 §7 item 4. File 12 has no authority.
+- **Decision:** Remaining condition-2 work uses nodes H
+  (hygiene MF-6 / D-056 pointer), L (row-local leftover-
+  design closures), and W (drafting-order wait edges). W
+  edges add no SATISFIED criteria. D-056's five gates remain
+  the only eligibility test. Condition 2 follows SF-3;
+  condition 4 follows D-001/D-002; this entry changes
+  neither. Scheduling authorizes drafting only. Marks
+  nothing SATISFIED. Does not admit leftover-design rows.
+  Does not edit file 08. Does not mint a D-096 (A) grant.
+  Does not change D-002 commands, platforms, or deferrals.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total before a dependent H or L act
+  lands. After one lands, overturn also requires that act's
+  owning-entry supersession or revert. Pre-dependent
+  overturn: C-D139. Overturn restores D-036's remaining
+  node set and does not unwrite D-136 / D-137 / D-138.
+- **Commit:** C-D139.
