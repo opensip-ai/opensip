@@ -3377,7 +3377,7 @@ file-09 D-000 act. Left whole-document until then.
   D-013's SATISFIED-refusal stands until fixture authoring
   exists. Eligible in kind, not performed: DR-102, DR-115,
   DR-119, DR-123. DR-103/104/105/114/118 and the twelve
-  no-contract rows remain ineligible. D-002/D-010 deferrals
+  no-contract rows remain ineligible. Forward pointer (D-133): those two name-list sentences are dated 2026-08-14 measurements, not the definition of eligibility. D-133 holds the five gates of the pinned D-056 turn-2 subject as the definition. D-002/D-010 deferrals
   stay on the deferral limb. This entry marks no row
   SATISFIED, rewrites none of D-001's five checklist
   bullets, edits no file-08 cell, coins no status token,
@@ -5992,3 +5992,36 @@ file-09 D-000 act. Left whole-document until then.
   Overturn restores the DR-131 `no contract exists` clause.
   Does not touch DR-133. Overturn: C-D141.
 - **Commit:** C-D141.
+
+## D-142 — COORD hygiene: D-056 Decision paragraph forward pointer
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-142.review-adversarial.claude2.json`,
+  `3d3219eca99bc8c206dc42a10cb27f368f3d7d6387ef1789b7067c2c22ba0ae3`).
+  Codex
+  (`artifacts/coordinator-decisions.D-142.review-adversarial.codex.json`,
+  `c35d99fed2bcae5bc2a027304c335bf24d3b741d0a4ebb22491774e84612c3c3`).
+  Subject `coordinator-decisions.D-142.draft.md`
+  `330ff320c270e48fc8cde3de85682480af0bd6d61d6866d91c7cb786a00cf842`.
+- **Decision type:** RULE-GOVERNED. Recording-hygiene.
+  Performs D-139 H3 / D133-T2-SF-1 only.
+- **Decision:** Insert one forward-pointer sentence after the
+  D-056 Decision paragraph's two name-list sentences:
+  those sentences are dated 2026-08-14 measurements, not
+  the definition of eligibility; D-133 holds the five
+  gates of the pinned D-056 turn-2 subject as the
+  definition. The two name-list sentences are not rewritten.
+  Marks nothing SATISFIED. Opens no Class A. Admits no
+  leftover-design row. Does not edit file 08. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total before a later SATISFIED
+  re-record that relies on D-133 for a row that was not
+  among the four 2026-08-14 eligible-in-kind measurements.
+  Overturn removes the inserted forward-pointer sentence.
+  Does not unwrite D-133, D-085, D-089, D-091, or D-092.
+  Overturn: C-D142.
+- **Commit:** C-D142.
