@@ -6721,3 +6721,43 @@ file-09 D-000 act. Left whole-document until then.
   harness-cell rewrite. Overturn: C-D159. Does not
   unwrite D-137, D-145, D-157, or D-158.
 - **Commit:** C-D159.
+
+## D-160 — Record distribution-core-leftover-join.v3 as DR-101 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-160.review-adversarial.claude2.json`,
+  `9358f9bd3d185d64c983864d58256939feaf6a89104fe918021952a85d9a946b`).
+  Codex
+  (`artifacts/coordinator-decisions.D-160.review-adversarial.codex.json`,
+  `faad495df832ce9237c89f0ea08ec95484eab0cffa852a34448c2e2b2ed10cd7`).
+  Subject `coordinator-decisions.D-160.draft.md`
+  `3ffe95eed8595e398088410090d77b1c07855f32da5e0b571fae5b86ffdfcfd3`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `distribution-core-leftover-join.v3.json`
+  `808eeb93c53fbdd88de56e455db25c0821402a30643c6e4fce05cf339c7ee3c4`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-155 / D-148.
+- **Subject:** `docs/coop/artifacts/distribution-core-leftover-join.v3.json`
+  `808eeb93c53fbdd88de56e455db25c0821402a30643c6e4fce05cf339c7ee3c4`.
+- **Decision:** Record v3 as DR-101 leftover-design
+  measurement. The candidate binds NOTHING. DR-101 stays
+  `OPEN`. Leftover-design is not closed. OBL-2 (unauthored
+  G01-G05 harness specifications), OD-101-1 (core language
+  reserved), and OD-101-2 (signing ceremony reserved)
+  remain leftover-design. OBL-1, OBL-D-INV, OBL-D-LAY, and
+  OBL-D3 are capable-of-riding named G01-G05 identifiers.
+  Class A is not opened. Gates 2 and 3 do not hold for
+  DR-101. Does not decide language or ceremony. Does not
+  author harness specifications. Does not retarget D-159.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, harness-spec
+  authoring, or SATISFIED cycle. Overturn: C-D160. Does
+  not unwrite D-114, D-157, D-158, or D-159.
+- **Commit:** C-D160.
