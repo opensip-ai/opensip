@@ -5830,3 +5830,59 @@ file-09 D-000 act. Left whole-document until then.
   revert and reconciliation of every dependent record under
   its own reviewed act. Pre-dependent overturn: C-D137.
 - **Commit:** C-D137.
+
+---
+
+## D-138 — Record preview-analyze-contract.v2 as DR-131's accepted design-contract candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-138.review-adversarial.claude2.turn2.json`,
+  `31dbf4a513ae3e3e0f526c55d3564dfe3f4f59aa24f8fb6489221ebf91161acd`).
+  Codex
+  (`artifacts/coordinator-decisions.D-138.review-adversarial.codex.turn2.json`,
+  `b14bb0fe3745a29e9d406e9738273cd689384cb1879d08ea6c94bc496b9596e8`).
+  Subject `coordinator-decisions.D-138.turn2.draft.md`
+  `c609de64c295105ce1b2ea6927137ea1455758bfea15bad4265585fba12efa99`.
+  Turn-1 Claude OBJECT (CLAUDE-D138-SF1) at
+  `aaf2e5027233d6180554858ac781e3aad51dae7f993e32ff7b5243ca823b8708`;
+  turn-1 Codex CONSENT
+  `8c08218688fc8f4e5e37e3fe476a1d4de9469ed7bc6217d6f3a5026a51d2bbf7`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-analyze-contract.v2.json` (0 blockers,
+  0 SHOULD-FIX from both reviewers). Same no-cell-edit branch
+  as D-116 / D-131 / D-136 / D-137.
+- **Subject:** `docs/coop/artifacts/preview-analyze-contract.v2.json`
+  `081ff7fb529b34a3db3ac9f4c7505848e2253be12b5a867d39b49b3a26d56970`.
+- **Verdicts:** Claude 2
+  `preview-analyze-contract.v2.review-independent.claude2.json`
+  `22a0d892f3051fd007cd7dc26a215e7aa3004f296f99a67aea83bd3035bfd903`
+  ACCEPT, 0/0, advisory CLAUDE-PAC-V2-ADV-1. Codex
+  `preview-analyze-contract.v2.review-independent.codex.json`
+  `e48cb59253f0fe789e5c448ff197d74d3aea745f7eb9f8fbc394077a993a0db1`
+  ACCEPT, 0/0, advisory DR131V1-ADV-1.
+- **Decision:** Record v2 as DR-131's accepted design-contract
+  candidate. This is coordinator decision D-138, not a
+  register row. DR-131 stays `OPEN`. No `SATISFIED`. The
+  candidate binds NOTHING. D-056 Class A is not opened.
+  Recording v2 does not make DR-131 D-056-eligible in kind on
+  v2 alone: NT-1..NT-8 assign no owner and no existingGate;
+  no DR-G obligation names them. Advisories CLAUDE-PAC-V2-ADV-1
+  and DR131V1-ADV-1 travel as honesty work. Does not edit file
+  08. Does not mint a D-096 (A) grant. Does not SATISFY
+  DR-117, DR-133, or any other row. Does not overturn D-136
+  or D-137. Does not authorize `docs/v2/implementation/`.
+  **Owed later work, not performed here:** on adoption the
+  live DR-131 status-cell clause `no contract exists` becomes
+  stale. A later MF-6 act — its own D-000 cycle and commit —
+  updates that cell to record this accepted candidate while
+  keeping the row OPEN, Class A unopened, and not SATISFIED.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total only before the owed MF-6 or
+  another dependent act lands. After one lands, overturn also
+  requires that act's owning-entry supersession or revert and
+  reconciliation of its dependent file-08 record under its
+  own reviewed act. Pre-dependent overturn: C-D138.
+- **Commit:** C-D138.
