@@ -6144,3 +6144,53 @@ file-09 D-000 act. Left whole-document until then.
   MF-6, leftover rewrite, or SATISFIED cycle. Overturn:
   C-D146. Does not unwrite D-136, D-144, or D-145.
 - **Commit:** C-D146.
+
+## D-147 — Add DR-G23 as required-now well-formed admission obligation
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-147.review-adversarial.claude2.turn2.json`,
+  `7a1c67a35dd18029447cfd17ba362ad72169756c18663706fe43f370b21af6ae`).
+  Codex
+  (`artifacts/coordinator-decisions.D-147.review-adversarial.codex.turn2.json`,
+  `364099d7af97baccecb950283a19200610ef6ac55f13aa4ff5109f44250c33cf`).
+  Subject `coordinator-decisions.D-147.turn2.draft.md`
+  `0ce41a67e2abb3eb34eac7fca0a125d12c5beb2f89eab07bb25ad28c79c025f8`.
+  Turn-1 Claude OBJECT (CLAUDE-D147-MF1) at
+  `15f382ef54b30cdf8d4dda9cca607d6ff6423829a88541c7ba793a7c8d032baa`;
+  turn-1 Codex OBJECT (D147-SF-1)
+  `074ae263b66830ca49f0696dcd15470688794a4b5536bb24602b44b932c21a50`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act.
+- **Decision:** Assign `DR-G23 PROVIDER-WELL-FORMED-ADMISSION`.
+  It owns DR-133 NT-3 and NT-5 only. Required-now becomes
+  the prior 18-member set plus G23 (cardinality 19). Harness
+  identifier
+  `harness.DR-G23.provider-well-formed-admission.preview`
+  is named in the same act. Not authored. Not QUALIFIED.
+  File 08 gains the G23 row and the condition-4 measured
+  cell becomes 23 of 23 owners / 19 of 19 required names /
+  20 OPEN, 3 HARD-BLOCKED. NT-3 and NT-5 leftover-design
+  closes: remainder is G23 execution. After this act,
+  D-056 Eligibility gates 2 and 3 hold for all seven
+  DR-133 NT classes. Class A is not opened. Gate 1's
+  application-grade / no-express-reservation limb is not
+  established here. Gate 4 reserves eligibility to a later
+  dedicated SATISFIED-GRADE cycle. CANDIDATE-NOT-APPLIED
+  is not a Class A bar (D-085). Not eligible in kind. Not
+  SATISFIED. D-145 naming of NT-1/2/4/6/7 stands. Does not
+  change D-002 commands, platforms, deferrals, identity
+  rides, or the SATISFIED-requiring row set. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (19 of 19). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D147, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  18-member required-now set. Does not unwrite D-136,
+  D-144, D-145, or D-146.
+- **Commit:** C-D147.
