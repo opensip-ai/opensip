@@ -6236,3 +6236,43 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D148. Does not unwrite D-138, D-145, D-146,
   or D-147.
 - **Commit:** C-D148.
+
+## D-149 — Record preview-analyze-admission-leftover.v1 as DR-131 leftover grouping
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-149.review-adversarial.claude2.json`,
+  `9b5a2d9f2979418bc107448e82673cf0da83206d2b49612dc4ced7184bd9fb01`).
+  Codex
+  (`artifacts/coordinator-decisions.D-149.review-adversarial.codex.json`,
+  `3032163fc0f912dc9ec2c72a500d6800cb8b03cab444adad76fea773ac34b574`).
+  Subject `coordinator-decisions.D-149.draft.md`
+  `018e0055f0fa75293f1a146351354a6b8ac00955af9703c596c0650437e81014`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-analyze-admission-leftover.v1.json`
+  `1222501032917790832a3ffa8f3953ceb7a73907942a5ea30442346bf59935a5`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-146 / D-148.
+- **Subject:** `docs/coop/artifacts/preview-analyze-admission-leftover.v1.json`
+  `1222501032917790832a3ffa8f3953ceb7a73907942a5ea30442346bf59935a5`.
+- **Decision:** Record v1 as DR-131 leftover-design grouping
+  for NT-1, NT-2, NT-3, NT-5, NT-6, NT-7, and NT-8. The
+  candidate binds NOTHING. DR-131 stays `OPEN`. Leftover-
+  design is not closed. Those seven classes remain leftover-
+  design. NT-4 standing from D-148 is not retargeted. The
+  five proposed kinds are candidate-not-adopted. This entry
+  does not add a DR-G* row, does not assign G24 or any later
+  identifier, and does not change required-now 19. Class A
+  is not opened. Gates 2 and 3 do not hold. **Proposed later
+  work, not performed here:** later D-000 MF-6 cycles may
+  add one or more DR-G* rows matching those kinds. Does not
+  restore G17. Does not invent a D9 code. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (19 of 19). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, MF-6, or SATISFIED cycle. Overturn:
+  C-D149. Does not unwrite D-138, D-147, or D-148.
+- **Commit:** C-D149.
