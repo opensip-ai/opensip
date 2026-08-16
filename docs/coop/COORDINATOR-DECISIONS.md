@@ -6025,3 +6025,74 @@ file-09 D-000 act. Left whole-document until then.
   Does not unwrite D-133, D-085, D-089, D-091, or D-092.
   Overturn: C-D142.
 - **Commit:** C-D142.
+
+## D-144 — Record provider-only-nt-gate-join.v6 as DR-133 leftover-design measurement
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-144.review-adversarial.claude2.turn2.json`,
+  `0f9d56d28da0a18eea3d21aaa190f65f9dbfb59fa35211611e45dbec8c4dc087`).
+  Codex
+  (`artifacts/coordinator-decisions.D-144.review-adversarial.codex.turn2.json`,
+  `400c941757db8e60b2c6774b255af39540af34749318972df9e8b50f49033e55`).
+  Subject `coordinator-decisions.D-144.turn2.draft.md`
+  `b60191b5876e64339ca11d5fe681bf8d91bd8a64cfde0a29eeecde71c5811caa`.
+  Turn-1 Claude OBJECT (CLAUDE-D144-SF1/SF2) at
+  `25483934f23b43f86cabde81e54e03a2b16d1a4a71fca5e9317f8210ce92785c`;
+  turn-1 Codex OBJECT (D144-SF-1)
+  `b7032528ee232a5a142e1b76da2e0bd2ffb03080a961964623f1c2543010cd61`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `provider-only-nt-gate-join.v6.json`
+  `93bc62d43751d8037aa2a696209eccbdee0ae3b3f11292d9a05be2bc245082a3`.
+  Same no-cell-edit branch as D-136 / D-138.
+- **Decision:** Record v6 as DR-133 leftover-design
+  measurement. The candidate binds NOTHING. DR-133 stays
+  `OPEN`. Leftover-design is not closed. Class A is not
+  opened. Gates 2 and 3 do not hold. NT-1/2/4/6/7 are
+  capable-of-riding G20/G21 after a later D-086 successor
+  names them. NT-3 and NT-5 remain leftover-design.
+  **Owed later work, not performed here:** a D-086 successor
+  names the riding NT classes at G20/G21. D-143.join is
+  withdrawn. The unused D-143 G23 draft is unadopted.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  D-086 successor or SATISFIED cycle. Overturn: C-D144.
+- **Commit:** C-D144.
+
+## D-144 — Record provider-only-nt-gate-join.v6 as DR-133 leftover-design measurement
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-144.review-adversarial.claude2.turn2.json`,
+  `0f9d56d28da0a18eea3d21aaa190f65f9dbfb59fa35211611e45dbec8c4dc087`).
+  Codex
+  (`artifacts/coordinator-decisions.D-144.review-adversarial.codex.turn2.json`,
+  `400c941757db8e60b2c6774b255af39540af34749318972df9e8b50f49033e55`).
+  Subject `coordinator-decisions.D-144.turn2.draft.md`
+  `b60191b5876e64339ca11d5fe681bf8d91bd8a64cfde0a29eeecde71c5811caa`.
+  Turn-1 Claude OBJECT (CLAUDE-D144-SF1/SF2) at
+  `25483934f23b43f86cabde81e54e03a2b16d1a4a71fca5e9317f8210ce92785c`;
+  turn-1 Codex OBJECT (D144-SF-1)
+  `b7032528ee232a5a142e1b76da2e0bd2ffb03080a961964623f1c2543010cd61`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `provider-only-nt-gate-join.v6.json`.
+- **Subject:** `docs/coop/artifacts/provider-only-nt-gate-join.v6.json`
+  `93bc62d43751d8037aa2a696209eccbdee0ae3b3f11292d9a05be2bc245082a3`.
+- **Decision:** Record v6 as DR-133 leftover-design
+  measurement candidate. Binds NOTHING. DR-133 stays OPEN.
+  Leftover-design is not closed. Gates 2 and 3 do not hold.
+  NT-3 and NT-5 remain leftover-design. **Owed later:** a
+  D-086 successor names the riding NT classes at G20/G21.
+  D-143.join is withdrawn. D-143 G23 remains unreviewed.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total only before a dependent D-086
+  successor or SATISFIED cycle. Overturn: C-D144.
+- **Commit:** C-D144.
