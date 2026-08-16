@@ -6842,3 +6842,48 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D162. Does not unwrite D-012, D-130, D-131,
   or D-161.
 - **Commit:** C-D162.
+
+## D-163 — Record permission-leftover-join.v2 as DR-105 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-163.review-adversarial.claude2.turn2.json`,
+  `7d5b08c64134d9105b8796236c4b166e26dbafb855b77dd4925a5807fbd37a7e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-163.review-adversarial.codex.turn2.json`,
+  `54e6829ec1bbbce5aca4e57ae73994c20d106bc5104c7135b796bd7797d13035`).
+  Subject `coordinator-decisions.D-163.turn2.draft.md`
+  `52a5986416af387ffbbfd615691e220639173e705dd4f79adbd30614e85bded3`.
+  Turn-1 Claude CONSENT
+  `1b199e69e2cb2252921276c5ced9c742876b7c18785316384bb576c27cc660a1`;
+  turn-1 Codex OBJECT (CODEX-D163-SF1)
+  `fe69b0ff03916b8bb0f2413c37913a5626eb126d246fefb2e9b9f4aeca85e99b`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `permission-leftover-join.v2.json`
+  `68ea10e052ae6a2eb6a35fd021be7e72418157a47fa07493ad2f4d927aeb9558`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-162 / D-161.
+- **Subject:** `docs/coop/artifacts/permission-leftover-join.v2.json`
+  `68ea10e052ae6a2eb6a35fd021be7e72418157a47fa07493ad2f4d927aeb9558`.
+- **Decision:** Record v2 as DR-105 leftover-design
+  measurement. The candidate binds NOTHING. DR-105 stays
+  `OPEN`. leftover-design/OPEN is the token, not a finding.
+  Leftover-design is not closed. Remaining leftover-design:
+  OBL-G09-HARNESS-SPEC, OBL-FX-AUTHORING, OBL-FC-C1, and
+  OBL-BLK-1..4. D-032 actor scope and the recorded v2/v9/v8/v25
+  candidates are not leftover-authoring. OBL-ACTOR-JOIN rides
+  DR-114; D-129's recorded candidate binds NOTHING. Class A
+  is not opened. Gates 2 and 3 do not hold for DR-105. Does
+  not execute fixtures. Does not record FC-C1. Does not apply
+  D-042, D-093, D-126, or D-128. Does not admit CA-1
+  IN_PROCESS or mint the later CA-2 gate. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, FC-C1 recording, or
+  SATISFIED cycle. Overturn: C-D163. Does not unwrite
+  D-032, D-042, D-093, D-126, D-128, D-129, or D-162.
+- **Commit:** C-D163.
