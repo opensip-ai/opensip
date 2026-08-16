@@ -6678,3 +6678,46 @@ file-09 D-000 act. Left whole-document until then.
   25-member required-now set. Does not unwrite D-137,
   D-155, D-156, or D-157.
 - **Commit:** C-D158.
+
+## D-159 — Record dr117-ee-gate-naming.v3 as D-086 successor
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-159.review-adversarial.claude2.json`,
+  `e8628e6e185eb67b43c05067ca5da5720959164d3012744467a87e794ac427c5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-159.review-adversarial.codex.json`,
+  `21b0f5f2fa911c88ee82fde54585ed612b83fddde1ca649916449aa1a873385a`).
+  Subject `coordinator-decisions.D-159.draft.md`
+  `c56e55dce2e2a4b217ba5972c46ff47673bd54782810f4673633012981a6b7cf`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `dr117-ee-gate-naming.v3.json`
+  `fb5e928415098c7726bcd91f455327472b6ae7cfe34f65b288ba99cba3ef82c2`
+  (0 blockers, 0 SHOULD-FIX) as the D-086 / D-145 successor
+  that D-155 and D-156 deferred. Same no-cell-edit branch
+  as D-145.
+- **Subject:** `docs/coop/artifacts/dr117-ee-gate-naming.v3.json`
+  `fb5e928415098c7726bcd91f455327472b6ae7cfe34f65b288ba99cba3ef82c2`.
+- **Decision:** Record v3 as the condition-4 naming
+  candidate. Naming is not execution. Not QUALIFIED.
+  DR-G09 names DR-117 EE-6b. DR-G14 names DR-117 EE-7c.
+  DR-G16 names DR-117 EE-7e. Required-now stays 26.
+  Condition-4 effect is zero. Condition 4 stays MET at
+  26 of 26 / 30 of 30. After this recording, D-056
+  Eligibility gates 2 and 3 hold for DR-117. Gate 1
+  Class A remains false under D-137's express reservation.
+  Gates 4 and 5 are not performed. DR-117 stays `OPEN`.
+  Not eligible in kind. Not SATISFIED. Class A is not
+  opened. Does not edit file 08. Does not add a DR-G*
+  row. Does not rewrite G29 or G30. Does not convert
+  EE-6b honesty into confinement. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08
+  harness-cell rewrite. Overturn: C-D159. Does not
+  unwrite D-137, D-145, D-157, or D-158.
+- **Commit:** C-D159.
