@@ -5668,3 +5668,40 @@ file-09 D-000 act. Left whole-document until then.
   COORD name-list sentences as definitions. Overturn does not
   unwrite D-085 / D-089 / D-091 / D-092.
 - **Commit:** C-D133.
+
+---
+
+## D-134 — Scoped D-002 successor: add DR-131 and DR-133 to the SATISFIED-requiring set
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-134.review-adversarial.claude2.turn2.json`,
+  `0b672021441f146ffe5b3f107344c7d66a9e91bff650ea3dc8c13e6793a1a97e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-134.review-adversarial.codex.turn2.json`,
+  `ec3051593bbba52c3cde7790bb489534f7a36d0aaea3ceee8f55ffb2b1ca443a`).
+  Subject `coordinator-decisions.D-134.turn2.draft.md`
+  `a7b44ff6ff2ed1d87adfb31a6ff20efdf2b7e0d18de43ff0c60003dd065a57bf`.
+  Turn-1 Claude OBJECT (D-134-SF-1, D-134-SF-2) at
+  `590d9f790231fc76801a64f0f791ed667e97705178a1f03758834bd752857983`;
+  turn-1 Codex CONSENT
+  `546b59731c219c23027b64eca9aa4573116b6c3e1245d068b3f018ac15381b27`.
+- **Decision type:** RULE-GOVERNED. Scoped successor of D-002's
+  condition-2 SATISFIED-requiring affected-row set, authorized
+  by D-132 clause 3. Does not change the six D-018 item-2 sets.
+- **Decision:** D-002's SATISFIED-requiring affected-row set is
+  the 21 rows D-002 named plus **DR-131** and **DR-133**
+  (cardinality 23). DR-128, DR-129, and DR-130 remain on the
+  deferral limb. This entry does not create file-08 rows. A
+  later MF-6 act adds the two rows as `OPEN`; until then the
+  live snapshot stays 4 of 30. Marks nothing SATISFIED. Does
+  not mint a D-096 (A) grant. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 30.
+  Condition 5 last. After the later MF-6 act the snapshot
+  becomes 4 of 32.
+- **Reversibility:** Total before the later MF-6 row-adding
+  act. Overturn: C-D134. Overturn restores D-002's pre-D-134
+  21-row SATISFIED-requiring set.
+- **Commit:** C-D134.
