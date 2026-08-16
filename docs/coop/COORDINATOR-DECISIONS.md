@@ -6887,3 +6887,46 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED cycle. Overturn: C-D163. Does not unwrite
   D-032, D-042, D-093, D-126, D-128, D-129, or D-162.
 - **Commit:** C-D163.
+
+## D-164 — Record doctor-actor-leftover-join.v2 as DR-114 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-164.review-adversarial.claude2.json`,
+  `a895d5feea5054dcbba15b3d96e7cbdbcbffdcf7756d45e1f1d2101ba0c849aa`).
+  Codex
+  (`artifacts/coordinator-decisions.D-164.review-adversarial.codex.json`,
+  `3b87c460a78921e48ea6b132350845a6ba51153a49d1a36a1f577955a6819372`).
+  Subject `coordinator-decisions.D-164.draft.md`
+  `9327927be79e6d41d042e0c45dbec1eba78857c14ad0960b70220ceae2101554`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `doctor-actor-leftover-join.v2.json`
+  `874af09ad24d21179fb6abb9f4f94332e56eb956b7991295e5c31631e84f80c6`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-163 / D-162.
+- **Subject:** `docs/coop/artifacts/doctor-actor-leftover-join.v2.json`
+  `874af09ad24d21179fb6abb9f4f94332e56eb956b7991295e5c31631e84f80c6`.
+- **Decision:** Record v2 as DR-114 leftover-design
+  measurement. The candidate binds NOTHING. DR-114 stays
+  `OPEN`. leftover-design/OPEN is the token, not a finding.
+  Leftover-design is not closed. Remaining leftover-design:
+  OBL-G12-HARNESS-SPEC, OBL-G21-HARNESS-SPEC,
+  OBL-DOCTOR-FX-AUTHORING, OBL-JOIN-FX-AUTHORING,
+  OBL-JOIN-FX-EXECUTION, OBL-FC-C1, and OBL-BLK-1..4.
+  Actor-join fixture execution is not forced onto G09.
+  Class A is not opened. Gates 2 and 3 do not hold for
+  DR-114. Does not execute fixtures. Does not record FC-C1.
+  Does not apply D-035, D-126, D-127, or D-129. Does not
+  invent a D9 code. Does not mint a D-096 (A) grant. Does
+  not edit file 08. Does not authorize
+  `docs/v2/implementation/`. The competing filename
+  `doctor-leftover-join.v1.json` is not this subject.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, FC-C1 recording, or
+  SATISFIED cycle. Overturn: C-D164. Does not unwrite
+  D-032, D-035, D-126, D-127, D-129, or D-163.
+- **Commit:** C-D164.
