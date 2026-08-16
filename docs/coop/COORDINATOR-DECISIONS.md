@@ -6399,3 +6399,43 @@ file-09 D-000 act. Left whole-document until then.
   21-member required-now set. Does not unwrite D-138,
   D-147, D-149, D-150, or D-151.
 - **Commit:** C-D152.
+
+## D-153 — Add DR-G27 as required-now preview-analyze not-sealed-Run obligation
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-153.review-adversarial.claude2.json`,
+  `645c795f193a5e10feff943238372c2588689a06ef28c2ac9424bf31e3bdf8a5`).
+  Codex
+  (`artifacts/coordinator-decisions.D-153.review-adversarial.codex.json`,
+  `bbf2dd4bdca302e40f47ec54696f0ddf05852cfa4e8d94d8d954e31887109c18`).
+  Subject `coordinator-decisions.D-153.draft.md`
+  `d98bdf3160234314dab0a87108b2c271753ee59fab66e9a629e0fa42f69bddff`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Fourth of
+  D-149's five proposed later works.
+- **Decision:** Assign `DR-G27 PREVIEW-ANALYZE-NOT-SEALED-RUN`.
+  It owns DR-131 NT-6 only. Required-now becomes the prior
+  22-member set plus G27 (cardinality 23). Harness identifier
+  `harness.DR-G27.preview-analyze-not-sealed-run.preview` is
+  named in the same act. Not authored. Not QUALIFIED. File
+  08 gains the G27 row and the condition-4 measured cell
+  becomes 27 of 27 owners / 23 of 23 required names / 24
+  OPEN, 3 HARD-BLOCKED. NT-6 leftover-design closes:
+  remainder is G27 execution. NT-7 and NT-8 remain leftover-
+  design. Gates 2 and 3 do not hold for DR-131. Class A is
+  not opened. Not eligible in kind. Not SATISFIED. Does not
+  invent a D9 code. Does not restore G17. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (23 of 23). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D153, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  22-member required-now set. Does not unwrite D-138,
+  D-147, D-149, D-150, D-151, or D-152.
+- **Commit:** C-D153.
