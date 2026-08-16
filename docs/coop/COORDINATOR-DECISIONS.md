@@ -6099,3 +6099,48 @@ file-09 D-000 act. Left whole-document until then.
   closure, SATISFIED cycle, or file-08 harness-cell rewrite.
   Overturn: C-D145.
 - **Commit:** C-D145.
+
+## D-146 — Record provider-only-admission-leftover.v1 as DR-133 NT-3/NT-5 leftover-design measurement
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-146.review-adversarial.claude2.json`,
+  `42319e2041a782a891f50a92d09e411560e1c6d5b51e6217f8f282a3587c0a04`)
+  CONSENT, advisory CLAUDE-D146-ADV1. Codex
+  (`artifacts/coordinator-decisions.D-146.review-adversarial.codex.json`,
+  `a9ac0b185ca653c051b0b4625c4ad3828304e9c101e3ffe26014a2fb8313c09c`)
+  CONSENT, 0 advisories. Subject
+  `coordinator-decisions.D-146.draft.md`
+  `6c720e030b5436cca74e2c0ac7564d96e8fd2d5ff7b9c4e4fa415c5c32ccc2d2`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `provider-only-admission-leftover.v1.json`
+  `eae27692b4d799df2bd6b2d16497b0cbe3378166b6b541bc77df1989b3181865`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-144.
+- **Subject:** `docs/coop/artifacts/provider-only-admission-leftover.v1.json`
+  `eae27692b4d799df2bd6b2d16497b0cbe3378166b6b541bc77df1989b3181865`.
+- **Decision:** Record v1 as DR-133 leftover-design
+  measurement for NT-3 and NT-5. The candidate binds
+  NOTHING. DR-133 stays `OPEN`. Leftover-design is not
+  closed. NT-3 and NT-5 remain leftover-design. D-056
+  Class A is not opened. Gates 2 and 3 do not hold. The
+  proposed DR-G23 identifier is candidate-not-adopted.
+  This entry does not add a DR-G* row and does not change
+  required-now 18. **Proposed later work, not performed
+  here:** a later D-000 MF-6, its own cycle, may add one
+  DR-G* row with owner Protocol + semantic owners whose
+  corpus is hostile-but-well-formed admission inputs
+  covering NT-3 and NT-5; that later act assigns or remints
+  the number and is a scoped D-002 / D-086 required-now
+  successor if it adds the row to the required-now set.
+  Advisories CLAUDE-PONAL-V1-ADV1, PAL-V1-A1, and
+  CLAUDE-D146-ADV1 travel as honesty work. Does not edit
+  file 08. Does not retarget D-145. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  MF-6, leftover rewrite, or SATISFIED cycle. Overturn:
+  C-D146. Does not unwrite D-136, D-144, or D-145.
+- **Commit:** C-D146.
