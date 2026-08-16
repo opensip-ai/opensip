@@ -6519,3 +6519,97 @@ file-09 D-000 act. Left whole-document until then.
   leftover rewrite, naming successor, or SATISFIED cycle.
   Overturn: C-D155. Does not unwrite D-137 or D-154.
 - **Commit:** C-D155.
+
+## D-156 — Record preview-product-boundary-admission-leftover.v1 as DR-117 leftover grouping
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-156.review-adversarial.claude2.json`,
+  `0594cd427b7b357505bb489fc46c7b7ec7f9d14c8956b9922cd8d5d19f27cce7`)
+  CONSENT, advisory CLAUDE-D156-ADV1. Codex
+  (`artifacts/coordinator-decisions.D-156.review-adversarial.codex.json`,
+  `85a0578043d311d77ada18a0e1ebbb2272ed5040bdca978f802e14028598debc`)
+  CONSENT. Subject `coordinator-decisions.D-156.draft.md`
+  `9c6c75c58b8b8e6c932a59ec78a4bd3e0c1ed52f47532ac97844be1690fd3ef0`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-admission-leftover.v1.json`
+  `6280d64867433a963a4ce0bcc44521c57c485b0eea19404b4740c36c94ef4cce`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-149.
+- **Subject:** `docs/coop/artifacts/preview-product-boundary-admission-leftover.v1.json`
+  `6280d64867433a963a4ce0bcc44521c57c485b0eea19404b4740c36c94ef4cce`.
+- **Decision:** Record v1 as DR-117 leftover-design grouping
+  for EE-1, EE-2, EE-3b, EE-4, EE-5a, EE-5b, EE-6a, EE-7a,
+  EE-7b, and EE-7d. The candidate binds NOTHING. DR-117
+  stays `OPEN`. Leftover-design is not closed. Those ten
+  classes remain leftover-design. EE-3a and EE-6b/EE-7c/
+  EE-7e standing from D-155 is not retargeted. The two
+  proposed kinds are candidate-not-adopted. This entry
+  does not add a DR-G* row, does not assign G29 or any
+  later identifier, and does not change required-now 24.
+  Class A is not opened. Gates 2 and 3 do not hold.
+  **Proposed later work, not performed here:** later D-000
+  MF-6 cycles may add one or more DR-G* rows matching those
+  kinds; each such act is a scoped D-002 condition-4
+  required-gate-set successor and a D-086 successor in the
+  same act, if it adds a row to the required-now set
+  (CLAUDE-D156-ADV1). A later D-086 successor may name
+  EE-6b/EE-7c/EE-7e at G09/G14/G16. Advisories
+  CLAUDE-PPBAL-V1-ADV1 and CLAUDE-D156-ADV1 travel as
+  honesty work. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (24 of 24). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, MF-6, naming successor, or SATISFIED
+  cycle. Overturn: C-D156. Does not unwrite D-137, D-154,
+  or D-155.
+- **Commit:** C-D156.
+
+## D-156 — Record preview-product-boundary-admission-leftover.v1 as DR-117 leftover grouping
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-156.review-adversarial.claude2.json`,
+  `0594cd427b7b357505bb489fc46c7b7ec7f9d14c8956b9922cd8d5d19f27cce7`).
+  Codex
+  (`artifacts/coordinator-decisions.D-156.review-adversarial.codex.json`,
+  `85a0578043d311d77ada18a0e1ebbb2272ed5040bdca978f802e14028598debc`).
+  Subject `coordinator-decisions.D-156.draft.md`
+  `9c6c75c58b8b8e6c932a59ec78a4bd3e0c1ed52f47532ac97844be1690fd3ef0`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-admission-leftover.v1.json`
+  `6280d64867433a963a4ce0bcc44521c57c485b0eea19404b4740c36c94ef4cce`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-149.
+- **Subject:** `docs/coop/artifacts/preview-product-boundary-admission-leftover.v1.json`
+  `6280d64867433a963a4ce0bcc44521c57c485b0eea19404b4740c36c94ef4cce`.
+- **Decision:** Record v1 as DR-117 leftover-design grouping
+  for EE-1, EE-2, EE-3b, EE-4, EE-5a, EE-5b, EE-6a, EE-7a,
+  EE-7b, and EE-7d. The candidate binds NOTHING. DR-117 stays
+  `OPEN`. Leftover-design is not closed. Those ten classes
+  remain leftover-design. EE-3a and EE-6b/EE-7c/EE-7e
+  standing from D-155 is not retargeted. The two proposed
+  kinds (PREVIEW-BOUNDARY-EXCLUDED-FORM-ADMISSION and
+  PREVIEW-BOUNDARY-INSTALL-SHAPE) are candidate-not-adopted.
+  This entry does not add a DR-G* row, does not assign G29
+  or any later identifier, and does not change required-now
+  24. Class A is not opened. Gates 2 and 3 do not hold.
+  Advisory CLAUDE-PPBAL-V1-ADV1 travels as honesty work.
+  Advisory CLAUDE-D156-ADV1 travels as honesty work.
+  **Proposed later work, not performed here:** later D-000
+  MF-6 cycles may add one or more DR-G* rows matching those
+  kinds; a later D-086 successor may name EE-6b/EE-7c/EE-7e
+  at G09/G14/G16. Does not invent a D9 code. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (24 of 24). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, MF-6, naming successor, or SATISFIED
+  cycle. Overturn: C-D156. Does not unwrite D-137, D-154,
+  or D-155.
+- **Commit:** C-D156.
