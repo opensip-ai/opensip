@@ -6761,3 +6761,43 @@ file-09 D-000 act. Left whole-document until then.
   authoring, or SATISFIED cycle. Overturn: C-D160. Does
   not unwrite D-114, D-157, D-158, or D-159.
 - **Commit:** C-D160.
+
+## D-161 — Record component-manifest-leftover-join.v2 as DR-103 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-161.review-adversarial.claude2.json`,
+  `be619b25742f16dc1faa1c2d4c81f4f7a540292c69ae7945f80abfb3a3ba7082`).
+  Codex
+  (`artifacts/coordinator-decisions.D-161.review-adversarial.codex.json`,
+  `af3b6138b511b18558a92ed061f2878e3982d9912648270c44062a9f455185c0`).
+  Subject `coordinator-decisions.D-161.draft.md`
+  `81a195e2a88ac42fd0f639e3b3ddec3616133275d02e422e764936e053b3a44d`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `component-manifest-leftover-join.v2.json`
+  `068a313dfc59124246882636dd714a2ce25f8843408461dfd164323d3c0129cc`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-160 / D-155.
+- **Subject:** `docs/coop/artifacts/component-manifest-leftover-join.v2.json`
+  `068a313dfc59124246882636dd714a2ce25f8843408461dfd164323d3c0129cc`.
+- **Decision:** Record v2 as DR-103 leftover-design
+  measurement. The candidate binds NOTHING. DR-103 stays
+  `OPEN`. D-013 SATISFIED-refusal stands. Leftover-design
+  is not closed. Remaining leftover-design:
+  OBL-G15-HARNESS-SPEC, OBL-WINDOWS-PATH,
+  OBL-ENVELOPE-MISMATCH, OBL-UNICODE-NORM, OD-1, and
+  OD-2. The 51 authored fixtures exist and are not
+  leftover-authoring. V2-A1 is specified/repaired at
+  schemas.v11 / D-104. Class A is not opened. Gates 2
+  and 3 do not hold for DR-103. Does not execute
+  fixtures, decide OD-1, or fold OD-2. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, MF-6, naming successor, or SATISFIED
+  cycle. Overturn: C-D161. Does not unwrite D-013, D-104,
+  D-106, or D-160.
+- **Commit:** C-D161.
