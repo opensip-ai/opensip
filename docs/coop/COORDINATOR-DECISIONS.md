@@ -6930,3 +6930,44 @@ file-09 D-000 act. Left whole-document until then.
   SATISFIED cycle. Overturn: C-D164. Does not unwrite
   D-032, D-035, D-126, D-127, D-129, or D-163.
 - **Commit:** C-D164.
+
+## D-165 — Record language-quality-leftover-join.v2 as DR-118 leftover-design measurement
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-165.review-adversarial.claude2.json`,
+  `11f01bc900b45a3d59a93a2b92a2d1e796b286a74ae7f85277800892df6f35e3`).
+  Codex
+  (`artifacts/coordinator-decisions.D-165.review-adversarial.codex.json`,
+  `68551da8ce2e378d79d369e576e8e857ed89c59af9ad1f8b546176286946ca68`).
+  Subject `coordinator-decisions.D-165.draft.md`
+  `7add0380abd4dd70410006df707ecfbe7d86cde88747a35f8c7da820b8f058cf`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `language-quality-leftover-join.v2.json`
+  `a51644fe85ddff1dcee77f24d1b1a6f3c236ca8374a9b5276ab6d496976f87ea`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-164 / D-163 / D-162.
+- **Subject:** `docs/coop/artifacts/language-quality-leftover-join.v2.json`
+  `a51644fe85ddff1dcee77f24d1b1a6f3c236ca8374a9b5276ab6d496976f87ea`.
+- **Decision:** Record v2 as DR-118 leftover-design
+  measurement. The candidate binds NOTHING. DR-118 stays
+  `DECIDED-V1-NOT-INTEGRATED`. leftover-design/OPEN is a
+  finding against that token. Leftover-design is not
+  closed. Remaining leftover-design: OBL-THRESHOLDS,
+  OBL-MATRIX-CORPUS, and OBL-G13-RESERVED. D-002 role list
+  and D-007 acceptance structure are not leftover-
+  authoring. OBL-DR125-ACTIVATION rides DR-125. Class A is
+  not opened. Class B SATISFIED is not recorded. Gates 2
+  and 3 do not hold for DR-118. Does not invent thresholds,
+  author the matrix or corpus, name G13 into required-now,
+  or retarget DR-125. Does not edit file 08. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, threshold decision,
+  or SATISFIED cycle. Overturn: C-D165. Does not unwrite
+  D-007, D-113, or D-164.
+- **Commit:** C-D165.
