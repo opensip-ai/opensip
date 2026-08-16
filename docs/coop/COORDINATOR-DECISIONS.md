@@ -5963,3 +5963,32 @@ file-09 D-000 act. Left whole-document until then.
   Overturn restores the DR-133 `no contract exists` clause.
   Does not touch DR-131. Overturn: C-D140.
 - **Commit:** C-D140.
+
+## D-141 — File 08 MF-6: record accepted candidate on DR-131
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-141.review-adversarial.claude2.json`,
+  `e6db906a2be7bc874e173f22b2b8d4b468e748671e941cc4b802ad0f7206ecf4`).
+  Codex
+  (`artifacts/coordinator-decisions.D-141.review-adversarial.codex.json`,
+  `6a5f527747afa42422963903caa0f46d71de6679497d01fb7ab1e9e1a92349ed`).
+  Subject `coordinator-decisions.D-141.draft.md`
+  `956d2d37d8a23d2772d01ab655ba60cd9905e9dd5a669656bc6b9d0700c2e102`.
+- **Decision type:** RULE-GOVERNED. File-08 MF-6. Performs
+  D-139 H2 only.
+- **Decision:** Replace DR-131's Status-cell clause
+  `no contract exists` with the recorded D-138 candidate in
+  the established form (link, full digest,
+  `CANDIDATE-NOT-APPLIED`, binds NOTHING). DR-131 stays
+  `OPEN`. Not SATISFIED. Class A not opened. Does not edit
+  DR-133. Does not change condition-2 arithmetic. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED added. Condition 2
+  stays 4 of 32. Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  DR-131 cell rewrite or SATISFIED-grade application.
+  Overturn restores the DR-131 `no contract exists` clause.
+  Does not touch DR-133. Overturn: C-D141.
+- **Commit:** C-D141.
