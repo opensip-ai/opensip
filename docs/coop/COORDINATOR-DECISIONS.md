@@ -6062,3 +6062,40 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** Total only before a later dependent
   D-086 successor or SATISFIED cycle. Overturn: C-D144.
 - **Commit:** C-D144.
+
+## D-145 — Record gate-harness-naming.v6 as D-086 successor
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-145.review-adversarial.claude2.turn2.json`,
+  `012e369a6c911e5d99047de98297765b92b7bec666eccc6d939401eaa7c34e9f`).
+  Codex
+  (`artifacts/coordinator-decisions.D-145.review-adversarial.codex.turn2.json`,
+  `3e4f074a2183e36a3b92c6822d5040b461a140d99798cae1e2db17b6c7259fce`).
+  Subject `coordinator-decisions.D-145.turn2.draft.md`
+  `c3c430d48ca3b7f8286324a1ae3358dfde0e1571436beb38ce90d10f16ef84eb`.
+  Turn-1 Claude OBJECT (CLAUDE-D145-SF1) at
+  `84b013022cd3bcb82ed495aa13d09ac80acb927c3d5a1b82f7eea31641ce741d`;
+  turn-1 Codex CONSENT
+  `7582d81adda6abe0a7722be90b9bbe45ced8eafe78dccf028a030084544588eb`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `gate-harness-naming.v6.json` as the D-086
+  successor owed by D-144.
+- **Subject:** `docs/coop/artifacts/gate-harness-naming.v6.json`
+  `b74e30092cf1f5aad55434d2f12465fa31111923c1b2c0c5ddc8a78445b5ffba`.
+- **Decision:** Record v6 as the condition-4 naming
+  candidate. Naming is not execution. Not QUALIFIED.
+  DR-G21 names DR-133 NT-1, NT-2, NT-6. DR-G20 names
+  DR-133 NT-4, NT-7. DR-133 stays OPEN. Leftover-design
+  is not closed. NT-3 and NT-5 remain leftover-design.
+  D-056 gates 2 and 3 do not hold. Condition-4 effect is
+  zero. Does not edit file 08. Does not add a DR-G* row.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half.
+  Condition 5 last.
+- **Reversibility:** Total only before a dependent leftover
+  closure, SATISFIED cycle, or file-08 harness-cell rewrite.
+  Overturn: C-D145.
+- **Commit:** C-D145.
