@@ -6194,3 +6194,45 @@ file-09 D-000 act. Left whole-document until then.
   18-member required-now set. Does not unwrite D-136,
   D-144, D-145, or D-146.
 - **Commit:** C-D147.
+
+## D-148 — Record preview-analyze-nt-gate-join.v2 as DR-131 leftover-design measurement
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-148.review-adversarial.claude2.json`,
+  `538858e7f8cefab6fc7a2372ace03ef111ff36610fea8bf79a99ee448aa1f8e2`).
+  Codex
+  (`artifacts/coordinator-decisions.D-148.review-adversarial.codex.json`,
+  `76497a73678802425b75daf6829548ceeca024260ad20de0524449d14d76e1b2`).
+  Subject `coordinator-decisions.D-148.draft.md`
+  `221e3dcec81f7bcbbae9ec1b167e462006ec0c3fb453af465d1fbfabeb7d239d`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-analyze-nt-gate-join.v2.json`
+  `4081c7400b3b9eae61089bb807140b4f75f5dd512b664c1f6657553a7da03813`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-144 / D-146.
+- **Subject:** `docs/coop/artifacts/preview-analyze-nt-gate-join.v2.json`
+  `4081c7400b3b9eae61089bb807140b4f75f5dd512b664c1f6657553a7da03813`.
+- **Decision:** Record v2 as DR-131 leftover-design
+  measurement. The candidate binds NOTHING. DR-131 stays
+  `OPEN`. Leftover-design is not closed. NT-1, NT-2, NT-3,
+  NT-5, NT-6, NT-7, and NT-8 remain leftover-design. NT-4
+  is not leftover-design: its pass is already named as
+  DR-133 execution at G21 (D-145) and G23 (D-147). This
+  entry does not name DR-131 NT-4 at those gates. Class A
+  is not opened. Gates 2 and 3 do not hold. Required-now
+  stays 19. **Proposed later work, not performed here:** a
+  later D-000 cycle may close the seven leftover classes
+  by naming them at one or more condition-4 / DR-G*
+  obligations. Does not edit file 08. Does not retarget
+  D-145 or D-147. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (19 of 19). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, naming successor, or SATISFIED cycle.
+  Overturn: C-D148. Does not unwrite D-138, D-145, D-146,
+  or D-147.
+- **Commit:** C-D148.
