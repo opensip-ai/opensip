@@ -6439,3 +6439,45 @@ file-09 D-000 act. Left whole-document until then.
   22-member required-now set. Does not unwrite D-138,
   D-147, D-149, D-150, D-151, or D-152.
 - **Commit:** C-D153.
+
+## D-154 — Add DR-G28 as required-now preview-analyze host-must-not-mint obligation
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-154.review-adversarial.claude2.json`,
+  `d0db0c19cf801118f2ec3c2a5c554526f7dd13109c2bd60104aa7ad1ae492c0c`).
+  Codex
+  (`artifacts/coordinator-decisions.D-154.review-adversarial.codex.json`,
+  `bfd49f3beac630a91fa68d029eb61c29df494d23c5a7791568e2fabaab1495ae`).
+  Subject `coordinator-decisions.D-154.draft.md`
+  `90a56a37e3285cba5ada20d5375d1058c12fc727502abbbd9d54d84b94d06064`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Fifth of
+  D-149's five proposed later works.
+- **Decision:** Assign
+  `DR-G28 PREVIEW-ANALYZE-HOST-MUST-NOT-MINT`. It owns
+  DR-131 NT-7 and NT-8 only. Required-now becomes the prior
+  23-member set plus G28 (cardinality 24). Harness identifier
+  `harness.DR-G28.preview-analyze-host-must-not-mint.preview`
+  is named in the same act. Not authored. Not QUALIFIED.
+  File 08 gains the G28 row and the condition-4 measured
+  cell becomes 28 of 28 owners / 24 of 24 required names /
+  25 OPEN, 3 HARD-BLOCKED. NT-7 and NT-8 leftover-design
+  closes: remainder is G28 execution. After this act, D-056
+  Eligibility gates 2 and 3 hold for DR-131's eight NT
+  classes. Class A is not opened. Gate 4 reserves
+  eligibility to a later SATISFIED-GRADE cycle. Not eligible
+  in kind. Not SATISFIED. Invents no D9 code. Does not
+  restore G17. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (24 of 24). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D154, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  23-member required-now set. Does not unwrite D-138,
+  D-147, D-149, D-150, D-151, D-152, or D-153.
+- **Commit:** C-D154.
