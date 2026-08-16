@@ -5742,3 +5742,34 @@ file-09 D-000 act. Left whole-document until then.
   removes the two rows and restores the snapshot heading,
   63-row figure, and 4-of-30 sentences. Overturn: C-D135.
 - **Commit:** C-D135.
+
+---
+
+## D-136 — Record provider-only-output-contract.v3 as DR-133 candidate
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-136.review-adversarial.claude2.turn3.json`,
+  `313565b135d13ba205f1c26983935d719d9d969f035ff993bd6fe5483bd7f80d`).
+  Codex
+  (`artifacts/coordinator-decisions.D-136.review-adversarial.codex.turn3.json`,
+  `af91a1b1b7444df847160da91bfa990919a7ddd3147dd79e59bf94402b124265`).
+  Subject `coordinator-decisions.D-136.turn3.draft.md`
+  `0656ac390b3691f83cff0fd31a16160bfa344558bcc86eeb45c7477588c85185`.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `provider-only-output-contract.v3.json`
+  `ef2a7416700cc8197486c6e29450673c60e3b94512be3ad278d1995f7d281309`.
+  Same no-cell-edit branch as D-116 / D-131.
+- **Decision:** Record v3 as DR-133's accepted design-contract
+  candidate. DR-133 stays OPEN. No SATISFIED. Candidate binds
+  NOTHING. D-056 Class A is not opened. Advisories
+  CLAUDE-POOC-V3-ADV-1, CLAUDE-POOC-V3-ADV-2, and POOCV3-ADV1
+  travel as honesty work (ADV-2 and POOCV3-ADV1 are one class).
+  **Owed later MF-6:** update DR-133's "no contract exists"
+  clause. Not performed here.
+- **Readiness effect:** Zero. Condition 2 stays 4 of 32.
+  Condition 5 last.
+- **Reversibility:** Total only before the owed MF-6 or another
+  dependent act. Overturn: C-D136.
+- **Commit:** C-D136.
