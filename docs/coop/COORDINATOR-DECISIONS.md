@@ -5705,3 +5705,40 @@ file-09 D-000 act. Left whole-document until then.
   act. Overturn: C-D134. Overturn restores D-002's pre-D-134
   21-row SATISFIED-requiring set.
 - **Commit:** C-D134.
+
+---
+
+## D-135 — File 08 MF-6: add DR-131 and DR-133 as OPEN
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-135.review-adversarial.claude2.turn3.json`,
+  `e1129f77eebc48302a87bdf8b83c5de64fd3b34b3958c1996c8895d44e4dc4ea`).
+  Codex
+  (`artifacts/coordinator-decisions.D-135.review-adversarial.codex.turn3.json`,
+  `d52b22dc206081fdde52cd6543969628fb6f086500389b406b97a99b6a5fadd6`).
+  Subject `coordinator-decisions.D-135.turn3.draft.md`
+  `d22dfd847590c3e50129269b6de69966ec47fb447b5e69eaf123d221d943b276`.
+  Turn-1 Claude OBJECT (D-135-SF-1, D-135-SF-2)
+  `76c2d0f9c4a4f08e8b1bb52b7a3b892e34a1bf90071eb6bba8b9e3b3ecf0b620`;
+  turn-1 Codex OBJECT (D135-SF-1, D135-SF-2)
+  `024d8f9b73480e2e7b474da6fee58c94b4138cfc35f98db7f6aa5e38926c93bd`.
+  Turn-2 Claude OBJECT (D-135-T2-SF-1)
+  `91bb26d37a668e0639cfb4efdc978f9f0c5d1bf464654b8b5ad8321de289fcc6`;
+  turn-2 Codex CONSENT
+  `85a3a6c8a2e8bf7bde437d2f6f1c868a6bad88bf11c05a6b868cd3703fa79a8e`.
+- **Decision type:** RULE-GOVERNED. File-08 content change
+  (D-001 MF-6) authorized by D-132 clause 4.
+- **Decision:** Insert DR-131 and DR-133 as `OPEN` after
+  DR-130. Snapshot heading 2026-08-15; preamble 65 rows
+  (12+32+5+16); condition 2 measured 4 of 32 SATISFIED, 24
+  OPEN. Neither row is eligible in kind today. Marks nothing
+  SATISFIED. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 stays NOT MET. Snapshot
+  4 of 32. Zero SATISFIED added. Condition 5 last.
+- **Reversibility:** Total only before a dependent
+  DR-131/DR-133 contract or status re-record. Overturn
+  removes the two rows and restores the snapshot heading,
+  63-row figure, and 4-of-30 sentences. Overturn: C-D135.
+- **Commit:** C-D135.
