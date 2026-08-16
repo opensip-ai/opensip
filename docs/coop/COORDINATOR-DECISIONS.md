@@ -6318,3 +6318,43 @@ file-09 D-000 act. Left whole-document until then.
   19-member required-now set. Does not unwrite D-138,
   D-147, D-148, or D-149.
 - **Commit:** C-D150.
+
+## D-151 — Add DR-G25 as required-now preview-analyze missing-rung obligation
+
+- **Date:** 2026-08-15
+- **Status:** **ADOPTED 2026-08-15.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-151.review-adversarial.claude2.json`,
+  `305173ca1fdc44ae177a1a52517bbc9f4631276952d7b8e6af29569fe1d3e67e`).
+  Codex
+  (`artifacts/coordinator-decisions.D-151.review-adversarial.codex.json`,
+  `1efb1d55b1eafc67e520b2459e7254af13376a5324fa6480309b05dda43df341`).
+  Subject `coordinator-decisions.D-151.draft.md`
+  `b119f983fda9d5092f9c1c45e24f8b22c75de00818f0fa3300ecf46ee9dbbf63`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Second of
+  D-149's five proposed later works.
+- **Decision:** Assign `DR-G25 PREVIEW-ANALYZE-MISSING-RUNG`.
+  It owns DR-131 NT-3 only. Required-now becomes the prior
+  20-member set plus G25 (cardinality 21). Harness identifier
+  `harness.DR-G25.preview-analyze-missing-rung.preview` is
+  named in the same act. Not authored. Not QUALIFIED. File
+  08 gains the G25 row and the condition-4 measured cell
+  becomes 25 of 25 owners / 21 of 21 required names / 22
+  OPEN, 3 HARD-BLOCKED. NT-3 leftover-design closes:
+  remainder is G25 execution. NT-5, NT-6, NT-7, and NT-8
+  remain leftover-design. Gates 2 and 3 do not hold for
+  DR-131. Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Does not restore G17. Does not invent a D9
+  code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (21 of 21). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D151, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  20-member required-now set. Does not unwrite D-138,
+  D-147, D-148, D-149, or D-150.
+- **Commit:** C-D151.
