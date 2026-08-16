@@ -6623,3 +6623,58 @@ file-09 D-000 act. Left whole-document until then.
   24-member required-now set. Does not unwrite D-137,
   D-154, D-155, or D-156.
 - **Commit:** C-D157.
+
+## D-158 — Add DR-G30 as required-now preview-boundary install-shape obligation
+
+- **Date:** 2026-08-16
+- **Status:** **ADOPTED 2026-08-16.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-158.review-adversarial.claude2.turn2.json`,
+  `453b466f836be89f6840a07f34381adf33cceda7a9a54ae976e59182390e7643`).
+  Codex
+  (`artifacts/coordinator-decisions.D-158.review-adversarial.codex.turn2.json`,
+  `48d365f45639dd3f46b24ff7e06315adfeff81c29e6edfbee044b134e50426c0`).
+  Subject `coordinator-decisions.D-158.turn2.draft.md`
+  `48769069c15de094948903b39f985c29b7b09ffad33e08e50654306197ceb61b`.
+  Turn-1 Claude OBJECT (CLAUDE-D158-SF1) at
+  `473797a53a94b80a41a3568b74556eeabc112373bff09e98f7c063b7e36e6b2a`;
+  turn-1 Codex CONSENT
+  `11bf06f9e977f337450a53a016240be21e7f4d85eb348036705298174a5c3a47`.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Last of
+  D-156's two proposed later works.
+- **Decision:** Assign
+  `DR-G30 PREVIEW-BOUNDARY-INSTALL-SHAPE`. It owns DR-117
+  EE-7a, EE-7b, and EE-7d only. Required-now becomes the
+  prior 25-member set plus G30 (cardinality 26). Harness
+  identifier
+  `harness.DR-G30.preview-boundary-install-shape.preview`
+  is named in the same act. Not authored. Not QUALIFIED.
+  File 08 gains the G30 row and the condition-4 measured
+  cell becomes 30 of 30 owners / 26 of 26 required names /
+  27 OPEN, 3 HARD-BLOCKED. The live claim recites v5's
+  useful-install selection including the future DR-131
+  pack (CLAUDE-D158-SF1). The pack is not invented.
+  CLAUDE-PPBAL-V1-ADV1 is landed: inline corpus and
+  not-that-gate distinctions for DR-101, G13, and DR-131
+  pack identity. EE-7a, EE-7b, and EE-7d leftover-design
+  close: remainder is G30 execution. Together with D-157,
+  leftover-design of the ten D-155/D-156 leftover classes
+  is closed. EE-6b, EE-7c, and EE-7e remain
+  capable-of-riding and unnamed at G09/G14/G16. After this
+  act, D-056 Eligibility gates 2 and 3 do not hold for
+  DR-117. Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Invents no D9 code. Does not restore G17.
+  Does not name G13 into required-now. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (26 of 26). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D158, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  25-member required-now set. Does not unwrite D-137,
+  D-155, D-156, or D-157.
+- **Commit:** C-D158.
