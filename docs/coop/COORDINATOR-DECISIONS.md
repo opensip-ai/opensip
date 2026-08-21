@@ -7374,3 +7374,57 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D173. Does not unwrite D-114, D-160, D-169,
   D-170, D-171, or D-172.
 - **Commit:** C-D173.
+
+## D-174 — Record component-manifest-leftover-join.v6 as DR-103 leftover remasurement
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-174.review-adversarial.claude2.turn2.json`,
+  `1e25681eb3757f35d01c347d38f97ab1dc60571dcc9d5f272737366a2542b332`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-174.review-adversarial.codex.turn2.json`,
+  `7babe78916b15ec9d223189b9e34a0bea489a355db2a2a25d4bc70af37c579e1`)
+  CONSENT. Subject `coordinator-decisions.D-174.turn2.draft.md`
+  `97a4cb5dce5505763c5a2c26f4a3917c74c2c3d026073fd09cbeb59fb4cd11d4`.
+  Turn-1 Claude OBJECT (CLAUDE-D174-SF1)
+  `64c6d40f6382e91f16b86037cf26398ec34d0effdee38004fe9ba7231257d95e`;
+  turn-1 Codex CONSENT
+  `179dec626a18d55a89b76782d94d1682fb40c16568e0c3a48d91f306e027d71f`.
+  Frozen leftover-join
+  `component-manifest-leftover-join.v6.json`
+  `9953f9692379f3f30254df12735d284559da6b6e979fd684296ace02d0e6e212`
+  Stage A Claude ACCEPT
+  `ef77d31bdf1cab61b8ac05a4bc6d256de46a450572d786a5e895117e313611a1`
+  0/0; Stage A Codex ACCEPT
+  `6d8014a3a14b4af7801028bfd9b5f85e14d57e9dacfe387a5353db47cfa29863`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `component-manifest-leftover-join.v6.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 / D-171 / D-172 / D-173. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/component-manifest-leftover-join.v6.json`
+  `9953f9692379f3f30254df12735d284559da6b6e979fd684296ace02d0e6e212`.
+- **Decision:** Record v6 as DR-103 leftover remasurement
+  after D-173. Lands CMLJ-V5-SF1 and CLAUDE-CMLJ-V5-SF1.
+  Lands CLAUDE-D174-SF1. The candidate binds NOTHING.
+  DR-103 stays `OPEN`. leftover-design of Windows-path
+  fixture bytes, ENVELOPE_MISMATCH, unicode-norm, OD-1, and
+  OD-2 remains. D-056 Eligibility gates 2 and 3 do not hold
+  for DR-103. Gate 1 Class A is not opened. Not eligible in
+  kind. Not SATISFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen v4 remains a historical measurement
+  as of HEAD `5d5d778` / required-now 26. v4/v5 stay frozen;
+  do not record them as current. Does not invent fixture
+  bytes or a reserved-device-name list. Does not rewrite
+  G15, G31, or G32. Does not edit file 08. Does not invent
+  a D9 code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D174. Does not unwrite D-013, D-104, D-106,
+  D-161, D-169, D-170, D-171, D-172, or D-173. Does not
+  unwrite the turn-1 OBJECT.
+- **Commit:** C-D174.
