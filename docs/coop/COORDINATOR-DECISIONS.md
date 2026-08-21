@@ -6997,3 +6997,63 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** C-D166 plus restore of the deleted
   second recital. Does not overturn D-165. Overturn: C-D166.
 - **Commit:** C-D166.
+
+## D-167 — Add DR-G31 as required-now identity-namespace negative-test execution obligation
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-167.review-adversarial.claude2.json`,
+  `70897ad06981d7007f92b061790997335efc962ebd2fb22dcb3df4416d64aa97`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-167.review-adversarial.codex.json`,
+  `af259952ef56c797b6aba646f48f404ea2313963142d9818022f94a2124c9004`)
+  CONSENT. Subject `coordinator-decisions.D-167.draft.md`
+  `0cc4ce068c37b7c974f0181fb46b5abd6d01d68c401ff011265d57a84229c9bd`.
+  Frozen three-limb candidate
+  `g31-three-limb-act.v1.json`
+  `7d5848439b3cca947f1a9c8be730ca21c716559321306778ab7b24876cf28dd7`
+  Stage A Claude ACCEPT
+  `0bc2deeb294179005ca668f3d7f2021ba38c51da925bdfc2da9a23c6248e01e9`
+  0/0; Stage A Codex ACCEPT
+  `e2a977e7f67ea6604d20644182dc287f52222c7cd90936ac8cc9499eb2c520fc`
+  0/0.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Same
+  class as D-147 / D-150 / D-157 / D-158.
+- **Decision:** Assign
+  `DR-G31 IDENTITY-NAMESPACE-NEGATIVE-TEST-EXECUTION`. It
+  owns the eleven D-012 / identity-v3 negative-test classes
+  recorded at D-130, verbatim and in order. Required-now
+  becomes the prior 26-member set plus G31 (cardinality
+  27). Harness identifier
+  `harness.DR-G31.identity-namespace-negative-test.preview`
+  is named in the same act at
+  `docs/coop/artifacts/harness.DR-G31.identity-namespace-negative-test.preview.v2.json`.
+  Not authored. Not QUALIFIED. File 08 gains the G31 row
+  and the condition-4 measured cell becomes 31 of 31
+  owners / 27 of 27 required names / 28 OPEN, 3
+  HARD-BLOCKED. Leftover-design of OBL-NT-11-EXECUTION
+  closes: remainder is G31 execution of the eleven D-130
+  classes. After this act, D-056 Eligibility gates 2 and 3
+  hold for DR-104. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Gates 4 and 5 are not
+  performed. DR-104 stays `DECIDED-V1-NOT-INTEGRATED`. Not
+  SATISFIED. Does not execute the eleven classes. Does not
+  invent a twelfth class. Does not force a ride onto G15.
+  Does not steal DR-103 leftover. Does not record G32.
+  Does not restore G17. Does not name G13 into
+  required-now. Does not invent a D9 code, a section 7.1
+  recipe, or a D-006 unit. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (27 of 27). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D167, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  26-member required-now set. Does not unwrite D-012,
+  D-056, D-130, D-158, D-162, or D-166.
+- **Commit:** C-D167.
