@@ -7271,3 +7271,57 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D171. Does not unwrite D-032, D-042, D-163,
   D-169, or D-170.
 - **Commit:** C-D171.
+
+## D-172 — Record exact-bytes-leftover-join.v5 as G07 leftover remasurement
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-172.review-adversarial.claude2.turn2.json`,
+  `3ac052b02885e236ea1400812bf67c0a9d08d74d7e99874ae3be0146c99bf107`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-172.review-adversarial.codex.turn2.json`,
+  `aac2c2053ef787ad4b9fa2bcd309c74ce376d56cadf1331cac0be5ce2b404a0c`)
+  CONSENT. Subject `coordinator-decisions.D-172.turn2.draft.md`
+  `a80d557b62b9306178d326479b57e65e0715d69979403c36994faeebfe05c453`.
+  Turn-1 Claude OBJECT (CLAUDE-D172-MF1)
+  `e985639f0e0f855446b47092f2a39e5c59175438a00ab0daceacd4aca58d3aeb`;
+  turn-1 Codex CONSENT
+  `6acac68047ff3fc59b1d1ff679207835917b3f1ad54372c02d6eeb7c71148e5f`.
+  Frozen leftover-join
+  `exact-bytes-leftover-join.v5.json`
+  `8ffecd694750d912f11a0f4b933c650db6528fe1b82ce584d63b6140b26df7d8`
+  Stage A Claude ACCEPT
+  `e99ceaeb182a0697617bfd5542bc6681f81ef71151a0f32b998500000639dfb3`
+  0/0; Stage A Codex ACCEPT
+  `33c4efaa8e3934101fdd71aaa24d2ae490142f509e1c0f9bd01aeaa0cf43db2a`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `exact-bytes-leftover-join.v5.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 / D-171. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/exact-bytes-leftover-join.v5.json`
+  `8ffecd694750d912f11a0f4b933c650db6528fe1b82ce584d63b6140b26df7d8`.
+- **Decision:** Record v5 as G07 leftover remasurement
+  after D-171. Lands CLAUDE-D172-MF1. The candidate binds
+  NOTHING. DR-G07 stays `OPEN`. leftover-design of
+  OBL-G07-FX-AUTHORING and OBL-FILESYSTEM-COVERAGE remains.
+  OBL-G07-COVERAGE-DOMAIN-ACT is specified-not-leftover.
+  D-056 Eligibility gates 2 and 3 do not hold for DR-103.
+  Gate 1 Class A is not opened. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v4 remains a
+  historical measurement as of HEAD `5d5d778` / required-now
+  26 and is not recorded as a current remasurement.
+  v1/v2/v3/v4 stay frozen; do not record them as current.
+  Does not invent fixture bytes. Does not rewrite G07, G31,
+  or G32. Does not edit file 08. Does not invent a D9 code
+  or a D-006 unit. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D172. Does not unwrite D-086, D-169, D-170,
+  or D-171. Does not unwrite the turn-1 OBJECT.
+- **Commit:** C-D172.
