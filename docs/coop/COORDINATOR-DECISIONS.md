@@ -7221,3 +7221,53 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D170. Does not unwrite D-032, D-164, D-167,
   D-168, or D-169.
 - **Commit:** C-D170.
+
+## D-171 — Record permission-leftover-join.v9 as DR-105 leftover remasurement
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-171.review-adversarial.claude2.json`,
+  `8782b3859d76c6418161cbf7a4e903afae1ac84d977c7183b32dd8e561ac9a1e`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-171.review-adversarial.codex.json`,
+  `b8532a379f603f4f2a005c98ddcde3504ee2bede7e8f5bb994ccaf272b4bbf4f`)
+  CONSENT. Subject `coordinator-decisions.D-171.draft.md`
+  `3a596904e0e2f3e2c4cb2d7a01f910956107cdcd88b0eb7a37985b02b8a8b192`.
+  Frozen leftover-join
+  `permission-leftover-join.v9.json`
+  `71c0b80bfd11fe9ae1601cc390d76e01aa67621b550a04e1ad8b8359ce2b97fe`
+  Stage A Claude ACCEPT
+  `aa50c430a1efe2b4f099464dd004432319afe523927ece06b5631edbe9b9b390`
+  0/0; Stage A Codex ACCEPT
+  `832242100056ffcb3c8cc648ed5cdf47a53c18e2fa64d1feb01206ab0a774a80`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `permission-leftover-join.v9.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-163 / D-170. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/permission-leftover-join.v9.json`
+  `71c0b80bfd11fe9ae1601cc390d76e01aa67621b550a04e1ad8b8359ce2b97fe`.
+- **Decision:** Record v9 as DR-105 leftover remasurement
+  after D-169 / D-170. The candidate binds NOTHING. DR-105
+  stays `OPEN`. Actor-join fixture execution is
+  qualification at DR-G32. leftover-design of
+  OBL-FX-AUTHORING, OBL-R10-AUTHORING, OBL-R6-AUTHORING,
+  OBL-FC-C1, and OBL-BLK-1..4 remains. D-056 Eligibility
+  gates 2 and 3 do not hold for DR-105. Gate 1 Class A is
+  not opened. Not eligible in kind. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. v7/v8
+  stay frozen; do not record them. Does not fold R-10 or
+  R-6 into the fourteen. Does not invent a leftover ID,
+  fixture bytes, or a decision-record envelope. Does not
+  rewrite G31 or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D171. Does not unwrite D-032, D-042, D-163,
+  D-169, or D-170.
+- **Commit:** C-D171.
