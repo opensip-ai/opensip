@@ -7325,3 +7325,52 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D172. Does not unwrite D-086, D-169, D-170,
   or D-171. Does not unwrite the turn-1 OBJECT.
 - **Commit:** C-D172.
+
+## D-173 — Record distribution-core-leftover-join.v7 as DR-101 leftover remasurement
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-173.review-adversarial.claude2.json`,
+  `2652bc664616b8186dc56249c1fbafea90fb95dfb2ba136823b4671d00e38038`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-173.review-adversarial.codex.json`,
+  `c3ebd0e7a4534724a7b6d3734c1bb285b2dccec2e078d02c9323490e1dca1373`)
+  CONSENT. Subject `coordinator-decisions.D-173.draft.md`
+  `b400b8fb40315e6db7789d742f11c8a02c969f934bbf052129a5573bfc4ed528`.
+  Frozen leftover-join
+  `distribution-core-leftover-join.v7.json`
+  `ccdae033f09dfa3655003d69bf30d29de28c712943f9d0eefb78eb93dac27ad6`
+  Stage A Claude ACCEPT
+  `9500da512b7235e0b5d407c6df35bf13806ce608967969797a9f5809df9165db`
+  0/0; Stage A Codex ACCEPT
+  `63d24a385858b959ee3fc6de77b0625a7d993a7fa8d44ff6b8dc71c4e65c8f5c`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `distribution-core-leftover-join.v7.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 / D-171 / D-172. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/distribution-core-leftover-join.v7.json`
+  `ccdae033f09dfa3655003d69bf30d29de28c712943f9d0eefb78eb93dac27ad6`.
+- **Decision:** Record v7 as DR-101 leftover remasurement
+  after D-172. Lands CLAUDE-DCLJ-V6-SF1. The candidate binds
+  NOTHING. DR-101 stays `OPEN`. leftover-design of the
+  D-006 unit limb, OD-101-1, and OD-101-2 remains. D-056
+  Eligibility gates 2 and 3 do not hold for DR-101. Gate 1
+  Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is
+  zero. Frozen v5 remains a historical measurement as of
+  HEAD `5d5d778` / required-now 26. v5/v6 stay frozen; do
+  not record them as current. Does not invent a D-006 unit.
+  Does not mint Rust-as-core. Does not invent fixture
+  bytes. Does not rewrite G01–G05, G31, or G32. Does not
+  edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D173. Does not unwrite D-114, D-160, D-169,
+  D-170, D-171, or D-172.
+- **Commit:** C-D173.
