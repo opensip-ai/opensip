@@ -7109,3 +7109,65 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D168. Does not unwrite D-137, D-157, D-158,
   D-159, or D-167.
 - **Commit:** C-D168.
+
+## D-169 — Add DR-G32 as required-now actor-join fixture-execution obligation
+
+- **Date:** 2026-08-20
+- **Status:** **ADOPTED 2026-08-20.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-169.review-adversarial.claude2.json`,
+  `9cffe2a25c75e387c96991eb42f85c1e632957507c2083f26777e9f6663b11fc`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-169.review-adversarial.codex.json`,
+  `b9e9540ce382d1cd4ad3bef9f23efeb94036f00a8345a20150d9b41917de10e9`)
+  CONSENT. Subject `coordinator-decisions.D-169.draft.md`
+  `c5163db134276d4d27ef65e84fe76d21b11b044859d4e2a0ae81c1a23d5ddb2b`.
+  Frozen three-limb candidate
+  `g32-three-limb-act.v2.json`
+  `8a64123830a95bd7774f171531f7872a34e35aeaf865383311c29dbb7ed5fc31`
+  Stage A Claude ACCEPT
+  `61dbbf6c22b49cc4c89795ffb7d23507d7b6ed8b4defc6ee239f5b8f28436d40`
+  0/0; Stage A Codex ACCEPT
+  `93e040fe110c21b7202f94072df3723f5f1e428a422faa427125fa4d48f959d2`
+  0/0.
+- **Decision type:** RULE-GOVERNED three-limb act. D-001 MF-6
+  file-08 write, scoped D-002 condition-4 required-gate-set
+  successor, and D-086 successor in the same act. Same
+  class as D-147 / D-150 / D-157 / D-158 / D-167.
+- **Decision:** Assign
+  `DR-G32 ACTOR-JOIN-FIXTURE-EXECUTION`. It owns the thirteen
+  already-named actor-join v8 fixture classes, verbatim and
+  in order. Required-now becomes the prior 27-member set
+  plus G32 (cardinality 28). Harness identifier
+  `harness.DR-G32.actor-join-fixture-execution.preview` is
+  named in the same act at
+  `docs/coop/artifacts/harness.DR-G32.actor-join-fixture-execution.preview.v1.json`.
+  Not authored. Not QUALIFIED. Fixture bytes remain
+  NOT-AUTHORED. File 08 gains the G32 row and the
+  condition-4 measured cell becomes 32 of 32 owners /
+  28 of 28 required names / 29 OPEN, 3 HARD-BLOCKED.
+  Leftover-design of OBL-JOIN-FX-EXECUTION closes:
+  remainder is G32 execution once fixture implementations
+  exist. leftover-design of OBL-JOIN-FX-AUTHORING,
+  OBL-DOCTOR-FX-AUTHORING, OBL-FC-C1, and OBL-BLK-1..4
+  remains. After this act, D-056 Eligibility gates 2 and 3
+  do not hold for DR-114. Gate 1 Class A is not opened.
+  Class B SATISFIED is not recorded. DR-114 stays `OPEN`.
+  Not SATISFIED. Does not execute the thirteen classes.
+  Does not invent a fourteenth class. Does not force a ride
+  onto G09. Does not steal DR-105 leftover. Does not record
+  FC-C1. Does not mint a CA-2 decision. Does not admit CA-1
+  IN_PROCESS. Does not record join-fx-gate-naming.v1. Does
+  not unwrite D-167. Does not restore G17. Does not name
+  G13 into required-now. Does not invent a D9 code. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  SATISFIED cycle, leftover rewrite, or file-08 harness-cell
+  rewrite. Overturn: C-D169, plus restore of the prior gate
+  table, the prior condition-4 measured cell, and the prior
+  27-member required-now set. Does not unwrite D-032,
+  D-129, D-164, D-167, or D-168.
+- **Commit:** C-D169.
