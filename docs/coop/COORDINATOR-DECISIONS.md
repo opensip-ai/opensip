@@ -10041,3 +10041,73 @@ file-09 D-000 act. Left whole-document until then.
   D-218, D-219, or D-220.
 - **Commit:** C-D221.
 
+## D-222 — Record harness.DR-G19.state-class-authority.preview-classes.v2 as G19 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-222.review-adversarial.claude2.json`,
+  `db8382457fd8b1d56e0e668780f176eca8dcdef15aaed4c8fd0a3d0a93dd3901`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-222.review-adversarial.codex.json`,
+  `a4a71cece8d7433705f65ba1d6f02041e20224a3f33051612a76782340ed843c`)
+  CONSENT. Subject `coordinator-decisions.D-222.draft.md`
+  `407dc663cd601e7d6197db0e39d83e6fd2ed57e46f4148903ea4ce324d14aec5`.
+  Frozen occupancy
+  `harness.DR-G19.state-class-authority.preview-classes.v2.json`
+  `57f392b2cc30302e3c354781c56c37a30a9241e16e067fda6a281b27ed8691ac`
+  Stage A Claude ACCEPT
+  `236dd38f9ea90a1a7626dc245e820d326974eb4917c810bb18d5f5eede2e139d`
+  0/0; Stage A Codex ACCEPT
+  `c6d611d3ee349aea9ef731517310c00077adea5a14ded031a7fa15e962634fe4`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G19.state-class-authority.preview-classes.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-221. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G19.state-class-authority.preview-classes.v2.json`
+  `57f392b2cc30302e3c354781c56c37a30a9241e16e067fda6a281b27ed8691ac`.
+- **Decision:** Record v2 as G19 occupancy remasurement
+  after D-221. The candidate binds NOTHING. DR-G19 stays
+  `OPEN`. leftover-design of OBL-G19-HARNESS-SPEC remains
+  measured closed at leftover-join.v3 (D-194). leftover-design
+  of OBL-G19-FX-AUTHORING remains. Remainder is G19
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  invent a grant-journal. Does not invent a sealed-Run
+  class. Does not apply state-class-contract.v10 or v11.
+  Does not apply SUP-124-GRANT-JOURNAL. Does not steal
+  OBL-GRANT-JOURNAL, OBL-INHERIT-BLOCKED, or
+  OBL-MONOTONIC. Does not SATISFY DR-124. Does not
+  SATISFY DR-117. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v1 remains
+  a historical occupancy as of HEAD `5d5d778` / required-now
+  26. v1 stays frozen; do not record it as current.
+  Claude Stage A returned zero advisories and four unlabeled
+  observationsNotFindings. Codex Stage A returned zero
+  advisories. The Claude observations carry no identifier.
+  Codex Stage A returned no observations. Claude Stage B
+  returned four unlabeled observationsNotFindings; they
+  carry no identifier. Codex Stage B returned zero
+  observations. Does not execute fixtures. Does not rewrite
+  G07, G08, G09, G10, G12, G14, G15, G16, G18, G19, G20,
+  G21, G22, G31, or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D222. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, or D-221.
+- **Commit:** C-D222.
+
