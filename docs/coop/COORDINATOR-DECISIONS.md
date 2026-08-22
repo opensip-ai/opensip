@@ -7533,3 +7533,51 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D176. Does not unwrite D-107, D-167, D-168,
   D-169, D-170, D-171, D-172, D-173, D-174, or D-175.
 - **Commit:** C-D176.
+
+## D-177 — Record compatibility-leftover-join.v2 as DR-111 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-177.review-adversarial.claude2.json`,
+  `67f1073a67ea1a47ba398b360df5579993bfc77eea5b013487545ba583da43d2`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-177.review-adversarial.codex.json`,
+  `2e2f862ce7d578c5dfa36ecc7cf9fbc2c7ee1f2af86618f63a0a3ba80a2fa187`)
+  CONSENT. Subject `coordinator-decisions.D-177.draft.md`
+  `6c2dcb078d2c2b97542e1669796a855a11d6403a1ec72689ec02d2c451e14c83`.
+  Frozen leftover-join
+  `compatibility-leftover-join.v2.json`
+  `33e4299d7f65bf37c2f5d54193e004c69d542d3f5da99417e1360efc2f8b7259`
+  Stage A Claude ACCEPT
+  `a0cef800e46fa394a4cbbf28d4742cfcd494b9f0bbad39a611f5cf263c6ed9ed`
+  0/0; Stage A Codex ACCEPT
+  `ba6c178ba1e1c3d951d9e4c58c66e9d37b8a49ff15aaf27f2fc83a2878492fdc`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `compatibility-leftover-join.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-176. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/compatibility-leftover-join.v2.json`
+  `33e4299d7f65bf37c2f5d54193e004c69d542d3f5da99417e1360efc2f8b7259`.
+- **Decision:** Record v2 as DR-111 leftover remasurement
+  after D-176. The candidate binds NOTHING. DR-111 stays
+  `OPEN`. leftover-design of OBL-NUMERIC-WINDOWS and
+  OBL-LOCK-JOIN remains. D-056 Eligibility gates 2 and 3
+  do not hold for DR-111. Gate 1 Class A is not opened.
+  Not eligible in kind. Not SATISFIED. Required-now stays
+  28. Condition-4 effect is zero. Frozen v1 remains a
+  historical measurement as of HEAD `5d5d778` /
+  required-now 26. v1 stays frozen; do not record it as
+  current. Does not invent numeric windows. Does not
+  produce a lock. Does not edit file 08. Does not invent
+  a D9 code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D177. Does not unwrite D-103, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, or
+  D-176.
+- **Commit:** C-D177.
