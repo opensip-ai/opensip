@@ -7885,3 +7885,53 @@ file-09 D-000 act. Left whole-document until then.
   D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
   D-177, D-178, D-179, D-180, D-181, or D-182.
 - **Commit:** C-D183.
+
+## D-184 — Record sdk-leftover-join.v5 as DR-125 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-184.review-adversarial.claude2.json`,
+  `cc03a4f725b51430825354f39fca0272fd75de30291b66910099721e3854bc7e`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-184.review-adversarial.codex.json`,
+  `298b2da11f21c3172933b4e91ee556f781329f9fc02faaecdf142ced82b7f8d3`)
+  CONSENT. Subject `coordinator-decisions.D-184.draft.md`
+  `f66fd2254b51fc4df0b6da701725fad582e7587b4f8b1899230c5a601dff124c`.
+  Frozen leftover-join
+  `sdk-leftover-join.v5.json`
+  `6f73376e93e7e84849ff6bc2de26c9fc88a53438ad2929dbe427b87f3125d187`
+  Stage A Claude ACCEPT
+  `ee946657727b6c5a0b26b391be9ed7cbee199fa66f58343cd75d7f852ea93fc8`
+  0/0; Stage A Codex ACCEPT
+  `fec4c9d1d22b0ed7dc82eb1e61ad0c1e90f27264250751f527768d29034e0935`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sdk-leftover-join.v5.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-183. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/sdk-leftover-join.v5.json`
+  `6f73376e93e7e84849ff6bc2de26c9fc88a53438ad2929dbe427b87f3125d187`.
+- **Decision:** Record v5 as DR-125 leftover remasurement
+  after D-183. The candidate binds NOTHING. DR-125 stays
+  `OPEN`. leftover-design of OBL-G20-FX-AUTHORING and
+  OBL-SDK-API-RESERVED remains. D-056 Eligibility gates 2
+  and 3 do not hold for DR-125. Gate 1 Class A is not
+  opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v4 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. v4 stays frozen; do not record it as
+  current. Does not apply component-sdk-contract.v4. Does
+  not invent an SDK API or fixture bytes. Does not steal
+  DR-118 leftover. Does not rewrite G20, G31, or G32. Does
+  not edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D184. Does not unwrite D-110, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, D-182, or D-183.
+- **Commit:** C-D184.
