@@ -10478,3 +10478,77 @@ file-09 D-000 act. Left whole-document until then.
   or D-226.
 - **Commit:** C-D227.
 
+## D-228 — Record harness.DR-G28.preview-analyze-host-must-not-mint.preview.v4 as G28 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-228.review-adversarial.claude2.json`,
+  `ba8ca842073f3f828421d688a484b7edd885ccb0f8a9c9068c786092216e853e`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-228.review-adversarial.codex.json`,
+  `da15cf6125c3d74bc609c73a5c3837c7d244aee5677d1aba22221824c7212dc6`)
+  CONSENT. Subject `coordinator-decisions.D-228.draft.md`
+  `7c27037feedb838507859be1a99ca6a47ccd9af0509dd3ac9ea9ea219d5b829a`.
+  Frozen occupancy
+  `harness.DR-G28.preview-analyze-host-must-not-mint.preview.v4.json`
+  `e540ea53b8cfd4e75c05eabfb4c321dca566161b135dc630c2bd1fec5d31ff4d`
+  Stage A Claude ACCEPT
+  `7c1916d16f08c9564cd788749335bd8c945b57818161d5641c1a2e790e6ff1cd`
+  0/0; Stage A Codex ACCEPT
+  `308ac423a4548040187dd9304a576f4ac153c6906788f7ef135651f9131eaf54`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G28.preview-analyze-host-must-not-mint.preview.v4.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-227. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G28.preview-analyze-host-must-not-mint.preview.v4.json`
+  `e540ea53b8cfd4e75c05eabfb4c321dca566161b135dc630c2bd1fec5d31ff4d`.
+- **Decision:** Record v4 as G28 occupancy remasurement
+  after D-227. The candidate binds NOTHING. DR-G28 stays
+  `OPEN`. leftover-design of OBL-G28-HARNESS-SPEC,
+  OBL-G28-NAMED-CORPUS, and OBL-G28-INPUT-CORPUS remains
+  measured closed at leftover-join.v3 (D-203). leftover-design
+  of OBL-G28-FX-AUTHORING remains. Remainder is G28
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  execute NT-7 or NT-8 by existing. Does not reopen
+  leftover-design of DR-131 NT-7 and NT-8 as unnamed
+  remainders. Does not invent a D9 code. Does not treat
+  naming v6 as naming G28. Does not SATISFY DR-131. Does
+  not SATISFY DR-117. Does not SATISFY DR-133. Gate 1 Class
+  A is not opened. Class B SATISFIED is not recorded. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is
+  zero. Frozen v1, v2, and v3 remain historical. v3 remains
+  a historical occupancy as of HEAD `5d5d778` / required-now
+  26. Do not record them as current. Naming parent is D-154
+  dual CONSENT, not naming v6. Claude Stage A returned
+  advisories CLAUDE-G28-V4-A1 and CLAUDE-G28-V4-A2. Codex
+  Stage A returned zero advisories and no observations.
+  Claude Stage B returned observations OBS-1, OBS-2, OBS-3,
+  OBS-4, and OBS-5. They carry those identifiers. Codex
+  Stage B returned zero advisories and no observations.
+  The Claude identifiers are preserved. Codex returned no
+  observation identifiers. Does not execute fixtures. Does
+  not rewrite G07, G08, G09, G10, G12, G14, G15, G16, G18,
+  G19, G20, G21, G22, G23, G24, G25, G26, G27, G31, or
+  G32. Does not rewrite frozen G28 v1, v2, or v3. Does not
+  edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D228. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, D-221, D-222, D-223, D-224, D-225,
+  D-226, or D-227.
+- **Commit:** C-D228.
+
