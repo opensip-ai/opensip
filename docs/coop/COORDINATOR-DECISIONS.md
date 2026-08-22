@@ -10259,3 +10259,77 @@ file-09 D-000 act. Left whole-document until then.
   D-218, D-219, D-220, D-221, D-222, or D-223.
 - **Commit:** C-D224.
 
+## D-225 — Record harness.DR-G25.preview-analyze-missing-rung.preview.v3 as G25 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-225.review-adversarial.claude2.json`,
+  `13c19cd44b9f128a5c0d592040cadb4e1729fb27c964d4aa93c7d12a96ca03c5`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-225.review-adversarial.codex.json`,
+  `129dcdd867398d18f8980f55654f8434211915f6e8756b20d3f3179be9fe0927`)
+  CONSENT. Subject `coordinator-decisions.D-225.draft.md`
+  `52567a4b6354d6311a35ecc2febc1156d14f16e3ad1fd1aea70218d6351bff6d`.
+  Frozen occupancy
+  `harness.DR-G25.preview-analyze-missing-rung.preview.v3.json`
+  `4f124cd763974b603fb307e13830cc7f79bc559c3b05ab7d39c59194d2f5dfde`
+  Stage A Claude ACCEPT
+  `1d7ccc76ddbd06298a5734362508153ca6f7f5781d0d1ec1834cd6f881e5d863`
+  0/0; Stage A Codex ACCEPT
+  `09f78d505b7bbb76987f020c5bf1fd87e66837f4796a2ed3dbd9dfd9d28059cb`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G25.preview-analyze-missing-rung.preview.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-224. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G25.preview-analyze-missing-rung.preview.v3.json`
+  `4f124cd763974b603fb307e13830cc7f79bc559c3b05ab7d39c59194d2f5dfde`.
+- **Decision:** Record v3 as G25 occupancy remasurement
+  after D-224. The candidate binds NOTHING. DR-G25 stays
+  `OPEN`. leftover-design of OBL-G25-HARNESS-SPEC,
+  OBL-G25-NAMED-CORPUS, and OBL-G25-INPUT-CORPUS remains
+  measured closed at leftover-join.v3 (D-200). leftover-design
+  of OBL-G25-FX-AUTHORING remains. Remainder is G25
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  execute NT-3 by existing. Does not reopen leftover-design
+  of DR-131 NT-3 as an unnamed remainder. Does not collapse
+  the two NT-3 cells. Does not take over G23 DR-133 NT-3.
+  Does not treat naming v6 as naming G25. Does not SATISFY
+  DR-131. Does not SATISFY DR-117. Does not SATISFY DR-133.
+  Gate 1 Class A is not opened. Class B SATISFIED is not
+  recorded. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen v1 remains frozen.
+  Frozen v2 remains a historical occupancy as of HEAD
+  `5d5d778` / required-now 26. v1 and v2 stay frozen; do not
+  record them as current. Naming parent is D-151 dual
+  CONSENT, not naming v6. Claude Stage A returned three
+  unlabeled observationsNotFindings. They carry no
+  identifier. Codex Stage A returned zero advisories and no
+  observations. Claude Stage B returned four unlabeled
+  observationsNotFindings. They carry no identifier. Codex
+  Stage B returned zero advisories and no observations.
+  Does not invent identifiers for those unlabeled
+  observations. Does not execute fixtures. Does not rewrite
+  G07, G08, G09, G10, G12, G14, G15, G16, G18, G19, G20,
+  G21, G22, G23, G24, G31, or G32. Does not rewrite frozen
+  G25 v1 or frozen G25 v2. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D225. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, D-221, D-222, D-223, or D-224.
+- **Commit:** C-D225.
+
