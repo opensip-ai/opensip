@@ -8487,3 +8487,56 @@ file-09 D-000 act. Left whole-document until then.
   D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
   or D-194.
 - **Commit:** C-D195.
+
+## D-196 — Record g21-leftover-join.v4 as G21 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-196.review-adversarial.claude2.json`,
+  `01f45038beedfc1c6877811b1a34317e522090a0e931a16ff322c49351918754`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-196.review-adversarial.codex.json`,
+  `b1dd78c5fd270a9225d294e9cdc0ac4b2d31316daa4735bfd5834b1b91cc4669`)
+  CONSENT. Subject `coordinator-decisions.D-196.draft.md`
+  `d8154cab5819a67267c6fc484c7933971eb4c80b3fd370b7f7122e603fa4f262`.
+  Frozen leftover-join
+  `g21-leftover-join.v4.json`
+  `b8696fd134550a9ad15d44a07adcc4030aad3702013cc9de914bbab5b8e74ae4`
+  Stage A Claude ACCEPT
+  `24fce2ddcb885b56323e27af767ba9a628713384aef8dc3149d94e64344726bb`
+  0/0; Stage A Codex ACCEPT
+  `406337e883ee6d66817849204bf616a988101724f8a4edcfad308004f8e0b59f`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-leftover-join.v4.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-195. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/g21-leftover-join.v4.json`
+  `b8696fd134550a9ad15d44a07adcc4030aad3702013cc9de914bbab5b8e74ae4`.
+- **Decision:** Record v4 as G21 leftover remasurement after
+  D-195. The candidate binds NOTHING. DR-G21 stays `OPEN`.
+  leftover-design of OBL-G21-FX-AUTHORING remains. Does not
+  SATISFY DR-114. Does not reopen DR-102 SATISFIED. Does not
+  steal OBL-DOCTOR-FX-AUTHORING, OBL-JOIN-FX-AUTHORING,
+  OBL-JOIN-FX-EXECUTION, OBL-FC-C1, or OBL-BLK-1..4. Gate
+  1 Class A is not opened. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v2 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. Frozen v3 remains dual REJECT 0/1
+  G21LJ-V3-SF1. v1, v2, and v3 stay frozen; do not record
+  them as current. Does not invent fixture bytes or a D9
+  code. Does not rewrite G21, G31, or G32. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D196. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, or D-195.
+- **Commit:** C-D196.
+
