@@ -7680,3 +7680,53 @@ file-09 D-000 act. Left whole-document until then.
   D-168, D-169, D-170, D-171, D-172, D-173, D-174, D-175,
   D-176, D-177, or D-178.
 - **Commit:** C-D179.
+
+## D-180 — Record packaging-leftover-join.v3 as DR-120 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-180.review-adversarial.claude2.json`,
+  `a4ba44a937bf9c6a1272cddf1eb15a2388306b43ff72c7902601871cf15edc54`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-180.review-adversarial.codex.json`,
+  `4f42ff54e91a7c2d2c4998259df6ff1855cd3f52601c09064302cb75bf873cb1`)
+  CONSENT. Subject `coordinator-decisions.D-180.draft.md`
+  `330ef62e11175defd4bdf4514bc99e770a7bd53f2b3321fd44171861087ab21c`.
+  Frozen leftover-join
+  `packaging-leftover-join.v3.json`
+  `0bb1673e058be5325f82d47f6f8d688949afa24be1ba7d42b4bba57394450f15`
+  Stage A Claude ACCEPT
+  `ab326bc6867923d88a7ff2c2334e7c564f98389193fb7e95e2eb08c76ea6b2bd`
+  0/0; Stage A Codex ACCEPT
+  `2a08c655e62d66c273457fe1cb65b832fa955228c0ce0a38148fa4ccea246a13`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `packaging-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-179. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/packaging-leftover-join.v3.json`
+  `0bb1673e058be5325f82d47f6f8d688949afa24be1ba7d42b4bba57394450f15`.
+- **Decision:** Record v3 as DR-120 leftover remasurement
+  after D-179. The candidate binds NOTHING. DR-120 stays
+  `OPEN`. leftover-design of OBL-ADAPTER-IMPL and
+  OBL-AT-FX-AUTHORING remains. D-056 Eligibility gates 2
+  and 3 do not hold for DR-120. Gate 1 Class A is not
+  opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v2 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. v2 stays frozen; do not record it as
+  current. Does not apply component-packaging-contract.v14.
+  Does not steal DR-103 leftover. Does not invent an adapter
+  or AT fixture bytes. Does not rewrite G15, G31, or G32.
+  Does not edit file 08. Does not invent a D9 code. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D180. Does not unwrite D-108, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, or D-179.
+- **Commit:** C-D180.
