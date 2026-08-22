@@ -7782,3 +7782,55 @@ file-09 D-000 act. Left whole-document until then.
   D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
   D-177, D-178, D-179, or D-180.
 - **Commit:** C-D181.
+
+## D-182 — Record sarif-leftover-join.v4 as DR-122 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-182.review-adversarial.claude2.json`,
+  `2bca7b9a092faf4d193b4e74865efea694ec81535a52f8c1475a1722f6ecaf4b`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-182.review-adversarial.codex.json`,
+  `a90867672a82c0c40a6b05c407a150e8cb1b1db8c418d6ab9dc415285711e78b`)
+  CONSENT. Subject `coordinator-decisions.D-182.draft.md`
+  `fc85c24734bffa3561e7a2520a92c10c0171d37ac7bb5cc13d43282aa3c055b7`.
+  Frozen leftover-join
+  `sarif-leftover-join.v4.json`
+  `a2ab59d79051337906ae610b4c34f8203dcac0d9038f2826b32f68630bd07640`
+  Stage A Claude ACCEPT
+  `4c97b5256573e90c5dfae5daf73b5dbbca3eb410cf496934c703cb86d3e05a32`
+  0/0; Stage A Codex ACCEPT
+  `a40256233503e84ddcbcfc610d82e0fde673c0666df9fa9a959696add1fb15c9`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sarif-leftover-join.v4.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-181. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/sarif-leftover-join.v4.json`
+  `a2ab59d79051337906ae610b4c34f8203dcac0d9038f2826b32f68630bd07640`.
+- **Decision:** Record v4 as DR-122 leftover remasurement
+  after D-181. The candidate binds NOTHING. DR-122 stays
+  `PROPOSED-CLOSED-FOR-REVIEW`. leftover-design of
+  OBL-FC-OUTFAIL-FX and OBL-FC-NONAUTH-TERM-FX remains.
+  D-056 Eligibility gates 2 and 3 do not hold for DR-122.
+  Gate 1 Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is
+  zero. Frozen v3 remains a historical measurement as of
+  HEAD `5d5d778` / required-now 26. v3 stays frozen; do
+  not record it as current. Does not apply
+  sarif-projection-contract.v15. Does not advertise SARIF.
+  Does not resurrect G17. Does not mint a D9 code. Does
+  not steal G26 leftover from DR-131. Does not invent
+  fixture bytes. Does not rewrite G26, G31, or G32. Does
+  not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D182. Does not unwrite D-077, D-115, D-167,
+  D-168, D-169, D-170, D-171, D-172, D-173, D-174, D-175,
+  D-176, D-177, D-178, D-179, D-180, or D-181.
+- **Commit:** C-D182.
