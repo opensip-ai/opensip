@@ -7935,3 +7935,54 @@ file-09 D-000 act. Left whole-document until then.
   D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
   D-177, D-178, D-179, D-180, D-181, D-182, or D-183.
 - **Commit:** C-D184.
+
+## D-185 — Record platform-tcb-leftover-join.v6 as DR-126 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-185.review-adversarial.claude2.json`,
+  `05e03e941b3ac48c3420e22a2fc5d8998fb36df0fa73e4ed1e293658226f28b3`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-185.review-adversarial.codex.json`,
+  `3c7205663c007219649740901e1aab31bbd8a84f6ae83fccc70565e0201f67b0`)
+  CONSENT. Subject `coordinator-decisions.D-185.draft.md`
+  `92c15295248d0cb03b5f2983b43c28a8ab1678846458f5668b3e84a01bac9b07`.
+  Frozen leftover-join
+  `platform-tcb-leftover-join.v6.json`
+  `c799f4d7f4dc5206b777e82da934ef8812bc11c87f3edc10d234ceaf8fba79b4`
+  Stage A Claude ACCEPT
+  `c5bb993040a68e7ed772f061453ca75ffad0d94b440f32399f0c9864cc3f3a01`
+  0/0; Stage A Codex ACCEPT
+  `997d5654bc3cbb09cffbcd0d4724934f457e2aff617cff91f44d64d6086d56da`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `platform-tcb-leftover-join.v6.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-184. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/platform-tcb-leftover-join.v6.json`
+  `c799f4d7f4dc5206b777e82da934ef8812bc11c87f3edc10d234ceaf8fba79b4`.
+- **Decision:** Record v6 as DR-126 leftover remasurement
+  after D-184. The candidate binds NOTHING. DR-126 stays
+  `OPEN`. leftover-design of OBL-G22-FX-AUTHORING and
+  OBL-RESERVED-TABLES remains. D-056 Eligibility gates 2
+  and 3 do not hold for DR-126. Gate 1 Class A is not
+  opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v5 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. v5 stays frozen; do not record it as
+  current. Does not apply platform-tcb-contract.v45. Does
+  not populate a TCB table. Does not invent fixture bytes.
+  Does not rewrite G22, G31, or G32. Does not edit file 08.
+  Does not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D185. Does not unwrite D-125, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, D-182, D-183, or
+  D-184.
+- **Commit:** C-D185.
