@@ -9122,6 +9122,70 @@ file-09 D-000 act. Left whole-document until then.
   D-201, D-202, D-203, D-204, D-205, or D-206.
 - **Commit:** C-D207.
 
+## D-208 — Record harness.DR-G31.identity-namespace-negative-test.preview.v5 as G31 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-208.review-adversarial.claude2.turn2.json`,
+  `51c69e1a6efc5706011537f8c99b7fce646ae1cb466f95f22199717b7bad4d2c`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-208.review-adversarial.codex.turn2.json`,
+  `7e255d5f555d6eac030e666afba52437910759f76f0b6c0e014ed45dd44090e8`)
+  CONSENT. Subject `coordinator-decisions.D-208.turn2.draft.md`
+  `40aa627477fad268a33dcfd82537a031d4d5cb1246d163d52d9e40b6a485baff`.
+  Turn-1 Claude OBJECT (CLAUDE-D208-SF1/SF2) at
+  `f64e81fd0f18c0fdd24e2541e2a7d806a6213632b149c9ef6f641e88344a7d60`;
+  turn-1 Codex OBJECT (CODEX-D208-SF1)
+  `2412b49511ef027d462abb759b19c2d39d9956bca9850f7c0bb62e394a391c25`.
+  Frozen occupancy
+  `harness.DR-G31.identity-namespace-negative-test.preview.v5.json`
+  `4cc42b86cf74b95c88c8efc9b85e48b894759712d30fbc1aaee079f301ca00a4`
+  Stage A Claude ACCEPT
+  `edae073303d893901c7ec7ff7dc6632a86ca8c8c31dbdac290939d56abce44e0`
+  0/0; Stage A Codex ACCEPT
+  `6caae191cf1d844e3afb6e1255efd8a6d7f14b40996103b29ea6704fbddbd16d`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G31.identity-namespace-negative-test.preview.v5.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-207. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G31.identity-namespace-negative-test.preview.v5.json`
+  `4cc42b86cf74b95c88c8efc9b85e48b894759712d30fbc1aaee079f301ca00a4`.
+- **Decision:** Record v5 as G31 occupancy remasurement
+  after D-207. The candidate binds NOTHING. DR-G31 stays
+  `OPEN`. leftover-design of unnamed NT-11 execution
+  remainder remains closed at D-175. Remainder is G31
+  execution. Does not pin QUALIFIED. Does not SATISFY
+  DR-104. Does not SATISFY DR-117. Gate 1 Class A is not
+  opened. Class B SATISFIED is not recorded. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  v2 remains a historical occupancy as of HEAD `5d5d778` /
+  required-now 26. Frozen v3 and v4 remain dual-REJECT
+  occupancies. v2, v3, and v4 stay frozen; do not record
+  them as current. Advisories CLAUDE-G31-V5-ADV-1,
+  CLAUDE-G31-V5-ADV-2 / CODEX-G31-V5-ADV-1 (one shared
+  class; both identifiers preserved), and
+  CLAUDE-G31-V5-ADV-3 travel as honesty work. Does not
+  execute the eleven classes. Does not invent fixture
+  bytes. Does not rewrite G31 or G32. Does not edit file
+  08. Does not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D208. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, or D-207.
+- **Commit:** C-D208.
+
+
 
 
 
