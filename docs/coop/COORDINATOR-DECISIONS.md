@@ -9185,6 +9185,66 @@ file-09 D-000 act. Left whole-document until then.
   D-202, D-203, D-204, D-205, D-206, or D-207.
 - **Commit:** C-D208.
 
+## D-209 — Record harness.DR-G32.actor-join-fixture-execution.preview.v3 as G32 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-209.review-adversarial.claude2.json`,
+  `732086131871e95bb297c081a7da4bf1822f5c0891f9464b0c277bbc9e7977d2`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-209.review-adversarial.codex.json`,
+  `0ddf04d69f57d912d5f3738adfb786ca8b128739898c210191f45c8f22969395`)
+  CONSENT. Subject `coordinator-decisions.D-209.draft.md`
+  `2ff7a76627d925b45087ef50f7cc767132417bbc1b8b9349ee6843cdd5160fd0`.
+  Frozen occupancy
+  `harness.DR-G32.actor-join-fixture-execution.preview.v3.json`
+  `9c782a50fecd45bcec3b8eaa3fa6b8ea09b240d9cda5d530564b9e84fa48df49`
+  Stage A Claude ACCEPT
+  `c65fbcc7a8d3e03d2864032a0ff427bf3a10ee1258dcebca537265d194f3b11c`
+  0/0; Stage A Codex ACCEPT
+  `5cede4b742ad19b150d9889834a200336258191de315e611eb69e263b786315c`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G32.actor-join-fixture-execution.preview.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-208. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G32.actor-join-fixture-execution.preview.v3.json`
+  `9c782a50fecd45bcec3b8eaa3fa6b8ea09b240d9cda5d530564b9e84fa48df49`.
+- **Decision:** Record v3 as G32 occupancy remasurement
+  after D-208. The candidate binds NOTHING. DR-G32 stays
+  `OPEN`. leftover-design of unnamed JOIN-FX-EXECUTION
+  remainder remains closed at D-169. Remainder is G32
+  execution once fixture implementations exist.
+  leftover-design of OBL-JOIN-FX-AUTHORING remains. Does
+  not pin QUALIFIED. Does not invent fixture bytes. Does
+  not SATISFY DR-114. Does not SATISFY DR-117. Gate 1
+  Class A is not opened. Class B SATISFIED is not recorded.
+  Not SATISFIED. Required-now stays 28. Condition-4 effect
+  is zero. Frozen v1 remains a historical occupancy as of
+  HEAD `5d5d778` / required-now 26. Frozen v2 remains a
+  Codex-REJECT occupancy. v1 and v2 stay frozen; do not
+  record them as current. Advisory CODEX-G32-V3-ADV-1
+  travels as honesty work. Claude Stage A returned zero
+  advisories. Does not execute the thirteen classes. Does
+  not rewrite G31 or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D209. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, or D-208.
+- **Commit:** C-D209.
+
+
 
 
 
