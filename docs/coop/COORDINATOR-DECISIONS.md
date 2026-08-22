@@ -9693,6 +9693,79 @@ file-09 D-000 act. Left whole-document until then.
   D-210, D-211, D-212, D-213, D-214, or D-215.
 - **Commit:** C-D216.
 
+## D-217 — Record harness.DR-G20.component-operability.v2 as G20 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-217.review-adversarial.claude2.turn2.json`,
+  `04528a36fa6b9c02380959ebb7006fa855cef573f624c9983281459e0851232f`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-217.review-adversarial.codex.turn2.json`,
+  `2f0c328a2a374f3a8368838b5b0261c112a56792288b5b61c41fc3f44adc5adc`)
+  CONSENT. Subject `coordinator-decisions.D-217.turn2.draft.md`
+  `faebee24a6f9f5ffa3b1ff075f6dfaf588232553b6b0f954bd20fcef42c76e6a`.
+  Turn-1 Claude OBJECT (CLAUDE-D217-SF1) at
+  `d47cab867cdccce2c9a2fa5e24a4168386529b76eb1ae15e4b32c546affcc7c8`;
+  turn-1 Codex CONSENT 0/0
+  `6a18cbf597b63ff6c2317a0accc7de6a7e1a8501350ab9c0d7e0887256efd825`.
+  Frozen occupancy
+  `harness.DR-G20.component-operability.v2.json`
+  `2c4823b7c5feb04afb739602397f81dc34333617c284bff21e82657fa289bb37`
+  Stage A Claude ACCEPT
+  `f3088806cfc4ec3920cc959b047338a380ce9a965133545574ea311fb37df1ff`
+  0/0; Stage A Codex ACCEPT
+  `fbe908dd419a5b258510ece4564e6e3099eaa18beee5fda6d7d9d994a3c18356`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G20.component-operability.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-216. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G20.component-operability.v2.json`
+  `2c4823b7c5feb04afb739602397f81dc34333617c284bff21e82657fa289bb37`.
+- **Decision:** Record v2 as G20 occupancy remasurement
+  after D-216. The candidate binds NOTHING. DR-G20 stays
+  `OPEN`. leftover-design of OBL-G20-HARNESS-SPEC remains
+  measured closed at leftover-join.v3 (D-195). leftover-design
+  of OBL-G20-FX-AUTHORING remains. Remainder is G20
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  invent SDK APIs. Does not steal OBL-SDK-API-RESERVED.
+  Does not execute NT-4 or NT-7 by existing. Does not
+  SATISFY DR-125. Does not SATISFY DR-133. Does not SATISFY
+  DR-117. Gate 1 Class A is not opened. Class B SATISFIED
+  is not recorded. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen v1 remains a historical
+  occupancy as of HEAD `5d5d778` / required-now 26. v1 stays
+  frozen; do not record it as current. Claude Stage A
+  advisories CLAUDE-G20-V2-A1, CLAUDE-G20-V2-A2, and
+  CLAUDE-G20-V2-A3 travel as honesty work. Codex Stage A
+  honesty observations G20V2-OBS-01 and G20V2-OBS-02 travel
+  as honesty work. G20V2-OBS-02 is one shared class with
+  CLAUDE-G20-V2-A1; both identifiers are preserved.
+  CLAUDE-D217-SF1 was landed in the COORD draft. Claude
+  Stage B turn-2 advisories CLAUDE-D217-T2-A1 and
+  CLAUDE-D217-T2-A2 travel as honesty work. Does not execute
+  fixtures. Does not rewrite G07, G08, G10, G14, G15, G16,
+  G18, G20, G31, or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D217. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, or D-216.
+- **Commit:** C-D217.
+
+
 
 
 
