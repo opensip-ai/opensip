@@ -9000,6 +9000,66 @@ file-09 D-000 act. Left whole-document until then.
   D-202, D-203, or D-204.
 - **Commit:** C-D205.
 
+## D-206 — Record language-quality leftover-join.v3 as DR-118 leftover remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-206.review-adversarial.claude2.json`,
+  `00134646ceb69c46c37cc6e2dd006ceeb1b7ae41928242baefd001b5fb0b6b18`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-206.review-adversarial.codex.json`,
+  `53d02e74983cd0de94142569f5b95f99980bb21166f8809ae765d86791b7960c`)
+  CONSENT. Subject `coordinator-decisions.D-206.draft.md`
+  `f42d0f2ce22ace40d4e7bfda65ecfc33de250c6121085a09b1e4b51efc5c4ef6`.
+  Frozen leftover-join
+  `language-quality-leftover-join.v3.json`
+  `0b90ab1e5712f6e4581029eda919703d3d6bb66dd0ef2c8568f7d3caec13771a`
+  Stage A Claude ACCEPT
+  `11535a0c9138cf4cb536989e10842821a93951aaafcde4c2fbe8f01a69526818`
+  0/0; Stage A Codex ACCEPT
+  `4091ff17a79bf0d738aee49af9b4465cc19ef8a8dd773dfd5fdd9116f073e9e4`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `language-quality-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-205. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/language-quality-leftover-join.v3.json`
+  `0b90ab1e5712f6e4581029eda919703d3d6bb66dd0ef2c8568f7d3caec13771a`.
+- **Decision:** Record v3 as DR-118 leftover remasurement
+  after D-205. The candidate binds NOTHING. DR-118 stays
+  `DECIDED-V1-NOT-INTEGRATED`. leftover-design of
+  OBL-THRESHOLDS, OBL-MATRIX-CORPUS, and OBL-G13-RESERVED
+  remains. D-002 role list and D-007 acceptance structure
+  are not leftover-authoring. Does not SATISFY DR-118.
+  D-056 Eligibility gates 2 and 3 do not hold for DR-118.
+  Gate 1 Class A is not opened. Class B SATISFIED is not
+  recorded. Not SATISFIED. Required-now stays 28. G13
+  stays reserved, not named. Condition-4 effect is zero.
+  Frozen v2 remains a historical measurement as of HEAD
+  `c2b77f6` / required-now 26. v1 and v2 stay frozen; do
+  not record them as current. Does not invent per-row
+  numeric thresholds. Does not author the matrix or corpus.
+  Does not steal OBL-SDK-API-RESERVED. Does not rewrite
+  G13, G14, G31, or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, threshold decision, G13 naming successor,
+  SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D206. Does not unwrite D-007, D-113, D-110, D-164,
+  D-165, D-167, D-168, D-169, D-170, D-171, D-172, D-173,
+  D-174, D-175, D-176, D-177, D-178, D-179, D-180, D-181,
+  D-182, D-183, D-184, D-185, D-186, D-187, D-188, D-189,
+  D-190, D-191, D-192, D-193, D-194, D-195, D-196, D-197,
+  D-198, D-199, D-200, D-201, D-202, D-203, D-204, or
+  D-205.
+- **Commit:** C-D206.
+
+
 
 
 
