@@ -7730,3 +7730,55 @@ file-09 D-000 act. Left whole-document until then.
   D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
   D-177, D-178, or D-179.
 - **Commit:** C-D180.
+
+## D-181 — Record monorepo-leftover-join.v3 as DR-121 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-181.review-adversarial.claude2.json`,
+  `9f4a645147834db15264d3eb2c4be84874389392a324f6c287de72fcb5422611`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-181.review-adversarial.codex.json`,
+  `4d1d66c333dcdee1ba50d36e1e9955d734597691dd01c6b8a9c694f3db08859c`)
+  CONSENT. Subject `coordinator-decisions.D-181.draft.md`
+  `34374a75e5c3db199e51c88c0896ce25a65e5c01d48a08624bca2f279401bd4c`.
+  Frozen leftover-join
+  `monorepo-leftover-join.v3.json`
+  `08167a8534aebc6e0398076ed7bed690111399adcd6837e40336a4eb9ee40a70`
+  Stage A Claude ACCEPT
+  `5bbe591b28d5c83c326d793b20403e44f90786c25b3d5dc18833a113ee604108`
+  0/0; Stage A Codex ACCEPT
+  `3b5a9d1021fbe327be5a4d0f42c64e3636f6fdadc7129f12780befb1f1afad16`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `monorepo-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-180. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/monorepo-leftover-join.v3.json`
+  `08167a8534aebc6e0398076ed7bed690111399adcd6837e40336a4eb9ee40a70`.
+- **Decision:** Record v3 as DR-121 leftover remasurement
+  after D-180. The candidate binds NOTHING. DR-121 stays
+  `OPEN`. leftover-design of OBL-G16-FX-AUTHORING and
+  OBL-CI-ENCODING-RESERVED remains. D-056 Eligibility gates 2
+  and 3 do not hold for DR-121. Gate 1 Class A is not
+  opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v2 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. v2 stays frozen; do not record it as
+  current. Does not apply monorepo-ci-contract.v16. Does
+  not steal DR-111, DR-118, or DR-127 leftover. Does not
+  SATISFY DR-117. Does not execute EE-7e. Does not name
+  G13 into required-now. Does not invent a CI encoding or
+  fixture bytes. Does not rewrite G16, G31, or G32. Does
+  not edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D181. Does not unwrite D-124, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, or D-180.
+- **Commit:** C-D181.
