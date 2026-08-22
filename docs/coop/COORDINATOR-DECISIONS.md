@@ -9833,21 +9833,69 @@ file-09 D-000 act. Left whole-document until then.
   D-217.
 - **Commit:** C-D218.
 
+## D-219 — Record harness.DR-G22.platform-abi-loader.v2 as G22 occupancy remasurement
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-219.review-adversarial.claude2.json`,
+  `b810f867d071500eae0e5d5200ace6fb5f98fa457e06f48623fd4639c4cae622`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-219.review-adversarial.codex.json`,
+  `310ec73bfec332a8b28f8131c68e07680bd83a8464da9efce7f560b65bb62086`)
+  CONSENT. Subject `coordinator-decisions.D-219.draft.md`
+  `eae140e7f0dcb66ae6e08f1c7f0f9ec6656d93efebd61a00025459672f0c40b5`.
+  Frozen occupancy
+  `harness.DR-G22.platform-abi-loader.v2.json`
+  `2973cda2adac1b612c084b64606e4fc5b5ed5b78317fc64780a7311172ff1307`
+  Stage A Claude ACCEPT
+  `8f0444b7f859f7b276ac7f61ffa56c2b79d35596ed2fcb945e81b9cf7b2fa345`
+  0/0; Stage A Codex ACCEPT
+  `c7f43e3dcf90c4ca5565a0524f17e0143a3e57c9cb981445eb269ee68ea3c416`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G22.platform-abi-loader.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-218. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G22.platform-abi-loader.v2.json`
+  `2973cda2adac1b612c084b64606e4fc5b5ed5b78317fc64780a7311172ff1307`.
+- **Decision:** Record v2 as G22 occupancy remasurement
+  after D-218. The candidate binds NOTHING. DR-G22 stays
+  `OPEN`. leftover-design of OBL-G22-HARNESS-SPEC remains
+  measured closed at leftover-join.v3 (D-197). leftover-design
+  of OBL-G22-FX-AUTHORING remains. Remainder is G22
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  populate reserved TCB tables. Does not invent Rosetta.
+  Does not apply platform-tcb-contract.v45. Does not steal
+  platform-tcb leftover-join.v6 leftoverDesign. Does not
+  steal OBL-RESERVED-TABLES. Does not SATISFY DR-126. Does
+  not SATISFY DR-117. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v1 remains
+  a historical occupancy as of HEAD `5d5d778` / required-now
+  26. v1 stays frozen; do not record it as current.
+  Claude Stage A returned zero advisories. Codex Stage A
+  returned zero advisories. Claude Stage B returned three
+  unlabeled observationsNotFindings (charged false); they
+  carry no identifier. Codex Stage B returned zero
+  observations. Does not execute fixtures. Does not rewrite
+  G07, G08, G10, G14, G15, G16, G18, G20, G21, G22, G31, or
+  G32. Does not edit file 08. Does not invent a D9 code.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D219. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217, or
+  D-218.
+- **Commit:** C-D219.
 
