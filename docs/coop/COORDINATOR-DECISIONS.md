@@ -7630,3 +7630,53 @@ file-09 D-000 act. Left whole-document until then.
   D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
   or D-177.
 - **Commit:** C-D178.
+
+## D-179 — Record language-runtime-leftover-join.v4 as G14 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-179.review-adversarial.claude2.json`,
+  `359fa159d4951c092d4aed376720e88fb41f479f7105cf38826e49787183d209`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-179.review-adversarial.codex.json`,
+  `72795e292ece2b7a48a794ce82f8dd4963111e60c966133707e58cc8ce72e66d`)
+  CONSENT. Subject `coordinator-decisions.D-179.draft.md`
+  `1e530a63b6cec5723eb856874ae99874a2f144b28781bcb89e29ec07c9ee3242`.
+  Frozen leftover-join
+  `language-runtime-leftover-join.v4.json`
+  `301904f0f5071d88c5d9b58a52a0125b0a99d3eead16a23f91479bcac1a34a2c`
+  Stage A Claude ACCEPT
+  `79b7be63d2126086f3e41057ebea4940355fef8ee88f0ecc3dbaabf7c6933f8f`
+  0/0; Stage A Codex ACCEPT
+  `b88bda527ba37218b65430c629a832e78083fa7bf2362bf972b0d6554c813227`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `language-runtime-leftover-join.v4.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-178. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/language-runtime-leftover-join.v4.json`
+  `301904f0f5071d88c5d9b58a52a0125b0a99d3eead16a23f91479bcac1a34a2c`.
+- **Decision:** Record v4 as G14 leftover remasurement after
+  D-178. The candidate binds NOTHING. DR-G14 stays `OPEN`.
+  leftover-design of OBL-G14-FX-AUTHORING remains. Does not
+  SATISFY DR-118. Does not reopen DR-119 SATISFIED. Gate 1
+  Class A is not opened. Not SATISFIED. Required-now stays
+  28. Condition-4 effect is zero. Frozen v3 remains a
+  historical measurement as of HEAD `5d5d778` /
+  required-now 26. v3 stays frozen; do not record it as
+  current. Does not invent fixture bytes, numeric
+  thresholds, Rust-as-core, or a second slice-1 language
+  role. Does not name G13 into required-now. Does not
+  rewrite G14, G31, or G32. Does not edit file 08. Does
+  not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D179. Does not unwrite D-091, D-165, D-167,
+  D-168, D-169, D-170, D-171, D-172, D-173, D-174, D-175,
+  D-176, D-177, or D-178.
+- **Commit:** C-D179.
