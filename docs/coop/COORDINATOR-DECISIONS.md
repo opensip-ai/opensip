@@ -7834,3 +7834,54 @@ file-09 D-000 act. Left whole-document until then.
   D-168, D-169, D-170, D-171, D-172, D-173, D-174, D-175,
   D-176, D-177, D-178, D-179, D-180, or D-181.
 - **Commit:** C-D182.
+
+## D-183 — Record state-class-leftover-join.v3 as DR-124 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-183.review-adversarial.claude2.json`,
+  `3e513f3cd9f2e226f1770b79d5d47ee347a96f2208267327f7e80b30e7f9db2f`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-183.review-adversarial.codex.json`,
+  `ed3af4a8024f50f2430e80fb2926b651e9710a3536be58e333193deeff503b0d`)
+  CONSENT. Subject `coordinator-decisions.D-183.draft.md`
+  `d4bc49ae2fe21b83535c897ea344f1321c964d43d9f935e51a8c317f0faed927`.
+  Frozen leftover-join
+  `state-class-leftover-join.v3.json`
+  `3313d6af45f5c84d9d4bfb99df2bd90b5cb51b7dd94f88207746868bcb8ec2bd`
+  Stage A Claude ACCEPT
+  `c53629d95ab56824adfd0b553f71d72ba2687ea2ac3649b877ebf077f0d539ac`
+  0/0; Stage A Codex ACCEPT
+  `3dcdc66ccb6671cabd0931ea0f54d059ae194b85b461024e69544056911bef0e`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `state-class-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-182. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/state-class-leftover-join.v3.json`
+  `3313d6af45f5c84d9d4bfb99df2bd90b5cb51b7dd94f88207746868bcb8ec2bd`.
+- **Decision:** Record v3 as DR-124 leftover remasurement
+  after D-182. The candidate binds NOTHING. DR-124 stays
+  `OPEN`. leftover-design of OBL-G19-FX-AUTHORING,
+  OBL-GRANT-JOURNAL, OBL-INHERIT-BLOCKED, and OBL-MONOTONIC
+  remains. D-056 Eligibility gates 2 and 3 do not hold for
+  DR-124. Gate 1 Class A is not opened. Not eligible in
+  kind. Not SATISFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen v2 remains a historical measurement
+  as of HEAD `5d5d778` / required-now 26. v2 stays frozen;
+  do not record it as current. Does not apply
+  state-class-contract.v11. Does not apply
+  SUP-124-GRANT-JOURNAL. Does not invent a grant journal or
+  fixture bytes. Does not rewrite G19, G31, or G32. Does
+  not edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D183. Does not unwrite D-117, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, or D-182.
+- **Commit:** C-D183.
