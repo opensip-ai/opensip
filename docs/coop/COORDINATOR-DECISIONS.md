@@ -9365,6 +9365,70 @@ file-09 D-000 act. Left whole-document until then.
   or D-210.
 - **Commit:** C-D211.
 
+## D-212 — Record harness.DR-G10.provider-conformance.ts-major-1.v2 as G10 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-212.review-adversarial.claude2.json`,
+  `939c24bcd0f5b143c30c1febf7bb8ef0f7d6702dffd52cd42a0f6f455b55502c`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-212.review-adversarial.codex.json`,
+  `420dcbd7dd80393316336ad1dbffd0f364081ccb6e30080d54ea7b17989d202e`)
+  CONSENT. Subject `coordinator-decisions.D-212.draft.md`
+  `b080698512e632d285b25add1e196a49b84587d3e4ef986595d2d0045f4c4a2d`.
+  Frozen occupancy
+  `harness.DR-G10.provider-conformance.ts-major-1.v2.json`
+  `b0cbce06487b96bbe7f6af1dae62ba3b3ca55aaa41305cb96f531099e86bf7c9`
+  Stage A Claude ACCEPT
+  `04d90eb40a9e1461305cfd3570258180b19ecff8d2dd1ef6e7ce15371e3c0d6c`
+  0/0; Stage A Codex ACCEPT
+  `de7bb2a593b45182d0c0397a2ec6fb7d1895b4dffdfe05666ba4e02b7ae7e6a2`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G10.provider-conformance.ts-major-1.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-211. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G10.provider-conformance.ts-major-1.v2.json`
+  `b0cbce06487b96bbe7f6af1dae62ba3b3ca55aaa41305cb96f531099e86bf7c9`.
+- **Decision:** Record v2 as G10 occupancy remasurement
+  after D-211. The candidate binds NOTHING. DR-G10 stays
+  `HARD-BLOCKED pending selector refresh`. leftover-design of
+  OBL-G10-HARNESS-SPEC remains measured closed at leftover-
+  join.v3 (D-187). leftover-design of OBL-G10-FX-AUTHORING
+  and OBL-SELECTOR-REFRESH remains. Remainder is G10
+  execution once fixture implementations exist and after
+  the owed selector refresh. Does not pin QUALIFIED. Does
+  not invent fixture bytes. Does not invent a V2 selector.
+  Does not pull Rust merged-major-2 into the preview runner.
+  Does not SATISFY DR-102 a second time. Does not reopen
+  DR-102 SATISFIED. Does not SATISFY DR-133. Does not
+  SATISFY DR-117. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v1 remains
+  a historical occupancy as of HEAD `5d5d778` / required-now
+  26. v1 stays frozen; do not record it as current. Claude
+  Stage A and Codex Stage A and Stage B returned zero
+  advisories. Does not execute fixtures. Does not rewrite
+  G07, G08, G10, G31, or G32. Does not edit file 08. Does
+  not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D212. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, or D-211.
+- **Commit:** C-D212.
+
+
 
 
 
