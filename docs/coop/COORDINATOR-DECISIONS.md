@@ -9059,6 +9059,70 @@ file-09 D-000 act. Left whole-document until then.
   D-205.
 - **Commit:** C-D206.
 
+## D-207 — Record preview-product-boundary-successor.v8 as DR-117 leftover remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-207.review-adversarial.claude2.json`,
+  `0d439cc827d0b2156a7fac364d01f968eb902021e90a94e0026026e1e14fa9f7`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-207.review-adversarial.codex.json`,
+  `f16766e2c47540bf50a0ea7e5b083421eb9d3f196c75f27d06c25ebb456636a2`)
+  CONSENT. Subject `coordinator-decisions.D-207.draft.md`
+  `82d08f98a5f678aedb5cfd2626ee013a1ee51908feb5a29e08520eb65fab7617`.
+  Frozen successor
+  `preview-product-boundary-successor.v8.json`
+  `f2e788e51c347e1033073f0718e701d164affe51e7f667da9bcd49a08837144c`
+  Stage A Claude ACCEPT
+  `4f71ccfc3a89fd0b5fc1a2f393a3864e8a2b5f1c792c0b696c63f831c05e2bca`
+  0/0; Stage A Codex ACCEPT
+  `5176f1de3713915cd8b5fbc2bafbd596b6d6fa285d68a299fdfbfee9375c1078`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-successor.v8.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-206. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/preview-product-boundary-successor.v8.json`
+  `f2e788e51c347e1033073f0718e701d164affe51e7f667da9bcd49a08837144c`.
+- **Decision:** Record v8 as DR-117 leftover remasurement
+  after D-206. The candidate binds NOTHING. DR-117 stays
+  `OPEN`. leftover-design of unnamed EE classes remains
+  closed at D-159. Remainder is named-gate execution.
+  leftover-design of OBL-G29-FX-AUTHORING and
+  OBL-G30-FX-AUTHORING remains on the current G29 and G30
+  leftover-joins. Does not steal those leftovers. Does not
+  SATISFY DR-117. D-056 Eligibility gates 2 and 3 continue
+  to hold for DR-117 (D-159). Gate 1 Class A remains false
+  under D-137's express reservation. v8 does not withdraw
+  that reservation. Venue for any later lift is a reviewed
+  coordinator act, not an artifact. Gates 4 and 5 are not
+  performed. Not eligible in kind. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  v7 remains a historical measurement as of HEAD `5d5d778`
+  / required-now 26. v7 stays frozen; do not record it as
+  current. Advisories CLAUDE-PPBS-V8-ADV-1 and
+  CLAUDE-PPBS-V8-ADV-2 travel as honesty work. Standing
+  CLAUDE-PPBS-V3-ADV-1 venue limb stands. Does not invent
+  fixture bytes or the DR-131 pack. Does not rewrite G13,
+  G14, G29, G30, G31, or G32. Does not name G13 into
+  required-now. Does not edit file 08. Does not invent a D9
+  code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, Class A reservation lift, SATISFIED
+  cycle, or file-08 cell rewrite. Overturn: C-D207. Does
+  not unwrite D-137, D-157, D-158, D-159, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, D-182, D-183, D-184,
+  D-185, D-186, D-187, D-188, D-189, D-190, D-191, D-192,
+  D-193, D-194, D-195, D-196, D-197, D-198, D-199, D-200,
+  D-201, D-202, D-203, D-204, D-205, or D-206.
+- **Commit:** C-D207.
+
+
 
 
 
