@@ -10333,3 +10333,73 @@ file-09 D-000 act. Left whole-document until then.
   D-218, D-219, D-220, D-221, D-222, D-223, or D-224.
 - **Commit:** C-D225.
 
+## D-226 — Record harness.DR-G26.preview-analyze-sarif-not-advertised.preview.v2 as G26 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-226.review-adversarial.claude2.json`,
+  `6bf6d9a352a9678013bc7a61a2a83719ad8d4a26585b5712b5fc6a80cb1c77ab`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-226.review-adversarial.codex.json`,
+  `8daa5aab7bd8fd7968014a494e04a57c3c743f69a8472be39f52f762e93f8000`)
+  CONSENT. Subject `coordinator-decisions.D-226.draft.md`
+  `b56cabfbc438edbe42b7f0fbd3b60f6ef5a17999d8722397a9232b1d23f11692`.
+  Frozen occupancy
+  `harness.DR-G26.preview-analyze-sarif-not-advertised.preview.v2.json`
+  `3a6f13799ef960170370a2a74930d62778a9671b2065ac3e83ca485c21721ffb`
+  Stage A Claude ACCEPT
+  `70a5accdbf11e61f3c792d253cf31cd329ead0fefbc142230236813fb217fb98`
+  0/0; Stage A Codex ACCEPT
+  `4fad0aaa9f7d6158a225257342f9e887dc85969052f205af18161d022a3979f2`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G26.preview-analyze-sarif-not-advertised.preview.v2.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-225. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G26.preview-analyze-sarif-not-advertised.preview.v2.json`
+  `3a6f13799ef960170370a2a74930d62778a9671b2065ac3e83ca485c21721ffb`.
+- **Decision:** Record v2 as G26 occupancy remasurement
+  after D-225. The candidate binds NOTHING. DR-G26 stays
+  `OPEN`. leftover-design of OBL-G26-HARNESS-SPEC,
+  OBL-G26-NAMED-CORPUS, and OBL-G26-INPUT-CORPUS remains
+  measured closed at leftover-join.v3 (D-201). leftover-design
+  of OBL-G26-FX-AUTHORING remains. Remainder is G26
+  execution once fixture implementations exist. Does not
+  pin QUALIFIED. Does not invent fixture bytes. Does not
+  execute NT-5 by existing. Does not reopen leftover-design
+  of DR-131 NT-5 as an unnamed remainder. Does not take
+  over G23 DR-133 NT-5. Does not restore G17 or name G17
+  into required-now. Does not treat naming v6 as naming G26.
+  Does not SATISFY DR-131. Does not SATISFY DR-117. Does
+  not SATISFY DR-133. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v1 remains a
+  historical occupancy as of HEAD `5d5d778` / required-now
+  26. v1 stays frozen; do not record it as current. Naming
+  parent is D-152 dual CONSENT, not naming v6. Claude
+  Stage A returned zero advisories. Codex Stage A returned
+  zero advisories and no observations. Claude Stage B
+  returned zero advisories and no observations. Codex
+  Stage B returned zero advisories and no observations.
+  Does not execute fixtures. Does not rewrite G07, G08,
+  G09, G10, G12, G14, G15, G16, G18, G19, G20, G21, G22,
+  G23, G24, G25, G31, or G32. Does not rewrite frozen G26
+  v1. Does not edit file 08. Does not invent a D9 code.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D226. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, D-221, D-222, D-223, D-224, or D-225.
+- **Commit:** C-D226.
+
