@@ -9492,6 +9492,69 @@ file-09 D-000 act. Left whole-document until then.
   D-210, D-211, or D-212.
 - **Commit:** C-D213.
 
+## D-214 — Record harness.DR-G15.packaging-adapter-conformance.v9 as G15 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-214.review-adversarial.claude2.json`,
+  `b63d7b914aadacc50b8037ebb009c27584336ea6bf18aa6fcefdefe4eb957e3e`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-214.review-adversarial.codex.json`,
+  `2c4a0937c8370649c24fdaed821ff9520dcb37d947328e2c50e81aba788b30f9`)
+  CONSENT. Subject `coordinator-decisions.D-214.draft.md`
+  `22de6c1851c1737d747470b0d6854bc1f9ad8cf614b90f9d6230ff26b20fd7d4`.
+  Frozen occupancy
+  `harness.DR-G15.packaging-adapter-conformance.v9.json`
+  `d82fac570f952cbc234be682b658cf94d5f7571bf4297e777e4e2c4280f98479`
+  Stage A Claude ACCEPT
+  `6bc29967192086a46a7a17ac7579dab5ac5841953b7ea87e022784a5c58806ac`
+  0/0; Stage A Codex ACCEPT
+  `4d19a87ff755fb38309c7682aa5f64a06428084dc8233f65c5a17aa57f064fe5`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G15.packaging-adapter-conformance.v9.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-213. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G15.packaging-adapter-conformance.v9.json`
+  `d82fac570f952cbc234be682b658cf94d5f7571bf4297e777e4e2c4280f98479`.
+- **Decision:** Record v9 as G15 occupancy remasurement
+  after D-213. The candidate binds NOTHING. DR-G15 stays
+  `OPEN`. leftover-design of OBL-G15-HARNESS-SPEC remains
+  measured closed at leftover-join.v3 (D-191). leftover-design
+  of OBL-AT-FX-AUTHORING remains. Remainder is G15
+  execution once AT-ARCHIVE-* fixture implementations exist.
+  Does not pin QUALIFIED. Does not invent fixture bytes.
+  Does not invent an adapter implementation. Does not
+  SATISFY DR-120. Does not SATISFY DR-103. Does not SATISFY
+  DR-117. Gate 1 Class A is not opened. Class B SATISFIED
+  is not recorded. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen v7 remains a historical
+  occupancy as of HEAD `5d5d778` / required-now 26. Frozen
+  v8 remains a Codex-REJECT occupancy. v7 and v8 stay
+  frozen; do not record them as current. CODEX-G15H-V8-SF1
+  was landed in the occupancy bytes. Claude Stage A and
+  Codex Stage A and Stage B returned zero advisories. Does
+  not execute fixtures. Does not rewrite G07, G08, G10,
+  G14, G15, G31, or G32. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D214. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, or D-213.
+- **Commit:** C-D214.
+
+
 
 
 
