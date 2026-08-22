@@ -7428,3 +7428,58 @@ file-09 D-000 act. Left whole-document until then.
   D-161, D-169, D-170, D-171, D-172, or D-173. Does not
   unwrite the turn-1 OBJECT.
 - **Commit:** C-D174.
+
+## D-175 — Record identity-namespace-leftover-join.v6 as DR-104 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-175.review-adversarial.claude2.turn2.json`,
+  `bc4f5e092929d0b1e9381f4d24a8015c3c36444060068f94a711be2e0965c957`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-175.review-adversarial.codex.turn2.json`,
+  `1a379f4d4a5454e0e312dffde8bddc9f4d23f0c887001814177741d2f4f3862f`)
+  CONSENT. Subject `coordinator-decisions.D-175.turn2.draft.md`
+  `2e0fb95d63da32e17cb295b26dc9eb02b23b9b32503e2e4bd24cae173bdabf5d`.
+  Turn-1 Claude CONSENT
+  `f7fd700eaa4fdec06515d7f50da2716c282ae0c1c51d13d33bcb64a5ac38b9a0`;
+  turn-1 Codex OBJECT (D175-SF1)
+  `0c934f9b2557a0adcd3ae3ae7c56d0e35fe25d00a02d27155ad2425fde0b61c6`.
+  Frozen leftover-join
+  `identity-namespace-leftover-join.v6.json`
+  `ab31c6075723d34503958a838ad1a3c4da37b3644390b6df8117ae34758099cc`
+  Stage A Claude ACCEPT
+  `eaa9e3b39eb896315e5f95e60294c0f3bae05ca3881404e732a76c7af91039b2`
+  0/0; Stage A Codex ACCEPT
+  `6ff7f24bc5025813254a569ef6a0d443c29c4e9bd0db20e0f8581175b20a679e`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `identity-namespace-leftover-join.v6.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 / D-171 / D-172 / D-173 / D-174. Not a three-limb
+  act.
+- **Subject:** `docs/coop/artifacts/identity-namespace-leftover-join.v6.json`
+  `ab31c6075723d34503958a838ad1a3c4da37b3644390b6df8117ae34758099cc`.
+- **Decision:** Record v6 as DR-104 leftover remasurement
+  after D-174. Lands CLAUDE-INLJ-V5-SF1, INLJ-V5-SF1, and
+  D175-SF1. The candidate binds NOTHING. DR-104 stays
+  `DECIDED-V1-NOT-INTEGRATED`. leftover-design of unnamed
+  NT-11 execution remainder is closed. Remainder is G31
+  execution. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v4 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26, before D-167. v4/v5 stay frozen; do not
+  record them as current. Does not execute the eleven
+  classes. Does not rewrite G31 or G32. Does not force a
+  ride onto G15. Does not edit file 08. Does not invent a
+  D9 code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D175. Does not unwrite D-012, D-130, D-131,
+  D-162, D-167, D-168, D-169, D-170, D-171, D-172, D-173,
+  or D-174. Does not unwrite the turn-1 OBJECT.
+- **Commit:** C-D175.
