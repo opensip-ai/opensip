@@ -7986,3 +7986,58 @@ file-09 D-000 act. Left whole-document until then.
   D-177, D-178, D-179, D-180, D-181, D-182, D-183, or
   D-184.
 - **Commit:** C-D185.
+
+## D-186 — Record anti-lockstep-leftover-join.v3 as DR-127 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-186.review-adversarial.claude2.json`,
+  `0885c3b75380fec59689724abdf4712137a968fb4482b7f32176e27c811d81b2`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-186.review-adversarial.codex.json`,
+  `339489219abb11b76be2dc0564dbc52f764d170641311ed98d4452ce878f0b11`)
+  CONSENT. Subject `coordinator-decisions.D-186.draft.md`
+  `3c4ed227813fa7216f1bf163fc0974c20ed426558fea5cd3b9bd0c1482383e8d`.
+  Frozen leftover-join
+  `anti-lockstep-leftover-join.v3.json`
+  `820d724a10a1e11a2188a323a3425cd13f4c483892bb487fb93f6542103c85e1`
+  Stage A Claude ACCEPT
+  `6e4cf33fa6771047287a6fe3d0e1cd53e23c2c91199d0391f9451cf73552a062`
+  0/0; Stage A Codex ACCEPT
+  `02c16e8d7f9ce487c7064b4012c5710c8745dff451dd7dcde9ade1a88999843d`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `anti-lockstep-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-185. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/anti-lockstep-leftover-join.v3.json`
+  `820d724a10a1e11a2188a323a3425cd13f4c483892bb487fb93f6542103c85e1`.
+- **Decision:** Record v3 as DR-127 leftover remasurement
+  after D-185. The candidate binds NOTHING. DR-127 stays
+  `OPEN`. leftover-design of OBL-HOSTILE-GOLDENS,
+  OBL-AL3-CORE-ROLLBACK, and OBL-AL1-AL2-AL5 remains.
+  CLAUDE-V7-A-1 travels as honesty work and is not
+  discharged. D-056 Eligibility gates 2 and 3 do not hold
+  for DR-127. Gate 1 Class A is not opened. Not eligible
+  in kind. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen v1 remains a
+  historical measurement as of HEAD `5d5d778` /
+  required-now 26. Frozen v2 is the ALJ-V2-SF1 REJECT, not
+  current. v2 stays frozen; do not record it as current.
+  Does not apply anti-lockstep-contract.v7. Does not author
+  hostile dual-channel goldens. Does not invent numeric
+  windows. Does not steal G21 leftover from DR-114. Does
+  not rewrite G21, G31, or G32. Does not edit file 08.
+  Does not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D186. Does not unwrite D-111, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, D-182, D-183, D-184,
+  or D-185.
+- **Commit:** C-D186.
