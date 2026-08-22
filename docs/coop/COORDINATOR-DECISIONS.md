@@ -8091,3 +8091,52 @@ file-09 D-000 act. Left whole-document until then.
   D-177, D-178, D-179, D-180, D-181, D-182, D-183, D-184,
   D-185, or D-186.
 - **Commit:** C-D187.
+
+## D-188 — Record g08-leftover-join.v3 as G08 leftover remasurement
+
+- **Date:** 2026-08-21
+- **Status:** **ADOPTED 2026-08-21.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-188.review-adversarial.claude2.json`,
+  `c7bc18fd76c690acfbf8fecf5e6f52ad8dd048e0b8f65769c57c02d19e229ace`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-188.review-adversarial.codex.json`,
+  `617c36f2614335c50c0bbf650ace06cddc5752e5a6f792b5a9eb6023ad51f363`)
+  CONSENT. Subject `coordinator-decisions.D-188.draft.md`
+  `90bee1d5bf74443b5f37cad53da90c711a947fa7a1bbf6798e964cce2bc92e74`.
+  Frozen leftover-join
+  `g08-leftover-join.v3.json`
+  `d7a194c5bc743a6dfd01a6196377d8e63b4dc7aea61f4d48dc40d79e90013e87`
+  Stage A Claude ACCEPT
+  `3f117380bccc934bbd089fa17950fab150a6d76460623d2816b6a617a0af4747`
+  0/0; Stage A Codex ACCEPT
+  `74796baf9629620e6cc4a8dea1ab8238cb0d28add3a3f643a180175bf1b6cd72`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g08-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-187. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/g08-leftover-join.v3.json`
+  `d7a194c5bc743a6dfd01a6196377d8e63b4dc7aea61f4d48dc40d79e90013e87`.
+- **Decision:** Record v3 as G08 leftover remasurement after
+  D-187. The candidate binds NOTHING. DR-G08 stays `OPEN`.
+  leftover-design of OBL-G08-FX-AUTHORING remains. Does not
+  SATISFY DR-112. Does not steal OBL-RESERVED-NUMBERS.
+  Gate 1 Class A is not opened. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v2 remains
+  a historical measurement as of HEAD `5d5d778` /
+  required-now 26. v2 stays frozen; do not record it as
+  current. Does not invent fixture bytes or reserved
+  numbers. Does not rewrite G08, G31, or G32. Does not
+  edit file 08. Does not invent a D9 code. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D188. Does not unwrite D-105, D-167, D-168,
+  D-169, D-170, D-171, D-172, D-173, D-174, D-175, D-176,
+  D-177, D-178, D-179, D-180, D-181, D-182, D-183, D-184,
+  D-185, D-186, or D-187.
+- **Commit:** C-D188.
