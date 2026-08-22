@@ -8948,6 +8948,59 @@ file-09 D-000 act. Left whole-document until then.
   D-202, or D-203.
 - **Commit:** C-D204.
 
+## D-205 — Record g30-leftover-join.v3 as G30 leftover remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-205.review-adversarial.claude2.json`,
+  `19488425288da73371d8191840085c907edd41993c3b3e240b84c18d0177e22b`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-205.review-adversarial.codex.json`,
+  `430e43c59e01c66cd452b68fb027b6a4a4d92e917516a80c14f131437755f085`)
+  CONSENT. Subject `coordinator-decisions.D-205.draft.md`
+  `dce58eec385b29b685cfe1f53945621c401bbb592c517aed7ea7ba4cd62bf49f`.
+  Frozen leftover-join
+  `g30-leftover-join.v3.json`
+  `034ccef172c58ab3815c6cd2f91d47cfcc59a35d895d4dc46b9e178dde16da20`
+  Stage A Claude ACCEPT
+  `4c1b949badbb76e6f0be5dbc07ecbb8a668b23656ba344542b5e10779d42e797`
+  0/0; Stage A Codex ACCEPT
+  `75bd5df9d5197b11dcbfaad81740e6f96187c240cb8ff22f9db5d5c7825ca20c`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g30-leftover-join.v3.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-204. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/g30-leftover-join.v3.json`
+  `034ccef172c58ab3815c6cd2f91d47cfcc59a35d895d4dc46b9e178dde16da20`.
+- **Decision:** Record v3 as G30 leftover remasurement after
+  D-204. The candidate binds NOTHING. DR-G30 stays `OPEN`.
+  leftover-design of OBL-G30-FX-AUTHORING remains. Does not
+  SATISFY DR-117. Does not reopen leftover-design of EE-7a,
+  EE-7b, or EE-7d. Does not take over DR-101, G13, G14, G16,
+  G24, or G29. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  v2 remains a historical measurement as of HEAD `5d5d778`
+  / required-now 26. v1 and v2 stay frozen; do not record
+  them as current. Does not invent fixture bytes, a section
+  7.1 recipe, or the DR-131 pack. Does not rewrite G30,
+  G31, or G32. Does not edit file 08. Does not invent a D9
+  code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D205. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, or D-204.
+- **Commit:** C-D205.
+
+
 
 
 
