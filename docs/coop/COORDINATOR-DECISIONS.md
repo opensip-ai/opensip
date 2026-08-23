@@ -11461,3 +11461,78 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D240. Does not unwrite D-147, D-223, D-237,
   D-238, or D-239.
 - **Commit:** C-D240.
+
+## D-241 — Record g21-fixture-corpus.v1 as G21 leftover-design NT-1/NT-2 fixture implementations
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-241.review-adversarial.claude2.turn2.json`,
+  `72c32bdecbb9c7d39ba01d21c8cb3883f303128b04bec0b62ba591fdc482e097`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-241.review-adversarial.codex.turn2.json`,
+  `12b242d2d74533b141ec5ce27be02e14df49ebea92bd5ecda39397edc43d8617`)
+  CONSENT. Subject `coordinator-decisions.D-241.turn2.draft.md`
+  `271eebc0683c7c45b83fa629fa3e6bfec3023949ccfde200adc6c29590be9236`.
+  Turn-1 Claude OBJECT (CLAUDE-D241-SF1) at
+  `e7782f01a752879cd3a2c968aa160e5783a7e912f9066e6782bc05721d5faddc`;
+  turn-1 Codex OBJECT (CODEX-D241-SF1)
+  `b61d59ce1b14825ed0eb03e7fdb9e2655d651c3e076bd0ac83f534229a3ce9a1`.
+  Frozen corpus
+  `g21-fixture-corpus.v1.json`
+  `861bb4e7d26a80158cc1cc3a0518c5e8e95311bee4d8c8ce63acd1e60d6c906d`
+  Stage A Claude ACCEPT
+  `ad9234df10c7952cd21b63945fceffea76509eb8a3d261951efd2e4575c20de1`
+  0/0; Stage A Codex ACCEPT
+  `5b547afdad83c46e83e608c26f59a693994f6a11a5bd10eaa94c26f269dc6368`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-fixture-corpus.v1.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240. Not a
+  three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-fixture-corpus.v1.json`
+  `861bb4e7d26a80158cc1cc3a0518c5e8e95311bee4d8c8ce63acd1e60d6c906d`.
+- **Decision:** Record v1 as G21 leftover-design NT-1/NT-2
+  fixture implementations after D-240. Lands CLAUDE-D241-SF1
+  and CODEX-D241-SF1 as one class. The candidate binds
+  NOTHING. DR-G21 stays `OPEN`. leftover-design of
+  OBL-G21-FX-AUTHORING remains on leftover-join.v4 (D-196).
+  Remainder of G21 execution, including candidate-buffer
+  digest and subsequent-session view, remains qualification
+  (D-056). Remaining G21 classes stay unauthored. Does not
+  pin QUALIFIED. Does not invent a finding schema. Does not
+  invent a D9 code, exit number, or HostTermination. Does
+  not invent a pack IR. Does not invent a section 7.1
+  recipe. Does not invent a D-002 platform list. Does not
+  author NT-6. Does not take over G23. Does not reopen
+  DR-102 SATISFIED. Does not SATISFY DR-114. Does not
+  SATISFY DR-133. Does not SATISFY DR-117. Does not SATISFY
+  DR-131. Does not SATISFY DR-101. Gate 1 Class A is not
+  opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent is D-145 /
+  naming v6, not leftover-join.v4. Frozen turn-1 subject
+  remains historical OBJECT. Do not record the turn-1 draft
+  as current. Claude Stage A returned four unlabeled
+  observationsNotFindings objects, each an observation
+  paired with a whyNotAFinding. They carry no identifiers.
+  Codex Stage A returned zero advisories and no
+  observations. Claude Stage B turn 2 returned three
+  unlabeled observationsNotFindings objects. They carry no
+  identifiers. Codex Stage B returned zero advisories and
+  no observations at every turn. This entry does not invent
+  identifiers for those observations and does not claim
+  that both reviewers' identifiers are preserved. Codex
+  returned no observation identifiers. Does not execute
+  G21. Does not rewrite leftover-join.v4. Does not rewrite
+  occupancy v4. Does not rewrite leftover-join.v8. Does not
+  edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D241. Does not unwrite D-086, D-145, D-196,
+  D-218, or D-240.
+- **Commit:** C-D241.
