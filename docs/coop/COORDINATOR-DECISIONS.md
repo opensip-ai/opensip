@@ -10788,3 +10788,87 @@ file-09 D-000 act. Left whole-document until then.
   D-218, D-219, D-220, D-221, D-222, D-223, D-224, D-225,
   D-226, D-227, D-228, D-229, or D-230.
 - **Commit:** C-D231.
+
+## D-232 — Record harness.DR-G02.core-installed.v4 as G02 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-232.review-adversarial.claude2.json`,
+  `41ad4bea3c7476c7745e6ea945b9fff2e1035b71fd0b47ba8d3f5ef3fe7d2c72`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-232.review-adversarial.codex.json`,
+  `9e4ec2b494e184da72f9984a34e66117373009253bc1673cf180e4447e1610fb`)
+  CONSENT. Subject `coordinator-decisions.D-232.draft.md`
+  `60356948565d0f228ba751cca3b2c3c170571d0e568e363fee58fedc9318e680`.
+  Frozen occupancy
+  `harness.DR-G02.core-installed.v4.json`
+  `1bc247f779fa980ecde7d7a244effa6116f02a79be4a0ee74e0cedb168ccf360`
+  Stage A Claude ACCEPT
+  `e5d6d9aacbc090381ae85ef792f0c1beb8cf510f4dfd5020873ca32b7de18a1b`
+  0/0; Stage A Codex ACCEPT
+  `dad3667f6c92b514822d1222428b5ef7d9aba51b49b01c3fefdb9d20a9eb309f`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G02.core-installed.v4.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-231. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G02.core-installed.v4.json`
+  `1bc247f779fa980ecde7d7a244effa6116f02a79be4a0ee74e0cedb168ccf360`.
+- **Decision:** Record v4 as G02 occupancy remasurement
+  after D-231. The candidate binds NOTHING. DR-G02 stays
+  `OPEN`. leftover-design of the G02 specification-authoring
+  limb of OBL-2 remains measured stale at leftover-join.v7
+  (D-173). leftover-design of OBL-2, OBL-D1, and OBL-D2
+  remains. Remainder of OBL-2 is (a) D-006 unit and G02
+  tree-accounting UNDECIDED, so size comparison cannot be
+  scored, and (b) G01-G05 execution, which remains
+  qualification (D-056). Does not pin QUALIFIED. Does not
+  invent fixture bytes. Does not invent a D-006 unit or
+  authorize 83886080 as the bound. Does not invent G02
+  tree-accounting. Does not mint Rust-as-core. Does not
+  decide L-TCB identity. Does not populate the per-OS TCB
+  table. Does not retarget DR-126. Does not take over G01,
+  G03, G04, G05, G07, G14, or G22. Does not SATISFY DR-101.
+  Does not SATISFY DR-117. Does not SATISFY DR-131. Does
+  not SATISFY DR-133. Gate 1 Class A is not opened. Class B
+  SATISFIED is not recorded. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen v1 remains
+  the CGHS promised-path occupancy. Frozen v3 remains a
+  historical thin-extraction occupancy as of HEAD `5d5d778`
+  / required-now 26. Frozen v2 remains a historical
+  thin-extraction occupancy. Do not record v1 through v3 as
+  current. Naming parent is naming v6 (D-145) dual ACCEPT
+  0/0, not leftover-join.v7. This occupancy does not occupy
+  the G01 identifier. Claude Stage A returned three
+  observationsNotFindings strings. They carry no
+  identifiers. Codex Stage A returned zero advisories and
+  no observations. Claude Stage B returned three
+  observationsNotFindings strings. They carry no
+  identifiers. Codex Stage B returned zero advisories and
+  no observations. This entry does not invent identifiers
+  for those observations and does not claim that both
+  reviewers' identifiers are preserved. Codex returned no
+  observation identifiers. Does not execute fixtures. Does
+  not rewrite G01, G03, G04, G05, G07, G08, G09, G10, G12,
+  G14, G15, G16, G18, G19, G20, G21, G22, G23, G24, G25,
+  G26, G27, G28, G29, G30, G31, or G32. Does not rewrite
+  frozen G02 v1 through v3. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D232. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, D-221, D-222, D-223, D-224, D-225,
+  D-226, D-227, D-228, D-229, D-230, or D-231.
+- **Commit:** C-D232.
