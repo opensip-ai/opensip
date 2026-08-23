@@ -11184,3 +11184,68 @@ file-09 D-000 act. Left whole-document until then.
   D-130, D-131, D-133, D-135, D-137, D-167, D-175, D-208,
   or D-235. Overturn: C-D236.
 - **Commit:** C-D236.
+
+---
+
+## D-237 — Record g23-fixture-corpus.v3 as G23 leftover-design fixture implementations
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-237.review-adversarial.claude2.json`,
+  `5e573bfe9a20e44622edb71079967785eae324c7bd399c65a1856ea1d31eaead`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-237.review-adversarial.codex.json`,
+  `e7acfe640baeb0a941018572da5fb1bce68406f6c884ae3afdd2517690bde52c`)
+  CONSENT. Subject `coordinator-decisions.D-237.draft.md`
+  `fe20a1e22f59b90c257d0be83b3d3d7942f9a794cceff82db4ef1ba078aaf263`.
+  Frozen corpus
+  `g23-fixture-corpus.v3.json`
+  `3576e2e606b3eed68feced5b83a34247263d3b563274ef3fd9054c8b2a2ba6a7`
+  Stage A Claude ACCEPT
+  `9d8d3919b8f17d60a0d526398093ed8447d53acf9cf009431ab5d290d5a071d5`
+  0/0; Stage A Codex ACCEPT
+  `0285ff4a3a6a783e7ca4fe0fbf49bb032b1de0389b450a06461cf91cc582b044`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g23-fixture-corpus.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g23-fixture-corpus.v3.json`
+  `3576e2e606b3eed68feced5b83a34247263d3b563274ef3fd9054c8b2a2ba6a7`.
+- **Decision:** Record v3 as G23 leftover-design fixture
+  implementations after D-236. The candidate binds NOTHING.
+  DR-G23 stays `OPEN`. leftover-design of
+  OBL-G23-FX-AUTHORING remains on leftover-join.v4 (D-198).
+  Remainder of G23 execution, including host
+  relation-registry refusal observation and
+  subsequent-session view, remains qualification (D-056).
+  Does not pin QUALIFIED. Does not invent a finding schema.
+  Does not invent a D9 code. Does not invent a section 7.1
+  recipe. Does not collapse EV-2 into EV-3. Does not SATISFY
+  DR-133. Does not SATISFY DR-117. Does not SATISFY DR-131.
+  Does not SATISFY DR-101. Gate 1 Class A is not opened.
+  Not SATISFIED. Required-now stays 28. Condition-4 effect
+  is zero. Frozen v1 and v2 remain historical REJECT. Do
+  not record v1 or v2 as current. Naming parent is D-147,
+  not leftover-join.v4. Claude Stage A returned five
+  observationsNotFindings strings. They carry no
+  identifiers. Codex Stage A returned zero advisories and
+  no observations. This entry does not invent identifiers
+  for those observations and does not claim that both
+  reviewers' identifiers are preserved. Codex returned no
+  observation identifiers. Claude Stage B returned five
+  observationsNotFindings strings. They carry no
+  identifiers. Codex Stage B returned zero advisories and
+  no observations. Does not execute G23. Does not rewrite
+  leftover-join.v4. Does not rewrite occupancy v2. Does not
+  edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D237. Does not unwrite D-147, D-198, D-223,
+  or D-236.
+- **Commit:** C-D237.
