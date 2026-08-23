@@ -11683,3 +11683,77 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D243. Does not unwrite D-145, D-212, D-218,
   D-241, or D-242.
 - **Commit:** C-D243.
+
+## D-244 — Record g21-leftover-join.v9 as G21 leftover remasurement
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-244.review-adversarial.claude2.json`,
+  `6a52576c9c969b64e7bbd4a8c35b6ada7b0a321313fd6062c872f9f1bae9db58`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-244.review-adversarial.codex.json`,
+  `19491c21780f81aa972b1b1fe08be17282548ec4e61e0be3db72c6ed3dc5c8e1`)
+  CONSENT. Subject `coordinator-decisions.D-244.draft.md`
+  `d202511a61c83dba0097ab36b0fb05b1f6aa627dcf861e555608998bcc782036`.
+  Frozen leftover-join
+  `g21-leftover-join.v9.json`
+  `d0fda8926b5f2e494d1b7c1f3ec716ded3d58ef3b9c498f73d0a3220f893a4de`
+  Stage A Claude ACCEPT
+  `994de8607a09543b6106c1fb07e6b0cf2a170768466e088ad11d59e4df89affb`
+  0/0; Stage A Codex ACCEPT
+  `b4ff28d515c834e9208c23318f5f50bce8159b21cba4b6f3a3b6b7ab1e2c6e96`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-leftover-join.v9.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-leftover-join.v9.json`
+  `d0fda8926b5f2e494d1b7c1f3ec716ded3d58ef3b9c498f73d0a3220f893a4de`.
+- **Decision:** Record v9 as G21 leftover remasurement after
+  D-243. Lands G21LJ-V8-SF1. The candidate binds NOTHING.
+  DR-G21 stays `OPEN`. leftoverDesign remains
+  `[OBL-G21-FX-AUTHORING]`. leftover-design of NT-1 and
+  NT-2 implementations is stale as an authoring claim.
+  leftover-design of per-D-002-platform copies of those
+  implementations is stale as an authoring claim.
+  Remaining G21 classes stay unauthored. Remainder of G21
+  execution, including candidate-buffer digest,
+  subsequent-session view, and host-projection goldens,
+  remains qualification (D-056). Does not pin QUALIFIED.
+  Does not invent a D-002 platform list. Does not invent a
+  finding schema. Does not invent a D9 code, exit number,
+  or HostTermination. Does not invent a pack IR. Does not
+  invent a section 7.1 recipe. Does not author NT-6. Does
+  not take over G23. Does not reopen DR-102 SATISFIED. Does
+  not SATISFY DR-114. Does not SATISFY DR-133. Does not
+  SATISFY DR-117. Does not SATISFY DR-131. Does not SATISFY
+  DR-101. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero.
+  Naming parent is D-145 / naming v6, not leftover-join.v7.
+  Frozen leftover-join.v4 remains D-196. Frozen leftover-join.v5
+  and leftover-join.v6 remain split. Frozen leftover-join.v7
+  remains D-242. Frozen leftover-join.v8 remains Dual REJECT
+  0/1 G21LJ-V8-SF1. Do not record v4 through v8 as current.
+  Claude Stage A returned three observationsNotFindings
+  strings. They carry no identifiers. Codex Stage A
+  returned zero advisories and no observations. Claude
+  Stage B returned three unlabeled observationsNotFindings
+  objects, each an observation paired with a whyNotAFinding.
+  They carry no identifiers. Codex Stage B returned zero
+  advisories and no observations. This entry does not invent
+  identifiers for those observations and does not claim that
+  both reviewers' identifiers are preserved. Codex returned
+  no observation identifiers. Does not execute G21. Does not
+  rewrite occupancy v4. Does not rewrite corpus v1 or corpus
+  v2. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D244. Does not unwrite D-145, D-196, D-218,
+  D-241, D-242, or D-243.
+- **Commit:** C-D244.
