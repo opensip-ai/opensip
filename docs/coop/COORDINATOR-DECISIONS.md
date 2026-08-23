@@ -11249,3 +11249,75 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D237. Does not unwrite D-147, D-198, D-223,
   or D-236.
 - **Commit:** C-D237.
+
+## D-238 — Record g23-leftover-join.v7 as G23 leftover remasurement
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-238.review-adversarial.claude2.turn2.json`,
+  `cd542ae209f9d73de75a66e313ce93445be3eb40e394a46f96d751cdfc3ed53d`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-238.review-adversarial.codex.turn2.json`,
+  `1911a17683666200a4754b543de9126e82159d76bf4fc5205b7274221761012b`)
+  CONSENT. Subject `coordinator-decisions.D-238.turn2.draft.md`
+  `8f30fd4a286166ae767ff6d5a7f92f0025ae0a051081ee08a7edc35b87ed7ba5`.
+  Turn-1 Claude OBJECT (CLAUDE-D238-M1) at
+  `4f78b0e00ec3a2a1966a829551c0a35d3535de66410180cb46dc4fcd769a4f0a`;
+  turn-1 Codex OBJECT (D238-SF-1)
+  `3b34bd4464e2823a5bb3d367ffa5e761a6e85963730f157b3a12327090f39266`.
+  Frozen leftover-join
+  `g23-leftover-join.v7.json`
+  `22a52b01a58a44e6162999d1b18bd76945086e3563724106ca05d62eeba90c5b`
+  Stage A Claude ACCEPT
+  `14817c408761d3c6c8e537431c654d55a92e6674e7881352fca9af6d7000452b`
+  0/0; Stage A Codex ACCEPT
+  `5e1bd98eaf5d11688a61963907afb927f71cea36527614e37227056c8cb216b8`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g23-leftover-join.v7.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-235 and D-237. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g23-leftover-join.v7.json`
+  `22a52b01a58a44e6162999d1b18bd76945086e3563724106ca05d62eeba90c5b`.
+- **Decision:** Record v7 as G23 leftover remasurement after
+  D-237. Lands CLAUDE-D238-M1 / D238-SF-1. The candidate
+  binds NOTHING. DR-G23 stays `OPEN`. leftoverDesign remains
+  `[OBL-G23-FX-AUTHORING]`, scoped to per-D-002-platform
+  copies of the four D-237 implementations. leftover-design
+  of those four implementations is stale as an authoring
+  claim. Host-refusal observation and subsequent-session
+  view remain qualification at OBL-G23-EXECUTION (D-056).
+  Does not pin QUALIFIED. Does not invent fixture bytes,
+  observation bytes, per-platform copies, or a D-002
+  platform list. Does not reopen leftover-design of NT-3
+  or NT-5. Does not SATISFY DR-133. Does not SATISFY
+  DR-117. Does not SATISFY DR-131. Does not SATISFY DR-101.
+  Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero.
+  Naming parent is D-147. Frozen v4 remains a historical
+  measurement as of D-198. Frozen v5 remains a historical
+  split (Codex REJECT G23LJ-V5-M1/S1; Claude ACCEPT 0/0).
+  Frozen v6 remains a historical split (Codex ACCEPT 0/0;
+  Claude REJECT CLAUDE-G23LJ-V6-M1/S1). Do not record v4,
+  v5, or v6 as current. Claude Stage A returned observation
+  CLAUDE-G23LJ-V7-O1; no change requested. Codex Stage A
+  returned zero advisories and no observations. Claude
+  Stage B turn 2 returned CLAUDE-D238-T2-O1 and
+  CLAUDE-D238-T2-O2; no change requested. Codex Stage B
+  returned zero advisories and no observations. This entry
+  names those Claude identifiers. It does not invent Codex
+  identifiers. It does not claim that both reviewers'
+  identifiers are preserved. Codex returned no observation
+  identifiers. Does not execute G23. Does not rewrite
+  occupancy v2. Does not rewrite corpus v3. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D238. Does not unwrite D-147, D-198, D-223,
+  D-236, or D-237.
+- **Commit:** C-D238.
