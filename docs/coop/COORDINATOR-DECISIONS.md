@@ -10707,3 +10707,84 @@ file-09 D-000 act. Left whole-document until then.
   D-218, D-219, D-220, D-221, D-222, D-223, D-224, D-225,
   D-226, D-227, D-228, or D-229.
 - **Commit:** C-D230.
+
+## D-231 — Record harness.DR-G01.core-download.v9 as G01 occupancy remasurement
+
+- **Date:** 2026-08-22
+- **Status:** **ADOPTED 2026-08-22.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-231.review-adversarial.claude2.json`,
+  `a2661f8d7d7c6b23290e2d91f982ab866a3fea20b21b5bebdcedb5f5761da656`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-231.review-adversarial.codex.json`,
+  `7604fac547af1c3cfb020a46182504813adab78b3c8e2b2181798ea826636560`)
+  CONSENT. Subject `coordinator-decisions.D-231.draft.md`
+  `6baf018e8ce2e0b1fd547b0f0c2ed9162b593b78f9af30450b5f5a5533e7d05e`.
+  Frozen occupancy
+  `harness.DR-G01.core-download.v9.json`
+  `f28b0d97723550c8690eec2a6ac7803efba93fd797f266600b038b14e269277b`
+  Stage A Claude ACCEPT
+  `6f697ee39f5cb170693f1f23f6daf36b56ee63ad37aef8685e004f73bfab7a01`
+  0/0; Stage A Codex ACCEPT
+  `b9755e1ea407c25da1acb43e66264467da397603c7f87e2591935d80ecfc213f`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of
+  `harness.DR-G01.core-download.v9.json`
+  (0 blockers, 0 SHOULD-FIX). Same no-cell-edit branch as
+  D-170 through D-230. Not a three-limb act.
+- **Subject:** `docs/coop/artifacts/harness.DR-G01.core-download.v9.json`
+  `f28b0d97723550c8690eec2a6ac7803efba93fd797f266600b038b14e269277b`.
+- **Decision:** Record v9 as G01 occupancy remasurement
+  after D-230. The candidate binds NOTHING. DR-G01 stays
+  `OPEN`. leftover-design of the G01 specification-authoring
+  limb of OBL-2 remains measured stale at leftover-join.v7
+  (D-173). leftover-design of OBL-2, OBL-D1, and OBL-D2
+  remains. Remainder of OBL-2 is (a) D-006 unit and G02
+  tree-accounting UNDECIDED, so size comparison cannot be
+  scored, and (b) G01-G05 execution, which remains
+  qualification (D-056). Does not pin QUALIFIED. Does not
+  invent fixture bytes. Does not invent a D-006 unit or
+  authorize 26214400 as the bound. Does not mint
+  Rust-as-core. Does not take over G02, G03, G04, G05, G07,
+  G14, or G22. Does not SATISFY DR-101. Does not SATISFY
+  DR-117. Does not SATISFY DR-131. Does not SATISFY DR-133.
+  Gate 1 Class A is not opened. Class B SATISFIED is not
+  recorded. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen v1 remains the CGHS
+  promised-path occupancy. Frozen v3 remains a historical
+  thin-extraction occupancy as of HEAD `5d5d778` /
+  required-now 26. Frozen v4 through v8 remain historical
+  reject-cycle occupancies. Do not record v1 through v8 as
+  current. Naming parent is naming v6 (D-145) dual ACCEPT
+  0/0, not leftover-join.v7. This occupancy does not occupy
+  the G30 identifier. Advisory CLAUDE-G01H-V9-ADV1 travels
+  as honesty work. Codex Stage A returned zero advisories
+  and no observations. Claude Stage B returned three
+  observationsNotFindings strings. They carry no
+  identifiers. Codex Stage B returned zero advisories and
+  no observations. This entry does not invent identifiers
+  for those observations and does not claim that both
+  reviewers' identifiers are preserved. Codex returned no
+  observation identifiers. Does not execute fixtures. Does
+  not rewrite G02, G03, G04, G05, G07, G08, G09, G10, G12,
+  G14, G15, G16, G18, G19, G20, G21, G22, G23, G24, G25,
+  G26, G27, G28, G29, G30, G31, or G32. Does not rewrite
+  frozen G01 v1 through v8. Does not edit file 08. Does not
+  invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  4 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D231. Does not unwrite D-167, D-168, D-169,
+  D-170, D-171, D-172, D-173, D-174, D-175, D-176, D-177,
+  D-178, D-179, D-180, D-181, D-182, D-183, D-184, D-185,
+  D-186, D-187, D-188, D-189, D-190, D-191, D-192, D-193,
+  D-194, D-195, D-196, D-197, D-198, D-199, D-200, D-201,
+  D-202, D-203, D-204, D-205, D-206, D-207, D-208, D-209,
+  D-210, D-211, D-212, D-213, D-214, D-215, D-216, D-217,
+  D-218, D-219, D-220, D-221, D-222, D-223, D-224, D-225,
+  D-226, D-227, D-228, D-229, or D-230.
+- **Commit:** C-D231.
