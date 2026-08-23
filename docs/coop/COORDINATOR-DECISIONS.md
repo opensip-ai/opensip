@@ -11119,3 +11119,68 @@ file-09 D-000 act. Left whole-document until then.
   D-226, D-227, D-228, D-229, D-230, D-231, D-232, D-233,
   or D-234.
 - **Commit:** C-D235.
+
+---
+
+## D-236 — Record DR-104 SATISFIED under D-056 Class B
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-236.review-adversarial.claude2.json`,
+  `b21f6e3bca54ad0cb2bd3e21b9bf9fab04a9eb94082b4aa41181a92790a1a048`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-236.review-adversarial.codex.json`,
+  `113f19ace51bd43fa22bad3966117cd2cc120e93261e23ebb881273ed76ab97b`)
+  CONSENT. Subject `coordinator-decisions.D-236.draft.md`
+  `fb64e7b986274f459907cc47eebfe8302bbfb3217e06a1792c1e52073712ed15`.
+  Both SATISFIED-GRADE reviews returned 0 blockers, 0 MUST-FIX,
+  0 SHOULD-FIX.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under
+  D-056 Class B. File-08 MF-6. Does not execute G31. Does not
+  claim QUALIFIED. Not a three-limb act. Not a required-now
+  successor.
+- **Subject:** `docs/coop/artifacts/coordinator-decisions.D-236.draft.md`
+  `fb64e7b986274f459907cc47eebfe8302bbfb3217e06a1792c1e52073712ed15`.
+- **Decision:** Record DR-104 SATISFIED for architecture-preview
+  condition 2 under D-056 Class B. Negative-test execution
+  remains condition 4 / DR-G31 / DR-012 qualification. It is
+  not architecture SATISFIED evidence and is not an
+  architecture hard blocker. Not QUALIFIED. D-012's decided
+  identity/namespace policy stands. D-012 deferrals remain
+  deferred. D-130's eleven classes stand. leftover-join.v6
+  binds NOTHING and is not this SATISFIED. Replace the unique
+  DR-104 lead prefix
+  `**DECIDED-V1-NOT-INTEGRATED** — DECIDED (D-012):` and the
+  unique Blueprint-impact suffix
+  `negative-test evidence at qualification | Hard blocker |`.
+  Rewrite condition 2 to 5 of 32 SATISFIED, standing NOT MET,
+  preserving D-085 / D-089 / D-091 / D-092 remainders, adding
+  the DR-104 G31 remainder, and restoring the DR-103 contract
+  note and the DR-131/DR-133 ineligible-in-kind note. Replace
+  only "condition 2 remains 4 of 32 SATISFIED" in the
+  one-sentence summary. Do not edit gate-harness cells. Do
+  not mark DR-103/105/114/117/118/131/133 SATISFIED. Do not
+  SATISFY DR-101. Do not open Class A. Do not apply
+  identity-namespace-integration-contract.v4. Do not execute
+  the eleven classes. Do not invent leftover-design or
+  fixture bytes. Do not add a DR-G* row. Do not change live
+  required-now 28. Do not authorize `docs/v2/implementation/`.
+  Claude SATISFIED-GRADE returned five
+  observationsNotFindings strings. They carry no
+  identifiers. Codex SATISFIED-GRADE returned zero
+  advisories and no observations. This entry does not invent
+  identifiers for those observations and does not claim that
+  both reviewers' identifiers are preserved. Codex returned
+  no observation identifiers.
+- **Readiness effect:** Condition 2 becomes 5 of 32 SATISFIED
+  and stays NOT MET. Condition 4 stays MET on the naming
+  half (28 of 28). Condition 5 remains NOT MET and last.
+- **Reversibility:** C-D236 plus restore of the prior unique
+  DR-104 lead prefix, prior Blueprint impact cell, prior
+  condition-2 snapshot including every named remainder this
+  rewrite preserves, and the prior "4 of 32" clause. Does
+  not overturn D-012, D-056, D-085, D-089, D-091, D-092,
+  D-130, D-131, D-133, D-135, D-137, D-167, D-175, D-208,
+  or D-235. Overturn: C-D236.
+- **Commit:** C-D236.
