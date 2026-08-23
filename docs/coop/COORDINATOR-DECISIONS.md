@@ -11757,3 +11757,93 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D244. Does not unwrite D-145, D-196, D-218,
   D-241, D-242, or D-243.
 - **Commit:** C-D244.
+
+## D-245 — Record g21-fixture-corpus.v7 as G21 leftover-design CC-5 prefix injections
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Turn 1 OBJECT:
+  Claude D245-M1 MUST-FIX
+  (`artifacts/coordinator-decisions.D-245.review-adversarial.claude2.json`,
+  `a5f706c5a22573798e4c6c880f17877bc796b1844b00abac328aa2981d225d44`);
+  Codex CODEX-D245-SF1 SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-245.review-adversarial.codex.json`,
+  `5f090d2f3d902d128e6f20ad3dc932064fd80ae8b017df315ffc7d5ddf307a84`).
+  Same class. Claude 2 turn 2
+  (`artifacts/coordinator-decisions.D-245.turn2.review-adversarial.claude2.json`,
+  `490d67d95742049d2490e32ccfa0ab99486a604b427aac86b1ea5802809ef5b8`)
+  CONSENT. Codex turn 2
+  (`artifacts/coordinator-decisions.D-245.turn2.review-adversarial.codex.json`,
+  `06f2daf5de56a77810d90b7d00be65888686da8af5f1ac0d5af5bfa8420bb607`)
+  CONSENT. Subject `coordinator-decisions.D-245.turn2.draft.md`
+  `cb5c03d2861446d004d30106510987ca111bc742ecff82cce9a814e1afbbfcf5`.
+  Frozen corpus
+  `g21-fixture-corpus.v7.json`
+  `20bf75a4b404f54d16b531659af825ef6f86d3721ea10cb3c0c435b0e496c57f`
+  Stage A Claude ACCEPT
+  `69fb819c9a9f0cee60bd67131b2ed90defd23cab37ed8dc4c1c310a0ad7aaddd`
+  0/0; Stage A Codex ACCEPT
+  `8ac4ed5c24c5461c86e8682088a0e79b08fa5146a1107d5a218f354720751a66`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-fixture-corpus.v7.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-fixture-corpus.v7.json`
+  `20bf75a4b404f54d16b531659af825ef6f86d3721ea10cb3c0c435b0e496c57f`.
+- **Decision:** Record v7 as G21 leftover-design of two CC-5
+  prefix injections after D-244. Lands G21FXV3-M1,
+  G21FXV4-M1, G21FXV5-S1, G21FXV6-S1, D245-M1, and
+  CODEX-D245-SF1. The candidate binds NOTHING. DR-G21 stays
+  `OPEN`. leftoverDesign of OBL-G21-FX-AUTHORING remains on
+  leftover-join.v9 (D-244). Remaining G21 classes stay
+  unauthored. Remaining CC-5 injections stay unauthored.
+  Per-D-002-platform copies of these bytes stay unauthored.
+  Remainder of G21 execution, including candidate-buffer
+  digest, subsequent-session view, host-projection goldens,
+  and EV-5 diagnostic/audit bytes, remains qualification
+  (D-056). Does not pin QUALIFIED. Does not remasure
+  leftover-join.v9. Does not invent a D-002 platform list.
+  Does not invent a ping body schema. Does not invent
+  26214400. Does not classify non-object top level as CC-5.
+  Does not invent a finding schema. Does not invent a D9
+  code, exit number, or HostTermination. Does not invent a
+  pack IR. Does not invent a section 7.1 recipe. Does not
+  author NT-6. Does not take over G23. Does not reopen
+  DR-102 SATISFIED. Does not SATISFY DR-114. Does not
+  SATISFY DR-133. Does not SATISFY DR-117. Does not SATISFY
+  DR-131. Does not SATISFY DR-101. Gate 1 Class A is not
+  opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent is D-145 /
+  naming v6, not leftover-join.v9. Frozen leftover-join.v9
+  remains current G21 leftover-join. Frozen corpus v3
+  through v6 remain split. Do not record them as current.
+  Claude Stage A returned three observationsNotFindings
+  objects with identifiers O-G21FXV7-01, O-G21FXV7-02, and
+  O-G21FXV7-03, each an object with keys id and observation.
+  Claude Stage A also returned advisories A-G21FXV7-01 and
+  A-G21FXV7-02. They travel as honesty work on a later
+  successor and are not SATISFIED-bars. Codex Stage A
+  returned zero advisories and no observations. Claude
+  Stage B turn 2 returned three observationsNotFindings
+  objects with identifiers O-D245T2-01, O-D245T2-02, and
+  O-D245T2-03. They carry identifiers. Codex Stage B
+  returned zero advisories and no observations. This entry
+  names those Claude identifiers and does not invent
+  identifiers. It does not claim that both reviewers'
+  identifiers are preserved. Codex returned no observation
+  identifiers and no advisory identifiers. Does not execute
+  G21. Does not rewrite leftover-join.v9. Does not rewrite
+  occupancy v4. Does not rewrite corpus v1 or corpus v2.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D245. Does not unwrite D-145, D-218, D-241,
+  D-243, or D-244.
+- **Commit:** C-D245.
