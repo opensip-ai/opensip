@@ -12360,3 +12360,71 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D251. Does not unwrite D-152, D-201, D-226,
   or D-250.
 - **Commit:** C-D251.
+
+## D-252 — Record g27 leftover-join.v4 as G27 leftover remasurement
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-252.review-adversarial.claude2.json`,
+  `47ad61dfae9ff5193479927068f628ac915d4ac298f7dbc7b43111a8aba271d4`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-252.review-adversarial.codex.json`,
+  `bb8ad463cb7aa4b0036bc52709c298cd609af12eef26bdcc37a8803f1d66dd8d`)
+  CONSENT. Subject `coordinator-decisions.D-252.draft.md`
+  `9872285cfaeb32db93599424b3875d956bd866ed2309efbd3a93aba58a617ad9`.
+  Frozen leftover-join
+  `g27-leftover-join.v4.json`
+  `630b226a852e2d6479513559cb0773fad67f80271d4814e726fc69c3aa943a5f`
+  Stage A Claude ACCEPT
+  `fecdb4e7839512b4ce9e888eb1a64b119c499a5b8fb09002fb970e324aacde2d`
+  0/0; Stage A Codex ACCEPT
+  `4ef134a69af303c540c733fc9cb6ab6755353e25242ea5770b93b1ca94334e56`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g27-leftover-join.v4.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251. Not a
+  three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g27-leftover-join.v4.json`
+  `630b226a852e2d6479513559cb0773fad67f80271d4814e726fc69c3aa943a5f`.
+- **Decision:** Record v4 as G27 leftover remasurement after
+  D-251. The candidate binds NOTHING. DR-G27 stays `OPEN`.
+  leftover-design of OBL-G27-FX-AUTHORING remains on
+  leftover-join.v4. leftover-join.v3 remains current at
+  draft time. After this successor is recorded,
+  leftover-join.v3 is not current. Occupancy v2 is the
+  current G27 occupancy remasurement. Occupancy v1 is not
+  current. Remainder of G27 execution remains qualification
+  (D-056). Does not pin QUALIFIED. Does not invent fixture
+  bytes. Does not invent sealed-Run goldens. Does not invent
+  a D9 code. Does not invent a section 7.1 recipe. Does not
+  reopen leftover-design of NT-6. Does not occupy the
+  identifier. Does not SATISFY DR-131. Does not SATISFY
+  DR-133. Does not SATISFY DR-117. Does not SATISFY DR-114.
+  Does not SATISFY DR-101. Gate 1 Class A is not opened.
+  Not SATISFIED. Required-now stays 28. Condition-4 effect
+  is zero. Naming parent is D-153, not leftover-join.v4.
+  naming v6 does not name G27. Claude Stage A leftover-join.v4
+  returned no observationsNotFindings field and no
+  advisories. Codex Stage A leftover-join.v4 returned an
+  empty observationsNotFindings list, zero advisories, and
+  no observations. Claude Stage B returned an empty
+  observationsNotFindings list. Codex Stage B returned zero
+  advisories and no observations. This entry does not invent
+  identifiers and does not claim that both reviewers'
+  identifiers are preserved. Claude returned no observation
+  identifiers. Codex returned no observation identifiers.
+  Does not execute G27. Does not rewrite occupancy v2. Does
+  not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D252. Does not unwrite D-153, D-202, D-227,
+  or D-251.
+- **Commit:** C-D252.
