@@ -13877,3 +13877,85 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D270. Does not unwrite D-086, D-214, D-261,
   D-266, or D-269.
 - **Commit:** C-D270.
+
+## D-271 — Record g22 leftover-join.v5 as G22 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-271.review-adversarial.claude2.json`,
+  `50b032b154a85b807cfc5b507702502a718816dc40bccdf38912d48f56ce234b`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-271.review-adversarial.codex.json`,
+  `b6650735bfba4899e567ebecb62121c0bb1fb55f140e31542485d68626a12efa`)
+  CONSENT. Subject `coordinator-decisions.D-271.draft.md`
+  `28c85c38b47e3dd8d475cdcb7d979f780edbcec22bf544df9a7d1c7d4d85f613`.
+  Frozen leftover-join
+  `g22-leftover-join.v5.json`
+  `70e0efd68e9003d7828c93e2d7d26dad81664adebfcb1c8d38b006c80e620d3f`
+  Stage A Claude ACCEPT
+  `1879de4fa51ef72f44c07e8e31337c2954ffa1d200091cfd374d1f5345e98551`
+  0/0; Stage A Codex ACCEPT
+  `35454c10cbcd5097afbc1f9a49ffaedc0ae7f518ec2f106b0b34e993be4224bb`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g22-leftover-join.v5.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258 and D-259 and D-260 and D-261 and D-262 and D-263
+  and D-264 and D-265 and D-266 and D-267 and D-268 and
+  D-269 and D-270. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g22-leftover-join.v5.json`
+  `70e0efd68e9003d7828c93e2d7d26dad81664adebfcb1c8d38b006c80e620d3f`.
+- **Decision:** Record v5 as G22 leftover remasurement after
+  D-270. The candidate binds NOTHING. DR-G22 stays `OPEN`.
+  leftover-design of OBL-G22-FX-AUTHORING remains on
+  leftover-join.v5. leftover-join.v4 remains current at
+  draft time. After this successor is recorded,
+  leftover-join.v4 is not current. leftover-join.v3 is not
+  current. Occupancy v2 is the current G22 occupancy
+  remasurement. Occupancy v1 is not current. platform-tcb leftover-join.v9
+  remains the current DR-126 leftover-join. platform-tcb leftover-join.v6
+  is not current. Remainder of G22 execution remains
+  qualification (D-056). Does not pin QUALIFIED. Does not
+  invent fixture bytes. Does not populate reserved TCB
+  tables. Does not invent Rosetta. Does not invent a D9
+  code. Does not invent a section 7.1 recipe. Does not steal
+  OBL-RESERVED-TABLES. Does not apply TCB v45. Does not occupy
+  the identifier. Does not SATISFY DR-126. Does not SATISFY
+  DR-117. Does not SATISFY DR-131. Does not SATISFY DR-133.
+  Does not SATISFY DR-114. Does not SATISFY DR-101. Gate 1
+  Class A is not opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent is naming v6
+  (D-145), not leftover-join.v5. D-086 named the identifier.
+  Claude Stage A leftover-join.v5 returned four unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  No advisories field. Codex Stage A leftover-join.v5 returned
+  an empty observationsNotFindings list, zero advisories, and
+  no observations. This entry recites those Claude observations
+  as strings. It does not invent a Claude identifier. It does
+  not invent a Codex identifier. It does not claim that both
+  reviewers' identifiers are preserved. Claude Stage A returned
+  no observation identifiers. Codex Stage A returned no
+  observation identifiers. Claude Stage B returned four
+  unlabeled observationsNotFindings strings. They carry no
+  identifiers. Zero advisories. Codex Stage B returned an empty
+  observationsNotFindings list, an empty observations list,
+  and zero advisories. This entry does not invent identifiers.
+  It does not claim that both reviewers' identifiers are
+  preserved. Claude Stage B returned no observation
+  identifiers. Codex Stage B returned no observation
+  identifiers. Does not execute G22. Does not rewrite occupancy
+  v2. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D271. Does not unwrite D-086, D-219, D-265,
+  D-268, or D-270.
+- **Commit:** C-D271.
