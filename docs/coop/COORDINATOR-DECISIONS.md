@@ -12204,3 +12204,90 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D249. Does not unwrite D-151, D-200, D-225,
   D-240, or D-248.
 - **Commit:** C-D249.
+
+## D-250 — Record g24 leftover-join.v4 as G24 leftover remasurement
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Turn 1
+  split: Claude OBJECT 0/2 CLAUDE-D250-SF1, CLAUDE-D250-SF2
+  (`artifacts/coordinator-decisions.D-250.review-adversarial.claude2.json`,
+  `48be6bc5536e61932f3788c74fc6cde2e07a302606a1618b7bb291a98d9b5439`);
+  Codex CONSENT
+  (`artifacts/coordinator-decisions.D-250.review-adversarial.codex.json`,
+  `fd95f94ba45f6404d76b194f2e2f2ab3da571716db20e791a67355c2e8e0deb0`).
+  Not Dual REJECT. Not Dual CONSENT. Claude 2 turn 2
+  (`artifacts/coordinator-decisions.D-250.turn2.review-adversarial.claude2.json`,
+  `49a73d1cd6b8cf01ae63dd81fc589c3afbff7af3561d48b439066cc118bfe8e8`)
+  CONSENT. Codex turn 2
+  (`artifacts/coordinator-decisions.D-250.turn2.review-adversarial.codex.json`,
+  `5de4a99265b952a418d421ea478eb7654469b4a541a52c95a222ec2a19f456c2`)
+  CONSENT. Subject `coordinator-decisions.D-250.turn2.draft.md`
+  `8c4707990266ccf1fa6f974a5fb54e3fc3a0f943470d74cb4d29b4923a1b433e`.
+  Frozen turn 1 draft
+  `coordinator-decisions.D-250.draft.md`
+  `dadb52620b0c28d1a4f5dfa2067359afce04ac027992eac43615849271f859c6`.
+  Frozen leftover-join
+  `g24-leftover-join.v4.json`
+  `c451f7ce20e93442172322ff2fd29a029a9a0ca209538ece7c590d32c72e43d7`
+  Stage A Claude ACCEPT
+  `64ae502fbe7d2d267e1d19a990a63de38fdb3961647fc3ca7b5ab63ceda23f8f`
+  0/0; Stage A Codex ACCEPT
+  `b956658feb003dbb1f5ea2c8d581e1d8b80afb554b870136b58dc8d50a0d99df`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g24-leftover-join.v4.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g24-leftover-join.v4.json`
+  `c451f7ce20e93442172322ff2fd29a029a9a0ca209538ece7c590d32c72e43d7`.
+- **Decision:** Record v4 as G24 leftover remasurement after
+  D-249. Lands CLAUDE-D250-SF1 and CLAUDE-D250-SF2. The
+  candidate binds NOTHING. DR-G24 stays `OPEN`. leftover-design
+  of OBL-G24-FX-AUTHORING remains on leftover-join.v4.
+  leftover-join.v3 remains current at draft time. After this
+  successor is recorded, leftover-join.v3 is not current.
+  Occupancy v3 is the current G24 occupancy remasurement.
+  Occupancy v1 is not current. leftover-join.v8 leftoverDesign
+  `[]` is the current G23 leftover-join. leftover-join.v4
+  (G23) is not current. leftover-join.v5 is the current G25
+  leftover-join. leftover-join.v4 (G25) remains split.
+  Remainder of G24 execution remains qualification (D-056).
+  Does not pin QUALIFIED. Does not invent fixture bytes. Does
+  not invent a pack IR. Does not invent a D9 code. Does not
+  invent a section 7.1 recipe. Does not reopen leftover-design
+  of NT-1 or NT-2. Does not occupy the identifier. Does not
+  SATISFY DR-131. Does not SATISFY DR-133. Does not SATISFY
+  DR-117. Does not SATISFY DR-114. Does not SATISFY DR-101.
+  Gate 1 Class A is not opened. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Naming parent is
+  D-150, not leftover-join.v4. naming v6 does not name G24.
+  Claude Stage A leftover-join.v4 returned three unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  Codex Stage A leftover-join.v4 returned an empty
+  observationsNotFindings list, zero advisories, and no
+  observations. Claude Stage B turn 1 returned two unlabeled
+  observations objects, each an observation paired with a
+  standing. They carry no identifiers. Codex Stage B turn 1
+  returned zero advisories and no observations; its verdict is
+  CONSENT 0/0. Claude Stage B turn 2 returned four unlabeled
+  observations objects. They carry no identifiers. Codex
+  Stage B turn 2 returned zero advisories and no observations.
+  This entry does not invent identifiers and does not claim
+  that both reviewers' identifiers are preserved. Claude
+  returned no observation identifiers. Codex returned no
+  observation identifiers. Does not execute G24. Does not
+  rewrite occupancy v3. Does not rewrite leftover-join.v8.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D250. Does not unwrite D-150, D-199, D-224,
+  D-240, or D-249.
+- **Commit:** C-D250.
