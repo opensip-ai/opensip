@@ -13531,3 +13531,85 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D266. Does not unwrite D-086, D-180, D-214,
   or D-265.
 - **Commit:** C-D266.
+
+## D-267 — Record sdk leftover-join.v6 as DR-125 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-267.review-adversarial.claude2.json`,
+  `bd53c2955755d04bf4760a58789622b0cc21eb2256921ada087deaad313c0674`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-267.review-adversarial.codex.json`,
+  `e6b8746b8181b6d23724cf55ef9204761c2bc6948e34c036e8e59ef2879411c2`)
+  CONSENT. Subject `coordinator-decisions.D-267.draft.md`
+  `1021ab2b57d82fb9f035f89dc3646d83c563ec2df25855ad490863d548872935`.
+  Frozen leftover-join
+  `sdk-leftover-join.v6.json`
+  `e91d6e926830833d563bb89f3693d65328173af6f0d42275ad5339ef73880341`
+  Stage A Claude ACCEPT
+  `92a4ba004ab4fde2ea6f361546854ba51ed725b858628b07bb12c1d78ae00975`
+  0/0; Stage A Codex ACCEPT
+  `9c3e3b2a6e9214b6509f74852d4b9fbaeb53af99569f5549c7ac46d705decf0c`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sdk-leftover-join.v6.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258 and D-259 and D-260 and D-261 and D-262 and D-263
+  and D-264 and D-265 and D-266. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/sdk-leftover-join.v6.json`
+  `e91d6e926830833d563bb89f3693d65328173af6f0d42275ad5339ef73880341`.
+- **Decision:** Record v6 as DR-125 leftover remasurement after
+  D-266. The candidate binds NOTHING. DR-125 stays `OPEN`.
+  leftover-design of OBL-G20-FX-AUTHORING and
+  OBL-SDK-API-RESERVED remains on leftover-join.v6.
+  leftover-join.v5 remains current at draft time. After this
+  successor is recorded, leftover-join.v5 is not current.
+  Occupancy v2 is the current G20 occupancy remasurement.
+  Occupancy v1 is not current. leftover-join.v4 is not
+  current. Remainder of G20 execution remains qualification
+  (D-056). Does not pin QUALIFIED. Does not invent fixture
+  bytes. Does not invent reserved SDK APIs. Does not invent
+  a D9 code. Does not invent a section 7.1 recipe. Does not
+  steal OBL-SDK-API-RESERVED. Does not close
+  OBL-DR125-ACTIVATION. Does not occupy the identifier. Does
+  not SATISFY DR-125. Does not SATISFY DR-117. Does not
+  SATISFY DR-131. Does not SATISFY DR-133. Does not SATISFY
+  DR-114. Does not SATISFY DR-101. Gate 1 Class A is not
+  opened. Not SATISFIED. Required-now stays 28. Condition-4
+  effect is zero. Naming parent of G20 is naming v6 (D-145),
+  not leftover-join.v6. D-086 named DR-G20. Claude Stage A
+  leftover-join.v6 returned one named observation
+  CLAUDE-SDKLJ-V6-O1. No change requested. It carries that
+  identifier. No observationsNotFindings field. No advisories
+  field. Codex Stage A leftover-join.v6 returned an empty
+  observationsNotFindings list, an empty observations list,
+  and zero advisories. This entry names CLAUDE-SDKLJ-V6-O1.
+  It does not invent a Codex identifier. It does not claim
+  that both reviewers' identifiers are preserved. Codex
+  Stage A returned no observation identifiers.
+  CLAUDE-G20CAT-V1-SF1 and CLAUDE-PTLJ-V3-SF1 already landed
+  in this lineage at leftover-join.v5. This entry does not
+  re-land them. Claude Stage B returned one named
+  observation CLAUDE-D267-B-O1. No change requested. It
+  carries that identifier. No observationsNotFindings field.
+  No advisories field. Codex Stage B returned an empty
+  observationsNotFindings list, an empty observations list,
+  and zero advisories. This entry names CLAUDE-D267-B-O1.
+  It does not invent a Codex identifier. Codex Stage B
+  returned no observation identifiers. Does not execute G20.
+  Does not rewrite occupancy v2. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D267. Does not unwrite D-086, D-184, D-217,
+  or D-266.
+- **Commit:** C-D267.
