@@ -12042,3 +12042,84 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D247. Does not unwrite D-145, D-212, D-218,
   D-241, D-243, D-245, or D-246.
 - **Commit:** C-D247.
+
+## D-248 — Record g21-leftover-join.v12 as G21 leftover remasurement
+
+- **Date:** 2026-08-23
+- **Status:** **ADOPTED 2026-08-23.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-248.review-adversarial.claude2.json`,
+  `8b28cd2829fd1e99efd777c4d50c4d244bffcdaba220b0256eabfecba068aa98`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-248.review-adversarial.codex.json`,
+  `83f719b15d527cc63367bee857db6e79a6b8b70ef61bfc22d9c42951988b1b36`)
+  CONSENT. Subject `coordinator-decisions.D-248.draft.md`
+  `a4e80e741ba2c63d101aed8e9358dae935fd2c5da0cfe4e72a369e41823c0f42`.
+  Frozen leftover-join
+  `g21-leftover-join.v12.json`
+  `6442b17ad08743601cc06683d6a4c0d33c3885d7c7de5700fd11325bffabe63d`
+  Stage A Claude ACCEPT
+  `e5766c2466a401e06da130909fbf1f2a872527af62800c94a70670a88e35645e`
+  0/0; Stage A Codex ACCEPT
+  `8eed526ddff919103dd6d78555434344f299644c45f4d2ddb6146e9b35739c24`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-leftover-join.v12.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-leftover-join.v12.json`
+  `6442b17ad08743601cc06683d6a4c0d33c3885d7c7de5700fd11325bffabe63d`.
+- **Decision:** Record v12 as G21 leftover remasurement after
+  D-247. The candidate binds NOTHING. DR-G21 stays `OPEN`.
+  leftoverDesign remains `[OBL-G21-FX-AUTHORING]`.
+  leftover-design of the two CC-5 prefix injections is stale
+  as an authoring claim. leftover-design of
+  per-D-002-platform copies of those two CC-5 payloads is
+  stale as an authoring claim. leftover-design of NT-1 and
+  NT-2 implementations, and of per-D-002-platform copies of
+  those implementations, is stale as an authoring claim.
+  Remaining CC-5 injections stay unauthored. Remaining G21
+  classes stay unauthored. Remainder of G21 execution,
+  including candidate-buffer digest, subsequent-session
+  view, host-projection goldens, and EV-5 diagnostic/audit
+  bytes, remains qualification (D-056). Does not pin
+  QUALIFIED. Does not invent a D-002 platform list. Does not
+  claim CC-5 fully authored. Does not classify non-object
+  top level as CC-5. Does not invent a ping body schema.
+  Does not invent 26214400. Does not invent a finding
+  schema. Does not invent a D9 code, exit number, or
+  HostTermination. Does not invent a pack IR. Does not
+  invent a section 7.1 recipe. Does not author NT-6. Does
+  not take over G23. Does not reopen DR-102 SATISFIED. Does
+  not SATISFY DR-114. Does not SATISFY DR-133. Does not
+  SATISFY DR-117. Does not SATISFY DR-131. Does not SATISFY
+  DR-101. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Naming
+  parent is D-145 / naming v6, not leftover-join.v11. Frozen
+  leftover-join.v11 was current at D-247 / draft time.
+  Frozen leftover-join.v4 through v10 were not current at
+  draft time. After this recording, leftover-join.v4 through
+  leftover-join.v11 are not current. leftover-join.v5,
+  leftover-join.v6, and leftover-join.v10 remain split.
+  leftover-join.v8 remains Dual REJECT 0/1 G21LJ-V8-SF1.
+  Claude Stage A returned no observationsNotFindings field
+  and no advisories. Codex Stage A returned zero advisories
+  and no observations. Claude Stage B returned zero
+  observations and zero advisories. Codex Stage B returned
+  zero advisories and no observations. This entry does not
+  invent identifiers and does not claim that both reviewers'
+  identifiers are preserved. Claude returned no observation
+  identifiers. Codex returned no observation identifiers.
+  Does not execute G21. Does not rewrite occupancy v4. Does
+  not rewrite corpus v7 or corpus v8. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D248. Does not unwrite D-145, D-196, D-218,
+  D-241, D-243, D-245, D-246, or D-247.
+- **Commit:** C-D248.
