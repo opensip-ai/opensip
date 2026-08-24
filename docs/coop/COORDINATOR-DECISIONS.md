@@ -13613,3 +13613,94 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D267. Does not unwrite D-086, D-184, D-217,
   or D-266.
 - **Commit:** C-D267.
+
+## D-268 — Record platform-tcb leftover-join.v9 as DR-126 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 2 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-268.turn2.review-adversarial.claude2.json`,
+  `69213516ca7f67d4e1a64b4ebac30bbb3280c459487f03a99e0cd846a206bce4`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-268.turn2.review-adversarial.codex.json`,
+  `57dfae06d937a1fdc0151193eae0826bf14dc37845064b59778f9a13f83ae75e`)
+  CONSENT. Subject `coordinator-decisions.D-268.turn2.draft.md`
+  `b294220e2a5594682b72ebf7542376f74739e86424eacdbd82d18dfcf7d4ca0e`.
+  Turn 1 subject `coordinator-decisions.D-268.draft.md`
+  `d0bb29ed759b32f2565f6d87ff74b96aef2b0cc532627190330d37d91c1e0350`
+  Dual OBJECT CLAUDE-D268-B-SF1 / CODEX-D268-SF1. Frozen leftover-join
+  `platform-tcb-leftover-join.v9.json`
+  `1774427e9500940d24f75fbaee622142a8be72547d68a026e18d6e957369e26a`
+  Stage A Claude ACCEPT
+  `408c6fde1428ea3c7e5ed88ea345882e996c3784b7fe2e48d249f92463be1251`
+  0/0; Stage A Codex ACCEPT
+  `1383c328558062138ce5c3b090afc468d1e8d2a93e8e8cd32c7db90a4f81d078`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `platform-tcb-leftover-join.v9.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258 and D-259 and D-260 and D-261 and D-262 and D-263
+  and D-264 and D-265 and D-266 and D-267. Not a three-limb
+  act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/platform-tcb-leftover-join.v9.json`
+  `1774427e9500940d24f75fbaee622142a8be72547d68a026e18d6e957369e26a`.
+- **Decision:** Record v9 as DR-126 leftover remasurement after
+  D-267. The candidate binds NOTHING. DR-126 stays `OPEN`.
+  leftover-design of OBL-G22-FX-AUTHORING and
+  OBL-RESERVED-TABLES remains on leftover-join.v9.
+  leftover-join.v6 remains current at draft time. After this
+  successor is recorded, leftover-join.v6 is not current.
+  Occupancy v2 is the current G22 occupancy remasurement.
+  Occupancy v1 is not current. leftover-join.v7 is not
+  current. leftover-join.v8 is not current. Remainder of G22
+  execution remains qualification (D-056). Does not pin
+  QUALIFIED. Does not invent fixture bytes. Does not populate
+  reserved TCB tables. Does not invent Rosetta. Does not
+  apply TCB v45. Does not invent a D9 code. Does not invent
+  a section 7.1 recipe. Does not steal OBL-RESERVED-TABLES.
+  Does not occupy the identifier. Does not SATISFY DR-126.
+  Does not SATISFY DR-117. Does not SATISFY DR-131. Does not
+  SATISFY DR-133. Does not SATISFY DR-114. Does not SATISFY
+  DR-101. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Naming
+  parent of G22 is naming v6 (D-145), not leftover-join.v9.
+  D-086 named DR-G22. Claude Stage A leftover-join.v9
+  returned four unlabeled observationsNotFindings strings.
+  They carry no identifiers. No advisories field. Codex
+  Stage A leftover-join.v9 returned an empty
+  observationsNotFindings list, no observations field, and
+  zero advisories. This entry does not invent identifiers.
+  It does not claim that both reviewers' identifiers are
+  preserved. Claude Stage A returned no observation
+  identifiers. Codex Stage A returned no observation
+  identifiers. CLAUDE-PTLJ-V3-SF1 already landed in this
+  lineage at leftover-join.v5. This entry does not re-land
+  it. CLAUDE-PTLJ-V7-SF1 already landed in this lineage at
+  leftover-join.v8. This entry does not re-land it.
+  leftover-join.v9 lands CLAUDE-PTLJ-V8-SF1 and
+  CODEX-PTLJ-V8-SF1 (same class: predecessorV6.role leftover
+  this-v7 speaker). Both identifiers are named. Turn 1 Dual
+  OBJECT CLAUDE-D268-B-SF1 / CODEX-D268-SF1 (same class:
+  Measured-inputs leftover-join.v8 label said split Dual
+  REJECT; leftover-join.v8 is Dual REJECT, not split). This
+  turn 2 lands both identifiers. Claude Stage B turn 2
+  returned one unlabeled advisory object (site paired with
+  note and whyNotCharged). It carries no identifier. Codex
+  Stage B turn 2 returned zero advisories and no
+  observations. This entry does not invent identifiers.
+  Claude Stage B returned no observation identifiers. Codex
+  Stage B returned no observation identifiers. Does not
+  execute G22. Does not rewrite occupancy v2. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D268. Does not unwrite D-086, D-185, D-219,
+  or D-267.
+- **Commit:** C-D268.
