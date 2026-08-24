@@ -13959,3 +13959,87 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D271. Does not unwrite D-086, D-219, D-265,
   D-268, or D-270.
 - **Commit:** C-D271.
+
+## D-272 — Record language-quality leftover-join.v5 as DR-118 leftover remasurement (CONTESTED)
+
+- **Date:** 2026-08-24
+- **Status:** **CONTESTED** after three turns under D-000 clause 2.
+  Not adopted. No forced consensus. Parked. Successor drafts are
+  a **new** cycle, not a fourth turn of this one. Turn 1 split.
+  Claude CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-272.review-adversarial.claude2.json`,
+  `7abe90763627cc3682f855d48c1d71263bb6456303590d4da40433abffd7d04a`)
+  four unlabeled observationsNotFindings strings. Codex OBJECT
+  0/1 CODEX-D272-SF1
+  (`artifacts/coordinator-decisions.D-272.review-adversarial.codex.json`,
+  `c1706699ac9ec613cb725eb559823d517a316f8e6946ba34e0d3ec2242057710`).
+  Not Dual CONSENT. Not Dual REJECT. Turn 2 Dual OBJECT. Claude
+  OBJECT 2/2 MF-1 / MF-2 / SF-1 / SF-2
+  (`artifacts/coordinator-decisions.D-272.turn2.review-adversarial.claude2.json`,
+  `6336fe44ae0d18fbd149092fddc7df0dd9dc317cf0937ba6fff130bbe71d4051`).
+  Codex OBJECT 0/1 CODEX-D272-T2-SF1
+  (`artifacts/coordinator-decisions.D-272.turn2.review-adversarial.codex.json`,
+  `3932afc992dc38cbf5fc8657369d453ce9301e6bbc2e2befe892b6717c8bd741`).
+  Same class as SF-1. Turn 3 Dual OBJECT. Claude OBJECT 1/3
+  MF-1 / SF-1 / SF-2 / SF-3
+  (`artifacts/coordinator-decisions.D-272.turn3.review-adversarial.claude2.json`,
+  `7638af9ea9a664c6d3eb396db8fb4da932d138bb8dbf7e189604d622c25c5154`).
+  Codex OBJECT 1/1 CODEX-D272-T3-MF1 / CODEX-D272-T3-SF1
+  (`artifacts/coordinator-decisions.D-272.turn3.review-adversarial.codex.json`,
+  `032b5907136b3357f7025f9064ff03f79bbe6ee9ad073b25331b3218a1a852eb`).
+  CODEX-D272-T3-MF1 same class as Claude turn-3 MF-1.
+  CODEX-D272-T3-SF1 same class as Claude turn-3 SF-1 / SF-2.
+  A fourth exchange was dispatched as
+  `coordinator-decisions.D-272.turn4.draft.md`
+  `802ca3ec7efcb11c90475dfadd6230778b362daa8d94da68d9e1bec5e6a6c665`
+  and Dual OBJECT Claude MF-1 / SF-1 / SF-2
+  (`artifacts/coordinator-decisions.D-272.turn4.review-adversarial.claude2.json`,
+  `4110cae842bac61d00448655e7f04fbfc2eb63c48fd2c73290bd9fb305795899`)
+  and Codex CODEX-D272-T4-MF1 / CODEX-D272-T4-MF2 / CODEX-D272-T4-SF1
+  (`artifacts/coordinator-decisions.D-272.turn4.review-adversarial.codex.json`,
+  `982397057a394642bc7391df5951eb8839c57230359ac92e11750e771778509e`).
+  Claude MF-1 and CODEX-D272-T4-MF1 are the same class: D-000
+  clause 2 forbids a fourth turn. That exchange is not D-000
+  consensus and is not this cycle's terminal merits review.
+  Terminal merits review is turn 3 Dual OBJECT.
+- **Decision type:** RULE-GOVERNED. Not adopted.
+- **Subject drafts:**
+  - turn 1 `coordinator-decisions.D-272.turn1.draft.md`
+    `aa66e2cc7d673e5e62c9d7cf59fcd0396871f1ca85d35c35e2a6549a7f96ed68`
+  - turn 2 `coordinator-decisions.D-272.draft.md`
+    `14cc56ada3a3bfab67a021f3e977b9000d47a2536a641b48741b25e979bd6f2a`
+  - turn 3 `coordinator-decisions.D-272.turn3.draft.md`
+    `c7d0ec6b9f2e55daa110470e4209a0f7a8edc76aa50d8a4a09b6bff52ee5482b`
+- **Frozen leftover-join under review:**
+  `language-quality-leftover-join.v5.json`
+  `e12101736f9a320a06a3311f405981801fad73c42ba9b7537f506e6c4859bd53`
+  Stage A Dual ACCEPT 0/0. leftoverDesign remains
+  `[OBL-THRESHOLDS, OBL-MATRIX-CORPUS, OBL-G13-RESERVED]`.
+  CANDIDATE-NOT-APPLIED. Not recorded as current. leftover-join.v3
+  remains the current recorded DR-118 leftover-join (D-206).
+  leftover-join.v4 Dual REJECT is not current.
+- **Decision:** None. DR-118 stays `DECIDED-V1-NOT-INTEGRATED`.
+  leftover-join.v5 is not recorded as current. A later new cycle
+  (not turn 4 of this cycle) may retry. Does not SATISFY DR-118.
+  Does not flatten `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does
+  not edit file 08. Does not authorize `docs/v2/implementation/`.
+- **Both positions (required by D-000 clause 2):**
+  - **Coordinator:** leftover-join.v5 Stage A Dual ACCEPT 0/0
+    remasures leftover-join.v3 after sdk leftover-join.v6 (D-267)
+    and lands leftover-join.v4 Dual REJECT. COORD Stage B failed
+    on observation-field custody, then on missing prior-turn
+    Stage B tables, then on D-000 clause 2. The destination act
+    remains a later new-cycle leftover remasurement of DR-118.
+  - **Reviewers:** Turn 3 Dual OBJECT. Turn 4 Dual OBJECT on
+    D-000 clause 2: after three exchanges without consensus the
+    decision is CONTESTED, parked, and not a fourth turn.
+- **What proceeds:** work continues on other leftover remasurement
+  surfaces and on a successor new cycle. This contest does not
+  authorize `docs/v2/implementation/` or move any file 08 status
+  cell. Gate 1 Class A is not opened.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** n/a (not adopted). Overturn: n/a. Does not
+  unwrite D-007, D-165, D-206, D-267, or D-271.
+- **Commit:** C-D272.
