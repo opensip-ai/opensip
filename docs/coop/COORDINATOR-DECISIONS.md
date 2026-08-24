@@ -12950,3 +12950,116 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D259. Does not unwrite D-086, D-188, D-211,
   or D-258.
 - **Commit:** C-D259.
+
+## D-260 — Record language-runtime leftover-join.v5 as G14 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Turn 1
+  split: Claude OBJECT 1/0 MF-1
+  (`artifacts/coordinator-decisions.D-260.review-adversarial.claude2.json`,
+  `119bedc533b2a8337f695eedf1ea393be8b755172ba8f8ba18f86492e9498fa4`);
+  Codex OBJECT 1/0 D260-MF-1
+  (`artifacts/coordinator-decisions.D-260.review-adversarial.codex.json`,
+  `bfef175206f5df59dafa79a1000fbe995e4ce4f3e9879adf4b5aa13e89cd5452`).
+  Same class: live remasurement recited DR-118 as `OPEN`; live
+  file 08 token is `DECIDED-V1-NOT-INTEGRATED`. Dual OBJECT.
+  Not Dual REJECT. Not Dual CONSENT. Turn 2 split: Claude
+  OBJECT 1/0 MF-2
+  (`artifacts/coordinator-decisions.D-260.turn2.review-adversarial.claude2.json`,
+  `5c0c93a38e5567e5fb9ea53b9b4c74f570179f99dff25f114411f3b0cd3d63ac`);
+  Codex OBJECT 1/0 D260-T2-MF-1
+  (`artifacts/coordinator-decisions.D-260.turn2.review-adversarial.codex.json`,
+  `ab3da96190e0bee5bc060c342790b5db8611be6edfdcccb9bce46cf61a1d935c`).
+  Same class: turn 2 draft pinned the frozen turn-1 Codex
+  review at
+  `d54d007bb4a4399d613d2c2d26a4b4768b75c6551bc586678dd3086af1432ba0`;
+  live mode-0444 file hashes to
+  `bfef175206f5df59dafa79a1000fbe995e4ce4f3e9879adf4b5aa13e89cd5452`.
+  Dual OBJECT. Not Dual REJECT. Not Dual CONSENT. Claude 2
+  turn 3
+  (`artifacts/coordinator-decisions.D-260.turn3.review-adversarial.claude2.json`,
+  `d3d8a3e865a99220f605698212ae8e63593162afacd84932e66415912aef820b`)
+  CONSENT. Codex turn 3
+  (`artifacts/coordinator-decisions.D-260.turn3.review-adversarial.codex.json`,
+  `fa1e5fd3df1fb0011473a8e0fbfa2c82f5f08304bb785c3a40e1c545e5e76434`)
+  CONSENT. Subject `coordinator-decisions.D-260.turn3.draft.md`
+  `c74f50a869754e10b721575fe3893973365c014cc418aca701ead6e9fe82aecd`.
+  Frozen turn 1 draft
+  `coordinator-decisions.D-260.draft.md`
+  `9aa31e6b66137530c7784c44889435c8a32b34a6e3de4b84151dfae62215b41a`.
+  Frozen turn 2 draft
+  `coordinator-decisions.D-260.turn2.draft.md`
+  `2e0f1fbe8654f40019e381c60074189ccdac9465ea56c1e934bf8efa850ea0df`.
+  Frozen leftover-join
+  `language-runtime-leftover-join.v5.json`
+  `c92884f7c9d69132de418063cb755a616898f9b80b4dc46ad98dfa648b3e449c`
+  Stage A Claude ACCEPT
+  `20b8ff5f76192bef9bbcbbb332ddbd5ad0a6100bee962e4b40e6019b2b5d3838`
+  0/0; Stage A Codex ACCEPT
+  `78ef66418232e63119e376177e7601617b56e5514ad95b4745d234a07f0368eb`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `language-runtime-leftover-join.v5.json` (0 blockers,
+  0 SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258 and D-259. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/language-runtime-leftover-join.v5.json`
+  `c92884f7c9d69132de418063cb755a616898f9b80b4dc46ad98dfa648b3e449c`.
+- **Decision:** Record leftover-join.v5 as G14 leftover
+  remasurement after D-259. Lands D260-T2-MF-1 / MF-2. Lands
+  D260-MF-1 / MF-1. The candidate binds NOTHING. DR-G14 stays
+  `OPEN`. leftover-design of OBL-G14-FX-AUTHORING remains on
+  leftover-join.v5. leftover-join.v4 remains current at
+  draft time. After this successor is recorded,
+  leftover-join.v4 is not current. Occupancy v4 is the
+  current G14 occupancy remasurement. Occupancy v1 is not
+  current. language-quality leftover-join.v3 remains the
+  current DR-118 leftover-join. language-quality leftover-join.v2
+  is not current. Remainder of G14 execution remains
+  qualification (D-056). Does not pin QUALIFIED. Does not
+  invent fixture bytes. Does not invent a D9 code. Does not
+  invent a section 7.1 recipe. Does not invent a numeric
+  threshold. Does not mint Rust-as-core. Does not steal
+  OBL-THRESHOLDS, OBL-MATRIX-CORPUS, or OBL-G13-RESERVED.
+  Does not name G13 into required-now. Does not occupy the
+  identifier. Does not SATISFY DR-118. Live remasurement
+  recites DR-118 as `DECIDED-V1-NOT-INTEGRATED`, not `OPEN`.
+  Does not reopen DR-119 SATISFIED. Does not SATISFY DR-117.
+  Does not SATISFY DR-131. Does not SATISFY DR-133. Does not
+  SATISFY DR-114. Does not SATISFY DR-101. Gate 1 Class A is
+  not opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent is naming v6
+  (D-145), not leftover-join.v5. D-086 named the identifier.
+  Claude Stage A leftover-join.v5 returned four unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  Codex Stage A leftover-join.v5 returned an empty
+  observationsNotFindings list, zero advisories, and no
+  observations. Claude Stage B turn 1 returned four unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  Codex Stage B turn 1 returned zero advisories and no
+  observations; its verdict is OBJECT 1/0 D260-MF-1. Claude
+  Stage B turn 2 returned four unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  Codex Stage B turn 2 returned zero advisories and no
+  observations; its verdict is OBJECT 1/0 D260-T2-MF-1. Claude
+  Stage B turn 3 returned four unlabeled
+  observationsNotFindings strings. They carry no identifiers.
+  Codex Stage B turn 3 returned zero advisories and no
+  observations. This entry does not invent identifiers and
+  does not claim that both reviewers' identifiers are
+  preserved. Claude returned no observation identifiers.
+  Codex returned no observation identifiers. Does not execute
+  G14. Does not rewrite occupancy v4. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D260. Does not unwrite D-086, D-179, D-213,
+  or D-259.
+- **Commit:** C-D260.
