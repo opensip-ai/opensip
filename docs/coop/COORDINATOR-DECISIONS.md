@@ -12876,3 +12876,77 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D258. Does not unwrite D-086, D-190, D-221,
   or D-257.
 - **Commit:** C-D258.
+
+## D-259 — Record g08 leftover-join.v4 as G08 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-259.review-adversarial.claude2.json`,
+  `380be26bd185d1e6751ba29bd7b578e729c9286a833672b6503a0df80d8bb7c1`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-259.review-adversarial.codex.json`,
+  `a7839e42858213ca12e49cb41a0ab5718cf2a6c1a329b36c869d11f83465e023`)
+  CONSENT. Subject `coordinator-decisions.D-259.draft.md`
+  `ca270a87a01665198d19724c58c00577c70e4b9335f055078918ddf35c2c9035`.
+  Frozen leftover-join
+  `g08-leftover-join.v4.json`
+  `7bec9b40624dd81e717709ae6f16f6ef922396eddf2e96aa157d45e89b91c663`
+  Stage A Claude ACCEPT
+  `0dd601c79ff45bfae07a8f54877045f093f6a7a06faf0ed51bcbac36cfd446c8`
+  0/0; Stage A Codex ACCEPT
+  `7c3e5f00bc970f471c28ff55342e73a9019208957c3c797b3065b21f2c2edd99`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g08-leftover-join.v4.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g08-leftover-join.v4.json`
+  `7bec9b40624dd81e717709ae6f16f6ef922396eddf2e96aa157d45e89b91c663`.
+- **Decision:** Record v4 as G08 leftover remasurement after
+  D-258. The candidate binds NOTHING. DR-G08 stays `OPEN`.
+  leftover-design of OBL-G08-FX-AUTHORING remains on
+  leftover-join.v4. leftover-join.v3 remains current at
+  draft time. After this successor is recorded,
+  leftover-join.v3 is not current. Occupancy v3 is the
+  current G08 occupancy remasurement. Occupancy v2 is not
+  current. signed-index leftover-join.v3 remains the current
+  DR-112 leftover-join. signed-index leftover-join.v2 is not
+  current. Remainder of G08 execution remains qualification
+  (D-056). Does not pin QUALIFIED. Does not invent fixture
+  bytes. Does not invent a D9 code. Does not invent a
+  section 7.1 recipe. Does not steal OBL-RESERVED-NUMBERS.
+  Does not mint quorum, clock, emergency, or waiver numbers.
+  Does not invent a recovery ceremony implementation. Does
+  not occupy the identifier. Does not SATISFY DR-112. Does
+  not SATISFY DR-117. Does not SATISFY DR-131. Does not
+  SATISFY DR-133. Does not SATISFY DR-114. Does not SATISFY
+  DR-101. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Naming
+  parent is naming v6 (D-145), not leftover-join.v4. D-086
+  named the identifier. Claude Stage A leftover-join.v4
+  returned three unlabeled observationsNotFindings strings.
+  They carry no identifiers. Codex Stage A leftover-join.v4
+  returned an empty observationsNotFindings list, zero
+  advisories, and no observations. Claude Stage B returned
+  four unlabeled observationsNotFindings strings. They
+  carry no identifiers. Codex Stage B returned zero
+  advisories and no observations. This entry does not invent
+  identifiers and does not claim that both reviewers'
+  identifiers are preserved. Claude returned no observation
+  identifiers. Codex returned no observation identifiers.
+  Does not execute G08. Does not rewrite occupancy v3. Does
+  not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D259. Does not unwrite D-086, D-188, D-211,
+  or D-258.
+- **Commit:** C-D259.
