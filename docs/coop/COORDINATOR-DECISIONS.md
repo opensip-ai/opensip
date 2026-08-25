@@ -14679,3 +14679,94 @@ file-09 D-000 act. Left whole-document until then.
   Overturn: C-D279. Does not unwrite D-086, D-085, D-187,
   D-212, or D-278.
 - **Commit:** C-D279.
+
+## D-280 — Record signed-index leftover-join.v4 as DR-112 leftover remasurement
+
+- **Date:** 2026-08-24
+- **Status:** **ADOPTED 2026-08-24.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-280.review-adversarial.claude2.json`,
+  `4672b91a95ec1f6c5f04ca8d870cd9f8dd3e0fb17c486ec73e90b6dafb55b01b`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-280.review-adversarial.codex.json`,
+  `4f46fd2353d66f8e39e1ff11c6613d79512f2dba3c2b9aa82d906e757b0bb6d4`)
+  CONSENT. Subject `coordinator-decisions.D-280.draft.md`
+  `86e070ced9981e3c074e474e081a5efe9c580b927f693e8e1ab035d001b4ffbd`.
+  Frozen leftover-join
+  `signed-index-leftover-join.v4.json`
+  `ae5176e2a420be75b8aade77e7f265bc411968a75a35647ae01bfc708835a174`
+  Stage A Claude ACCEPT
+  `1ff13ff46581bbaab502f1df4640bd32c2476da0af16ba52a3c5cd6601722b51`
+  0/0; Stage A Codex ACCEPT
+  `581cf0631eaf24f49ef587e4ff7ed47965d06f1a4b3003cc23b7a31d9707855c`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `signed-index-leftover-join.v4.json` (0 blockers,
+  0 SHOULD-FIX). Same no-cell-edit branch as D-170 through
+  D-235 and D-237 and D-238 and D-239 and D-240 and D-241
+  and D-242 and D-243 and D-244 and D-245 and D-246 and
+  D-247 and D-248 and D-249 and D-250 and D-251 and D-252
+  and D-253 and D-254 and D-255 and D-256 and D-257 and
+  D-258 and D-259 and D-260 and D-261 and D-262 and D-263
+  and D-264 and D-265 and D-266 and D-267 and D-268 and
+  D-269 and D-270 and D-271 and D-273 and D-274 and D-275
+  and D-276 and D-277 and D-278 and D-279. D-272 is
+  CONTESTED and is not on this no-cell-edit adoption
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/signed-index-leftover-join.v4.json`
+  `ae5176e2a420be75b8aade77e7f265bc411968a75a35647ae01bfc708835a174`.
+- **Decision:** Record leftover-join.v4 as DR-112 leftover
+  remasurement after D-279. The candidate binds NOTHING.
+  DR-112 stays `OPEN`. leftover-design of OBL-G08-FX-AUTHORING
+  and OBL-RESERVED-NUMBERS remains on leftover-join.v4.
+  leftover-join.v3 remains current at draft time. After this
+  successor is recorded, leftover-join.v3 is not current.
+  Occupancy v3 is the current G08 occupancy remasurement.
+  Occupancy v2 is not recorded as current occupancy. g08
+  leftover-join.v4 remains the current G08 GATE leftover-join.
+  Remainder of G08 execution remains qualification (D-056).
+  Does not pin QUALIFIED. Does not invent fixture bytes. Does
+  not mint reserved numbers. Does not invent a recovery
+  ceremony implementation. Does not invent a D9 code. Does
+  not invent a section 7.1 recipe. Does not steal
+  OBL-G08-FX-AUTHORING as a GATE closure. Does not steal
+  OBL-RESERVED-NUMBERS. Does not occupy the identifier. Does
+  not SATISFY DR-112. Does not SATISFY DR-117. Does not
+  flatten DR-118 `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does
+  not flatten DR-107 `PROPOSED-CLOSED-FOR-REVIEW` to `OPEN`.
+  Does not SATISFY DR-131. Does not SATISFY DR-133. Does not
+  SATISFY DR-114. Does not SATISFY DR-101. Gate 1 Class A is
+  not opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent of G08 is naming
+  v6 (D-145), not leftover-join.v4. D-086 named DR-G08.
+  Claude Stage A leftover-join.v4 returned three unnamed
+  observation strings. No change requested. They are strings.
+  No identifiers. No observations field. No advisories field.
+  This entry does not invent Claude identifiers. Codex Stage
+  A leftover-join.v4 returned an empty
+  observationsNotFindings list, an empty observations list,
+  and zero advisories. This entry does not invent a Codex
+  identifier. It does not claim that both reviewers'
+  identifiers are preserved. Codex Stage A returned no
+  observation identifiers. Claude Stage A returned no
+  observation identifiers. basedOn.d279.role is last-heading
+  custody only. Claude Stage B returned one named observation
+  D280-O1. No change requested. It carries that identifier.
+  It is an object (id paired with observation). Empty
+  observations list. Empty advisories list. Codex Stage B
+  returned an empty observationsNotFindings list, no
+  observations field, and zero advisories. This entry names
+  that Claude identifier. It does not invent a Codex
+  identifier. It does not claim that both reviewers'
+  identifiers are preserved. Codex Stage B returned no
+  observation identifiers. Does not execute G08. Does not
+  rewrite occupancy v3. Does not edit file 08. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays
+  5 of 32. Condition 4 stays MET on the naming half
+  (28 of 28). Condition 5 last.
+- **Reversibility:** Total only before a later dependent
+  leftover rewrite, SATISFIED cycle, or file-08 cell rewrite.
+  Overturn: C-D280. Does not unwrite D-086, D-178, D-211,
+  D-259, or D-279.
+- **Commit:** C-D280.
