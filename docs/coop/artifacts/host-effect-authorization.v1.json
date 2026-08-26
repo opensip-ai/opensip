@@ -1,0 +1,96 @@
+{
+  "artifact": "host-effect-authorization.v1",
+  "version": 1,
+  "date": "2026-08-13",
+  "documentClass": "DESIGN-CONTRACT-CANDIDATE",
+  "registerRows": ["DR-114", "DR-105"],
+  "status": "CANDIDATE-NOT-APPLIED",
+  "reviewStatus": "AWAITING-INDEPENDENT-REVIEW",
+  "sealRecommendation": "DO-NOT-SEAL",
+  "binds": "NOTHING",
+  "authorityClaim": "This artifact PROPOSES the scoped host-effect authorization contract D-032 requires before any CA-1 host head, CA-2, CA-3, or host CA-4 act is exercisable. It mints no DR-105 token, no D9 number, and no identity recipe. It applies nothing.",
+  "governingDecisions": {
+    "D-032": "ADOPTED: host-under-instruction is outside DR-105; this contract is necessary not sufficient; fail-closed until recorded by Operability+security jointly with Security+platform owners.",
+    "D-035": "doctor-contract.v4 is the accepted doctor design contract; this artifact does not reopen it."
+  },
+  "actorSet": {
+    "inScope": [
+      "host process acting under the invoking user's direct instruction (CLI/CI)",
+      "doctor as that host surface"
+    ],
+    "outOfScope": [
+      "admitted component child processes (DR-105)",
+      "component-originated egress (DR-105 / PT-NET-EGRESS)"
+    ]
+  },
+  "failClosed": {
+    "rule": "An in-scope host act with no named consent and no recorded contract instance is UNEXERCISABLE. Dependent checks report CONSENT-REQUIRED or the host-outcome INDETERMINATE only when the attempt was made and the result is unknown. Absence never permits.",
+    "noSilentDowngrade": "A denied or unavailable host act does not cause doctor to answer an easier question under the same check id."
+  },
+  "outcomeVocabulary": {
+    "mandatoryMinimumPerD032": [
+      {
+        "id": "COMPLETED",
+        "meaning": "The host effect was durably observed to have happened."
+      },
+      {
+        "id": "DEFINITELY_NOT_PERFORMED",
+        "meaning": "The host effect was not performed. Not a revoke-undone claim."
+      },
+      {
+        "id": "INDETERMINATE",
+        "meaning": "The host cannot honestly say whether the effect happened."
+      }
+    ],
+    "notGrantJournalOutcomes": "COMPLETED-BEFORE-REVOCATION and DR-105 INDETERMINATE-as-grant-outcome are not members. Those remain DR-105 component-tail outcomes.",
+    "closed": true
+  },
+  "consent": {
+    "carriers": ["explicit invocation-time naming", "pre-existing policy"],
+    "notCarriers": ["component manifest", "self-grant", "implied by being root"],
+    "lifecycle": "Bound to one invocation. Not journaled as a DR-105 grant. Cancel or process death ends it."
+  },
+  "coveredActs": {
+    "CA-1-host-head": {
+      "covers": "Decision to spawn an admitted component. The child's subsequent effects are DR-105.",
+      "admissionAlsoRequires": ["DR-G21 containment", "admitted manifest"]
+    },
+    "CA-2": {
+      "covers": "Customer-owned tool execution under doctor.",
+      "admissionAlsoRequires": ["DR-119 approved exception"],
+      "ifThirdPartyAlsoRequires": ["DR-117 successor", "DR-128 still excluded from MVP"]
+    },
+    "CA-3": {
+      "subtypes": [
+        {"id": "OUT_OF_ROOT_READ", "route": "this contract"},
+        {"id": "LOCAL_SOCKET_OR_PIPE", "route": "this contract"},
+        {"id": "KEYCHAIN", "route": "DR-108; unexercisable while DR-108 is deferred"},
+        {"id": "PRIVILEGED_PLATFORM_FACILITY", "route": "this contract"}
+      ]
+    },
+    "CA-4-host": {
+      "covers": "Network send or receive by doctor itself.",
+      "notCovers": "Component-originated egress (DR-105).",
+      "slice1ExecutionSide": "UNSETTLED which slice-1 doctor egress is host vs component; until settled, host CA-4 is fail-closed unless explicitly consented and this contract instance exists."
+    }
+  },
+  "whatThisDoesNotDo": [
+    "Does not apply doctor-contract.v4 or permission-truth-tables.v1.",
+    "Does not mint PT-* tokens.",
+    "Does not discharge DR-105 or DR-114 SATISFIED.",
+    "Does not authorize docs/v2/implementation/.",
+    "Does not decide D-002 identity recipes."
+  ],
+  "acceptanceEvidenceFixtureClasses": [
+    "FC-FAIL-CLOSED: unnamed host act is unexercisable",
+    "FC-OUTCOME: each of the three outcomes is distinguishable in the post-report",
+    "FC-TAIL: spawning a component does not put the child's effects under this contract",
+    "FC-KEYCHAIN: KEYCHAIN remains unexercisable while DR-108 is deferred"
+  ],
+  "recordedInputs": {
+    "D-032": "COORDINATOR-DECISIONS.md D-032 ADOPTED",
+    "doctorV4": "df2e717555616db096e61548458f23b442f7f0e37b2d2461eabc2c33201e94b3",
+    "permissionV1": "0f73f31cffccc85d10c71596f05ed1e00d044cff12b9ecf56a1aa8c44f973632",
+    "joinV1": "538f368156d22f96bf067dd9faad924610dd78ca16968ad46541efcf14a61344"
+  }
+}
