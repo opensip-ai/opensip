@@ -15260,8 +15260,8 @@ file-09 D-000 act. Left whole-document until then.
 
 ## D-285 — Record doctor-actor leftover-join.v12 as DR-114 leftover remasurement
 
-- **Date:** 2026-08-26
-- **Status:** **ADOPTED 2026-08-26.** Turn 1 of 3: CONSENT from
+- **Date:** 2026-08-27
+- **Status:** **ADOPTED 2026-08-27.** Turn 1 of 3: CONSENT from
   both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
   (`artifacts/coordinator-decisions.D-285.review-adversarial.claude2.json`,
   `3ef36b4d6b9c200169ebf588bcf3d6d5f1554f90e3b4547f419bfab54b4407c9`)
