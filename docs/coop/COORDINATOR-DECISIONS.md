@@ -15742,3 +15742,98 @@ file-09 D-000 act. Left whole-document until then.
   C-D288. Does not unwrite D-086, D-189, D-220, D-257, D-283,
   D-285, or D-287.
 - **Commit:** C-D288.
+
+## D-289 — Record g12 leftover-join.v5 as G12 leftover remasurement
+
+- **Date:** 2026-08-27
+- **Status:** **ADOPTED 2026-08-27.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-289.review-adversarial.claude2.json`,
+  `efdbdab3984d61ef27c90d487822113316e487d5e0b6a442a62dc29806a78db1`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-289.review-adversarial.codex.json`,
+  `b70a2b74bafbdd7df52bcefa5137ae317c66de09e5a0f2091218935cdd4f6e8b`)
+  CONSENT. Subject `coordinator-decisions.D-289.draft.md`
+  `0c325f8f502501fb3a19f1c10f0ef2b28676e9544febfc49d6e548957f750a7f`.
+  Frozen leftover-join `g12-leftover-join.v5.json`
+  `5770cc9cb993ba5ac467df4648820167addff7b5f7a10d4442fa7e57913779d4`
+  Stage A Claude ACCEPT
+  `0c25c09163cbd965304613adebd87a787347a694c0bd8bfbcfbfd9d2089588d2`
+  0/0; Stage A Codex ACCEPT
+  `ea17e8f9ec6be52694f1f275f7ed92896a8416eb715b144574eaec8c4dd41b3e`
+  0/0.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g12-leftover-join.v5.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 and D-238 and D-239 and D-240 and D-241 and D-242 and
+  D-243 and D-244 and D-245 and D-246 and D-247 and D-248 and
+  D-249 and D-250 and D-251 and D-252 and D-253 and D-254 and
+  D-255 and D-256 and D-257 and D-258 and D-259 and D-260 and
+  D-261 and D-262 and D-263 and D-264 and D-265 and D-266 and
+  D-267 and D-268 and D-269 and D-270 and D-271 and D-273 and
+  D-274 and D-275 and D-276 and D-277 and D-278 and D-279 and
+  D-280 and D-281 and D-282 and D-283 and D-284 and D-285 and
+  D-286 and D-287 and D-288. D-272 is CONTESTED and is not on this
+  no-cell-edit adoption branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g12-leftover-join.v5.json`
+  `5770cc9cb993ba5ac467df4648820167addff7b5f7a10d4442fa7e57913779d4`.
+- **Decision:** Record leftover-join.v5 as G12 leftover
+  remasurement after D-288. The candidate binds NOTHING. DR-G12
+  stays `OPEN`. leftover-design of OBL-DOCTOR-FX-AUTHORING remains
+  on leftover-join.v5. leftover-join.v4 remains current at draft
+  time. After this successor is recorded, leftover-join.v4 is not
+  current.  G12 occupancy v6 is the current G12 occupancy
+  remasurement (D-221).  doctor-actor leftover-join.v12 remains
+  the current DR-114 ROW leftover-join (D-285). doctor-actor
+  leftover-join.v11 is not recorded as current DR-114
+  leftover-join. Remainder of G12 execution remains qualification
+  (D-056). OBL-G12-HARNESS-SPEC, OBL-G12-NAMED-CATALOG, and
+  OBL-G12-INPUT-CORPUS remain measured closed;
+  OBL-DR114-LEFTOVER-NOT-STOLEN rides DR-114 on doctor-actor
+  leftover-join.v12 (D-285). Occupancy v6 (D-221) remains the
+  current G12 occupancy remasurement; this act changes no
+  occupancy claim. Does not pin QUALIFIED. Does not invent fixture
+  bytes. Does not invent a D9 code. Does not invent a section 7.1
+  recipe. Does not take over G21. Does not steal DR-114 leftover.
+  Does not occupy the identifier. Does not SATISFY DR-114. Gate 1
+  Class A is not opened. Not SATISFIED. Required-now stays 28.
+  Condition-4 effect is zero. Naming parent of G12 is naming v6
+  (D-145), not leftover-join.v5. D-086 named DR-G12. Claude Stage
+  A leftover-join.v5 returned 6 unlabeled observationsNotFindings
+  objects (each with members observation, whyNotAFinding; no
+  identifiers). It returned no observations field and no
+  advisories field. Codex Stage A leftover-join.v5 returned an
+  empty observationsNotFindings list. It returned no observations
+  field and zero advisories. This entry does not invent
+  identifiers. It does not claim that both reviewers' identifiers
+  are preserved. Claude Stage A returned no observation
+  identifiers. Codex Stage A returned no observation identifiers.
+  leftover-join.v5 lands no new finding and re-lands nothing.
+  Neither leftover-join.v4 nor leftover-join.v5 has a lands field,
+  and neither has a findingDisposition field. leftover-join.v5
+  adds no top-level field to leftover-join.v4; its top-level key
+  order is identical. Within basedOn it drops the d257
+  last-heading custody entry and adds d288, d258, d285,
+  doctorJoinV12, and predecessorV4. basedOn.d288.role is
+  last-heading custody only. Claude Stage B returned 8 named
+  observationsNotFindings objects D289-ADV-O1, D289-ADV-O2,
+  D289-ADV-O3, D289-ADV-O4, D289-ADV-O5, D289-ADV-O6, D289-ADV-O7,
+  D289-ADV-O8 (each with members id, observation, whyNotAFinding);
+  no change requested; they carry those identifiers. It returned
+  an empty observations list and zero advisories. Codex Stage B
+  returned an empty observationsNotFindings list. It returned no
+  observations field and zero advisories. This entry names those
+  Claude identifiers. It does not invent a Codex identifier. It
+  does not claim that both reviewers' identifiers are preserved.
+  Codex Stage B returned no observation identifiers. Does not
+  execute G12. Does not rewrite occupancy v6. Does not edit file
+  08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D289. Does not unwrite D-086, D-190, D-221, D-258, D-285, or
+  D-288.
+- **Commit:** C-D289.
