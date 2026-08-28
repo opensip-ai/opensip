@@ -16163,3 +16163,154 @@ file-09 D-000 act. Left whole-document until then.
   D-241, D-242, D-243, D-244, D-245, D-246, D-247, D-248, D-285,
   or D-291. Does not unwrite the turn-1 Claude OBJECT.
 - **Commit:** C-D292.
+
+---
+
+## D-293 — User decisions: adopt the agreed recommendations on DECISIONS-NEEDED A–F
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Made directly by the user in
+  conversation. Same class as D-000 / D-054 / D-132: the decisions
+  are the user's, recorded verbatim rather than made on their
+  behalf. No subagent review of this entry is required. The
+  recommendations it adopts were reconciled between two independent
+  reviewers (Claude orchestrator and Codex) under
+  `DECISION-PACKETS/RECOMMENDATION-PROTOCOL.md`
+  (
+  `331718a72d8c0ccebfeae635e648b17644793d085fb094f73f950bd1ca874b46`);
+  every later process act this entry names
+  still requires its own D-000 cycle.
+- **Decision type:** PREFERENCE-LADEN user decisions (owner rulings,
+  a delegation grant, adoption of a plan) plus authorization of
+  named later acts. Not a remasurement. Not SATISFIED-GRADE.
+- **Subject:** `DECISIONS-RECOMMENDED.md` (repo root)
+  `42f27394746d4aac569a09a01da719c0cf318cf114086635e73097a6add97370`
+  — one agreed recommendation per item, compiled from
+  the decision packets and the Claude/Codex round files under
+  `DECISION-PACKETS/`, whose complete file list with digests is
+  `DECISION-PACKETS/MANIFEST.sha256`
+  `ecdbb41dc07e4833abe787387fa39aacc5d0c4a9d98a01a25f645d32520809e0`;
+  the owner's decision list `DECISIONS-NEEDED.md`
+  `f6d49a0b1fa47b2cc493663810803c7995677c25b88a5197c8340781e7189b2e`.
+  Recorded from HEAD `4abb961aad98525ca8b992a24609a6286964a451`
+  (last prior heading D-292). This is coordinator decision D-293,
+  not a register row.
+- **User words, recorded verbatim (this session):**
+  1. 2026-08-27: "for the decisions needed, i want you to work with codex and present your agreed upon recommendation for each decision for my review"
+  2. 2026-08-27, on the documentation rewrite: "i agree with your suggestions, do this now using subagents as this should be safe to perform"
+  3. 2026-08-28, on the compiled recommendations: "record it, i agree. commit everything and then push to remote main"
+- **Decision:** The user is the sole human authority. The agreed
+  recommendation of every item in `DECISIONS-RECOMMENDED.md` is
+  adopted as the owner's decision, as follows.
+  1. **A1 (D-272).** Option (a): D-273 stands; D-272 stays
+     CONTESTED-parked; D-000 is not amended (its clause 2 already
+     terminates a cycle after three exchanges; D-093 is a same-turn
+     freeze-precondition re-dispatch, not a fourth-turn exception).
+  2. **A2 (nine parked CONTESTED headings).** This entry is the
+     direct user-made confirmation the recommendation calls for:
+     the nine headings at COORD L1490, L2469, L2640, L2733, L3738,
+     L3772, L3870, L3901 and L3932 remain historical, their ADOPTED
+     resolvers stand, none is reopened, and no heading is relabelled
+     or rewritten.
+  3. **A3 (identity-namespace leftover-join.v6).** Authorizes the
+     bookkeeping successor v7 exactly as agreed (cites G31 occupancy
+     v5 (D-208) as the consumed specification, marks v2 historical,
+     re-pins live file 08 with DR-104's `SATISFIED` token verbatim,
+     states that it neither replaces nor reopens D-236), through the
+     normal Stage A + Stage B dual review, zero readiness effect,
+     lowest priority.
+  4. **A4 (cross-lineage citation convention).** The symmetric
+     content-based reading is adopted in principle; its
+     RULE-GOVERNED entry proceeds through the dual-CONSENT cycle from
+     the draft `PROPOSAL.cross-citation-convention.md`, regenerated
+     as D-294 because this entry took D-293. Until that entry is
+     ADOPTED, D-269–D-292's precedent reading stands.
+  5. **B1 (DR-131), B2 (DR-133), B3 (DR-117).** The agreed
+     programmes are authorized in the agreed order — for DR-117:
+     `preview-product-boundary-successor.v9` re-citing the twelve
+     current joins and stating its relationship to
+     `product-boundary-successor-contract.v8` (D-116); a fresh
+     application-grade dual review bound to v9's final digest; then
+     the owner-controlled opening entry; then G29/G30 fixture
+     authoring; then a separate SATISFIED-GRADE + MF-6 cycle. The
+     D-056 Class A openings themselves are separate owner-controlled
+     entries; this entry opens none of them.
+  6. **C1–C4.** OD-112-3 is the final fail-closed policy; OD-112-1
+     and OD-112-2 stay under DR-112's `Security + operations`
+     authority and OD-112-4 under product/release; any later parking
+     disposition names a real trigger and has no Condition-2 or
+     D-056 eligibility effect without a separate reviewed act and a
+     successor join. C2 and C3 as agreed (the C2 matrix/corpus,
+     threshold-approval and G13 sequence; the C3 live-file-08
+     remasurement with coherent evaluable windows). C4: the "G22
+     qualification evidence" wording is candidate standing only;
+     owner assignment, then an application-grade TCB successor that
+     makes the grammar governing, then complete profile population.
+  7. **C5–C9.** C5/C6: reviewed architecture-scope acts classify the
+     reserved encodings; no concrete encoding becomes post-Condition-5
+     work without an express scope/eligibility successor and a
+     successor-join remeasurement; live file 04's "same-filesystem
+     atomic rename or a reviewed equivalent" rule stands. C7: OD-1 is
+     assigned to DR-115's `Product + release engineering` authority
+     as a scoped D-006 threshold-family successor with measured caps
+     before oversized-input fixtures; OD-2 is a final do-not-fold
+     disposition. C8: OD-101-1 is resolved before the
+     core-implementation blueprint under `Architecture + release
+     engineering` (a dedicated D-000 successor, or the owner's
+     direct statement); OD-101-2 gets its own DR-101 successor owned
+     separately from DR-112. C9: MB means 1e6 bytes for the D-006
+     G01/G02/G04 quantities; G02 installed-tree accounting stays open
+     until the named authorities record a complete rule.
+  8. **D1 (fixture authoring).** Delegated to the orchestrator under
+     D-000 review for the enumerated G15, G16, G18, G19, G20, G21,
+     G24–G30, `OBL-HOSTILE-GOLDENS` and the two DR-122 SARIF fixture
+     obligations, under the agreed semantic, coverage, dependency and
+     D-000 constraints. Reserved to the owner: the gate obligations
+     at G07, G08, G09, G12, G14 and G22 (with every current same-id
+     ROW twin); `OBL-WINDOWS-PATH`, `OBL-ENVELOPE-MISMATCH`,
+     `OBL-UNICODE-NORM`, `OBL-JOIN-FX-AUTHORING`,
+     `OBL-R10-AUTHORING`, `OBL-R6-AUTHORING`; and the G09/DR-105
+     decision-record envelope. G10 stays selector-blocked; G22 stays
+     reserved until C4 resolves.
+  9. **E2 (push).** Publishing the record is approved: the commit
+     carrying this entry (C-D293) is pushed to `origin/main` by
+     non-force push after a fetch and fast-forward check, together
+     with the twelve commits D-282–D-292 it builds on.
+  10. **F1 (documentation rewrite after sealing).** The corrected
+      plan of `DECISION-PACKETS/F-docs-rewrite.md`
+      (
+      `db7f09914903b8f034bf0a86f0f12ae15bfdb2d87a4ed3112fc3c6a5e59cbc88`)
+      and the option positions in
+      `DECISIONS-RECOMMENDED.md` §F1 are adopted as the target:
+      after the five conditions are MET, a reviewed measurement act
+      at a known commit, the owner's verbatim seal as the last
+      heading of this register (with the explicit D-000 register
+      amendment), a pure `git mv docs docs-sealed`, then the derived
+      `docs/` tree under the fidelity rule and per-page dual review.
+      Nothing under `docs/` moves before that seal.
+  11. **Working files.** By the user's instruction "commit
+      everything", the commit carrying this entry also adds, at the
+      repository root, `DECISIONS-NEEDED.md`,
+      `DECISIONS-RECOMMENDED.md`, `PROPOSAL.cross-citation-convention.md`,
+      the updated `STATUS.2026-08-26.md` and the whole
+      `DECISION-PACKETS/` corpus, and the 31 previously untracked
+      dispatch texts `docs/coop/artifacts/_dispatch.*.txt` for
+      D-282–D-292 (the other 729 were already tracked).
+  This entry marks nothing `SATISFIED`. It does not edit file 08.
+  It does not open D-056 Class A. It does not amend D-000 or D-056.
+  It does not adopt the A4 convention text (that is D-294's cycle).
+  It does not record any artifact successor, fixture byte, or
+  successor join; every such act follows under D-000 as the adopted
+  recommendation states. It does not overturn D-236, D-237–D-292,
+  or any resolver of the nine parked headings.
+- **Readiness effect:** Zero at this entry. Condition 2 stays 5 of
+  32 `SATISFIED`; required-now stays 28; Conditions 1, 3 and 4 stay
+  MET and 5 NOT MET, as measured in file 08 at HEAD `4abb961`.
+- **Reversibility:** the user may revoke any decision above in a
+  later message. Overturn: C-D293, plus supersession of any later
+  entry that used it. Does not unwrite the decision packets or the
+  round files, which remain the record of how the recommendations
+  were reached.
+- **Commit:** C-D293 (this entry, the working files and the
+  dispatch texts named in Decision 11); pushed to `origin/main`
+  under Decision 9.

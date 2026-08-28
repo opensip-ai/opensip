@@ -1,0 +1,9 @@
+# C5–C9 — reserved encodings, owners, units — Claude recommendation (round 1)
+Packet: `C5-9-reserved-encodings-owners-units.md` (decision forms per item; §0 on what is reserved to after Condition 5).
+
+- **C5 DR-121 CI encodings: Option B** — explicit deferral disposition to the first blueprint-phase act after Condition 5; the contract already treats CI YAML/path filters as non-authority. Open question (§0/§C5): whether a deferred-by-disposition encoding still counts as "missing design" under D-056 gate 2 — fold that into the same gate-2 ruling entry proposed under B1 so it is answered once.
+- **C6 DR-107 lifecycle encodings: Option B**, plus set the **atomic-rename-equivalent admissibility policy** now (file 04's "or a reviewed equivalent" is a design boundary G18 fixtures need); on-disk formats, lease, solver, layout deferred as implementation.
+- **C7 DR-103: OD-1 owner = A1 (DR-115 / D-006 threshold family)**; numbers: A3 if in hand, else A4 (owner assigned, numbers deferred with disposition to first component acceptance). **OD-2: B1 (fold), delegated** — the shape is uniquely named and the change is findability, not rule.
+- **C8 DR-101: OD-101-1 core implementation language — set now (Option A); this is the owner's alone and gates G01–G05 fixtures, the TCB inventory and the signing ceremony.** OD-101-2 — Option B, tied to the C1 signing-ceremony answer (one ceremony decision covering index, component and core-binary signing).
+- **C9 DR-115/D-006 unit and tree accounting: Option A** (state the MB-to-bytes reading and the G02 accounting rule now — cheapest item, unblocks G01/G02/G04 scoring); fall back to B (unit only) if the accounting rule is not in hand.
+Sequencing note: C8 (language) first among all C items; C5–C7/C9 dispositions can be recorded in one or two combined entries. Confidence: medium-high on shapes; the choices are the owner's.

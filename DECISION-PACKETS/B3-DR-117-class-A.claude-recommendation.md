@@ -1,0 +1,5 @@
+# B3 — DR-117 Class A opening — Claude recommendation (round 1)
+Packet: `B3-DR-117-class-A.md` (§9 options).
+
+**Recommendation: Option C — C2 (grade-clarification dual review of `preview-product-boundary-successor.v8` with the NEUTRAL question) plus C1 (a v9 remasurement re-citing the twelve current joins) unless A4 is adopted; then the §7 opening act; then a separate SATISFIED-GRADE + MF-6 cycle after G29/G30 fixture authoring (D1).** Same programme shape as B1/B2.
+Rationale: (1) the only gate-1 failure in bytes is the absence of an application-grade verdict (§4c: both verdicts say the limb is "not established"); (2) all twelve leftover-joins v8 cites are superseded (§3a) and D-207 is the precedent for a reviewer demanding a remasurement first — if A4's content-based reading is adopted, C1 is unnecessary because v8 carries no leftoverDesign partition of its own (§9 note); (3) the product decision (the seven dispositions, §3) is already the owner's under D-132 and needs only the owner's word to lift D-137 — that word belongs in the opening entry; (4) Option D (open + SATISFY in one act) has no precedent and stacks every risk. Confidence: medium-high.
