@@ -16314,3 +16314,132 @@ file-09 D-000 act. Left whole-document until then.
 - **Commit:** C-D293 (this entry, the working files and the
   dispatch texts named in Decision 11); pushed to `origin/main`
   under Decision 9.
+
+---
+
+## D-294 — Cross-lineage leftover-join citations are custody at recording, not standing currency claims
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 3 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-294.review-adversarial.claude2.turn3.json`,
+  `1f6f138bfabf4ccaecab6ea38fa03bdd8e67aabce3b626f23b6118d1c8d978d4`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-294.review-adversarial.codex.turn3.json`,
+  `719431e87945cdd99b75c0edaa9ab8473fb29350153004bdf672d084446687f5`)
+  CONSENT. Subject `coordinator-decisions.D-294.turn3.draft.md`
+  `9be8f7db1dc9b6c1137c899ccfffbbd9d769ff3c25869526721cb40022fd5f05`.
+  Prior turns: turn-1 Claude 2 OBJECT (CLAUDE-D294-SF1,
+  CLAUDE-D294-SF2, CLAUDE-D294-SF3;
+  `6066dc92448268d0ee75eca1390399aa9bfb0b8aa09a12cde14b2ead22fb9e92`);
+  turn-1 Codex OBJECT (CODEX-D294-MF1, CODEX-D294-MF2,
+  CODEX-D294-SF1, CODEX-D294-SF2;
+  `75298d52dd7596efbb8bfd22205dd2773577308d68c7dec0d518f417136fbd19`);
+  turn-2 Claude 2 OBJECT (CLAUDE-D294-T2-SF1, CLAUDE-D294-T2-SF2;
+  `160d1fd3949d4acb6b666e5d2178bebdacb8488a10148fdc5ae2aad8efa54654`);
+  turn-2 Codex OBJECT (CODEX-D294-T2-SF1, CODEX-D294-T2-SF2;
+  `144c1dcba545f0458235d9aab31d00c2afb0992553a03b8e101ee8ecfbf55ce9`).
+- **Decision type:** RULE-GOVERNED. Records the reading convention
+  for cross-lineage leftover-join citations (custody at recording,
+  not standing currency claims) that D-293 adopted in principle
+  and authorized for this dual-CONSENT cycle. Same no-cell-edit
+  branch as D-170 through D-235 and D-237 through D-271 and D-273
+  through D-293. D-272 is CONTESTED and is not on that branch. Not
+  a remasurement. Not a three-limb act. Not SATISFIED-GRADE. Not a
+  D-000 amendment.
+- **Subject:**
+  `docs/coop/artifacts/coordinator-decisions.D-294.turn3.draft.md`
+  `9be8f7db1dc9b6c1137c899ccfffbbd9d769ff3c25869526721cb40022fd5f05`;
+  its measured inputs are the eight citing leftover-joins
+  `component-manifest-leftover-join.v9.json` `e71dca64c78a8fee…`,
+  `doctor-actor-leftover-join.v12.json` `0c0b894ffb5f8098…`,
+  `lifecycle-leftover-join.v4.json` `bcc76ee3d99c88c2…`,
+  `monorepo-leftover-join.v4.json` `03d4478c3ce6ea84…`,
+  `packaging-leftover-join.v4.json` `03251cc80cc774c1…`,
+  `permission-leftover-join.v12.json` `496b75c60c6540c3…`,
+  `signed-index-leftover-join.v4.json` `ae5176e2a420be75…`,
+  `state-class-leftover-join.v4.json` `16b00ce69fea9e5f…` (full
+  digests in the draft's tables); file 08
+  `e503b75b5599444ee4d77c0c7d7c82a74026b2c1848ad214e0ac738c0aa40c3e`.
+- **Measured at draft time:** eight current leftover-joins carry
+  ten present-tense cross-lineage citations of superseded sibling
+  versions at 35 sites: component-manifest leftover-join.v9 → g15
+  leftover-join.v5; doctor-actor leftover-join.v12 → g12
+  leftover-join.v4; doctor-actor leftover-join.v12 → g21
+  leftover-join.v12; lifecycle leftover-join.v4 → g18
+  leftover-join.v5; monorepo leftover-join.v4 → g16
+  leftover-join.v4; packaging leftover-join.v4 →
+  component-manifest leftover-join.v6; permission
+  leftover-join.v12 → g09 leftover-join.v11; permission
+  leftover-join.v12 → doctor-actor leftover-join.v11; signed-index
+  leftover-join.v4 → g08 leftover-join.v4; state-class
+  leftover-join.v4 → g19 leftover-join.v4. For every pair the
+  cited version's and the current successor's leftoverDesign
+  partitions are byte-identical and every projected field the
+  draft names is equal wherever the cited version carries it; none
+  requires a successor on that ground.
+- **Decision:**
+  1. **Reading (symmetric).** In a recorded leftover-join, a sentence
+     that names another lineage's leftover-join version (dotted or spaced
+     spelling, stem immediately before `leftover-join`) and asserts
+     currency — `remains`/`remain`/`is`/`are` [`the`] `current`; the
+     inverted `[the] current <row> leftover-join is/are/remains X
+     leftover-join.vN`; `Cite X leftover-join.vN as the current …`; or
+     `still measure(s)` — for example "X leftover-join.vN remains the
+     current <row> leftover-join (D-mmm)" — is custody at
+     that join's own recording heading: it records which sibling was
+     current when the join was recorded. It is not a standing claim about
+     live HEAD. This reading applies alike whichever kind, ROW or GATE, the
+     citing join and the cited join are (a GATE join naming a GATE join
+     reads the same way: g25 leftover-join.v5 says "Current G23 GATE
+     leftover-join is leftover-join.v8 (D-240)" — a direction example,
+     not a counted site, since the token carries no lineage stem). A later successor of X does not, by itself, make the citing
+     join stale, not current, or in need of a successor.
+  2. **What still requires a successor.** A recorded leftover-join needs
+     a successor when (a) an occupancy it cites as the specification is
+     superseded — the occupancy-stale class recorded, for example, at
+     D-261, D-264, and D-282 through D-287; or (b) a sibling successor
+     changes any value the citing join relies on, measured from the two
+     files' bytes by the projection below; or (c) its own lineage is superseded. The test for (b) is
+     mechanical: the cited version's and the successor's leftoverDesign
+     partitions (summary.leftoverDesign, else the obligations with
+     leftoverDesign true) are byte-identical; the cited join's
+     `registerRow`, `file08StatusToken`, and `liveGateOwners` equal the
+     successor's wherever the cited version carries the field (a field the successor
+     adds is not a value the citer relied on);
+     every obligation identifier named in the citing sentences has the
+     same presence in both and, where present, equal `leftoverDesign`,
+     `existingGate`, `rideStanding`, and `executionObligationOwnerToday`;
+     and every "still measures … leftoverDesign true/false" sentence
+     asserts the value the successor holds. A successor is required
+     whenever any of those projected values changes. Under (b), all ten citations
+     measured above pass; none requires a successor on this ground.
+     Triggers (a) and (c) carry no status-token exception: a join on a
+     SATISFIED row whose consumed occupancy is superseded still needs a
+     successor. A hunt that flags a join on version number alone, with
+     every projected value equal, flags nothing.
+  3. **Refresh.** A successor issued for any reason refreshes its
+     cross-lineage citations to the versions current at its dispatch and
+     labels the superseded ones as not current, as the successors recorded
+     at D-249 through D-271 and D-273 through D-287 did wherever they
+     carried such citations (D-272 is CONTESTED and parked; it adopts nothing). No frozen artifact is edited to achieve this.
+  4. **Standing at draft time.** The eight citing leftover-joins remain
+     current. The eleven successors recorded by D-282 through D-292 remain
+     current. The superseded versions named above are not current. Zero
+     SATISFIED. Required-now stays 28. Condition 2 stays 5 of 32.
+     Condition-4 effect is zero. File 08 is untouched.
+  5. **Scope.** This entry governs the reading of cross-lineage citation
+     currency from this heading forward. D-269 stays recorded and is not
+     unwritten; g20 leftover-join.v6 remains current. It does not amend
+     D-000 or D-056, does not decide any reserved number, list, owner, or Class A
+     question, binds no fixture bytes, and does not edit file 08 or any
+     artifact. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total. Overturn: C-D294. Overturning restores
+  the version-number reading and re-flags the eight citing
+  leftover-joins; it edits no artifact. Does not unwrite D-261,
+  D-264, D-269, D-270, D-276, D-278, D-281, or D-282 through
+  D-292.
+- **Commit:** C-D294.
