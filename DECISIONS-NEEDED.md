@@ -1,8 +1,10 @@
 # Decisions needed from you (running list — Claude orchestrator, started 2026-08-26)
 
+> **DECIDED 2026-08-28.** You adopted every agreed recommendation ("record it, i agree. commit everything and then push to remote main"); recorded as user-made entry **D-293** in `docs/coop/COORDINATOR-DECISIONS.md`, committed at `c10319d` and pushed to `origin/main`. The items below are kept as the historical list; the authorized follow-on acts run under D-000 in the order D-293 states.
+
 > **Read `DECISIONS-RECOMMENDED.md` first:** it carries, for every item below, the recommendation Claude and Codex reached by independent adversarial review (up to three rounds; AGREED or SPLIT), with pointers into the evidence packets.
 
-> **Decision packets:** for every item below a byte-cited packet (evidence, options, consequences, pre-drafted D-000 cycle) is being written to `DECISION-PACKETS/` (repo root, untracked) and adversarially verified; read the packet before answering an item.
+> **Decision packets:** for every item below a byte-cited packet (evidence, options, consequences, pre-drafted D-000 cycle) is being written to `DECISION-PACKETS/` (repo root, tracked since `c10319d`) and adversarially verified; read the packet before answering an item.
 
 > **State when you read this (2026-08-27, end of day):** both mechanical queues are finished — D-282..D-287 (occupancy-stale remasurements) and D-288..D-292 (GATE cross-citation refreshes per precedent) recorded at dual ACCEPT/CONSENT 0/0, HEAD `4abb961`, COORD 277 headings, file 08 untouched (`e503b75b…`), Condition 2 still 5 of 32. Nothing mechanical remains; every item below needs you. Nothing below was decided on your behalf; every item is yours. Cheapest path: rule A first (minutes), then B (the three Class A openings unblock the most), then C/D.
 
@@ -29,7 +31,7 @@ A4. **Cross-lineage citation convention (systemic; my recommendation attached).*
     superseded ROW join, so the cascade is closed for this round. The alternative is a
     content-based reading — a citation is custody at recording and only a changed leftoverDesign partition triggers a
     successor — which ends the cascade for good; in all eleven current cases the partitions are byte-identical.
-    Full byte-measured draft: `PROPOSAL.cross-citation-convention.md` (repo root, untracked). Say "adopt" and I run it
+    Full byte-measured draft: `PROPOSAL.cross-citation-convention.md` (repo root, tracked since `c10319d`). Say "adopt" and I run it
     through the dual-CONSENT cycle as D-28x; say "keep precedent" and the proposal is discarded. Recommendation: adopt.
 
 ## B. Class A openings (product/architecture authority — file-08 owners: Product owner; Product + CLI/output; Semantic/component architecture)
@@ -74,6 +76,6 @@ F1. **Restructure:** after the five conditions are met and a final "sealed at HE
 E1. ~~Untracked cited artifacts~~ — RESOLVED by your commit `078b3d6` (2,518 files). Note: that commit landed while
     component-manifest v9 was under Stage A review; no pinned input moved, so I proceeded (recorded in the D-282 draft).
     Going forward, if you commit mid-act, tell me so I can re-pin before dispatch.
-E2. HEAD is 12 commits ahead of origin (D-282..D-292 plus the `D-285 hygiene` date-correction commit) — push? I have not pushed anything.
+E2. ~~HEAD is 12 commits ahead of origin — push?~~ DONE 2026-08-28: pushed with D-293 (`078b3d6..c10319d`, non-force, fast-forward checked).
 E3. ~~Codex shows one usage-limit reset left~~ — re-checked 2026-08-27: weekly limit 99% left (resets 3 Sep). New note: the Codex session at `wC:p1` has only 14% context left; I will run any further review in a fresh `codex --yolo` pane rather than reuse it (no decision needed, FYI).
 E4. `STATUS.2026-08-26.md` (modified) and this file (untracked) are your working documents — commit or discard as you prefer; the 31 untracked `_dispatch.*.txt` files are dispatch texts for D-282..D-292 (correction 2026-08-28, from the F packet review: 729 earlier dispatch texts *are* tracked, so "never-committed" was wrong — the F1 recommendation asks you to decide once, before any seal, whether these 31 are committed or deleted).

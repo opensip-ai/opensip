@@ -84,6 +84,6 @@ Then: **Class A lifts for DR-117 / DR-131 / DR-133**, and finally **Condition 5*
 - A4's convention proposal is regenerated as `PROPOSAL.cross-citation-convention.md` (draft D-294 — D-293 records your decisions; not recorded, not dispatched).
 - F1's packet `DECISION-PACKETS/F-docs-rewrite.md` carries the proposed `docs/` tree, per-doc templates, the D-SEAL draft, the
   `git mv` procedure, sizing (128 pages baseline), ten owner options with positions, and 23 open questions. Nothing under `docs/`
-  was touched; HEAD is still `4abb961`, 12 commits ahead of origin, unpushed (E2).
+  was touched. Your decisions were recorded 2026-08-28 as user-made entry D-293 (`c10319d`) and pushed to `origin/main` (E2 done).
 - Correction to §5 item 5 / E4: 729 of 760 `_dispatch.*.txt` files are tracked; only the 31 for D-282..D-292 are untracked.
 
