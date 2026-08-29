@@ -16660,3 +16660,68 @@ file-09 D-000 act. Left whole-document until then.
   C-D297. Does not unwrite D-115, D-182, D-293, D-294, D-295, or
   D-296.
 - **Commit:** C-D297.
+
+---
+
+## D-298 — Record g20-fixture-corpus.v5 as DR-G20 leftover-design fixture implementations
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-298.review-adversarial.claude2.json`,
+  `492b8021223e0c495081fa559644f9bdc9ede479575d6ff2756bb26dfc539e2c`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-298.review-adversarial.codex.json`,
+  `187931084cbb1f6030d265232dadb3d9ecaeda0cf85596fb874ea67ed93e09ce`)
+  CONSENT. Subject `coordinator-decisions.D-298.draft.md`
+  `d188552205e7fbae15208b3397162cfb5735b12fcd1414fcd92330e2a7589203`.
+  Frozen successor `g20-fixture-corpus.v5.json`
+  `3d7d8dba4a7409b98720ae04a8f826f84271e9acfd7c804f2a21e12b78d612c8`
+  Stage A Claude ACCEPT
+  `2854f32bb642e8d6d7e08ebf0e0f5ba538015c19c74c866378f8bf634ddd4e33`
+  0/0; Stage A Codex ACCEPT
+  `1a5361715ad36a1724f0525806f595a66a8e742cf4ebe25d2be42c019b3f88b5`
+  0/0. Claude 2 Stage B turn-1 returned 3 named advisories objects
+  CLAUDE-D298-A1, CLAUDE-D298-A2, CLAUDE-D298-A3 (with members
+  blocking, field, id, ifEverRepaired, measurement, severity,
+  title, whyNotShouldFix); they travel as honesty work. Codex
+  Stage B turn-1 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; no
+  observationsNotFindings field.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g20-fixture-corpus.v5.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-297. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g20-fixture-corpus.v5.json`
+  `3d7d8dba4a7409b98720ae04a8f826f84271e9acfd7c804f2a21e12b78d612c8`.
+- **Decision:** Record g20-fixture-corpus.v5 as DR-G20
+  leftover-design fixture implementations after D-297. The
+  candidate binds NOTHING. DR-G20 stays `OPEN`. leftover-design of
+  OBL-G20-FX-AUTHORING remains on leftover-join.v6 (D-269) and on
+  sdk leftover-join.v6 (D-267) because leftover-join remasurement
+  is not this entry, and closing that obligation needs a successor
+  on both joins. leftover-design of OBL-SDK-API-RESERVED remains
+  on sdk leftover-join.v6. Does not remasure leftover-join.v6.
+  Does not remasure sdk leftover-join.v6. Does not SATISFY DR-125.
+  Does not SATISFY DR-133. D-056 Eligibility gates 2 and 3 do not
+  hold for DR-G20. Gate 1 Class A is not opened. Not eligible in
+  kind. Not SATISFIED. Required-now stays 28. Condition-4 effect
+  is zero. Frozen g20-fixture-corpus.v1, g20-fixture-corpus.v2,
+  g20-fixture-corpus.v3, and g20-fixture-corpus.v4 stay frozen; do
+  not record them as current. Claude Stage A advisories
+  CLAUDE-G20FX-V5-A-1, CLAUDE-G20FX-V5-A-2, CLAUDE-G20FX-V5-A-3,
+  CLAUDE-G20FX-V5-A-4 travel as honesty work. Does not invent an
+  SDK API, a D9 code, a RunId recipe, a CommandEnvelope schema, or
+  a D-002 platform list. Does not advertise SARIF. Does not
+  resurrect G17. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D298. Does not unwrite D-086, D-217, D-267, D-269, D-293,
+  D-294, D-295, D-296, or D-297.
+- **Commit:** C-D298.
