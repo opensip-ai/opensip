@@ -17491,3 +17491,130 @@ file-09 D-000 act. Left whole-document until then.
   C-D308. Does not unwrite D-114, D-173, D-231, D-232, D-233,
   D-234, D-235, D-287, D-293, D-294, D-305, D-306, or D-307.
 - **Commit:** C-D308.
+
+---
+
+## D-309 — Record signed-index-trust-contract.v14, G08 occupancy v7, and signed-index leftover-join.v8 as the C1-a OD-112-3 carry
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-309.review-adversarial.claude2.turn2.json`,
+  `7eba2be8b64a5a7c3c4eb869e0e956580260f4a3f09b401e6f7ee17027d5a419`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-309.review-adversarial.codex.turn2.json`,
+  `b05904dbdffd4e85942f81ae9e6596e83e0271a1c558fb4b6899a335a0e890f5`)
+  CONSENT. Subject `coordinator-decisions.D-309.turn2.draft.md`
+  `c73b08c6204ebc42533a19d51f8a7309d7358908dd84159ed32ee10aab0a562a`.
+  Frozen signed-index-trust-contract.v14
+  `039a570244441709c8a773d2c92944fff7ad1b249718656ab2d87645feec6715`
+  Stage A Claude ACCEPT
+  `b6141519e3bd17726653b21696e19a775453a3c975ce9e0c19330227b66dc110`
+  0/0; Stage A Codex ACCEPT
+  `0977c9d8d50a770db6d4d5409bcca7559cbda1c6d6033464cc1c9892ff346173`
+  0/0. Frozen G08 occupancy v7
+  `ce1db6b7fadabde0d72d1e09f4647583309750a3e9a25a1279b39347cf21279e`
+  Stage A Claude ACCEPT
+  `1ac8a9b788742141aaee1f8639b50cc4eb513141415ff4695b179fe2432b176e`
+  0/0; Stage A Codex ACCEPT
+  `97eba8f7f319cd1b2514c9c24d42959d34b67b1e2457c831ddbf3500f2980f44`
+  0/0. Frozen signed-index leftover-join.v8
+  `f3496f76f8e91e27b99f7e82042b08614b2a380de04a2e0700ece094829bba06`
+  Stage A Claude ACCEPT
+  `c48ad8d41259e26fed6750ff17027173c90533adecc640f4f4ca5d549d7a2472`
+  0/0; Stage A Codex ACCEPT
+  `98aa1b2d9d9ffcadb6ff984397469c191c9e6d9f9192737b4b7c5e4c0a7814a5`
+  0/0. Prior turns: turn-1 Claude 2 CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-309.review-adversarial.claude2.json`,
+  `c01a9f17bd2c42bbb084f3475e68737db9d8d21ab56d4f29cc66e6ac3e11ec7a`);
+  turn-1 Codex OBJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-309.review-adversarial.codex.json`,
+  `2a607228c81d30f8da0dd0579cd7e08aaf737c1759006f6454e86770658d7ace`).
+  Claude 2 Stage B turn-2 returned 9 unlabeled
+  observationsNotFindings strings; an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; no observations field;
+  no blockers field; they travel as honesty work. Codex Stage B
+  turn-2 returned an empty mustFix list; an empty shouldFix list;
+  an empty advisories list; an empty blockers list; 12 unlabeled
+  observationsNotFindings strings; no observations field. This
+  entry recites those observations as strings. It does not invent
+  a Claude identifier. It does not invent a Codex identifier. It
+  does not claim that both reviewers' identifiers are preserved.
+  Codex Stage B turn-2 returned no observation identifiers. Claude
+  Stage B turn-2 returned no observation identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `signed-index-trust-contract.v14.json`,
+  `harness.DR-G08.trust-recovery.install-surfaces.v7.json`, and
+  `signed-index-leftover-join.v8.json` (0 blockers, 0 SHOULD-FIX
+  each). Same no-cell-edit branch as D-170 through D-235 and D-237
+  through D-308. D-272 is CONTESTED and is not on that branch. Not
+  a three-limb act. Not SATISFIED-GRADE. One C1-a act; three Stage
+  A subjects.
+- **Subject:**
+  `docs/coop/artifacts/signed-index-trust-contract.v14.json`
+  `039a570244441709c8a773d2c92944fff7ad1b249718656ab2d87645feec6715`;
+  `docs/coop/artifacts/harness.DR-G08.trust-recovery.install-surfaces.v7.json`
+  `ce1db6b7fadabde0d72d1e09f4647583309750a3e9a25a1279b39347cf21279e`;
+  `docs/coop/artifacts/signed-index-leftover-join.v8.json`
+  `f3496f76f8e91e27b99f7e82042b08614b2a380de04a2e0700ece094829bba06`.
+- **Decision:** Record signed-index-trust-contract.v14 as the
+  current DR-112 design-contract candidate, G08 occupancy v7 as
+  the current G08 occupancy remasurement, and
+  signed-index leftover-join.v8 as DR-112 leftover remasurement
+  after D-308. The three candidates bind NOTHING. DR-112 stays
+  `OPEN`. DR-G08 stays `OPEN`. leftover-design of
+  OBL-G08-FX-AUTHORING and OBL-RESERVED-NUMBERS remains on
+  signed-index leftover-join.v8. OD-112-3 is the final fail-closed
+  policy (D-293) and is not a number. Residual Preview refuse
+  wording is named, not chosen. OD-112-1, OD-112-2, and OD-112-4
+  remain RESERVED. Does not mint OD-112-1, OD-112-2, or OD-112-4.
+  Does not pin QUALIFIED. Does not invent fixture bytes. Does not
+  invent a recovery ceremony implementation. Does not steal
+  OBL-G08-FX-AUTHORING as a GATE closure. Does not steal
+  OBL-RESERVED-NUMBERS. signed-index leftover-join.v8 does not
+  occupy the G08 identifier. Does not SATISFY DR-112. Does not
+  SATISFY DR-117. Does not flatten DR-118
+  `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does not flatten DR-107
+  `PROPOSED-CLOSED-FOR-REVIEW` to `OPEN`. Does not SATISFY DR-131.
+  Does not SATISFY DR-133. Does not SATISFY DR-114. Does not
+  SATISFY DR-101. Gate 1 Class A is not opened. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Naming parent
+  of G08 is naming v6 (D-145), not signed-index leftover-join.v8.
+  D-086 named DR-G08. Repair-media remains DR-110. Newly-revoked
+  replay remains DR-113. Frozen signed-index-trust-contract.v8
+  remains a historical recorded candidate at D-105; after
+  signed-index-trust-contract.v14 is recorded,
+  signed-index-trust-contract.v8 is not current. Frozen
+  signed-index-trust-contract.v9 through
+  signed-index-trust-contract.v13 stay frozen; do not record them
+  as current. Frozen G08 occupancy v3 remains a historical
+  occupancy remasurement recorded at D-211; after G08 occupancy v7
+  is recorded, G08 occupancy v3 is not current. Frozen G08
+  occupancy v4 through G08 occupancy v6 stay frozen; do not record
+  them as current. Frozen signed-index leftover-join.v4 remains a
+  historical leftover remasurement recorded at D-280; after
+  signed-index leftover-join.v8 is recorded,
+  signed-index leftover-join.v4 is not current. Frozen
+  signed-index leftover-join.v5, signed-index leftover-join.v6,
+  and signed-index leftover-join.v7 stay frozen; do not record
+  them as current. g08 leftover-join.v5 remains the current G08
+  GATE leftover-join. Claude and Codex Stage A unlabeled
+  observationsNotFindings strings of the three subjects travel as
+  honesty work. This entry does not invent identifiers for those
+  strings. Advisories CLAUDE-V8-A1 / ADV-V8-01 and CODEX-V8-A1 /
+  SITCV8-A1 travel as honesty work. The unlabeled Codex Stage B
+  turn-1 SHOULD-FIX is landed. Claude Stage B turn-1 unlabeled
+  observationsNotFindings strings travel as honesty work. Codex
+  Stage B turn-1 returned no observation identifiers.
+  CLAUDE-V13-M1 and CLAUDE-V13-S1 are landed at
+  signed-index-trust-contract.v14. Does not execute G08. Does not
+  rewrite occupancy v3. Does not edit file 08. Does not invent a
+  D9 code. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D309. Does not unwrite D-105, D-211, D-280, D-281, D-293,
+  D-294, or D-308.
+- **Commit:** C-D309.
