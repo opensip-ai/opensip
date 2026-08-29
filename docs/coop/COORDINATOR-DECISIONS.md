@@ -16443,3 +16443,91 @@ file-09 D-000 act. Left whole-document until then.
   D-264, D-269, D-270, D-276, D-278, D-281, or D-282 through
   D-292.
 - **Commit:** C-D294.
+
+---
+
+## D-295 — Record preview-product-boundary-successor.v10 as DR-117 leftover remasurement
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 3 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-295.review-adversarial.claude2.turn3.json`,
+  `6e3be3726dc07639d724d51a20a8a2d0c5633ebfe6ebc8fe299a17ad6f7efebb`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-295.review-adversarial.codex.turn3.json`,
+  `c2f31b2de984af5822787778b0b5e6497d77c5d20b3156e44c3ed5ac1285a1b5`)
+  CONSENT. Subject `coordinator-decisions.D-295.turn3.draft.md`
+  `65de8237a809f9cea1960a4d29ad5b1bdd02c906ee2553612d3262dffe3e71d8`.
+  Frozen successor `preview-product-boundary-successor.v10.json`
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483`
+  Stage A Claude ACCEPT
+  `34b3911340de88c3892b9fb840010ecc8605a884c8f3aa928d3d69cfad4c9d3b`
+  0/0, grade ruling SUSTAINED FOR APPLICATION; Stage A Codex
+  ACCEPT
+  `1cba1d43bfd6e45ba4c1a7703fb99a25c73ec9860f117cd7f63b2fe808faf842`
+  0/0, grade ruling SUSTAINED FOR APPLICATION. Prior turns: turn-1
+  Claude 2 review not returned (reviewer unavailable); turn-1
+  Codex OBJECT (CODEX-D295-SF1;
+  `9cdcd548b1cddad81b49ca5a4bd8b2eae78a8f80fd507a40efb63fff76a99413`);
+  turn-2 Claude 2 OBJECT (CLAUDE-D295-T2-SF1;
+  `0d6a794d7385d9cc05ffa3569954dc6886258f2be98b94e6513ed832114b63d9`);
+  turn-2 Codex CONSENT
+  (`bb0f7c03835cadf5cc64713a03465cb7af311fad750fbef923ee685e88df7997`).
+  Claude 2 Stage B turn-3 advisories CLAUDE-D295-T3-ADV-1,
+  CLAUDE-D295-T3-ADV-2, CLAUDE-D295-T3-ADV-3, CLAUDE-D295-T3-ADV-4
+  travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `preview-product-boundary-successor.v10.json` (0
+  blockers, 0 SHOULD-FIX). Same no-cell-edit branch as D-170
+  through D-235 and D-237 through D-271 and D-273 through D-294.
+  D-272 is CONTESTED and is not on that branch. Not a three-limb
+  act. Not SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/preview-product-boundary-successor.v10.json`
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483`.
+- **Decision:** Record preview-product-boundary-successor.v10 as
+  DR-117 leftover remasurement after D-294. The candidate binds
+  NOTHING. DR-117 stays `OPEN`. leftover-design of unnamed EE
+  classes remains closed at D-159. Remainder is named-gate
+  execution. leftover-design of OBL-G29-FX-AUTHORING and
+  OBL-G30-FX-AUTHORING remains on g29 leftover-join.v4 (D-254) and
+  g30 leftover-join.v4 (D-255). Does not steal those leftovers.
+  Does not SATISFY DR-117. D-056 Eligibility gates 2 and 3
+  continue to hold for DR-117 (D-159). Gate 1 Class A remains
+  false under D-137's express reservation;
+  preview-product-boundary-successor.v10 does not withdraw that
+  reservation, and this entry does not lift it. Venue for the lift
+  is the owner-controlled opening entry D-293 Decision 5 reserves,
+  which follows this recording. Both Stage A reviews answered the
+  grade question (D-005 form): Claude 2 `SUSTAINED FOR
+  APPLICATION`, Codex `SUSTAINED FOR APPLICATION`. This entry
+  records those rulings as reviewer judgments; recording them
+  opens no Class A and lifts no reservation. Gates 4 and 5 are not
+  performed. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen
+  preview-product-boundary-successor.v8 becomes a historical
+  measurement as of HEAD `df1301a` / required-now 28 once this
+  entry is adopted; it stays frozen; do not record it as current.
+  Frozen preview-product-boundary-successor.v7 remains a
+  historical measurement as of HEAD `5d5d778` / required-now 26.
+  Frozen preview-product-boundary-successor.v9 was REJECTED at
+  Stage A by both reviewers and is unrecorded; its findings landed
+  at preview-product-boundary-successor.v10; it stays frozen; do
+  not record it as current. Claude Stage A advisories
+  CLAUDE-PPBS-V10-ADV-1, CLAUDE-PPBS-V10-ADV-2,
+  CLAUDE-PPBS-V10-ADV-3 travel as honesty work. Standing
+  CLAUDE-PPBS-V3-ADV-1 venue limb stands. Does not invent fixture
+  bytes or the DR-131 pack. Does not rewrite G13, G14, G29, G30,
+  G31, or G32. Does not name G13 into required-now. Does not edit
+  file 08. Does not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, Class A reservation lift, SATISFIED cycle, or file-08
+  cell rewrite. Overturn: C-D295. Does not unwrite D-116, D-137,
+  D-157, D-158, D-159, D-168, D-207, D-240, D-254, D-255, D-273,
+  D-274, D-277, D-278, D-283, D-285, D-287, D-288, D-292, D-293,
+  or D-294.
+- **Commit:** C-D295.
