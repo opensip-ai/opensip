@@ -16928,3 +16928,89 @@ file-09 D-000 act. Left whole-document until then.
   D-245, D-247, D-292, D-293, D-294, D-295, D-296, D-297, D-298,
   D-299, or D-300.
 - **Commit:** C-D301.
+
+---
+
+## D-302 — Record g21-fixture-corpus.v14 as G21 leftover-design per-D-002-platform copies of the CC-5 far-over prefix injection
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-302.review-adversarial.claude2.turn2.json`,
+  `a5d944e07c770fa8ae1fe28d44ab1234aa0c6464ecd1eb3780683d03b99cb1a9`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-302.review-adversarial.codex.turn2.json`,
+  `1f0200990b89f815128fd43e6fb20f31067145d0e6838f264782807ec2b6149b`)
+  CONSENT. Subject `coordinator-decisions.D-302.turn2.draft.md`
+  `a7b1f64490b7f058ee16111ecf49acd755ab1736af24a4fc958b350eeb033546`.
+  Frozen successor `g21-fixture-corpus.v14.json`
+  `1012bb023df44e455909eb981592231b4ae8958712d5fad55f2324c920d864ae`
+  Stage A Claude ACCEPT
+  `a9148a187e605e2fa550659596451b489f423c94987e9183b372d91ffd1e275e`
+  0/0; Stage A Codex ACCEPT
+  `5e9431954d1b15a8fa4d5d9119d8dfb1142af000b4397dc434daf5b99217c1e5`
+  0/0. Prior turns: turn-1 Claude 2 OBJECT 0 MUST-FIX, 1
+  SHOULD-FIX CLAUDE-D302-S-1
+  (`artifacts/coordinator-decisions.D-302.review-adversarial.claude2.json`,
+  `d61b55dde51eb3cfef424b8eab8606d376c08ba3f4f41447019a6d49a9139f2a`);
+  turn-1 Codex CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-302.review-adversarial.codex.json`,
+  `da3430b60234b65fb319749747f10f8cf15d7b4db3fb8e1e6065a7d628288936`).
+  Claude 2 Stage B turn-2 returned 3 named advisories objects
+  CLAUDE-D302-T2-A-1, CLAUDE-D302-T2-A-2, CLAUDE-D302-T2-A-3 (with
+  members id, measurement, severity, status, title,
+  whyNotAFinding) and 3 named observations objects
+  CLAUDE-D302-T2-O-1, CLAUDE-D302-T2-O-2, CLAUDE-D302-T2-O-3 (with
+  members id, measurement, title); they travel as honesty work.
+  Codex Stage B turn-2 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty observations
+  list; no observationsNotFindings field.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-fixture-corpus.v14.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-301. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-fixture-corpus.v14.json`
+  `1012bb023df44e455909eb981592231b4ae8958712d5fad55f2324c920d864ae`.
+- **Decision:** Record g21-fixture-corpus.v14 as G21
+  leftover-design per-D-002-platform copies of the CC-5 far-over
+  prefix injection after D-301. The candidate binds NOTHING.
+  DR-G21 stays `OPEN`. leftover-design of OBL-G21-FX-AUTHORING
+  remains on g21 leftover-join.v13 (D-292) because leftover-join
+  remasurement is not this entry, because CC-5 is not fully
+  authored, and because closing that obligation needs a successor
+  on g21 leftover-join alone (no same-id ROW twin). Does not
+  remasure g21 leftover-join.v13. Does not steal leftover-design
+  of OBL-HOSTILE-GOLDENS remaining on
+  anti-lockstep-leftover-join.v3. Does not SATISFY DR-114. Does
+  not SATISFY DR-133. Does not author NT-6. Does not author
+  FC-NC-CA1-PROCESS-TREE. Does not pin N=65536 as prefix-only
+  RF-2. Does not author prefix exactly at the operative bound.
+  Does not author the postHandshake far-over half. D-056
+  Eligibility gates 2 and 3 do not hold for DR-G21. Gate 1 Class A
+  is not opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen
+  g21-fixture-corpus.v12 and g21-fixture-corpus.v13 stay frozen;
+  do not record them as current. Claude Stage A advisories
+  CLAUDE-G21FXV14-A-1, CLAUDE-G21FXV14-A-2, CLAUDE-G21FXV14-A-3,
+  CLAUDE-G21FXV14-A-4 and observations CLAUDE-G21FXV14-O-1,
+  CLAUDE-G21FXV14-O-2, CLAUDE-G21FXV14-O-3, CLAUDE-G21FXV14-O-4,
+  CLAUDE-G21FXV14-O-5 travel as honesty work. Claude Stage B
+  turn-1 SHOULD-FIX CLAUDE-D302-S-1 is landed. Claude Stage B
+  turn-1 advisories CLAUDE-D302-A-1, CLAUDE-D302-A-2,
+  CLAUDE-D302-A-3 and observations CLAUDE-D302-O-1,
+  CLAUDE-D302-O-2, CLAUDE-D302-O-3 travel as honesty work. Codex
+  Stage B turn-1 returned no observation identifiers. Does not
+  invent a D9 code, a ping body schema, a RunId recipe, or a D-002
+  platform list. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D302. Does not unwrite D-015, D-056, D-086, D-218, D-241,
+  D-243, D-245, D-247, D-292, D-293, D-294, D-295, D-296, D-297,
+  D-298, D-299, D-300, or D-301.
+- **Commit:** C-D302.
