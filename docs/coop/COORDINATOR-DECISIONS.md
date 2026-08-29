@@ -16596,3 +16596,67 @@ file-09 D-000 act. Left whole-document until then.
   rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
   C-D296. Does not unwrite D-115, D-182, D-293, D-294, or D-295.
 - **Commit:** C-D296.
+
+---
+
+## D-297 — Record sarif-fc-outfail-golden.v3 as DR-122 leftover-design FC-OUTFAIL no-committed-run fixture implementations
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-297.review-adversarial.claude2.json`,
+  `c0b2fce8a17cbdb09acee477e6b351dc3440be704e77e1e100a63645ba5ffd9a`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-297.review-adversarial.codex.json`,
+  `bb1a27be41e5b490241c0001021d183dccfca59f66f199aa343ebb06bd2bbcfc`)
+  CONSENT. Subject `coordinator-decisions.D-297.draft.md`
+  `21db8ddc78ee4fb22e83f5e511b5c82e66f81077e8b5d07fc1bfaf25551a9a32`.
+  Frozen successor `sarif-fc-outfail-golden.v3.json`
+  `236fdb338d7bc441bf0315a3c7cc51580f83c20c2cbc3e1e945c742ed3b32179`
+  Stage A Claude ACCEPT
+  `eb61ef8428d0f0a79aaff049c5b5fb5bc3eb98606006b8707d08d72678471190`
+  0/0; Stage A Codex ACCEPT
+  `c5cb70c0f0253d60e33baededb3b1c50c08665c037551eab5da0985e7a25b13a`
+  0/0. Claude 2 Stage B turn-1 returned 2 named advisories objects
+  CLAUDE-D297-A1, CLAUDE-D297-A2 (with members blocking, field,
+  id, ifEverRepaired, measurement, severity, title,
+  whyNotShouldFix); they travel as honesty work. Codex Stage B
+  turn-1 returned an empty mustFix list; an empty shouldFix list;
+  an empty advisories list; no observationsNotFindings field.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sarif-fc-outfail-golden.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-296. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/sarif-fc-outfail-golden.v3.json`
+  `236fdb338d7bc441bf0315a3c7cc51580f83c20c2cbc3e1e945c742ed3b32179`.
+- **Decision:** Record sarif-fc-outfail-golden.v3 as DR-122
+  leftover-design FC-OUTFAIL no-committed-run fixture
+  implementations after D-296. The candidate binds NOTHING. DR-122
+  stays `PROPOSED-CLOSED-FOR-REVIEW`. leftover-design of
+  OBL-FC-OUTFAIL-FX remains on leftover-join.v4 (D-182) because
+  FC-OUTFAIL.committed-run-preserved stays NOT-AUTHORED under the
+  §7.1 RunId park, and leftover-join remasurement is not this
+  entry. leftover-design of OBL-FC-NONAUTH-TERM-FX remains on
+  leftover-join.v4 until a later leftover-join remasurement after
+  D-296. Does not remasure leftover-join.v4. Does not SATISFY
+  DR-122. D-056 Eligibility gates 2 and 3 do not hold for DR-122.
+  Gate 1 Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is zero.
+  Frozen sarif-fc-outfail-golden.v1 and sarif-fc-outfail-golden.v2
+  stay frozen; do not record them as current. Claude Stage A
+  advisory IR-FCOUTFAIL-G3-A1 travels as honesty work. Does not
+  invent a D9 code, a RunId recipe, a CommandEnvelope schema, or a
+  D-002 platform list. Does not advertise SARIF. Does not
+  resurrect G17. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D297. Does not unwrite D-115, D-182, D-293, D-294, D-295, or
+  D-296.
+- **Commit:** C-D297.
