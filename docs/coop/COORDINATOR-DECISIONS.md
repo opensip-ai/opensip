@@ -17335,3 +17335,85 @@ file-09 D-000 act. Left whole-document until then.
   C-D306. Does not unwrite D-086, D-145, D-173, D-232, D-287,
   D-293, D-294, D-305.
 - **Commit:** C-D306.
+
+---
+
+## D-307 — Record harness.DR-G04.core-memory.v5 as G04 occupancy remasurement
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-307.review-adversarial.claude2.json`,
+  `2f9b119e8c98150e68e4d0f873439d8b241f8f4221b7c721068421cabe686dba`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-307.review-adversarial.codex.json`,
+  `98882b91e1c6909eea672c145939fb84c86af19b4a83a0dc3a8212a7200656ac`)
+  CONSENT. Subject `coordinator-decisions.D-307.draft.md`
+  `187f8da806a2c40894d6827c8e371ac729731f302dbd1ef99ed9d93a5da0a4c2`.
+  Frozen occupancy `harness.DR-G04.core-memory.v5.json`
+  `5a646c981cb26e18c32df32f4a6f625242d4be57d9167510c564b2f6591896de`
+  Stage A Claude ACCEPT
+  `53541939b6e81fba8d684d95fac28501b01d6cb2de1168b692e4f5c86149e312`
+  0/0; Stage A Codex ACCEPT
+  `e61198577c83f208bdd9cea78ac24980180058302a2f66231337df6b8c736d81`
+  0/0. Claude 2 Stage B turn-1 returned 4 named observations
+  objects CLAUDE-D307-O1, CLAUDE-D307-O2, CLAUDE-D307-O3,
+  CLAUDE-D307-O4 (members id, observation, severity, where,
+  whyItDoesNotStand); an empty mustFix list; an empty shouldFix
+  list; an empty advisories list; no observationsNotFindings
+  field; they travel as honesty work. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty observations list; an empty
+  observationsNotFindings list.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `harness.DR-G04.core-memory.v5.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-306. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/harness.DR-G04.core-memory.v5.json`
+  `5a646c981cb26e18c32df32f4a6f625242d4be57d9167510c564b2f6591896de`.
+- **Decision:** Record harness.DR-G04.core-memory.v5 as G04
+  occupancy remasurement after D-306. The candidate binds NOTHING.
+  DR-G04 stays `OPEN`. leftover-design of the G04
+  specification-authoring limb of OBL-2 remains measured stale.
+  leftover-design of OBL-2, OBL-D1, and OBL-D2 remains. Remainder
+  of OBL-2 on distribution-core leftover-join.v9 is (a) D-006 unit
+  and G02 tree-accounting UNDECIDED, so size comparison cannot be
+  scored on that join, and (b) G01-G05 execution, which remains
+  qualification (D-056). D-293 decided the unit; G04 occupancy v5
+  cites that unit so G04 bound comparison is specified scorable
+  under MB = 1e6 bytes. Does not write a derived byte constant.
+  Does not authorize a binary-MB byte constant. Does not invent
+  G02 tree-accounting. Does not amend D-102. Does not pin
+  QUALIFIED. Does not invent fixture bytes. Does not mint
+  Rust-as-core. Does not take over G01, G02, G03, G05, G07, G14,
+  or G22. Does not occupy the G02 identifier. Does not occupy the
+  G03 identifier. Does not SATISFY DR-101. Does not SATISFY
+  DR-117. Does not SATISFY DR-131. Does not SATISFY DR-133. Gate 1
+  Class A is not opened. Class B SATISFIED is not recorded. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is zero.
+  Naming parent is naming v6 (D-145) dual ACCEPT 0/0.
+  leftover-join.v9 is not parentReview. Frozen G04 occupancy v1
+  remains the CGHS promised-path occupancy. Frozen G04 occupancy
+  v4 remains a historical occupancy remasurement recorded at
+  D-234; after this successor is recorded, G04 occupancy v4 is not
+  current. CLAUDE-G04H-V3-B1 remains landed. Claude Stage A
+  observationsNotFindings strings travel as honesty work; this
+  entry does not invent identifiers for them. Codex Stage A G04
+  occupancy v5 returned no observation identifiers. Does not
+  execute fixtures. Does not rewrite G01, G02, G03, G05, G07, G08,
+  G09, G10, G12, G14, G15, G16, G18, G19, G20, G21, G22, G23, G24,
+  G25, G26, G27, G28, G29, G30, G31, or G32. Does not rewrite
+  frozen G04 occupancy v1 through v4. Does not edit file 08. Does
+  not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D307. Does not unwrite D-102, D-145, D-173, D-234, D-287,
+  D-293, D-294, D-306.
+- **Commit:** C-D307.
