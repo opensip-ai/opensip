@@ -16531,3 +16531,68 @@ file-09 D-000 act. Left whole-document until then.
   D-274, D-277, D-278, D-283, D-285, D-287, D-288, D-292, D-293,
   or D-294.
 - **Commit:** C-D295.
+
+---
+
+## D-296 — Record sarif-fc-nonauth-term-golden.v3 as DR-122 leftover-design FC-NONAUTH-TERM fixture implementations
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-296.review-adversarial.claude2.turn2.json`,
+  `462e73415a13f66f92bc81e831239768e96bd71b6e871219a14fd5340c00b928`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-296.review-adversarial.codex.turn2.json`,
+  `1dc4dd53765c588ea0f1d802def7fbaab1e1bea96f2a348b48f3b0fe2f359870`)
+  CONSENT. Subject `coordinator-decisions.D-296.turn2.draft.md`
+  `6a113fe714a4a1d0bc891e012359f69b409cc7b23e991afced055de3eee0d58f`.
+  Frozen successor `sarif-fc-nonauth-term-golden.v3.json`
+  `de3c859b4028ff8dcb8b71028809bf5339b7092d78bb0dc34dd7229a644cd5ed`
+  Stage A Claude ACCEPT
+  `73b9b58137ebbb710eaaac71048ffd3d0c8d1f7815e7f812c1b4c4d461ea7884`
+  0/0; Stage A Codex ACCEPT
+  `77601ced19170dd0d0a5c54d55337c183547ddb6f5c8a553bc552b19c777c4b9`
+  0/0. Prior turns: turn-1 Claude 2 OBJECT (CLAUDE-D296-MF1,
+  CLAUDE-D296-SF1, CLAUDE-D296-SF2;
+  `c718571bec62480bb2d04e983898f8542216c8d4cffa28c4c9560d7f99787a26`);
+  turn-1 Codex OBJECT (unlabeled SHOULD-FIX;
+  `cd29a9095613bfb85022083b623bc998244398ebda4df93a629f5b30c639ac9a`).
+  Claude 2 Stage B turn-2 returned 4 unlabeled
+  observationsNotFindings objects (with members observation,
+  whyNotAFinding); no identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sarif-fc-nonauth-term-golden.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-295. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/sarif-fc-nonauth-term-golden.v3.json`
+  `de3c859b4028ff8dcb8b71028809bf5339b7092d78bb0dc34dd7229a644cd5ed`.
+- **Decision:** Record sarif-fc-nonauth-term-golden.v3 as DR-122
+  leftover-design FC-NONAUTH-TERM fixture implementations after
+  D-295. The candidate binds NOTHING. DR-122 stays
+  `PROPOSED-CLOSED-FOR-REVIEW`. leftover-design of
+  OBL-FC-NONAUTH-TERM-FX remains on leftover-join.v4 (D-182) until
+  a later leftover-join remasurement. leftover-design of
+  OBL-FC-OUTFAIL-FX remains; this recording does not author
+  FC-OUTFAIL. Does not remasure leftover-join.v4. Does not SATISFY
+  DR-122. D-056 Eligibility gates 2 and 3 do not hold for DR-122.
+  Gate 1 Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is zero.
+  Frozen sarif-fc-nonauth-term-golden.v1 and
+  sarif-fc-nonauth-term-golden.v2 stay frozen; do not record them
+  as current. Claude Stage A sarif-fc-nonauth-term-golden.v3
+  requested no change; OBS-1, OBS-2, OBS-3, OBS-4 and OBS-5 are
+  reviewer-local labels and carry those identifiers. Does not
+  invent a D9 code, a RunId recipe, a CommandEnvelope schema, or a
+  D-002 platform list. Does not advertise SARIF. Does not
+  resurrect G17. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D296. Does not unwrite D-115, D-182, D-293, D-294, or D-295.
+- **Commit:** C-D296.
