@@ -17014,3 +17014,84 @@ file-09 D-000 act. Left whole-document until then.
   D-243, D-245, D-247, D-292, D-293, D-294, D-295, D-296, D-297,
   D-298, D-299, D-300, or D-301.
 - **Commit:** C-D302.
+
+---
+
+## D-303 — Record compatibility leftover-join.v3 as DR-111 leftover remasurement
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 3 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.claude2.turn3.json`,
+  `bacb31bdd98c95fa842dcf43a202afaa3ad27d848f18bc2ca37351829e53c722`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.codex.turn3.json`,
+  `3f6423ea5b16ff204baae3be508f586e662dbf1f41a746d660e4be647b779921`)
+  CONSENT. Subject `coordinator-decisions.D-303.turn3.draft.md`
+  `91489a650a89d5cbb98302664012afcc231fd259ed4763435ca43656cdab93db`.
+  Frozen successor `compatibility-leftover-join.v3.json`
+  `3feb83673b659e810e57918ffa4b8f575976c17bcc50565fc2fac2171546d4a1`
+  Stage A Claude ACCEPT
+  `86756fe56f3f5c26897865d210eaf5067b03af512e3bac483257ea2ee4eb90e6`
+  0/0; Stage A Codex ACCEPT
+  `f1a0e1d6142d589bc3aea227377b9468a769466517137915a39158c712af9245`
+  0/0. Prior turns: turn-1 Claude 2 OBJECT 1 MUST-FIX, 0
+  SHOULD-FIX CLAUDE-D303-MF1
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.claude2.json`,
+  `7b8bf0dd43d6d729760769528616d520dff070305e8d0fe70e50ff56e5a23f6a`);
+  turn-1 Codex CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.codex.json`,
+  `339bdf78105a9dc04b2fc82b167853c2f5483299eb77325dbbc133c6f5d792ad`);
+  turn-2 Claude 2 OBJECT 0 MUST-FIX, 1 SHOULD-FIX
+  CLAUDE-D303-T2-SF1
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.claude2.turn2.json`,
+  `0a357ceac9aa9393f8efa56d803df8532172e6119153cd0acef25ae41cb35ab6`);
+  turn-2 Codex CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-303.review-adversarial.codex.turn2.json`,
+  `a1bc288962e58c41db83f5be60827a2791693a72f0b3ce2179917dbe7bfe22da`).
+  Claude 2 Stage B turn-3 returned 5 named observations objects
+  CLAUDE-D303-T3-O-1, CLAUDE-D303-T3-O-2, CLAUDE-D303-T3-O-3,
+  CLAUDE-D303-T3-O-4, CLAUDE-D303-T3-O-5 (with members id,
+  measurement, title); an empty advisories list; they travel as
+  honesty work. Codex Stage B turn-3 returned an empty mustFix
+  list; an empty shouldFix list; an empty advisories list; an
+  empty observations list; an empty observationsNotFindings list.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `compatibility-leftover-join.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-302. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/compatibility-leftover-join.v3.json`
+  `3feb83673b659e810e57918ffa4b8f575976c17bcc50565fc2fac2171546d4a1`.
+- **Decision:** Record compatibility leftover-join.v3 as DR-111
+  leftover remasurement after D-302. The candidate binds NOTHING.
+  DR-111 stays `OPEN`. leftover-design of OBL-NUMERIC-WINDOWS and
+  OBL-LOCK-JOIN remains. Does not invent numeric windows. Does not
+  invent a window unit, surface coupling, or window value. Does
+  not produce a lock. Does not treat D-294 as the warrant. Does
+  not SATISFY DR-111. D-056 Eligibility gates 2 and 3 do not hold
+  for DR-111. Gate 1 Class A is not opened. Not eligible in kind.
+  Not SATISFIED. Required-now stays 28. Condition-4 effect is
+  zero. Frozen compatibility leftover-join.v2 stays frozen; do not
+  record it as current after this successor is recorded. Claude
+  Stage B turn-1 MUST-FIX CLAUDE-D303-MF1 is landed. Claude Stage
+  B turn-2 SHOULD-FIX CLAUDE-D303-T2-SF1 is landed. Claude Stage B
+  turn-2 observations CLAUDE-D303-T2-O-1, CLAUDE-D303-T2-O-2,
+  CLAUDE-D303-T2-O-3, CLAUDE-D303-T2-O-4 travel as honesty work.
+  Codex Stage B turn-2 returned no observation identifiers. Claude
+  Stage B turn-1 observations CLAUDE-D303-O1, CLAUDE-D303-O2,
+  CLAUDE-D303-O3, CLAUDE-D303-O4 travel as honesty work. Codex
+  Stage B turn-1 returned no observation identifiers. Does not
+  invent a D9 code or a D-006 unit. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D303. Does not unwrite D-012, D-103, D-177, D-236, D-293,
+  D-294, D-295, D-296, D-297, D-298, D-299, D-300, D-301, or
+  D-302.
+- **Commit:** C-D303.
