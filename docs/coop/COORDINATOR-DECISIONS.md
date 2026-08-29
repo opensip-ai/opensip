@@ -17712,3 +17712,94 @@ file-09 D-000 act. Left whole-document until then.
   C-D310. Does not unwrite D-124, D-277, D-278, D-293, D-294, or
   D-309.
 - **Commit:** C-D310.
+
+---
+
+## D-311 — Classify the seven reserved lifecycle mechanisms of lifecycle-generation-contract.v2 as implementation encodings (C6-a)
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-311.review-adversarial.claude2.json`,
+  `1080c8b668a8f0d3419dc06b84f8094d8341ed6568bca754e45352e0ccf739d2`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-311.review-adversarial.codex.json`,
+  `f5ba04eb350f7f7dfd4e94fbc6c322693afa38963721a5038d86cb3a917b2122`)
+  CONSENT. Subject `coordinator-decisions.D-311.draft.md`
+  `3253afa348191469768cac6655ea3584aeb3ed6e8c9f129e9821e403d5f35641`.
+  COORD-only. No Stage A artifact successor. Claude 2 Stage B
+  turn-1 returned 5 named observations objects CLAUDE-D311-O1,
+  CLAUDE-D311-O2, CLAUDE-D311-O3, CLAUDE-D311-O4, CLAUDE-D311-O5
+  (members id, observation, severity, where, whyItDoesNotStand);
+  an empty mustFix list; an empty shouldFix list; an empty
+  advisories list; an empty blockers list; no
+  observationsNotFindings field; they travel as honesty work.
+  Codex Stage B turn-1 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty blockers
+  list; 13 unlabeled observationsNotFindings strings; no
+  observations field. This entry names the Claude identifiers
+  CLAUDE-D311-O1, CLAUDE-D311-O2, CLAUDE-D311-O3, CLAUDE-D311-O4,
+  CLAUDE-D311-O5; no identifier is invented. It recites Codex
+  observations as strings. It does not claim that both reviewers'
+  identifiers are preserved. Codex Stage B turn-1 returned no
+  observation identifiers.
+- **Decision type:** RULE-GOVERNED. Records the owner's D-293
+  Decision 7 C6 disposition as a COORD-only architecture-scope
+  classification. Same no-cell-edit branch as D-170 through D-235
+  and D-237 through D-310. D-272 is CONTESTED and is not on that
+  branch. Not a remasurement. Not a three-limb act. Not
+  SATISFIED-GRADE. Not a leftover-join successor.
+- **Subject:** COORD-only. No artifact successor.
+- **Decision:** Classify the seven reserved members of
+  lifecycle-generation-contract.v2 — on-disk journal format, lock
+  file grammar beyond DR-103 lockSchema, lease implementation
+  (fcntl, sqlite, custom), solver algorithm, filesystem layout,
+  the reviewed equivalent of atomic rename, and the on-disk
+  quarantine format — as implementation encodings.
+  `$.mechanismReservation.failureRule` remains the acceptance bar
+  regardless of mechanism: a later implementation successor that
+  cannot prove P-1..P-8 fails DR-107, regardless of mechanism
+  choice. Live file 04's "same-filesystem atomic rename or a
+  reviewed equivalent" rule stands. No new
+  atomic-rename-equivalent admissibility policy is recorded. No
+  concrete mechanism is chosen. The seven members remain explicit
+  named open decisions. leftover-design of OBL-ENCODING-RESERVED
+  remains true on lifecycle leftover-join.v4: existingGate none,
+  executionObligationOwnerToday none, rideStanding
+  not-capable-of-riding. leftover-design of OBL-G18-FX-AUTHORING
+  remains. The classification has no Condition-2 or D-056
+  eligibility effect without a separate reviewed scope/eligibility
+  successor and a successor-join remeasurement. No concrete
+  encoding becomes post-Condition-5 work without that further
+  successor. The lock-file-grammar member is classified as
+  implementation scope; it is not decided. NO lock is producible
+  until DR-111 closes, so that member waits on C3(ii) for any
+  lock-shaped successor. Q6 is named, not answered: whether this
+  classification is echoed in file 08 or lives only in COORD.
+  D-293 closes with It does not edit file 08; this act does not
+  edit file 08. Q7 is named, not answered: whether an obligation
+  classified as implementation-scope but still leftoverDesign true
+  can ever satisfy D-056 gate 2. DR-107 stays
+  `PROPOSED-CLOSED-FOR-REVIEW`. Does not pin QUALIFIED. Does not
+  invent a journal, lock grammar, lease implementation, solver,
+  filesystem layout, atomic-rename equivalent, or quarantine
+  format. Does not steal OBL-G18-FX-AUTHORING as a GATE closure.
+  Does not steal OBL-ENCODING-RESERVED. Does not remasure
+  lifecycle leftover-join.v4. Does not record
+  lifecycle leftover-join.v5. Does not occupy the G18 identifier.
+  Does not SATISFY DR-107. Does not SATISFY DR-117. Does not
+  flatten DR-118 `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does not
+  flatten DR-107 `PROPOSED-CLOSED-FOR-REVIEW` to `OPEN`. Does not
+  SATISFY DR-131. Does not SATISFY DR-133. Gate 1 Class A is not
+  opened. Not SATISFIED. Required-now stays 28. Condition-4 effect
+  is zero. Naming parent of G18 is naming v6 (D-145). Does not
+  execute G18. Does not edit file 08. Does not invent a D9 code.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D311. Does not unwrite D-107, D-275, D-276, D-293, D-294,
+  D-310, or D-309.
+- **Commit:** C-D311.
