@@ -17889,3 +17889,89 @@ file-09 D-000 act. Left whole-document until then.
   C-D312. Does not unwrite D-013, D-104, D-106, D-174, D-214,
   D-266, D-270, D-282, D-290, D-293, D-304, D-311.
 - **Commit:** C-D312.
+
+---
+
+## D-313 — Record identity-namespace leftover-join.v8 as DR-104 leftover remasurement (A3 bookkeeping successor)
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-313.review-adversarial.claude2.turn2.json`,
+  `1154514eb77f9a01b0ea37799636dce0de046c72d53b6f12c5742e23481ee6c0`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-313.review-adversarial.codex.turn2.json`,
+  `735b3a05ad8f3f0d9c967876ee94a34df72ad3bba8748cf3f715eb8c4a5d9279`)
+  CONSENT. Subject `coordinator-decisions.D-313.turn2.draft.md`
+  `5d3fb8c3107e803b4523620546b19518458001bd2e671398944a5e3cb1b5c769`.
+  Frozen successor `identity-namespace-leftover-join.v8.json`
+  `70fee25f9316ce3aca7c1fefed8ef8d4cb1c405666a06452c1288ed47cf8531f`
+  Stage A Claude ACCEPT
+  `7fd61cbc7019e2f7f481e2d8ad793a2de7424f252ac980ed3b147fd247c41626`
+  0/0; Stage A Codex ACCEPT
+  `12aaab45881db1c2f2e68201b0affbb1db01cb79979ea738ed06e84ffc0beb82`
+  0/0. Prior turns: turn-1 Claude 2 CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-313.review-adversarial.claude2.json`,
+  `71cc6aa3119ee88aa6ec8bc4495ec932bad2da68cb66cee65e0a6bec9cd97202`);
+  turn-1 Codex OBJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-313.review-adversarial.codex.json`,
+  `669c5d8537e290ca7251341b5af653b731486a1225f53de518e794112475d748`).
+  Claude 2 Stage B turn-2 returned 6 named observations objects
+  CLAUDE-D313-T2-O-1, CLAUDE-D313-T2-O-2, CLAUDE-D313-T2-O-3,
+  CLAUDE-D313-T2-O-4, CLAUDE-D313-T2-O-5, CLAUDE-D313-T2-O-6
+  (members id, severity, where, observation, whyItDoesNotStand);
+  an empty mustFix list; an empty shouldFix list; an empty
+  advisories list; an empty blockers list; no
+  observationsNotFindings field; they travel as honesty work.
+  Codex Stage B turn-2 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty blockers
+  list; 15 unlabeled observationsNotFindings strings; no
+  observations field. This entry names the Claude identifiers
+  CLAUDE-D313-T2-O-1, CLAUDE-D313-T2-O-2, CLAUDE-D313-T2-O-3,
+  CLAUDE-D313-T2-O-4, CLAUDE-D313-T2-O-5, CLAUDE-D313-T2-O-6; no
+  identifier is invented. It recites no Codex observations. It
+  does not claim that both reviewers' identifiers are preserved.
+  Codex Stage B turn-2 returned no observation identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `identity-namespace-leftover-join.v8.json` (0
+  blockers, 0 SHOULD-FIX). Same no-cell-edit branch as D-170
+  through D-235 and D-237 through D-312. D-272 is CONTESTED and is
+  not on that branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/identity-namespace-leftover-join.v8.json`
+  `70fee25f9316ce3aca7c1fefed8ef8d4cb1c405666a06452c1288ed47cf8531f`.
+- **Decision:** Record identity-namespace leftover-join.v8 as
+  DR-104 leftover remasurement after D-312. The candidate binds
+  NOTHING. DR-104 stays `SATISFIED`.
+  identity-namespace leftover-join.v8 carries the live SATISFIED
+  token as a measurement. It does not record SATISFIED. It neither
+  replaces nor reopens D-236. leftoverDesign remains []. Remainder
+  is G31 execution, which remains qualification (D-056). G31
+  occupancy v5 is the consumed specification. occupancy v2 is
+  historical. Does not SATISFY DR-104. Does not execute G31. Does
+  not pin QUALIFIED. Does not occupy the G31 identifier. D-056
+  Eligibility gates 2 and 3 do not hold as a new SATISFIED
+  recording of this join. Gate 1 Class A is not opened.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  identity-namespace leftover-join.v6 remains a historical
+  leftover remasurement recorded at D-175; after this successor is
+  recorded, identity-namespace leftover-join.v6 is not current.
+  Frozen identity-namespace leftover-join.v7 stays frozen; it is
+  CANDIDATE-NOT-APPLIED and is not recorded as current. Claude
+  Stage A observationsNotFindings O1, O2, O3, O4, O5 travel as
+  honesty work. Codex Stage A identity-namespace leftover-join.v8
+  returned no observation identifiers. The unlabeled Codex Stage B
+  turn-1 SHOULD-FIX is landed. Claude Stage B turn-1 observations
+  CLAUDE-D313-O1, CLAUDE-D313-O2, CLAUDE-D313-O3, CLAUDE-D313-O4,
+  CLAUDE-D313-O5 travel as honesty work. Codex Stage B turn-1
+  returned no observation identifiers. Does not invent a D9 code.
+  Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D313. Does not unwrite D-012, D-056, D-167, D-175, D-208,
+  D-236, D-293, or D-312.
+- **Commit:** C-D313.
