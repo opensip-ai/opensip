@@ -16789,3 +16789,74 @@ file-09 D-000 act. Left whole-document until then.
   C-D299. Does not unwrite D-086, D-222, D-284, D-291, D-293,
   D-294, D-295, D-296, D-297, or D-298.
 - **Commit:** C-D299.
+
+---
+
+## D-300 — Record anti-lockstep-hostile-goldens.v3 as DR-127 leftover-design fixture implementations
+
+- **Date:** 2026-08-28
+- **Status:** **ADOPTED 2026-08-28.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-300.review-adversarial.claude2.json`,
+  `826c991140cc315a667ba312e6360d36bdcc23f3fd4aec3d01b547fc4c4ace78`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-300.review-adversarial.codex.json`,
+  `2059f1ca7fbb4b69787242409cf3bff318b0a76677abf3666247f4faddedfc5d`)
+  CONSENT. Subject `coordinator-decisions.D-300.draft.md`
+  `5235c527afb079d2837f2785065fdbf9ac5979b5f92f67d326b645950a9f929f`.
+  Frozen successor `anti-lockstep-hostile-goldens.v3.json`
+  `8be1b6c59515d0e00aff5fe0de584d0ab1aabbdf3091bf878e3258a1c639fd31`
+  Stage A Claude ACCEPT
+  `e060c52771821de5fdc9438600781b21999ef1a9b7b1cb98c827ac6b06439cb6`
+  0/0; Stage A Codex ACCEPT
+  `753dfeb7981f8cd008a1e73f77417f6bcd27ffcaecc0498f078cbf52d9685b03`
+  0/0. Claude 2 Stage B turn-1 returned 3 named advisories objects
+  CLAUDE-D300-A-1, CLAUDE-D300-A-2, CLAUDE-D300-A-3 (with members
+  id, measurement, severity, status, title, whyNotShouldFix); they
+  travel as honesty work. Codex Stage B turn-1 returned an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  no observations field; no observationsNotFindings field.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `anti-lockstep-hostile-goldens.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-271 and D-273 through D-299. D-272 is CONTESTED
+  and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/anti-lockstep-hostile-goldens.v3.json`
+  `8be1b6c59515d0e00aff5fe0de584d0ab1aabbdf3091bf878e3258a1c639fd31`.
+- **Decision:** Record anti-lockstep-hostile-goldens.v3 as DR-127
+  leftover-design fixture implementations after D-299. The
+  candidate binds NOTHING. DR-127 stays `OPEN`. leftover-design of
+  OBL-HOSTILE-GOLDENS remains on anti-lockstep-leftover-join.v3
+  (D-186) because leftover-join remasurement is not this entry,
+  because seven classes carry unenumerated within-class
+  quantifiers, and because closing that obligation needs a
+  successor on anti-lockstep leftover-join alone (no same-id GATE
+  twin). leftover-design of OBL-AL3-CORE-ROLLBACK and
+  OBL-AL1-AL2-AL5 remains on anti-lockstep-leftover-join.v3.
+  leftover-design of OBL-G21-FX-AUTHORING remains on g21
+  leftover-join.v13 (D-292). Does not remasure
+  anti-lockstep-leftover-join.v3. Does not remasure g21
+  leftover-join.v13. Does not steal G21 leftover remaining on
+  DR-114. Does not SATISFY DR-127. Does not SATISFY DR-102. D-056
+  Eligibility gates 2 and 3 do not hold for DR-127. Gate 1 Class A
+  is not opened. Not eligible in kind. Not SATISFIED. Required-now
+  stays 28. Condition-4 effect is zero. Frozen
+  anti-lockstep-hostile-goldens.v1 and
+  anti-lockstep-hostile-goldens.v2 stay frozen; do not record them
+  as current. Claude Stage A advisories CLAUDE-ALHG-V3-A-1,
+  CLAUDE-ALHG-V3-A-2, CLAUDE-ALHG-V1-A-2, CLAUDE-ALHG-V1-A-3,
+  CLAUDE-ALHG-V1-A-4 travel as honesty work. Does not invent a
+  numeric window, a D9 code, a case count, a RunId recipe, or a
+  D-002 platform list. Does not copy J/CC definition bodies. Does
+  not edit file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D300. Does not unwrite D-015, D-056, D-086, D-111, D-186,
+  D-241, D-247, D-292, D-293, D-294, D-295, D-296, D-297, D-298,
+  or D-299.
+- **Commit:** C-D300.
