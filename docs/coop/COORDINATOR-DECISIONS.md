@@ -17803,3 +17803,89 @@ file-09 D-000 act. Left whole-document until then.
   C-D311. Does not unwrite D-107, D-275, D-276, D-293, D-294,
   D-310, or D-309.
 - **Commit:** C-D311.
+
+---
+
+## D-312 — Record component-manifest leftover-join.v15 as DR-103 leftover remasurement (OD-1 owner assignment)
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-312.review-adversarial.claude2.json`,
+  `370df781a89c5ef1d3664c27e39125e7404a5d10c6cb1cb56873fba0eb50505e`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-312.review-adversarial.codex.json`,
+  `349643c6eadd860a453109e0ef6c741e0134b89b5cff0542181f5fef08309061`)
+  CONSENT. Subject `coordinator-decisions.D-312.draft.md`
+  `0fe4be94b87b468537f1c88778416ffcac7d474e761656fabe9d744c1e43b11f`.
+  Frozen successor `component-manifest-leftover-join.v15.json`
+  `f27ffac2c6848a5a841651d939cbf143d1e45c15c4cf0aec7c6814c52b6e942c`
+  Stage A Claude ACCEPT
+  `d69ac07a0a6317add208552e49de9073908954d86cc405dfd4e0f9a3dd42df68`
+  0/0; Stage A Codex ACCEPT
+  `dff521e96ce74092ff185e388e77e2b066e8dd2cfb2011f5b1aaad60aeeff064`
+  0/0. Claude 2 Stage B turn-1 returned 5 named observations
+  objects CLAUDE-D312-O1, CLAUDE-D312-O2, CLAUDE-D312-O3,
+  CLAUDE-D312-O4, CLAUDE-D312-O5 (members id, severity, where,
+  observation, whyItDoesNotStand); an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty blockers
+  list; no observationsNotFindings field; they travel as honesty
+  work. Codex Stage B turn-1 returned an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  blockers list; an empty observationsNotFindings list; an empty
+  currentFindingIdentifiers list; no observations field. This
+  entry names the Claude identifiers CLAUDE-D312-O1,
+  CLAUDE-D312-O2, CLAUDE-D312-O3, CLAUDE-D312-O4, CLAUDE-D312-O5;
+  no identifier is invented. It recites Codex observations as
+  strings. It does not claim that both reviewers' identifiers are
+  preserved. Codex Stage B turn-1 returned no observation
+  identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `component-manifest-leftover-join.v15.json` (0
+  blockers, 0 SHOULD-FIX). Same no-cell-edit branch as D-170
+  through D-235 and D-237 through D-311. D-272 is CONTESTED and is
+  not on that branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/component-manifest-leftover-join.v15.json`
+  `f27ffac2c6848a5a841651d939cbf143d1e45c15c4cf0aec7c6814c52b6e942c`.
+- **Decision:** Record component-manifest leftover-join.v15 as
+  DR-103 leftover remasurement after D-311. The candidate binds
+  NOTHING. DR-103 stays `OPEN`. D-293 Decision 7 C7 assigns OD-1
+  to DR-115's Product + release engineering authority as a scoped
+  D-006 threshold-family successor. leftover-design of OBL-OD-1
+  remains because the four caps remain a named open decision.
+  leftover-design of OBL-WINDOWS-PATH, OBL-ENVELOPE-MISMATCH, and
+  OBL-UNICODE-NORM remains. leftover-design of OBL-OD-2 stays
+  false. existingGate of OBL-OD-1 stays none.
+  executionObligationOwnerToday stays none. rideStanding stays
+  not-capable-of-riding. The owner is recorded in reason, not as a
+  gate, and not in executionObligationOwnerToday. Does not invent
+  OD-1 numbers. Does not import DR-G05's
+  first-component-acceptance deferral. Does not answer Q8 or Q9.
+  Does not fold OD-2 onto a conditionalRequires shape. Does not
+  invent a schemas successor. Does not steal OBL-AT-FX-AUTHORING
+  or OBL-ADAPTER-IMPL. Does not SATISFY DR-103. D-056 Eligibility
+  gates 2 and 3 do not hold for DR-103. Gate 1 Class A is not
+  opened. Not eligible in kind. Not SATISFIED. Required-now stays
+  28. Condition-4 effect is zero. Frozen
+  component-manifest leftover-join.v12 remains a historical
+  leftover remasurement recorded at D-304; after this successor is
+  recorded, component-manifest leftover-join.v12 is not current.
+  Frozen component-manifest leftover-join.v13 and
+  component-manifest leftover-join.v14 stay frozen; each is
+  CANDIDATE-NOT-APPLIED and is not recorded as current. Claude
+  Stage A advisory CLAUDE-CMLJ-V15-A1 travels as honesty work.
+  Codex Stage A component-manifest leftover-join.v15 returned no
+  observation identifiers. Does not invent a D9 code or a D-006
+  unit. Does not edit file 08. The live DR-103 OD-1 owner cell
+  still reads UNASSIGNED between DR-115 and DR-120;
+  registerEchoAtApplication remains owed at a later MF-6. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D312. Does not unwrite D-013, D-104, D-106, D-174, D-214,
+  D-266, D-270, D-282, D-290, D-293, D-304, D-311.
+- **Commit:** C-D312.
