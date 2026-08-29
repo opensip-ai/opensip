@@ -17095,3 +17095,77 @@ file-09 D-000 act. Left whole-document until then.
   D-294, D-295, D-296, D-297, D-298, D-299, D-300, D-301, or
   D-302.
 - **Commit:** C-D303.
+
+---
+
+## D-304 — Record component-manifest leftover-join.v12 as DR-103 leftover remasurement (OD-2 final do-not-fold)
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-304.review-adversarial.claude2.turn2.json`,
+  `9bff3a1f9cb263cb4b5e8baa0af1c0f37c10976f3db0f148ddb6b7eb5c005868`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-304.review-adversarial.codex.turn2.json`,
+  `d5234a9336f56b57b0ebac6443096c21e708536d3018520289771863669bc7f0`)
+  CONSENT. Subject `coordinator-decisions.D-304.turn2.draft.md`
+  `55407f8af5ad05c4bd4c30bad52254e6d9871bd67ba241794ac1a5a15ec6b1c2`.
+  Frozen successor `component-manifest-leftover-join.v12.json`
+  `948eff600d593a3eed5e04715cdc4cb90c92876c114c9fc788051d687874c0b8`
+  Stage A Claude ACCEPT
+  `ca170adeb96f23e76982a36453b569eca6076c4a3eda19d33c6a29f2fe193f2b`
+  0/0; Stage A Codex ACCEPT
+  `3a52996c2c87dfcfb0054a5487491e996f745936819e49ff9c6d975795afe8e8`
+  0/0. Prior turns: turn-1 Claude 2 CONSENT 0/0
+  (`artifacts/coordinator-decisions.D-304.review-adversarial.claude2.json`,
+  `accd6441cf1290b78897f5bd2cd0aba46c0d5db8e66dd1e067d9e3669b9bb126`);
+  turn-1 Codex OBJECT 0 MUST-FIX, 1 SHOULD-FIX unlabeled
+  (`artifacts/coordinator-decisions.D-304.review-adversarial.codex.json`,
+  `985ed2cf6a1a4d29049a96ec7e51d7ca37f6a0fb4a323f036262e482b218ef43`).
+  Claude 2 Stage B turn-2 returned 6 named observations objects
+  CLAUDE-D304-T2-O-1, CLAUDE-D304-T2-O-2, CLAUDE-D304-T2-O-3,
+  CLAUDE-D304-T2-O-4, CLAUDE-D304-T2-O-5, CLAUDE-D304-T2-O-6 (with
+  members id, measurement, title); no mustFix field; no shouldFix
+  field; no advisories field; no observationsNotFindings field;
+  they travel as honesty work. Codex Stage B turn-2 returned an
+  empty mustFix list; an empty shouldFix list; an empty advisories
+  list; an empty observations list; an empty
+  observationsNotFindings list.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `component-manifest-leftover-join.v12.json` (0
+  blockers, 0 SHOULD-FIX). Same no-cell-edit branch as D-170
+  through D-235 and D-237 through D-271 and D-273 through D-303.
+  D-272 is CONTESTED and is not on that branch. Not a three-limb
+  act. Not SATISFIED-GRADE.
+- **Subject:**
+  `docs/coop/artifacts/component-manifest-leftover-join.v12.json`
+  `948eff600d593a3eed5e04715cdc4cb90c92876c114c9fc788051d687874c0b8`.
+- **Decision:** Record component-manifest leftover-join.v12 as
+  DR-103 leftover remasurement after D-303. The candidate binds
+  NOTHING. DR-103 stays `OPEN`. leftover-design of OBL-OD-2 is
+  measured closed as a final do-not-fold. leftover-design of
+  OBL-WINDOWS-PATH, OBL-ENVELOPE-MISMATCH, OBL-UNICODE-NORM, and
+  OBL-OD-1 remains. Does not assign OD-1's owner. Does not invent
+  OD-1 numbers. Does not fold OD-2 onto a conditionalRequires
+  shape. Does not invent a schemas successor. Does not steal
+  OBL-AT-FX-AUTHORING or OBL-ADAPTER-IMPL. Does not SATISFY
+  DR-103. D-056 Eligibility gates 2 and 3 do not hold for DR-103.
+  Gate 1 Class A is not opened. Not eligible in kind. Not
+  SATISFIED. Required-now stays 28. Condition-4 effect is zero.
+  Frozen leftover-join.v10 and leftover-join.v11 stay frozen; do
+  not record them as current. Claude Stage A advisory
+  CLAUDE-CMLJ-V12-A1 travels as honesty work. The unlabeled Codex
+  Stage B turn-1 SHOULD-FIX is landed. Claude Stage B turn-1
+  observations CLAUDE-D304-O1, CLAUDE-D304-O2, CLAUDE-D304-O3,
+  CLAUDE-D304-O4, CLAUDE-D304-O5 travel as honesty work. Codex
+  Stage B turn-1 returned no observation identifiers. Does not
+  invent a D9 code or a D-006 unit. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D304. Does not unwrite D-013, D-104, D-106, D-174, D-214,
+  D-266, D-270, D-282, D-290, D-293, D-303.
+- **Commit:** C-D304.
