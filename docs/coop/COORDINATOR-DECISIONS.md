@@ -18673,3 +18673,84 @@ file-09 D-000 act. Left whole-document until then.
   C-D321. Does not unwrite D-158, D-230, D-255, D-293, D-314,
   D-315, D-316, D-317, D-318, or D-320.
 - **Commit:** C-D321.
+
+## D-322 — Record g19 leftover-join.v6 as G19 leftover remasurement
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-322.review-adversarial.claude2.json`,
+  `14b70ac86a86f37693ff4bd5da1dd43d5449b4fed94e75fc48ef25262b94d38f`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-322.review-adversarial.codex.json`,
+  `7813a99434f202ae5eafac347b9ee2d27fb01167e5896b2d84f56a5a68cc62d7`)
+  CONSENT. Subject `coordinator-decisions.D-322.draft.md`
+  `95591eddef9e003a3191be8e3b51306c957c6a4195be147c4d817122864a7880`.
+  Frozen successor `g19-leftover-join.v6.json`
+  `374f4426f91c575a96b89ae591632d6e2ae4bc2c92a2f44f8d57a2cf68f4e729`
+  Stage A Claude ACCEPT
+  `831af668a82b06108630f06e52109a09e1d4ab38eded8fa1ee5512633fd16488`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `f25fbdc12ebea6f6cc4e3a6f490fc7646963d678d0a52cf39bfcdc94a7c33f8b`
+  0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `g19-leftover-join.v5.json`
+  `d7bce01edb64e25ac70df8feb9119e2e87aadd40c6259ffd50d797e9bfb6d126`
+  Stage A Claude ACCEPT 0/0
+  (`6fb207c10c2e4b957489a57db33f43e453264f9b2751982a9e00c05d2a9646b2`);
+  Codex ACCEPT 0/0
+  (`881f21181eb316e2871a4f389c2e2a0d06b0f03512a0f08aebe9ec23fa6198bb`).
+  Claude 2 Stage B turn-1 returned 2 named observations objects
+  CLAUDE-D322-T1-O1, CLAUDE-D322-T1-O2 (members id, observation,
+  severity, where, whyItDoesNotStand); an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  blockers list; no observationsNotFindings field; no findings
+  field; decision is a string CONSENT; top-level verdict is
+  CONSENT; they travel as honesty work. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty blockers list; an empty
+  observationsNotFindings list; no observations field; no findings
+  field; no decision field; top-level verdict is CONSENT. This
+  entry names the Claude identifiers CLAUDE-D322-T1-O1,
+  CLAUDE-D322-T1-O2; no identifier is invented. It recites no
+  Codex observations. Codex Stage B turn-1 returned no observation
+  identifiers. Claude Stage A identifiers O1, O2, O3, O4 travel as
+  honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g19-leftover-join.v6.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-321. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g19-leftover-join.v6.json`
+  `374f4426f91c575a96b89ae591632d6e2ae4bc2c92a2f44f8d57a2cf68f4e729`.
+- **Decision:** Record g19 leftover-join.v6 as G19 leftover
+  remasurement after D-321. The candidate binds NOTHING. DR-G19
+  stays `OPEN`. leftover-design of OBL-G19-FX-AUTHORING remains
+  true, scoped to per-D-002-platform copies of the twelve D-299
+  implementations. leftover-design of those twelve implementations
+  is stale as an authoring claim. leftover-design of
+  OBL-GRANT-JOURNAL, OBL-INHERIT-BLOCKED, and OBL-MONOTONIC
+  remains on state-class leftover-join.v4. Does not remasure
+  occupancy v2. Does not remasure g19-fixture-corpus.v2. Does not
+  remasure state-class leftover-join.v4. Does not SATISFY DR-117.
+  Does not SATISFY DR-124. Does not SATISFY DR-G19. D-316 already
+  opened D-056 Gate 1 Class A for DR-117; this entry does not open
+  Class A for DR-117 or DR-124 and does not perform gates 4 or 5.
+  Not SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen g19 leftover-join.v5 stays frozen; do not
+  record it as current after this successor is recorded. Claude
+  Stage A g19 leftover-join.v6 returned 4 observationsNotFindings
+  objects O1, O2, O3, O4 (members id, observation); they travel as
+  honesty work and this entry invents no identifier for them. Does
+  not invent a grant-journal, a PlanIntent schema, the DR-131
+  pack, Rust-as-core, a D9 code, a section 7.1 recipe, or a D-002
+  platform list. Does not author per-D-002-platform copies. Does
+  not remasure G30. Does not remasure G29. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D322. Does not unwrite D-086, D-145, D-222, D-256, D-284,
+  D-291, D-293, D-299, D-316, or D-321.
+- **Commit:** C-D322.
