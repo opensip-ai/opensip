@@ -18433,3 +18433,74 @@ file-09 D-000 act. Left whole-document until then.
   C-D317. Does not unwrite D-158, D-230, D-255, D-293, D-314,
   D-315, or D-316.
 - **Commit:** C-D317.
+
+---
+
+## D-318 — Record g29-fixture-corpus.v1 as DR-G29 leftover-design fixture implementations
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-318.review-adversarial.claude2.json`,
+  `ca1c700f8e0ae8e9547adf31e89a08d5f4cca64a7973560856ae93ae48e3d84d`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-318.review-adversarial.codex.json`,
+  `3585a1ef42a985eaf678a1bdf019005b36f04ec1cffb2cc9ab933af7dc919047`)
+  CONSENT. Subject `coordinator-decisions.D-318.draft.md`
+  `2306ebf86eb70a117c689c31e8f360984441fd2d461bc0dae4f4d55e991c02c0`.
+  Frozen successor `g29-fixture-corpus.v1.json`
+  `24fbbd2ddba0ca0a4e930cfabe83125768f8df38741abb867fc23c9b435b4fa1`
+  Stage A Claude ACCEPT
+  `c82007f84eca70daa19ddedde212c90bc85fa4fe225d74e0c201d6c064e5546b`
+  0/0 (`decision.verdict`); Stage A Codex ACCEPT
+  `c582205d822872e95bb34f3a4c1f8a39ea4f0ca7d532121177eb6e7e125132e5`
+  0/0. There is no predecessor g29-fixture-corpus. Claude 2 Stage
+  B turn-1 returned 2 named observations objects CLAUDE-D318-O1,
+  CLAUDE-D318-O2 (members id, observation, severity, where,
+  whyItDoesNotStand); an empty mustFix list; an empty shouldFix
+  list; an empty advisories list; an empty blockers list; no
+  observationsNotFindings field; they travel as honesty work.
+  Codex Stage B turn-1 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty blockers
+  list; an empty observationsNotFindings list; no observations
+  field. This entry names the Claude identifiers CLAUDE-D318-O1,
+  CLAUDE-D318-O2; no identifier is invented. It recites no Codex
+  observations. Codex Stage B turn-1 returned no observation
+  identifiers. Claude Stage A g29-fixture-corpus.v1 returned 2
+  attacksNotChargedWithDisclosure objects with no id field; this
+  entry invents no identifier for them.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g29-fixture-corpus.v1.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-317. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g29-fixture-corpus.v1.json`
+  `24fbbd2ddba0ca0a4e930cfabe83125768f8df38741abb867fc23c9b435b4fa1`.
+- **Decision:** Record g29-fixture-corpus.v1 as DR-G29
+  leftover-design fixture implementations after D-317. The
+  candidate binds NOTHING. DR-G29 stays `OPEN`. leftover-design of
+  OBL-G29-FX-AUTHORING remains true on g29 leftover-join.v4
+  (D-254) because leftover-join remasurement is not this entry,
+  leftoverDesignClosedIfAcceptedAndRecorded is empty, and
+  per-platform copies remain a later successor (OQ-G29-2). Does
+  not remasure g29 leftover-join.v4. Does not remasure occupancy
+  v3. Does not remasure g29-input-corpus.v1. Does not SATISFY
+  DR-117. Does not SATISFY DR-G29. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A and does
+  not perform gates 4 or 5. Not SATISFIED. Not QUALIFIED.
+  Required-now stays 28. Condition-4 effect is zero. Claude Stage
+  A returned 2 attacksNotChargedWithDisclosure objects with no id
+  field; they travel as honesty work and this entry invents no
+  identifier for them. Does not invent a PlanIntent schema, the
+  DR-131 pack, Rust-as-core, a D9 code, a section 7.1 recipe, or a
+  D-002 platform list. Does not remasure g30 leftover-join.v4.
+  Does not remasure g30-fixture-corpus.v2. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D318. Does not unwrite D-157, D-229, D-254, D-293, D-314,
+  D-315, D-316, or D-317.
+- **Commit:** C-D318.
