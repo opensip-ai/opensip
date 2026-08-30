@@ -18141,3 +18141,115 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** Overturn: C-D314. Does not unwrite D-293,
   D-294, D-295, D-300, D-304, D-305 through D-313.
 - **Commit:** C-D314.
+
+---
+
+## D-315 — User decisions: adopt the agreed G-six-amended recommendations
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Made directly by the user in
+  conversation. Same class as D-000 / D-054 / D-132 / D-293 /
+  D-314: the decisions are the user's, recorded verbatim rather
+  than made on their behalf. No subagent review of this entry is
+  required. The recommendations it adopts were reconciled between
+  two independent reviewers (Claude 2 and Codex) under
+  `DECISION-PACKETS/RECOMMENDATION-PROTOCOL.md`
+  (`331718a72d8c0ccebfeae635e648b17644793d085fb094f73f950bd1ca874b46`);
+  dedicated G-six-amended cycle, round-3 Codex verdict AGREE,
+  confidence high, 6 of 6 perQuestion AGREE
+  (`9c61b9337f44b1698eec5eac067ff043d0639f5ecedba063f49ea338d78a24b7`).
+  Owner cap was 4 rounds; this cycle closed at round 3. Every
+  later process act this entry names still requires its own D-000
+  cycle.
+- **Decision type:** PREFERENCE-LADEN user decisions (owner
+  rulings on the dedicated G-six-amended cycle). Not a
+  remasurement. Not SATISFIED-GRADE. This entry does not SATISFY
+  DR-117, DR-131, or DR-133. This entry does not open D-056 Class
+  A as a SATISFIED recording. This entry does not edit file 08.
+- **Subject:**
+  `DECISION-PACKETS/G-six-amended.claude-recommendation.r3.md`
+  `17de0bdf76622ec2ca15572cb9b7c866f0128b1a3fc544e6766066efad9b8552`
+  with Codex round-3 AGREE
+  `9c61b9337f44b1698eec5eac067ff043d0639f5ecedba063f49ea338d78a24b7`.
+  Evidence packet `DECISION-PACKETS/G-six-amended.md`
+  `9bfdf88a19f92364579c807f9a59c583d526dd563c87d877bb367073180ca27e`.
+  Round-1 Claude
+  `b8432bc5ee3ac5832517b3cec2884ac73ed4894e6f93cb3eb45e1bae5d76b732`;
+  round-1 Codex AGREE-WITH-AMENDMENT
+  `5d2dd9386ce7b9d427a2b008544e40905ec900927013581b51939b07b3ebbed6`;
+  round-2 Claude
+  `5f7b3a15625eb74d7e85a722320aaea74b289f5a04b1e2b6c534b803caf8d218`;
+  round-2 Codex AGREE-WITH-AMENDMENT
+  `682b7fb6686bf90efa6aae9bdea7e6347543f944587532c1eeba80687aab05a0`.
+  Protocol
+  `331718a72d8c0ccebfeae635e648b17644793d085fb094f73f950bd1ca874b46`.
+  Recorded from HEAD `f3b05e33479652ede37f0502084b50b590f630f7`
+  (last prior heading D-314). This is coordinator decision D-315,
+  not a register row.
+- **User words, recorded verbatim (this session):** 2026-08-29:
+  "perform the same review and recommendations on the last 6 until
+  you do reach an agreement. if it requires more than 4 rounds to
+  agree, then you can stop attempting to reach an agreement and
+  then ask me for the final say. if agreements are made, accept
+  them. then once you are done with this, continue forward with
+  completing the design/architecture"
+- **Decision:** The user is the sole human authority. Every
+  G-six-amended id that reached dual AGREE at round 3 of the
+  dedicated cycle is adopted as the owner's decision. That is all
+  six ids. Zero of the six remain split. Five ids (Q1, Q8, G3-G18,
+  G3-HOSTILE, G21-NT6) confirm the D-314 text for those ids. One
+  id (G21-SCHEMA) supersedes D-314 item 28 only; D-314 items 1-27,
+  29 and 30 stand as recorded. Codex round 1 of this cycle was
+  AGREE-WITH-AMENDMENT on G21-SCHEMA (five schema-trigger members
+  plus two OQ-G21-4 members). Claude round 2 adopted that
+  five-and-two split and added a witness-form guard. Codex round 2
+  AGREE-WITH-AMENDMENT deleted the guard and moved the five
+  parsed-object members onto OQ-G21-4 as contingent. Claude round
+  3 adopted that amendment in full. Codex round 3 AGREE. The six
+  are adopted in the round-3 text, not the round-1 or round-2
+  text. This entry does not SATISFY DR-117, DR-131, or DR-133.
+  Named later acts (Class A openings, leftover-join successors, C4
+  owner assignment, C10-C12 packet, G29/G30 fixtures) still
+  require their own D-000 cycles. Adopted text, per id: 1. **Q1**
+  (confirms D-314). Keep the existing preview refusal as the
+  decided OD-112-3 standing, retain OD-112-3 in namedOpenDecisions
+  with an explicit DECIDED standing, and do not widen the policy
+  beyond the preview product stage without a separate owner act.
+  2. **Q8** (confirms D-314). Leave the OD-1 numeric limb
+  explicitly open and supply no cap values. A later value proposal
+  must state an evaluable measurement method and follow the
+  recorded product-owned D-006 pattern without creating a
+  gate/corpus/runner prerequisite here. 3. **G3-G18** (confirms
+  D-314). Leave G18 blocked, specify no quarantine format now, and
+  do not permit quarantine fate without the bytes required by the
+  closed-type rule. Use a reviewed later implementation successor
+  that chooses the mechanism and proves the recorded P-1..P-8
+  properties, together with the other recorded type dependencies,
+  as the lawful trigger. 4. **G3-HOSTILE** (confirms D-314). Treat
+  the citation-witness floor as already authored at D-300, leave
+  the seven live v3 within-class universal sets including CC-6
+  named-open, and supply no per-class totals. A mechanical join
+  remasurement may proceed under D-293's existing delegation if it
+  adds no semantic choice; the cross-row byte-sharing question
+  remains separate owner work. 5. **G21-SCHEMA** (supersedes D-314
+  item 28). Leave all seven body-bearing CC-5 injections
+  named-open. Treat truncated bodies and invalid UTF-8 as
+  unconditionally not schema-blocked, with no witness-form guard.
+  Treat duplicate members, unknown members, floats, negative
+  integers, and over-uint53 integers as contingent on OQ-G21-4:
+  that ruling may permit a quoted-type envelope whose body is not
+  validated because parse-level RF-2 fires first, or a later
+  per-type-schema successor may provide an otherwise-conforming
+  base. Choose neither route and author no bytes here. 6.
+  **G21-NT6** (confirms D-314). Read g21-leftover-join.v13
+  doesNot[20] as a disclaimer of that join's own act, so NT-6 may
+  be authored as the agreed D1 work using only quoted governing
+  vocabulary; sequence that authoring after the DR-133 Class A
+  opening and before the later per-row cycle. The authoring act
+  does not SATISFY DR-133.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Overturn: C-D315. Does not unwrite D-293,
+  D-294, D-295, D-300, D-304, D-305 through D-314.
+- **Commit:** C-D315.
