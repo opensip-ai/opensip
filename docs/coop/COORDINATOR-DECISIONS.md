@@ -17975,3 +17975,169 @@ file-09 D-000 act. Left whole-document until then.
   C-D313. Does not unwrite D-012, D-056, D-167, D-175, D-208,
   D-236, D-293, or D-312.
 - **Commit:** C-D313.
+
+---
+
+## D-314 — User decisions: adopt the agreed G-owner-residuals recommendations
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Made directly by the user in
+  conversation. Same class as D-000 / D-054 / D-132 / D-293: the
+  decisions are the user's, recorded verbatim rather than made on
+  their behalf. No subagent review of this entry is required. The
+  recommendations it adopts were reconciled between two
+  independent reviewers (Claude 2 and Codex) under
+  `DECISION-PACKETS/RECOMMENDATION-PROTOCOL.md`
+  (`331718a72d8c0ccebfeae635e648b17644793d085fb094f73f950bd1ca874b46`);
+  round-2 Codex verdict AGREE, confidence high, 30 of 30
+  perQuestion AGREE
+  (`59802450a098b7a16acfba3992b1ef117eb252f4cc8e0b74fcca788d11478d6b`).
+  Every later process act this entry names still requires its own
+  D-000 cycle.
+- **Decision type:** PREFERENCE-LADEN user decisions (owner
+  rulings on G-owner-residuals). Not a remasurement. Not
+  SATISFIED-GRADE. This entry does not SATISFY DR-117, DR-131, or
+  DR-133. This entry does not open D-056 Class A as a SATISFIED
+  recording. This entry does not edit file 08.
+- **Subject:**
+  `DECISION-PACKETS/G-owner-residuals.claude-recommendation.r2.md`
+  `a96b868e78ae5ed101b36c471963b00649b42047faf0e22359a682937d5f0ace`
+  with Codex round-2 AGREE
+  `59802450a098b7a16acfba3992b1ef117eb252f4cc8e0b74fcca788d11478d6b`.
+  Evidence packet `DECISION-PACKETS/G-owner-residuals.md`
+  `c667cf4f8bf262c5bc195c9a0c1e2de48976a20d8a3fe06065b48c356ddab0d4`.
+  Round-1 Claude
+  `3025c0729d0154b3bdbf0358af33635c637541a95ec80d77c9b37830e11ef086`;
+  round-1 Codex AGREE-WITH-AMENDMENT
+  `83cb6d58eec313dd1dafa1cd7ca81bbe6339063c0655c45b0c4f6d05d527f8e2`.
+  Protocol
+  `331718a72d8c0ccebfeae635e648b17644793d085fb094f73f950bd1ca874b46`.
+  Recorded from HEAD `a2d004066d2db7ae89de9ea56979bddb210f0786`
+  (last prior heading D-313). This is coordinator decision D-314,
+  not a register row.
+- **User words, recorded verbatim (this session):** 2026-08-29:
+  "of all the answers needed from me, accept all where all ai
+  agents agreed. then let me know which did not have agreement"
+- **Decision:** The user is the sole human authority. Every
+  G-owner-residuals id that reached dual AGREE at round 2 is
+  adopted as the owner's decision. That is all 30 ids. Zero ids
+  remain without dual AGREE. Six ids (Q1, Q8, G3-G18, G3-HOSTILE,
+  G21-SCHEMA, G21-NT6) were Codex AGREE-WITH-AMENDMENT at round 1;
+  Claude round 2 adopted those amendments; Codex round 2 AGREE.
+  Those six are adopted in the round-2 text, not the round-1 text.
+  This entry does not SATISFY DR-117, DR-131, or DR-133. Named
+  later acts (Class A openings, leftover-join successors, C4 owner
+  assignment, C10-C12 packet, G29/G30 fixtures) still require
+  their own D-000 cycles. Adopted text, per id: 1. **G1-117.** Use
+  the owner-controlled opening now against
+  preview-product-boundary-successor.v10; require no further
+  successor and no prior shared gate-2 entry, and allow G29/G30
+  authoring only after that opening. The opening lifts D-137's
+  reservation but does not SATISFY DR-117. 2. **G1-131.** Keep the
+  agreed order: shared gate-2 entry, fresh application-grade
+  review of the exact final contract bytes, then the
+  owner-controlled opening; use preview-analyze-contract.v2 unless
+  review findings require a successor. The opening does not
+  SATISFY DR-131. 3. **G1-133.** Use the shared gate-2 entry,
+  fresh application-grade review of the exact final provider-only
+  contract bytes, and then the owner-controlled opening. Treat
+  NT-6 authoring as a separate D1 act after that opening and
+  before the later per-row cycle, not as opening content. The
+  opening does not SATISFY DR-133. 4. **Q0.** Confirm the bounded
+  incorporation: D-293 reaches the C1-C4 round-2 content expressly
+  incorporated by the adopted round-3 text and recited by D-293,
+  without generally adopting every decision-packet file. 5.
+  **Q1.** Keep the existing preview refusal as the decided
+  OD-112-3 standing, retain OD-112-3 in namedOpenDecisions with an
+  explicit decided standing, and do not widen the policy beyond
+  the preview product stage without a separate owner act. 6.
+  **Q2.** Leave OD-112-1, OD-112-2, and OD-112-4 RESERVED without
+  supplying values or recording a redundant parking act now. 7.
+  **Q3.** Leave the DR-111 numeric windows RESERVED until the
+  Versioning authority can state one coherent evaluable set; do
+  not choose only a unit or only some surfaces. 8. **Q4.** Assign
+  the DR-126 population packet to the recorded row authority,
+  Security + release + platform owners. 9. **Q5.** Leave all
+  DR-126 selector values and per-OS profiles RESERVED until an
+  application-grade successor makes the selector grammar
+  governing, then populate complete profiles rather than isolated
+  fields. 10. **Q6.** Let the D-310/D-311 COORD-only
+  classifications stand and carry their register echo in a later
+  MF-6, expressly without independent status or eligibility
+  effect. 11. **Q7.** Rule narrowly that an implementation-scope
+  label alone cannot satisfy D-056 gate 2 while the measured
+  obligation remains leftoverDesign true; a future reviewed
+  successor may change the measurement, but the label does not.
+  12. **Q8.** Leave the OD-1 numeric limb explicitly open and
+  supply no cap values. A later value proposal must state an
+  evaluable measurement method and follow the recorded
+  product-owned D-006 pattern without creating a
+  gate/corpus/runner prerequisite here. 13. **Q9.** Treat D-312's
+  successor citation as the assignment act already taken and place
+  the later register echo on DR-103, not on the already-SATISFIED
+  DR-115 row. 14. **Q10.** Confirm D-304's specifiedNotLeftover
+  bucket for OBL-OD-2; do not create a successor merely to relabel
+  it dischargedOrDeferred. 15. **Q11.** Use a dedicated D-000
+  successor that publishes a candidate set and then chooses
+  against the recorded DR-101 constraints; name no implementation
+  language in this recommendation and do not treat Rust-as-core as
+  decided. 16. **Q12.** Classify the OD-101-1 language selection
+  as Route C, PREFERENCE-LADEN with cheap overturn, while keeping
+  the surrounding DR-101 authoring and review discipline intact.
+  17. **Q13.** Leave OD-101-2 RESERVED for its own DR-101
+  signing/notarization successor and do not merge it with DR-112.
+  18. **Q14.** Continue the recorded occupancy form that quotes MB
+  = 1e6 bytes and do not add derived decimal-byte literals to
+  those occupancies. 19. **Q15.** Confirm Product + release
+  engineering and Architecture + release as the two G02 accounting
+  authorities, with any later rule covering every accounting
+  dimension already recorded. 20. **Q16.** Open a new byte-cited
+  evidence packet for C10-C12 now and take the substantive
+  decisions only after that evidence exists; do not park these
+  items behind Condition 5. 21. **G3-G15.** Leave the adapter
+  implementation reserved and name no adapter; revisit it only
+  through a reviewed DR-120 path after OD-101-1 and the applicable
+  implementation authorization. Separately adjudicate whether
+  non-execution fixture bytes can be authored before an adapter
+  exists. 22. **G3-G16.** Leave G16 blocked and do not enumerate a
+  current-declaration-only component set; require an authoritative
+  ownership record and a governing application-grade successor
+  before authoring the component axis. 23. **G3-G18.** Leave G18
+  blocked, specify no quarantine format now, and do not permit
+  quarantine fate without the bytes required by the closed-type
+  rule. Use a reviewed later implementation successor that chooses
+  the mechanism and proves the recorded P-1..P-8 properties,
+  together with the other recorded type dependencies, as the
+  lawful trigger. 24. **G3-HOSTILE.** Treat the citation-witness
+  floor as already authored at D-300, leave the seven live v3
+  within-class universal sets, including CC-6, named-open, and
+  supply no per-class totals. A mechanical join remasurement may
+  proceed under D-293's existing delegation if it adds no semantic
+  choice; the cross-row byte-sharing question remains separate
+  owner work. 25. **G3-SARIF-RUNID.** Keep
+  FC-OUTFAIL.committed-run-preserved parked and do not author an
+  opaque literal RunId; trigger it only after the governing RunId
+  recipe is bound. 26. **G21-EXACT.** Leave the exactly-at member
+  named-open and skip it until a control-protocol successor
+  reconciles the class intent with the operative refusal
+  predicate. 27. **G21-POST.** Leave the postHandshake-bound
+  members named-open and skip them until governing bytes pin both
+  the negotiated fixture value and the fixture representation for
+  postHandshake state. 28. **G21-SCHEMA.** Leave six
+  per-type-schema-dependent injections named-open on the schema
+  trigger. Keep truncated-body authoring separately named-open
+  pending the OQ-G21-4 fixture-form ruling; do not classify it as
+  schema-blocked. 29. **G21-NT6.** Read g21-leftover-join.v13
+  doesNot[20] as a disclaimer of that join's own act, so NT-6 may
+  be authored as the agreed D1 work using only quoted governing
+  vocabulary; sequence that authoring after the DR-133 Class A
+  opening and before the later per-row cycle. 30. **G21-FCNC.**
+  Leave FC-NC-CA1-PROCESS-TREE named-open and skip it until the
+  owner rules whether the shared FC-NC apparatus may be released
+  at G21 without spending the G12 reservation.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Overturn: C-D314. Does not unwrite D-293,
+  D-294, D-295, D-300, D-304, D-305 through D-313.
+- **Commit:** C-D314.
