@@ -18360,3 +18360,76 @@ file-09 D-000 act. Left whole-document until then.
   Does not unwrite D-116, D-137, D-157, D-158, D-159, D-168,
   D-207, D-254, D-255, D-293, D-294, D-295, D-314, or D-315.
 - **Commit:** C-D316.
+
+---
+
+## D-317 — Record g30-fixture-corpus.v2 as DR-G30 leftover-design fixture implementations
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-317.review-adversarial.claude2.json`,
+  `f38ba2e3dc704ccc935c394bd97a3a605bc811ae97b0e2ae254d5e5221688079`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-317.review-adversarial.codex.json`,
+  `b11dfc852fcf804fb1207c868a915232920f0dac09644f1b021050cb94fded18`)
+  CONSENT. Subject `coordinator-decisions.D-317.draft.md`
+  `6c72525238fa78a652de3f37c9c35e6db06ab9992e76686a84bdbf41ac08b784`.
+  Frozen successor `g30-fixture-corpus.v2.json`
+  `c8ab0b08913c3889c72ab9fb62ac5158f980856d7a15bea5096d47595dcdc714`
+  Stage A Claude ACCEPT
+  `29bf3f84568b9c1de5901a3ba9e0c5a5d1d5349a53a008ba1d91cac7db582364`
+  0/0; Stage A Codex ACCEPT
+  `4294e494d122099f216e05f39fb2e97e155dd04b5b637c837e31537713d4a8b7`
+  0/0. Frozen predecessor `g30-fixture-corpus.v1.json`
+  `0e86bd1690d92a6f33ca263f78aa0d3d582f9b1b5da1d0e0c682e397af1f6f0f`
+  Stage A Claude REJECT CLAUDE-G30FX-V1-S1
+  (`557bcb724ddb1b8e6d7a9148650786f45fadd3bd3fe3f17ad831f0115c90380e`);
+  Codex REJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`45d740fc830ec52e8c78ce910a80523b8cedb73986ae608c91786a1e04a0a394`).
+  Claude 2 Stage B turn-1 returned 3 named observations objects
+  CLAUDE-D317-O1, CLAUDE-D317-O2, CLAUDE-D317-O3 (members id,
+  observation, severity, where, whyItDoesNotStand); an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; they
+  travel as honesty work. Codex Stage B turn-1 returned an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; an empty observationsNotFindings list;
+  no observations field. This entry names the Claude identifiers
+  CLAUDE-D317-O1, CLAUDE-D317-O2, CLAUDE-D317-O3; no identifier is
+  invented. It recites no Codex observations. Codex Stage B turn-1
+  returned no observation identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g30-fixture-corpus.v2.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-316. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g30-fixture-corpus.v2.json`
+  `c8ab0b08913c3889c72ab9fb62ac5158f980856d7a15bea5096d47595dcdc714`.
+- **Decision:** Record g30-fixture-corpus.v2 as DR-G30
+  leftover-design fixture implementations after D-316. The
+  candidate binds NOTHING. DR-G30 stays `OPEN`. leftover-design of
+  OBL-G30-FX-AUTHORING remains true on g30 leftover-join.v4
+  (D-255) because leftover-join remasurement is not this entry,
+  leftoverDesignClosedIfAcceptedAndRecorded is empty, and
+  per-platform copies remain a later successor. Does not remasure
+  g30 leftover-join.v4. Does not remasure occupancy v2. Does not
+  remasure g30-input-corpus.v1. Does not SATISFY DR-117. Does not
+  SATISFY DR-G30. D-316 already opened D-056 Gate 1 Class A for
+  DR-117; this entry does not open Class A and does not perform
+  gates 4 or 5. Not SATISFIED. Not QUALIFIED. Required-now stays
+  28. Condition-4 effect is zero. Frozen g30-fixture-corpus.v1
+  stays frozen; do not record it as current. Claude Stage A
+  observations CLAUDE-G30FX-V2-O1, CLAUDE-G30FX-V2-O2,
+  CLAUDE-G30FX-V2-O3 travel as honesty work. Does not invent a
+  PlanIntent schema, the DR-131 pack, Rust-as-core, a D9 code, or
+  a section 7.1 recipe. Does not author G29 fixture bytes. Does
+  not edit file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D317. Does not unwrite D-158, D-230, D-255, D-293, D-314,
+  D-315, or D-316.
+- **Commit:** C-D317.
