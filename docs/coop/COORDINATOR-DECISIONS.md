@@ -18253,3 +18253,110 @@ file-09 D-000 act. Left whole-document until then.
 - **Reversibility:** Overturn: C-D315. Does not unwrite D-293,
   D-294, D-295, D-300, D-304, D-305 through D-314.
 - **Commit:** C-D315.
+
+---
+
+## D-316 — Open D-056 Class A for DR-117: T2-02 acceptance of preview-product-boundary-successor.v10
+
+- **Date:** 2026-08-29
+- **Status:** **ADOPTED 2026-08-29.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-316.review-adversarial.claude2.json`,
+  `49079bd147ba922cc3052cd6639644b1639660d07c9510219757cc498bf3185f`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-316.review-adversarial.codex.json`,
+  `f34409cac1ecaa352d4cf8b8d6c0339043e0ec7036ac5c7a3bd75b153c151a8b`)
+  CONSENT. Subject `coordinator-decisions.D-316.draft.md`
+  `61393283543bfac7ecd301f7b83bfe09add9481115d924e65da50f5e97d3e08d`.
+  COORD-only. No Stage A artifact successor. Frozen recorded
+  leftover remasurement
+  `preview-product-boundary-successor.v10.json`
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483`
+  Stage A Claude ACCEPT
+  `34b3911340de88c3892b9fb840010ecc8605a884c8f3aa928d3d69cfad4c9d3b`
+  0/0, grade ruling SUSTAINED FOR APPLICATION; Stage A Codex
+  ACCEPT
+  `1cba1d43bfd6e45ba4c1a7703fb99a25c73ec9860f117cd7f63b2fe808faf842`
+  0/0, grade ruling SUSTAINED FOR APPLICATION. Claude 2 Stage B
+  turn-1 returned 4 named observations objects CLAUDE-D316-O1,
+  CLAUDE-D316-O2, CLAUDE-D316-O3, CLAUDE-D316-O4 (members id,
+  observation, severity, where, whyItDoesNotStand); an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; they
+  travel as honesty work. Codex Stage B turn-1 returned an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; an empty observationsNotFindings list;
+  no observations field. This entry names the Claude identifiers
+  CLAUDE-D316-O1, CLAUDE-D316-O2, CLAUDE-D316-O3, CLAUDE-D316-O4;
+  no identifier is invented. It recites no Codex observations.
+  Codex Stage B turn-1 returned no observation identifiers.
+- **Decision type:** PREFERENCE-LADEN as to the Product owner's
+  lift of D-137's express reservation (file 08 DR-117 owner cell;
+  D-001 route C). RULE-GOVERNED as to T2-02 form (D-001; D-056
+  Gate 1) and as to the no-cell-edit branch. Same no-cell-edit
+  branch as D-170 through D-235 and D-237 through D-315. D-272 is
+  CONTESTED and is not on that branch. Not a remasurement. Not a
+  three-limb act. Not SATISFIED-GRADE. Not a leftover-join
+  successor.
+- **Subject:** COORD-only. No artifact successor. Frozen
+  `docs/coop/artifacts/preview-product-boundary-successor.v10.json`
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483`
+  (D-295).
+- **Decision:** For DR-117 only, open D-056 Class A. Lift D-137's
+  express reservation "D-056 Class A is not opened" as it has been
+  carried for DR-117 by D-137, D-155, D-156, D-159, D-168, D-207,
+  and D-295. The lift is the Product owner's act at the venue
+  D-295 names. The accepted design contract this opening names is
+  preview-product-boundary-successor.v10
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483`
+  at 0 blockers with application-grade acceptance and no express
+  reservation, recorded by D-295 and this entry. The file 08 lead
+  label stays `OPEN`.  product-boundary-successor-contract.v8
+  `52c70f7715fb869bae70bc588043dc5b4d731b73408d2d451e868b8de963f362`
+  (D-116) remains DR-117's leftover T2-02 candidate for general
+  succession. preview-product-boundary-successor.v10 and
+  product-boundary-successor-contract.v8 are distinct lineages;
+  their version numbers are unrelated. This opening names
+  preview-product-boundary-successor.v10. It does not replace,
+  apply, or succeed product-boundary-successor-contract.v8, and it
+  does not make product-boundary-successor-contract.v8 historical.
+  From this entry, D-056 Eligibility gate 1 Class A holds for
+  DR-117. Gates 2 and 3 continue to hold for DR-117 (D-159,
+  recapped at D-295). DR-117 is therefore D-056-eligible in kind.
+  Gates 4 and 5 are not performed. Not SATISFIED. Not QUALIFIED.
+  leftover-design of unnamed EE classes remains closed at D-159.
+  Remainder is named-gate execution. leftover-design of
+  OBL-G29-FX-AUTHORING remains true on g29 leftover-join.v4.
+  leftover-design of OBL-G30-FX-AUTHORING remains true on
+  g30 leftover-join.v4. After this entry is adopted, G29 and G30
+  fixture authoring may proceed as later D-000 acts under D-293
+  Decision 5 and D-314 item 1. This entry authors no fixture byte.
+  This opening does not wait on a shared gate-2 entry. A later
+  shared gate-2 entry still carries a distinct DR-117 finding as a
+  content requirement on that entry, not as a predecessor of this
+  opening.  DR-117 stays `OPEN`. Does not pin QUALIFIED. Does not
+  steal OBL-G29-FX-AUTHORING as a GATE closure. Does not steal
+  OBL-G30-FX-AUTHORING as a GATE closure. Does not remasure
+  g29 leftover-join.v4. Does not remasure g30 leftover-join.v4.
+  Does not record g29 leftover-join.v5. Does not record
+  g30 leftover-join.v5. Does not SATISFY DR-117. Does not SATISFY
+  DR-131. Does not SATISFY DR-133. Does not open D-056 Class A for
+  DR-131 or DR-133. Does not flatten DR-118
+  `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does not flatten DR-107
+  `PROPOSED-CLOSED-FOR-REVIEW` to `OPEN`. Not SATISFIED.
+  Required-now stays 28. Condition-4 effect is zero. Does not
+  invent fixture bytes or the DR-131 pack. Does not name G13 into
+  required-now. Does not edit file 08. Does not invent a D9 code.
+  Does not authorize `docs/v2/implementation/`. Claude Stage A
+  advisories CLAUDE-PPBS-V10-ADV-1, CLAUDE-PPBS-V10-ADV-2,
+  CLAUDE-PPBS-V10-ADV-3 travel as honesty work. Standing
+  CLAUDE-PPBS-V3-ADV-1 venue limb is the act this entry performs.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D316. Restores D-137's reservation as controlling for DR-117.
+  Does not unwrite D-116, D-137, D-157, D-158, D-159, D-168,
+  D-207, D-254, D-255, D-293, D-294, D-295, D-314, or D-315.
+- **Commit:** C-D316.
