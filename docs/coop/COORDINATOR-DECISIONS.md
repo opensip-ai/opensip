@@ -18504,3 +18504,86 @@ file-09 D-000 act. Left whole-document until then.
   C-D318. Does not unwrite D-157, D-229, D-254, D-293, D-314,
   D-315, D-316, or D-317.
 - **Commit:** C-D318.
+
+---
+
+## D-320 — Record g29 leftover-join.v6 as G29 leftover remasurement
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-320.turn2.review-adversarial.claude2.json`,
+  `f9fc4783560cb12eb6b5c1d507f94a053804733515c3d683033be5db14d140cd`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-320.turn2.review-adversarial.codex.json`,
+  `511197dc028689d6ded41c35e6483b4190fa453970c67f44d7125bf6966d18a3`)
+  CONSENT. Subject `coordinator-decisions.D-320.turn2.draft.md`
+  `4a3a52f745299b5e8eb11d37d523e6afe404657ee8e228b4ee89b6c29833b405`.
+  Frozen turn-1 subject `coordinator-decisions.D-320.draft.md`
+  `29841f60b9dc634458132463cf1b0e3bc23f9bf83d4fe9e5973abedc10c74ea9`
+  Stage B Claude OBJECT MF-1 SF-1
+  (`51279a14a64833bb2e2202a48c35cf70b74480849ca719bdc999d7b82f5b6467`);
+  Codex OBJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`51bf756311b30b35f38fdf2b2902bbd7285527b88ab4cb2ee1c5966f13e41641`).
+  Findings land at the turn-2 draft. Frozen successor
+  `g29-leftover-join.v6.json`
+  `57b188dc4ded78a88b8be221f6c9d08b5bd7fccdade050a21dbe5580f101b0e3`
+  Stage A Claude ACCEPT
+  `191b277fa1e06fd2178717106b3655525e1377f19086bc16935e5b47cbd3a216`
+  0/0 (`decision.verdict`); Stage A Codex ACCEPT
+  `aad5d6e0322f842ec8bcc1e293b614f5e33b4f93531de63a943cfcbfcd3f4e98`
+  0/0. Frozen predecessor `g29 leftover-join.v5.json`
+  `ba809bc3e9a902e11e2cda167811c723901d7853b6d258242085d6797c249ffc`
+  Stage A Claude REJECT MF-1
+  (`528b56932015e0b5a81659719495ef26f613318996b036f44137b801e8c4612b`);
+  Codex ACCEPT 0/0
+  (`8640bf642208c70ffeeb4ecf6befdc6b7c2a2afe6f88b54f47ff98fdb8e588ce`).
+  Claude 2 Stage B turn-2 returned 3 named observations objects
+  CLAUDE-D320-T2-O1, CLAUDE-D320-T2-O2, CLAUDE-D320-T2-O3 (members
+  id, observation, severity, where, whyItDoesNotStand); an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; they
+  travel as honesty work. Codex Stage B turn-2 returned an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; an empty observationsNotFindings list;
+  no observations field. This entry names the Claude identifiers
+  CLAUDE-D320-T2-O1, CLAUDE-D320-T2-O2, CLAUDE-D320-T2-O3, MF-1,
+  SF-1; no identifier is invented. It recites no Codex
+  observations. Codex Stage B turn-2 returned no observation
+  identifiers. The unlabeled Codex turn-1 SHOULD-FIX is landed.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g29-leftover-join.v6.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-318. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g29-leftover-join.v6.json`
+  `57b188dc4ded78a88b8be221f6c9d08b5bd7fccdade050a21dbe5580f101b0e3`.
+- **Decision:** Record g29 leftover-join.v6 as G29 leftover
+  remasurement after D-318. The candidate binds NOTHING. DR-G29
+  stays `OPEN`. leftover-design of OBL-G29-FX-AUTHORING remains
+  true, scoped to later per-platform copies of the ten D-318
+  implementations. leftover-design of those ten implementations is
+  stale as an authoring claim. Does not remasure occupancy v3.
+  Does not remasure g29-fixture-corpus.v1. Does not SATISFY
+  DR-117. Does not SATISFY DR-G29. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A and does
+  not perform gates 4 or 5. Not SATISFIED. Not QUALIFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  g29 leftover-join.v5 stays frozen; do not record it as current.
+  Claude Stage A g29 leftover-join.v6 returned 3
+  observationsNotFindings objects, each with sole member note and
+  no id member; they travel as honesty work and this entry invents
+  no identifier for them. Does not invent a PlanIntent schema, the
+  DR-131 pack, Rust-as-core, a D9 code, a section 7.1 recipe, or a
+  D-002 platform list. Does not author per-platform copies. Does
+  not remasure G30. Does not record the unrecorded D-319 G30
+  leftover-join cycle. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D320. Does not unwrite D-157, D-229, D-254, D-293, D-314,
+  D-315, D-316, D-317, or D-318.
+- **Commit:** C-D320.
