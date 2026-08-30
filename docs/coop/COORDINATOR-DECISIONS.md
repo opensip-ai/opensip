@@ -18754,3 +18754,95 @@ file-09 D-000 act. Left whole-document until then.
   C-D322. Does not unwrite D-086, D-145, D-222, D-256, D-284,
   D-291, D-293, D-299, D-316, or D-321.
 - **Commit:** C-D322.
+
+## D-323 — Record g20 leftover-join.v9 as G20 leftover remasurement
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-323.review-adversarial.claude2.json`,
+  `99d38787b50d998c4acbc38329eced415ec2b2ab4b29aba6917da48a3fef1256`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-323.review-adversarial.codex.json`,
+  `bf92b641568489416d337e9c88a63da1976d9b5889318916d920c18a5eda2bc1`)
+  CONSENT. Subject `coordinator-decisions.D-323.draft.md`
+  `1b03cede91a84501d92f02021cebdb6eb4d086d7fc43545c16622e839553465c`.
+  Frozen successor `g20-leftover-join.v9.json`
+  `e44764c9898bebac039839db49bf4cfe670f3f9a76728b5f56d8d5a94588dceb`
+  Stage A Claude ACCEPT
+  `cfb3dd43893a68b9828f154665e237c50710b07c2becd8e6d4bfc25972489f94`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `30a7fabc696c4731c493a4dbeccfc144daa9b5e7a016acdc5304654c9ef7ca9c`
+  0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `g20-leftover-join.v8.json`
+  `e29e0fa1cfbe84a93c31f5c1521a10425c947e19d9b683c128d5a06b315df888`
+  Stage A Claude REJECT SHOULD-FIX-1
+  (`abc71746889ef81271c2d560805db5f51fd622e41cf8c6da2d246a06c486a239`);
+  Codex ACCEPT 0/0
+  (`a83dbd064ff47d5975fa64e747725ad431521bd3e6acfb0aaacedd9e30c15d58`).
+  Findings land at g20 leftover-join.v9. Frozen predecessor
+  `g20-leftover-join.v7.json`
+  `ed303fb3a4aafdaeef5da9ae5f9100190bc58571e8b2180e6337cda3780cdb0d`
+  Stage A Claude ACCEPT 0/0
+  (`d953459004d1c415323f2b1892d02452109463d5bdce695a7067488d3e6d6047`);
+  Codex REJECT 1 unlabeled SHOULD-FIX
+  (`2540b1c35528461f2a3ed625b61d6237c0211810c2564080deda845e91707f9f`).
+  Frozen g20 leftover-join.v7 and g20 leftover-join.v8 stay
+  frozen; do not record them as current. Claude 2 Stage B turn-1
+  returned 3 named observations objects CLAUDE-D323-T1-O1,
+  CLAUDE-D323-T1-O2, CLAUDE-D323-T1-O3 (members id, observation,
+  severity, where, whyItDoesNotStand); an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  blockers list; no observationsNotFindings field; no findings
+  field; decision is a string CONSENT; top-level verdict is
+  CONSENT; they travel as honesty work. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty blockers list; an empty
+  observationsNotFindings list; no observations field; no findings
+  field; no decision field; top-level verdict is CONSENT. This
+  entry names the Claude identifiers CLAUDE-D323-T1-O1,
+  CLAUDE-D323-T1-O2, CLAUDE-D323-T1-O3; no identifier is invented.
+  It recites no Codex observations. Codex Stage B turn-1 returned
+  no observation identifiers. Claude Stage A identifiers OBS-1,
+  OBS-2, OBS-3, ADV-1, ADV-2 travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g20-leftover-join.v9.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-322. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g20-leftover-join.v9.json`
+  `e44764c9898bebac039839db49bf4cfe670f3f9a76728b5f56d8d5a94588dceb`.
+- **Decision:** Record g20 leftover-join.v9 as G20 leftover
+  remasurement after D-322. The candidate binds NOTHING. DR-G20
+  stays `OPEN`. leftover-design of OBL-G20-FX-AUTHORING remains
+  true, scoped to per-D-002-platform copies of the ten D-298
+  implementations. leftover-design of those ten implementations is
+  stale as an authoring claim. leftover-design of
+  OBL-SDK-API-RESERVED remains on sdk leftover-join.v6. Does not
+  remasure occupancy v2. Does not remasure g20-fixture-corpus.v5.
+  Does not remasure sdk leftover-join.v6. Does not SATISFY DR-117.
+  Does not SATISFY DR-125. Does not SATISFY DR-G20. D-316 already
+  opened D-056 Gate 1 Class A for DR-117; this entry does not open
+  Class A for DR-117 or DR-125 and does not perform gates 4 or 5.
+  Not SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen g20 leftover-join.v7 and
+  g20 leftover-join.v8 stay frozen; do not record them as current.
+  Frozen g20 leftover-join.v6 stays frozen; do not record it as
+  current after this successor is recorded. Claude Stage A
+  g20 leftover-join.v9 returned 3 observations objects OBS-1,
+  OBS-2, OBS-3 (members id, note) and 2 advisories objects ADV-1,
+  ADV-2 (members id, note); they travel as honesty work and this
+  entry invents no identifier. Does not invent reserved SDK APIs,
+  a PlanIntent schema, the DR-131 pack, Rust-as-core, a D9 code, a
+  section 7.1 recipe, or a D-002 platform list. Does not author
+  per-D-002-platform copies. Does not remasure G19. Does not
+  remasure G30. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D323. Does not unwrite D-086, D-145, D-217, D-267, D-269,
+  D-293, D-298, D-316, or D-322.
+- **Commit:** C-D323.
