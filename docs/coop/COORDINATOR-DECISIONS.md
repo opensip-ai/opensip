@@ -19571,3 +19571,110 @@ file-09 D-000 act. Left whole-document until then.
   C-D330. Does not unwrite D-086, D-145, D-217, D-267, D-293,
   D-298, D-316, D-323, D-327, D-328, or D-329.
 - **Commit:** C-D330.
+## D-331 — Record g19-fixture-corpus.v3 as G19 leftover-design per-D-002-platform copies of the twelve D-299 implementations
+
+- **Date:** 2026-08-31
+- **Status:** **ADOPTED 2026-08-31.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-331.review-adversarial.claude2.json`,
+  `68e56645724d3eef18d85edb91f18fffea08a5e98c69bf130afd786a7d4ef84a`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-331.review-adversarial.codex.json`,
+  `e9b16871752d5fcbbe718ad8635884719a4a74071619168168a688b456ddcb9d`)
+  CONSENT. Subject `coordinator-decisions.D-331.draft.md`
+  `4db5216349f048d1468f6215c36010be8445adaba0ff0aa00917141f3d5c620e`.
+  Frozen successor `g19-fixture-corpus.v3.json`
+  `d79c894cbde91601f7ed77661e4cd87824e30a0db4b0032b897588d57a09e67c`
+  Stage A Claude ACCEPT
+  `d5b1987e2a93db86481f4f7e4069f7ba8a6f6ea971970aaf70afc300c9b98668`
+  0/0 (top-level verdict; decision is an object); Stage A Codex
+  ACCEPT
+  `7f64485d621457fdce0929a5f19abcff6edc5a3cf1f674320b98a196b48af3d4`
+  0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `g19-fixture-corpus.v2.json`
+  `f4486cd73a60dbbcaf28325de2c39ad0e216969db364d1d3502def2e24c6ad63`
+  Stage A Claude ACCEPT 0/0
+  (`d5dd463dd81c102fd151beaa652baef3621cd96ccd9168f24e14cae73f2a03be`);
+  Codex ACCEPT 0/0
+  (`86bb9c13469b27f314e3f4112bed0eebf2e5310a742fb943158d6a395beadf09`).
+  Frozen g19-fixture-corpus.v2 remains the D-299 historical
+  first-authoring recording of twelve implementations. Frozen
+  predecessor `g19-fixture-corpus.v1.json`
+  `e66742b8a5c9d980f7cffb18d589c5342cfee4a4c2c97cce36b68df3fc18c91b`
+  Stage A Claude REJECT 1 SHOULD-FIX CLAUDE-G19FX-V1-S-1
+  (`9c2e9eb9646eb03394a676db21f0c6adac3b2e5d6ca414c11412313a015063bf`);
+  Codex ACCEPT 0/0
+  (`0512392aaeb89459259851884e36dc2604d72978a8c15d3b83ddf805e9fa29f6`).
+  Findings land at g19-fixture-corpus.v2. Frozen
+  g19-fixture-corpus.v1 stays frozen; do not record it as current.
+  Claude 2 Stage B turn-1 returned 4 named observations objects
+  CLAUDE-D331-T1-O1, CLAUDE-D331-T1-O2, CLAUDE-D331-T1-O3,
+  CLAUDE-D331-T1-O4 (members id, where, observation, severity,
+  whyItDoesNotStand); an empty mustFix list; an empty shouldFix
+  list; an empty advisories list; an empty blockers list; no
+  observationsNotFindings field; no findings field; decision is a
+  string CONSENT; top-level verdict is CONSENT; they travel as
+  honesty work. Codex Stage B turn-1 returned an empty mustFix
+  list; an empty shouldFix list; an empty advisories list; an
+  empty blockers list; an empty observationsNotFindings list; no
+  observations field; no findings field; no decision field;
+  top-level verdict is CONSENT. This entry names the Claude
+  identifiers CLAUDE-D331-T1-O1, CLAUDE-D331-T1-O2,
+  CLAUDE-D331-T1-O3, CLAUDE-D331-T1-O4; no identifier is invented.
+  It recites no Codex observations. Codex Stage B turn-1 returned
+  no observation identifiers. Claude Stage A identifiers
+  CLAUDE-G19FX-V3-A-1, CLAUDE-G19FX-V3-A-2, CLAUDE-G19FX-V3-A-3,
+  CLAUDE-G19FX-V3-A-4 travel as honesty work.
+  g19-fixture-corpus.v2 Stage A identifiers CLAUDE-G19FX-V2-A-1,
+  CLAUDE-G19FX-V2-A-2, CLAUDE-G19FX-V2-A-3, CLAUDE-G19FX-V2-A-4,
+  CLAUDE-G19FX-V2-A-5, CLAUDE-G19FX-V2-A-6 travel as honesty work.
+  g19-fixture-corpus.v1 Stage A identifiers CLAUDE-G19FX-V1-S-1,
+  CLAUDE-G19FX-V1-A-1, CLAUDE-G19FX-V1-A-2, CLAUDE-G19FX-V1-A-3,
+  CLAUDE-G19FX-V1-A-4 travel as landed findings or honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g19-fixture-corpus.v3.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-330. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g19-fixture-corpus.v3.json`
+  `d79c894cbde91601f7ed77661e4cd87824e30a0db4b0032b897588d57a09e67c`.
+- **Decision:** Record g19-fixture-corpus.v3 as G19
+  leftover-design per-D-002-platform copies of the twelve D-299
+  implementations after D-330. The candidate binds NOTHING. DR-G19
+  stays `OPEN`. leftover-design of OBL-G19-FX-AUTHORING remains
+  true on g19 leftover-join.v6 and on state-class leftover-join.v4
+  because leftover-join remasurement is not this entry, and
+  because closing that obligation needs a successor on both joins.
+  Whether leftover-design of the forty-eight copies is stale as an
+  authoring claim after this recording is for a later
+  g19 leftover-join remasurement to measure; this entry does not
+  measure it. leftover-design of OBL-GRANT-JOURNAL,
+  OBL-INHERIT-BLOCKED, and OBL-MONOTONIC remains on
+  state-class leftover-join.v4. Does not remasure
+  g19 leftover-join.v6. Does not remasure
+  state-class leftover-join.v4. Does not SATISFY DR-124. Does not
+  SATISFY DR-G19. Does not SATISFY DR-117. D-316 already opened
+  D-056 Gate 1 Class A for DR-117; this entry does not open Class
+  A for DR-117 or DR-G19 and does not perform gates 4 or 5. Not
+  SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen g19-fixture-corpus.v1 stays frozen; do
+  not record it as current. Frozen g19-fixture-corpus.v2 stays
+  frozen as the D-299 historical first-authoring recording. Claude
+  Stage A g19-fixture-corpus.v3 returned 4 advisories objects
+  CLAUDE-G19FX-V3-A-1, CLAUDE-G19FX-V3-A-2, CLAUDE-G19FX-V3-A-3,
+  and CLAUDE-G19FX-V3-A-4; they travel as honesty work and this
+  entry invents no identifier. Does not invent a D-002 platform
+  list, a grant-journal, a sealed-Run class, a D9 code, a RunId
+  recipe, or a section 7.1 recipe. Does not copy onto Windows.
+  Does not flatten DR-107. Does not remasure G20. Does not
+  remasure G21. Does not remasure G30. Does not remasure SARIF.
+  Does not remasure anti-lockstep leftover-join.v6. Does not edit
+  file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D331. Does not unwrite D-086, D-222, D-284, D-291, D-293,
+  D-299, D-322, or D-330.
+- **Commit:** C-D331.
