@@ -18934,3 +18934,97 @@ file-09 D-000 act. Left whole-document until then.
   C-D324. Does not unwrite D-086, D-145, D-218, D-241, D-243,
   D-245, D-247, D-285, D-292, D-301, D-302, D-316, or D-323.
 - **Commit:** C-D324.
+
+## D-325 — Record sarif leftover-join.v7 as DR-122 leftover remasurement
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-325.review-adversarial.claude2.json`,
+  `024dd018113081ff623274681e7fa7a225995c4070dc401ade0c015e10eee7ea`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-325.review-adversarial.codex.json`,
+  `3295f38cb69bfc4ea22ca62933072e38b37a0bd6f54605950d8ff583e6803bbc`)
+  CONSENT. Subject `coordinator-decisions.D-325.draft.md`
+  `c9d0311c7e940178b031175ed14e547a436162cb2d81dd62e07ffa466b865b70`.
+  Frozen successor `sarif-leftover-join.v7.json`
+  `2df7dedf150dff97319e18de78b0c2d8267aa3a77eedeadd8b966e92c194c31b`
+  Stage A Claude ACCEPT
+  `e3333252466220ffa0c2b90ddef209d483ab1374fe3968e8e33e26b0b809b219`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `ad4ea6068a589d2c86b9300e812fa061a320dc03d57cfbe9b515019183bb81b4`
+  0/0 (top-level verdict; decision is an object with members
+  verdict, mustFixCount, shouldFixCount, blockerCount, reason).
+  Frozen predecessor `sarif-leftover-join.v6.json`
+  `dc5def46901093c05665fe3177f7103366dafa1f081a30a7f9c9b0b03fea693f`
+  Stage A Claude REJECT MF-1
+  (`cd18921256ffdda406b8dd841938aef0335d3490704ca1080fd94554384cd038`);
+  Codex REJECT 0 MUST-FIX 1 unlabeled SHOULD-FIX
+  (`5ef80c124acc0441628f361720987b80e39a62090ef9134e991d22e998e5dc26`).
+  Findings land at sarif leftover-join.v7 as one class. Frozen
+  predecessor `sarif-leftover-join.v5.json`
+  `5d8ceccce1345c6093b4aba6a7c87b7a4cfd86ef77e6e600b7b5d1b7ce5fe510`
+  Stage A Claude REJECT MF-1 SF-1 SF-2
+  (`e305c74d6308946c6573c8cb64cfcf16c65e3b6182e45d2aa4b47f0ecd02052b`);
+  Codex ACCEPT 0/0
+  (`a96cd8be101f8d78c6bf940e032850c7e471b2b6b56ecf58368d0b000b4158e0`).
+  Frozen sarif leftover-join.v5 and sarif leftover-join.v6 stay
+  frozen; do not record them as current. Claude 2 Stage B turn-1
+  returned 4 named observations objects CLAUDE-D325-O1,
+  CLAUDE-D325-O2, CLAUDE-D325-O3, CLAUDE-D325-O4 (members id,
+  observation, severity, where, whyItDoesNotStand); an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; no
+  findings field; decision is a string CONSENT; top-level verdict
+  is CONSENT; they travel as honesty work. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty blockers list; an empty
+  observationsNotFindings list; no observations field; no findings
+  field; no decision field; top-level verdict is CONSENT. This
+  entry names the Claude identifiers CLAUDE-D325-O1,
+  CLAUDE-D325-O2, CLAUDE-D325-O3, CLAUDE-D325-O4; no identifier is
+  invented. It recites no Codex observations. Codex Stage B turn-1
+  returned no observation identifiers. Claude Stage A
+  sarif leftover-join.v7 returned no observation identifiers.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sarif-leftover-join.v7.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-324. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/sarif-leftover-join.v7.json`
+  `2df7dedf150dff97319e18de78b0c2d8267aa3a77eedeadd8b966e92c194c31b`.
+- **Decision:** Record sarif leftover-join.v7 as DR-122 leftover
+  remasurement after D-324. The candidate binds NOTHING. DR-122
+  stays `PROPOSED-CLOSED-FOR-REVIEW`. leftover-design of
+  OBL-FC-OUTFAIL-FX and OBL-FC-NONAUTH-TERM-FX remains true.
+  leftover-design of the two D-296 implementations and of the
+  D-297 no-committed-run implementation is stale as an authoring
+  claim. leftover-design of FC-OUTFAIL.committed-run-preserved
+  remains. Occupancy v2 remains the current G26 occupancy
+  remasurement. Does not remasure G26 occupancy v2. Does not
+  remasure sarif-fc-nonauth-term-golden.v3. Does not remasure
+  sarif-fc-outfail-golden.v3. Does not SATISFY DR-117. Does not
+  SATISFY DR-122. D-316 already opened D-056 Gate 1 Class A for
+  DR-117; this entry does not open Class A for DR-117 or DR-122
+  and does not perform gates 4 or 5. Not SATISFIED. Not QUALIFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen
+  sarif leftover-join.v5 and sarif leftover-join.v6 stay frozen;
+  do not record them as current. Frozen sarif leftover-join.v4
+  stays frozen; do not record it as current after this successor
+  is recorded. Claude Stage A sarif leftover-join.v7 returned no
+  observation identifiers; this entry invents no identifier. Does
+  not invent a D-002 platform list, a D9 code, a RunId recipe, a
+  PlanIntent schema, the DR-131 pack, Rust-as-core, or a section
+  7.1 recipe. Does not advertise SARIF. Does not resurrect G17.
+  Does not steal G26 leftover from DR-131. Does not flatten
+  DR-107. Does not remasure G21. Does not remasure G20. Does not
+  remasure G19. Does not remasure G30. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D325. Does not unwrite D-077, D-115, D-152, D-182, D-226,
+  D-293, D-296, D-297, D-316, or D-324.
+- **Commit:** C-D325.
