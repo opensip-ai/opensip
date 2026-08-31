@@ -19861,3 +19861,110 @@ file-09 D-000 act. Left whole-document until then.
   C-D333. Does not unwrite D-086, D-117, D-183, D-222, D-256,
   D-284, D-293, D-299, D-316, D-331, or D-332.
 - **Commit:** C-D333.
+
+## D-334 — Record g19 leftover-join.v10 as G19 leftover remasurement
+
+- **Date:** 2026-08-31
+- **Status:** **ADOPTED 2026-08-31.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-334.turn2.review-adversarial.claude2.json`,
+  `f195fd6e25dd368a29159f260e487d2f6fcaebf9346130385ca5adecec373914`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-334.turn2.review-adversarial.codex.json`,
+  `01e1f1b535ccbab9221cf236f5db122c27d9fdb93aaa996138568e5db18196cd`)
+  CONSENT. Subject `coordinator-decisions.D-334.turn2.draft.md`
+  `27f2141c31ae7e5cb0e0e9422b614e5d00aa4a66ed47a8a90b11f52d2e850027`.
+  turn-1 Claude CONSENT
+  (`artifacts/coordinator-decisions.D-334.review-adversarial.claude2.json`,
+  `19b7bc42858dc9661af6493b719ac4bb34328e652e64fa37781ca87a7e05b19a`);
+  turn-1 Codex OBJECT 1 unlabeled SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-334.review-adversarial.codex.json`,
+  `11d37b238fe025f6172f6709d1149dcd6c0bf399f3116973fae19f78c83ecaf4`).
+  Frozen turn-1 subject `coordinator-decisions.D-334.draft.md`
+  `65d6c77ee27294312c00eef7d5ab547b6505720c0c9473c00f9029451afe26b1`.
+  Lands the unlabeled Codex turn-1 SHOULD-FIX. Frozen successor
+  `g19-leftover-join.v10.json`
+  `26747eaa9b485b6f0bb258714611db08836a5cd61b3245dc89d03365dcd1cd45`
+  Stage A Claude ACCEPT
+  `eeb2e74f35ff3707cce310739751f304974a33c404324fccdd9319ab09b1fdd2`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `69fa7e335a8ea6a5f6e0a33cd44e3784583ed76c696f337ec8cf9571e8489169`
+  0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `g19-leftover-join.v9.json`
+  `176766ac7c90638ef4c73fd7ffb74b2e306863414561c36f231ef67aed7966e4`
+  Stage A Claude REJECT 4 MUST-FIX CLAUDE-G19LJ-V9-M-1,
+  CLAUDE-G19LJ-V9-M-2, CLAUDE-G19LJ-V9-M-3, CLAUDE-G19LJ-V9-M-4
+  (`3d2ea637636ea902a7fdcf577896f8ff09ee1491915dca9d843a452d426cfc24`);
+  Codex REJECT 2 unlabeled MUST-FIX
+  (`3e7b5c63a618403dfc6935d3dd64a8790bab884b06ba36b1ae73644297a957e9`).
+  Findings land at g19 leftover-join.v10. Frozen g19
+  leftover-join.v9 stays frozen; do not record it as current.
+  Frozen `g19-leftover-join.v8.json`
+  `b9532c0b6c3f0875d7df13d3f50441a06a131aba1f83928bd323e666fac6b875`
+  remains the D-332 current recorded remasurement until this
+  successor is recorded. Claude 2 Stage B turn-2 returned an empty
+  observations list; an empty mustFix list; an empty shouldFix
+  list; an empty advisories list; an empty blockers list; no
+  observationsNotFindings field; no findings field; no decision
+  field; top-level verdict is CONSENT; mustFixCount is the number
+  0; shouldFixCount is the number 0. Codex Stage B turn-2 returned
+  an empty mustFix list; an empty shouldFix list; an empty
+  advisories list; an empty blockers list; an empty observations
+  list; an empty observationsNotFindings list; no findings field;
+  no decision field; top-level verdict is CONSENT; mustFixCount is
+  the number 0; shouldFixCount is the number 0. This entry invents
+  no identifier. It recites no Codex observations. Codex Stage B
+  turn-2 returned no observation identifiers. This entry names
+  Claude Stage A g19 leftover-join.v10 identifiers OBS-1, OBS-2,
+  OBS-3, OBS-4, OBS-5, OBS-6. This entry names g19 leftover-join.v9
+  Stage A Claude identifiers CLAUDE-G19LJ-V9-M-1,
+  CLAUDE-G19LJ-V9-M-2, CLAUDE-G19LJ-V9-M-3, CLAUDE-G19LJ-V9-M-4 as
+  landed at g19 leftover-join.v10. It recites unlabeled Codex
+  leftover-join.v9 of G19 MUST-FIX findings with no id member. It
+  recites the unlabeled Codex D-334 turn-1 SHOULD-FIX with no id
+  member. Claude Stage B turn-1 returned an empty observations
+  list; an empty mustFix list; an empty shouldFix list; an empty
+  advisories list; an empty blockers list; no
+  observationsNotFindings field; no findings field; decision is a
+  string CONSENT; top-level verdict is CONSENT; 6
+  residualObservationsNotCharged strings and no observation
+  identifiers; they travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g19-leftover-join.v10.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-333. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g19-leftover-join.v10.json`
+  `26747eaa9b485b6f0bb258714611db08836a5cd61b3245dc89d03365dcd1cd45`.
+- **Decision:** Record g19 leftover-join.v10 as G19 leftover
+  remasurement after D-333. The candidate binds NOTHING. DR-G19
+  stays `OPEN`. leftover-design of OBL-G19-FX-AUTHORING is stale
+  as an authoring claim on DR-G19. leftover-design of
+  OBL-GRANT-JOURNAL, OBL-INHERIT-BLOCKED, and OBL-MONOTONIC
+  remains on state-class leftover-join.v5. Does not remasure
+  occupancy v2. Does not remasure state-class leftover-join.v5.
+  Does not SATISFY DR-117. Does not SATISFY DR-124. Does not
+  SATISFY DR-G19. D-316 already opened D-056 Gate 1 Class A for
+  DR-117; this entry does not open Class A for DR-117 or DR-G19
+  and does not perform gates 4 or 5. Not SATISFIED. Not QUALIFIED.
+  Required-now stays 28. Condition-4 effect is zero. Frozen g19
+  leftover-join.v9 stays frozen; do not record it as current.
+  Frozen g19 leftover-join.v8 stays frozen; do not record it as
+  current after this successor is recorded. Claude Stage A g19
+  leftover-join.v10 returned 6 named observationsNotFindings
+  objects OBS-1, OBS-2, OBS-3, OBS-4, OBS-5, OBS-6 (members id,
+  observation); they travel as honesty work and this entry invents
+  no identifier. Does not invent a D-002 platform list, a
+  grant-journal, a sealed-Run class, a D9 code, a RunId recipe, or
+  a section 7.1 recipe. Does not remasure G20. Does not remasure
+  G21. Does not remasure G30. Does not remasure SARIF. Does not
+  remasure anti-lockstep leftover-join.v6. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D334. Does not unwrite D-086, D-222, D-284, D-291, D-293,
+  D-299, D-322, D-331, D-332, or D-333.
+- **Commit:** C-D334.
