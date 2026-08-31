@@ -20663,3 +20663,119 @@ file-09 D-000 act. Left whole-document until then.
   C-D340. Does not unwrite D-086, D-158, D-230, D-255, D-293,
   D-316, D-317, D-321, or D-339.
 - **Commit:** C-D340.
+
+## D-341 — Assign the DR-126 population packet to Security + release + platform owners (C4-b)
+
+- **Date:** 2026-08-31
+- **Status:** **ADOPTED 2026-08-31.** Turn 3 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-341.turn3.review-adversarial.claude2.json`,
+  `09e17fc8a0d5b889f9f002faf76aa5f00ed1af4def9e58153f8962a0b9d35ba5`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-341.turn3.review-adversarial.codex.json`,
+  `632bfe607bdba41ae174f25f1a6b44fdbc267c7591cb86d44a880d95164b1145`)
+  CONSENT. Subject `coordinator-decisions.D-341.turn3.draft.md`
+  `8b7e6bee7bd2893b4c2cf2da46d8f1534b3a76ff5c826c88072635a89c5fce5f`.
+  COORD-only. No Stage A artifact successor. Prior turns: turn-1
+  Claude 2 OBJECT 1 MUST-FIX CLAUDE-D341-MF1, 1 SHOULD-FIX
+  CLAUDE-D341-SF1
+  (`artifacts/coordinator-decisions.D-341.review-adversarial.claude2.json`,
+  `0cf4ed2c5891b1148a2989eb2b495a4b8619b978ff91f414eb074e5c47b8cf6c`);
+  turn-1 Codex OBJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-341.review-adversarial.codex.json`,
+  `ac2e4a52fbe839be40251da2723653caf348b4c4cb79e92c147ec1956d0e3166`);
+  turn-2 Claude 2 OBJECT 0 MUST-FIX, 1 SHOULD-FIX
+  CLAUDE-D341-T2-SF1
+  (`artifacts/coordinator-decisions.D-341.turn2.review-adversarial.claude2.json`,
+  `921d9ca2cec2c8711569a7848d32f0a41cfa23b412598207316422050beaccc0`);
+  turn-2 Codex OBJECT 0 MUST-FIX, 1 unlabeled SHOULD-FIX
+  (`artifacts/coordinator-decisions.D-341.turn2.review-adversarial.codex.json`,
+  `acb55273a505be396bb36577c752dff1b3e6c4e3f0ed7e337b31ec8e2c165bf6`).
+  Frozen turn-1 subject `coordinator-decisions.D-341.draft.md`
+  `f1ae245c7ba3504066b8b273a953c0ac9a69850bc24f8e25b7ea1cca9ef0e93d`
+  stays frozen. Frozen turn-2 subject
+  `coordinator-decisions.D-341.turn2.draft.md`
+  `5ec291a5ac12235afbb5d4911b74a920461cad1d16c760df08ed0427b77631fe`
+  stays frozen. Claude 2 Stage B turn-3 returned 5 unlabeled
+  observations strings; an empty mustFix list; an empty shouldFix
+  list; an empty advisories list; blockers is the number 0; no
+  observationsNotFindings field; no findings field; decision is a
+  string; top-level verdict is CONSENT; they travel as honesty
+  work. Codex Stage B turn-3 returned an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  observations list; an empty observationsNotFindings list; an
+  empty blockers list; no findings field; no decision field;
+  top-level verdict is CONSENT; mustFixCount is the number 0;
+  shouldFixCount is the number 0; blockerCount is the number 0.
+  This entry invents no identifier. It recites no Codex
+  observations. Codex Stage B turn-3 returned no observation
+  identifiers. Claude Stage B turn-3 returned no observation
+  identifiers. This entry names CLAUDE-D341-MF1, CLAUDE-D341-SF1,
+  and CLAUDE-D341-T2-SF1 as landed. It recites unlabeled Codex
+  turn-1 SHOULD-FIX findings with no id member as landed. It
+  recites unlabeled Codex turn-2 SHOULD-FIX findings with no id
+  member as landed.
+- **Decision type:** RULE-GOVERNED. Records the owner's D-314 item
+  8 (Q4) assignment as a COORD-only owner assignment of the DR-126
+  population packet. Same no-cell-edit branch as D-170 through
+  D-235 and D-237 through D-340. D-272 is CONTESTED and is not on
+  that branch. Not a remasurement. Not a three-limb act. Not
+  SATISFIED-GRADE. Not a leftover-join successor.
+- **Subject:** COORD-only. No artifact successor.
+- **Decision:** Assign the DR-126 population packet to the
+  recorded row authority, Security + release + platform owners,
+  quoting file 08 line 308's owner cell. The assignment invents no
+  authority. The packet remains a later different artifact; this
+  entry does not author it. Selector values and per-OS profiles
+  stay RESERVED (Q5 named, not answered). leftover-design of
+  OBL-RESERVED-TABLES remains true on platform-tcb
+  leftover-join.v9: existingGate none,
+  executionObligationOwnerToday none, rideStanding
+  not-capable-of-riding. leftover-design of OBL-G22-FX-AUTHORING
+  remains on platform-tcb leftover-join.v9 and on leftover-join.v5
+  of G22. The assignment has no Condition-2 or D-056 eligibility
+  effect without a separate reviewed act and a successor join.
+  C4-c (application-grade TCB successor making the grammar
+  governing) and C4-d (complete profile population) are not this
+  act. D-293 Decision 8 keeps G22 reserved until C4 resolves; C4
+  is not resolved until C4-d. DR-126 stays `OPEN`. DR-G22 stays
+  `OPEN`. Does not pin QUALIFIED. Does not populate filesystem
+  selectors, version/build selectors, or per-OS member tables.
+  Does not make the TCB selector grammar governing. Does not
+  invent a selector value. Does not invent Windows. Does not
+  invent Rosetta. Does not steal OBL-G22-FX-AUTHORING as a GATE
+  closure. Does not steal OBL-RESERVED-TABLES. Does not remasure
+  platform-tcb leftover-join.v9. Does not record platform-tcb
+  leftover-join.v10. Does not remasure leftover-join.v5 of G22. Does
+  not remasure occupancy v2. Does not remasure
+  platform-tcb-contract.v45. Does not occupy the G22 identifier.
+  Does not SATISFY DR-126. Does not SATISFY DR-117. Does not
+  flatten DR-118 `DECIDED-V1-NOT-INTEGRATED` to `OPEN`. Does not
+  flatten DR-107 `PROPOSED-CLOSED-FOR-REVIEW` to `OPEN`. Does not
+  SATISFY DR-131. Does not SATISFY DR-133. D-316 already opened
+  D-056 Gate 1 Class A for DR-117; this entry does not open Class
+  A for DR-117 or DR-126 and does not perform gates 4 or 5. Not
+  SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Naming parent of G22 is naming v6 (D-145), D-086
+  named the identifier. Does not execute G22. Does not edit file
+  08. Does not invent a D9 code. Does not authorize
+  `docs/v2/implementation/`. Windows remains D-002 absent.
+  CLAUDE-D341-MF1 is landed. CLAUDE-D341-SF1 is landed. The
+  unlabeled Codex turn-1 SHOULD-FIX is landed. CLAUDE-D341-T2-SF1
+  is landed. The unlabeled Codex turn-2 SHOULD-FIX is landed.
+  Claude Stage B turn-1 observations travel as honesty work.
+  Claude Stage B turn-2 observations travel as honesty work.
+  Claude Stage B turn-3 observations travel as honesty work. This
+  entry invents no identifier for the unlabeled Codex SHOULD-FIX
+  findings. Codex Stage B turn-1 returned no observation
+  identifiers. Codex Stage B turn-2 returned no observation
+  identifiers. Codex Stage B turn-3 returned no observation
+  identifiers.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D341. Does not unwrite D-125, D-219, D-268, D-271, D-293,
+  D-294, D-314, or D-340.
+- **Commit:** C-D341.
