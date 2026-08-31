@@ -19347,3 +19347,100 @@ file-09 D-000 act. Left whole-document until then.
   C-D328. Does not unwrite D-086, D-145, D-217, D-267, D-269,
   D-293, D-298, D-316, D-323, D-326, or D-327.
 - **Commit:** C-D328.
+
+## D-329 — Record sdk leftover-join.v9 as DR-125 leftover remasurement
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-329.review-adversarial.claude2.json`,
+  `b6c7baad00682271b7e1cb21a4852c2a77f6646ec766326384bd87dd122d098b`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-329.review-adversarial.codex.json`,
+  `86a83495e11ff5455c8ea15b1885b0851d2db5125120eb11d0766abab912392d`)
+  CONSENT. Subject `coordinator-decisions.D-329.draft.md`
+  `868930d640a39b7246682f6a00d611dec0d3f07e7509110f2454128cc2025eaf`.
+  Frozen successor `sdk-leftover-join.v9.json`
+  `2ea6d35caf456c0d83b8127f009bae1ed1af28571d59c3dc87a426bf9e22ee90`
+  Stage A Claude ACCEPT
+  `956347cf7718a400a9ce2ec5b978541b73aa9a82d79d89458e6298a39910dce7`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `a3f5e4cc49f340de342a82865443b9c2a28089d404663dae4c994ff03273a1c0`
+  0/0 (top-level verdict; no decision field). Frozen predecessor
+  `sdk-leftover-join.v8.json`
+  `535ab27a5f5bfa3f4d1720ea2313144259ac33751da2cce03e7688e7cdb12a66`
+  Stage A Claude ACCEPT 0/0
+  (`82a6e8bceaac855f84738fb57c8d811d9f30cfc5a2dd10027e9701a1b7b42b5f`);
+  Codex REJECT 1 unlabeled SHOULD-FIX
+  (`a9a2168c8daa7b5590c3695596a3b19ddcc08761feab6836344885bcbee52a78`).
+  Findings land at sdk leftover-join.v9. Frozen
+  sdk leftover-join.v8 stays frozen; do not record it as current.
+  Frozen predecessor `sdk-leftover-join.v7.json`
+  `73e55de9f98322747f1163c66b2bc44c0d2676058758084d69366309e0b09eeb`
+  Stage A Claude ACCEPT 0/0
+  (`303009bb9b4375b299ec62f9fc67fbc8f4cd80df735e7a3245e7897a199f9f23`);
+  Codex REJECT 1 unlabeled SHOULD-FIX
+  (`58c9ae5b862e40b344cb1e391b5c110306d33a9d5dac9c14c0b15e8a9c1a7b3a`).
+  Findings landed at sdk leftover-join.v8. Frozen
+  sdk leftover-join.v7 stays frozen; do not record it as current.
+  Frozen sdk leftover-join.v6 remains the D-267 current recorded
+  remasurement until this successor is recorded. Claude 2 Stage B
+  turn-1 returned 4 named observations objects CLAUDE-D329-T1-O1,
+  CLAUDE-D329-T1-O2, CLAUDE-D329-T1-O3, CLAUDE-D329-T1-O4 (members
+  id, where, observation, severity, whyItDoesNotStand); an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; no
+  findings field; decision is a string CONSENT; top-level verdict
+  is CONSENT; they travel as honesty work. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty blockers list; an empty
+  observationsNotFindings list; no observations field; no findings
+  field; no decision field; top-level verdict is CONSENT. This
+  entry names the Claude identifiers CLAUDE-D329-T1-O1,
+  CLAUDE-D329-T1-O2, CLAUDE-D329-T1-O3, CLAUDE-D329-T1-O4; no
+  identifier is invented. It recites no Codex observations. Codex
+  Stage B turn-1 returned no observation identifiers. Claude Stage
+  A sdk leftover-join.v9 observationsNotFindings carry no id
+  member. sdk leftover-join.v8 Stage A identifiers ADV-1, OBS-1,
+  OBS-2 and sdk leftover-join.v7 Stage A identifiers ADV-1, ADV-2,
+  ADV-3 travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `sdk-leftover-join.v9.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-328. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/sdk-leftover-join.v9.json`
+  `2ea6d35caf456c0d83b8127f009bae1ed1af28571d59c3dc87a426bf9e22ee90`.
+- **Decision:** Record sdk leftover-join.v9 as DR-125 leftover
+  remasurement after D-328. The candidate binds NOTHING. DR-125
+  stays `OPEN`. leftover-design of OBL-SDK-API-RESERVED remains
+  true. leftover-design of OBL-G20-FX-AUTHORING is stale as an
+  authoring claim on DR-125. leftover-design of
+  OBL-G20-FX-AUTHORING remains on g20 leftover-join.v11 / DR-G20.
+  Does not remasure g20 leftover-join.v11. Does not remasure
+  occupancy v2. Does not SATISFY DR-117. Does not SATISFY DR-125.
+  Does not SATISFY DR-G20. D-316 already opened D-056 Gate 1 Class
+  A for DR-117; this entry does not open Class A for DR-117 or
+  DR-125 and does not perform gates 4 or 5. Not SATISFIED. Not
+  QUALIFIED. Required-now stays 28. Condition-4 effect is zero.
+  Frozen sdk leftover-join.v7 and sdk leftover-join.v8 stay
+  frozen; do not record them as current. Frozen
+  sdk leftover-join.v6 stays frozen; do not record it as current
+  after this successor is recorded. Claude Stage A
+  sdk leftover-join.v9 returned 2 observationsNotFindings objects
+  with no id member; they travel as honesty work and this entry
+  invents no identifier. Does not invent reserved SDK APIs, a
+  PlanIntent schema, the DR-131 pack, Rust-as-core, a D9 code, a
+  section 7.1 recipe, or a D-002 platform list. Does not remasure
+  G19. Does not remasure G21. Does not remasure G30. Does not
+  remasure SARIF. Does not remasure
+  anti-lockstep leftover-join.v6. Does not edit file 08. Does not
+  authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D329. Does not unwrite D-086, D-145, D-184, D-217, D-267,
+  D-293, D-298, D-316, D-323, D-327, or D-328.
+- **Commit:** C-D329.
