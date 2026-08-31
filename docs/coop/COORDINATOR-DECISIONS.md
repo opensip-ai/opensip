@@ -19152,3 +19152,94 @@ file-09 D-000 act. Left whole-document until then.
   C-D326. Does not unwrite D-015, D-056, D-086, D-111, D-186,
   D-215, D-218, D-300, D-316, D-324, or D-325.
 - **Commit:** C-D326.
+
+## D-327 — Record g20-fixture-corpus.v9 as G20 leftover-design per-D-002-platform copies of the ten D-298 implementations
+
+- **Date:** 2026-08-30
+- **Status:** **ADOPTED 2026-08-30.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-327.review-adversarial.claude2.turn2.json`,
+  `2319a1923d99087f33aa153eaa339d423df01c845a465cc8a556e032c29d3443`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-327.review-adversarial.codex.turn2.json`,
+  `59de47623e3dcca00a42cec48bd0743ff7ae54aab6279afc63619568f7a2af6b`)
+  CONSENT. Subject `coordinator-decisions.D-327.turn2.draft.md`
+  `f6a441c6aae08839cf01111a41ea4b6592c0fa93ac4e5f29e222ac07009b92c6`.
+  Frozen turn-1 draft `coordinator-decisions.D-327.draft.md`
+  `73f7b576f0349ea4a764c3b464df7b2def67e2bac558bd3e48d1799b68ca45f2`
+  Stage B Claude OBJECT MF-1 SF-1 SF-2
+  (`abfddf3727fe670b1352678ac5cf09b2f5a7cd25758e389bdf88c757e7e51067`);
+  Codex CONSENT 0/0
+  (`99fa285274e086c94394512bd120f83c097ea4b70a77725a2cae32cdfae7ac2f`).
+  Findings land at turn 2. Frozen successor
+  `g20-fixture-corpus.v9.json`
+  `b7879f03aafdf8dacec487b953bc53bfb80b237147514b402979a7720fed6e5b`
+  Stage A Claude ACCEPT
+  `89fd69a85ddf87b80b871a54bdbf80c6b123daa8955b83a30d4e867239d1804f`
+  0/0 (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `e6f8c5644e16e32e5ea9b2dc6f75ddd23bf3728d65d0089d2367baf5c1223776`
+  0/0 (top-level verdict; decision is a string). Frozen
+  g20-fixture-corpus.v6, g20-fixture-corpus.v7, and
+  g20-fixture-corpus.v8 stay frozen; do not record them as
+  current. Claude 2 Stage B turn-2 returned 2 named advisories
+  objects CLAUDE-D327-T2-A-1, CLAUDE-D327-T2-A-2; an empty mustFix
+  list; an empty shouldFix list; an empty blockers list; an empty
+  observations list; no observationsNotFindings field; no findings
+  field; decision is a string CONSENT; top-level verdict is
+  CONSENT; they travel as honesty work. Codex Stage B turn-2
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty blockers list; 12
+  observationsNotFindings strings; no observations field; no
+  findings field; no decision field; top-level verdict is CONSENT.
+  This entry names the Claude identifiers CLAUDE-D327-T2-A-1,
+  CLAUDE-D327-T2-A-2, CLAUDE-G20FX-V9-A-1, CLAUDE-G20FX-V9-A-2; no
+  identifier is invented. It recites no Codex observations as
+  named identifiers. Codex Stage B turn-2 returned no observation
+  identifiers. Turn-1 Claude identifiers MF-1, SF-1, SF-2 land at
+  turn 2.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g20-fixture-corpus.v9.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-326. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g20-fixture-corpus.v9.json`
+  `b7879f03aafdf8dacec487b953bc53bfb80b237147514b402979a7720fed6e5b`.
+- **Decision:** Record g20-fixture-corpus.v9 as G20
+  leftover-design per-D-002-platform copies of the ten D-298
+  implementations after D-326. The candidate binds NOTHING. DR-G20
+  stays `OPEN`. leftover-design of OBL-G20-FX-AUTHORING remains
+  true on g20 leftover-join.v9 and on sdk leftover-join.v6
+  because leftover-join remasurement is not this entry, and
+  because closing that obligation needs a successor on both joins.
+  Whether leftover-design of the forty copies is stale as an
+  authoring claim after this recording is for a later
+  g20 leftover-join remasurement to measure; this entry does not
+  measure it. leftover-design of OBL-SDK-API-RESERVED remains on
+  sdk leftover-join.v6. Does not remasure g20 leftover-join.v9.
+  Does not remasure sdk leftover-join.v6. Does not SATISFY DR-125.
+  Does not SATISFY DR-117. Does not SATISFY DR-133. D-316 already
+  opened D-056 Gate 1 Class A for DR-117; this entry does not open
+  Class A for DR-117 or DR-G20 and does not perform gates 4 or 5.
+  Not SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen g20-fixture-corpus.v6,
+  g20-fixture-corpus.v7, and g20-fixture-corpus.v8 stay frozen; do
+  not record them as current. Frozen g20-fixture-corpus.v5 stays
+  frozen as the D-298 historical first-authoring recording. Claude
+  Stage A g20-fixture-corpus.v9 returned 2 advisories objects
+  CLAUDE-G20FX-V9-A-1 and CLAUDE-G20FX-V9-A-2; they travel as
+  honesty work and this entry invents no identifier. Does not
+  invent a D-002 platform list, an SDK API, a D9 code, a RunId
+  recipe, or a section 7.1 recipe. Does not copy onto Windows.
+  Does not advertise SARIF. Does not resurrect G17. Does not
+  flatten DR-107. Does not remasure G21. Does not remasure G19.
+  Does not remasure G30. Does not remasure SARIF. Does not
+  remasure anti-lockstep leftover-join.v6. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D327. Does not unwrite D-086, D-217, D-267, D-269, D-293,
+  D-298, D-323, or D-326.
+- **Commit:** C-D327.
