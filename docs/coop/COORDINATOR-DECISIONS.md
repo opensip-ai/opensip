@@ -23150,3 +23150,102 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-338, D-347, D-348, D-349, D-350, D-351, D-352, D-353, D-354,
   D-355, D-356, D-357, or D-358.
 - **Commit:** C-D359.
+## D-360 — Record platform-tcb-contract.v47 as DR-126 C4-c application-grade TCB successor candidate
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 3 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-360.turn3.review-adversarial.claude2.json`,
+  `1dc651c5fcd0e2debea67a3dca4640b9e9b4514275559a515a3fada2a54c13e5`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-360.turn3.review-adversarial.codex.json`,
+  `e908ac8922a2874775d5c72edac5b00f88b9e75121c024a08b10323821c74c17`)
+  CONSENT. Subject `coordinator-decisions.D-360.turn3.draft.md`
+  `79b513d52441a78bd6088ee7df49fad15439b83a31bbdbce6e9625c4e0b1b836`.
+  Frozen turn-1 subject `coordinator-decisions.D-360.draft.md` `90431269347f148175ef278c865f7f2d68f8297bfd78258f908c30cf4381155e`
+  remains frozen. Frozen turn-2 subject `coordinator-decisions.D-360.turn2.draft.md` `e30db30744d844cec6f394d40dfbbfeaca4184c2178af3cf90a430b3553b7a9f`
+  remains frozen. Frozen successor `platform-tcb-contract.v47.json` `44229ea1f23a6af743fac6c1dcfd9b0d069100dad9991ef86449ee179c4dfe97`
+  Stage A Claude ACCEPT `c68b790630178ff795f49abcac0f39a882f875e23e221b1c0cc1317a2da34031`
+  0/0 (empty blockers list; empty shouldFix list; no mustFix
+  field; advisories CLAUDE-V47-A1, CLAUDE-V47-A2, CLAUDE-V47-A3;
+  gradeRuling SUSTAINED FOR APPLICATION; reservationSweep [];
+  empty observations list; empty findings list); Stage A Codex
+  ACCEPT `1df157780b71a6452d917dc5d8bc7a2ea136416ec1aca98163dc63832ff428da`
+  0/0 (empty blockers list; empty shouldFix list; empty advisories
+  list; no mustFix field; no findings field; empty observations
+  list; gradeRuling SUSTAINED FOR APPLICATION; reservationSweep
+  []). Turn-1 Claude OBJECT 0 MUST-FIX 2 SHOULD-FIX
+  CLAUDE-D360-SF1 CLAUDE-D360-SF2
+  `5002d97c4ae5c785654d8eb2c293a59314e95dfbb3969ed9531512dbf5da9123`.
+  Turn-1 Codex CONSENT 0/0
+  `0f2bb5cdd04eb67b44d9825c8a477b6e58c8e23ac3525700ac75c7a55d5c4c4c`.
+  CLAUDE-D360-SF1 and CLAUDE-D360-SF2 landed at turn 2. Turn-2
+  Claude OBJECT 0 MUST-FIX 1 SHOULD-FIX CLAUDE-D360-T2-SF1
+  `2a0d18a0dee900e69ad56d18d3011e93ccbbd5b72195c48b89ca432029a8e93d`.
+  Turn-2 Codex OBJECT 0 MUST-FIX 1 SHOULD-FIX unlabeled
+  `f246f79ce508fb2887e6cd1f5f0b5fecd617e345fc34d80c0f5689af0df7dbdd`.
+  This entry names CLAUDE-D360-T2-SF1 as landed at turn 3. It
+  recites unlabeled Codex turn-2 SHOULD-FIX with no invented
+  identifier as landed at turn 3. Claude 2 Stage B turn-3 returned
+  an empty mustFix list; an empty shouldFix list; an empty
+  blockers list; an empty findings list; an empty advisories list;
+  an empty observations list; top-level verdict is CONSENT. Codex
+  Stage B turn-3 returned an empty mustFix list; an empty
+  shouldFix list; an empty blockers list; an empty advisories
+  list; an empty observations list; an empty
+  observationsNotFindings list; no findings field; top-level
+  verdict is CONSENT. This entry invents no identifier. Frozen
+  leftover-join.v45 of G21 remains the D-359 current recorded G21
+  leftover remasurement. Frozen leftover-join.v14 of sarif remains
+  the D-347 current recorded DR-122 leftover remasurement. Frozen
+  platform-tcb leftover-join.v9 remains the D-268 current recorded
+  DR-126 leftover remasurement. Frozen platform-tcb-contract.v46
+  stays unrecorded. Frozen g21-fixture-corpus.v34 and
+  g21-fixture-corpus.v35 stay unrecorded. D-314 item 26 G21-EXACT
+  stands. Claude Stage A advisories CLAUDE-V47-A1, CLAUDE-V47-A2,
+  and CLAUDE-V47-A3 travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `platform-tcb-contract.v47.json` (0 blockers, 0
+  SHOULD-FIX) and independent dual gradeRuling SUSTAINED FOR
+  APPLICATION with empty reservationSweep lists. Same no-cell-edit
+  branch as D-170 through D-235 and D-237 through D-359. D-272 is
+  CONTESTED and is not on that branch. Not a three-limb act. Not
+  SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/platform-tcb-contract.v47.json`
+  `44229ea1f23a6af743fac6c1dcfd9b0d069100dad9991ef86449ee179c4dfe97`.
+- **Decision:** Record platform-tcb-contract.v47 as DR-126 C4-c
+  application-grade TCB successor candidate after D-359. The
+  candidate binds NOTHING. DR-126 stays OPEN. G22 stays not
+  QUALIFIED. Selector values and per-OS profiles stay RESERVED.
+  leftover-design of OBL-RESERVED-TABLES remains true.
+  leftover-design of OBL-G22-FX-AUTHORING remains true. Does not
+  make the TCB selector grammar governing. Does not complete C4-c.
+  Does not complete C4-d. Frozen leftover-join.v45 of G21 remains
+  the D-359 current recorded G21 leftover remasurement. Frozen
+  leftover-join.v14 of sarif remains the D-347 current recorded
+  DR-122 leftover remasurement. Frozen platform-tcb
+  leftover-join.v9 remains the D-268 current recorded DR-126
+  leftover remasurement. Frozen platform-tcb-contract.v46 stays
+  frozen; do not record it as current. Does not SATISFY DR-126.
+  Does not SATISFY DR-117. Does not SATISFY DR-131. Does not
+  SATISFY DR-133. Does not SATISFY DR-114. Does not SATISFY
+  DR-122. Does not SATISFY DR-G21. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A for
+  DR-126 or DR-G22 and does not perform gates 4 or 5. Not eligible
+  in kind. Not SATISFIED. Not QUALIFIED. Required-now stays 28.
+  Condition-4 effect is zero. Does not first-author prefix exactly
+  at the operative bound. Does not pin N=65536 as prefix-only
+  RF-2. Does not remasure leftover-join.v45 of G21. Does not
+  remasure leftover-join.v14 of sarif. Does not invent a D-002
+  platform list. Does not copy onto Windows. Does not flatten
+  DR-107. Does not edit file 08. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D360. Does not unwrite D-086, D-125, D-219, D-268, D-271,
+  D-293, D-314, D-315, D-316, D-341, D-347, D-356, D-357, D-358,
+  or D-359.
+- **Commit:** C-D360.
