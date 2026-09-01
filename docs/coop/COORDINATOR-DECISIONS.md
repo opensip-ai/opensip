@@ -22526,3 +22526,129 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-247, D-293, D-301, D-302, D-324, D-335, D-337, D-338, D-347,
   D-348, D-349, D-350, D-351, D-352, or D-353.
 - **Commit:** C-D354.
+## D-355 — Record leftover-join.v35 of G21 as G21 leftover remasurement
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-355.review-adversarial.claude2.json`,
+  `5bc3f28b2d64d3f2b9082199c9ff5d3e2d6ed772765807fe240c186b5adb2b63`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-355.review-adversarial.codex.json`,
+  `0aa36738b413ee67c3f317e21b81328f95be567da34bbd434c1e0686bb40717c`)
+  CONSENT. Subject `coordinator-decisions.D-355.draft.md`
+  `d8a8c98ff584a7db67b8f49191055eeaded5a7fd6544f1b473dc1d27424772e7`.
+  Frozen successor `g21-leftover-join.v35.json`
+  `c1435f7e3b21de3f8c9221194ae88728dc2b65eb4f50034ce65fc1398237c1ee`
+  Stage A Claude ACCEPT
+  `ac3a6c94a185bc1c03557a6cfa7e1003dd96129b550319addf4b2d518886ba17`
+  0/0 (top-level verdict; no decision field; no finalDecision
+  field); Stage A Codex ACCEPT
+  `719222952fa54d7ae0be2ef7d456e75f38d1c7a0d7073503017b3d4ae60533d6`
+  0/0 (top-level verdict; no decision field; finalDecision is an
+  object). This is a new cycle. It does not claim that any prior
+  D-355 draft subject remains frozen. Frozen
+  leftover-join.v32 of G21 remains the D-353 current recorded G21
+  leftover remasurement until this successor is recorded. Frozen
+  leftover-join.v14 of sarif remains the D-347 current recorded
+  DR-122 leftover remasurement. Frozen g21-fixture-corpus.v30
+  remains the D-354 leftover-design per-D-002-platform copies
+  recording. Frozen g21-fixture-corpus.v26 remains the D-352
+  leftover-design truncated-body first-authoring recording. Claude
+  2 Stage B turn-1 returned 6 labeled observation objects OBS-1
+  through OBS-6 (members id, severity, text); an empty mustFix
+  list; an empty shouldFix list; an empty advisories list; an
+  empty findings list; no mustFixFindings field; no
+  shouldFixFindings field; no observationsNotFindings field; no
+  blockers field; no decision field; no finalDecision field;
+  top-level verdict is CONSENT; mustFixCount is the number 0;
+  shouldFixCount is the number 0; blockerCount is the number 0;
+  advisoryCount is the number 0; observationCount is the number 6;
+  identifierInventedForFindings is false;
+  observationIdentifiersInvented is false; they travel as honesty
+  work. Codex Stage B turn-1 returned an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  observations list; an empty observationsNotFindings list; no
+  findings field; no blockers field; no decision field; no
+  finalDecision field; top-level verdict is CONSENT; mustFixCount
+  is the number 0; shouldFixCount is the number 0; blockerCount is
+  the number 0; advisoryCount is the number 0; observationCount is
+  the number 0; findingIdentifiersInvented is false;
+  observationIdentifiersInvented is false. This entry invents no
+  identifier. It recites no Codex observations. Codex Stage B
+  turn-1 returned no observation identifiers. This entry recites
+  OBS-1 through OBS-6 from leftover-join.v35 of G21 Stage A Claude
+  ACCEPT and from Claude 2 Stage B turn-1 and invents no
+  observation identifier. leftover-join.v35 of G21 Stage A Claude
+  ACCEPT returned 6 labeled observation objects OBS-1 through
+  OBS-6 (members id, severity, text); they travel as honesty work.
+  leftover-join.v34 of G21 Stage A Claude REJECT returned 5
+  unlabeled observations strings; they travel as honesty work of
+  the unrecorded predecessor and this entry invents no observation
+  identifier for them. This entry names leftover-join.v34 of G21
+  Stage A Claude identifiers G21LJ-V34-M1 and G21LJ-V34-SF1 as
+  landed at leftover-join.v35 of G21 . leftover-join.v34 of G21
+  Stage A Codex ACCEPT 0/0 returned no findings. This entry names
+  leftover-join.v33 of G21 Stage A Claude identifiers
+  G21LJ-V33-M1, G21LJ-V33-M2, and G21LJ-V33-SF1 as landed at
+  leftover-join.v34 of G21 . It recites unlabeled Codex
+  leftover-join.v33 of G21 MUST-FIX findings with no id member as landed
+  at leftover-join.v34 of G21 . This entry names
+  leftover-join.v31 of G21 Stage A Claude identifier G21LJ-V31-M1
+  as landed at leftover-join.v32 of G21 . It recites unlabeled
+  Codex leftover-join.v31 of G21 MUST-FIX findings with no id member as
+  landed at leftover-join.v32 of G21 . leftover-join.v31 of G21
+  Stage A Claude REJECT returned 5 labeled observation objects
+  OBS-1 through OBS-5 (members id, note); they travel as honesty
+  work of the unrecorded predecessor. This entry recites OBS-1
+  through OBS-5 from that frozen review and invents no observation
+  identifier.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-leftover-join.v35.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-354. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-leftover-join.v35.json`
+  `c1435f7e3b21de3f8c9221194ae88728dc2b65eb4f50034ce65fc1398237c1ee`.
+- **Decision:** Record leftover-join.v35 of G21 as G21 leftover
+  remasurement after D-354. The candidate binds NOTHING. DR-G21
+  stays `OPEN` . leftover-design of OBL-G21-FX-AUTHORING remains
+  true. leftover-design of the D-352 truncated-body injection is
+  stale as an authoring claim. leftover-design of
+  per-D-002-platform copies of the D-352 bytes is remasured stale
+  as an authoring claim. leftover-design of remaining CC-5
+  injections remains, including prefix exactly at the operative
+  bound. leftoverDesignClosedIfAcceptedAndRecorded is []. Does not
+  remasure leftover-join.v32 of G21 as a golden. Does not remasure
+  leftover-join.v14 of sarif. Does not remasure
+  g21-fixture-corpus.v30. Does not remasure
+  g21-fixture-corpus.v26. Does not SATISFY DR-114. Does not
+  SATISFY DR-133. Does not SATISFY DR-117. Does not SATISFY
+  DR-122. Does not SATISFY DR-G21. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A for
+  DR-117 or DR-G21 and does not perform gates 4 or 5. Not eligible
+  in kind. Not SATISFIED. Not QUALIFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen leftover-join.v33 of G21 and
+  leftover-join.v34 of G21 stay frozen; do not record them as
+  current. Frozen leftover-join.v32 of G21 stays frozen; do not
+  record it as current after this successor is recorded. Frozen
+  leftover-join.v14 of sarif remains the D-347 current recorded
+  DR-122 leftover remasurement. leftover-join.v35 of G21 Stage A
+  Claude ACCEPT returned 6 labeled observation objects OBS-1
+  through OBS-6 (members id, severity, text); they travel as
+  honesty work and this entry recites OBS-1 through OBS-6 and
+  invents no identifier. Does not invent a D-002 platform list, a
+  D9 code, or a section 7.1 recipe. Does not copy onto Windows.
+  Does not flatten DR-107. Does not remasure G19. Does not
+  remasure G20. Does not remasure G30. Does not remasure SARIF.
+  Does not remasure leftover-join.v6 of anti-lockstep. Does not
+  edit file 08. Does not authorize `docs/v2/implementation/` .
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D355. Does not unwrite D-086, D-218, D-241, D-243, D-245,
+  D-247, D-293, D-301, D-302, D-324, D-335, D-337, D-338, D-347,
+  D-348, D-349, D-350, D-351, D-352, D-353, or D-354.
+- **Commit:** C-D355.
