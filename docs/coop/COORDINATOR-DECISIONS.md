@@ -22652,3 +22652,99 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-247, D-293, D-301, D-302, D-324, D-335, D-337, D-338, D-347,
   D-348, D-349, D-350, D-351, D-352, D-353, or D-354.
 - **Commit:** C-D355.
+## D-356 — Record g21-fixture-corpus.v31 as G21 leftover-design CC-5 invalid-UTF-8 injection
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-356.review-adversarial.claude2.json`,
+  `a0fbec31426b70bb97987a100aee2e349b070902dab52a932e013917e30318aa`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-356.review-adversarial.codex.json`,
+  `e59562cf739ea6bf5868567e0eaf4db27c876dbc2538363e72454e2fd86330d8`)
+  CONSENT. Subject `coordinator-decisions.D-356.draft.md`
+  `4aca21713ac1684cfae03142e64bd3ec7a6d863079ce04baf75cbbf1d7f4367c`.
+  Frozen successor `g21-fixture-corpus.v31.json`
+  `cf4b98943c0516723599028bafc6190cd9a022e0eff83a96f2d37b873449e37c`
+  Stage A Claude ACCEPT
+  `f53d510f7369a12941c0d9b8bcaab1bec7ba11df476594ca333116b8a8ea2c1c`
+  0/0 (top-level verdict; blockers is the number 0; shouldFix is
+  the number 0; no mustFix field; no decision field; no
+  finalDecision field); Stage A Codex ACCEPT
+  `d26183d8ad0babb2d1dde6628118085330c9fae6560be01d947031d5e0d0b089`
+  0/0 (top-level verdict; decision is a string; no finalDecision
+  field). This is a new cycle. It does not claim that any prior
+  D-356 draft subject remains frozen. Frozen
+  leftover-join.v35 of G21 remains the D-355 current recorded G21
+  leftover remasurement. Frozen leftover-join.v14 of sarif remains
+  the D-347 current recorded DR-122 leftover remasurement. Frozen
+  g21-fixture-corpus.v30 remains the D-354 leftover-design
+  per-D-002-platform copies recording. Frozen
+  g21-fixture-corpus.v26 remains the D-352 leftover-design
+  truncated-body first-authoring recording. Claude 2 Stage B
+  turn-1 returned an empty mustFix list; shouldFix is the number
+  0; blockers is the number 0; an empty findings list; an empty
+  advisories list; an empty observations list; no decision field;
+  no finalDecision field; top-level verdict is CONSENT;
+  mustFixCount is the number 0; shouldFixCount is the number 0;
+  observationIdentifiersInvented is false. Codex Stage B turn-1
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty observations list; no findings
+  field; no decision field; no finalDecision field; top-level
+  verdict is CONSENT; mustFixCount is the number 0; shouldFixCount
+  is the number 0. This entry invents no identifier. It recites no
+  Codex observations. Claude Stage A g21-fixture-corpus.v31
+  returned no observations field.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-fixture-corpus.v31.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-355. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-fixture-corpus.v31.json`
+  `cf4b98943c0516723599028bafc6190cd9a022e0eff83a96f2d37b873449e37c`.
+- **Decision:** Record g21-fixture-corpus.v31 as G21
+  leftover-design CC-5 invalid-UTF-8 injection after D-355. The
+  candidate binds NOTHING. DR-G21 stays `OPEN` . leftover-design
+  of OBL-G21-FX-AUTHORING remains on leftover-join.v35 of G21
+  because leftover-join remasurement is not this entry, because
+  CC-5 is not fully authored, and because closing that obligation
+  needs a successor on leftover-join of G21 alone (no same-id ROW
+  twin). Whether leftover-design of this injection is stale as an
+  authoring claim after this recording is for a later
+  leftover-join remasurement succeeding leftover-join.v35 of G21
+  to measure; this entry does not measure it. Does not remasure
+  leftover-join.v35 of G21 . Does not remasure
+  leftover-join.v32 of G21 as a golden. Does not remasure
+  leftover-join.v14 of sarif. Does not remasure
+  g21-fixture-corpus.v30. Does not remasure
+  g21-fixture-corpus.v26. Does not SATISFY DR-114. Does not
+  SATISFY DR-133. Does not SATISFY DR-117. Does not SATISFY
+  DR-122. Does not SATISFY DR-G21. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A for
+  DR-117 or DR-G21 and does not perform gates 4 or 5. Not eligible
+  in kind. Not SATISFIED. Not QUALIFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen g21-fixture-corpus.v22,
+  g21-fixture-corpus.v23, g21-fixture-corpus.v24,
+  g21-fixture-corpus.v27, g21-fixture-corpus.v28, and
+  g21-fixture-corpus.v29 stay frozen; do not record them as
+  current. Frozen g21-fixture-corpus.v26 stays frozen as the D-352
+  historical first-authoring recording. Frozen
+  leftover-join.v35 of G21 remains the D-355 current recorded G21
+  leftover remasurement. Frozen leftover-join.v14 of sarif remains
+  the D-347 current recorded DR-122 leftover remasurement. Claude
+  Stage A g21-fixture-corpus.v31 returned no observations field;
+  this entry invents no identifier. Does not invent a D-002
+  platform list, a D9 code, or a section 7.1 recipe. Does not copy
+  onto Windows. Does not flatten DR-107. Does not remasure G19.
+  Does not remasure G20. Does not remasure G30. Does not remasure
+  SARIF. Does not remasure leftover-join.v6 of anti-lockstep. Does
+  not edit file 08. Does not authorize `docs/v2/implementation/` .
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D356. Does not unwrite D-086, D-218, D-241, D-243, D-245,
+  D-247, D-293, D-301, D-302, D-324, D-335, D-337, D-338, D-347,
+  D-348, D-349, D-350, D-351, D-352, D-353, D-354, or D-355.
+- **Commit:** C-D356.
