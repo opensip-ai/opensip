@@ -20779,3 +20779,115 @@ file-09 D-000 act. Left whole-document until then.
   C-D341. Does not unwrite D-125, D-219, D-268, D-271, D-293,
   D-294, D-314, or D-340.
 - **Commit:** C-D341.
+
+## D-342 — Record g29-fixture-corpus.v2 as G29 leftover-design per-D-002-platform copies of the ten D-318 implementations
+
+- **Date:** 2026-08-31
+- **Status:** **ADOPTED 2026-08-31.** Turn 2 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-342.turn2.review-adversarial.claude2.json`,
+  `e5471052cf890ad9de20f3fc29cbdffc9e85730c8bd2f4ba8ae3e7cf1ec0b947`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-342.turn2.review-adversarial.codex.json`,
+  `cb9e4e73d90b918bfebb0074f5446b112bc5afb30e737598514889107adce98d`)
+  CONSENT. Subject `coordinator-decisions.D-342.turn2.draft.md`
+  `124775d0b10eea25f4205d18d526807580a4c9f0a4f0f0299d8c9025f7a75924`.
+  Frozen turn-1 subject `coordinator-decisions.D-342.draft.md`
+  `a95d99b5ec980c9cd5d68d7d4f4841b694588ca5a0b339f77328aaa4164bb1d7`
+  Stage B Claude OBJECT SF-1
+  (`f0e8abd4212eaaf17a2f22d297b629601449b82e16c32210de53ae7f27d77142`);
+  Codex CONSENT 0 MUST-FIX, 0 SHOULD-FIX
+  (`c808b68b5d045ecfea8dab59648741279794d32390b9cc76ae88438f368b2865`).
+  Findings land at the turn-2 draft. Frozen successor
+  `g29-fixture-corpus.v2.json`
+  `22969243b638c01d1ea391eddb2b7006901f94d835319a7a7eb372da9493a0dd`
+  Stage A Claude ACCEPT
+  `60bb9651a51a0d66f36613d68e8af232a7f402002082d92e5d75a41cd7207ce5`
+  0/0 (no top-level verdict field; decision is an object); Stage A
+  Codex ACCEPT
+  `044d4ee4850db9e42cb1e166d220eb5fc5dceb02144524048077a3a5813d3926`
+  0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `g29-fixture-corpus.v1.json`
+  `24fbbd2ddba0ca0a4e930cfabe83125768f8df38741abb867fc23c9b435b4fa1`
+  Stage A Claude ACCEPT 0/0
+  (`c82007f84eca70daa19ddedde212c90bc85fa4fe225d74e0c201d6c064e5546b`);
+  Codex ACCEPT 0/0
+  (`c582205d822872e95bb34f3a4c1f8a39ea4f0ca7d532121177eb6e7e125132e5`).
+  Frozen g29-fixture-corpus.v1 remains the D-318 historical
+  first-authoring recording of ten implementations. Claude 2 Stage
+  B turn-2 returned 5 unlabeled observations strings; an empty
+  mustFix list; an empty shouldFix list; an empty advisories list;
+  an empty blockers list; no observationsNotFindings field; no
+  findings field; decision is a string CONSENT; top-level verdict
+  is CONSENT; they travel as honesty work. Codex Stage B turn-2
+  returned an empty mustFix list; an empty shouldFix list; an
+  empty advisories list; an empty observations list; an empty
+  observationsNotFindings list; an empty blockers list; no
+  findings field; no decision field; top-level verdict is CONSENT;
+  mustFixCount is the number 0; shouldFixCount is the number 0;
+  blockerCount is the number 0. This entry names the Claude
+  identifier SF-1; no identifier is invented. It recites no Codex
+  observations. Codex Stage B turn-2 returned no observation
+  identifiers. Claude Stage A g29-fixture-corpus.v2 returned 4
+  attacksNotChargedWithDisclosure objects D01, D02, D03, D04; they
+  travel as honesty work. D01 has members id, observation,
+  whyNotCharged, suggestedIfALaterVersionIsAuthored. D02, D03, and
+  D04 have members id, observation, whyNotCharged. Claude Stage B
+  turn-1 identifier SF-1 is landed. Claude Stage B turn-1 returned
+  5 unlabeled observations strings; they travel as honesty work.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g29-fixture-corpus.v2.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-341. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g29-fixture-corpus.v2.json`
+  `22969243b638c01d1ea391eddb2b7006901f94d835319a7a7eb372da9493a0dd`.
+- **Decision:** Record g29-fixture-corpus.v2 as G29
+  leftover-design per-D-002-platform copies of the ten D-318
+  implementations after D-341. The candidate binds NOTHING. DR-G29
+  stays `OPEN`. leftover-design of OBL-G29-FX-AUTHORING remains on
+  leftover-join.v6 of G29 because leftover-join remasurement is
+  not this entry, leftoverDesignClosedIfAcceptedAndRecorded is
+  empty, and because closing that obligation needs a successor on
+  leftover-join of G29 alone (no same-id ROW twin). Whether
+  leftover-design of the forty copies is stale as an authoring
+  claim after this recording is for a later leftover-join
+  remasurement succeeding leftover-join.v6 of G29 to measure; this
+  entry does not measure it. OQ-G29-2 is answered by quoting G10
+  occupancy v2 #$.platforms ORDERED-EQUAL against G23 occupancy
+  v2; a D-002 platform list is not invented. Does not remasure
+  leftover-join.v6 of G29. Does not remasure leftover-join.v4 of
+  G29. Does not remasure occupancy v3. Does not remasure G10
+  occupancy v2. Does not SATISFY DR-117. Does not SATISFY DR-G29.
+  Does not SATISFY DR-131. D-316 already opened D-056 Gate 1 Class
+  A for DR-117; this entry does not open Class A for DR-117 or
+  DR-G29 and does not perform gates 4 or 5. Not eligible in kind.
+  Not SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen g29-fixture-corpus.v1 stays frozen as the
+  D-318 historical first-authoring recording. Frozen
+  leftover-join.v4 of G29 stays frozen; do not record it as
+  current. Frozen turn-1 draft stays frozen; do not record it as
+  current. Claude Stage A g29-fixture-corpus.v2 returned 4
+  attacksNotChargedWithDisclosure objects D01, D02, D03, D04; they
+  travel as honesty work and this entry invents no identifier. D01
+  has members id, observation, whyNotCharged,
+  suggestedIfALaterVersionIsAuthored. D02, D03, and D04 have
+  members id, observation, whyNotCharged. Claude Stage B turn-1
+  identifier SF-1 is landed. Does not invent a D-002 platform
+  list, a PlanIntent schema, the DR-131 pack, Rust-as-core, a D9
+  code, or a section 7.1 recipe. Does not copy onto Windows. Does
+  not flatten DR-107. Does not remasure leftover-join.v10 of G30.
+  Does not remasure leftover-join.v20 of G21. Does not remasure
+  leftover-join.v10 of G19. Does not remasure platform-tcb
+  leftover-join.v9. Does not remasure G19. Does not remasure G20.
+  Does not remasure G21. Does not remasure SARIF. Does not
+  remasure anti-lockstep leftover-join.v6. Does not edit file 08.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D342. Does not unwrite D-157, D-229, D-254, D-293, D-316,
+  D-318, D-320, or D-341.
+- **Commit:** C-D342.
