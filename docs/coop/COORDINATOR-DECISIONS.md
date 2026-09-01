@@ -22884,3 +22884,118 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-338, D-347, D-348, D-349, D-350, D-351, D-352, D-353, D-354,
   D-355, or D-356.
 - **Commit:** C-D357.
+## D-358 — Record g21-fixture-corpus.v33 as G21 leftover-design per-D-002-platform copies of the D-356 invalid-UTF-8 injection
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-358.review-adversarial.claude2.json`,
+  `2aef11d96a0e4afa4da0da2ce358a91ea3bbdd84cc06b988faef9181be6b29a4`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-358.review-adversarial.codex.json`,
+  `041da4fbd74ce946f0fdcae367f89b516b36e74a1fd966b851782db4a645a5c8`)
+  CONSENT. Subject `coordinator-decisions.D-358.draft.md`
+  `be2efb5e94c9c74d90fe278af145e1a55789e131b0f699f94d5c93d16ce706e1`.
+  Frozen successor `g21-fixture-corpus.v33.json`
+  `eb74cf87e89f755e4d6dedc7184cd52653ddc197af97175d9371272a953a6e4c`
+  Stage A Claude ACCEPT
+  `c4080cdaa3ee3af0bc760759696a7a355e43fcf3350ab0e3dcda36aa5b4f6513`
+  0/0 (top-level verdict; blockers is the number 0; shouldFix is
+  the number 0; no mustFix field; empty findings list; no
+  observations field; no decision field; no finalDecision field);
+  Stage A Codex ACCEPT
+  `c1afdd434e281a4fdace2777156fa98e6efb2a04e22bf4e15467ecd0833e7bca`
+  0/0 (top-level verdict; empty mustFix list; empty shouldFix
+  list; empty findings list; no blockers field; no observations
+  field; no decision field; no finalDecision field; mustFixCount
+  is the number 0; shouldFixCount is the number 0). This is a new
+  cycle. It does not claim that any prior D-358 draft subject
+  remains frozen. Frozen leftover-join.v39 of G21 remains the
+  D-357 current recorded G21 leftover remasurement. Frozen
+  leftover-join.v14 of sarif remains the D-347 current recorded
+  DR-122 leftover remasurement. Frozen g21-fixture-corpus.v31
+  remains the D-356 leftover-design CC-5 invalid-UTF-8
+  first-authoring recording. Frozen g21-fixture-corpus.v30 remains
+  the D-354 leftover-design per-D-002-platform copies recording.
+  Frozen g21-fixture-corpus.v26 remains the D-352 leftover-design
+  truncated-body first-authoring recording. Claude 2 Stage B
+  turn-1 returned an empty mustFix list; shouldFix is the number
+  0; blockers is the number 0; an empty findings list; an empty
+  advisories list; 5 unlabeled observation strings; no
+  observationsNotFindings field; no decision field; no
+  finalDecision field; top-level verdict is CONSENT; mustFixCount
+  is the number 0; shouldFixCount is the number 0; blockerCount is
+  the number 0; identifierInventedForFindings is false;
+  findingIdentifiersInvented is false;
+  observationIdentifiersInvented is false; they travel as honesty
+  work. Codex Stage B turn-1 returned an empty mustFix list; an
+  empty shouldFix list; an empty advisories list; an empty
+  observations list; an empty observationsNotFindings list; no
+  findings field; no blockers field; no decision field; no
+  finalDecision field; top-level verdict is CONSENT; mustFixCount
+  is the number 0; shouldFixCount is the number 0; blockerCount is
+  the number 0; findingIdentifiersInvented is false;
+  observationIdentifiersInvented is false. This entry invents no
+  identifier. It recites no Codex observations. Codex Stage B
+  turn-1 returned no observation identifiers.
+  g21-fixture-corpus.v33 Stage A Claude ACCEPT returned no
+  observations field. This entry recites 5 unlabeled observation
+  strings from Claude 2 Stage B turn-1 and invents no observation
+  identifier. This entry names g21-fixture-corpus.v32 Stage A
+  Claude identifiers MF-1, MF-2, MF-3, MF-4, SF-1, and SF-2 as
+  landed at g21-fixture-corpus.v33. It recites unlabeled Codex
+  g21-fixture-corpus.v32 MUST-FIX findings with no id member as
+  landed at g21-fixture-corpus.v33. Frozen g21-fixture-corpus.v32
+  Findings land at g21-fixture-corpus.v33. Do not rewrite that
+  landing.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `g21-fixture-corpus.v33.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-357. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/g21-fixture-corpus.v33.json`
+  `eb74cf87e89f755e4d6dedc7184cd52653ddc197af97175d9371272a953a6e4c`.
+- **Decision:** Record g21-fixture-corpus.v33 as G21
+  leftover-design per-D-002-platform copies of the D-356
+  invalid-UTF-8 injection after D-357. The candidate binds
+  NOTHING. DR-G21 stays `OPEN` . leftover-design of
+  OBL-G21-FX-AUTHORING remains true. leftover-design of
+  G21.cc5.invalid-utf-8 remains stale as an authoring claim.
+  Whether leftover-design of these copies is stale as an
+  authoring claim after this recording is for a later
+  leftover-join remasurement succeeding leftover-join.v39 of
+  G21 to measure; this entry does not measure it.
+  leftover-design of remaining
+  CC-5 injections remains, including prefix exactly at the
+  operative bound. leftoverDesignClosedIfAcceptedAndRecorded is
+  []. Does not remasure leftover-join.v39 of G21 . Does not
+  remasure leftover-join.v35 of G21 as a golden. Does not remasure
+  leftover-join.v14 of sarif. Does not remasure
+  g21-fixture-corpus.v31. Does not remasure
+  g21-fixture-corpus.v30. Does not remasure
+  g21-fixture-corpus.v26. Does not SATISFY DR-114. Does not
+  SATISFY DR-133. Does not SATISFY DR-117. Does not SATISFY
+  DR-122. Does not SATISFY DR-G21. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A for
+  DR-117 or DR-G21 and does not perform gates 4 or 5. Not eligible
+  in kind. Not SATISFIED. Not QUALIFIED. Required-now stays 28.
+  Condition-4 effect is zero. Frozen g21-fixture-corpus.v32 stays
+  frozen; do not record it as current. Frozen leftover-join.v39 of
+  G21 remains the D-357 current recorded G21 leftover
+  remasurement. Frozen leftover-join.v14 of sarif remains the
+  D-347 current recorded DR-122 leftover remasurement. Does not
+  invent a D-002 platform list, a D9 code, or a section 7.1
+  recipe. Does not copy onto Windows. Does not flatten DR-107.
+  Does not first-author prefix exactly at the operative bound.
+  Does not claim CC-5 fully authored. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/` .
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D358. Does not unwrite D-086, D-218, D-241, D-243, D-245,
+  D-247, D-285, D-292, D-301, D-302, D-324, D-335, D-336, D-337,
+  D-338, D-347, D-348, D-349, D-350, D-351, D-352, D-353, D-354,
+  D-355, D-356, or D-357.
+- **Commit:** C-D358.
