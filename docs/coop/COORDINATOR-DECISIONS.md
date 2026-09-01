@@ -20991,3 +20991,81 @@ file-09 D-000 act. Left whole-document until then.
   C-D343. Does not unwrite D-157, D-229, D-254, D-293, D-316,
   D-318, D-320, or D-342.
 - **Commit:** C-D343.
+## D-344 — Record sarif-fc-nonauth-term-golden.v4 as DR-122 leftover-design per-D-002-platform copies of the two D-296 implementations
+
+- **Date:** 2026-08-31
+- **Status:** **ADOPTED 2026-08-31.** Turn 1 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2 (`artifacts/coordinator-decisions.D-344.review-adversarial.claude2.json`,
+  `49e0d9b0e0da17d1073d7ab80cd7afdc3f29b6fec0ff8b043d8cebb7bf6433ca`) CONSENT. Codex (`artifacts/coordinator-decisions.D-344.review-adversarial.codex.json`, `d96ad0fd10c1df2d9d97a6ec494df792612dc8353fddcbe4f981ebb74fbd439a`) CONSENT. Subject `coordinator-decisions.D-344.draft.md` `702f377cc40220c7a260d171e67328fab2faf28c38049b1036e43805ab326be6`.
+  Frozen successor `sarif-fc-nonauth-term-golden.v4.json` `940c478add7be442531dc2d1b2dd447de0d5cd66cd83b8312b0c0a37412762e5` Stage A Claude ACCEPT `be620547cbeff55ef44b14614f8bba68485ef502f0bc90be5edd321a3ca02499` 0/0
+  (top-level verdict; no decision field); Stage A Codex ACCEPT
+  `d14c1e0d9e60d0344a351ca5303ccdaaf099c847f3d8a5375314e216dee66d62` 0/0 (top-level verdict; decision is a string). Frozen
+  predecessor `sarif-fc-nonauth-term-golden.v3.json` `de3c859b4028ff8dcb8b71028809bf5339b7092d78bb0dc34dd7229a644cd5ed` Stage A Claude ACCEPT 0/0 (`73b9b58137ebbb710eaaac71048ffd3d0c8d1f7815e7f812c1b4c4d461ea7884`); Codex
+  ACCEPT 0/0 (`77601ced19170dd0d0a5c54d55337c183547ddb6f5c8a553bc552b19c777c4b9`). Frozen sarif-fc-nonauth-term-golden.v3
+  remains the D-296 historical first-authoring recording of two
+  implementations. Claude 2 Stage B turn-1 returned 6 observations
+  objects OBS-1, OBS-2, OBS-3, OBS-4, OBS-5, OBS-6 (members id,
+  observation, whyNotAFinding); an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty blockers
+  list; no observationsNotFindings field; no findings field;
+  decision is a string CONSENT; top-level verdict is CONSENT;
+  mustFixCount is the number 0; shouldFixCount is the number 0;
+  blockerCount is the number 0; they travel as honesty work. Codex
+  Stage B turn-1 returned an empty mustFix list; an empty
+  shouldFix list; an empty advisories list; an empty observations
+  list; an empty observationsNotFindings list; an empty blockers
+  list; no findings field; no decision field; top-level verdict is
+  CONSENT; mustFixCount is the number 0; shouldFixCount is the
+  number 0; blockerCount is the number 0. This entry names Claude
+  Stage A sarif-fc-nonauth-term-golden.v4 identifiers OBS-1,
+  OBS-2, OBS-3, OBS-4, OBS-5, OBS-6; they travel as honesty work.
+  This entry names Claude Stage B identifiers OBS-1, OBS-2, OBS-3,
+  OBS-4, OBS-5, OBS-6; they travel as honesty work. It recites no
+  Codex observations. Codex Stage A and Stage B returned no
+  observation identifiers. Frozen sarif leftover-join.v5 Findings land at sarif leftover-join.v7.
+  Frozen sarif leftover-join.v6 Findings land at sarif leftover-join.v7. No identifier is invented.
+- **Decision type:** RULE-GOVERNED. Records independent dual ACCEPT of `sarif-fc-nonauth-term-golden.v4.json` (0
+  blockers, 0 SHOULD-FIX). Same no-cell-edit branch as D-170
+  through D-235 and D-237 through D-343. D-272 is CONTESTED and is
+  not on that branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/sarif-fc-nonauth-term-golden.v4.json` `940c478add7be442531dc2d1b2dd447de0d5cd66cd83b8312b0c0a37412762e5`.
+- **Decision:** Record sarif-fc-nonauth-term-golden.v4 as DR-122 leftover-design
+  per-D-002-platform copies of the two D-296 implementations after
+  D-343. The candidate binds NOTHING. DR-122 stays `PROPOSED-CLOSED-FOR-REVIEW`.
+  leftover-design of OBL-FC-NONAUTH-TERM-FX remains on sarif leftover-join.v7
+  because leftover-join remasurement is not this entry,
+  leftoverDesignClosedIfAcceptedAndRecorded is empty. Whether
+  leftover-design of the eight copies is stale as an authoring
+  claim after this recording is for a later leftover-join remasurement
+  succeeding sarif leftover-join.v7 to measure; this entry does not measure it. Does
+  not remasure sarif leftover-join.v7. Does not remasure sarif leftover-join.v4. Does not remasure leftover-join.v7 of G29.
+  Does not remasure occupancy v2 of G26. Does not occupy G26. Does
+  not remasure G10 occupancy v2. Does not remasure G23 occupancy
+  v2. Does not SATISFY DR-122. Does not SATISFY DR-117. Does not
+  SATISFY DR-131. Does not SATISFY DR-133. Does not open Class A.
+  Not SATISFIED. Not QUALIFIED. Required-now stays 28. Condition-4
+  effect is zero. Frozen sarif-fc-nonauth-term-golden.v3 stays
+  frozen as the D-296 historical first-authoring recording. Frozen
+  sarif leftover-join.v4 stays frozen; do not record it as current. Frozen sarif leftover-join.v5
+  stays frozen; do not record it as current. Frozen sarif leftover-join.v6 stays
+  frozen; do not record it as current. Claude Stage A
+  sarif-fc-nonauth-term-golden.v4 returned 6 observations objects
+  OBS-1, OBS-2, OBS-3, OBS-4, OBS-5, OBS-6 (members id,
+  observation, whyNotAFinding); they travel as honesty work and
+  this entry invents no identifier. Claude Stage B returned 6
+  observations objects OBS-1, OBS-2, OBS-3, OBS-4, OBS-5, OBS-6
+  (members id, observation, whyNotAFinding); they travel as
+  honesty work. Does not invent a D-002 platform list, a
+  PlanIntent schema, a D9 code, a RunId recipe, a CommandEnvelope
+  schema, or a section 7.1 recipe. Does not copy onto Windows.
+  Does not author FC-OUTFAIL. Does not flatten DR-107. Does not
+  remasure leftover-join.v10 of G30. Does not remasure leftover-join.v20 of G21. Does not remasure leftover-join.v10 of G19.
+  Does not remasure leftover-join.v16 of G20. Does not remasure leftover-join.v6 of anti-lockstep. Does not
+  remasure leftover-join.v9 of platform-tcb. Does not edit file 08. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32. Condition 4 stays MET
+  on the naming half (28 of 28). Condition 5 last. This entry does
+  not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover rewrite, SATISFIED
+  cycle, or file-08 cell rewrite. Overturn: C-D344. Does not
+  unwrite D-115, D-182, D-293, D-296, D-325, or D-343.
+- **Commit:** C-D344.
