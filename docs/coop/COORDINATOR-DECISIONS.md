@@ -23349,3 +23349,103 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-293, D-314, D-315, D-316, D-341, D-347, D-356, D-357, D-358,
   D-359, or D-360.
 - **Commit:** C-D361.
+
+## D-362 — Record leftover-join.v11 of platform-tcb as DR-126 leftover remasurement
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 1 of 3: CONSENT from
+  both independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-362.review-adversarial.claude2.json`,
+  `d0534501860f8595f79bc2b0dd2082961cbbb68fe3dc73cf7388b33a175dd2be`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-362.review-adversarial.codex.json`,
+  `b636df8863a2164563f6e148b6a2c6bfe605bbd4b315064c82603a0f77477b6f`)
+  CONSENT. Subject `coordinator-decisions.D-362.draft.md`
+  `32519d571cc9230d2418dac1bc70936f7e5de4fdf6b05fdf92f313cfe7d7f99a`.
+  Frozen successor `platform-tcb-leftover-join.v11.json`
+  `31f945ec892b6647c8d1ae2ac104905750502ffa54c2918b352e5ecdc89fa8d8`
+  Stage A Claude ACCEPT
+  `7ede4035ec34cf54b17e4ace7760a802a797570d3d85239db5c260609793d374`
+  0/0 (blockers is the number 0; mustFix is the number 0;
+  shouldFix is the number 0; advisories is the number 0; no
+  findings field). Stage A Codex ACCEPT
+  `eeb68a58f38153b435e61f4188e1b87da02d47098587c3fcd3331c793473efbd`
+  0/0 (empty blockers list; empty mustFix list; empty shouldFix
+  list; empty advisories list; no findings field). Claude 2 Stage
+  B turn-1 returned an empty mustFix list; an empty shouldFix
+  list; an empty blockers list; an empty advisories list; no
+  findings field; top-level verdict is CONSENT. Codex Stage B
+  turn-1 returned an empty mustFix list; an empty shouldFix list;
+  an empty blockers list; an empty advisories list; no findings
+  field; top-level verdict is CONSENT. This entry recites Claude
+  Stage A numeric zeros as numbers and Codex Stage A empty lists
+  as lists. Frozen leftover-join.v10 of platform-tcb Stage A
+  Claude REJECT 0 MUST-FIX 2 SHOULD-FIX CLAUDE-PTLJ-V10-SF1
+  CLAUDE-PTLJ-V10-SF2
+  `3d72c59d0bd602ce7843244bc146670f242ebce89fd6b643389cc85c7eb1d2b8`.
+  Frozen leftover-join.v10 of platform-tcb Stage A Codex ACCEPT
+  0/0 with one unlabeled advisory
+  `4c23561ea5ecf6d3084fd847734c70c635095fb8480ecde86590f4635f945016`.
+  Frozen leftover-join.v10 of platform-tcb Findings land at
+  leftover-join.v11 of platform-tcb. This entry names
+  CLAUDE-PTLJ-V10-SF1 and CLAUDE-PTLJ-V10-SF2 as landed at
+  leftover-join.v11 of platform-tcb. It recites the unlabeled
+  Codex leftover-join.v10 of platform-tcb advisory with no
+  invented identifier as landed at leftover-join.v11 of
+  platform-tcb. This entry invents no identifier. Frozen
+  leftover-join.v45 of G21 remains the D-359 current recorded G21
+  leftover remasurement. Frozen leftover-join.v14 of sarif remains
+  the D-347 current recorded DR-122 leftover remasurement. Frozen
+  leftover-join.v5 of G22 remains the D-271 current G22 leftover
+  remasurement. Frozen leftover-join.v10 of platform-tcb stays
+  unrecorded. Frozen platform-tcb-contract.v48 remains the D-361
+  recorded DR-126 C4-c application-grade TCB successor that makes
+  the selector grammar governing. Frozen platform-tcb-contract.v46
+  stays unrecorded. D-314 item 26 G21-EXACT stands.
+- **Decision type:** RULE-GOVERNED. Records independent dual
+  ACCEPT of `platform-tcb-leftover-join.v11.json` (0 blockers, 0
+  SHOULD-FIX). Same no-cell-edit branch as D-170 through D-235 and
+  D-237 through D-361. D-272 is CONTESTED and is not on that
+  branch. Not a three-limb act. Not SATISFIED-GRADE.
+- **Subject:** `docs/coop/artifacts/platform-tcb-leftover-join.v11.json`
+  `31f945ec892b6647c8d1ae2ac104905750502ffa54c2918b352e5ecdc89fa8d8`.
+- **Decision:** Record leftover-join.v11 of platform-tcb as DR-126
+  leftover remasurement after D-361. The candidate binds NOTHING.
+  leftoverDesign remains [OBL-G22-FX-AUTHORING,
+  OBL-RESERVED-TABLES]. Making the selector grammar governing does
+  not populate a table. DR-126 stays OPEN. G22 stays not
+  QUALIFIED. Selector values and per-OS profiles stay RESERVED.
+  Frozen leftover-join.v9 of platform-tcb remains the D-268
+  recorded remasurement and is not current after leftover-join.v11
+  of platform-tcb is recorded. Frozen leftover-join.v10 of
+  platform-tcb stays unrecorded. Frozen leftover-join.v45 of G21
+  remains the D-359 current recorded G21 leftover remasurement.
+  Frozen leftover-join.v14 of sarif remains the D-347 current
+  recorded DR-122 leftover remasurement. Frozen leftover-join.v5
+  of G22 remains the D-271 current G22 leftover remasurement.
+  Frozen occupancy v2 remains the D-219 current G22 occupancy
+  remasurement. Frozen platform-tcb-contract.v48 remains the D-361
+  recorded DR-126 C4-c application-grade TCB successor that makes
+  the selector grammar governing. Frozen platform-tcb-contract.v46
+  stays frozen; do not record it as current. Does not SATISFY
+  DR-126. Does not SATISFY DR-117. Does not SATISFY DR-131. Does
+  not SATISFY DR-133. Does not SATISFY DR-114. Does not SATISFY
+  DR-122. Does not SATISFY DR-G21. D-316 already opened D-056 Gate
+  1 Class A for DR-117; this entry does not open Class A for
+  DR-126 or DR-G22. Not eligible in kind. Not SATISFIED. Not
+  QUALIFIED. Required-now stays 28. Condition-4 effect is zero.
+  Does not first-author prefix exactly at the operative bound.
+  Does not pin N=65536 as prefix-only RF-2. Does not remasure
+  leftover-join.v45 of G21. Does not remasure leftover-join.v14 of
+  sarif. Does not invent a D-002 platform list. Does not copy onto
+  Windows. Does not flatten DR-107. Does not edit file 08. Does
+  not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32.
+  Condition 4 stays MET on the naming half (28 of 28). Condition 5
+  last. This entry does not edit file 08.
+- **Reversibility:** Total only before a later dependent leftover
+  rewrite, SATISFIED cycle, or file-08 cell rewrite. Overturn:
+  C-D362. Does not unwrite D-086, D-125, D-219, D-268, D-271,
+  D-293, D-314, D-315, D-316, D-341, D-347, D-356, D-357, D-358,
+  D-359, D-360, or D-361.
+- **Commit:** C-D362.
