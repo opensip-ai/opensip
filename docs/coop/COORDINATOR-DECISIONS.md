@@ -23565,3 +23565,110 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-295, D-314, D-315, D-316, D-320, D-321, D-340, D-343, or any entry from
   D-170 through D-362.
 - **Commit:** C-D364.
+
+---
+
+## D-363 — Record DR-117 SATISFIED under D-056 Class A
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-363.turn3.review-adversarial.claude2.json`,
+  `66dd205784b0629f93066d196e639ddcadec5cfcd067a9cb116bcc79296dd512`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-363.turn3.review-adversarial.codex.json`,
+  `7305a2295799c3c96be3f98a9dcfdc611018ab9bfe8402083a3a6fff651c6536`)
+  CONSENT. Subject `coordinator-decisions.D-363.turn3.draft.md`
+  `f9db1e2ea4ef8ab881704f1fce8df3d9012a72025fbe7e9de476839168a5f55e`. Both reviews are the
+  dedicated SATISFIED-GRADE review D-056 Eligibility (4) requires for this row,
+  and both returned 0 blockers. Turn 1
+  (`coordinator-decisions.D-363.draft.md`
+  `134b0bd0754c8a643c8f9b3c6cad1814a4cd9b373bbb62a2e1c6ded50d486815`) drew OBJECT
+  from both, landing CLAUDE-D363-MF1, CLAUDE-D363-MF2, CLAUDE-D363-SF1 and
+  Codex's single unlabeled MUST-FIX; Claude 2 also returned six observations as
+  strings, carrying no identifiers. Turn 2
+  (`coordinator-decisions.D-363.turn2.draft.md`
+  `907001ea6a04cac8bdefaa060b4dc546261b5f40b92e28e1fb8d854715005077`) drew OBJECT
+  from both at one MUST-FIX each, the same finding, landing CLAUDE-D363-T2-MF1
+  and Codex's single unlabeled turn-2 MUST-FIX, with CLAUDE-D363-T2-ADV-1,
+  CLAUDE-D363-T2-ADV-2, CLAUDE-D363-T2-ADV-3 and observations
+  CLAUDE-D363-T2-O1, CLAUDE-D363-T2-O2, CLAUDE-D363-T2-O3. Both prior subjects
+  stay frozen and unrecorded. Claude 2 turn-3 returned two advisories,
+  CLAUDE-D363-T3-ADV-1 and CLAUDE-D363-T3-ADV-2, and five observations,
+  CLAUDE-D363-T3-O1 through CLAUDE-D363-T3-O5; they travel as honesty work.
+  CLAUDE-D363-T3-ADV-1 records that the subject's body HEAD pin
+  `d4e93724092d425ef00c24570fe50c451144f934` was stale at dispatch because commit
+  `19241d6d730c66f09ed3fc1d027782998c88f9dd` had landed; that commit adds only
+  `BLOCKED-FOR-OWNER.md` and five generator scripts under
+  `tools/orchestrator/ppbs/`, every file the subject pins measures the same
+  digest at both commits, COORD, file 08 and file 02 are byte-identical across
+  them, the last heading stays D-364 and required-now stays 28, so the scope
+  effect is zero. Codex turn-3 returned an empty mustFix list, an empty
+  shouldFix list, an empty advisories list, an empty observations list, an empty
+  observationsNotFindings list, and `currentFindingIdentifiers` as the empty
+  list. This entry names the Claude identifiers above and invents none.
+- **Decision type:** RULE-GOVERNED. SATISFIED re-record under adopted D-056
+  Class A. File-08 MF-6. Does not execute any EE class. Does not claim
+  QUALIFIED. Not a three-limb act. Not a remasurement.
+- **Subject:** `docs/coop/artifacts/coordinator-decisions.D-363.turn3.draft.md`
+  `f9db1e2ea4ef8ab881704f1fce8df3d9012a72025fbe7e9de476839168a5f55e`.
+- **Decision:** Record DR-117 `SATISFIED` for architecture-preview condition 2
+  under D-056 Class A. Eligibility, measured for this row at this cycle: gate 1
+  Class A was opened at D-316 as the T2-02 acceptance of
+  `preview-product-boundary-successor.v10`
+  `8f34c92ef4fb835ce31945bfc73e1442b38dada1d483380231a53d1d93a03483` (recorded
+  D-295, Stage A dual ACCEPT 0/0, both grade rulings SUSTAINED FOR APPLICATION),
+  lifting D-137's express reservation; gates 2 and 3 hold (D-159), with all
+  fourteen enforcement-evidence classes owned and named at a condition-4
+  obligation; gate 4 is this entry's dedicated SATISFIED-GRADE review; gate 5 is
+  this MF-6. Execution of the fourteen EE classes remains condition 4 / DR-G09,
+  DR-G14, DR-G16, DR-G21, DR-G23, DR-G29, DR-G30 / DR-012 qualification. It is
+  not architecture SATISFIED evidence and is not an architecture hard blocker.
+  Not QUALIFIED. Those gates' own fixture-authoring leftover-design remains
+  theirs and is not a DR-117 acceptance-evidence member.
+  **The D-294 Decision 2 (b) successor of
+  `preview-product-boundary-successor.v10` owed on the g29 and g30 grounds is
+  named, not discharged**, per D-364 clauses 3, 4, 6 and 7: it is not an
+  acceptance-evidence member and not a D-056 gate-2 remainder, this cycle
+  proceeds with it outstanding, and recording it later does not move gate 1.
+  Its owner is the D-000 coordinator. Four candidates were authored and each was
+  rejected at Stage A by both reviewers and is unrecorded:
+  `preview-product-boundary-successor.v11`
+  `d25a7f29148b41e1e1991876c0f2ba549ef2d15834c2776feb52aeac97caf881`, `.v12`
+  `2f31ca88e263cd93fd7b3bb97b18d6cecab87df87e661ac90575cfddca4643f9`, `.v13`
+  `fd571584e1d8596b279e26977b2dbf708dd900a069a5cc9b3151e6dfb0622f8f`, `.v14`
+  `93a8e421234b7cd3f349953e37ba4f6fdaf51cb73706c5f3ceaa420033308ad1`; they stay
+  frozen and are not to be recorded.
+  `preview-product-boundary-successor.v5` (D-137), `.v7` (D-168) and `.v8`
+  (D-207) stand as history; `product-boundary-successor-contract.v8` (D-116)
+  remains DR-117's leftover T2-02 candidate for general succession, is a
+  distinct lineage, and is neither replaced nor applied. DR-010 stays
+  HARD-BLOCKED and its 2026-08-14 owner-recording cell is not rewritten here;
+  DR-011-R16 remains non-CLOSED. **File-08 edits performed, and no others:** the
+  unique DR-117 status and Blueprint-impact cells were replaced; the condition-2
+  "Measured now" text was replaced, preserving every named remainder D-085 /
+  D-089 / D-091 / D-092 / D-236 installed and keeping DR-103's
+  accepted-contract note and the DR-131/DR-133 ineligible-in-kind note; and the
+  one-sentence summary clause "condition 2 remains 5 of 32 SATISFIED" became "6
+  of 32". No gate-harness cell was edited. Does not mark
+  DR-101/103/105/114/118/131/133 SATISFIED. Does not open Class A for DR-131 or
+  DR-133. Does not name G13 into required-now. Does not authorize
+  `docs/v2/implementation/`.
+- **Readiness effect:** **Condition 2 becomes 6 of 32 `SATISFIED`** — 23 `OPEN`,
+  1 `DECIDED-V1-NOT-INTEGRATED`, 2 `PROPOSED-CLOSED-FOR-REVIEW`; 6 + 23 + 1 + 2
+  = 32 — and stays **NOT MET**. Condition 1 stays MET for architecture-preview
+  scope. Condition 3 stays MET. Condition 4 stays MET on the naming half (28 of
+  28); required-now stays 28. Condition 5 remains NOT MET and last. File 08
+  moves from `e503b75b5599444ee4d77c0c7d7c82a74026b2c1848ad214e0ac738c0aa40c3e`
+  to `476cfe5650f98fa30a3620a0a206e9db8fdddbda124b3c1ac8da355eb0149510`. File 12
+  has no authority and is not edited; its section 1 item 3 names DR-117
+  `SATISFIED` as one of the three row-SATISFIED architecture-completion
+  conditions, and this entry discharges that item only.
+- **Reversibility:** C-D363 plus restore of the prior unique DR-117 status and
+  Blueprint-impact cells, the prior condition-2 snapshot including every named
+  remainder this rewrite preserves, and the prior "5 of 32" clause. Total only
+  before a later dependent leftover rewrite, SATISFIED cycle, or file-08 cell
+  rewrite. Does not overturn D-011, D-056, D-085, D-089, D-091, D-092, D-116,
+  D-133, D-135, D-137, D-145, D-147, D-157, D-158, D-159, D-168, D-207, D-236,
+  D-293, D-294, D-295, D-314, D-315, D-316, or D-364. Overturn: C-D363.
+- **Commit:** C-D363.
