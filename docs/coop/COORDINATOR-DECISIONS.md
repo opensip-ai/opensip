@@ -23449,3 +23449,119 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-293, D-314, D-315, D-316, D-341, D-347, D-356, D-357, D-358,
   D-359, D-360, or D-361.
 - **Commit:** C-D362.
+
+---
+
+## D-364 — A D-294 Decision 2(b) citation-refresh successor is not a D-056 gate-2 remainder
+
+- **Date:** 2026-09-01
+- **Status:** **ADOPTED 2026-09-01.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-364.turn3.review-adversarial.claude2.json`,
+  `7e6b9984879d0d446e5f9593ff309bcc32b15d0987e3ed92cabec98fc82c31bf`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-364.turn3.review-adversarial.codex.json`,
+  `29661f55d729d7f0cab53a9dd5f22c79d4469e7b0090dc88991e489df2d766e9`)
+  CONSENT. Subject `coordinator-decisions.D-364.turn3.draft.md`
+  `daa1ab6b437bf5021652d5d51bae27f9698fec039a7c84012eba62fcc4c1c90a`.
+  COORD-only. No artifact successor. Turn 1 (`coordinator-decisions.D-364.draft.md`
+  `5da3c7d3b1923f71f9c94b672003105c830fb7c764d7c562152bd59a01db54e2`) drew OBJECT
+  from both reviewers and landed CODEX-D364-MF1, CODEX-D364-SF1, CLAUDE-D364-MF1,
+  CLAUDE-D364-SF1, CLAUDE-D364-SF2, CLAUDE-D364-SF3, CLAUDE-D364-ADV-1,
+  CLAUDE-D364-ADV-2 and CLAUDE-D364-ADV-3. Turn 2
+  (`coordinator-decisions.D-364.turn2.draft.md`
+  `a56a67cb0b72088d886dd59770732a2fc6f2ef9aaaf615c818f0fdd872766a66`) drew Codex
+  CONSENT 0/0 with no finding identifiers returned, and Claude 2 OBJECT at 0
+  MUST-FIX and 1 SHOULD-FIX, landing CLAUDE-D364-T2-SF1, CLAUDE-D364-T2-ADV-1,
+  CLAUDE-D364-T2-ADV-2, CLAUDE-D364-T2-ADV-3 and CLAUDE-D364-T2-ADV-4. Both
+  prior subjects stay frozen and unrecorded. Claude 2 turn-3 returned one
+  advisory, CLAUDE-D364-T3-ADV-1, a pinning-symmetry note that D-315 is cited
+  without an `ADOPTED at` line; it travels as honesty work. Codex turn-3 returned
+  an empty mustFix list, an empty shouldFix list, an empty advisories list, an
+  empty observations list, an empty observationsNotFindings list, and
+  `currentFindingIdentifiers` as the empty list. This entry names the Claude
+  identifier CLAUDE-D364-T3-ADV-1; no identifier is invented.
+- **Decision type:** RULE-GOVERNED. Classification of an artifact class under
+  adopted text, of the same class D-294 itself was: a coordinator reading
+  convention adopted at dual CONSENT with no owner act. Not a remasurement. Not
+  SATISFIED-GRADE. Not a three-limb act. No file-08 cell edit.
+- **Numbering:** D-363 is an in-flight cycle at turn 1 of 3 (subject
+  `coordinator-decisions.D-363.draft.md`
+  `134b0bd0754c8a643c8f9b3c6cad1814a4cd9b373bbb62a2e1c6ded50d486815`; Claude 2
+  returned CLAUDE-D363-MF1, CLAUDE-D363-MF2 and CLAUDE-D363-SF1, Codex returned
+  one unlabeled MUST-FIX and `currentFindingIdentifiers` as the empty list). Its
+  number stays reserved to it and its two remaining turns are unconsumed. This
+  entry took the next free number and is recorded first. COORD heading order is
+  not monotonic and D-000 imposes no monotonicity.
+- **Subject:** `docs/coop/artifacts/coordinator-decisions.D-364.turn3.draft.md`
+  `daa1ab6b437bf5021652d5d51bae27f9698fec039a7c84012eba62fcc4c1c90a`.
+- **Decision:**
+  1. **Predicate.** D-294's "recorded leftover-join" predicate reaches a recorded
+     leftover remasurement of a design-contract candidate. D-295's heading
+     records `preview-product-boundary-successor.v10` "as DR-117 leftover
+     remasurement", and that artifact's own `purpose` and
+     `joinCurrencyAudit.standing` state that it refreshed its cross-lineage
+     citations "under D-294 Decision 3" at 42 sites. The predicate is read by the
+     function the artifact performs, not by filename or `documentClass`.
+  2. **Decisions 1 and 2 are independent limbs.** Decision 1 governs how a
+     cross-lineage citation reads — custody at the citing artifact's own
+     recording heading. Decision 2 governs when the citing artifact owes a
+     successor. A citation reads as custody whether or not a successor is owed.
+     Applying one limb while denying the other on the same predicate is not
+     available.
+  3. **A Decision 2(b) citation-refresh successor is not a D-056 gate-2
+     remainder, because it is not an acceptance-evidence member.** Gate 2 of the
+     pinned D-056 turn-2 subject
+     (`coordinator-decisions.D-056.turn2.draft.md`
+     `dfb0c2af39ff31df9bf3609c131f03ee2d87a585dcd684abd633d47ffb11ed82`)
+     quantifies over "every remaining acceptance-evidence member" and excludes
+     authoring of fixtures, schemas, successors, actor-joins, missing design and
+     still-UNDECIDED numbers. That subject's Decision 1 bullet 3 fixes the set:
+     the SATISFIED legend reads, for eligible rows only, "as: the independently
+     reviewed design contract or the already-recorded D-000 decision, plus the
+     named C4/DR-G* remainder list", and "The execution of that remainder is not
+     part of the architecture evidence set." A citation-refresh successor is in
+     neither half. This is a classification, not an exception; **D-056 stands
+     unamended.** D-315 item 4 is noted as showing the register already
+     recognises the no-semantic-choice category; it is expressly not a second
+     ground.
+  4. **Gate 3 does not reach it either.** Gate 3's "each such remainder" refers
+     to the gate-2 remainders. DR-117's actual remainder is the execution of the
+     fourteen enforcement-evidence classes, named at DR-G09, DR-G14, DR-G16,
+     DR-G21, DR-G23, DR-G29 and DR-G30.
+  5. **Relied-upon is not acceptance-evidence.** Decision 2(b) fires because the
+     citing artifact relied on a changed projected value for the accuracy of its
+     own currency sentences. That reliance does not make the successor a member
+     of the row's acceptance evidence.
+  6. **A SATISFIED re-record may proceed while such a successor is outstanding.**
+     The entry performing gates 4 and 5 measures the row's remainder against live
+     bytes at its own dispatch and names the owed successor, its ground and its
+     owner. Naming is not discharging; the successor remains owed.
+  7. **A later successor does not move Eligibility gate 1**, which the owner's
+     opening fixed at the accepted contract's digest.
+  8. **If clause 3's classification is rejected, clause 6 falls with it** and the
+     successor must be discharged before gates 4 and 5 for the affected row. A
+     scoped reviewed amendment of D-056 is available and is not taken here.
+  9. **Measured at this dispatch.** Of the twelve leftover-joins
+     `preview-product-boundary-successor.v10` cites, four are superseded. Trigger
+     (b) fires on g29 and g30 alone: `existingGate` of OBL-G29-FX-AUTHORING
+     changed at g29 leftover-join.v6 (D-320) and of OBL-G30-FX-AUTHORING at
+     g30 leftover-join.v8 (D-321), and the partitions emptied at
+     leftover-join.v7 of G29 (D-343) and leftover-join.v10 of G30 (D-340). g21
+     (leftover-join.v13 → leftover-join.v45) and distribution-core
+     (leftover-join.v9 → leftover-join.v10) do not fire: every projected value is
+     equal, and `summary.d006UnitUndecided` is not a member of the projection.
+     The successor owed on the g29 and g30 grounds remains owed after this entry.
+  10. **Scope.** Governs the classification from this heading forward. Does not
+     amend D-000, D-056, D-133, D-293, D-294, D-314, D-315 or D-316; decides no
+     reserved number, list, owner or Class A question; records no artifact;
+     edits no file 08 cell; does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero SATISFIED. Condition 2 stays 5 of 32. Condition 4
+  stays MET on the naming half (28 of 28); required-now stays 28. Condition 5
+  remains NOT MET and last. File 08 is untouched.
+- **Reversibility:** Total. Overturn: C-D364. Restores the unsettled fork as of
+  D-363 turn 1 and, after a dependent SATISFIED re-record lands, also requires
+  that re-record's supersession. Does not unwrite D-056, D-133, D-293, D-294,
+  D-295, D-314, D-315, D-316, D-320, D-321, D-340, D-343, or any entry from
+  D-170 through D-362.
+- **Commit:** C-D364.
