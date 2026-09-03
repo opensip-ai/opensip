@@ -1,5 +1,11 @@
 # Blocked on the owner — collected overnight 2026-09-01/02
 
+> **Corrected 2026-09-02 after D-365.** Item 7 as first written was wrong.
+> DR-106, DR-108, DR-109, DR-110, DR-113 and DR-116 are **already on D-002's
+> deferral limb** and were never on the critical path. Condition 2's
+> SATISFIED-requiring set is D-002's affected-row set as amended by D-134 —
+> **23 rows, of which 6 are SATISFIED and 17 remain** — not 27 of 32.
+
 Each item below stopped because it needs a decision only you can make. Nothing here
 is waiting on orchestrator effort. Ordered by how much they unblock.
 
@@ -8,7 +14,7 @@ is waiting on orchestrator effort. Ordered by how much they unblock.
 ## 1. The eighteen reserved values — the condition-2 ceiling
 
 **Blocks:** DR-101, DR-103, DR-107, DR-111, DR-112, DR-118, DR-120, DR-121,
-DR-124, DR-125, DR-126 — eleven of the 27 remaining rows.
+DR-124, DR-125, DR-126 — **eleven of the 17 rows condition 2 still needs**.
 
 Each carries at least one obligation measured `leftoverDesign: true` whose own reason
 reads *"undecided numbers/values are leftover-design (D-056)"*. In D-314 and D-315 you
@@ -114,24 +120,33 @@ owner recordings and the routing choice looks preference-laden.
 
 ---
 
-## 7. Six rows with no design contract
+## 7. Six deferral-limb rows carry no in-cell disposition — optional hygiene
 
-**Blocks:** DR-106, DR-108, DR-109, DR-110, DR-113, DR-116.
+**Blocks:** nothing. These six are **not** condition-2 work.
 
-Bare `OPEN`, no contract, no leftover-join lineage: signed offline closure, credential
-storage, host-owned storage mechanics, self-update and rollback, replay and purge,
-third-party publisher policy. Each needs a contract authored, independently accepted,
-its leftover closed, then gates 4 and 5.
+DR-106, DR-108, DR-109, DR-110, DR-113 and DR-116 sit on D-002's deferral limb: no
+credential-requiring features in slice 1 (DR-108), install is a fresh signed download
+(DR-110), no third-party support policy needed yet (DR-116), and DR-106, DR-109 and
+DR-113 "each deferred WHOLLY". D-365 records this.
 
-**The ask:** author them (large, and each has a named non-coordinator owner in file 08),
-or scope them out of the slice-affecting set the way DR-128/129/130 already are.
+The only loose thread is bookkeeping: their file-08 cells read bare `OPEN` or
+`OPEN / inherits hard blockers`, while D-002 requires each deferral to get "its recorded
+disposition, never silence". Recording those six in-cell is a separate MF-6 with its own
+artifact and commit.
+
+**The ask:** none required. Say the word if you want the in-cell dispositions recorded as
+a hygiene act; it needs nothing from you and changes no count.
 
 ---
 
 ## Not blocked — in progress or queued
 
-- **D-363** (DR-117 SATISFIED + MF-6) — turn 2 in review on D-364's adopted text.
-- **D-365** (deferral re-measurement, DR-128/129/130) — built after D-363 resolves,
-  since both edit the same file-08 condition-2 block. Needs nothing from you.
+- **D-364** — RECORDED 2026-09-01, dual CONSENT 0/0, commit `d4e9372`, pushed. The
+  D-294 / D-056 reading convention that unblocked D-363.
+- **D-363** — RECORDED 2026-09-01, dual CONSENT 0/0, commit `7c8a1c9`, pushed.
+  **DR-117 is SATISFIED**; condition 2 moved for the first time since 2026-08-23.
+- **D-365** — RECORDED 2026-09-02, dual CONSENT 0/0, commit `3b4aab2`, pushed.
+  Condition 2 now reads **6 of 23 SATISFIED-requiring rows SATISFIED, with 9 of 32 on
+  the deferral limb**.
 - **`preview-product-boundary-successor.v15`** — discharges the successor D-364 clause 9
   holds owed on the g29 and g30 grounds. Off the critical path; nothing waits on it.
