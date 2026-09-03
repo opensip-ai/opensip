@@ -23672,3 +23672,96 @@ Total only before a later dependent leftover rewrite, SATISFIED
   D-133, D-135, D-137, D-145, D-147, D-157, D-158, D-159, D-168, D-207, D-236,
   D-293, D-294, D-295, D-314, D-315, D-316, or D-364. Overturn: C-D363.
 - **Commit:** C-D363.
+
+---
+
+## D-365 — Re-measure condition 2 over D-002's affected-row set as amended by D-134
+
+- **Date:** 2026-09-02
+- **Status:** **ADOPTED 2026-09-02.** Turn 3 of 3: CONSENT from both
+  independent reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-365.turn3.review-adversarial.claude2.json`,
+  `1e3d95d91339dc1b29d0795a3622330c6c021f5fe79704d0ccadaa0a7b79be5d`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-365.turn3.review-adversarial.codex.json`,
+  `157f839355f0f5f72b25d05e26b7ce9d977a46d0c0b26e2c28478e7dbe691e59`)
+  CONSENT. Subject `coordinator-decisions.D-365.turn3.draft.md`
+  `11393ddc5a2022d682082bf94d97477a2237ca835e3cc90b49e1d0f0e6f26631`. Turn 1
+  (`coordinator-decisions.D-365.draft.md`
+  `93ae1670135e8a45f03f53da8cada144a257f5b894c7c5b0b8dab9d6ef845a7a`) drew OBJECT
+  from both at one MUST-FIX each, the same finding, landing CODEX-D365-MF1,
+  CLAUDE-D365-MF1, CLAUDE-D365-SF1, CLAUDE-D365-SF2, CLAUDE-D365-SF3,
+  CLAUDE-D365-ADV-1, CLAUDE-D365-ADV-2, CLAUDE-D365-ADV-3 and
+  CLAUDE-D365-ADV-4. Turn 2 (`coordinator-decisions.D-365.turn2.draft.md`
+  `476392bf5a7686ae1e9889c03fd5bd4b77057a8b910f308689a292594ea53259`) drew OBJECT
+  from both at 0 MUST-FIX and 1 SHOULD-FIX each, again the same finding, landing
+  CODEX-D365-T2-SF1, CLAUDE-D365-T2-SF1, CLAUDE-D365-T2-ADV-1,
+  CLAUDE-D365-T2-ADV-2, CLAUDE-D365-T2-ADV-3 and CLAUDE-D365-T2-ADV-4. Both
+  prior subjects stay frozen and unrecorded. Claude 2 turn-3 returned three
+  advisories, CLAUDE-D365-T3-ADV-1, CLAUDE-D365-T3-ADV-2 and
+  CLAUDE-D365-T3-ADV-3, and six unlabelled entries in its
+  observationsNotFindings list, for which this entry invents no identifier; the
+  advisories travel as honesty work. CLAUDE-D365-T3-ADV-1 records that the
+  subject's "predate the `D-NNN: …` commit-subject convention" wording is
+  defensible as a claim about settled practice but contestable as a claim about
+  first use, since `bee116c` (2026-08-12, "D-000: delegation baseline — corpus
+  state at protocol adoption") uses that form and precedes D-002's adoption
+  commit `eac6b41` and D-010's `316dab6`; the operative custody claim — that no
+  `D-002: …` or `D-010: …` subject exists — holds.
+  CLAUDE-D365-T3-ADV-2 records that the subject carries three D-002 quoted
+  spans, not two, the third being a sub-span of the first, so the emphasis
+  disclaimer's substance holds and only the count is off.
+  CLAUDE-D365-T3-ADV-3 records that CLAUDE-D365-T2-ADV-2 asked nothing of this
+  entry and is landed by inaction. Codex turn-3 returned an empty mustFix list,
+  an empty shouldFix list, an empty advisories list, an empty observations list,
+  an empty observationsNotFindings list, and `currentFindingIdentifiers` as the
+  empty list.
+- **Decision type:** RULE-GOVERNED. Re-measurement of the condition-2 snapshot
+  against the adopted affected-row set. File-08 MF-6. Marks no row SATISFIED.
+  Moves no row between sets. Not a remasurement of any artifact.
+- **Subject:** `docs/coop/artifacts/coordinator-decisions.D-365.turn3.draft.md`
+  `11393ddc5a2022d682082bf94d97477a2237ca835e3cc90b49e1d0f0e6f26631`.
+- **Decision:** Condition 2's SATISFIED limb quantifies over **D-002's
+  condition-2 affected-row set as amended by D-134 — 23 rows** — and the
+  remaining **nine** rows sit on D-001 clause 2's deferral limb with the
+  dispositions D-002 and D-010 record. D-002 names 21 rows (DR-101, DR-102,
+  DR-103, DR-104, DR-105 scoped, DR-107, DR-111, DR-112, DR-114, DR-115, DR-117,
+  DR-118, DR-119, DR-120, DR-121, DR-122, DR-123, DR-124, DR-125, DR-126,
+  DR-127) and records eight row deferrals under "Explicit deferrals (each gets
+  its recorded disposition, never silence)": DR-108, DR-110, DR-116, DR-128,
+  DR-129, and DR-106, DR-109, DR-113 "each deferred WHOLLY". D-134 (commit
+  `d3a3b744a7b90619d381aea1efec864e430def72`), a scoped D-002 successor
+  authorized by D-132 clause 3, decides that the SATISFIED-requiring set is
+  those 21 plus DR-131 and DR-133, cardinality 23, and that DR-128, DR-129 and
+  DR-130 remain on the deferral limb. DR-130's disposition is recorded at D-010
+  / C-D010. 23 + 9 = 32. Measured from live lead labels, among the 23: 6
+  `SATISFIED` (DR-102, DR-104, DR-115, DR-117, DR-119, DR-123), 14 `OPEN`, 1
+  `DECIDED-V1-NOT-INTEGRATED` (DR-118), 2 `PROPOSED-CLOSED-FOR-REVIEW` (DR-107,
+  DR-122); 6 + 14 + 1 + 2 = 23. All nine deferral-limb rows carry the lead label
+  `OPEN`; 14 + 9 = 23 `OPEN` across the table. Six of the nine — DR-106, DR-108,
+  DR-109, DR-110, DR-113, DR-116 — carry no in-cell disposition; theirs live in
+  D-002, and recording them in-cell is a separate MF-6 act with its own artifact
+  and commit, **not performed here**. This entry moves no row between the two
+  sets; changing that membership requires a scoped D-002 successor of the D-132
+  clause 3 / D-134 form. **File-08 edits performed, and no others:** the
+  condition-2 "Measured now" text was replaced; the one-sentence summary clause
+  was replaced; and a condition-2 qualifying-set rule was inserted into the
+  snapshot preamble beside condition 1's so the figures are regenerable. The
+  snapshot heading date is not edited, keeping the D-135 / D-236 / D-363
+  practice. Condition 4's `32 of 32 owners named` is not edited: it counts the
+  32 release gates DR-G01..G32, not the decisions table, and the shared number
+  is a numeric coincidence. No row cell, and no gate-harness cell, was edited.
+  Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Condition 2 becomes **6 of 23 SATISFIED-requiring rows
+  `SATISFIED`, with 9 of 32 on the deferral limb**, and stays **NOT MET**: 17 of
+  the 23 are not `SATISFIED`. Zero rows become `SATISFIED` and no row changes
+  set. Condition 1 stays MET for architecture-preview scope. Condition 3 stays
+  MET. Condition 4 stays MET; required-now stays 28. Condition 5 remains NOT MET
+  and last. File 08 moves from
+  `476cfe5650f98fa30a3620a0a206e9db8fdddbda124b3c1ac8da355eb0149510` to
+  `1bcc5739a8089004aca513108c3e87d7762e489d7ba484f99e91990ff4835375`.
+- **Reversibility:** C-D365 plus restore of the prior condition-2 "Measured now"
+  text, the prior one-sentence clause, and the prior preamble paragraph. Total:
+  no row cell moves. Does not overturn D-001, D-002, D-010, D-056, D-133,
+  D-134, D-135, D-363 or D-364. Overturn: C-D365.
+- **Commit:** C-D365.
