@@ -82,3 +82,26 @@ A fresh independent Claude audit runs in Herdr wH:p3 (session
 01115875-1d08-4c50-888b-0231f6d9582b); it authors none of the architecture.
 The proposed file08 changes are review inputs only. Live file08 is unchanged:
 6/23 SATISFIED,9deferred; no architecture completion or qualification claimed.
+
+
+## Whole-system audit and boundary repairs — 2026-09-04
+
+The fresh independent whole-architecture audit identified17 boundary findings.
+It confirmed the catalog/manifest compatibility join and the subsequent G01
+all-container clarification. Host roots, configuration, unprivileged platform
+observations, read-only trust reporting, launch scope, durability failures and
+broker byte delivery are being made concrete before final application.
+
+G15 signed-selection v2 passed independent repair review (3251 checks and22
+independent probes). CI carrier v1 passed independent review (24 checks and17
+probes). Broker bootstrap v2 passed scoped repair review (150 checks and12
+probes), requiring both broker and underlying permissions and bounded handle
+allocation; HE-2 byte-return and full effect execution remain dependencies.
+Its actual Node probe distinguishes five host-provided environment keys from
+macOS runtime-added keys, which the SDK strips before provider entry.
+
+The host-foundation and core-budget evidence units are in progress. Legacy
+fixture audit distinguishes86 G01–G05 catalog states from actual production
+measurements and identifies the exact G07/G22 successor crosswalk needed.
+The proposed D-369 application and documentation edits are review inputs only.
+Live file08 remains unchanged at6/23 SATISFIED and9deferred.

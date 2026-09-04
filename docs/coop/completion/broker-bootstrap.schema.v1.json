@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bootstrapVersion": {
+      "const": 1,
+      "type": "integer"
+    },
+    "handles": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "authorizationRef": {
+            "maxLength": 35,
+            "minLength": 35,
+            "pattern": "^ah:[0-9a-f]{32}$",
+            "type": "string"
+          },
+          "effectClass": {
+            "enum": [
+              "HE-1",
+              "HE-2"
+            ]
+          },
+          "operationRef": {
+            "maxLength": 35,
+            "minLength": 35,
+            "pattern": "^op-[0-9a-f]{32}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "effectClass",
+          "authorizationRef",
+          "operationRef"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "type": "array"
+    }
+  },
+  "required": [
+    "bootstrapVersion",
+    "handles"
+  ],
+  "type": "object"
+}

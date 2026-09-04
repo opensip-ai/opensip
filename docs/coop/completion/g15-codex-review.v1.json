@@ -1,0 +1,32 @@
+{
+  "reviewer": "Codex lead",
+  "author": "Codex protocol_fixture_author",
+  "independence": "Reviewer authored none of the15unit subject files; predecessor lock grammar and compatibility policy authored by reviewer are separately reviewed dependencies.",
+  "verdict": "OBJECT",
+  "mustFix": 1,
+  "shouldFix": 0,
+  "freezeSha256": "e575b04e7d561b00dd69f96364dbab5a64b5746c8e457612af26ddd4efd4081d",
+  "replay": {
+    "passed": 3208,
+    "total": 3208,
+    "byteIdentical": true
+  },
+  "findings": [
+    {
+      "id": "G15-M1",
+      "severity": "MUST-FIX",
+      "where": "compatibility-selection-model.v4.py solve revocation timestamp admission",
+      "defect": "A validly signed revocation list150days old passes actual signed selection. The model checks issuedAt<=now and version floor but omits the selected90day freshness rule. Current catalog/root remain valid and two components resolve ACCEPT, contrary to security v2\u00a74.2/4.7.",
+      "reproduction": "/tmp/g15_lead_probes.py; full retained input /tmp/g15-stale-revocation-probe.json: revoke issuedAt2026-10-02T00:00:00Z, existing public ROOT signatures recomputed, external evaluation time2027-03-01T00:00:00Z, valid catalog expires2027-03-20, versions/floors unchanged.",
+      "repair": "Enforce the adopted revocation freshness threshold using the externally supplied trusted evaluation time, retain signed just-inside/equality/just-outside cases and malformed timestamp refusal, and keep no partial lock on refusal. Alternatively consume and validate an explicit already-verified trust-state result from the security owner; do not call timestamp/floor checks complete while omitting freshness."
+    }
+  ],
+  "confirmed": [
+    "60 conditional slots execute actual signed-byte/lock cases;960slot pointers resolve.",
+    "149 solver-core regressions replay unchanged, legacy synthetic input is not relabelled signed metadata.",
+    "Host-pinned root/store/policy context remains separate from candidate metadata.",
+    "Upgrade uses actual distinct prior0.9.0 signed custody."
+  ],
+  "qualification": false,
+  "registerEdit": null
+}

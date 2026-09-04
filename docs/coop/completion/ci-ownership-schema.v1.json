@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opensip:design:ci-ownership:1",
+  "type": "object",
+  "properties": {
+    "schemaMajor": {
+      "const": 1
+    },
+    "baseTree": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$(?![\\s\\S])"
+    },
+    "headTree": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$(?![\\s\\S])"
+    },
+    "previousComponents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "uniqueItems": true,
+      "maxItems": 100000
+    },
+    "currentComponents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "uniqueItems": true,
+      "maxItems": 100000
+    },
+    "previousUnits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\\\u0000]+$(?![\\s\\S])"
+      },
+      "uniqueItems": true,
+      "maxItems": 100000
+    },
+    "currentUnits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\\\u0000]+$(?![\\s\\S])"
+      },
+      "uniqueItems": true,
+      "maxItems": 100000
+    },
+    "previousOwners": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\\\u0000]+$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+            },
+            {
+              "enum": [
+                "CORE",
+                "PROTOCOL",
+                "SEMANTIC",
+                "LOCK",
+                "OFFLINE",
+                "BUNDLE"
+              ]
+            }
+          ]
+        },
+        "uniqueItems": true,
+        "maxItems": 100000
+      },
+      "maxProperties": 100000
+    },
+    "currentOwners": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\\\u0000]+$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+            },
+            {
+              "enum": [
+                "CORE",
+                "PROTOCOL",
+                "SEMANTIC",
+                "LOCK",
+                "OFFLINE",
+                "BUNDLE"
+              ]
+            }
+          ]
+        },
+        "uniqueItems": true,
+        "maxItems": 100000
+      },
+      "maxProperties": 100000
+    },
+    "dependencies": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+        },
+        "uniqueItems": true,
+        "maxItems": 100000
+      },
+      "maxProperties": 100000
+    },
+    "consumers": {
+      "type": "object",
+      "properties": {
+        "CORE": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        },
+        "PROTOCOL": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        },
+        "SEMANTIC": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        },
+        "LOCK": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        },
+        "OFFLINE": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        },
+        "BUNDLE": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+          },
+          "uniqueItems": true,
+          "maxItems": 100000
+        }
+      },
+      "required": [
+        "CORE",
+        "PROTOCOL",
+        "SEMANTIC",
+        "LOCK",
+        "OFFLINE",
+        "BUNDLE"
+      ],
+      "additionalProperties": false
+    },
+    "roles": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "const": "analyzer"
+        },
+        "uniqueItems": true,
+        "maxItems": 100000
+      },
+      "maxProperties": 100000
+    },
+    "platforms": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "macos-arm64",
+            "macos-x86_64",
+            "linux-x86_64",
+            "linux-arm64"
+          ]
+        },
+        "uniqueItems": true,
+        "maxItems": 100000
+      },
+      "maxProperties": 100000
+    },
+    "multiComponentPredicate": {
+      "const": 2
+    },
+    "dependencyManifestDigests": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+      },
+      "maxProperties": 100000
+    },
+    "previousRecordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+    },
+    "currentRecordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+    },
+    "fixtureDomainBasisDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+    }
+  },
+  "required": [
+    "schemaMajor",
+    "baseTree",
+    "headTree",
+    "previousComponents",
+    "currentComponents",
+    "previousUnits",
+    "currentUnits",
+    "previousOwners",
+    "currentOwners",
+    "dependencies",
+    "consumers",
+    "roles",
+    "platforms",
+    "multiComponentPredicate",
+    "dependencyManifestDigests",
+    "previousRecordDigest",
+    "currentRecordDigest",
+    "fixtureDomainBasisDigest"
+  ],
+  "additionalProperties": false
+}

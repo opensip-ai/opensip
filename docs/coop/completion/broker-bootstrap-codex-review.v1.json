@@ -1,0 +1,56 @@
+{
+  "reviewer": "Codex lead",
+  "independence": "Authored none of eight frozen subject files. Design directions in correspondence are not authored subject bytes.",
+  "freezeSha256": "3947cf07f942b5e288e9b03210b7bdaf11835c64a476ce620156740d6c590384",
+  "verdict": "OBJECT",
+  "mustFix": 1,
+  "shouldFix": 1,
+  "custodyMatches": true,
+  "replay": {
+    "passed": 127,
+    "total": 127,
+    "byteIdentical": true
+  },
+  "findings": [
+    {
+      "id": "BROKER-M1",
+      "severity": "MUST-FIX",
+      "where": "HostBroker.dispatch / permission join",
+      "problem": "Only PT-HOST-EFFECT-BROKERED is checked. HE-2 is GRANTED despite current explicit PT-FS-READ-PROJECT denial. HE-1 similarly bypasses PT-FS-WRITE-HOST-STATE. Broker permission is not authority for the underlying token and scope.",
+      "reproduction": {
+        "effect": "HE-2",
+        "declared": [
+          "PT-HOST-EFFECT-BROKERED",
+          "PT-FS-READ-PROJECT"
+        ],
+        "denied": [
+          "PT-FS-READ-PROJECT"
+        ],
+        "actual": {
+          "wire": null,
+          "decision": "GRANTED",
+          "initiated": [],
+          "registeredTarget": "src/private.ts",
+          "registeredParameters": {}
+        }
+      },
+      "repair": "Bind each registered grant to its underlying effect token and exact scope and validate both broker and underlying declaration/denial/scope at each dispatch using the existing permission precedence. Retain declared-broker-but-missing/denied-underlying negatives for both HE classes and the fully authorized positives."
+    },
+    {
+      "id": "BROKER-S1",
+      "severity": "SHOULD-FIX",
+      "where": "HostBroker.register collision retry",
+      "problem": "Repeated entropy values loop forever. Contract selects collision retry but no bounded failure, despite the otherwise bounded startup design.",
+      "repair": "Bound candidate draws (suggest eight, matching the existing local allocation posture), refuse host bootstrap on exhaustion, and retain a constant entropy collision case; no partial spawn or exposed bootstrap."
+    }
+  ],
+  "scopeAccepted": [
+    "Strict base64/UTF8/closed JSON admission and bounded preparse scanning",
+    "SDK identity registry and cross-spawn host bindings",
+    "Exact actual Node launch and raw/sanitized runtime environment distinction",
+    "Control v5 unchanged and all484checks replayed"
+  ],
+  "remainingDependency": "HE-2 returned-byte courier explicitly remains pending; this review does not close it.",
+  "registerEdit": null,
+  "qualification": false
+}
