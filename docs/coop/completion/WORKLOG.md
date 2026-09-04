@@ -105,3 +105,24 @@ fixture audit distinguishes86 G01–G05 catalog states from actual production
 measurements and identifies the exact G07/G22 successor crosswalk needed.
 The proposed D-369 application and documentation edits are review inputs only.
 Live file08 remains unchanged at6/23 SATISFIED and9deferred.
+
+
+## Final integration preparation — 2026-09-04
+
+Scope-rides v2 has Claude CONSENT with zero findings. Host-foundation evidence
+v1 passed independent review (210 retained checks, 23 fresh probes); core-gate
+evidence v1 passed independent review (265 retained checks, 15 fresh probes).
+These are design results, not native platform qualification.
+
+Performance successor v1 received two independent findings: supplied inventory
+equality did not establish D-102 class eligibility, and the matrix's old machine
+fields needed exact supersession. New frozen v2 has 58 checks over inclusive
+class RAM bounds, exact OS classes and unchanged four-platform thresholds;
+repair review accepted both fixes with 28 independent probes. The original
+frozen quality matrix/corpus is intact.
+
+The final G15 policy bridge is being authored on new paths because an effective
+policy body must bind both private source files and differs from the older
+single-source schema. Security v3 remains mutable pending its complete courier,
+platform, durability, trust and policy joins. No final application or live
+readiness update is authorized by this checkpoint.
