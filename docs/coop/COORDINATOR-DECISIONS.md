@@ -23885,3 +23885,42 @@ Total only before a later dependent leftover rewrite, SATISFIED
   Decisions made under it remain separately recorded and reversible through
   their stated successors; revocation does not erase history.
 - **Commit:** C-D367.
+
+---
+
+## D-368 — Reciprocal review and integrated architecture closure
+
+- **Date:** 2026-09-04. **Status: ADOPTED.** D-367 delegated authority.
+- **Author:** Codex (`wH:p1`), explicit author assent to the frozen turn-3
+  subject. **Independent reviewer:** Claude (`wH:p2`), authored none of it.
+  One independent CONSENT, 0 MUST-FIX / 0 SHOULD-FIX; author assent is not
+  counted as a second independent review.
+- **Subject:** [D-368-workflow-proposal.v3.md](completion/D-368-workflow-proposal.v3.md),
+  SHA-256 `92febaf2329b767a272ee173a3691a254e7200ca6443ef658d2523ffc92d3f74`. **Verdict:**
+  [D-368-claude-review.v3.json](completion/D-368-claude-review.v3.json), SHA-256 `2dfafb05b3e59ce41b92e6895d9228ef84732b3f9768a5165e355939a52dbb68`.
+  Turns 1 and 2 and their objections are retained alongside the final bytes.
+- **Decision:** Adopt the exact subject's six clauses, explicit sequencing
+  supersessions, alternatives/tradeoff and reversibility. Each unit has one
+  author and an independent reviewer who authored none of its bytes. A
+  multi-row package carries separate application-grade, gate-2/3 and
+  SATISFIED-GRADE findings plus exact MF-6 edits for every row. Mixed-authorship
+  integration requires a fresh reviewer. D-056's substantive evidence remains.
+  Source-pinned fixtures and executable design checks are mandatory for newly
+  accepted corpora. Three exchanges attach to the verdict unit; CONTESTED
+  adjudication and its one bounded repair confirmation follow the subject.
+- **Explicit supersessions:** D-000 terminal adjudication step and operational
+  dual-review practice; historical orchestrator/fixed-role procedure; D-056
+  separate-later-cycle sequence; D-293 Decision 5; D-314 items 2–3, exactly
+  scoped and quoted in the accepted subject. D-316 express-reservation lifts
+  remain named delegated owner acts. V2 design acceptance binds NOTHING at V1;
+  no freeze, claim-register or qualification motion.
+- **Alternatives/rationale:** Retaining serial cycles and a default second
+  reviewer added duplicate recording without being required by the new
+  two-agent delegation. Self-certification and blanket package approval remain
+  forbidden. A fresh integrated audit supplies additional independent eyes.
+- **Readiness effect:** Zero rows closed; condition 2 remains 6/23 with nine
+  separate deferred rows; required gates remain 28. Condition 5 remains last.
+- **Reversibility:** Revoke prospectively and restore the subject's named
+  prior sequencing/terminal rules. Existing acts retain accurate provenance;
+  any required re-review is explicit. No historical record is rewritten.
+- **Commit:** This decision's accompanying commit on main, pushed under D-000.

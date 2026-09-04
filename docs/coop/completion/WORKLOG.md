@@ -30,3 +30,23 @@ Operational handoff, not a second readiness checklist. File 08 owns readiness.
 4. Perform integrated implementation walkthrough and independent final audit.
 
 No architecture row has been closed during takeover yet.
+
+## Completion session checkpoint — D-368 adopted
+
+The reciprocal-review workflow is accepted at turn 3 by Claude, CONSENT 0/0;
+Codex author assent is recorded separately. No architecture row is closed yet.
+Current design drafts cover distribution/runtime, compatibility/lock schemas,
+analysis/quality and the control body schema. Claude owns the security/journal/
+platform draft and will review Codex contracts; Codex reviews Claude's bytes.
+Two bounded Codex fixture authors own protocol and qualification-design files;
+Codex lead is independent of those authored bytes. Mixed packages get a fresh
+final reviewer under D-368.
+
+Native corpus now uses TypeScript 6.0.3 matching the available pinned prototype
+compiler line; 8 direct compiler and 8 exact retained prototype Program service
+comparisons pass. A 24-cell quality matrix, two opaque non-mutation cases and
+34 compatibility/schema cases are authored and checked, explicitly design
+evidence only. Distribution fixture audit corrected packaging count to 324 AT
+cells and discovered the old symlink escape example did not escape. Protocol
+audit found ambiguous CC-8 free-text semantic detection; a scoped inert-
+diagnostic successor is being authored. These are proposals awaiting review.
