@@ -23840,3 +23840,48 @@ Total only before a later dependent leftover rewrite, SATISFIED
   overturn D-001, D-002, D-010, D-056, D-134, D-363, D-364 or D-365. Overturn:
   C-D366.
 - **Commit:** C-D366.
+
+---
+
+## D-367 — User delegation: Codex leads architecture completion with Claude
+
+- **Date:** 2026-09-04.
+- **Status:** ADOPTED — made directly by the user in conversation; this entry
+  records the delegation, rather than deciding on the user's behalf.
+- **User words, verbatim:**
+  > for 3, i want you and claude to make all of the decisions. you can document any decisions that you felt are worth explaining to me, but only on decisions that you feel are truly necessary. in fact, id say that 99% of all decisions made i should never see as you and claude make them.
+
+  The assistant explained that this includes choices previously reserved for
+  the user, replaces the requirement to return those choices for owner approval,
+  retains independent challenge and repository records, and preserves agreed
+  product scope rather than reducing it merely to declare completion. The user
+  then instructed, verbatim:
+  > yes, this is great. please begin and do not stop until you have met the goal of the design and architecture being complete
+- **Decision:** Codex is the accountable completion lead; Claude is the
+  collaborating author and independent reviewer. They make the design and
+  architecture decisions, including decisions previously reserved to the human
+  owner. Where existing entries require an owner-controlled opening, numeric
+  choice, scope ruling, or other product/architecture decision, the pair may
+  make and record that act under this delegation. The delegation removes a
+  requirement to ask the human; it does not supply any missing technical value,
+  accept any contract, execute a test, or close any row by itself.
+- **Review and reporting:** Authors and reviewers must be distinguished. Both
+  agents review the other's decisions against source evidence and consequences.
+  Routine decisions stay in the repository; user updates report milestones and
+  exceptional consequential decisions. Earlier instructions to return routine
+  or reserved choices to the human yield to this instruction. Existing process
+  rules remain unless explicitly superseded by a reviewed decision; agreement
+  must not be fabricated, nor missing evidence relabeled as completed work.
+- **Scope:** Preserve the adopted D-002 preview scope and recorded amendments,
+  including four platforms, independent releases, provider-only TypeScript,
+  and existing identity reductions. No scope reduction solely to make the
+  completion count pass. Design completion and implementation authorization
+  remain separate acts. No product implementation is authorized by this entry.
+- **Readiness effect:** None. File 08 remains the only readiness checklist;
+  condition 2 remains 6/23 SATISFIED, with nine deferred rows; condition 5
+  remains last. This entry supersedes the human-only restriction, not the
+  technical acceptance criteria, in earlier owner-reservation instructions.
+- **Reversibility:** The user may revoke or narrow the delegation at any time.
+  Decisions made under it remain separately recorded and reversible through
+  their stated successors; revocation does not erase history.
+- **Commit:** C-D367.
