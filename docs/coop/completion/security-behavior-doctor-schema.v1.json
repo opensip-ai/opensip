@@ -1,0 +1,431 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "mode": {
+      "enum": [
+        "core",
+        "project"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "OC-1",
+        "OC-2",
+        "OC-3",
+        "OC-4",
+        "OC-5"
+      ]
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "core",
+            "project"
+          ]
+        },
+        "modeSelectionReason": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "installedGenerationRef": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "platform": {
+          "type": "object",
+          "properties": {
+            "os": {
+              "enum": [
+                "macos",
+                "linux"
+              ]
+            },
+            "architecture": {
+              "enum": [
+                "arm64",
+                "x86_64"
+              ]
+            }
+          },
+          "required": [
+            "os",
+            "architecture"
+          ],
+          "additionalProperties": false
+        },
+        "configurationLayersResolved": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "maxItems": 100000
+        },
+        "offlinePosture": {
+          "type": "object"
+        },
+        "generatedAt": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "projectRootRef": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 4096
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "mode",
+        "modeSelectionReason",
+        "installedGenerationRef",
+        "platform",
+        "configurationLayersResolved",
+        "offlinePosture",
+        "generatedAt",
+        "projectRootRef"
+      ],
+      "additionalProperties": true
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "class": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNDETERMINED",
+              "NOT-APPLICABLE",
+              "CONSENT-REQUIRED"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "maxLength": 4096
+                },
+                "observed": {},
+                "bound": {
+                  "type": "string",
+                  "maxLength": 4096
+                },
+                "provenance": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "kind",
+                "observed",
+                "bound"
+              ],
+              "additionalProperties": true
+            },
+            "maxItems": 100000
+          },
+          "residualLimitation": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "statement": {
+                    "type": "string",
+                    "maxLength": 4096
+                  },
+                  "cause": {
+                    "type": "string",
+                    "maxLength": 4096
+                  },
+                  "wouldBeResolvedBy": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 4096
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "statement",
+                  "cause",
+                  "wouldBeResolvedBy"
+                ],
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "remediation": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "class",
+          "status",
+          "title",
+          "evidence",
+          "residualLimitation"
+        ],
+        "additionalProperties": true
+      },
+      "maxItems": 100000,
+      "minItems": 1
+    },
+    "consentRecords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "actionClass": {
+            "enum": [
+              "CA-1",
+              "CA-2",
+              "CA-3",
+              "CA-4"
+            ]
+          },
+          "permissionRef": {
+            "const": {
+              "reserved": true,
+              "ridesOn": [
+                "DR-105"
+              ]
+            }
+          },
+          "scope": {
+            "type": "object"
+          },
+          "endpoint": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 4096
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 4096
+                    },
+                    "maxItems": 100000
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "acceptFromTarget": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "send": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "receive": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "authorization": {
+            "enum": [
+              "requested",
+              "granted",
+              "denied"
+            ]
+          },
+          "execution": {
+            "enum": [
+              "enforced",
+              "disclosed-trusted-code",
+              "refused"
+            ]
+          },
+          "result": {},
+          "residualLimitation": {
+            "type": "object",
+            "properties": {
+              "statement": {
+                "type": "string",
+                "maxLength": 4096
+              },
+              "cause": {
+                "type": "string",
+                "maxLength": 4096
+              },
+              "wouldBeResolvedBy": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 4096
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "statement",
+              "cause",
+              "wouldBeResolvedBy"
+            ],
+            "additionalProperties": true
+          },
+          "effectOutcome": {
+            "enum": [
+              "COMPLETED",
+              "DEFINITELY_NOT_PERFORMED",
+              "INDETERMINATE"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "actionClass",
+          "permissionRef",
+          "scope",
+          "endpoint",
+          "bytes",
+          "authorization",
+          "execution",
+          "result",
+          "residualLimitation",
+          "effectOutcome"
+        ],
+        "additionalProperties": true
+      },
+      "maxItems": 100000
+    },
+    "residualLimitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "cause": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "wouldBeResolvedBy": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statement",
+          "cause",
+          "wouldBeResolvedBy"
+        ],
+        "additionalProperties": true
+      },
+      "maxItems": 100000
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "mode",
+    "outcome",
+    "environment",
+    "checks",
+    "consentRecords",
+    "residualLimitations"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensip.invalid/design/doctor-report.1",
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "ready"
+        ]
+      },
+      {
+        "required": [
+          "healthy"
+        ]
+      },
+      {
+        "required": [
+          "ok"
+        ]
+      }
+    ]
+  },
+  "$comment": "Structural reference schema. Host consent scope checked independently against host-effect v25; semantic outcome, evidence, bindings and additive laws checked by security-behavior model. Bound 4096 characters/100000 items are design validation ceilings pending adoption, not measured performance or qualification thresholds."
+}

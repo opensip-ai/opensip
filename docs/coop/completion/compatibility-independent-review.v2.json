@@ -1,0 +1,105 @@
+{
+  "status": "FROZEN-INDEPENDENT-REVIEW",
+  "reviewer": "Codex protocol fixture author; authored none of either unit",
+  "turn": 2,
+  "scope": "Compatibility design evidence; no row-SATISFIED or cryptographic lock-admission verdict",
+  "verdict": "OBJECT",
+  "mustFix": 1,
+  "shouldFix": 0,
+  "units": [
+    {
+      "id": "parent-compatibility-v2",
+      "author": "Codex lead / parent",
+      "subjectPins": {
+        "component-lock-schema.completed.v2.json": "c2e0042b4806590f4d709f616b54af7634c80b6f1002d1cee215a799bf8a6752",
+        "version-constraint-schema.completed.v2.json": "2a7e97a6aea85c84a153299e0c2cb05c88a6ade60e7258784f8fb84c47129968",
+        "compatibility-matrix.completed.v2.json": "e8bba7b06e0a738af5662a635903d5607d773964a784baedb09339ee1aaafc50",
+        "compatibility-design-cases.v2.json": "205a7b0bfaeacd872d0ac2c8fe94ad5ca7d6b8f7c8d609ce98124dd98a4ba04d",
+        "check_compatibility_design_v2.py": "4931e728badb3959fd3c14eea1333826686ee120553c776a2db2ebfd450e3e93"
+      },
+      "verdict": "ACCEPT",
+      "mustFix": 0,
+      "shouldFix": 0,
+      "evidence": "48/48 replayed using external --report path; independent 4301-digit major exact constraint and 4301-digit numeric prerelease comparison pass."
+    },
+    {
+      "id": "selection-model-v1",
+      "author": "Distribution fixture author / separate sibling",
+      "subjectPins": {
+        "compatibility-selection-model.v1.py": "740a989f6181faf3fd4e27ac5fb079d787afdd26688d1e0d3938c3dc8e376413",
+        "compatibility-selection-cases.v1.json": "1cc63950d81f3aec62be35f25dddf6ce15aa270d58993e69dcab078bd9e3151d",
+        "compatibility-selection-report.v1.json": "1ce7d3b74625e7e93895215b40f397fadb9b9b72988201534d2f510dce9ef51c"
+      },
+      "verdict": "OBJECT",
+      "mustFix": 1,
+      "shouldFix": 0,
+      "evidence": "102/102 replayed using external --report path. All 21 retained accepted reference locks validate against frozen v2 structural schema. Independent duplicate/ordering probes expose a missing input-admission step."
+    }
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "COMP-M1",
+      "disposition": "RESOLVED",
+      "evidence": "S-CORE now explicitly distinguishes coreRelease SemVer0.1.0 from coreState schema1; supportedReaders appliesTo core state, releaseCompatibility has independent constraint, selectedCompatibility carries both."
+    },
+    {
+      "id": "COMP-M2",
+      "disposition": "RESOLVED",
+      "evidence": "Both core and numeric prerelease comparisons use (decimal digit length, digit string) rather than bounded Python int conversion; 4301-digit independent probes pass."
+    },
+    {
+      "id": "COMP-M3",
+      "disposition": "RESOLVED-AS-DESIGN",
+      "evidence": "Closed input shape pins scopeContext/projectKey/allowedScopes, explicit fixed requestedProfile/capabilities, pins/holds, core state, public permission/compatibility policy digests and canonical-profile ID. Actual duplicate/order enforcement defect is isolated below in selection unit."
+    },
+    {
+      "id": "COMP-S1",
+      "disposition": "RESOLVED-WITH-SELECTION-SUCCESSOR-REQUIRED",
+      "evidence": "Independent selection unit now authors full candidate/tuple comparators including byte ties, dependency closure/diamond/conflict/missing/undeclared/cycle/backtrack cases, scope precedence/fallback/isolation, current trust observations, exact artifact custody, repeat determinism and depth/visit boundaries. The input-normalization defect below must be repaired before that unit is accepted."
+    },
+    {
+      "id": "COMP-S2",
+      "disposition": "RESOLVED",
+      "evidence": "Parent adds intersection/selected-major and dual support-clock/revocation examples; selection checks active surface ranges independently and core release separately."
+    }
+  ],
+  "findings": [
+    {
+      "id": "COMP2-M1",
+      "severity": "MUST-FIX",
+      "unit": "selection-model-v1",
+      "subject": "compatibility-selection-model.v1.py solve(): root/pin/hold input admission; compatibility-selection-cases.v1.json root-request-sorting",
+      "issue": "Selection accepts inputs forbidden by final section3 and can emit a structurally invalid lock. roots.setdefault merges duplicate root IDs. exacts merges identical duplicate pins/holds. No sorted-order check precedes copying resolutionInputs into referenceLock. The retained root-request-sorting input contains IDs [222...,111...] and is accepted with that unsorted request copied into its lock. An independent duplicate-pin probe is ACCEPT yet its referenceLock fails the v2 pins.uniqueItems schema.",
+      "requiredChange": "Add a closed resolution-input admission step enforcing duplicate-ID/pair and ordering rules for request/pins/holds (or explicitly define and apply canonicalization before declaring and hashing resolutionInputs, preserving deterministic input custody). Reject duplicate-identical request IDs and pin/hold pairs as the current prose requires; reject conflicts; ensure no ACCEPT result can violate the applied lock schema. Revise root-request-sorting to the chosen explicit rule. Add duplicate request, duplicate pin, duplicate hold, cross-list pair/conflict as applicable, and unsorted-array cases. Run accepted-lock schema validation on all ACCEPT outputs, not only a one-off author check.",
+      "reproductions": [
+        {
+          "base": "single-root",
+          "mutation": "resolutionInputs.request *= 2",
+          "observed": "ACCEPT; violates duplicate request-ID rule"
+        },
+        {
+          "base": "single-root",
+          "mutation": "resolutionInputs.pins = [same exact root stableId/version pair, same exact pair]",
+          "observed": "ACCEPT; generated referenceLock fails v2 schema uniqueItems"
+        },
+        {
+          "base": "root-request-sorting",
+          "mutation": "none",
+          "observed": "Retained positive vector accepts and preserves unsorted [222...,111...] request order in referenceLock"
+        }
+      ]
+    }
+  ],
+  "conditionsUnchanged": [
+    "Canonical metadata profile and signing/admission verifier remain separate integration dependencies; fixture_bytes is explicitly fixture custody, not production canonicalization.",
+    "No runtime resolver, OS qualification or DR103/DR111 SATISFIED conclusion is inferred."
+  ],
+  "subjectPermissions": "All eight subjects frozen 0444 before review; no subject edits performed",
+  "contextPins": {
+    "distribution-runtime-completion.v1.md": "9deb4af4b964db8c9de4d6700ef94128a2deaa639991d9d2df73847358efe64b"
+  },
+  "externalReplayReports": [
+    "/tmp/opensip-compatibility-review-v2.json",
+    "/tmp/opensip-compatibility-selection-review-v1.json"
+  ]
+}

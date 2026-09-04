@@ -50,3 +50,13 @@ evidence only. Distribution fixture audit corrected packaging count to 324 AT
 cells and discovered the old symlink escape example did not escape. Protocol
 audit found ambiguous CC-8 free-text semantic detection; a scoped inert-
 diagnostic successor is being authored. These are proposals awaiting review.
+
+
+## Frozen proposal checkpoint — 2026-09-04
+
+Retain the frozen quality corpus, protocol, compatibility, packaging and security
+proposal/review bytes in history while independent repairs continue. This is a
+source-custody checkpoint, not a D-000 adoption or architecture application.
+File 08 remains unchanged: condition 2 is still 6/23, no new SATISFIED or
+QUALIFIED claim. Reviewed objections and superseded proposal versions remain
+visible; their successors and the final integrated row application are pending.
