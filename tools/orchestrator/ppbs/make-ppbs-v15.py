@@ -307,7 +307,10 @@ def measure():
     need(len(row) == 1, "file 08 does not carry exactly one DR-117 row")
     cells = [c.strip() for c in row[0].split("|")]
     label = cells[6]
-    need(label == "OPEN", f"DR-117 leading label is {label!r}, not OPEN")
+    lead = label.split(".")[0].lstrip("*").strip() if label.startswith("**") else label
+    lead_token = lead.split()[0] if lead else label
+    need(lead_token in ("OPEN", "SATISFIED"),
+         f"DR-117 leading label token is {lead_token!r}, expected OPEN or SATISFIED")
     need("**28 of 28 required gates name a recorded identifier**" in f08,
          "file 08 no longer carries the 28-of-28 required-now snapshot")
 
@@ -322,7 +325,7 @@ def measure():
         "date": datetime.date.today().isoformat(),
         "f08sha": sha256_file(F08), "f02sha": sha256_file(F02),
         "v1slice": sha256_file(V1SLICE), "coordsha": sha256_file(COORD),
-        "f08label": label,
+        "f08label": lead_token, "f08labelFull": label,
     }
 
 
@@ -822,7 +825,8 @@ def assemble(m):
             f"written. leftover-design of unnamed EE classes remains closed (D-157 / D-158 / "
             f"D-159). {SPEAKER} does not steal any gate's leftover-design and asserts no "
             f"leftover-design on a lineage whose current join does not carry it. {SPEAKER} is not "
-            f"a second register row. {SPEAKER} does not SATISFY DR-117 and does not perform D-056 "
+            f"a second register row. DR-117 is SATISFIED as of D-363; {SPEAKER} neither performed "
+            f"that recording nor disturbs it, and performs no D-056 "
             f"Eligibility gate 4 or gate 5. {SPEAKER} does not re-open or re-perform the D-316 "
             f"Class A opening. {SPEAKER} does not author fixture bytes and does not invent the "
             f"DR-131 pack. {SPEAKER} does not add a DR-G* row, does not change live required-now "
@@ -970,9 +974,12 @@ def assemble(m):
             f"DR-117 as the T2-02 acceptance of {PRED} and lifted D-137's express reservation, so "
             f"gate 1 Class A holds and DR-117 is D-056-eligible in kind. CANDIDATE-NOT-APPLIED is "
             f"not a Class A bar (D-085 / D-147). binds NOTHING is {SELF}'s own status field, not a "
-            f"cited holding. {SPEAKER} existing does not perform Gate 4 SATISFIED-GRADE, does not "
-            f"perform Gate 5, and does not edit file 08. Recording {SELF} does not SATISFY DR-117: "
-            f"gates 4 and 5 are a separate dedicated coordinator cycle. Preview is not MVP "
+            f"cited holding. Gates 4 and 5 were performed at D-363, which recorded DR-117 "
+            f"SATISFIED. {SPEAKER} does not re-perform, reopen or disturb that recording, performs "
+            f"no gate itself, and does not edit file 08. Recording {SELF} changes no row status: it "
+            f"discharges the D-294 Decision 2 (b) citation-refresh obligation D-364 clause 9 holds "
+            f"owed and D-363 named. Under D-364 clause 7 it does not move Eligibility gate 1, which "
+            f"D-316 fixed at the accepted contract's digest. Preview is not MVP "
             f"(D-018). Live required-now is {REQUIRED_NOW}. Frozen "
             f"preview-product-boundary-successor.v7 (D-168) is a historical measurement, frozen "
             f"preview-product-boundary-successor.v9 was rejected at Stage A and never recorded, "
@@ -988,7 +995,8 @@ def assemble(m):
             f"recordedInputs rather than maintained by addition. recordedInputs.HEAD must equal "
             f"the top-level head. file08Pin.sha256, registerRowQuoted.sourceSha256 and "
             f"recordedInputs['{F08}'] must all equal the same live digest of file 08, and "
-            f"DR-117's leading label there must still be OPEN. sevenItems.sourceSha256 must still "
+            f"DR-117's leading label there must still read {m['f08label']}. "
+            f"sevenItems.sourceSha256 must still "
             f"equal the live digest of {F02}; file 08's DR-117 row says any change to that "
             f"enumeration re-opens the row. Each of the {word(len(m['joins']))} current "
             f"leftover-joins named in basedOn and cited in enforcementEvidence.classes must still "
@@ -999,7 +1007,11 @@ def assemble(m):
             f"D-293, D-294, D-295, D-314, D-315, D-316, or any entry from D-170 through D-362. "
             f"{SPEAKER} existing is not a recording."),
         "leftoverDesignOpenStanding": (
-            f"The live DR-117 leading label in file 08 is {m['f08label']}. leftover-design of "
+            f"The live DR-117 leading label in file 08 is {m['f08label']}: D-363 recorded DR-117 "
+            f"SATISFIED for architecture-preview condition 2 under D-056 Class A, performing "
+            f"Eligibility gates 4 and 5, and named the D-294 Decision 2 (b) citation-refresh "
+            f"successor owed on the g29 and g30 grounds as outstanding work without discharging "
+            f"it. {SELF} is that successor. leftover-design of "
             f"unnamed EE classes remains closed (D-159). Remainder is named-gate execution. "
             f"Measured at {SELF}'s dispatch, the current leftover-joins are: {survey}. "
             f"{SPEAKER} does not steal those leftovers. On DR-G29 and DR-G30 the partitions "
