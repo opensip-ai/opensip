@@ -23765,3 +23765,78 @@ Total only before a later dependent leftover rewrite, SATISFIED
   no row cell moves. Does not overturn D-001, D-002, D-010, D-056, D-133,
   D-134, D-135, D-363 or D-364. Overturn: C-D365.
 - **Commit:** C-D365.
+
+---
+
+## D-366 — Record the six silent deferral-limb dispositions in file 08
+
+- **Date:** 2026-09-03
+- **Status:** **ADOPTED 2026-09-03.** Turn 2 of 3: CONSENT from both independent
+  reviewers, 0 MUST-FIX, 0 SHOULD-FIX. Claude 2
+  (`artifacts/coordinator-decisions.D-366.turn2.review-adversarial.claude2.json`,
+  `9ed30e194686d1ad185a67f44662c7352aa33396bf729a8517b29b13d55a2cb8`)
+  CONSENT. Codex
+  (`artifacts/coordinator-decisions.D-366.turn2.review-adversarial.codex.json`,
+  `bf977b002e87425d142aa7efb76e9dd284147fb94d3beb9b207a77cd685b8ee2`)
+  CONSENT. Subject `coordinator-decisions.D-366.turn2.draft.md`
+  `7993fd85830182bd3082b8e1f4eca2cfaa685e573d0616a8140f493f4ebfab41`. Turn 1
+  (`coordinator-decisions.D-366.draft.md`
+  `ef07c22b95e8a5860758806e56c8f5e2e76c78d67e890614334172735f78646e`) drew OBJECT
+  from both at one MUST-FIX each and different ones, landing CODEX-D366-MF1,
+  CLAUDE-D366-MF1, CLAUDE-D366-SF1, CLAUDE-D366-SF2, CLAUDE-D366-ADV-1,
+  CLAUDE-D366-ADV-2, CLAUDE-D366-ADV-3 and CLAUDE-D366-ADV-4; that subject stays
+  frozen and unrecorded. Claude 2 turn-2 returned one advisory,
+  CLAUDE-D366-T2-ADV-1, and eleven unlabelled entries in its
+  observationsNotFindings list; Codex turn-2 returned empty mustFix, shouldFix,
+  advisories and observations lists, one unlabelled observationsNotFindings
+  entry, and `currentFindingIdentifiers` as the empty list. This entry invents no
+  identifier for the unlabelled entries. CLAUDE-D366-T2-ADV-1 records that D-001
+  turn-2 NOTE-1's sentence binds "the C4a commit that adds a row", so it reaches
+  this entry by its stated purpose — "so the checklist text and the register
+  never disagree" — rather than by its terms; it travels as honesty work.
+- **Decision type:** RULE-GOVERNED. Recording-hygiene file-08 MF-6 discharging
+  D-002's "never silence" requirement for six rows, and repairing the one
+  condition-2 prose clause this act makes false. Marks no row SATISFIED. Moves
+  no row between sets. Changes no count.
+- **Subject:** `docs/coop/artifacts/coordinator-decisions.D-366.turn2.draft.md`
+  `7993fd85830182bd3082b8e1f4eca2cfaa685e573d0616a8140f493f4ebfab41`.
+- **Decision:** D-002 records its deferrals under "Explicit deferrals (each gets
+  its recorded disposition, never silence)". Nine rows sit on D-001 clause 2's
+  deferral limb (D-365); three carried their disposition in their own file-08
+  status cell (DR-128, DR-129, DR-130) and six did not — DR-106, DR-109 and
+  DR-113 read `OPEN / inherits hard blockers`, DR-108, DR-110 and DR-116 read
+  bare `OPEN`. Each of the six now carries its D-002 deferral disposition in its
+  own status cell, appended after the existing lead label with " — ", naming
+  D-366 as the recording act and D-002 as the source. **DR-106, DR-109 and
+  DR-113** carry D-002's shared rationale: deferred WHOLLY (turn-1 MF-03) because
+  authoritative sealed closure, replay and evidence custody are OUT of slice 1,
+  with D-002's statement that their acceptance-evidence cells "all begin with
+  applied DR-002..008 successors" attributed to D-002 rather than asserted of
+  each row, that they close via the condition-1 chain, and that their design
+  enters a later slice; DR-113 adds D-002's purge-half prohibition under DR-007
+  and the DR-124 / DR-114 / DR-G12 / DR-107 routing. **DR-108**: no
+  credential-requiring features in slice 1. **DR-110**: install is a fresh signed
+  download, with the repair-media/rollback surfaces deferring under D-002's G08
+  scoping, and D-002's forward requirement recorded on the row — **this entry is
+  not that authored disposition**, which remains a later act. **DR-116**: no
+  third-party support policy needed yet. A **seventh** edit repairs the
+  condition-2 "Measured now" prose clause that D-365 wrote and this act makes
+  false: the nine rows' cells are no longer "unedited" and none now "carry no
+  in-cell disposition". No figure in that cell changes. Every lead label is
+  unchanged; no row moves between the SATISFIED-requiring set and the deferral
+  limb; no acceptance-evidence, Blueprint-impact or gate-harness cell is edited;
+  no row outside the six is touched; condition 1's qualifying set (DR-001–011) is
+  not reached. Does not authorize `docs/v2/implementation/`.
+- **Readiness effect:** Zero. No row becomes `SATISFIED` and no count moves:
+  condition 2 stays **6 of 23 SATISFIED-requiring rows `SATISFIED`, with 9 of 32
+  on the deferral limb**, and stays NOT MET. Conditions 1, 3 and 4 are unchanged;
+  required-now stays 28; `32 of 32 owners named` is untouched. Condition 5
+  remains NOT MET and last. The snapshot heading date is not edited, keeping the
+  D-135 / D-236 / D-363 / D-365 practice. File 08 moves from
+  `1bcc5739a8089004aca513108c3e87d7762e489d7ba484f99e91990ff4835375` to
+  `872f0929926f996ee475642426c6ba33bec7bd6aa3eec6b6a927f2b197618bd6`.
+- **Reversibility:** C-D366 plus restore of the six prior status cells and the
+  prior condition-2 prose clause. Total: nothing depends on these notes. Does not
+  overturn D-001, D-002, D-010, D-056, D-134, D-363, D-364 or D-365. Overturn:
+  C-D366.
+- **Commit:** C-D366.
