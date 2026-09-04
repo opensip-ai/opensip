@@ -1,0 +1,4298 @@
+{
+  "status": "PROPOSED-DESIGN-DDL-FIXTURES-V2-LCR1-LCR2-REPAIR",
+  "expectedMeans": "ACCEPT/REFUSE is the result of actual SQLite operations with explicitly modeled host callback observations; not product signature or OS qualification.",
+  "cases": [
+    {
+      "id": "complete-publication",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert"
+        },
+        {
+          "op": "verify"
+        },
+        {
+          "op": "ready"
+        },
+        {
+          "op": "transition"
+        },
+        {
+          "op": "advance"
+        },
+        {
+          "op": "publish"
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ],
+          "expected": [
+            [
+              "COMMITTED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "non-uuid",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "id": "RunId-parked-identity"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "uuid-wrong-version",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "id": "11111111-1111-1111-8111-111111111111"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "bad-digest",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "unsupported-platform",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "platform": "windows-x86_64"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "path-escape",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "immutablePath": "../generations/11111111-1111-4111-8111-111111111111"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "different-path",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "immutablePath": "generations/22222222-2222-4222-8222-222222222222"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "start-ready",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "state": "READY"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "writer-lock-required",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert"
+        }
+      ],
+      "expected": "REFUSE",
+      "writer": false
+    },
+    {
+      "id": "missing-callback-refuses",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "missing-callback"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "preparing-cannot-skip-verification",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET state='READY' WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "verification-ticket-required",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET state='VERIFIED',rootVersion=1,indexSnapshotVersion=2,revocationVersion=3,permissionPolicyDigest=? WHERE id=?",
+          "params": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "partial-epoch-refuses",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "ticket"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET state='VERIFIED',rootVersion=1 WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "ready-requires-durable-tree",
+      "setup": "verified",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET state='READY' WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "select-unknown-generation",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "select-preparing-generation",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "publish"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "select-ready-without-transition",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "publish"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "cas-wrong-old-selection",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "66666666-6666-4666-8666-666666666666",
+            "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "old": null,
+            "new": "22222222-2222-4222-8222-222222222222"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commit-before-selection",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE transition SET phase='COMMITTED' WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transition-cannot-skip-verification",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE transition SET phase='READY' WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "no-return-phase-refused",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE transition SET phase='NO-RETURN' WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rewrite-id",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET id=? WHERE id=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rewrite-manifest",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET manifestDigest=? WHERE id=?",
+          "params": [
+            "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rewrite-lock",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET lockDigest=? WHERE id=?",
+          "params": [
+            "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rewrite-path",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET immutablePath=? WHERE id=?",
+          "params": [
+            "generations/22222222-2222-4222-8222-222222222222",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rewrite-platform",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET platform=? WHERE id=?",
+          "params": [
+            "linux-arm64",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "selected-generation-is-fk-root",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "permit",
+          "set": "gc",
+          "value": "11111111-1111-4111-8111-111111111111"
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gc-census-required",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "DELETE FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "orphan-after-authorized-abort-cleanup",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "permit",
+          "set": "gc",
+          "value": "11111111-1111-4111-8111-111111111111"
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT count(*) FROM generation",
+          "params": [],
+          "expected": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lease-must-pin-selection",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "gid": "22222222-2222-4222-8222-222222222222"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "lease-requires-os-capability",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "acquire": false
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "operation-lease-immutable",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "lease"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE operation_lease SET generationId=? WHERE leaseId=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "77777777-7777-4777-8777-777777777777"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "lease-release-requires-owner-or-proven-death",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease"
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM operation_lease WHERE leaseId=?",
+          "params": [
+            "77777777-7777-4777-8777-777777777777"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "lease-explicit-release",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease"
+        },
+        {
+          "op": "permit",
+          "set": "lease_released",
+          "value": "77777777-7777-4777-8777-777777777777"
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM operation_lease WHERE leaseId=?",
+          "params": [
+            "77777777-7777-4777-8777-777777777777"
+          ]
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT count(*) FROM operation_lease",
+          "params": [],
+          "expected": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "revocation-only-changed",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            4,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "policy-only-changed",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "root-only-changed",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            2,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "index-only-changed",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            3,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "revocation-change-blocks-publication",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            4,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "revocation-refresh-allows-new-lease",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            4,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "ticket"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET rootVersion=1,indexSnapshotVersion=2,revocationVersion=4,permissionPolicyDigest=? WHERE id=?",
+          "params": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT revocationVersion FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zero-revocation-version-refuses",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            0,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "quarantine-requires-deactivation",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "atomic-quarantine",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "DELETE FROM project_selection WHERE generationId=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT count(*) FROM project_selection",
+          "params": [],
+          "expected": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT state FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              "QUARANTINED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "direct-quarantine-without-record",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE generation SET state='QUARANTINED' WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "quarantine-record-immutable",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE quarantine SET reason=? WHERE generationId=?",
+          "params": [
+            "AMBIGUOUS-STATE",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "quarantine-retention-root",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM quarantine WHERE generationId=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "live-operation-survives-selection-change",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "lease"
+        },
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "22222222-2222-4222-8222-222222222222"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT generationId FROM operation_lease WHERE leaseId=?",
+          "params": [
+            "77777777-7777-4777-8777-777777777777"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ],
+          "expected": [
+            [
+              "COMMITTED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two-projects-conflicting-generations",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "bind-project",
+          "key": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+        },
+        {
+          "op": "transition",
+          "values": {
+            "tid": "66666666-6666-4666-8666-666666666666",
+            "project": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+            "new": "22222222-2222-4222-8222-222222222222"
+          }
+        },
+        {
+          "op": "advance",
+          "transition": "66666666-6666-4666-8666-666666666666"
+        },
+        {
+          "op": "publish",
+          "project": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT projectKey,generationId FROM project_selection ORDER BY projectKey",
+          "params": [],
+          "expected": [
+            [
+              "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+              "11111111-1111-4111-8111-111111111111"
+            ],
+            [
+              "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+              "22222222-2222-4222-8222-222222222222"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abort-preserves-old-selection",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE transition SET phase='ABORTED' WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ]
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT state FROM generation WHERE id=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pending-transition-cannot-prune",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "permit",
+          "set": "prunable",
+          "value": "55555555-5555-4555-8555-555555555555"
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM transition WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "terminal-transition-needs-retention-permission",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "DELETE FROM transition WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "second-pending-transition-refuses",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "66666666-6666-4666-8666-666666666666",
+            "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "old": "11111111-1111-4111-8111-111111111111",
+            "new": "22222222-2222-4222-8222-222222222222"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "start-token-256",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "start-token-257",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "start-token-nul",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "token": "abc\u0000def"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "rollback-current-trust",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        },
+        {
+          "op": "transition",
+          "values": {
+            "tid": "66666666-6666-4666-8666-666666666666",
+            "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "old": "22222222-2222-4222-8222-222222222222",
+            "new": "11111111-1111-4111-8111-111111111111"
+          }
+        },
+        {
+          "op": "advance",
+          "transition": "66666666-6666-4666-8666-666666666666"
+        },
+        {
+          "op": "publish",
+          "generation": "11111111-1111-4111-8111-111111111111"
+        }
+      ],
+      "expected": "ACCEPT",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "66666666-6666-4666-8666-666666666666"
+          ],
+          "expected": [
+            [
+              "COMMITTED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rollback-revocation-change-refuses",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        },
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            4,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "transition",
+          "values": {
+            "tid": "66666666-6666-4666-8666-666666666666",
+            "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "old": "22222222-2222-4222-8222-222222222222",
+            "new": "11111111-1111-4111-8111-111111111111"
+          }
+        },
+        {
+          "op": "advance",
+          "transition": "66666666-6666-4666-8666-666666666666"
+        },
+        {
+          "op": "publish",
+          "generation": "11111111-1111-4111-8111-111111111111"
+        }
+      ],
+      "expected": "REFUSE",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unregistered-project-key",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "project": "unregistered-key"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "registered-key-from-other-current-root",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "project": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "lost-current-root-handle-binding",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "unbind-project",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        },
+        {
+          "op": "lease"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "caller-root-binding-without-host-ticket",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-key",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "verified": false
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "root-object-rebind-refuses",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET inodeId=? WHERE projectKey=?",
+          "params": [
+            "999",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "namespace-id-rebind-refuses",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET namespaceId=? WHERE projectKey=?",
+          "params": [
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "root-rename-without-ticket-refuses",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET rootPathBytesHex=? WHERE projectKey=?",
+          "params": [
+            "2f66697874757265732f6e65772d726f6f74",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "verified-same-object-root-rename",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "root-ticket",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "newPath": "/fixtures/new-root"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET rootPathBytesHex=? WHERE projectKey=?",
+          "params": [
+            "2f66697874757265732f6e65772d726f6f74",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "retire-selected-root-refuses",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "retire-deactivated-root",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "DELETE FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "retired-key-cannot-revive",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='ACTIVE' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "registry-tombstone-cannot-delete",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "DELETE FROM project_registry WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "duplicate-active-root-locator",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-key",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root1",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "duplicate-active-root-object",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-key",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/other-path",
+            "inode": "101"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "project-key-1024-bytes",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "project-key-1025-bytes",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "project-key-unicode-1024-bytes",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "project-key-unicode-1025-bytes",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9\u00e9x",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "project-key-nul",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "abc\u0000def",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "opaque-project-key-not-a-path",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "../../not-a-namespace-directory",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "invalid-birth-nanoseconds",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-key",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "birthNanoseconds": 1000000000
+          }
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "security-i64-epoch-max",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            9223372036854775807,
+            9223372036854775807,
+            9223372036854775807,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "security-i64-epoch-overflow",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            9223372036854775807,
+            9223372036854775807,
+            9223372036854775808,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "project-scoped-lock-own-root",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockProjectKey": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          }
+        },
+        {
+          "op": "verify"
+        },
+        {
+          "op": "ready"
+        },
+        {
+          "op": "bind-project",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        },
+        {
+          "op": "transition",
+          "values": {
+            "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          }
+        },
+        {
+          "op": "advance"
+        },
+        {
+          "op": "publish",
+          "project": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        }
+      ],
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "project-scoped-lock-other-root",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockProjectKey": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          }
+        },
+        {
+          "op": "verify"
+        },
+        {
+          "op": "ready"
+        },
+        {
+          "op": "bind-project",
+          "key": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+        },
+        {
+          "op": "transition",
+          "values": {
+            "project": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+          }
+        },
+        {
+          "op": "advance"
+        },
+        {
+          "op": "publish",
+          "project": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+        }
+      ],
+      "expected": "REFUSE"
+    },
+    {
+      "id": "LCR1/replace-live-lease-retargets-generation/recursive-0",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "lease"
+        },
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO operation_lease VALUES(?,?,?,?,?)",
+          "params": [
+            "77777777-7777-4777-8777-777777777777",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "22222222-2222-4222-8222-222222222222",
+            "88888888-8888-4888-8888-888888888888",
+            "fixture-process-start:1"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-live-lease-retargets-generation/recursive-1",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "lease"
+        },
+        {
+          "op": "publish",
+          "generation": "22222222-2222-4222-8222-222222222222"
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO operation_lease VALUES(?,?,?,?,?)",
+          "params": [
+            "77777777-7777-4777-8777-777777777777",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "22222222-2222-4222-8222-222222222222",
+            "88888888-8888-4888-8888-888888888888",
+            "fixture-process-start:1"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        },
+        {
+          "sql": "SELECT phase FROM transition WHERE txId=?",
+          "params": [
+            "55555555-5555-4555-8555-555555555555"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-committed-history-bypasses-retention/recursive-0",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "insert",
+          "values": {
+            "gid": "22222222-2222-4222-8222-222222222222"
+          }
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO transition VALUES(?,?,?,?,?)",
+          "params": [
+            "44444444-4444-4444-8444-444444444444",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111",
+            "22222222-2222-4222-8222-222222222222",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT oldGeneration,newGeneration,phase FROM transition WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ],
+          "expected": [
+            [
+              null,
+              "11111111-1111-4111-8111-111111111111",
+              "COMMITTED"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-committed-history-bypasses-retention/recursive-1",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "insert",
+          "values": {
+            "gid": "22222222-2222-4222-8222-222222222222"
+          }
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO transition VALUES(?,?,?,?,?)",
+          "params": [
+            "44444444-4444-4444-8444-444444444444",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111",
+            "22222222-2222-4222-8222-222222222222",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT oldGeneration,newGeneration,phase FROM transition WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444"
+          ],
+          "expected": [
+            [
+              null,
+              "11111111-1111-4111-8111-111111111111",
+              "COMMITTED"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-retired-registry-revives-tombstone/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "replace-registry",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT namespaceId,status FROM project_registry WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "99999999-9999-4999-8999-999999999999",
+              "ACTIVE"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-retired-registry-revives-tombstone/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE project_registry SET status='RETIRED' WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "replace-registry",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT namespaceId,status FROM project_registry WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "99999999-9999-4999-8999-999999999999",
+              "ACTIVE"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-ready-generation-overwrites-identity/recursive-0",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO generation(id,manifestDigest,lockDigest,platform,immutablePath,state) VALUES(?,?,?,?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "linux-arm64",
+            "generations/11111111-1111-4111-8111-111111111111",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT state,platform FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              "READY",
+              "macos-arm64"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-ready-generation-overwrites-identity/recursive-1",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT OR REPLACE INTO generation(id,manifestDigest,lockDigest,platform,immutablePath,state) VALUES(?,?,?,?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "linux-arm64",
+            "generations/11111111-1111-4111-8111-111111111111",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT state,platform FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              "READY",
+              "macos-arm64"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-quarantine-reason-even-with-gc-ticket/recursive-0",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "permit",
+          "set": "gc",
+          "value": "11111111-1111-4111-8111-111111111111"
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "AMBIGUOUS-STATE",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT state FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-quarantine-reason-even-with-gc-ticket/recursive-1",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "permit",
+          "set": "gc",
+          "value": "11111111-1111-4111-8111-111111111111"
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "AMBIGUOUS-STATE",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT state FROM generation WHERE id=?",
+          "params": [
+            "11111111-1111-4111-8111-111111111111"
+          ],
+          "expected": [
+            [
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-selection-primary-key/recursive-0",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_selection VALUES(?,?)",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "22222222-2222-4222-8222-222222222222"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-selection-primary-key/recursive-1",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_selection VALUES(?,?)",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "22222222-2222-4222-8222-222222222222"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT generationId FROM project_selection WHERE projectKey=?",
+          "params": [
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ],
+          "expected": [
+            [
+              "11111111-1111-4111-8111-111111111111"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-pending-transition-partial-unique-key/recursive-0",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO transition VALUES(?,?,?,?,?)",
+          "params": [
+            "66666666-6666-4666-8666-666666666666",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111",
+            "22222222-2222-4222-8222-222222222222",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT txId,phase FROM transition WHERE phase<>? ORDER BY txId",
+          "params": [
+            "COMMITTED"
+          ],
+          "expected": [
+            [
+              "55555555-5555-4555-8555-555555555555",
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-pending-transition-partial-unique-key/recursive-1",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO transition VALUES(?,?,?,?,?)",
+          "params": [
+            "66666666-6666-4666-8666-666666666666",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+            "11111111-1111-4111-8111-111111111111",
+            "22222222-2222-4222-8222-222222222222",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT txId,phase FROM transition WHERE phase<>? ORDER BY txId",
+          "params": [
+            "COMMITTED"
+          ],
+          "expected": [
+            [
+              "55555555-5555-4555-8555-555555555555",
+              "READY"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-generation-immutable-path-unique-key/recursive-0",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO generation(id,manifestDigest,lockDigest,platform,immutablePath,state) VALUES(?,?,?,?,?,?)",
+          "params": [
+            "33333333-3333-4333-8333-333333333333",
+            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "linux-arm64",
+            "generations/11111111-1111-4111-8111-111111111111",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-generation-immutable-path-unique-key/recursive-1",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO generation(id,manifestDigest,lockDigest,platform,immutablePath,state) VALUES(?,?,?,?,?,?)",
+          "params": [
+            "33333333-3333-4333-8333-333333333333",
+            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "linux-arm64",
+            "generations/11111111-1111-4111-8111-111111111111",
+            "PREPARING"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-namespace-unique-key/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "99999999-9999-4999-8999-999999999999",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "103",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "99999999-9999-4999-8999-999999999999",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "103",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-namespace-unique-key/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "99999999-9999-4999-8999-999999999999",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "103",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "99999999-9999-4999-8999-999999999999",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "103",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-active-path-unique-key/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7431",
+            "1",
+            "103",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7431",
+            "1",
+            "103",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-active-path-unique-key/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7431",
+            "1",
+            "103",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7431",
+            "1",
+            "103",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-active-object-unique-key/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "101",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "101",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/replace-registry-active-object-unique-key/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "registry-ticket-values",
+          "values": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "101",
+            100,
+            0
+          ]
+        },
+        {
+          "op": "sql",
+          "sql": "REPLACE INTO project_registry VALUES(?,?,?,?,?,?,?,?,?)",
+          "params": [
+            "new-project",
+            "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "macos",
+            "2f66697874757265732f726f6f7433",
+            "1",
+            "101",
+            100,
+            0,
+            "ACTIVE"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "INSERT-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT COUNT(*) FROM project_registry",
+          "params": [],
+          "expected": [
+            [
+              2
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-registry-active-path-collision/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "root-ticket",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "newPath": "/fixtures/root2"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE project_registry SET rootPathBytesHex=? WHERE projectKey=?",
+          "params": [
+            "2f66697874757265732f726f6f7432",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "UPDATE-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT projectKey FROM project_registry ORDER BY projectKey",
+          "params": [],
+          "expected": [
+            [
+              "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+            ],
+            [
+              "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-registry-active-path-collision/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "root-ticket",
+          "key": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "newPath": "/fixtures/root2"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE project_registry SET rootPathBytesHex=? WHERE projectKey=?",
+          "params": [
+            "2f66697874757265732f726f6f7432",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "UPDATE-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [
+        {
+          "sql": "SELECT projectKey FROM project_registry ORDER BY projectKey",
+          "params": [],
+          "expected": [
+            [
+              "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+            ],
+            [
+              "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+            ]
+          ]
+        }
+      ],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-registry-namespace-collision/recursive-0",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE project_registry SET namespaceId=? WHERE projectKey=?",
+          "params": [
+            "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "UPDATE-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-registry-namespace-collision/recursive-1",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE project_registry SET namespaceId=? WHERE projectKey=?",
+          "params": [
+            "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+            "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "UPDATE-COLLISION-REPLACE-FORBIDDEN",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-generation-identity/recursive-0",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE generation SET id=?,immutablePath=? WHERE id=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "generations/22222222-2222-4222-8222-222222222222",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "IMMUTABLE-GENERATION-IDENTITY",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-generation-identity/recursive-1",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE generation SET id=?,immutablePath=? WHERE id=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "generations/22222222-2222-4222-8222-222222222222",
+            "11111111-1111-4111-8111-111111111111"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "IMMUTABLE-GENERATION-IDENTITY",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-transition-identity/recursive-0",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE transition SET txId=? WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444",
+            "55555555-5555-4555-8555-555555555555"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "IMMUTABLE-TRANSITION-IDENTITY",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-transition-identity/recursive-1",
+      "setup": "pending",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE transition SET txId=? WHERE txId=?",
+          "params": [
+            "44444444-4444-4444-8444-444444444444",
+            "55555555-5555-4555-8555-555555555555"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "IMMUTABLE-TRANSITION-IDENTITY",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-lease-identity/recursive-0",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=0",
+          "params": []
+        },
+        {
+          "op": "lease"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE operation_lease SET generationId=? WHERE leaseId=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "77777777-7777-4777-8777-777777777777"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "OPERATION-GENERATION-IS-IMMUTABLE",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR1/update-or-replace-lease-identity/recursive-1",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "PRAGMA recursive_triggers=1",
+          "params": []
+        },
+        {
+          "op": "lease"
+        },
+        {
+          "op": "sql",
+          "sql": "UPDATE OR REPLACE operation_lease SET generationId=? WHERE leaseId=?",
+          "params": [
+            "22222222-2222-4222-8222-222222222222",
+            "77777777-7777-4777-8777-777777777777"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "OPERATION-GENERATION-IS-IMMUTABLE",
+      "postconditions": [],
+      "annotation": "recursive_triggers=0 is an injected connection-contract violation; explicit collision guards must still reject replacement. Value 1 is required on every admitted connection."
+    },
+    {
+      "id": "LCR2/generation-id/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "\u000011111111-1111-4111-8111-111111111111"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111\u0000-8111-111111111111"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111-8111-111111111111\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111-8111-11111111111\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/short",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111-8111-11111111111"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/long",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111-8111-111111111111a"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/generation-id/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "gid": "11111111-1111-4111-8111-11111111111\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/short",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/long",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/manifestDigest/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "manifestDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "\u0000bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\u0000bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/short",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/long",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbba"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/lockDigest/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "lockDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "\u0000dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd\u0000-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd\u0000suffix",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-ddddddddddd\u0000",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/short",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-ddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/long",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddda",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/namespaceId/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-ddddddddddd\uff41",
+            "path": "/fixtures/root3",
+            "inode": "103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/rootPathBytesHex/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "pathHex": "\u00002f66697874757265732f726f6f7433"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/rootPathBytesHex/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "pathHex": "2f6669787475726\u00005732f726f6f7433"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/rootPathBytesHex/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "pathHex": "2f66697874757265732f726f6f7433\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/rootPathBytesHex/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "pathHex": "2f66697874757265732f726f6f743\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/rootPathBytesHex/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "pathHex": "2f66697874757265732f726f6f743\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/deviceId/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "device": "\u0000103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/deviceId/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "device": "1\u000003"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/deviceId/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "device": "103\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/deviceId/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "device": "10\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/deviceId/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103",
+            "device": "10\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/inodeId/nul-prefix",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "\u0000103"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/inodeId/nul-middle",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "1\u000003"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/inodeId/nul-tail",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "103\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/inodeId/nul-same-byte-length",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "10\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/inodeId/non-ascii",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "register-project",
+          "values": {
+            "key": "new-project",
+            "namespace": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+            "path": "/fixtures/root3",
+            "inode": "10\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/nul-prefix",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "\u000077777777-7777-4777-8777-777777777777"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/nul-middle",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777\u0000-8777-777777777777"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/nul-tail",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777-8777-777777777777\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/nul-same-byte-length",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777-8777-77777777777\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/short",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777-8777-77777777777"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/long",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777-8777-777777777777a"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/leaseId/non-ascii",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "lid": "77777777-7777-4777-8777-77777777777\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/nul-prefix",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "\u000088888888-8888-4888-8888-888888888888"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/nul-middle",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888\u0000-8888-888888888888"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/nul-tail",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888-8888-888888888888\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/nul-same-byte-length",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888-8888-88888888888\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/short",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888-8888-88888888888"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/long",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888-8888-888888888888a"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/supervisorBootId/non-ascii",
+      "setup": "selected",
+      "actions": [
+        {
+          "op": "lease",
+          "values": {
+            "boot": "88888888-8888-4888-8888-88888888888\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/nul-prefix",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "\u000044444444-4444-4444-8444-444444444444"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/nul-middle",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444\u0000-8444-444444444444"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/nul-tail",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444-8444-444444444444\u0000suffix"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/nul-same-byte-length",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444-8444-44444444444\u0000"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/short",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444-8444-44444444444"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/long",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444-8444-444444444444a"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/txId/non-ascii",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "transition",
+          "values": {
+            "tid": "44444444-4444-4444-8444-44444444444\uff41"
+          }
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/nul-prefix",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/nul-prefix",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/nul-middle",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/nul-middle",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/nul-tail",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000suffix"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/nul-tail",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000suffix"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/nul-same-byte-length",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/nul-same-byte-length",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/short",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/short",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/long",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/long",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/permissionPolicyDigest/non-ascii",
+      "setup": "preparing",
+      "actions": [
+        {
+          "op": "epoch",
+          "value": [
+            1,
+            2,
+            3,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\uff41"
+          ]
+        },
+        {
+          "op": "verify"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR2/observedDigest/non-ascii",
+      "setup": "ready",
+      "actions": [
+        {
+          "op": "sql",
+          "sql": "INSERT INTO quarantine VALUES(?,?,?)",
+          "params": [
+            "11111111-1111-4111-8111-111111111111",
+            "CONTENT-MISMATCH",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\uff41"
+          ]
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "CHECK constraint failed",
+      "annotation": "Host callback fixture ticket is otherwise present where needed; refusal must come from a real SQLite scalar CHECK."
+    },
+    {
+      "id": "LCR-S1/global-context-with-project-resolved-tuple",
+      "setup": "empty",
+      "actions": [
+        {
+          "op": "insert",
+          "values": {
+            "resolvedScopes": [
+              "project"
+            ]
+          }
+        },
+        {
+          "op": "verify"
+        },
+        {
+          "op": "ready"
+        },
+        {
+          "op": "transition"
+        },
+        {
+          "op": "advance"
+        },
+        {
+          "op": "publish"
+        }
+      ],
+      "expected": "REFUSE",
+      "refusalContains": "SELECT-ONLY-CURRENT-VERIFIED-READY",
+      "annotation": "A valid synthetic verifier ticket and durable tree do not authorize a project-scoped tuple in a declared global-only lock context."
+    }
+  ],
+  "processDeathCases": [
+    "before-selection-transaction-commit",
+    "after-selection-transaction-commit"
+  ],
+  "constants": {
+    "generation1": "11111111-1111-4111-8111-111111111111",
+    "generation2": "22222222-2222-4222-8222-222222222222",
+    "generation3": "33333333-3333-4333-8333-333333333333",
+    "project1": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "project2": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+    "transition1": "44444444-4444-4444-8444-444444444444",
+    "transition2": "55555555-5555-4555-8555-555555555555",
+    "transition3": "66666666-6666-4666-8666-666666666666",
+    "lease1": "77777777-7777-4777-8777-777777777777"
+  },
+  "fixtureBytes": "Each generation manifest is UTF-8 fixture manifest <UUID>; lock is sorted compact JSON {fixtureGeneration:<UUID>,scopeContext:{projectKey:null-or-key,allowedScopes:[global]-or-[project,global]}}. These are explicit synthetic verifier inputs, not full production signed manifests/locks. Digests recompute from exact bytes; scope callback parses these actual fixture bytes."
+}

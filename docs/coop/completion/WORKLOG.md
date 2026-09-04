@@ -60,3 +60,25 @@ source-custody checkpoint, not a D-000 adoption or architecture application.
 File 08 remains unchanged: condition 2 is still 6/23, no new SATISFIED or
 QUALIFIED claim. Reviewed objections and superseded proposal versions remain
 visible; their successors and the final integrated row application are pending.
+
+
+## Integration review checkpoint — 2026-09-04
+
+Control v5, lifecycle v2, manifest v1 and security behavior v3 received independent
+no-objection within their declared review scopes. Doctor/cache v1 received
+independent Codex consent within scope:159/159,40fresh native programs and336
+synthetic RSS launches. Analysis-quality v2 repairs Claude's provenance/environment
+findings and depends on separately reviewed scope-rides v1. Distribution's doctor
+window/mode budgets and no durable analysis-result reuse are now concrete.
+
+Security v2 replay82/82 received five substantive integration objections; v3 is
+in progress. Claude and Codex agreed to replace the custom Linux kernel
+prerequisite with an honest stock signed OS baseline under the stated OS TCB
+assumption. During v3 authoring Claude accidentally edited frozen v2 helpers;
+all exact original bytes were restored and independently remeasured before the
+G15 dependent unit resumed. The v2 history is preserved by this checkpoint.
+
+A fresh independent Claude audit runs in Herdr wH:p3 (session
+01115875-1d08-4c50-888b-0231f6d9582b); it authors none of the architecture.
+The proposed file08 changes are review inputs only. Live file08 is unchanged:
+6/23 SATISFIED,9deferred; no architecture completion or qualification claimed.
