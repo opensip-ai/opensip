@@ -429,7 +429,7 @@ requires a scoped D-002 successor of the D-132 clause 3 / D-134 form.
 entry; condition 4 is MET; condition 2 is MET and condition 5 remains PENDING; condition 1 is met by
 one SATISFIED row plus ten scoped preview dispositions even though nine V1 rows retain
 HARD-BLOCKED lead labels, DR-008 remains PARTIALLY SATISFIED, and every DR-011 residual
-remains non-CLOSED; condition 2 remains 6 of 23 SATISFIED-requiring rows SATISFIED, with 9 rows on the deferral limb.
+remains non-CLOSED; condition 2 is 23 of 23 SATISFIED-requiring rows SATISFIED, with 9 rows on the deferral limb.
 
 Decisions taken under the delegation protocol are recorded in
 [`COORDINATOR-DECISIONS.md`](../../coop/COORDINATOR-DECISIONS.md) (D-000 through D-016);
