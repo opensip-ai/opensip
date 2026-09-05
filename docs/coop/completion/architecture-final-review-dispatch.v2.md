@@ -1,6 +1,6 @@
 # Independent whole-architecture and per-row application review
 
-FROZEN CORRECTIVE DISPATCH — application freeze receipt BIND-V2.
+FROZEN CORRECTIVE DISPATCH — application freeze receipt 8e57992a86733324d8aa88af470be6fddcf8fe7761b093c0dbb335825c4eef46.
 Application SHA e8906a952435c6b8b1de963197c856a0c7bd84edb4ad169b8277db05b6d53610; supplement SHA be569fb045b96a94f35c111faadab7806b77e717a15f811dab7461e9ad0e7480.
 Dispatch is now ready for the independent whole-architecture review.
 
