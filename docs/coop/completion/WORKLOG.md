@@ -126,3 +126,31 @@ policy body must bind both private source files and differs from the older
 single-source schema. Security v3 remains mutable pending its complete courier,
 platform, durability, trust and policy joins. No final application or live
 readiness update is authorized by this checkpoint.
+
+
+## Normative consent and security adjudication — 2026-09-04
+
+The distribution/foundation/reference normative pack v2 and compatibility
+matrix v5 received Claude CONSENT0/0 after one layout finding and four reference
+repairs. Physical broker scratch now has a per-project/per-spawn SC-OPS home
+and lease-governed cleanup. The final signed-selection bridge consumes the
+corrected current lock grammar and effective-policy digest.
+
+Security v3 froze65 exact inputs and replayed230/230. Independent counterexamples
+found six concrete defects in root admission, policy path narrowing, malformed
+witness handling, mandatory effect/courier context, effect/journal ordering and
+the fixed Linux example's mismatch with the required hosted fleet. Claude
+accepted all six; the third-exchange unit remains CONTESTED under D-368 pending
+a fresh no-context adjudicator's ruling and bounded repair confirmation. A new
+duplicate-policy-pair clarification is separately recorded without resetting
+that exchange count. Original frozen v2/v3 bytes remain intact.
+
+A native macOS experiment disproved the proposed /dev/fd executable path; the
+frozen v3 design now states its narrower path/lease/identity guarantee. The
+manifest's historical SHOULD MCR-S1 has a separately accepted executable
+supplement, with original review history preserved.
+
+The retained application checker selftest passes26/26. Candidate structure
+passes2757 checks with zero failures and310 explicitly pending items, correctly
+returning nonzero. Full proposed register-byte edits reproduce the intended
+post-image. No live register cell or architecture completion claim has changed.

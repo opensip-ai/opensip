@@ -1,0 +1,56 @@
+{
+ "rule": "launch verification is scoped per command class; G03 measures the metadata-only class and its falsification condition is any read below",
+ "classes": [
+  {
+   "commandClass": "metadata-only",
+   "commands": [
+    "--help",
+    "--version"
+   ],
+   "verifies": "nothing beyond the OS exec of the core; prints compile-time embedded release metadata",
+   "trustEvaluation": false,
+   "durableWrites": false,
+   "mustNotOpen": [
+    "trust.sqlite",
+    "registry",
+    "lock",
+    "inventory members",
+    "grant journals",
+    "any helper process",
+    "any project path"
+   ],
+   "tcbPredicate": false,
+   "g03Falsification": "any openat/exec outside the core binary, libSystem/libc and the tty during --help/--version"
+  },
+  {
+   "commandClass": "doctor",
+   "commands": [
+    "doctor (both read-only modes)"
+   ],
+   "verifies": "reads trust, registry, lock, journals and profile observations; evaluates report-only",
+   "trustEvaluation": "report-only, non-persisting",
+   "durableWrites": false,
+   "mustNotOpen": [
+    "any file for writing under the install root",
+    "any helper process (macOS loader cdhash is computed in-core)"
+   ],
+   "tcbPredicate": "observed and reported; UNDETERMINED never refuses doctor itself",
+   "journalOpen": "would-reconcile state reported (OK|WOULD-REVERT|WOULD-ADVANCE|WOULD-QUARANTINE); no write"
+  },
+  {
+   "commandClass": "operation",
+   "commands": [
+    "analyze",
+    "install",
+    "remove",
+    "update-index",
+    "trust refresh"
+   ],
+   "verifies": "open-then-verify of every executed or loaded closure member on its opened fd (the core itself and the component binaries about to run), not an eager hash of the whole inventory",
+   "trustEvaluation": "decision evaluation with write-ahead evalHighWater",
+   "durableWrites": true,
+   "tcbPredicate": "unprivileged launch predicate from the profile acquisition.launch list; refusal per NT-TCB rules",
+   "journalOpen": "reconciliation with writes under the operation lease"
+  }
+ ]
+}

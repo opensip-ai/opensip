@@ -1,0 +1,192 @@
+{
+ "projectKey": "pk",
+ "grantGeneration": 1,
+ "cases": [
+  {
+   "id": "genesis-empty",
+   "journalTail": null,
+   "witness": null,
+   "expect": "INIT"
+  },
+  {
+   "id": "consistent",
+   "journalTail": [
+    3,
+    "h3"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 3,
+    "bodySha256": "h3",
+    "state": "COMMITTED"
+   },
+   "expect": "OK"
+  },
+  {
+   "id": "crash-after-pending-before-commit",
+   "journalTail": [
+    3,
+    "h3"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "PENDING"
+   },
+   "expect": "REVERT"
+  },
+  {
+   "id": "crash-after-commit-before-committed",
+   "journalTail": [
+    4,
+    "h4"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "PENDING"
+   },
+   "expect": "ADVANCE"
+  },
+  {
+   "id": "committed-beyond-tail",
+   "journalTail": [
+    3,
+    "h3"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "equal-seq-unequal-hash",
+   "journalTail": [
+    4,
+    "hX"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "pending-equal-seq-unequal-hash",
+   "journalTail": [
+    4,
+    "hX"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "journal-ahead-of-witness",
+   "journalTail": [
+    6,
+    "h6"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "h4",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "witness-absent-nonempty",
+   "journalTail": [
+    2,
+    "h2"
+   ],
+   "witness": null,
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "witness-malformed",
+   "journalTail": [
+    2,
+    "h2"
+   ],
+   "witness": "MALFORMED",
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "generation-mismatch",
+   "journalTail": [
+    2,
+    "h2"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 2,
+    "seq": 2,
+    "bodySha256": "h2",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "project-mismatch",
+   "journalTail": [
+    2,
+    "h2"
+   ],
+   "witness": {
+    "projectKeyDigest": "d9298a10d1b0735837dc4bd85dac641b0f3cef27a47e5d53a54f2f3f5b2fcffa",
+    "grantGeneration": 1,
+    "seq": 2,
+    "bodySha256": "h2",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "pending-far-ahead",
+   "journalTail": [
+    2,
+    "h2"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 9,
+    "bodySha256": "h9",
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "committed-zero-empty",
+   "journalTail": null,
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 0,
+    "bodySha256": null,
+    "state": "COMMITTED"
+   },
+   "expect": "OK"
+  }
+ ]
+}
