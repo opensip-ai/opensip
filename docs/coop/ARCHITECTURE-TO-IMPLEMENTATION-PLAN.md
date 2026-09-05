@@ -1,5 +1,7 @@
 # Architecture → Implementation Plan
 
+> **Historical planning record.** D-369 completed the preserved preview architecture. The current design and implementation dependency order are in the [accepted reference architecture](completion/reference-architecture.v2.md); [file 08](../v2/architecture/08-decision-and-readiness-register.md) is the sole readiness checklist. This older plan does not authorize implementation or activate its wider authoritative-product scope.
+
 **Status:** working plan (for review)  
 **Date:** 2026-07-31  
 **Context:** Greenfield next opensip-cli (`docs/internal/coop/`), consumer B — build this  

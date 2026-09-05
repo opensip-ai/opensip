@@ -1,5 +1,7 @@
 # Blocked on the owner — collected overnight 2026-09-01/02
 
+> **Historical handoff, superseded for current work.** D-367 delegated the remaining design decisions; D-368 replaced the review/recording workflow; D-369 completed the preview design under independent review. The owner-blocking and dual-review instructions below describe their dates. Use [file 08](docs/v2/architecture/08-decision-and-readiness-register.md) and the [accepted reference architecture](docs/coop/completion/reference-architecture.v2.md) for current scope, decisions and next steps.
+
 > **Corrected 2026-09-02 after D-365.** Item 7 as first written was wrong.
 > DR-106, DR-108, DR-109, DR-110, DR-113 and DR-116 are **already on D-002's
 > deferral limb** and were never on the critical path. Condition 2's

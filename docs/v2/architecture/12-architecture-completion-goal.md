@@ -1,5 +1,7 @@
 # Architecture Completion Goal
 
+> **Goal met at design level under D-369.** DR-117/131/133 and all 23 affected rows are SATISFIED in [file 08](08-decision-and-readiness-register.md); D-077/D-078 identity reductions remain. The [application manifest](../../coop/completion/architecture-application.v1.json) records the independently accepted evidence and per-row grades. Condition 5 remains the next act, as this goal requires. The original goal and planning text below are retained.
+
 > **Status:** DRAFT GOAL — no authority
 > **Authority:** File 08 remains the only readiness checklist. This document
 > records a product goal and the lawful path to make it live. It closes no

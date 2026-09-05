@@ -23975,3 +23975,9 @@ Recorded under D-367 and the standing user delegation to make all decisions and 
 - `security-repair-confirmation.v2.json` SHA-256 `01676d23d856f4d5debb07097a0bdaa684739dd992946c15af09ad7cc990423c`.
 
 Independent procedural CONSENT 0/0 is recorded by Claude in the pinned v2 verdict. Neither that consent nor authored checker results certify security. The prior failure records and their original counts remain unchanged.
+
+### D-369 — integrated architecture completion recording (2026-09-05)
+
+Opened 2026-09-04; adopted 2026-09-05 under the standing user delegation. This act records the preserved D-002/D-134 preview architecture after independent whole-application acceptance. It binds application `architecture-application.v1.json` SHA-256 `15b3932adaf1c37f43a3b12e0af66fedbddc10cdd396c64105ac170c6d4bd7f3`, incorporated-dependency supplement SHA-256 `ae891372d8281d800e084a34e5c64ae826e923a3afbc4a1315fa9ba9fa4c17e4`, whole-review v5 ACCEPT 0/0 SHA-256 `f35454e6c01eddeb7a753ff4775618cf7b1ac42ad23f7c51db7e955750be4f05`, pin-only whole-review v6 ACCEPT 0/0 SHA-256 `260c82914ba415b003c0a1bd8fa3cd1f0abbb83ab8126bc86f0f0f82abe44e7f`, readiness-edits manifest SHA-256 `c8294c96e5b922a6a41c47b8d3f0ea304dd8b164b935ef71c213a60fbb8cf3aa`, and file-08 post-image SHA-256 `62b880a3f4053c1e18d3dda440cc2a8da47454b68a700b90c4de4916cb00ab04`.
+
+The seven owner acts and eight scope applications are enacted as reviewed; the register and twelve documentation files are committed at their independently reviewed after-images. Condition 2 is 23/23 and condition 4 is 29/29 for the preserved preview. Condition 5 (implementation authorization) remains a separate future act and is not granted here. The architecture is design-complete for the adopted preview scope.

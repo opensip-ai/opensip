@@ -1,5 +1,7 @@
 # Lifecycle, Delivery, and Operations
 
+> **Preview application:** D-369 applies the independently reviewed [reference architecture](../../coop/completion/reference-architecture.v2.md) and [exact successor manifest](../../coop/completion/architecture-application.v1.json). Older reservations and broader authoritative-product directions below retain their historical scope; the manifest names the sentences replaced for the preview. V1 claim/freeze status is unchanged. [File 08](08-decision-and-readiness-register.md) remains the only readiness checklist.
+
 > **Status:** DRAFT — proposed V2 architecture constrained by unresolved V1
 > evidence/retention/D9 conditions
 > **Authority:** The CD-RT-5 product posture is binding; mechanics and typed

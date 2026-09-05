@@ -1,5 +1,7 @@
 # Semantic Model and Host Authority
 
+> **Preview application:** D-369 applies the independently reviewed [reference architecture](../../coop/completion/reference-architecture.v2.md) and [exact successor manifest](../../coop/completion/architecture-application.v1.json). Older reservations and broader authoritative-product directions below retain their historical scope; the manifest names the sentences replaced for the preview. V1 claim/freeze status is unchanged. [File 08](08-decision-and-readiness-register.md) remains the only readiness checklist.
+
 > **Status:** DRAFT — preserved structural V1 laws; identity/proof/replay recipes
 > remain subject to exact V1 standing
 > **Authority:** Resolve [V1 matrix rows](09-v1-to-v2-claim-matrix.md) before use.

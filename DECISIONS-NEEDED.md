@@ -1,5 +1,7 @@
 # Decisions needed from you (running list — Claude orchestrator, started 2026-08-26)
 
+> **Historical handoff, superseded for current work.** D-367 delegated the remaining design decisions; D-368 replaced the review/recording workflow; D-369 completed the preview design under independent review. The owner-blocking and dual-review instructions below describe their dates. Use [file 08](docs/v2/architecture/08-decision-and-readiness-register.md) and the [accepted reference architecture](docs/coop/completion/reference-architecture.v2.md) for current scope, decisions and next steps.
+
 > **DECIDED 2026-08-28.** You adopted every agreed recommendation ("record it, i agree. commit everything and then push to remote main"); recorded as user-made entry **D-293** in `docs/coop/COORDINATOR-DECISIONS.md`, committed at `c10319d` and pushed to `origin/main`. The items below are kept as the historical list; the authorized follow-on acts run under D-000 in the order D-293 states.
 
 > **Read `DECISIONS-RECOMMENDED.md` first:** it carries, for every item below, the recommendation Claude and Codex reached by independent adversarial review (up to three rounds; AGREED or SPLIT), with pointers into the evidence packets.

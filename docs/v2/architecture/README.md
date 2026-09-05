@@ -1,8 +1,8 @@
 # OpenSIP V2 Architecture
 
-> **Status:** DRAFT — active human-readable V2 working surface, non-binding
+> **Status:** Preview design complete under D-369; wider V2 directions below retain their stated scope.
 > **Authority:** Exact V1 sources under [`docs/coop`](../../coop/) remain authoritative.
-> **Blueprint readiness:** **BLOCKED**; see the central register.
+> **Blueprint readiness:** Conditions 1–4 met for the preserved preview; condition 5 (implementation authorization) remains the next act. See the central register.
 
 This directory explains the proposed OpenSIP V2 architecture without replacing
 V1 status authority. It separates preserved structural laws, accepted-but-
@@ -10,6 +10,8 @@ unapplied material, inherited blockers, binding product decisions, and proposed
 V2 changes.
 
 ## Start here
+
+For the implementable preview, begin with the [accepted reference architecture](../../coop/completion/reference-architecture.v2.md) and its [exact application manifest](../../coop/completion/architecture-application.v1.json). It supplies the applied scoped successors to reservations in the historical topic text.
 
 1. [Status and authority](00-status-and-authority.md) — exact resolution and
    stop-on-conflict rule.
@@ -41,7 +43,7 @@ The reproducible review inputs are
 Topic documents link to register IDs for decisions and blockers. They do not
 contain competing readiness checklists.
 
-## Architecture at a glance
+## Wider authoritative architecture (future scope)
 
 ```mermaid
 flowchart TB
@@ -70,8 +72,7 @@ satisfies the binding retention posture and the still-missing V1 integration.
 - **Proposed V2 direction** — requires reviewed successor and disposition.
 - **Open V2 decision** — lives only in the central register.
 
-Normative words in proposed sections are future acceptance criteria, not applied
-decisions.
+Normative words in still-proposed wider-scope sections remain future acceptance criteria. The D-369 preview application is binding at design level and identifies every applied scoped successor.
 
 ## Stable terms
 
