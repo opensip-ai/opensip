@@ -1,0 +1,1503 @@
+{
+ "checker": "check-security-unit.v4.py",
+ "checkerSha256": "6f5756d8707bbdf884515f6feb5eceed911e5475dc38015e000c6f1eaacbe4d1",
+ "ranAt": "2026-09-05T00:12:05Z",
+ "environment": {
+  "python": "3.14.6",
+  "unicodedata": "16.0.0",
+  "productionUnicodeTable": "15.1 (distribution-runtime-completion section 4); the reference environment table differs and is disclosed here",
+  "sqlite": "3.53.3",
+  "openssl": "OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+ },
+ "inputs": {
+  "security-vectors.v4.json": "6b3993ecca1a9bcf00fcf569f94a6fd5cfc0166282e68e111d511a9cea878ffd",
+  "security-schemas.v4/envelope.schema.json": "82baf6967b8315546a93d955a2523805161f37bd22cb6728198442491e3cc3c1",
+  "security-schemas.v4/root.schema.json": "f1b45e400f89d1ed572264f8f4b87bbe08090dc5dd1a45b7fed00e0163ef02c3",
+  "security-schemas.v4/revocation.schema.json": "143027369ccd150449cfe5b45d38645e62931002f47cd73e8cea22d38547fad4",
+  "security-schemas.v4/catalog.schema.json": "939ad388734f0d8ff3618d2b6a137e049abe305328b6ee50d9c786b0f84c7c44",
+  "security-schemas.v4/registry.schema.json": "90465235f8a7694aa3152a5d227a33993a796e0ab27e3e06da6393dadaffd8c7",
+  "security-schemas.v4/registry-view.schema.json": "43726cf5c700f41e7ba22f2fee77ec59a98f17ab7a45027c2cde52df5f24e756",
+  "security-schemas.v4/payload.schema.json": "bb9ab011b8b8d3f819552a7aa8924a1df9e6e00abf447f0a5e99330060b43da0",
+  "security-schemas.v4/journal-record.schema.json": "3c090afa5f6232f626d234f8c40e77615779557609302f6666f8090dde0ad63d",
+  "security-schemas.v4/permission-policy.schema.json": "3d7153d920bf6fa0a395b5cc16afa0e6ede0414ef95e98f769935133c76f6d5b",
+  "security-schemas.v4/tcb-profile-template.schema.json": "9f01cc82ac414e59f5d84d04d42c5b3651d04bea487704fa5d9a08f3139472a1",
+  "security-schemas.v4/grant-journal.sql": "8b633ea910b5d7136f2eaae64ae05840d9e81b20ea359aa8994d1a86ae3f753f",
+  "security_unit_lib_v4.py": "7d06395e824d1cdb6ca227e3bc74b5ba27419956bec97d3b30faaf92b8f0630d",
+  "security-fixtures.v4/root.example.json": "87d8c15c873ae60f21c897188162d2aa44ab10d8aab63ca69a4aeab8eff9656c",
+  "security-fixtures.v4/revocation.example.json": "3920fc31404b568ab7aa0059cb75b2bc19f59f1d2971813b656f179df5bad45f",
+  "security-fixtures.v4/catalog.example.json": "7d1a9337e3f25cf76441a0fbb4adcce035b46e832c06dcf2fa5865ae3cbfc53c",
+  "security-fixtures.v4/registry.example.json": "4e6a48e8435a5d3f6cd252d0f1817f0e0d5be1c9c21d918d91ef9497d5f6acb5",
+  "security-fixtures.v4/payload.example.json": "3d69d6cd7f5ec8ba511ba246ca5f9b8b91e940711983abc411113b7b142922f3",
+  "security-fixtures.v4/permission-policy.example.json": "2053da325ead6b388c512dc04b9840b72337093013c339985bbcab9eaf04749e",
+  "security-fixtures.v4/registry-view.project-a.example.json": "1f05268f6460c1663e27d80b1b49d1568fb7c6d689a7726f625b73d02cf564c4",
+  "security-fixtures.v4/root.negative.M1-kernel-attestation-key-present.json": "1675d856152db047b88688ece596a59b41ed2cef3b29ee1f2215ccc408150f13",
+  "security-fixtures.v4/root.negative.M1-recovery-repeated-key.json": "1c1d5ec8ae05079568e7872044667714a223c754a86774cb5d0687fc0bd2a5f6",
+  "security-fixtures.v4/root.negative.active-role-typed-absence.json": "71589b26301f8c4ed08ab6c31c1f558a22e1746f1ea7d3558598675982c854be",
+  "security-fixtures.v4/root.negative.duplicate-key-id.json": "b7afbce895477aee723d0cd2bf70acb8b8bcae49e030aab1030a2e0ef181cc38",
+  "security-fixtures.v4/root.negative.expiry-before-issue.json": "c8402e5cc353b75f7667f3407ea9e9ddad6018e43bdd29e62eea56f04a141c66",
+  "security-fixtures.v4/root.negative.key-id-mismatch.json": "b50481f21c8e12d24b681b762ed6a4405fccccf2235f653197a98ebeab32cf55",
+  "security-fixtures.v4/root.negative.key-reused-across-roles.json": "219945449f75dd523c4a6f3f5a088bfaf7385265c228a9d6c9c4232bdcad2b45",
+  "security-fixtures.v4/root.negative.origin-with-previous.json": "1469d3482eee9cd2e9846439ce598517a0e2627608c21964177897cb99aa0999",
+  "security-fixtures.v4/root.negative.previous-version-not-below.json": "be33198f5b0477d97fa9c10c4f3a3f1cfcb5864698acfc84bf50464b26d427fe",
+  "security-fixtures.v4/root.negative.recovery-overlaps-root.json": "8abd27b12d0c51599da7974f26e46e5d2ecc6f4ecb7ce5c86c1726440da9f777",
+  "security-fixtures.v4/root.negative.repair-with-keys.json": "519bb19051470929e75d7d56ad835b9574c5c2c109923c2928ab7f6f55a969c2",
+  "security-fixtures.v4/root.negative.role-threshold-1.json": "520bde70444729e7390a94bb84187e12b4c0cd365011d8d0339ece2cbb0de4dd",
+  "security-fixtures.v4/root.negative.root-threshold-1.json": "1f43058c503e97d2a29885bfe709edb6bceef9099cb84db04566e6be686d9688",
+  "security-fixtures.v4/root.negative.unknown-key-ref.json": "893f52f00104d0c24bfdabcc00e79cb8fc481d3b14c4987912169a37851e058a",
+  "security-fixtures.v4/typescript-analyzer.envelope.json": "5d6afda406cbfab1c88a54071137a124e9f9a33b01eaf615be75b242594f83c9",
+  "security-fixtures.v4/typescript-analyzer.manifest.json": "ce6c943513188ccf785065332b754fdd68a3f672fbb66af5177234fa7f0b7401",
+  "security-fixtures.v4/registry-view.project-b.example.json": "347b72c3102cf5d7aa52b1d446e721b86efc762adcc86fb816df637e34f5e0bc",
+  "security-fixtures.v4/typescript-analyzer.manifest.canonical.bin": "1aab3a29b0424d0c430e7bb39e829e993cde121a97b9eb861edc75dfe7beef33",
+  "security-fixtures.v4/typescript-analyzer.manifest.wrong-rung.json": "d1b70af3137aad6392ef6e712df74b05c81f9378a9a33f98832b27fd01f0e266",
+  "security-fixtures.v4/typescript-analyzer.manifest.unknown-capability.json": "1bafdf22c6fd4065b05992881a54eb60977f864b55c2b8379adcd29c08abe73d",
+  "security-fixtures.v4/typescript-analyzer.envelope-mismatch.json": "e94bb99a0c8266aa9dccbc336bc7c70787b68d46d03f691404ffa80568d1eb59",
+  "security-fixtures.v4/typescript-analyzer.envelope-role-confusion.json": "02d83293f49bb5b9da463c66ad3cdf9f06c2108ade5f8845c0c8ab37e9e1fd7e",
+  "security-fixtures.v4/typescript-analyzer.envelope-namespace-mismatch.json": "c48270153729f035bba9f5f2e0c133b058f344896c6d91d3b903706f01673eb2",
+  "security-fixtures.v4/typescript-analyzer.envelope-unauthorized-key.json": "f59b2e1b2cc52d098b911dd126c3aac9e0096aace0033b0a71e2d450744d4d6e",
+  "security-fixtures.v4/typescript-analyzer.envelope-malformed.json": "76adc54d7819ce420bf3427d7064f8ace96a2810d7f0ad30b60e329def4701c8",
+  "security-fixtures.v4/root.envelope.json": "eda85ba6f343d96605b782f7167f25622c1609184e09bc63a7b41cbc92a6e43e",
+  "security-fixtures.v4/catalog.envelope.json": "c9af0df3deb6813188b7fc00542e31f8fdd7cbe626fdbe0a7c08bff8cb435036",
+  "security-fixtures.v4/witness-reconciliation-cases.json": "0ddf197a998e359a34d362cca75151184df7529375ed17a075da9ffb0a701569",
+  "security-fixtures.v4/d9-joins.example.json": "e50c94372397553c587865a90acf7a9fe9bec2cd38ad98430de2512a45b85c0f",
+  "security-fixtures.v4/grant-journal.example.json": "782a302fb483a7dc5518d25369d017d7729fe64dfb3faff031864d4e3627dd77",
+  "security-fixtures.v4/locator-bounds.json": "18c7e406b4fc553d37b7c8844e25dd53e22770044f4304ddb66159456407ac39",
+  "security-fixtures.v4/broker-handles.example.json": "eae8844559ed61435a8180230b1054bad1d3a60fa7a23a06523f61c893ad955a",
+  "security-fixtures.v4/durability-io-failures.json": "013dbbd15cda6bf8c7047f40b9920529e2d614baa5a1c9535bfa32f95ee8141b",
+  "security-fixtures.v4/doctor-trust-report.example.json": "5e8ea43f7a5faae8607fdd8fed44e622c9bdac8de1035345e059a22a2545a719",
+  "security-fixtures.v4/permission-policy.effective.example.json": "14083d73ec585893d7fb782dc529733c9557b717565aab770b442a1bfe59730a",
+  "security-fixtures.v4/launch-verification-classes.json": "6217cb68c34f3f3ab7e8d621990888988f2d74548744803b3bc66237ac0190b2",
+  "security-fixtures.v4/qualification-runners.json": "0e07023304e9990b1c4b4c5d3f81074227c47bed236adcf54001f883004c79b5",
+  "security-fixtures.v4/profile.P-MACOS-ARM64-25G83-APFS.json": "43e49a29857df7b749c5ed869383e3221bd9e7488a484df62fa6d4bbf9eb16e1",
+  "security-fixtures.v4/profile.P-MACOS-X86_64-25G83-APFS.json": "c465da51f3881aa37fa02aa37528347e4eeaf850f466838f6899a643fb478366",
+  "security-fixtures.v4/profile.P-LINUX-X86_64-UBUNTU2404-EXT4.json": "87a7ee679790274c0380c37eecb973d02e66572a58e8e5c7fea2d1bba921a662",
+  "security-fixtures.v4/profile.P-LINUX-ARM64-UBUNTU2404-EXT4.json": "a996f8253c56e2adeeed36817919a367b8a05002585f26b1a69b41e40b183e95",
+  "security-fixtures.v4/g22-observed-events.json": "48377b807ea80a6531286ee0941e82f7ec4b1f7d61577ea728a7d02948191cf5",
+  "security-fixtures.v4/grant-journal.example.sqlite": "0e3f00205868b8b2db1eca75df87f127f0e7d85c9f890b000a0dd73466343b7f",
+  "security-fixtures.v4/linux-os-abi-predicate-cases.json": "ae5298c9f89b304ecf76ceceb3d1a4bd3b852d31ddd487066d0396c794a05538",
+  "security-fixtures.v4/profile.example.linux-x86_64.azure-6.17.json": "de0ca2c2edf6666c59af3d9d88f82c6639d3aae7a7e714a71251c38d962448ec",
+  "security-fixtures.v4/profile.example.linux-x86_64.generic-6.8.json": "8a835a99c9962d4642da97a3f2627e553fb796fde5f80bd8a71f209750104f87"
+ },
+ "results": [
+  {
+   "check": "V-UR1",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "V-UR2",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "V-UR3-NFC",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "V-UR4",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "V-UR2-REJECT-OVER",
+   "result": "PASS",
+   "detail": "INTEGER_OUT_OF_RANGE"
+  },
+  {
+   "check": "V-UR2-REJECT-UNDER",
+   "result": "PASS",
+   "detail": "INTEGER_OUT_OF_RANGE"
+  },
+  {
+   "check": "V-UR3-REJECT",
+   "result": "PASS",
+   "detail": "NON_NFC_STRING"
+  },
+  {
+   "check": "V-UR5-REJECT",
+   "result": "PASS",
+   "detail": "LONE_SURROGATE"
+  },
+  {
+   "check": "V-FLOAT-REJECT",
+   "result": "PASS",
+   "detail": "FLOAT_FORBIDDEN"
+  },
+  {
+   "check": "V-NFC-KEY-COLLISION",
+   "result": "PASS",
+   "detail": "NFC_KEY_COLLISION"
+  },
+  {
+   "check": "V-DUP-KEY-REJECT",
+   "result": "PASS",
+   "detail": "DUPLICATE_JSON_KEY:a"
+  },
+  {
+   "check": "schema:root",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:revocation",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:catalog",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:registry",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:payload",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:permission-policy",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "schema:registry-view",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "root.semantic-admission.positive",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "root.admission-boundary.positive",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "root.M1-raw-dict-refused-by-verify_envelope",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "root.M1-kernel-attestation-keys-must-be-empty",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "root.semantic-admission.negative:M1-kernel-attestation-key-present",
+   "result": "PASS",
+   "detail": "shape-valid=False refusals=['ROOT.KERNEL_ATTESTATION_KEYS_NOT_EMPTY'] boundary=['ROOT.SHAPE:$.kernelAttestationKeys: maxItems']"
+  },
+  {
+   "check": "root.semantic-admission.negative:M1-recovery-repeated-key",
+   "result": "PASS",
+   "detail": "shape-valid=False refusals=['ROOT.DUPLICATE_KEY_IN_LIST:recoveryAuthority'] boundary=['ROOT.SHAPE:$.recoveryAuthority.keys: uniqueItems']"
+  },
+  {
+   "check": "root.semantic-admission.negative:active-role-typed-absence",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.ACTIVE_ROLE_WITHOUT_ACTIVE_STANDING:TR-BUNDLE'] boundary=['ROOT.ACTIVE_ROLE_WITHOUT_ACTIVE_STANDING:TR-BUNDLE']"
+  },
+  {
+   "check": "root.semantic-admission.negative:duplicate-key-id",
+   "result": "PASS",
+   "detail": "shape-valid=False refusals=['ROOT.DUPLICATE_KEY_ID', 'ROOT.DUPLICATE_PUBLIC_KEY'] boundary=['ROOT.SHAPE:$.keys: uniqueItems']"
+  },
+  {
+   "check": "root.semantic-admission.negative:expiry-before-issue",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.EXPIRY_NOT_AFTER_ISSUE'] boundary=['ROOT.EXPIRY_NOT_AFTER_ISSUE']"
+  },
+  {
+   "check": "root.semantic-admission.negative:key-id-mismatch",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.KEY_ID_MISMATCH:00000000'] boundary=['ROOT.KEY_ID_MISMATCH:00000000']"
+  },
+  {
+   "check": "root.semantic-admission.negative:key-reused-across-roles",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.KEY_REUSED_ACROSS_ROLES:TR-INDEX'] boundary=['ROOT.KEY_REUSED_ACROSS_ROLES:TR-INDEX']"
+  },
+  {
+   "check": "root.semantic-admission.negative:origin-with-previous",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.PREVIOUS_VERSION_RANGE', 'ROOT.CHAIN_ORIGIN_INCONSISTENT'] boundary=['ROOT.PREVIOUS_VERSION_RANGE', 'ROOT.CHAIN_ORIGIN_INCONSISTENT']"
+  },
+  {
+   "check": "root.semantic-admission.negative:previous-version-not-below",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.PREVIOUS_VERSION_RANGE'] boundary=['ROOT.PREVIOUS_VERSION_RANGE']"
+  },
+  {
+   "check": "root.semantic-admission.negative:recovery-overlaps-root",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.RECOVERY_NOT_DISJOINT_FROM_ROOT'] boundary=['ROOT.RECOVERY_NOT_DISJOINT_FROM_ROOT']"
+  },
+  {
+   "check": "root.semantic-admission.negative:repair-with-keys",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.KEY_REUSED_ACROSS_ROLES:TR-REPAIR', 'ROOT.TR_REPAIR_MUST_BE_TYPED_ABSENCE'] boundary=['ROOT.KEY_REUSED_ACROSS_ROLES:TR-REPAIR', 'ROOT.TR_REPAIR_MUST_BE_TYPED_ABSENCE']"
+  },
+  {
+   "check": "root.semantic-admission.negative:role-threshold-1",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.ROLE_THRESHOLD_POLICY:TR-COMPONENT'] boundary=['ROOT.ROLE_THRESHOLD_POLICY:TR-COMPONENT']"
+  },
+  {
+   "check": "root.semantic-admission.negative:root-threshold-1",
+   "result": "PASS",
+   "detail": "shape-valid=False refusals=['ROOT.ROOT_THRESHOLD_POLICY'] boundary=['ROOT.SHAPE:$.rootThreshold: minimum']"
+  },
+  {
+   "check": "root.semantic-admission.negative:unknown-key-ref",
+   "result": "PASS",
+   "detail": "shape-valid=True refusals=['ROOT.UNKNOWN_KEY_REF:TR-INDEX:ffffffff'] boundary=['ROOT.UNKNOWN_KEY_REF:TR-INDEX:ffffffff']"
+  },
+  {
+   "check": "root.weak-threshold-cannot-verify",
+   "result": "PASS",
+   "detail": "ROOT-NOT-ADMITTED verify_envelope requires an AdmittedRoot from admit_root_document"
+  },
+  {
+   "check": "schema-mutant-bool-const:root",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:root",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:revocation",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:revocation",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:catalog",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:catalog",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:registry",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:registry",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:payload",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:payload",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:permission-policy",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:permission-policy",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "schema-mutant-bool-const:registry-view",
+   "result": "PASS",
+   "detail": "custom validator must reject true for const 1"
+  },
+  {
+   "check": "jsonschema-crossval:registry-view",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "jsonschema-env-present",
+   "result": "PASS",
+   "detail": "/tmp/opensip-architecture-review-env/bin/python used"
+  },
+  {
+   "check": "parse.invalid-utf8",
+   "result": "PASS",
+   "detail": "INVALID_UTF8"
+  },
+  {
+   "check": "parse.nesting-too-deep",
+   "result": "PASS",
+   "detail": "NESTING_TOO_DEEP"
+  },
+  {
+   "check": "parse.huge-integer",
+   "result": "PASS",
+   "detail": "INTEGER_OUT_OF_RANGE"
+  },
+  {
+   "check": "parse.too-large",
+   "result": "PASS",
+   "detail": "METADATA_TOO_LARGE"
+  },
+  {
+   "check": "parse.malformed",
+   "result": "PASS",
+   "detail": "MALFORMED_JSON"
+  },
+  {
+   "check": "parse.nan",
+   "result": "PASS",
+   "detail": "NON_FINITE_FORBIDDEN"
+  },
+  {
+   "check": "registry.store.global-uniqueness",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "registry.store.never-readmit-ledger",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "registry-view.scope-and-shadowing:registry-view.project-a.example.json",
+   "result": "PASS",
+   "detail": "projectKey=pk_92ff288b79d41062cc85f84bb7e6808e visible=2 shadowed=1"
+  },
+  {
+   "check": "registry-view.scope-and-shadowing:registry-view.project-b.example.json",
+   "result": "PASS",
+   "detail": "projectKey=pk_caf47e81ada92964f1c5c29066d4f626 visible=2 shadowed=0"
+  },
+  {
+   "check": "registry-view.per-project-shadow-differs",
+   "result": "PASS",
+   "detail": "project A shadows the global entry; project B does not"
+  },
+  {
+   "check": "registry-view.digests-recorded",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy-schema-has-no-confinement-member",
+   "result": "PASS",
+   "detail": "['actionClass', 'actionSubtype', 'checkIds', 'consents', 'denies', 'endpointSet', 'endpoints', 'grants', 'pathPrefixes', 'policySchema', 'policyScope', 'programs', 'resourceScope', 'scope', 'stableId'"
+  },
+  {
+   "check": "registry-custody:6f1c2c3e@project",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "registry-custody:6f1c2c3e@global",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "manifest.stored",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "manifest.preimage",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "manifest.canonicalFile",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "manifest.admission.positive",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "manifest.admission.negative:typescript-analyzer.manifest.wrong-rung.json",
+   "result": "PASS",
+   "detail": "CAPABILITY-REGISTRY relation/rung mismatch:typescript.types"
+  },
+  {
+   "check": "manifest.admission.negative:typescript-analyzer.manifest.unknown-capability.json",
+   "result": "PASS",
+   "detail": "CAPABILITY-REGISTRY unknown capability:typescript.findings"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope.json",
+   "result": "PASS",
+   "detail": "VERIFIED (valid=2 threshold=2)"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope-mismatch.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (preimage recomputed 9b7811957432 != carried 3c8c647d9eaa)"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope-role-confusion.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (kind/domain/role routing mismatch)"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope-namespace-mismatch.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (namespace evil != publisher opensip)"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope-unauthorized-key.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (no valid signature from an authorized key)"
+  },
+  {
+   "check": "envelope:typescript-analyzer.envelope-malformed.json",
+   "result": "PASS",
+   "detail": "RJ-4 UNSIGNED (malformed envelope: $.signatures: minItems)"
+  },
+  {
+   "check": "envelope:root.envelope.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (no valid signature from an authorized key)"
+  },
+  {
+   "check": "envelope:catalog.envelope.json",
+   "result": "PASS",
+   "detail": "RJ-4 ENVELOPE_MISMATCH (no valid signature from an authorized key)"
+  },
+  {
+   "check": "envelope.signature-order-and-threshold",
+   "result": "PASS",
+   "detail": "['55273331335693d98ae7139ecc52da6ace097009bd5d08b83134206a8d9d0a41', '64923ff5a4ac3969a0828d819d4849d6ec20ff367417d587fe44a3e58d82a81b']"
+  },
+  {
+   "check": "envelope.signed-subject-binds-routing",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "witness:genesis-empty",
+   "result": "PASS",
+   "detail": "INIT (genesis carrier; witness created at COMMITTED 0)"
+  },
+  {
+   "check": "witness:M3-string-sentinel-is-not-a-witness",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: NOT_AN_OBJECT)"
+  },
+  {
+   "check": "witness:consistent",
+   "result": "PASS",
+   "detail": "OK (consistent)"
+  },
+  {
+   "check": "witness:crash-after-pending-before-commit",
+   "result": "PASS",
+   "detail": "REVERT (append never became durable; witness -> COMMITTED 3)"
+  },
+  {
+   "check": "witness:crash-after-commit-before-committed",
+   "result": "PASS",
+   "detail": "ADVANCE (commit completed before the witness update; witness -> COMMITTED 4)"
+  },
+  {
+   "check": "witness:committed-beyond-tail",
+   "result": "PASS",
+   "detail": "QUARANTINE (uncertainTailLoss: committed 4 beyond tail 3)"
+  },
+  {
+   "check": "witness:equal-seq-unequal-hash",
+   "result": "PASS",
+   "detail": "QUARANTINE (uncertainTailLoss: equal seq, different body hash)"
+  },
+  {
+   "check": "witness:pending-equal-seq-unequal-hash",
+   "result": "PASS",
+   "detail": "QUARANTINE (pending seq equals tail with a different body hash)"
+  },
+  {
+   "check": "witness:journal-ahead-of-witness",
+   "result": "PASS",
+   "detail": "QUARANTINE (journal ahead of committed witness: protocol violation)"
+  },
+  {
+   "check": "witness:witness-absent-nonempty",
+   "result": "PASS",
+   "detail": "QUARANTINE (witness absent with non-empty journal: witnesslessRestore)"
+  },
+  {
+   "check": "witness:witness-malformed",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: NOT_AN_OBJECT)"
+  },
+  {
+   "check": "witness:generation-mismatch",
+   "result": "PASS",
+   "detail": "QUARANTINE (witness names another carrier)"
+  },
+  {
+   "check": "witness:project-mismatch",
+   "result": "PASS",
+   "detail": "QUARANTINE (witness names another carrier)"
+  },
+  {
+   "check": "witness:pending-far-ahead",
+   "result": "PASS",
+   "detail": "QUARANTINE (pending witness inconsistent with tail (9 vs 2))"
+  },
+  {
+   "check": "witness:M3-bool-seq",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: SEQ)"
+  },
+  {
+   "check": "witness:M3-pending-without-hash",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: HASH)"
+  },
+  {
+   "check": "witness:M3-pending-zero-empty-carrier",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: GENESIS)"
+  },
+  {
+   "check": "witness:M3-unknown-member",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: UNKNOWN_MEMBER)"
+  },
+  {
+   "check": "witness:M3-missing-schema-member",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: SCHEMA)"
+  },
+  {
+   "check": "witness:M3-generation-bool",
+   "result": "PASS",
+   "detail": "QUARANTINE (witnessMalformed: GENERATION)"
+  },
+  {
+   "check": "witness:committed-zero-empty",
+   "result": "PASS",
+   "detail": "OK (consistent)"
+  },
+  {
+   "check": "witness.simulated-crash-points",
+   "result": "PASS",
+   "detail": "['OK', 'REVERT', 'ADVANCE', 'OK']"
+  },
+  {
+   "check": "d9.source-pin",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "d9.joins-within-closed-vocabulary",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "d9.no-minted-codes",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "d9.state-class-matrix-5-total-3-active",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.genesis",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.chain",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.witness",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.locator.host-internal-digest-form",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.locator.bounds",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.locator.negatives",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "broker.positive-HE-2-read",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.positive-HE-1-write",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.two-handles-share-one-operationRef",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.handle-grammar-uppercase",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.HANDLE_GRAMMAR"
+  },
+  {
+   "check": "broker.gj-locator-on-the-wire",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.HANDLE_GRAMMAR"
+  },
+  {
+   "check": "broker.operation-ref-grammar",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.OPERATION_REF_GRAMMAR"
+  },
+  {
+   "check": "broker.unknown-handle-minted-for-another-spawn",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.UNKNOWN_HANDLE"
+  },
+  {
+   "check": "broker.replayed-handle-on-another-connection-PR-4",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.UNKNOWN_HANDLE"
+  },
+  {
+   "check": "broker.operation-mismatch",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.OPERATION_MISMATCH"
+  },
+  {
+   "check": "broker.effect-class-mismatch",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.EFFECT_CLASS_MISMATCH"
+  },
+  {
+   "check": "broker.binding-drift-new-generation",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.BINDING_DRIFT"
+  },
+  {
+   "check": "broker.underlying-read-grant-revoked",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.GRANT_NOT_CURRENT"
+  },
+  {
+   "check": "broker.broker-grant-generation-closed",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.GRANT_NOT_CURRENT"
+  },
+  {
+   "check": "broker.broker-grant-binding-mismatch",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.GRANT_BINDING_MISMATCH"
+  },
+  {
+   "check": "broker.broker-only-without-underlying-read-token",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TOKEN_MISMATCH"
+  },
+  {
+   "check": "broker.broker-only-without-underlying-write-token",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TOKEN_MISMATCH"
+  },
+  {
+   "check": "broker.target-outside-narrowed-scope",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_OUTSIDE_SCOPE"
+  },
+  {
+   "check": "broker.write-byte-cap-over-limit",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_OUTSIDE_SCOPE"
+  },
+  {
+   "check": "broker.tampered-map-locator",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.LOCATOR_INTEGRITY"
+  },
+  {
+   "check": "broker.target-path-traversal-under-prefix",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_PATH_NOT_NORMALIZED"
+  },
+  {
+   "check": "broker.target-dot-segment",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_PATH_NOT_NORMALIZED"
+  },
+  {
+   "check": "broker.target-not-a-sealed-member",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_NOT_SEALED_MEMBER"
+  },
+  {
+   "check": "broker.target-is-a-sealed-member",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.M4-context-absent-no-snapshot-manifest",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.CONTEXT_ABSENT"
+  },
+  {
+   "check": "broker.M4-context-absent-no-journal-state",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.CONTEXT_ABSENT"
+  },
+  {
+   "check": "broker.M4-broker-scope-empty",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.GRANT_SCOPE_EMPTY"
+  },
+  {
+   "check": "broker.M4-broker-scope-narrower-than-target",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.TARGET_OUTSIDE_SCOPE"
+  },
+  {
+   "check": "broker.M4-underlying-scope-without-snapshot-digest",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.SNAPSHOT_BINDING_MISSING_OR_MISMATCH"
+  },
+  {
+   "check": "broker.M4-underlying-scope-other-snapshot",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.SNAPSHOT_BINDING_MISSING_OR_MISMATCH"
+  },
+  {
+   "check": "broker.M4-handle-trailing-newline",
+   "result": "PASS",
+   "detail": "RF-6:AUTHORIZATION.HANDLE_GRAMMAR"
+  },
+  {
+   "check": "broker.oversize-ref-is-RF-2-not-security",
+   "result": "PASS",
+   "detail": "RF-2 by the control schema bound; security never reached"
+  },
+  {
+   "check": "broker.one-handle-per-grant",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.both-tokens-required",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.bootstrap-descriptor-bounds",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.descriptor-validates-against-frozen-bootstrap-schema",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.bootstrap-successor-recorded-not-implied",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.stage.regular-within-cap",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.stage.symlink-refused-by-nofollow",
+   "result": "PASS",
+   "detail": "STAGE.NOT_REGULAR"
+  },
+  {
+   "check": "broker.stage.fifo",
+   "result": "PASS",
+   "detail": "STAGE.NOT_REGULAR"
+  },
+  {
+   "check": "broker.stage.hard-linked",
+   "result": "PASS",
+   "detail": "STAGE.HARD_LINKED"
+  },
+  {
+   "check": "broker.stage.wrong-owner",
+   "result": "PASS",
+   "detail": "STAGE.WRONG_OWNER"
+  },
+  {
+   "check": "broker.stage.over-cap",
+   "result": "PASS",
+   "detail": "STAGE.OVER_CAP"
+  },
+  {
+   "check": "broker.stage.empty-file-at-cap-zero-refused",
+   "result": "PASS",
+   "detail": "None"
+  },
+  {
+   "check": "broker.target-order-normalization-before-prefix",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.wire-refs-within-1024",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.result.positive",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "broker.result.digest-mismatch",
+   "result": "PASS",
+   "detail": "RESULT.INTEGRITY"
+  },
+  {
+   "check": "broker.result.length-mismatch-file-stat",
+   "result": "PASS",
+   "detail": "RESULT.FILE_NOT_ADMITTED"
+  },
+  {
+   "check": "broker.result.absent-file",
+   "result": "PASS",
+   "detail": "RESULT.ABSENT"
+  },
+  {
+   "check": "broker.result.ref-grammar-uppercase",
+   "result": "PASS",
+   "detail": "RESULT.REF_NOT_FROM_RESULT"
+  },
+  {
+   "check": "broker.result.ref-grammar-uppercase-carried",
+   "result": "PASS",
+   "detail": "RESULT.REF_GRAMMAR"
+  },
+  {
+   "check": "broker.result.M4-ref-trailing-newline",
+   "result": "PASS",
+   "detail": "RESULT.REF_GRAMMAR"
+  },
+  {
+   "check": "broker.result.over-cap",
+   "result": "PASS",
+   "detail": "RESULT.OVER_CAP"
+  },
+  {
+   "check": "broker.result.empty-result",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "broker.result.effect-not-completed",
+   "result": "PASS",
+   "detail": "RESULT.EFFECT_NOT_COMPLETED"
+  },
+  {
+   "check": "broker.result.request-seq-mismatch",
+   "result": "PASS",
+   "detail": "RESULT.REQUEST_SEQ_MISMATCH"
+  },
+  {
+   "check": "broker.result.ref-not-from-that-result",
+   "result": "PASS",
+   "detail": "RESULT.REF_NOT_FROM_RESULT"
+  },
+  {
+   "check": "broker.result.scratch-dir-group-readable",
+   "result": "PASS",
+   "detail": "RESULT.SCRATCH_NOT_OWNED"
+  },
+  {
+   "check": "broker.result.scratch-dir-other-owner",
+   "result": "PASS",
+   "detail": "RESULT.SCRATCH_NOT_OWNED"
+  },
+  {
+   "check": "broker.result.result-file-hard-linked",
+   "result": "PASS",
+   "detail": "RESULT.FILE_NOT_ADMITTED"
+  },
+  {
+   "check": "broker.result.spawn-aggregate-cap-exceeded",
+   "result": "PASS",
+   "detail": "RESULT.SPAWN_CAP_EXCEEDED"
+  },
+  {
+   "check": "broker.result.spawn-aggregate-cap-exact",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "check": "broker.result.M4-context-absent",
+   "result": "PASS",
+   "detail": "RESULT.CONTEXT_ABSENT"
+  },
+  {
+   "check": "broker.result.M4-context-missing-file-stat",
+   "result": "PASS",
+   "detail": "RESULT.CONTEXT_ABSENT"
+  },
+  {
+   "check": "broker.M5-he1-order",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.none.unknown",
+   "result": "PASS",
+   "detail": "[None, 'NOT-ACCEPTED']"
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.RA.unknown",
+   "result": "PASS",
+   "detail": "[['RCO', 'FAILED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.RA+RCI.present",
+   "result": "PASS",
+   "detail": "[['RCO', 'REVERTED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.RA+RCI.absent",
+   "result": "PASS",
+   "detail": "[['RCO', 'REVERTED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.RA+RCI.unknown",
+   "result": "PASS",
+   "detail": "[['RCO', 'REVERTED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.REVERSIBLE.RA+RCI+RCO.present",
+   "result": "PASS",
+   "detail": "[None, 'ALREADY-RECORDED']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.none.unknown",
+   "result": "PASS",
+   "detail": "[None, 'NOT-ACCEPTED']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.RA.unknown",
+   "result": "PASS",
+   "detail": "[['ICO', 'FAILED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.RA+ICI.present",
+   "result": "PASS",
+   "detail": "[['ICO', 'COMPLETED'], 'COMPLETED']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.RA+ICI.absent",
+   "result": "PASS",
+   "detail": "[['ICO', 'FAILED'], 'FAILED']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.RA+ICI.unknown",
+   "result": "PASS",
+   "detail": "[['ICO', 'INDETERMINATE'], 'INDETERMINATE']"
+  },
+  {
+   "check": "broker.M5-recover.IRREVERSIBLE.RA+ICI+ICO.present",
+   "result": "PASS",
+   "detail": "[None, 'ALREADY-RECORDED']"
+  },
+  {
+   "check": "broker.caps-stated-per-lead-decision",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "broker.lifecycle-defined",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "durability.matrix-complete",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "durability.post-visibility-undetermined",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "doctor.report-only-no-writes",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "doctor.expiry-and-freshness-boundaries",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.effective-reproducible",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.digest-changes-with-either-file",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.schema:effective",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.schema:globalOnly",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.schema:missing",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.deny-by-absence",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.project-only-narrows",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.M2-traversal-refused-at-source",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.N1-duplicate-pairs",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "policy.effective-schema-shape",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "launch.metadata-only-verifies-nothing",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "runners.d102-pin",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "runners.classes-are-d102-classes",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "runners.templates-exist-and-name-their-class",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "g22.macos-arm64.admitted",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.declared-identity-incorrect",
+   "result": "PASS",
+   "detail": "['NT-TCB-IDENTITY', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.alternate-loader-origin",
+   "result": "PASS",
+   "detail": "['NT-TCB-ALT-LOADER', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.undeclared-system-class",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.macos-arm64.shell-image-in-trace",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.macos-arm64.forbidden-environment-influence",
+   "result": "PASS",
+   "detail": "['NT-TCB-ENV-INFLUENCE', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.trace-missing",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.macos-arm64.trace-partial",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.macos-arm64.os-abi-predicate-failed",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.os-abi-undetermined",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-arm64.declared-member-never-loaded",
+   "result": "PASS",
+   "detail": "['NT-TCB-IDENTITY']"
+  },
+  {
+   "check": "g22.macos-x86_64.admitted",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.declared-identity-incorrect",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.alternate-loader-origin",
+   "result": "PASS",
+   "detail": "['NT-TCB-ALT-LOADER', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.undeclared-system-class",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.macos-x86_64.shell-image-in-trace",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.macos-x86_64.forbidden-environment-influence",
+   "result": "PASS",
+   "detail": "['NT-TCB-ENV-INFLUENCE', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.trace-missing",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.macos-x86_64.trace-partial",
+   "result": "PASS",
+   "detail": "['NT-TCB-PROFILE-UNQUALIFIED', 'NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.macos-x86_64.os-abi-predicate-failed",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.os-abi-undetermined",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT', 'NT-TCB-PROFILE-UNQUALIFIED']"
+  },
+  {
+   "check": "g22.macos-x86_64.declared-member-never-loaded",
+   "result": "PASS",
+   "detail": "['NT-TCB-IDENTITY']"
+  },
+  {
+   "check": "g22.linux-x86_64.admitted",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "g22.linux-x86_64.undeclared-system-class",
+   "result": "PASS",
+   "detail": "['NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.linux-x86_64.shell-image-in-trace",
+   "result": "PASS",
+   "detail": "['NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.linux-x86_64.forbidden-environment-influence",
+   "result": "PASS",
+   "detail": "['NT-TCB-ENV-INFLUENCE']"
+  },
+  {
+   "check": "g22.linux-x86_64.trace-missing",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.linux-x86_64.trace-partial",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.linux-x86_64.os-abi-predicate-failed",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT']"
+  },
+  {
+   "check": "g22.linux-x86_64.os-abi-undetermined",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT']"
+  },
+  {
+   "check": "g22.linux-arm64.admitted",
+   "result": "PASS",
+   "detail": "[]"
+  },
+  {
+   "check": "g22.linux-arm64.undeclared-system-class",
+   "result": "PASS",
+   "detail": "['NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.linux-arm64.shell-image-in-trace",
+   "result": "PASS",
+   "detail": "['NT-TCB-UNDECLARED']"
+  },
+  {
+   "check": "g22.linux-arm64.forbidden-environment-influence",
+   "result": "PASS",
+   "detail": "['NT-TCB-ENV-INFLUENCE']"
+  },
+  {
+   "check": "g22.linux-arm64.trace-missing",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.linux-arm64.trace-partial",
+   "result": "PASS",
+   "detail": "['NT-TCB-TRACE-MISSING']"
+  },
+  {
+   "check": "g22.linux-arm64.os-abi-predicate-failed",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT']"
+  },
+  {
+   "check": "g22.linux-arm64.os-abi-undetermined",
+   "result": "PASS",
+   "detail": "['NT-TCB-BOOT']"
+  },
+  {
+   "check": "g22.legacy-four-states-covered",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "g07.loader-seven-and-toctou-five-crosswalked",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "g22.refusal-vocabulary-closed",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.column-body-binding",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.seq-gap",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.grant-binding-required",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.update",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.delete",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.append-after-terminal",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.new-generation-restarts",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.guard.seq-above-uint53",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.ddl.reserved-terminal-slot",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "journal.generator-guards-recorded",
+   "result": "PASS",
+   "detail": "{\"update\": \"refused: grant journal is append-only\", \"delete\": \"refused: grant journal is append-only\", \"append-after-terminal\": \"refused: grant journal carrier is TERMINAL\", \"seq-gap\": \"refused: grant journal sequence must be tail+1\"}"
+  },
+  {
+   "check": "m6.azure-6.17-image-matches-measured-profile",
+   "result": "PASS",
+   "detail": "('pass', [])"
+  },
+  {
+   "check": "m6.azure-abi-bump-within-series-is-drift-only",
+   "result": "PASS",
+   "detail": "('pass', [])"
+  },
+  {
+   "check": "m6.wrong-series-generic-6.8-on-azure-profile",
+   "result": "PASS",
+   "detail": "('fail', ['KERNEL_SERIES_OR_FLAVOR:6.8.0-45-generic'])"
+  },
+  {
+   "check": "m6.wrong-line-6.14-azure",
+   "result": "PASS",
+   "detail": "('fail', ['KERNEL_SERIES_OR_FLAVOR:6.14.0-1010-azure'])"
+  },
+  {
+   "check": "m6.secure-boot-off-under-secure-boot-lockdown",
+   "result": "PASS",
+   "detail": "('fail', ['SECURE_BOOT_OFF'])"
+  },
+  {
+   "check": "m6.lockdown-none-under-secure-boot-lockdown",
+   "result": "PASS",
+   "detail": "('fail', ['LOCKDOWN_NONE'])"
+  },
+  {
+   "check": "m6.package-db-declared-image-without-secure-boot",
+   "result": "PASS",
+   "detail": "('pass', [])"
+  },
+  {
+   "check": "m6.kernel-not-installed-by-ubuntu",
+   "result": "PASS",
+   "detail": "('fail', ['KERNEL_PACKAGE_NOT_INSTALLED_BY_UBUNTU'])"
+  },
+  {
+   "check": "m6.archive-key-digest-differs",
+   "result": "PASS",
+   "detail": "('fail', ['ARCHIVE_KEY_DIGEST'])"
+  },
+  {
+   "check": "m6.namespace-changed-during-mountinfo-read",
+   "result": "PASS",
+   "detail": "('fail', ['MOUNT_NAMESPACE_CHANGED_DURING_READ'])"
+  },
+  {
+   "check": "m6.install-root-not-ext4",
+   "result": "PASS",
+   "detail": "('fail', ['INSTALL_ROOT_NOT_EXT4'])"
+  },
+  {
+   "check": "m6.release-template-placeholders-are-undetermined",
+   "result": "PASS",
+   "detail": "('undetermined', ['PROFILE-UNQUALIFIED: release-measured placeholder in the OS ABI identity'])"
+  },
+  {
+   "check": "m6.illustrative:profile.example.linux-x86_64.azure-6.17.json",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "m6.illustrative:profile.example.linux-x86_64.generic-6.8.json",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "m6.release-template-series-measured:profile.P-LINUX-X86_64-UBUNTU2404-EXT4.json",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "m6.release-template-series-measured:profile.P-LINUX-ARM64-UBUNTU2404-EXT4.json",
+   "result": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "profile:profile.P-MACOS-ARM64-25G83-APFS.json",
+   "result": "PASS",
+   "detail": "every taxonomy class covered=True; OS ABI pathless-only=True; releaseMeasured placeholders=3; v49 entries=1; no kexec-absent/KB-1 residue=True; launch unprivileged=True; no privileged/slow interface at launch=True; development-measurement standing on a D-102 class=True"
+  },
+  {
+   "check": "profile:profile.P-MACOS-X86_64-25G83-APFS.json",
+   "result": "PASS",
+   "detail": "every taxonomy class covered=True; OS ABI pathless-only=True; releaseMeasured placeholders=5; v49 entries=1; no kexec-absent/KB-1 residue=True; launch unprivileged=True; no privileged/slow interface at launch=True; development-measurement standing on a D-102 class=True"
+  },
+  {
+   "check": "profile:profile.P-LINUX-X86_64-UBUNTU2404-EXT4.json",
+   "result": "PASS",
+   "detail": "every taxonomy class covered=True; OS ABI pathless-only=True; releaseMeasured placeholders=11; v49 entries=3; no kexec-absent/KB-1 residue=True; launch unprivileged=True; no privileged/slow interface at launch=True; development-measurement standing on a D-102 class=True"
+  },
+  {
+   "check": "profile:profile.P-LINUX-ARM64-UBUNTU2404-EXT4.json",
+   "result": "PASS",
+   "detail": "every taxonomy class covered=True; OS ABI pathless-only=True; releaseMeasured placeholders=11; v49 entries=3; no kexec-absent/KB-1 residue=True; launch unprivileged=True; no privileged/slow interface at launch=True; development-measurement standing on a D-102 class=True"
+  }
+ ],
+ "summary": {
+  "checks": 283,
+  "failures": 0
+ },
+ "qualifies": "NOTHING"
+}

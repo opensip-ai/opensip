@@ -1,0 +1,781 @@
+{
+ "primitives": {
+  "macos": {
+   "file": "fcntl(F_FULLFSYNC)",
+   "directory": "fcntl(F_FULLFSYNC) on the directory fd, fsync(2) if refused",
+   "sqlite": "PRAGMA synchronous=FULL; PRAGMA fullfsync=ON; PRAGMA checkpoint_fullfsync=ON"
+  },
+  "linux": {
+   "file": "fsync(2)",
+   "directory": "fsync(2) on the directory fd",
+   "sqlite": "PRAGMA synchronous=FULL"
+  }
+ },
+ "boundaries": [
+  "witness-write",
+  "evalHighWater-write",
+  "journal-append",
+  "quarantine-marker",
+  "sc-trust-high-water-copy",
+  "lifecycle-publication",
+  "selection-commit"
+ ],
+ "preVisibilityClasses": [
+  "ENOSPC",
+  "EDQUOT",
+  "EIO",
+  "EROFS",
+  "SHORT_WRITE",
+  "RENAME_FAILED"
+ ],
+ "postVisibilityCases": [
+  {
+   "id": "witness-rename-visible-directory-fsync-failed",
+   "boundary": "witness-write",
+   "errorClass": "FSYNC_FAILED",
+   "reopen": "reconcile_witness(tail, witness read back) -> OK | REVERT | ADVANCE | QUARANTINE; the operation refuses every further effect first"
+  },
+  {
+   "id": "journal-commit-returned-error-after-wal-write",
+   "boundary": "journal-append",
+   "errorClass": "COMMIT_FAILED",
+   "reopen": "SQLite reopen; tail re-read; witness PENDING n+1 with tail n -> REVERT, PENDING n = tail n -> ADVANCE"
+  },
+  {
+   "id": "evalHighWater-commit-failed",
+   "boundary": "evalHighWater-write",
+   "errorClass": "COMMIT_FAILED",
+   "reopen": "re-read evalHighWater; the larger of (read-back, intended) is used only after a successful re-sync; no decision is taken before that"
+  }
+ ],
+ "matrix": [
+  {
+   "boundary": "witness-write",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "reconcile_witness on reopen",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "witness-write",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "reconcile_witness on reopen",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "evalHighWater-write",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "reconcile_witness on reopen",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "journal-append",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "reconcile_witness on reopen",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "quarantine-marker",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "sc-trust-high-water-copy",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "lifecycle-publication",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "ENOSPC",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "EDQUOT",
+   "refusal": "IO.NO_SPACE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": true
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "EIO",
+   "refusal": "IO.DEVICE_ERROR",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "EROFS",
+   "refusal": "IO.READ_ONLY",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "SHORT_WRITE",
+   "refusal": "IO.SHORT_WRITE",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "RENAME_FAILED",
+   "refusal": "IO.DURABILITY_FAILED",
+   "partialState": "none (previous durable state retained)",
+   "reconcile": null,
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "FSYNC_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  },
+  {
+   "boundary": "selection-commit",
+   "errorClass": "COMMIT_FAILED",
+   "refusal": "IO.DURABILITY_UNDETERMINED",
+   "partialState": "UNDETERMINED (a visible rename or commit may precede the failed sync); refuse further effects, reopen and reconcile the exact state before any use",
+   "reconcile": "re-read the carrier after reopen; treat a readable, self-consistent new state as the state and re-sync it",
+   "d9": {
+    "class": "operational-failed",
+    "exit": 4,
+    "code": "HOST.IO_FAILURE"
+   },
+   "retryable": false
+  }
+ ]
+}
