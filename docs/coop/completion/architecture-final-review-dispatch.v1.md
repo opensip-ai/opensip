@@ -1,7 +1,8 @@
 # Independent whole-architecture and per-row application review
 
-WORKING DISPATCH — NOT FROZEN OR SENT. Replace this line with the exact frozen
-subject and supporting receipt digests before dispatch.
+FROZEN DISPATCH — application freeze receipt a6bb10330b6f3095c4a621dceba51c0cca3e48d5843b1049d0fe0adca0cd7215.
+Application SHA f2abb73d868c314819ce9a767505b1884df007e2934b9150e72836f45973238a; supplement SHA be569fb045b96a94f35c111faadab7806b77e717a15f811dab7461e9ad0e7480.
+Dispatch is now ready for the independent whole-architecture review.
 
 Recipient: the independent whole-architecture auditor in Herdr wH:p3, who
 has authored none of the architecture application or incorporated design units.
