@@ -1,6 +1,6 @@
 # Independent whole-architecture and per-row application review
 
-FROZEN DISPATCH — application freeze receipt a6bb10330b6f3095c4a621dceba51c0cca3e48d5843b1049d0fe0adca0cd7215.
+FROZEN DISPATCH — application freeze receipt 432bce71a4dd6aa6f603cd87edd362b301f31a6c8de92831b35cd2998eba170c.
 Application SHA f2abb73d868c314819ce9a767505b1884df007e2934b9150e72836f45973238a; supplement SHA be569fb045b96a94f35c111faadab7806b77e717a15f811dab7461e9ad0e7480.
 Dispatch is now ready for the independent whole-architecture review.
 
