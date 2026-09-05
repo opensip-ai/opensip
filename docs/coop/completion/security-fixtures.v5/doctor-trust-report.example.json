@@ -1,0 +1,198 @@
+{
+ "rule": "doctor evaluates report-only at max(recorded evalHighWater, wall clock, lastAccepted), labels the raw clock separately, persists nothing (no evalHighWater write, no witness reconciliation write); FC-RO/FC-MODE assert writes == [] and evaluationMode report-only",
+ "boundaries": {
+  "catalogExpiresAt": "expired iff tEval >= expiresAt",
+  "rootExpiresAt": "expired iff tEval >= expiresAt",
+  "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+ },
+ "normal": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2026-12-22T09:00:00Z",
+  "evaluationTime": "2026-12-22T09:00:00Z",
+  "recordedEvalHighWater": "2026-12-21T10:00:00Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "catalogExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "FRESH",
+    "wouldRefuse": false
+   }
+  ],
+  "writes": []
+ },
+ "clockRegression": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2026-12-20T09:00:00Z",
+  "evaluationTime": "2026-12-21T10:00:00Z",
+  "recordedEvalHighWater": "2026-12-21T10:00:00Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "clock",
+    "status": "CLOCK-REGRESSION",
+    "wouldRefuse": true
+   },
+   {
+    "check": "catalogExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "FRESH",
+    "wouldRefuse": false
+   }
+  ],
+  "writes": []
+ },
+ "expired": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2026-12-22T09:00:00Z",
+  "evaluationTime": "2026-12-22T09:00:00Z",
+  "recordedEvalHighWater": "2026-12-21T10:00:00Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "catalogExpiresAt",
+    "status": "EXPIRED",
+    "wouldRefuse": true
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "FRESH",
+    "wouldRefuse": false
+   }
+  ],
+  "writes": []
+ },
+ "edgeExactly90dFreshCatalogExpired": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2027-03-21T10:00:00Z",
+  "evaluationTime": "2027-03-21T10:00:00Z",
+  "recordedEvalHighWater": "2026-12-21T10:00:00Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "catalogExpiresAt",
+    "status": "EXPIRED",
+    "wouldRefuse": true
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "FRESH",
+    "wouldRefuse": false
+   }
+  ],
+  "writes": []
+ },
+ "edge90dPlusOneSecondStale": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2027-03-21T10:00:01Z",
+  "evaluationTime": "2027-03-21T10:00:01Z",
+  "recordedEvalHighWater": "2026-12-21T10:00:00Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "catalogExpiresAt",
+    "status": "EXPIRED",
+    "wouldRefuse": true
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "STALE-REVOCATION",
+    "wouldRefuse": true
+   }
+  ],
+  "writes": []
+ },
+ "highWaterDominatesWallClock": {
+  "evaluationMode": "report-only",
+  "rawWallClock": "2026-12-22T09:00:00Z",
+  "evaluationTime": "2027-03-21T10:00:01Z",
+  "recordedEvalHighWater": "2027-03-21T10:00:01Z",
+  "lastAccepted": "2026-12-21T10:00:00Z",
+  "boundaries": {
+   "catalogExpiresAt": "expired iff tEval >= expiresAt",
+   "rootExpiresAt": "expired iff tEval >= expiresAt",
+   "revocationFreshUntil": "stale iff tEval > freshUntil (age exactly 90 d is fresh; 90 d + 1 s is stale)"
+  },
+  "findings": [
+   {
+    "check": "clock",
+    "status": "CLOCK-REGRESSION",
+    "wouldRefuse": true
+   },
+   {
+    "check": "catalogExpiresAt",
+    "status": "EXPIRED",
+    "wouldRefuse": true
+   },
+   {
+    "check": "rootExpiresAt",
+    "status": "VALID",
+    "wouldRefuse": false
+   },
+   {
+    "check": "revocationFreshUntil",
+    "status": "STALE-REVOCATION",
+    "wouldRefuse": true
+   }
+  ],
+  "writes": []
+ }
+}

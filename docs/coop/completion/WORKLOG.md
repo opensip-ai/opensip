@@ -154,3 +154,37 @@ The retained application checker selftest passes26/26. Candidate structure
 passes2757 checks with zero failures and310 explicitly pending items, correctly
 returning nonzero. Full proposed register-byte edits reproduce the intended
 post-image. No live register cell or architecture completion claim has changed.
+
+## Failed confirmation and delegated corrective act — 2026-09-04
+
+Security v4 retained the six proposed repairs and passed283 authored checks,
+but the same adjudicator's bounded confirmation reproduced failures in M1,
+M3, M4 and M5. M2 and M6 are confirmed. The exact failed confirmation and its
+probes are frozen; security remains CONTESTED. The separate policy-duplicate
+and scratch-cap supplement passed22 independent probes and has scoped acceptance.
+
+The delegated owners adopted an explicit security-only exception to D-368's
+single-confirmation limit, independently reviewed by Claude at CONSENT0/0.
+Commit5e1160a records the case and preserves three ordinary exchanges plus one
+failed bounded confirmation, without resetting counts. Claude is authorized to
+author one v5 correction of the four surviving IDs and the inseparable M5
+journal-outcome regression. Complete closed shapes and strict types must be
+validated at changed boundaries, the full root boundary must be rechecked, and
+journal recovery must use existing vocabulary and lawful order. The same
+adjudicator receives one further bounded confirmation; a further failure goes
+to the user under the recorded exception's terminal limit.
+
+The structural checker now has46 passing selftests and four post-adoption
+filesystem probes. Central historical-byte resolution fixes the earlier
+register-only archive bug. Fourteen exact publication before-images are
+retained in architecture-publication-before.v1; the working final application
+can replay after the owner decision record with3069 PASS,0 FAIL and118 PENDING.
+Those pending items include actual final security/SDK/G15 acceptance, owner
+recording and the external whole verdict; external grade slots are requirements,
+not authored grades. The original application draft is retained. The new
+architecture-application.v1.json and final dispatch remain mutable and unsent.
+
+The earlier frozen qualification corpus is committed at17002e0 with617/617
+checks replayed. The whole auditor continues to hold independence until final
+frozen dispatch. No live readiness register cell has changed; condition2 is
+still6/23 and implementation is not authorized.

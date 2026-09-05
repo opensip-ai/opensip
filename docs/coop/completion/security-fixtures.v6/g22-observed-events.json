@@ -1,0 +1,1291 @@
+{
+ "standing": "SYNTHETIC observed events evaluated by the pure admission function admit_observed_events; genuine OS execution (loader traces and build identities on the D-102 runner class) is qualification and is not claimed here",
+ "refusalVocabulary": [
+  "NT-TCB-IDENTITY",
+  "NT-TCB-UNDECLARED",
+  "NT-TCB-ALT-LOADER",
+  "NT-TCB-ENV-INFLUENCE",
+  "NT-TCB-TRACE-MISSING",
+  "NT-TCB-BOOT",
+  "NT-TCB-PROFILE-UNQUALIFIED"
+ ],
+ "legacyStateIdsCovered": [
+  "G07.loader.entrypoint-replacement",
+  "G07.loader.loader-replacement",
+  "G07.loader.path-substitution",
+  "G07.loader.shell-substitution",
+  "G07.loader.system-runtime-substitution",
+  "G22.linux-arm64.hostile-loader-system-library-tool",
+  "G22.linux-x86_64.hostile-loader-system-library-tool",
+  "G22.macos-arm64.hostile-loader-system-library-tool",
+  "G22.macos-x86_64.hostile-loader-system-library-tool"
+ ],
+ "g07LoaderCrosswalk": {
+  "G07.loader.path-substitution": "NT-TCB-ENV-INFLUENCE (PATH forbidden) / NT-TCB-ALT-LOADER (origin outside allowedLoaderOrSearchOrder)",
+  "G07.loader.loader-replacement": "NT-TCB-IDENTITY (loader member identity differs) or NT-TCB-ALT-LOADER",
+  "G07.loader.shell-substitution": "no shell is ever spawned (child-process-only execution with fixed argv; FC-C1); a shell image in the trace is NT-TCB-UNDECLARED",
+  "G07.loader.live-project-substitution": "components execute from the immutable generation directory, never from the project; a project-origin image is NT-TCB-ALT-LOADER",
+  "G07.loader.system-runtime-substitution": "NT-TCB-IDENTITY for libc/framework members; NT-TCB-UNDECLARED for an unprofiled system class",
+  "G07.loader.install-time-substitution": "open-then-verify on the opened fd against the signed inventory before exec (digest mismatch refuses before any trace exists)",
+  "G07.loader.entrypoint-replacement": "the entrypoint is a signed inventory member verified on its opened fd; Linux executes that fd (fexecve); macOS executes the canonical absolute path inside the immutable generation directory under the held generation lease with fstat(fd) dev/ino equal to stat(path) immediately before posix_spawn and the loaded text image vnode (libproc PROC_PIDREGIONPATHINFO on the child) equal to the verified dev/ino before hello, or the child is killed (execve of /dev/fd/N fails with EACCES on macOS: measured by the lead)"
+ },
+ "g07ToctouCrosswalk": {
+  "G07.toctou.extract": "extract into a fresh directory under the per-user operational root, verify every member on its opened fd, then rename the directory into the generation slot; nothing under a live path is ever verified in place",
+  "G07.toctou.canonicalize": "openat chains with O_NOFOLLOW from a pinned root fd; no string canonicalization is trusted after the open",
+  "G07.toctou.verify-to-spawn": "Linux: the verified fd is executed (fexecve), no path re-resolution. macOS: scoped guarantee, not an fd exec: the generation directory is immutable and the host mutates nothing under the held generation lease; the exec path is canonical and absolute inside the per-user 0700 root; fstat(verified fd) dev/ino equals stat(path) immediately before posix_spawn and the child text image vnode equals it after spawn (killed before hello otherwise); the residual window can be raced only by same-UID code, which is inside the explicitly trusted first-party boundary",
+  "G07.toctou.concurrent-update-remove": "generation directories are immutable after publication; removal only by the fence-held GC census that skips any generation a live lease names",
+  "G07.toctou.directory-inode-swap": "the root fd is pinned at operation start and fstat device/inode/birth are compared after every step; a difference refuses (the lead's project-root identity rule)"
+ },
+ "g07ArchiveAndPathStates": "G07.archive.* (8) and G07.path.* (3) are archive/path admission states owned by the distribution and lifecycle units (archive extraction and path rules); not restated here",
+ "cases": [
+  {
+   "id": "macos-arm64.admitted",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.declared-identity-incorrect",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "0000000000000000000000000000000000000000"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-IDENTITY",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool",
+    "G07.loader.loader-replacement"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.alternate-loader-origin",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/tmp/evil/loader",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ALT-LOADER",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.undeclared-system-class",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      },
+      {
+       "class": "framework",
+       "origin": "/System/Library/Frameworks/Security.framework/Security",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool",
+    "G07.loader.system-runtime-substitution"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.shell-image-in-trace",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      },
+      {
+       "class": "comparable system-class dependency",
+       "origin": "/bin/sh",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G07.loader.shell-substitution"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.forbidden-environment-influence",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {
+     "DYLD_INSERT_LIBRARIES": "/tmp/evil.so"
+    },
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ENV-INFLUENCE",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.trace-missing",
+   "observed": {
+    "trace": null,
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS"
+  },
+  {
+   "id": "macos-arm64.trace-partial",
+   "observed": {
+    "trace": {
+     "complete": false,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.macos-arm64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.os-abi-predicate-failed",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "fail"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.os-abi-undetermined",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": "9d380d573d6f221b038725112b3b1f206737a429"
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "undetermined"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-ARM64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc)"
+  },
+  {
+   "id": "macos-arm64.declared-member-never-loaded",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-IDENTITY"
+   ],
+   "legacy": [
+    "G07.loader.entrypoint-replacement"
+   ],
+   "profile": "P-MACOS-ARM64-25G83-APFS"
+  },
+  {
+   "id": "macos-x86_64.admitted",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.declared-identity-incorrect",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.loader-replacement"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.alternate-loader-origin",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/tmp/evil/loader",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ALT-LOADER",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.undeclared-system-class",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      },
+      {
+       "class": "framework",
+       "origin": "/System/Library/Frameworks/Security.framework/Security",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.system-runtime-substitution"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.shell-image-in-trace",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      },
+      {
+       "class": "comparable system-class dependency",
+       "origin": "/bin/sh",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G07.loader.shell-substitution"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.forbidden-environment-influence",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {
+     "DYLD_INSERT_LIBRARIES": "/tmp/evil.so"
+    },
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ENV-INFLUENCE",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.trace-missing",
+   "observed": {
+    "trace": null,
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS"
+  },
+  {
+   "id": "macos-x86_64.trace-partial",
+   "observed": {
+    "trace": {
+     "complete": false,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-PROFILE-UNQUALIFIED",
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.macos-x86_64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.os-abi-predicate-failed",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "fail"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.os-abi-undetermined",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "loader",
+       "origin": "/usr/lib/dyld",
+       "identity": {
+        "cdhash": {
+         "$releaseMeasured": {
+          "field": "cdhash",
+          "form": "hex40",
+          "source": "codesign -dvvv /usr/lib/dyld on the x86_64 qualification runner (x86_64 slice)"
+         }
+        }
+       }
+      },
+      {
+       "class": "libc",
+       "origin": "/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64",
+       "identity": {
+        "digest": {
+         "$releaseMeasured": {
+          "field": "digest",
+          "form": "hex64",
+          "source": "sha256 of the dyld shared cache file /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_x86_64 on build 25G83"
+         }
+        }
+       }
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "undetermined"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT",
+    "NT-TCB-PROFILE-UNQUALIFIED"
+   ],
+   "legacy": [],
+   "profile": "P-MACOS-X86_64-25G83-APFS",
+   "note": "a development template with release-measured placeholders admits nothing (placeholder members: libc, loader)"
+  },
+  {
+   "id": "macos-x86_64.declared-member-never-loaded",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-IDENTITY"
+   ],
+   "legacy": [
+    "G07.loader.entrypoint-replacement"
+   ],
+   "profile": "P-MACOS-X86_64-25G83-APFS"
+  },
+  {
+   "id": "linux-x86_64.admitted",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [],
+   "legacy": [],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.undeclared-system-class",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "ICU",
+       "origin": "/usr/lib/libicuuc.so.74",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G22.linux-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.system-runtime-substitution"
+   ],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.shell-image-in-trace",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "comparable system-class dependency",
+       "origin": "/bin/sh",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G07.loader.shell-substitution"
+   ],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.forbidden-environment-influence",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {
+     "LD_PRELOAD": "/tmp/evil.so"
+    },
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ENV-INFLUENCE"
+   ],
+   "legacy": [
+    "G22.linux-x86_64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.trace-missing",
+   "observed": {
+    "trace": null,
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.linux-x86_64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.trace-partial",
+   "observed": {
+    "trace": {
+     "complete": false,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.linux-x86_64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.os-abi-predicate-failed",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "fail"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT"
+   ],
+   "legacy": [],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-x86_64.os-abi-undetermined",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "undetermined"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT"
+   ],
+   "legacy": [],
+   "profile": "P-LINUX-X86_64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.admitted",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [],
+   "legacy": [],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.undeclared-system-class",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "ICU",
+       "origin": "/usr/lib/libicuuc.so.74",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G22.linux-arm64.hostile-loader-system-library-tool",
+    "G07.loader.system-runtime-substitution"
+   ],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.shell-image-in-trace",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": [
+      {
+       "class": "comparable system-class dependency",
+       "origin": "/bin/sh",
+       "identity": {}
+      }
+     ]
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-UNDECLARED"
+   ],
+   "legacy": [
+    "G07.loader.shell-substitution"
+   ],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.forbidden-environment-influence",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {
+     "LD_PRELOAD": "/tmp/evil.so"
+    },
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-ENV-INFLUENCE"
+   ],
+   "legacy": [
+    "G22.linux-arm64.hostile-loader-system-library-tool",
+    "G07.loader.path-substitution"
+   ],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.trace-missing",
+   "observed": {
+    "trace": null,
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.linux-arm64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.trace-partial",
+   "observed": {
+    "trace": {
+     "complete": false,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "pass"
+    }
+   },
+   "expect": [
+    "NT-TCB-TRACE-MISSING"
+   ],
+   "legacy": [
+    "G22.linux-arm64.hostile-loader-system-library-tool"
+   ],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.os-abi-predicate-failed",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "fail"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT"
+   ],
+   "legacy": [],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  },
+  {
+   "id": "linux-arm64.os-abi-undetermined",
+   "observed": {
+    "trace": {
+     "complete": true,
+     "images": []
+    },
+    "environment": {},
+    "osAbi": {
+     "predicate": "undetermined"
+    }
+   },
+   "expect": [
+    "NT-TCB-BOOT"
+   ],
+   "legacy": [],
+   "profile": "P-LINUX-ARM64-UBUNTU2404-EXT4"
+  }
+ ]
+}

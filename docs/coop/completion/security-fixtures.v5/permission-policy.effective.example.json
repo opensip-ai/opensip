@@ -1,0 +1,338 @@
+{
+ "rule": "the lock pins permissionPolicyDigest = domain digest under opensip.metadata.policy-effective.1 of the EFFECTIVE document (schema permission-policy-effective) computed by merge_policy(global, project-private); the effective document embeds both source digests, so the pin identifies both files and the merge; deny wins; the project layer only narrows; unknown tokens or widening refuse the whole policy; both files live under the per-user operational root (the repository can grant nothing)",
+ "global": {
+  "policySchema": 1,
+  "policyScope": "global",
+  "grants": [
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-FS-READ-PROJECT",
+    "scope": {
+     "pathPrefixes": [
+      "src",
+      "tsconfig.json",
+      "package.json"
+     ]
+    }
+   },
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-HOST-EFFECT-BROKERED",
+    "scope": {
+     "stateClass": "SC-CACHE"
+    }
+   }
+  ],
+  "denies": [
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-NET-EGRESS"
+   }
+  ],
+  "consents": [
+   {
+    "actionClass": "CA-4-HOST",
+    "actionSubtype": "PATH-TRUST-STATE-REFRESH",
+    "resourceScope": [],
+    "endpointSet": [
+     "index.opensip.example:443"
+    ],
+    "checkIds": []
+   }
+  ]
+ },
+ "project": {
+  "policySchema": 1,
+  "policyScope": "project",
+  "grants": [
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-FS-READ-PROJECT",
+    "scope": {
+     "pathPrefixes": [
+      "src",
+      "tsconfig.json"
+     ]
+    }
+   }
+  ],
+  "denies": [],
+  "consents": [
+   {
+    "actionClass": "CA-4-HOST",
+    "actionSubtype": "PATH-TRUST-STATE-REFRESH",
+    "resourceScope": [],
+    "endpointSet": [
+     "index.opensip.example:443"
+    ],
+    "checkIds": []
+   }
+  ]
+ },
+ "effective": {
+  "policySchema": 1,
+  "policyScope": "effective",
+  "sources": {
+   "global": "42f007edacc964788a5d412339de86583d1e6838faecea571157a770ce6ba885",
+   "project": "1839f4b7b2eea77277146cac489a677b30d1af21917600f2e366c2737f59b12a"
+  },
+  "grants": [
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-FS-READ-PROJECT",
+    "scope": {
+     "pathPrefixes": [
+      "src",
+      "tsconfig.json"
+     ]
+    }
+   }
+  ],
+  "denies": [
+   {
+    "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+    "token": "PT-NET-EGRESS"
+   }
+  ],
+  "consents": [
+   {
+    "actionClass": "CA-4-HOST",
+    "actionSubtype": "PATH-TRUST-STATE-REFRESH",
+    "resourceScope": [],
+    "endpointSet": [
+     "index.opensip.example:443"
+    ],
+    "checkIds": []
+   }
+  ]
+ },
+ "effectiveRefusals": [],
+ "permissionPolicyDigest": "b79e84f5c98041b40a0c76a22a56bcac7658357399aa0e7b32b13918e03fd87e",
+ "digestDomain": "opensip.metadata.policy-effective.1",
+ "globalOnly": {
+  "when": "exclusively a global/core operation without a selected project namespace",
+  "effective": {
+   "policySchema": 1,
+   "policyScope": "effective",
+   "sources": {
+    "global": "42f007edacc964788a5d412339de86583d1e6838faecea571157a770ce6ba885",
+    "project": null
+   },
+   "grants": [
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-FS-READ-PROJECT",
+     "scope": {
+      "pathPrefixes": [
+       "src",
+       "tsconfig.json",
+       "package.json"
+      ]
+     }
+    },
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-HOST-EFFECT-BROKERED",
+     "scope": {
+      "stateClass": "SC-CACHE"
+     }
+    }
+   ],
+   "denies": [
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-NET-EGRESS"
+    }
+   ],
+   "consents": [
+    {
+     "actionClass": "CA-4-HOST",
+     "actionSubtype": "PATH-TRUST-STATE-REFRESH",
+     "resourceScope": [],
+     "endpointSet": [
+      "index.opensip.example:443"
+     ],
+     "checkIds": []
+    }
+   ]
+  },
+  "permissionPolicyDigest": "00d175dc492da995b0b69b77ff60f551870902287be87c507ec4e074de8664cd"
+ },
+ "missingProjectPolicyDenyByAbsence": {
+  "when": "a selected-project operation whose private project policy file is missing: merge(global, EMPTY_PROJECT_POLICY), never merge(global, None); doctor reports the absence and never creates the namespace",
+  "projectEvaluatedAs": {
+   "policySchema": 1,
+   "policyScope": "project",
+   "grants": [],
+   "denies": [],
+   "consents": []
+  },
+  "effective": {
+   "policySchema": 1,
+   "policyScope": "effective",
+   "sources": {
+    "global": "42f007edacc964788a5d412339de86583d1e6838faecea571157a770ce6ba885",
+    "project": "ce4da40c59292b5ec0d9438fa022adf6e87945b42b66c30eed71a9f87461d55c"
+   },
+   "grants": [],
+   "denies": [
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-NET-EGRESS"
+    }
+   ],
+   "consents": []
+  },
+  "permissionPolicyDigest": "04715a2c7ffe08ae0f22e00c63d5ce2685ad867f2842520ac570c837619eb754"
+ },
+ "negatives": {
+  "project-widens-path": {
+   "project": {
+    "policySchema": 1,
+    "policyScope": "project",
+    "grants": [
+     {
+      "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+      "token": "PT-FS-READ-PROJECT",
+      "scope": {
+       "pathPrefixes": [
+        "src",
+        "docs"
+       ]
+      }
+     }
+    ],
+    "denies": [],
+    "consents": []
+   },
+   "refusals": [
+    "POLICY.PROJECT_WIDENS_SCOPE:PT-FS-READ-PROJECT:pathPrefixes"
+   ]
+  },
+  "M2-project-traversal-src-dotdot-private": {
+   "project": {
+    "policySchema": 1,
+    "policyScope": "project",
+    "grants": [
+     {
+      "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+      "token": "PT-FS-READ-PROJECT",
+      "scope": {
+       "pathPrefixes": [
+        "src/../private"
+       ]
+      }
+     }
+    ],
+    "denies": [],
+    "consents": []
+   },
+   "refusals": [
+    "POLICY.PATH_PREFIX_NOT_NORMALIZED:PT-FS-READ-PROJECT:src/../private"
+   ]
+  },
+  "M2-project-traversal-outside": {
+   "refusals": [
+    "POLICY.PATH_PREFIX_NOT_NORMALIZED:PT-FS-READ-PROJECT:src/../../outside"
+   ]
+  },
+  "M2-global-traversal-refused-at-source": {
+   "refusals": [
+    "POLICY.PATH_PREFIX_NOT_NORMALIZED:PT-FS-READ-PROJECT:src/./x"
+   ]
+  },
+  "M2-control-legal-descendant": {
+   "refusals": [],
+   "effectiveGrants": [
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-FS-READ-PROJECT",
+     "scope": {
+      "pathPrefixes": [
+       "src/a"
+      ]
+     }
+    }
+   ]
+  },
+  "M2-control-prefix-sibling-srcx-refused": {
+   "refusals": [
+    "POLICY.PROJECT_WIDENS_SCOPE:PT-FS-READ-PROJECT:pathPrefixes"
+   ]
+  },
+  "N1-duplicate-grant-pair-same-scope": {
+   "refusals": [
+    "POLICY.DUPLICATE_GRANT_PAIR"
+   ]
+  },
+  "N1-duplicate-grant-pair-conflicting-scope": {
+   "refusals": [
+    "POLICY.DUPLICATE_GRANT_PAIR"
+   ]
+  },
+  "N1-duplicate-deny-pair": {
+   "refusals": [
+    "POLICY.DUPLICATE_DENY_PAIR"
+   ]
+  },
+  "N1-grant-and-deny-same-pair-deny-wins": {
+   "refusals": [],
+   "effectiveGrants": [
+    {
+     "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+     "token": "PT-HOST-EFFECT-BROKERED",
+     "scope": {
+      "stateClass": "SC-CACHE"
+     }
+    }
+   ]
+  },
+  "project-grants-token-global-denies": {
+   "project": {
+    "policySchema": 1,
+    "policyScope": "project",
+    "grants": [
+     {
+      "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+      "token": "PT-NET-EGRESS",
+      "scope": {
+       "endpoints": [
+        "evil:443"
+       ]
+      }
+     }
+    ],
+    "denies": [],
+    "consents": []
+   },
+   "refusals": [],
+   "effectiveGrants": []
+  },
+  "project-deny-wins": {
+   "project": {
+    "policySchema": 1,
+    "policyScope": "project",
+    "grants": [
+     {
+      "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+      "token": "PT-FS-READ-PROJECT",
+      "scope": {
+       "pathPrefixes": [
+        "src",
+        "tsconfig.json"
+       ]
+      }
+     }
+    ],
+    "denies": [
+     {
+      "stableId": "6f1c2c3e-0b6a-4a1c-9c2d-1f0e2a3b4c5d",
+      "token": "PT-FS-READ-PROJECT"
+     }
+    ],
+    "consents": []
+   },
+   "effectiveGrants": []
+  }
+ }
+}

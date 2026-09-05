@@ -1,0 +1,345 @@
+{
+ "projectKey": "pk",
+ "grantGeneration": 1,
+ "cases": [
+  {
+   "id": "genesis-empty",
+   "journalTail": null,
+   "witness": null,
+   "expect": "INIT"
+  },
+  {
+   "id": "M3-string-sentinel-is-not-a-witness",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": "MALFORMED",
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "consistent",
+   "journalTail": [
+    3,
+    "97fb5f8538b89f6c1accfd19836b65a73b61fbc2e0cbf84bb858a0fffa3f1592"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 3,
+    "bodySha256": "97fb5f8538b89f6c1accfd19836b65a73b61fbc2e0cbf84bb858a0fffa3f1592",
+    "state": "COMMITTED"
+   },
+   "expect": "OK"
+  },
+  {
+   "id": "crash-after-pending-before-commit",
+   "journalTail": [
+    3,
+    "97fb5f8538b89f6c1accfd19836b65a73b61fbc2e0cbf84bb858a0fffa3f1592"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "PENDING"
+   },
+   "expect": "REVERT"
+  },
+  {
+   "id": "crash-after-commit-before-committed",
+   "journalTail": [
+    4,
+    "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "PENDING"
+   },
+   "expect": "ADVANCE"
+  },
+  {
+   "id": "committed-beyond-tail",
+   "journalTail": [
+    3,
+    "97fb5f8538b89f6c1accfd19836b65a73b61fbc2e0cbf84bb858a0fffa3f1592"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "equal-seq-unequal-hash",
+   "journalTail": [
+    4,
+    "5eff191b281984a7e35a14ece7b51a9109d1c4e0aa0842ed92aca1ee22c2d305"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "pending-equal-seq-unequal-hash",
+   "journalTail": [
+    4,
+    "5eff191b281984a7e35a14ece7b51a9109d1c4e0aa0842ed92aca1ee22c2d305"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "journal-ahead-of-witness",
+   "journalTail": [
+    6,
+    "fa37de9da4b13b3a18882ece23d6bee24a329b77d488b984d6f5587ce3f0f6cf"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 4,
+    "bodySha256": "e9590c04cea54beb769a96148583176605389b3a3809162f2fd6392b43fb8382",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "witness-absent-nonempty",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": null,
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "witness-malformed",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": "MALFORMED",
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "generation-mismatch",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 2,
+    "seq": 2,
+    "bodySha256": "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "project-mismatch",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "d9298a10d1b0735837dc4bd85dac641b0f3cef27a47e5d53a54f2f3f5b2fcffa",
+    "grantGeneration": 1,
+    "seq": 2,
+    "bodySha256": "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "pending-far-ahead",
+   "journalTail": [
+    2,
+    "f998fe06afa0cfbe73e0449dc2b1698309e1b5714960f027b2858312b152c275"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 9,
+    "bodySha256": "a420671ad3a24c14e222de9f3c9daad3ab8ded747e15b33bec8414741e586b87",
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-bool-seq",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": true,
+    "bodySha256": "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-pending-without-hash",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 2,
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-pending-zero-empty-carrier",
+   "journalTail": null,
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 0,
+    "bodySha256": null,
+    "state": "PENDING"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-unknown-member",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 1,
+    "bodySha256": "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b",
+    "state": "COMMITTED",
+    "extra": 1
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-missing-schema-member",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": {
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 1,
+    "bodySha256": "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-generation-bool",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": true,
+    "seq": 1,
+    "bodySha256": "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-genesis-missing-hash",
+   "journalTail": null,
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 0,
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE",
+   "note": "the member is absent, not null: HASH_MEMBER_ABSENT, never an exception"
+  },
+  {
+   "id": "M3-tail-malformed",
+   "journalTail": [
+    1,
+    "zz"
+   ],
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 1,
+    "bodySha256": "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b",
+    "state": "COMMITTED"
+   },
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "M3-witness-is-a-list",
+   "journalTail": [
+    1,
+    "33112ee14ee469c3eb52fe90322ec81dd404a0093d565a6d71ce77cbc8124e3b"
+   ],
+   "witness": [
+    1,
+    2
+   ],
+   "expect": "QUARANTINE"
+  },
+  {
+   "id": "committed-zero-empty",
+   "journalTail": null,
+   "witness": {
+    "witnessSchema": 1,
+    "projectKeyDigest": "eb3102a6cb586765d01fad324523ec0bc67b9efd6a2d9589c135adfedf7922cc",
+    "grantGeneration": 1,
+    "seq": 0,
+    "bodySha256": null,
+    "state": "COMMITTED"
+   },
+   "expect": "OK"
+  }
+ ]
+}
